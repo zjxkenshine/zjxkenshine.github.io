@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-26T10:06:30.431Z">
+<meta property="og:updated_time" content="2018-02-26T10:20:26.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Markdown基础语法学习笔记">
 <meta name="twitter:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--">
@@ -141,6 +141,15 @@
 <h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><ol>
 <li>列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符，列表结束要空至少一行。</li>
 <li>如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 <code>&lt;p&gt;</code> 标签包起来。</li>
+<li>如果要在列表项目内放进引用，那 &gt; 就需要缩进：<blockquote>
+<p>这是一个引用<br>这是另一个</p>
+</blockquote>
+</li>
+<li>如果要放代码区块的话，该区块就需要缩进两次，也就是 8 个空格或是 2 个制表符:<pre><code>1.这是一个列表项
+        if else
+</code></pre></li>
+<li>在行首出现数字-句点-空白，项目列表就会不小心产生，要避免这样的状况，你可以在句点前面加上反斜杠:<pre><code>3/.1415926 
+</code></pre>3/. 1415926</li>
 </ol>
 <hr>
 <h2 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h2><hr>
