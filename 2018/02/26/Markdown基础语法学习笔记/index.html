@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题两种方式 方式一代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--&amp;gt; 方式二代码：12345# 这是一级标题## 这是二级标题### 这是三级标题">
+    <meta name="description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--">
 <meta name="keywords" content="Markdown">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Markdown基础语法学习笔记">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题两种方式 方式一代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--&amp;gt; 方式二代码：12345# 这是一级标题## 这是二级标题### 这是三级标题">
+<meta property="og:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-26T09:19:34.802Z">
+<meta property="og:updated_time" content="2018-02-26T10:01:24.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Markdown基础语法学习笔记">
-<meta name="twitter:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题两种方式 方式一代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--&amp;gt; 方式二代码：12345# 这是一级标题## 这是二级标题### 这是三级标题">
+<meta name="twitter:description" content="斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线  标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于两个=且紧贴--&amp;gt;这是小标题---------&amp;lt;!--多于两个-且紧贴--">
 
     
     <link rel="alternative" href="/atom.xml" title="程序人生" type="application/atom+xml">
@@ -98,21 +98,54 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#斜体与粗体"><span class="toc-number">1.</span> <span class="toc-text">斜体与粗体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">2.</span> <span class="toc-text">标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一"><span class="toc-number">2.1.</span> <span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二"><span class="toc-number">2.2.</span> <span class="toc-text">方式二</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#6级标题"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">6级标题</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">3.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段落与换行"><span class="toc-number">4.</span> <span class="toc-text">段落与换行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块引用"><span class="toc-number">5.</span> <span class="toc-text">区块引用</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#斜体与粗体"><span class="toc-number">1.</span> <span class="toc-text">斜体与粗体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">2.</span> <span class="toc-text">标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一：类Setext形式"><span class="toc-number">2.1.</span> <span class="toc-text">方式一：类Setext形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二：类atx形式"><span class="toc-number">2.2.</span> <span class="toc-text">方式二：类atx形式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#6级标题"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">6级标题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">2.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">3.</span> <span class="toc-text">列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#无序列表"><span class="toc-number">3.1.</span> <span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序列表"><span class="toc-number">3.2.</span> <span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意-1"><span class="toc-number">3.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段落与换行"><span class="toc-number">4.</span> <span class="toc-text">段落与换行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块引用"><span class="toc-number">5.</span> <span class="toc-text">区块引用</span></a></li></ol>
 		
 		</div>
 		
 		<h2 id="斜体与粗体"><a href="#斜体与粗体" class="headerlink" title="斜体与粗体"></a>斜体与粗体</h2><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.*斜体*或_斜体_</span><br><span class="line"></span><br><span class="line">2.**粗体**</span><br><span class="line"></span><br><span class="line">3.***加粗斜体***</span><br><span class="line"></span><br><span class="line">4.~~删除线~~</span><br></pre></td></tr></table></figure></p>
 <p>效果：<br><em>斜体</em><br><em>斜体</em><br><strong>粗体</strong><br><strong><em>加粗斜体</em></strong><br><del>删除线</del></p>
 <hr>
-<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>两种方式</p>
-<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">这是大标题</span><br><span class="line">=======&lt;!--多于两个=且紧贴--&gt;</span><br><span class="line"></span><br><span class="line">这是小标题</span><br><span class="line">---------&lt;!--多于两个-且紧贴--&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这是一级标题</span><br><span class="line"></span><br><span class="line">## 这是二级标题</span><br><span class="line"></span><br><span class="line">### 这是三级标题</span><br></pre></td></tr></table></figure></p>
-<p>有多少级就加多少个#,据说最多可以加6个#号<br>注意：#号与文字之间要加个空格.<br>加7个#号试试：</p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p>
+<h3 id="方式一：类Setext形式"><a href="#方式一：类Setext形式" class="headerlink" title="方式一：类Setext形式"></a>方式一：类Setext形式</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">这是大标题</span><br><span class="line">=======&lt;!--多于两个=且紧贴--&gt;</span><br><span class="line"></span><br><span class="line">这是小标题</span><br><span class="line">---------&lt;!--多于两个-且紧贴--&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="方式二：类atx形式"><a href="#方式二：类atx形式" class="headerlink" title="方式二：类atx形式"></a>方式二：类atx形式</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这是一级标题</span><br><span class="line"></span><br><span class="line">## 这是二级标题</span><br><span class="line"></span><br><span class="line">### 这是三级标题</span><br></pre></td></tr></table></figure></p>
+<p>有多少级就加多少个#,据说最多可以加6个#号。<br>加7个#号试试：</p>
 <p>####### 7级标题？<br>6个：</p>
-<h6 id="6级标题"><a href="#6级标题" class="headerlink" title="6级标题"></a>6级标题</h6><p>你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 #，而行尾的 # 数量也不用和开头一样（行首的井字符数量决定标题的阶数）.</p>
+<h6 id="6级标题"><a href="#6级标题" class="headerlink" title="6级标题"></a>6级标题</h6><p>你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 #，而行尾的 # 数量也不用和开头一样（行首的井字符数量决定标题的阶数）。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>符号（#）与文字之间要加个空格。</p>
 <hr>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h2><h2 id="区块引用"><a href="#区块引用" class="headerlink" title="区块引用"></a>区块引用</h2>  
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>Markdown 支持有序列表和无序列表。</p>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><p>无序列表使用星号、加号或是减号作为列表标记：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* A</span><br><span class="line">* B</span><br><span class="line">* C</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ A</span><br><span class="line">+ B</span><br><span class="line">+ C</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- A</span><br><span class="line">- B</span><br><span class="line">- C</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<ul>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ul>
+<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><p>有序列表则使用数字接着一个英文句点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. A</span><br><span class="line">2. B</span><br><span class="line">3. C</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<ol>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ol>
+<p>很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，如代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2. A</span><br><span class="line">5. B</span><br><span class="line">0. C</span><br></pre></td></tr></table></figure></p>
+<p>产生的效果为：</p>
+<ol>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ol>
+<p>如果你使用懒惰的写法，建议第一个项目最好还是从 1. 开始，因为 Markdown 未来可能会支持有序列表的 start 属性。</p>
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符，列表结束要空至少一行。</li>
+<li>如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 <code>&lt;p&gt;</code> 标签包起来。</li>
+</ol>
+<hr>
+<h2 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h2><hr>
+<h2 id="区块引用"><a href="#区块引用" class="headerlink" title="区块引用"></a>区块引用</h2><hr>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -168,7 +201,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#斜体与粗体"><span class="toc-number">1.</span> <span class="toc-text">斜体与粗体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">2.</span> <span class="toc-text">标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一"><span class="toc-number">2.1.</span> <span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二"><span class="toc-number">2.2.</span> <span class="toc-text">方式二</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#6级标题"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">6级标题</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">3.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段落与换行"><span class="toc-number">4.</span> <span class="toc-text">段落与换行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块引用"><span class="toc-number">5.</span> <span class="toc-text">区块引用</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#斜体与粗体"><span class="toc-number">1.</span> <span class="toc-text">斜体与粗体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">2.</span> <span class="toc-text">标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一：类Setext形式"><span class="toc-number">2.1.</span> <span class="toc-text">方式一：类Setext形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二：类atx形式"><span class="toc-number">2.2.</span> <span class="toc-text">方式二：类atx形式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#6级标题"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">6级标题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">2.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">3.</span> <span class="toc-text">列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#无序列表"><span class="toc-number">3.1.</span> <span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序列表"><span class="toc-number">3.2.</span> <span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意-1"><span class="toc-number">3.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段落与换行"><span class="toc-number">4.</span> <span class="toc-text">段落与换行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块引用"><span class="toc-number">5.</span> <span class="toc-text">区块引用</span></a></li></ol>
  
   </div>
 
