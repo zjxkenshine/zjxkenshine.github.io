@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Markdown基础语法学习笔记 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="1.斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线 如果你的 * 和 _ 两边都有空白的话，它们就只会被当成普通的符号。  2.标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 2-1.方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于">
+<meta name="keywords" content="Markdown">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Markdown基础语法学习笔记">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="1.斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线 如果你的 * 和 _ 两边都有空白的话，它们就只会被当成普通的符号。  2.标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 2-1.方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg">
+<meta property="og:updated_time" content="2018-02-27T08:00:29.503Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Markdown基础语法学习笔记">
+<meta name="twitter:description" content="1.斜体与粗体代码：12345671.*斜体*或_斜体_2.**粗体**3.***加粗斜体***4.~~删除线~~ 效果：斜体斜体粗体加粗斜体删除线 如果你的 * 和 _ 两边都有空白的话，它们就只会被当成普通的符号。  2.标题Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。 2-1.方式一：类Setext形式代码：12345这是大标题=======&amp;lt;!--多于">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Markdown基础语法学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Markdown基础语法学习笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-26
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="1-斜体与粗体"><a href="#1-斜体与粗体" class="headerlink" title="1.斜体与粗体"></a>1.斜体与粗体</h2><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.*斜体*或_斜体_</span><br><span class="line"></span><br><span class="line">2.**粗体**</span><br><span class="line"></span><br><span class="line">3.***加粗斜体***</span><br><span class="line"></span><br><span class="line">4.~~删除线~~</span><br></pre></td></tr></table></figure></p>
+<p>效果：<br><em>斜体</em><br><em>斜体</em><br><strong>粗体</strong><br><strong><em>加粗斜体</em></strong><br><del>删除线</del></p>
+<p>如果你的 * 和 _ 两边都有空白的话，它们就只会被当成普通的符号。</p>
+<hr>
+<h2 id="2-标题"><a href="#2-标题" class="headerlink" title="2.标题"></a>2.标题</h2><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p>
+<h3 id="2-1-方式一：类Setext形式"><a href="#2-1-方式一：类Setext形式" class="headerlink" title="2-1.方式一：类Setext形式"></a>2-1.方式一：类Setext形式</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">这是大标题</span><br><span class="line">=======&lt;!--多于两个=且紧贴--&gt;</span><br><span class="line"></span><br><span class="line">这是小标题</span><br><span class="line">---------&lt;!--多于两个-且紧贴--&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-2-方式二：类atx形式"><a href="#2-2-方式二：类atx形式" class="headerlink" title="2-2.方式二：类atx形式"></a>2-2.方式二：类atx形式</h3><p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这是一级标题</span><br><span class="line"></span><br><span class="line">## 这是二级标题</span><br><span class="line"></span><br><span class="line">### 这是三级标题</span><br></pre></td></tr></table></figure></p>
+<p>有多少级就加多少个#,据说最多可以加6个#号。<br>加7个#号试试：</p>
+<p>####### 7级标题？</p>
+<p>你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 #，而行尾的 # 数量也不用和开头一样（行首的井字符数量决定标题的阶数）。</p>
+<h3 id="2-3注意"><a href="#2-3注意" class="headerlink" title="2-3注意"></a>2-3注意</h3><p>符号（#）与文字之间要加个空格。</p>
+<hr>
+<h2 id="3-列表"><a href="#3-列表" class="headerlink" title="3.列表"></a>3.列表</h2><p>Markdown 支持有序列表和无序列表。</p>
+<h3 id="3-1-无序列表"><a href="#3-1-无序列表" class="headerlink" title="3-1.无序列表"></a>3-1.无序列表</h3><p>无序列表使用星号、加号或是减号作为列表标记：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* A</span><br><span class="line">* B</span><br><span class="line">* C</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ A</span><br><span class="line">+ B</span><br><span class="line">+ C</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- A</span><br><span class="line">- B</span><br><span class="line">- C</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<ul>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ul>
+<h3 id="3-2-有序列表"><a href="#3-2-有序列表" class="headerlink" title="3-2.有序列表"></a>3-2.有序列表</h3><p>有序列表则使用数字接着一个英文句点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. A</span><br><span class="line">2. B</span><br><span class="line">3. C</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<ol>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ol>
+<p>很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，如代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2. A</span><br><span class="line">5. B</span><br><span class="line">0. C</span><br></pre></td></tr></table></figure></p>
+<p>产生的效果为：</p>
+<ol>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+</ol>
+<p>如果你使用懒惰的写法，建议第一个项目最好还是从 1. 开始，因为 Markdown 未来可能会支持有序列表的 start 属性。</p>
+<h3 id="3-3-注意"><a href="#3-3-注意" class="headerlink" title="3-3.注意"></a>3-3.注意</h3><ol>
+<li>列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符，列表结束要空至少一行。</li>
+<li>如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 <code>&lt;p&gt;</code> 标签包起来。</li>
+<li>如果要在列表项目内放进引用，那 &gt; 就需要缩进：<blockquote>
+<p>这是一个引用<br>这是另一个</p>
+</blockquote>
+</li>
+<li>如果要放代码区块的话，该区块就需要缩进两次，也就是 8 个空格或是 2 个制表符:<pre><code>1.这是一个列表项
+        if else
+</code></pre></li>
+<li>在行首出现数字-句点-空白，项目列表就会不小心产生，要避免这样的状况，你可以在句点前面加上反斜杠\:<pre><code>3\. 1415926 
+</code></pre>3. 1415926</li>
+<li>重启一个新的列表（中间空两行或加入一行字符）：<pre><code>1.A
+2.B
+******
+6.A
+6.B
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-段落与换行"><a href="#4-段落与换行" class="headerlink" title="4.段落与换行"></a>4.段落与换行</h2><ol>
+<li><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。</p>
+</li>
+<li><p>「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 <code>&lt;br /&gt;</code> 标签。如果你确实想要依赖 Markdown 来插入 <code>&lt;br /&gt;</code> 标签的话,可以直接用<code>&lt;br /&gt;</code>标签来换行</p>
+</li>
+</ol>
+<hr>
+<h2 id="5-区块引用Blockquotes"><a href="#5-区块引用Blockquotes" class="headerlink" title="5.区块引用Blockquotes"></a>5.区块引用Blockquotes</h2><ul>
+<li><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。<br>你可以自己先断好行，然后在每行的最前面加上 &gt;：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;引用一</span><br><span class="line">&gt;引用二</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引用一<br>引用二</p>
+</blockquote>
+</li>
+<li><p>Markdown 也允许你偷懒只在整个段落的第一行最前面加上 &gt; ：</p>
+<blockquote>
+<p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。</p>
+</blockquote>
+</li>
+<li><p>区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 &gt; ：</p>
+<pre><code>&gt; 一级引用
+&gt; &gt; 二级引用
+&gt; 
+&gt; 返回一级引用
+</code></pre><blockquote>
+<p>一级引用</p>
+<blockquote>
+<p>二级引用</p>
+</blockquote>
+<p>返回一级引用</p>
+</blockquote>
+</li>
+<li><p>引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：</p>
+<blockquote>
+<p>这是一段代码</p>
+<pre><code>return shell_exec(&quot;echo $input | $markdown_script&quot;);
+</code></pre></blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="6-分隔线"><a href="#6-分隔线" class="headerlink" title="6.分隔线"></a>6.分隔线</h2><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。使用<code>---</code>时上一行需没有字符（否则<code>---</code>会译成标题）下面每种写法都可以建立分隔线：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* * *</span><br><span class="line"></span><br><span class="line">***</span><br><span class="line"></span><br><span class="line">*****</span><br><span class="line"></span><br><span class="line">- - -</span><br><span class="line"></span><br><span class="line">---------------------------------------</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="7-超链接"><a href="#7-超链接" class="headerlink" title="7.超链接"></a>7.超链接</h2><p>Markdown 支持两种形式的链接语法： 行内式和参考式两种形式，行内式一般使用较多。不管是哪一种，链接文字都是用 [方括号] 来标记。</p>
+<h3 id="7-1-行内式"><a href="#7-1-行内式" class="headerlink" title="7-1.行内式"></a>7-1.行内式</h3><p>要建立一个行内式的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可。</p>
+<p>语法规则：<code>[文字](url)</code><br>[]里写链接文字，()里写链接地址, ()中的”“中可以为链接指定title属性，title属性可加可不加。title属性的效果是鼠标悬停在链接上会出现指定的 title文字。<a href="链接地址 “链接标题”">链接文字</a>’这样的形式。链接地址与链接标题前有一个空格。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">点击访问[百度](https://www.baidu.com/ &quot;百度&quot;)网</span><br></pre></td></tr></table></figure></p>
+<p>点击访问<a href="https://www.baidu.com/" title="百度" target="_blank" rel="noopener">百度</a>网</p>
+<p>如果你是要链接到同样主机的资源，你可以使用相对路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">See my [About](/about/) page for details.</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-2-参考式"><a href="#7-2-参考式" class="headerlink" title="7-2.参考式"></a>7-2.参考式</h3><p>参考式超链接一般用在学术论文上面，或者另一种情况，如果某一个链接在文章中多处使用，那么使用引用 的方式创建链接将非常好，它可以让你对链接进行统一的管理。</p>
+<p>语法说明： <code>[文字][tag] [tag]:url</code><br>参考式链接分为两部分，文中的写法 [链接文字][链接标记]，在文本的任意位置添加[链接标记]:链接地址 “链接标题”，链接地址与链接标题前有一个空格。</p>
+<p>如果链接文字本身可以做为链接标记，你也可以写成[链接文字][]<br>[链接文字]：链接地址的形式。例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">我经常去的几个网站[Google][1]、[Leanote][2]和[我的博客][3]</span><br><span class="line">[Leanote 笔记][2]是一个不错的[网站][]。</span><br><span class="line">[1]:http://www.google.com &quot;Google&quot;</span><br><span class="line">[2]:http://www.leanote.com &quot;Leanote&quot;</span><br><span class="line">[3]:https://zjxkenshine.github.io/ &quot;程序人生&quot;</span><br><span class="line">[网站]:http://blog.leanote.com/freewalk</span><br></pre></td></tr></table></figure></p>
+<p>我经常去的几个网站<a href="http://www.google.com" title="Google" target="_blank" rel="noopener">Google</a>、<a href="http://www.leanote.com" title="Leanote" target="_blank" rel="noopener">Leanote</a>和<a href="https://zjxkenshine.github.io/" title="程序人生">我的博客</a><br><a href="http://www.leanote.com" title="Leanote" target="_blank" rel="noopener">Leanote 笔记</a>是一个不错的<a href="http://blog.leanote.com" target="_blank" rel="noopener">网站</a>。</p>
+<h3 id="7-3-自动链接"><a href="#7-3-自动链接" class="headerlink" title="7-3.自动链接"></a>7-3.自动链接</h3><p>语法说明：<code>&lt;url&gt;</code><br>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用&lt;&gt;包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;https://www.baidu.com/&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.baidu.com/" target="_blank" rel="noopener">https://www.baidu.com/</a></p>
+<hr>
+<h2 id="8-代码"><a href="#8-代码" class="headerlink" title="8.代码"></a>8.代码</h2><ol>
+<li>插入行内代码，即插入一个单词或者一句代码的情况，使用<code>code</code>这样的形式插入。</li>
+<li>使用反引号 ` 包裹：一个，一行；三个，多行。</li>
+<li>可以使用缩进式插入，但前方必须有空行，一般缩进4个空格或一个tab。</li>
+<li>在代码区块里面， &amp; 、 &lt; 和 &gt; 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，剩下的 Markdown 都会帮你处理。</li>
+</ol>
+<hr>
+<h2 id="9-图片"><a href="#9-图片" class="headerlink" title="9.图片"></a>9.图片</h2><p>图片的创建方式与超链接相似，而且和超链接一样也有两种写法，行内式和参考式写法。</p>
+<p>语法中图片Alt的意思是如果图片因为某些原因不能显示，就用定义的图片Alt文字来代替图片。 图片Title则和链接中的Title一样，表示鼠标悬停与图片上时出现的文字。 Alt 和 Title 都不是必须的，可以省略，但建议写上。</p>
+<h3 id="9-1-行内式"><a href="#9-1-行内式" class="headerlink" title="9-1.行内式"></a>9-1.行内式</h3><p>语法说明：<code>![图片Alt](图片址 “图片Title”)</code><br>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">美丽花儿：</span><br><span class="line"></span><br><span class="line">![美丽花儿](http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg &quot;美丽花儿&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>美丽花儿：<br><img src="http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg" alt="美丽花儿" title="美丽花儿"></p>
+<h3 id="9-2-参考式"><a href="#9-2-参考式" class="headerlink" title="9-2.参考式"></a>9-2.参考式</h3><p>语法说明：</p>
+<p>在文档要插入图片的地方写<code>![图片Alt][标记]</code></p>
+<p>在文档的最后写上[标记]:图片地址 “Title”</p>
+<p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">美丽花儿：</span><br><span class="line"></span><br><span class="line">![美丽花儿][flower]</span><br><span class="line"></span><br><span class="line">[flower]:http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg  &quot;美丽花儿&quot;</span><br></pre></td></tr></table></figure></p>
+<p>美丽花儿：</p>
+<p><img src="http://ww2.sinaimg.cn/large/56d258bdjw1eugeubg8ujj21kw16odn6.jpg" alt="美丽花儿" title="美丽花儿"></p>
+<hr>
+<h2 id="10-表格"><a href="#10-表格" class="headerlink" title="10.表格"></a>10.表格</h2><p>语法说明：</p>
+<ol>
+<li>不管是哪种方式，第一行为表头，第二行分隔表头和主体部分，第三行开始每一行为一个表格行。</li>
+<li>列于列之间用管道符|隔开。原生方式的表格每一行的两边也要有管道符。</li>
+<li>第二行还可以为不同的列指定对齐方向。默认为左对齐，在-右边加上:就右对齐。</li>
+</ol>
+<p>简单方式写表格：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">学号|姓名|分数</span><br><span class="line"></span><br><span class="line">-|-|-</span><br><span class="line"></span><br><span class="line">小明|男|75</span><br><span class="line"></span><br><span class="line">小红|女|79</span><br><span class="line"></span><br><span class="line">小陆|男|92</span><br></pre></td></tr></table></figure></p>
+<p>原生方式写表格：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|学号|姓名|分数|</span><br><span class="line"></span><br><span class="line">|-|-|-|</span><br><span class="line"></span><br><span class="line">|小明|男|75|</span><br><span class="line"></span><br><span class="line">|小红|女|79|</span><br><span class="line"></span><br><span class="line">|小陆|男|92|</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>分数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小明</td>
+<td>男</td>
+<td>75</td>
+</tr>
+<tr>
+<td>小红</td>
+<td>女</td>
+<td>79</td>
+</tr>
+<tr>
+<td>小陆</td>
+<td>男</td>
+<td>92</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11-参考资料"><a href="#11-参考资料" class="headerlink" title="11.参考资料"></a>11.参考资料</h2><p>[1] <a href="http://blog.csdn.net/witnessai1/article/details/52551362" target="_blank" rel="noopener">Markdown 语法手册 (完整整理版)</a><br>[2] <a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">Markdown 语法说明 (简体中文版)</a></p>
+<p>终于可以尽情地写博客啦，哈哈哈哈哈！</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年02月27日 16:00</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/26/Markdown基础语法学习笔记/" title="Markdown基础语法学习笔记">https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/&title=《Markdown基础语法学习笔记》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/&title=《Markdown基础语法学习笔记》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Markdown基础语法学习笔记》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/26/Markdown基础语法学习笔记/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Markdown/" class="color4">Markdown</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-斜体与粗体"><span class="post-toc-text">1.斜体与粗体</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-标题"><span class="post-toc-text">2.标题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-方式一：类Setext形式"><span class="post-toc-text">2-1.方式一：类Setext形式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-方式二：类atx形式"><span class="post-toc-text">2-2.方式二：类atx形式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3注意"><span class="post-toc-text">2-3注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-列表"><span class="post-toc-text">3.列表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-无序列表"><span class="post-toc-text">3-1.无序列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-有序列表"><span class="post-toc-text">3-2.有序列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-注意"><span class="post-toc-text">3-3.注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-段落与换行"><span class="post-toc-text">4.段落与换行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-区块引用Blockquotes"><span class="post-toc-text">5.区块引用Blockquotes</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-分隔线"><span class="post-toc-text">6.分隔线</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-超链接"><span class="post-toc-text">7.超链接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-1-行内式"><span class="post-toc-text">7-1.行内式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-2-参考式"><span class="post-toc-text">7-2.参考式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-3-自动链接"><span class="post-toc-text">7-3.自动链接</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-代码"><span class="post-toc-text">8.代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-图片"><span class="post-toc-text">9.图片</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-1-行内式"><span class="post-toc-text">9-1.行内式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-2-参考式"><span class="post-toc-text">9-2.参考式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-表格"><span class="post-toc-text">10.表格</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#11-参考资料"><span class="post-toc-text">11.参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/02/27/《java多线程编程核心技术》笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《java多线程编程核心技术》笔记
+        
+      </span>
+    </a>
+  
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/学习笔记/">学习笔记</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
