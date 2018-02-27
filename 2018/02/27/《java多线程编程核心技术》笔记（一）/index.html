@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-27T14:58:25.269Z">
+<meta property="og:updated_time" content="2018-02-27T15:06:09.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（一）:java多线程基本操作">
 <meta name="twitter:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
@@ -220,9 +220,7 @@ public class Test1_4 {
 </ol>
 <hr>
 <h2 id="4-一些Thread常用方法"><a href="#4-一些Thread常用方法" class="headerlink" title="4.一些Thread常用方法"></a>4.一些Thread常用方法</h2><ol>
-<li>currentThread()方法:<blockquote>
-<p>currentThread()方法可以返回代码段正在被哪个线程调用的信息。<br>this则返回当前所处的线程，this.getName()得到线程名。<br>有一个线程:</p>
-<pre><code>public class MyThread extends Thread{
+<li>currentThread()方法:<br>currentThread()方法可以返回代码段正在被哪个线程调用的信息。<br>this则返回当前所处的线程，this.getName()得到线程名。<br>有一个线程:<pre><code>public class MyThread extends Thread{
     public MyThread(){
         System.out.println(Thread.currentThread.getName());
         System.out.println(this.getName());
@@ -232,42 +230,25 @@ public class Test1_4 {
         System.out.println(this.getName());
     }
 }
-</code></pre><p>测试:<br> public static void main(String[] args) {</p>
-<pre><code>MyThread thread=new MyThread();    
+</code></pre>测试:<br> public static void main(String[] args) {<pre><code>MyThread thread=new MyThread();    
 Thread t=new Thread(thread);           //将thread交给t执行
 t.setName(&quot;A&quot;);
 t.start();
 thread.run();
-</code></pre><p> }<br>结果：</p>
-<pre><code>main
+</code></pre> }<br>结果：<pre><code>main
 Thread-0
 A
 Thread-0
 main
 Thread-0
-</code></pre><p>这里输出的Thread-0实际上是thread的name。<br>构造函数被main线程调用，run()方法是被线程A自动调用的，直接调用run()方法时Thread.curretThread时main线程。<br>具体this.getName()与Thread.currentThread.getName()区别可以参考博客：<a href="http://blog.csdn.net/qq_34970891/article/details/78881463" target="_blank" rel="noopener">多线程当中this.name和Thread.currentThread.getName的区别</a>。</p>
-</blockquote>
-</li>
-<li>isAlive()方法:<blockquote>
-<p>判断当前线程是否处于活动状态。<br>活动状态</p>
-<blockquote>
-<p>线程处于正在运行或准备开始运行的状态。</p>
-</blockquote>
-<p>判断当前线程是否存活:</p>
-<pre><code>this.isAlive();
-</code></pre><p>判断上级线程是否存活：</p>
-<pre><code>Thread.currentThread().isAlive();
-</code></pre><p>判断某一线程是否存活：</p>
-<pre><code>Thread t=new Thread();
+</code></pre>这里输出的Thread-0实际上是thread的name。<br>构造函数被main线程调用，run()方法是被线程A自动调用的，直接调用run()方法时Thread.curretThread时main线程。<br>具体this.getName()与Thread.currentThread.getName()区别可以参考博客：<a href="http://blog.csdn.net/qq_34970891/article/details/78881463" target="_blank" rel="noopener">多线程当中this.name和Thread.currentThread.getName的区别</a>。</li>
+<li>isAlive()方法:<br>判断当前线程是否处于活动状态。<br>活动状态：线程处于正在运行或准备开始运行的状态。<br>判断当前线程是否存活:<pre><code>this.isAlive();
+</code></pre>判断上级线程是否存活：<pre><code>Thread.currentThread().isAlive();
+</code></pre>判断某一线程是否存活：<pre><code>Thread t=new Thread();
 t.isAlive();
-</code></pre></blockquote>
-</li>
-<li>sleep()方法：<blockquote>
-<p>在指定毫秒内让当前“正在执行的线程”休眠（暂停执行）。<br>这个正在执行的线程&gt;是指<code>this.currentThread</code>返回的线程。</p>
-<p>this.currentThread.getName()=this.getName()<br>(我的理解，如有异议请告知）<br>注意:sleep()是静态方法，调用方式为：</p>
-<pre><code>Thread.sleep();  //括号内为毫秒数
-</code></pre></blockquote>
-</li>
+</code></pre></li>
+<li>sleep()方法：<br>在指定毫秒内让当前“正在执行的线程”休眠（暂停执行）。<br>这个正在执行的线程&gt;是指<code>this.currentThread</code>返回的线程。<br>this.currentThread.getName()=this.getName()<br>(我的理解，如有异议请告知）<br>注意:sleep()是静态方法，调用方式为：<pre><code>Thread.sleep();  //括号内为毫秒数
+</code></pre></li>
 <li>getId()方法:<blockquote>
 <p>取得线程的唯一标识符</p>
 </blockquote>
@@ -277,7 +258,7 @@ t.isAlive();
 <h2 id="5-线程的中断与判断"><a href="#5-线程的中断与判断" class="headerlink" title="5.线程的中断与判断"></a>5.线程的中断与判断</h2>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年02月27日 22:58</p>
+        <p>最后更新： 2018年02月27日 23:06</p>
         <p>原始链接： <a class="post-url" href="/2018/02/27/《java多线程编程核心技术》笔记（一）/" title="《java多线程编程核心技术》笔记（一）:java多线程基本操作">https://zjxkenshine.github.io/2018/02/27/《java多线程编程核心技术》笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
