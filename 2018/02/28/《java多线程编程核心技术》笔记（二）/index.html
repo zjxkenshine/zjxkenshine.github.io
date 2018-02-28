@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
+  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
+<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-28T08:45:44.610Z">
+<meta property="og:updated_time" content="2018-02-28T14:45:34.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
-<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
+<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -154,11 +154,137 @@
 <li>关键字volatitle与synchronized的区别及使用情况。</li>
 </ul>
 <hr>
-<h2 id="1-线程安全与非线程安全"><a href="#1-线程安全与非线程安全" class="headerlink" title="1.线程安全与非线程安全"></a>1.线程安全与非线程安全</h2><hr>
+<h2 id="1-线程安全与非线程安全"><a href="#1-线程安全与非线程安全" class="headerlink" title="1.线程安全与非线程安全"></a>1.线程安全与非线程安全</h2><ol>
+<li>“非<a href="https://baike.baidu.com/item/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/9747724?fr=aladdin" target="_blank" rel="noopener">线程安全</a>“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”<a href="https://baike.baidu.com/item/%E8%84%8F%E8%AF%BB/152977?fr=aladdin" target="_blank" rel="noopener">脏读</a>“，也就是取到的数据实际是被修改过的。<br>“线程安全”就是获得的实例变量的值是经过同步处理的。</li>
+<li>“非线程安全”问题存在于”实例变量中”，如果是方法内部的私有变量，则不存在”非线程安全”问题。这是方法内部变量的私有性造成的。</li>
+<li>多个线程共同访问同一个对象中的“实例变量”，则有可能出现”非线程安全”。</li>
+<li>使用<strong>synchronized关键字</strong>修饰可能会出现非线程安全的方法，使之上锁变为同步方法，多个线程访问同一个对象中的同步方法时一定是线程安全的。</li>
+</ol>
+<hr>
+<h2 id="2-sychronized同步方法"><a href="#2-sychronized同步方法" class="headerlink" title="2.sychronized同步方法"></a>2.sychronized同步方法</h2><ol>
+<li>synchronized关键字的锁是对象锁，多个对象会产生多个锁:<br>公共资源类:<pre><code>public class Object2_04_2 {
+    //synchronized方法锁的是这个对象而非方法
+    synchronized public void methodA(){          
+        try{
+            System.out.println(&quot;begin method A threadName=&quot;+Thread.currentThread().getName());
+            Thread.sleep(2000);
+            System.out.println(&quot;end!&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    synchronized public void methodB(){                   
+        //加上synchronized则要等A线程执行完A方法结束后B线程才能执行方法，对象被锁
+        try{
+            System.out.println(&quot;begin method BthreadName=&quot;+Thread.currentThread().getName());
+            Thread.sleep(2000);
+            System.out.println(&quot;end!&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>线程A:<pre><code>public class Thread2_04_2A extends Thread{
+    //synchronized方法锁的是这个对象而非方法
+    private Object2_04_2 obj;    
+    public Thread2_04_2A(Object2_04_2 obj) {
+        super();
+        this.obj=obj;
+    }
+    public void run() {
+        super.run();
+        obj.methodA();
+    }
+}
+</code></pre>线程B:<pre><code>public class Thread2_04_2A extends Thread{
+    private Object2_04_2 obj;
+    public Thread2_04_2B(Object2_04_2 obj) {
+        super();
+        this.obj=obj;
+    }
+    public void run() {
+        super.run();
+        obj.methodA();
+    }
+}
+</code></pre>测试类:<pre><code>public class Test{
+    public static void main(String[] args) {
+        Object2_04_2 obj=new Object2_04_2();
+        Thread2_04_2A a=new Thread2_04_2A(obj);
+        a.setName(&quot;a&quot;);
+        Thread2_04_2B b=new Thread2_04_2B(obj);  //A与B相同
+        b.setName(&quot;b&quot;);
+        a.start();
+        b.start();
+    }
+}
+</code></pre>测试结果:<pre><code>begin method A threadName=a
+begin method A threadName=a
+end!
+begin method B threadName=b
+end!
+begin method B threadName=b
+end!
+</code></pre>结论：<blockquote>
+<p>1.A线程先持有object对象的lock锁，B线程可以以异步方式调用object对象中的非synchronized类型方法<br>2.A线程先持有object对象的lock锁，B线程如果在这时调用object对象中synchronized类型方法则需要等待，也就是同步。</p>
+</blockquote>
+</li>
+<li>脏读(dirtyRead):<br>脏读发生的情况是在读取实例变量时，<strong>此值已经被其他线程更改过了</strong>。<br>脏读是通过<strong>synchronized关键字</strong>解决的。</li>
+<li>synchronized锁重入:<br>关键字synchronized拥有锁重入功能，也就是在使用synchronized时，当一个线程得到一个对象锁后，再次请求此对象锁时是可以再次得到该对象锁的。如:<pre><code>public class MyThread extends Thread{
+    synchronized public void run（）{
+        methodA();
+    }
+    synchronized public void methodA(){...}
+}
+</code></pre>当启动MyThread的对象线程时，调用methodA()方法时锁并未释放，但是可以再次获得该对象锁。不会产生<a href="https://baike.baidu.com/item/%E6%AD%BB%E9%94%81/2196938?fr=aladdin" target="_blank" rel="noopener">死锁</a>。<br>证明在一个synchronized方法/块内部调用本类其他synchronized方法/块时，是永远可以得到锁的。<br>“<a href="http://blog.csdn.net/johnking123/article/details/50043961" target="_blank" rel="noopener">可重入锁</a>“的概念是：自己可以再次获取自己的内部锁。<br>可重入锁可以用于父子继承的环境中，子类完全可以通过”可重入锁”调用父类的同步方法。</li>
+<li><strong>出现异常，锁会自动释放</strong>：<br>当一个线程出现异常时，其所持有的锁会自动释放。</li>
+<li>同步<strong>不具有继承性</strong>：<pre><code>public class AA{
+    synchronized public void testMethod(){...}
+}
+public class BB extends AA{
+    public void testMethod(){...}
+}
+</code></pre>当多个线程访问同一个BB类对象的testMethos()方法时，不会出现同步。若BB未重写testMethod()方法，则仍会出现同步。若一个调父类，一个调子类，则不同步。</li>
+</ol>
+<hr>
+<h2 id="3-synchronized同步代码块"><a href="#3-synchronized同步代码块" class="headerlink" title="3.synchronized同步代码块"></a>3.synchronized同步代码块</h2><ol>
+<li>synchronized关键字的弊端:<br>若A线程与B线程访问同一对象的同步方法，若A的同步方法执行了一个时间很长的任务，则B也必须等待很长的时间。<br>解决方法:使用synchronized(this)同步代码段。</li>
+<li>synchronized(this)同步代码段的使用:<pre><code>public class Task{  //公共资源类
+    public void methodA(){
+        //一些执行时间长但是不会产生非线程安全的代码段
+        synchronized(this){  //使用synchronized(this)同步语句块
+            //会出现非线程安全的代码段
+        }
+    }
+    synchronized public void methodB(){  //使用synchronized关键字
+        //一些执行时间长但是不会产生非线程安全的代码段
+        //会出现非线程安全的代码段
+    }
+}
+</code></pre>一半同步，一半异步:<br>不在synchronized(this)与同步方法中的代码异步，在的同步。</li>
+<li>synchronized(this)锁的仍然是<strong>对象</strong>。<br>上述代码中,如有两个线程A与B分别同时访问同一个Task类对象的methodA()与methodB()方法时，当A线程通过synchronized(this)获得<strong>对象锁</strong>时，B线程必须要等A线程释放锁才能执行methodB()中的代码，反之亦然。</li>
+<li>synchronized(任意非this对象)同步代码块:<br>java支持将”任意对象”作为”对象监视器”来实现同步功能。<br>synchronized(非this对象)同步代码块的作用:<br>(1).在多个线程持有的”对象监视器”为同一个的对象的前提下，同一时间只能有一个线程可以执行synchronized(非this对象)同步代码块中的代码。<br>(2).当持有的”对象监视器”为同一个的对象的前提下，同一时间只能有一个线程可以执行synchronized(非this对象)同步代码块中的代码。<br>String对象也可以当做对象监视器：<pre><code>public class Task{
+    public void method(){
+        synchronized(&quot;哈哈哈&quot;){
+            //同步代码块A
+        }
+        synchronized(&quot;哈哈哈&quot;){
+            //同步代码块B
+        }
+    }
+}
+</code></pre>则代码块A与代码块B是同步的<br>synchronized(非this对象)同步代码块不与synchronized(this)对象和synchronized方法争抢锁</li>
+<li>两个线程同时执行分支判断时，可能会出现逻辑上的错误，可能会出现脏读。</li>
+<li>synchronized(非this对象x)结论:<br>(1).多个线程同时执行synchronized(x){}同步代码块时呈同步效果。<br>(2).当其他线程执行x对象中的synchronized同步方法时呈同步效果。<br>(3).当其他线程执行x对象中的synchronized(this)同步代码块时呈同步效果。</li>
+</ol>
+<hr>
+<h2 id="4-静态锁，synchronized-class-死锁以及内部类等"><a href="#4-静态锁，synchronized-class-死锁以及内部类等" class="headerlink" title="4.静态锁，synchronized(class),死锁以及内部类等"></a>4.静态锁，synchronized(class),死锁以及内部类等</h2><hr>
+<h2 id="5-volatile关键字"><a href="#5-volatile关键字" class="headerlink" title="5.volatile关键字"></a>5.volatile关键字</h2><hr>
+<h2 id="6-原子类及其他知识点"><a href="#6-原子类及其他知识点" class="headerlink" title="6.原子类及其他知识点"></a>6.原子类及其他知识点</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年02月28日 16:45</p>
+        <p>最后更新： 2018年02月28日 22:45</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -278,7 +404,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁以及内部类等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁以及内部类等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-volatile关键字"><span class="post-toc-text">5.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-原子类及其他知识点"><span class="post-toc-text">6.原子类及其他知识点</span></a></li></ol>
         </nav>
     </aside>
     

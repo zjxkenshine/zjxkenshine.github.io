@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-28T06:22:16.549Z">
+<meta property="og:updated_time" content="2018-02-28T13:40:35.162Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（一）:java多线程基本操作">
 <meta name="twitter:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
@@ -249,7 +249,7 @@ Thread-0
 </code></pre>判断某一线程是否存活：<pre><code>Thread t=new Thread();
 t.isAlive();
 </code></pre></li>
-<li>sleep()方法：<br><em>在指定毫秒内让当前“正在执行的线程”休眠（暂停执行）。<br>这个正在执行的线程&gt;是指<code>this.currentThread</code>返回的线程。</em><br>this.currentThread.getName()=this.getName()<br>(我的理解，如有异议请告知）<br>注意:sleep()是静态方法，调用方式为：<pre><code>Thread.sleep();  //括号内为毫秒数
+<li>sleep()方法：<br><em>在指定毫秒内让当前“正在执行的线程”休眠（暂停执行）。<br>这个正在执行的线程&gt;是指<code>this.currentThread()</code>返回的线程。</em><br>this.currentThread().getName()=this.getName()<br>(我的理解，如有异议请告知）<br>注意:sleep()是静态方法，调用方式为：<pre><code>Thread.sleep();  //括号内为毫秒数
 </code></pre></li>
 <li>getId()方法:<br><em>取得线程的唯一标识符</em></li>
 </ol>
@@ -425,7 +425,7 @@ public class Thread1_26_2 extends Thread{
         System.out.println(&quot;thread2的priority=&quot;+this.getPriority());
     }
 }
-public class test(){
+public class test{
     public static void main(String[] args) {
         System.out.println(&quot;main 的 priority=&quot;+Thread.currentThread().getPriority());
         Thread.currentThread().setPriority(6);    //注释这一行测试
@@ -457,7 +457,7 @@ thread2的priority=6
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年02月28日 14:22</p>
+        <p>最后更新： 2018年02月28日 21:40</p>
         <p>原始链接： <a class="post-url" href="/2018/02/27/《java多线程编程核心技术》笔记（一）/" title="《java多线程编程核心技术》笔记（一）:java多线程基本操作">https://zjxkenshine.github.io/2018/02/27/《java多线程编程核心技术》笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
