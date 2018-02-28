@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>程序人生</title>
+  <title>《java多线程编程核心技术》笔记（二）:对象及变量的并发访问 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 间歇性踌躇满志，持续性坐吃等死 学习城市：济南 学历：某不知名大学就读中 希望成为一个终身学习者。。近期学习方向：H5混合开发，java框架，准备面试 座右铭 Today is the first day in your rest life.(今天是你余生的第一天)  爱好喜欢打游戏，敲代码，看动漫，看电">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序人生">
-<meta property="og:url" content="https://zjxkenshine.github.io/about/index.html">
+  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
+<meta name="keywords" content="Java,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 间歇性踌躇满志，持续性坐吃等死 学习城市：济南 学历：某不知名大学就读中 希望成为一个终身学习者。。近期学习方向：H5混合开发，java框架，准备面试 座右铭 Today is the first day in your rest life.(今天是你余生的第一天)  爱好喜欢打游戏，敲代码，看动漫，看电">
+<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-27T10:44:41.804Z">
+<meta property="og:updated_time" content="2018-02-28T06:37:34.037Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序人生">
-<meta name="twitter:description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 间歇性踌躇满志，持续性坐吃等死 学习城市：济南 学历：某不知名大学就读中 希望成为一个终身学习者。。近期学习方向：H5混合开发，java框架，准备面试 座右铭 Today is the first day in your rest life.(今天是你余生的第一天)  爱好喜欢打游戏，敲代码，看动漫，看电">
+<meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -109,34 +110,56 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-《java多线程编程核心技术》笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
-    <div class="article-entry " itemprop="articleBody">
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《java多线程编程核心技术》笔记（二）:对象及变量的并发访问
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>周建新，英文名 kenshine</p>
-<p>一个终将成为大佬的小菜鸟</p>
-<p>一个暂时是小菜鸟的未来大佬</p>
-<p>间歇性踌躇满志，持续性坐吃等死</p>
-<h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><p>城市：<code>济南</code></p>
-<p>学历：<code>某不知名大学就读中</code></p>
-<p>希望成为一个终身学习者。。<br>近期学习方向：H5混合开发，java框架，准备面试</p>
-<h3 id="座右铭"><a href="#座右铭" class="headerlink" title="座右铭"></a>座右铭</h3><blockquote>
-<p>Today is the first day in your rest life.(今天是你余生的第一天)</p>
-</blockquote>
-<h3 id="爱好"><a href="#爱好" class="headerlink" title="爱好"></a>爱好</h3><p>喜欢<code>打游戏</code>，<code>敲代码</code>，<code>看动漫</code>，<code>看电影</code>。</p>
-<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><ul>
-<li>Blog: <a href="https://zjxkenshine.github.io" title="程序人生">kenshine’s blog</a></li>
-<li>Email: 1754294529@qq.com</li>
-<li>GitHub: <a href="https://github.com/zjxkenshine" target="_blank" rel="noopener">zjxkenshine</a></li>
-<li>WeiBo: <a href="http://weibo.com/3807155334" target="_blank" rel="noopener">MinHow</a></li>
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>synchronized对象监视器为Object时的使用。</li>
+<li>synchronized对象监视器为Class时的使用。</li>
+<li>非线程安全何时出现。</li>
+<li>关键字volatitle的主要作用。</li>
+<li>关键字volatitle与synchronized的区别及使用情况。</li>
 </ul>
+<hr>
+<h2 id="1-线程安全与非线程安全"><a href="#1-线程安全与非线程安全" class="headerlink" title="1.线程安全与非线程安全"></a>1.线程安全与非线程安全</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年02月27日 18:44</p>
-        <p>原始链接： <a class="post-url" href="/about/index.html" title="">https://zjxkenshine.github.io/about/index.html</a></p>
+        <p>最后更新： 2018年02月28日 14:37</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -193,7 +216,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/about/&title=程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&title=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -203,22 +226,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/about/&title=程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&title=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/about/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=程序人生&url=https://zjxkenshine.github.io/about/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/about/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -228,7 +251,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/about/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -237,6 +260,15 @@
         <ul class="article-footer-menu">
             
             
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
         </ul>
         
     </footer>
@@ -246,10 +278,20 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于我"><span class="post-toc-text">关于我</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习"><span class="post-toc-text">学习</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#座右铭"><span class="post-toc-text">座右铭</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#爱好"><span class="post-toc-text">爱好</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#联系我"><span class="post-toc-text">联系我</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li></ol>
         </nav>
     </aside>
     
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/27/《java多线程编程核心技术》笔记（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《java多线程编程核心技术》笔记（一）:java多线程基本操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
 
 
 
