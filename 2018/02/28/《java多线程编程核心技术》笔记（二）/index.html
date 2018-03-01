@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T05:53:56.336Z">
+<meta property="og:updated_time" content="2018-03-01T07:42:35.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
@@ -466,12 +466,149 @@ public class Thread2_28_1B extends Thread{
 </li>
 </ol>
 <hr>
-<h2 id="6-volatile关键字"><a href="#6-volatile关键字" class="headerlink" title="6.volatile关键字"></a>6.volatile关键字</h2><hr>
-<h2 id="7-原子类及其他知识点"><a href="#7-原子类及其他知识点" class="headerlink" title="7.原子类及其他知识点"></a>7.原子类及其他知识点</h2><hr>
+<h2 id="6-volatile关键字"><a href="#6-volatile关键字" class="headerlink" title="6.volatile关键字"></a>6.volatile关键字</h2><ol>
+<li>Thread与Runnable<br>不是在多继承的情况下使用继承Thread和实现Runnable取得的实验结果并没有什么太大区别。但是一旦出现多继承，就得用实现Runnable接口的方式。</li>
+<li><p>volatile关键字的用法:<br><strong>强制从公共堆栈中读取变量的值</strong>。<br>不使用volatile出现死循环的情况:</p>
+<pre><code>public class Thread2_31 extends Thread{
+    //volatile解决异步死循环
+
+    private boolean isRunning=true;                  //在_server运行环境下死循环
+    //volatile private boolean isRunning=true;
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
+    @Override
+    public void run() {
+        super.run();
+        System.out.println(&quot;进入run了!&quot;);
+        while(isRunning){
+            System.out.println(&quot;123&quot;);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(&quot;线程被停止了!&quot;);
+    }
+}
+
+public class Test2_31 {
+    public static void main(String[] args) {
+        try{
+            Thread2_31 thread=new Thread2_31();
+            thread.start();
+            Thread.sleep(1000);             //thread线程停止1秒
+            thread.setRunning(false);
+            System.out.println(&quot;已经赋值为false&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>以上代码在JVM设置为-server时会出现死循环。原因是-server为了运行效率，一只获取的是私有堆栈中的isRunning值，而<code>thread.setRunning(false);</code>更新的是公有堆栈中的值。所以程序会一直死循环。<br>关于JVM-server的具体内容可以参考博客:<a href="http://www.importnew.com/20715.html" target="_blank" rel="noopener">关于JVM的类型和模式</a>。</p>
+</li>
+<li><strong>volatile与synchronized的区别</strong>:<br>(1).volatile是synchronized的轻量级实现，性能肯定比synchronized好，但是volatile只能修饰变量，synchronized可以修饰方法以及代码块。新版本的JDK发布使得synchronized的性能有了很大提升。<br>(2).多线程访问volatile不会阻塞，访问synchronized会发生阻塞。<br>(3).volatile能保证数据的可见性，<strong>不能保证原子性*</strong>;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。<br>(4).关键字volatile保证了数据的可见性;而synchronized保证了多个线程访问同步资源的可见性。</li>
+<li><p>volatile的非原子性(致命缺陷):<br>对于volatile修饰的变量，JVM只是保证从内存加载到线程工作内存的值是最新的，但是多个线程同时访问同一个实例变量并修改时，无法保证同步修改(非原子操作时)，所以在多个线程访问同一个实例变量还是需要加锁。</p>
+<pre><code>public class Thread2_32_1 extends Thread{
+    //volatile的非原子特性
+    volatile public static int count;
+    private static void addCount(){
+        for(int i=0;i&lt;100;i++){
+            count++;    //这一步是非线程安全的
+        }
+        System.out.println(&quot;count=&quot;+count);
+    }
+
+    public void run() {
+        // TODO Auto-generated method stub
+        addCount();
+    }
+}
+</code></pre><p>具体的解释:<br>变量在内存中的工作阶段:<br>(1).read和load阶段:从主存复制变量到当前线程工作内存<br>(2).use和assign阶段:执行代码阶段，改变变量值<br>(3).store和write阶段:用对应数据刷新主存对应变量的值<br>多线程环境中use和assign是多次出现的，load,use,assign都是非线程安全的</p>
+</li>
+<li>synchronized代码块具有volatile同步的功能<pre><code>public class Object2_35 {
+    //synchronized代码块有volatile同步功能          
+    private boolean isRun=true;
+    public void runMethod(){
+        while(isRun){
+            synchronized (&quot;AAA&quot;) {               //可视,_server服务器环境下
+            }
+        }
+        System.out.println(&quot;停了&quot;);
+    }
+    public void stopMethod(){
+        isRun=false;
+    }
+}
+</code></pre>同步synchronized不仅可以解决一个线程看到对象处于不一致的状态，还可以保证进入同步方法/代码块的每个线程，都看到由一个锁保护之前的所有修改结果。</li>
+</ol>
+<hr>
+<h2 id="7-原子类-Atomic"><a href="#7-原子类-Atomic" class="headerlink" title="7.原子类(Atomic)"></a>7.原子类(Atomic)</h2><ol>
+<li>使用<a href="http://blog.csdn.net/zuoanyinxiang/article/details/50255043" target="_blank" rel="noopener">原子类</a>进行i++操作:<br>除了在i++时使用synchronized关键字外，还可以使用AtomicInteger原子整型来保证同步。</li>
+<li><p>原子操作是不可分割的整体，没有其他线程能够中断或者检查正在原子操作中的变量，一个原子类型就是一个原子操作的可用类型，可以在没有锁的情况下做到线程安全。</p>
+<pre><code>public class Thread2_33 extends Thread{
+    //使用原子类对i++进行操作
+
+    private AtomicInteger count=new AtomicInteger(0);
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        super.run();
+        for(int i=0;i&lt;10000;i++){
+            System.out.println(count.incrementAndGet());      //count++操作
+        }
+    }
+}
+</code></pre></li>
+<li><p>原子类也并非绝对线程安全的:<br>原子操作在具有逻辑性的情况下输出结果也具有随机性。</p>
+<pre><code>public class Object2_34 {
+    //有原子类也并非完全安全
+
+    public static AtomicLong along=new AtomicLong();
+
+//    synchronized public void addNum(){                 //需要同步,两方法之间不是原子的
+    public void addNum(){
+        System.out.println(Thread.currentThread().getName()+&quot; 加了100后的值是：&quot;+along.addAndGet(100));
+        along.addAndGet(1);
+    }
+}
+
+public class Test2_34 {
+
+    public static void main(String[] args) {
+        try{
+            Object2_34 obj=new Object2_34();
+            Thread2_34[] array=new Thread2_34[5];
+            for(int i=0;i&lt;array.length;i++){
+                array[i]=new Thread2_34(obj);
+            }
+            for(int i=0;i&lt;array.length;i++){
+                array[i].start();
+            }
+            Thread.sleep(1000);
+            System.out.println(obj.along.get());
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>方法内部可能是原子的，但是方法之间是非线程安全的，解决方法仍是synchronized关键字。</p>
+</li>
+<li>更多关于java原子类的知识可以访问博客:<a href="http://blog.csdn.net/zuoanyinxiang/article/details/50255043" target="_blank" rel="noopener">java中的原子类</a>。</li>
+</ol>
+<hr>
+<h2 id="8-总结："><a href="#8-总结：" class="headerlink" title="8.总结："></a>8.总结：</h2><p>学习多线程并发，要着重<strong>“外练互斥，内修可见”</strong>。</p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月01日 13:53</p>
+        <p>最后更新： 2018年03月01日 15:42</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -591,7 +728,7 @@ public class Thread2_28_1B extends Thread{
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-内置类与同步"><span class="post-toc-text">5.内置类与同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-volatile关键字"><span class="post-toc-text">6.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-原子类及其他知识点"><span class="post-toc-text">7.原子类及其他知识点</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-内置类与同步"><span class="post-toc-text">5.内置类与同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-volatile关键字"><span class="post-toc-text">6.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-原子类-Atomic"><span class="post-toc-text">7.原子类(Atomic)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-总结："><span class="post-toc-text">8.总结：</span></a></li></ol>
         </nav>
     </aside>
     
