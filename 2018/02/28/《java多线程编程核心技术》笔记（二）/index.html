@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T04:46:05.374Z">
+<meta property="og:updated_time" content="2018-03-01T05:53:56.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
@@ -366,13 +366,112 @@ A
 <li><a href="1">死锁</a>:<br>不同的线程都在等待不可能被释放的锁，从而导致所有的任务都无法完成。<br><strong>死锁是必须避免的</strong>，这会造成程序的假死。<br>相互等待对方释放锁就有可能出现死锁。<br>死锁的判断可以参考博客:<a href="http://blog.csdn.net/sidihuo/article/details/52474227" target="_blank" rel="noopener">java死锁的排查</a>。</li>
 </ol>
 <hr>
-<h2 id="5-内置类与同步"><a href="#5-内置类与同步" class="headerlink" title="5.内置类与同步"></a>5.内置类与同步</h2><hr>
+<h2 id="5-内置类与同步"><a href="#5-内置类与同步" class="headerlink" title="5.内置类与同步"></a>5.内置类与同步</h2><ol>
+<li>内置类<br>关于java内部类具体内容可以参考博客:<br><a href="http://blog.csdn.net/u011424470/article/details/52319069" target="_blank" rel="noopener">java四种内部类详解</a><br><a href="http://blog.csdn.net/zhangjg_blog/article/details/20000769" target="_blank" rel="noopener">深入理解Java中为什么内部类可以访问外部类的成员</a><br>普通内置类的使用:<pre><code>public class OutClass{
+    class InClass{
+    }
+}
+//测试类中实例化
+public class test{
+    public static void main(String args[]){
+        InClass inclass=OutClass.new InClass();  //普通内部类的实例化
+    }
+}
+</code></pre>若OutClass与test不在同一个包内，则需要将InClass内置声明成public的。</li>
+<li>静态内置类<pre><code>public class OutClass{
+    static class InClass{
+    }
+}
+//测试类中实例化
+public class test{
+    public static void main(String args[]){
+        InClass inclass=new InClass();  //静态内部类的实例化
+    }
+}
+</code></pre></li>
+<li>内置类的同步:<pre><code>public class Run{
+    static public class InnerClass1{
+        public void method1(InnerClass2 class2){
+            synchronized (class2) {
+            //代码段
+            }
+        }
+        public synchronized void method2(){
+        //代码段
+        }
+    }
+    //静态内部类2
+    static public class InnerClass2{
+        public synchronized void method3(){
+        //代码段
+        }
+    }
+}
+</code></pre>同步代码块synchronized(class2)对class2上锁后，其他线程只能同步调用class2对象中的方法。</li>
+<li><p>锁对象的改变<br>公共资源类:</p>
+<pre><code>public class Object2_28_1 {
+    private String lock=&quot;123&quot;;
+    public void testMethod(){
+        try{
+            synchronized (lock) {
+                //输出
+                lock=&quot;456&quot;;      //锁对象改变
+                Thread.sleep(2000);
+                //输出
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>两个线程:</p>
+<pre><code>public class Thread2_28_1A extends Thread{
+
+    private Object2_28_1 obj;
+
+    public Thread2_28_1A(Object2_28_1 obj){
+        this.obj=obj;
+    }
+    public void run(){
+        super.run();
+        obj.testMethod();
+    }
+}
+public class Thread2_28_1B extends Thread{
+
+    private Object2_28_1 obj;
+
+    public Thread2_28_1B(Object2_28_1 obj){
+        this.obj=obj;
+    }
+    public void run(){
+        super.run();
+        obj.testMethod();
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test2_28_1 {
+    public static void main(String[] args) throws InterruptedException {
+        Object2_28_1 obj=new Object2_28_1();
+        Thread2_28_1A a=new Thread2_28_1A(obj);
+        a.setName(&quot;aaa&quot;);
+        Thread2_28_1B b=new Thread2_28_1B(obj);
+        b.setName(&quot;bbb&quot;);
+        a.start();
+        Thread.sleep(50);           //不加这句同步
+        b.start();
+    }
+}
+</code></pre><p>结果:<br>(1).若加上Thread.sleep(50)，则异步，因为50毫秒后线程B获得的锁是”456”。<br>(2).若不加Thread.sleep(50)，则同步，即使对象改变，线程B从一开始等待”123”锁，不会改变等待的锁。<br>还有一个结论:<br>只要作为对象监视器的对象，即使对象的属性改变了，运行结果也还是同步的。</p>
+</li>
+</ol>
+<hr>
 <h2 id="6-volatile关键字"><a href="#6-volatile关键字" class="headerlink" title="6.volatile关键字"></a>6.volatile关键字</h2><hr>
 <h2 id="7-原子类及其他知识点"><a href="#7-原子类及其他知识点" class="headerlink" title="7.原子类及其他知识点"></a>7.原子类及其他知识点</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月01日 12:46</p>
+        <p>最后更新： 2018年03月01日 13:53</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
