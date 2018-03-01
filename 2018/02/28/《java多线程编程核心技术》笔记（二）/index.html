@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
+  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
+<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T07:42:35.568Z">
+<meta property="og:updated_time" content="2018-03-01T14:14:47.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
-<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
+<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -150,8 +150,8 @@
 <li>synchronized对象监视器为Object时的使用。</li>
 <li>synchronized对象监视器为Class时的使用。</li>
 <li>非线程安全何时出现。</li>
-<li>关键字volatitle的主要作用。</li>
-<li>关键字volatitle与synchronized的区别及使用情况。</li>
+<li>关键字volatile的主要作用。</li>
+<li>关键字volatile与synchronized的区别及使用情况。</li>
 </ul>
 <hr>
 <h2 id="1-线程安全与非线程安全"><a href="#1-线程安全与非线程安全" class="headerlink" title="1.线程安全与非线程安全"></a>1.线程安全与非线程安全</h2><ol>
@@ -608,7 +608,7 @@ public class Test2_34 {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月01日 15:42</p>
+        <p>最后更新： 2018年03月01日 22:14</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
