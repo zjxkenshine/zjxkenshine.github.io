@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-28T14:45:34.148Z">
+<meta property="og:updated_time" content="2018-03-01T04:46:05.374Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatitle的主要作用。 关键字volatitle与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数">
@@ -236,7 +236,7 @@ end!
     }
     synchronized public void methodA(){...}
 }
-</code></pre>当启动MyThread的对象线程时，调用methodA()方法时锁并未释放，但是可以再次获得该对象锁。不会产生<a href="https://baike.baidu.com/item/%E6%AD%BB%E9%94%81/2196938?fr=aladdin" target="_blank" rel="noopener">死锁</a>。<br>证明在一个synchronized方法/块内部调用本类其他synchronized方法/块时，是永远可以得到锁的。<br>“<a href="http://blog.csdn.net/johnking123/article/details/50043961" target="_blank" rel="noopener">可重入锁</a>“的概念是：自己可以再次获取自己的内部锁。<br>可重入锁可以用于父子继承的环境中，子类完全可以通过”可重入锁”调用父类的同步方法。</li>
+</code></pre>当启动MyThread的对象线程时，调用methodA()方法时锁并未释放，但是可以再次获得该对象锁。不会产生<a href="1">死锁</a>。<br>证明在一个synchronized方法/块内部调用本类其他synchronized方法/块时，是永远可以得到锁的。<br>“<a href="http://blog.csdn.net/johnking123/article/details/50043961" target="_blank" rel="noopener">可重入锁</a>“的概念是：自己可以再次获取自己的内部锁。<br>可重入锁可以用于父子继承的环境中，子类完全可以通过”可重入锁”调用父类的同步方法。</li>
 <li><strong>出现异常，锁会自动释放</strong>：<br>当一个线程出现异常时，其所持有的锁会自动释放。</li>
 <li>同步<strong>不具有继承性</strong>：<pre><code>public class AA{
     synchronized public void testMethod(){...}
@@ -275,16 +275,104 @@ public class BB extends AA{
 }
 </code></pre>则代码块A与代码块B是同步的<br>synchronized(非this对象)同步代码块不与synchronized(this)对象和synchronized方法争抢锁</li>
 <li>两个线程同时执行分支判断时，可能会出现逻辑上的错误，可能会出现脏读。</li>
-<li>synchronized(非this对象x)结论:<br>(1).多个线程同时执行synchronized(x){}同步代码块时呈同步效果。<br>(2).当其他线程执行x对象中的synchronized同步方法时呈同步效果。<br>(3).当其他线程执行x对象中的synchronized(this)同步代码块时呈同步效果。</li>
+<li>synchronized(非this对象x)的三个重要结论:<br>(1).多个线程同时执行synchronized(x){}同步代码块时呈同步效果。<br>(2).当其他线程执行x对象中的synchronized同步方法时呈同步效果。<br>(3).当其他线程执行x对象中的synchronized(this)同步代码块时呈同步效果。</li>
 </ol>
 <hr>
-<h2 id="4-静态锁，synchronized-class-死锁以及内部类等"><a href="#4-静态锁，synchronized-class-死锁以及内部类等" class="headerlink" title="4.静态锁，synchronized(class),死锁以及内部类等"></a>4.静态锁，synchronized(class),死锁以及内部类等</h2><hr>
-<h2 id="5-volatile关键字"><a href="#5-volatile关键字" class="headerlink" title="5.volatile关键字"></a>5.volatile关键字</h2><hr>
-<h2 id="6-原子类及其他知识点"><a href="#6-原子类及其他知识点" class="headerlink" title="6.原子类及其他知识点"></a>6.原子类及其他知识点</h2><hr>
+<h2 id="4-静态锁，synchronized-class-死锁等"><a href="#4-静态锁，synchronized-class-死锁等" class="headerlink" title="4.静态锁，synchronized(class),死锁等"></a>4.静态锁，synchronized(class),死锁等</h2><ol>
+<li>静态synchronized方法<br>关键字synchronized还可以应用在static方法上，如果这样写，那是对当前的*.java文件对应的Class类进行持锁。如:<pre><code>public class test{
+    synchronized public static void methodA(){
+    //代码段A
+    }
+    synchronized public void methodB(){
+    //代码段B
+    }
+}
+</code></pre>(1).若有两个线程同时访问test类不同对象的methodA()方法，出现同步互斥。<br>(2).若有两个线程同时分别访问test类相同对象的methodA()和methodB()方法时，则是异步。因为一个是给Class上锁，一个是给对象上锁，一个线程得到了Class锁，一个线程得到了对象锁。</li>
+<li>synchronized(Class)同步代码块<br>作用其实和静态synchronized方法的作用一样。也是锁Class。<pre><code>public class Test{
+    public static void methodA(){
+        synchronized(Test.class){   //代码段A
+        }
+    }
+    public void methodB(){
+        synchronized(Test.class){   //代码段B
+        }
+    }
+}
+</code></pre>这时有两个线程同时分别访问Test类不同对象的methodA()和methodB方法时，都会出现同步，因为要获取的都是Test.class锁。</li>
+<li><p>synchronized(string)的问题<br>工作类:</p>
+<pre><code>public class Task {
+    // 【String常量池的特性】给synchronized(String)带来的例外
+    public static void print(String param){
+        try{
+            synchronized(param){
+                while(true){
+                    System.out.println(Thread.currentThread().getName());
+                    Thread.sleep(1000);
+                }
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>两个线程:</p>
+<pre><code>public class Thread2_22_1A extends Thread{
+    private Task obj;
+
+    public Thread2_22_1A(Task obj) {
+        super();
+        this.obj=obj;
+    }
+    @Override
+    public void run() {
+        super.run();
+        obj.print(&quot;AAA&quot;);
+    }
+}
+public class Thread2_22_1B extends Thread{
+    private Task obj;
+
+    public Thread2_22_1B(Task obj) {
+        super();
+        this.obj=obj;
+    }
+    @Override
+    public void run() {
+        super.run();
+        obj.print(&quot;AAA&quot;);  //与A相同的String传入
+    }
+}
+</code></pre><p>测试类：</p>
+<pre><code>public class Test{
+    public static void main(String[] args) {
+        Task obj=new Task();
+        Thread2_22_1A a=new Thread2_22_1A(obj);
+        a.setName(&quot;A&quot;);
+        a.start();
+        Thread2_22_1B b=new Thread2_22_1B(obj);
+        b.setName(&quot;B&quot;);
+        b.start();
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>A
+A
+A
+A
+A
+...
+</code></pre><p>说明:<br>A与B线程持有的是相同的锁(“AAA”)。<br>所以一般不用String作为锁对象，而改用其他，如使用new Object()传入一个对象实现<strong>异步</strong>，但是它并不放入缓存中。</p>
+</li>
+<li><a href="1">死锁</a>:<br>不同的线程都在等待不可能被释放的锁，从而导致所有的任务都无法完成。<br><strong>死锁是必须避免的</strong>，这会造成程序的假死。<br>相互等待对方释放锁就有可能出现死锁。<br>死锁的判断可以参考博客:<a href="http://blog.csdn.net/sidihuo/article/details/52474227" target="_blank" rel="noopener">java死锁的排查</a>。</li>
+</ol>
+<hr>
+<h2 id="5-内置类与同步"><a href="#5-内置类与同步" class="headerlink" title="5.内置类与同步"></a>5.内置类与同步</h2><hr>
+<h2 id="6-volatile关键字"><a href="#6-volatile关键字" class="headerlink" title="6.volatile关键字"></a>6.volatile关键字</h2><hr>
+<h2 id="7-原子类及其他知识点"><a href="#7-原子类及其他知识点" class="headerlink" title="7.原子类及其他知识点"></a>7.原子类及其他知识点</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年02月28日 22:45</p>
+        <p>最后更新： 2018年03月01日 12:46</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -404,7 +492,7 @@ public class BB extends AA{
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁以及内部类等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁以及内部类等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-volatile关键字"><span class="post-toc-text">5.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-原子类及其他知识点"><span class="post-toc-text">6.原子类及其他知识点</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-内置类与同步"><span class="post-toc-text">5.内置类与同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-volatile关键字"><span class="post-toc-text">6.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-原子类及其他知识点"><span class="post-toc-text">7.原子类及其他知识点</span></a></li></ol>
         </nav>
     </aside>
     
