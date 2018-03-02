@@ -12,7 +12,7 @@
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java多线程编程核心技术》笔记（三）：线程间的通信">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/index.html">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——">
 <meta property="og:locale" content="zh-CN">
@@ -110,7 +110,7 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》的笔记（三）" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（三）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -162,7 +162,7 @@
             <div class="post-copyright">
     <div class="content">
         <p>最后更新： 2018年03月02日 11:04</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/01/《Java多线程编程核心技术》的笔记（三）/" title="《Java多线程编程核心技术》笔记（三）：线程间的通信">https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/</a></p>
+        <p>原始链接： <a class="post-url" href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" title="《Java多线程编程核心技术》笔记（三）：线程间的通信">https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -219,7 +219,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/&title=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/&title=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -229,22 +229,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/&title=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/&title=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（三）：线程间的通信》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -254,7 +254,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》的笔记（三）/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
