@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T13:21:16.457Z">
+<meta property="og:updated_time" content="2018-03-02T14:40:34.314Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（三）：线程间的通信">
 <meta name="twitter:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
@@ -468,16 +468,119 @@ for(int i=0;i&lt;2;i++){
 }
 //代码不完整，仅供理解
 </code></pre><strong><a href="http://blog.csdn.net/x_panda/article/details/17200853" target="_blank" rel="noopener">假死</a></strong>:<em>所有线程都处在等待状态</em>。<br>如这四个线程对象：生产者1，2；消费者1，2；<br>出现假死的情况：<br>a.生产者1先执行，仓库无货，添加，发出通知，但是所有线程都不在等待状态，生产者1进入第二次循环，仓库有货，等待；<br>b.轮到生产者2也因为仓库有货而等待；<br>c.消费者1进入循环，消费，发出通知，生产者1被唤醒，进入第二次循环，仓库无货，等待；<br>d.消费者2进入，仓库无货，等待；<br>e.生产者1被唤醒进入，生产，发出通知，唤醒生产者2，进入第二次循环，仓库有货，等待；<br>d.生产者2被唤醒进入，仓库有货，等待。出现假死。<br>出现假死的原因是不能确保唤醒的是”异类”，生产者能唤醒生产者。<br>解决方法：将notify换成notifyAll;</li>
-<li>一生产者与一消费者：操作栈</li>
+<li><p>一生产者与一消费者：操作栈<br>使生产者向堆栈List对象中放入数据，消费者从List中取出对象，List最大值为1。<br>生产者：</p>
+<pre><code>public class P3_11 {
+    private MyStack3_11 ms;
+
+    public P3_11(MyStack3_11 ms) {
+        this.ms=ms;
+    }
+
+    public void pushService(){
+        ms.push();
+    }
+}
+</code></pre><p>消费者:</p>
+<pre><code>public class C3_11 {
+   private MyStack3_11 ms;
+    public C3_11(MyStack3_11 ms) {
+        this.ms=ms;
+    }
+
+    public void popService(){
+        ms.pop();
+    }
+}
+</code></pre><p>公共堆栈:</p>
+<pre><code>public class MyStack3_11 {
+    private List list=new ArrayList&lt;&gt;();
+
+    synchronized public void push(){             //增加
+        try{
+            if(list.size()==1){              //改为while循环可以解决条件改变问题
+                this.wait();
+            }
+            list.add(&quot;任何字符串&quot;+Math.random());
+            this.notify();     //改为notifyAll解决假死
+            System.out.println(&quot;push=&quot;+list.size());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    synchronized public String pop(){         //减少
+        String returnString=&quot;&quot;;
+        try{
+            if(list.size()==0){         //改为while循环可以解决条件改变问题
+                System.out.println(&quot;pop操作中的：&quot;+Thread.currentThread().getName()+&quot;线程呈等待状态&quot;);
+                this.wait();
+            }
+            returnString=&quot;&quot;+list.get(0);
+            list.remove(0);
+            this.notify();   // //改为notifyAll解决假死
+            System.out.println(&quot;pop=&quot;+list.size());
+
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return returnString;
+    }
+}
+</code></pre><p>生产者线程：</p>
+<pre><code>public class Thread3_11A extends Thread{
+    private P3_11 p;
+    public Thread3_11A( P3_11 p) {
+        this.p=p;
+    }    
+    @Override
+    public void run() {
+        super.run();
+        while(true){
+             p.pushService();
+        }
+    }
+}
+</code></pre><p>消费者线程：</p>
+<pre><code>public class Thread3_11B extends Thread{
+    private C3_11 c;
+
+    public Thread3_11B(C3_11 c) {
+        this.c=c;
+    }
+    @Override
+    public void run() {
+        super.run();
+        while(true){
+            c.popService();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test3_11 {
+    //一生产与一消费：【操作栈】
+    //交替输出
+    public static void main(String[] args) {
+        MyStack3_11 ms=new MyStack3_11();
+        P3_11 p=new P3_11(ms);
+        C3_11 c=new C3_11(ms);
+        Thread3_11A t1=new Thread3_11A(p);
+        Thread3_11B t2=new Thread3_11B(c);
+        t1.start();
+        t2.start();
+    }
+}
+</code></pre></li>
+<li>一生产与多消费:操作栈<br>创建一个生产者对象和多个消费者对象,需要解决wait条件发生改变的问题，解决方法仍然是把stack中if()判断改为while判断。把notify方法全都改为notifyAll解决假死。</li>
+<li>多生产者与一消费者:操作栈<br>和一对多差不多，创建多个生产者对象和一个消费者对象。其余相同。</li>
+<li>多生产者与多消费者：操作栈<br>创建多个生产者对象与多个消费者对象，只要注意wait条件的改变（使用while），并且把公共堆栈中的notify方法全都改为notifyAll，就不会产生假死。</li>
 </ol>
 <hr>
-<h2 id="4-使用管道进行线程间通信"><a href="#4-使用管道进行线程间通信" class="headerlink" title="4.使用管道进行线程间通信"></a>4.使用管道进行线程间通信</h2><h3 id="a-字节流"><a href="#a-字节流" class="headerlink" title="a.字节流"></a>a.字节流</h3><h3 id="b-字符流"><a href="#b-字符流" class="headerlink" title="b.字符流"></a>b.字符流</h3><hr>
+<h2 id="4-使用管道进行线程间通信"><a href="#4-使用管道进行线程间通信" class="headerlink" title="4.使用管道进行线程间通信"></a>4.使用管道进行线程间通信</h2><h3 id="a-管道流简介"><a href="#a-管道流简介" class="headerlink" title="a.管道流简介"></a>a.管道流简介</h3><h3 id="b-字节流"><a href="#b-字节流" class="headerlink" title="b.字节流"></a>b.字节流</h3><h3 id="c-字符流"><a href="#c-字符流" class="headerlink" title="c.字符流"></a>c.字符流</h3><hr>
 <h2 id="5-join"><a href="#5-join" class="headerlink" title="5.join"></a>5.join</h2><hr>
 <h2 id="6-ThreadLocal"><a href="#6-ThreadLocal" class="headerlink" title="6.ThreadLocal"></a>6.ThreadLocal</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 21:21</p>
+        <p>最后更新： 2018年03月02日 22:40</p>
         <p>原始链接： <a class="post-url" href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" title="《Java多线程编程核心技术》笔记（三）：线程间的通信">https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -597,7 +700,7 @@ for(int i=0;i&lt;2;i++){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制简介"><span class="post-toc-text">1.等待/通知机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-等待-通知机制的实现（用法）"><span class="post-toc-text">2.等待/通知机制的实现（用法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-生产者消费者模式"><span class="post-toc-text">3.生产者消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用管道进行线程间通信"><span class="post-toc-text">4.使用管道进行线程间通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-字节流"><span class="post-toc-text">a.字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-字符流"><span class="post-toc-text">b.字符流</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-join"><span class="post-toc-text">5.join</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ThreadLocal"><span class="post-toc-text">6.ThreadLocal</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制简介"><span class="post-toc-text">1.等待/通知机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-等待-通知机制的实现（用法）"><span class="post-toc-text">2.等待/通知机制的实现（用法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-生产者消费者模式"><span class="post-toc-text">3.生产者消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用管道进行线程间通信"><span class="post-toc-text">4.使用管道进行线程间通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-管道流简介"><span class="post-toc-text">a.管道流简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-字节流"><span class="post-toc-text">b.字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-字符流"><span class="post-toc-text">c.字符流</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-join"><span class="post-toc-text">5.join</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ThreadLocal"><span class="post-toc-text">6.ThreadLocal</span></a></li></ol>
         </nav>
     </aside>
     
