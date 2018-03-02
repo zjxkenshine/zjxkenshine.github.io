@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——">
+  <meta name="description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java多线程编程核心技术》笔记（三）：线程间的通信">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——">
+<meta property="og:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T03:04:46.788Z">
+<meta property="og:updated_time" content="2018-03-02T12:03:14.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（三）：线程间的通信">
-<meta name="twitter:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——">
+<meta name="twitter:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -153,15 +153,259 @@
 <li>ThreadLocal类的使用</li>
 </ul>
 <hr>
-<h2 id="1-等待-通知机制"><a href="#1-等待-通知机制" class="headerlink" title="1.等待/通知机制"></a>1.等待/通知机制</h2><ol>
-<li>不使用等待/通知机制实现线程间通信<br>线程与线程之间不是独立的个体，它们彼此之间可以互相<strong>通信和协作</strong>。<br>可以通过sleep()结合while(true)死循环法来实现多个线程通信。<br>但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——<strong>等待/通知机制</strong>。</li>
-<li>等待/通知机制实现:</li>
+<h2 id="1-等待-通知机制简介"><a href="#1-等待-通知机制简介" class="headerlink" title="1.等待/通知机制简介"></a>1.等待/通知机制简介</h2><ol>
+<li>不使用<a href="http://blog.csdn.net/fjse51/article/details/54618538" target="_blank" rel="noopener">等待/通知机制</a>实现线程间通信<br>线程与线程之间不是独立的个体，它们彼此之间可以互相<strong>通信和协作</strong>。<br>可以通过sleep()结合while(true)死循环法来实现多个线程通信。<br>但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费——<strong>等待/通知机制</strong>。</li>
+<li>等待/通知机制方法介绍(wait()/notify()方法):<br><strong>wait()方法</strong>:<em>Object()类对象，使当前线程在wait()代码处停止执行，直到接到通知或被中断为止。wait()是对象级别锁，只能在同步方法或者同步语句块中调用wait()方法。</em><br><strong>notify()方法</strong>:<em>也要在同步方法或者同步语句块中调用，即调用前线程必须获得该对象的对象锁。调用notify后不会立刻唤醒等待的线程，而是等notify后的该同步方法或同步语句块中的代码执行完毕释放锁后，才从等待的线程中挑出一个执行。若还现场执行完后没有再次调用notify方法，则其他线程继续等待。</em><br>若没有在同步代码块或者同步方法中执行wait/notify方法，则会报异常IllegalMonitorStateException,它是RuntimeExceotion的一个子类。</li>
+<li>一句话总结wait与notify:<br><strong>wait()使线程停止运行，notify()使等待的线程继续运行</strong>。</li>
+<li><p>简单示例:<br>线程A：</p>
+<pre><code>public class Thread3_02_3A extends Thread{
+
+    private Object lock;   //使用Object可以传入任何类型的对象监视器
+    public Thread3_02_3A(Object lock) {
+        super();
+        this.lock=lock;
+    }
+    @Override
+    public void run() {
+        super.run();
+        try{
+            synchronized (lock) {
+                lock.wait();             //等待
+                System.out.println(&quot;wait后的语句&quot;);
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>线程B:</p>
+<pre><code>public class Thread3_02_3B extends Thread{
+
+    private Object lock;
+    public Thread3_02_3B(Object lock) {
+        super();
+        this.lock=lock;
+    }
+
+    @Override
+    public void run() {
+            synchronized (lock) {
+                lock.notify();        //通知
+                System.out.println(&quot;notify后的语句&quot;);
+            }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test3_02_3 {
+    //notify使等待的线程继续运行wait后的代码
+    public static void main(String[] args) {
+       try{
+           Object lock=new Object();    //保证AB线程同步的对象是同一个
+           Thread3_02_3A t1=new Thread3_02_3A(lock);
+           t1.start();
+           Thread.sleep(3000);
+           Thread3_02_3B t2=new Thread3_02_3B(lock);
+           t2.start();
+       }catch (InterruptedException e) {
+           e.printStackTrace();
+       }
+    }
+}
+</code></pre><p>测试结果:</p>
+<pre><code>notify后的语句
+wait后的语句
+</code></pre></li>
 </ol>
 <hr>
+<h2 id="2-等待-通知机制的实现（用法）"><a href="#2-等待-通知机制的实现（用法）" class="headerlink" title="2.等待/通知机制的实现（用法）"></a>2.等待/通知机制的实现（用法）</h2><ol>
+<li>方法wait()释放锁，方法notify()不释放锁<br>执行wait()方法后锁立即释放，执行notify()方法后锁不会立即释放：<br>公共资源类:<pre><code>public class Object3_03_1 {
+    //方法wait()锁释放
+    public void methodA(Object lock){
+        try{
+            synchronized (lock) {
+                System.out.println(&quot;开始等待&quot;);
+                lock.wait();        //去掉wait就变成同步了
+                Thread.sleep(1000);
+                System.out.println(&quot;结束等待&quot;);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>两个线程同时访问公共类的methodA()方法，并且传入相同的Object类锁。<br>若加上wait则两线程异步，若去掉wait则两线程同步。说明<strong>执行wait后立即释放锁</strong>。<br>公共类:<pre><code>public class Object3_03_1 {
+    //方法wait()锁释放
+    public void methodA(Object lock){
+        try{
+            synchronized (lock) {
+                System.out.println(&quot;开始等待&quot;);
+                lock.wait();        //去掉wait就变成同步了
+                Thread.sleep(10000);
+                System.out.println(&quot;结束等待&quot;);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    //方法notify()锁不释放
+    public void methodB(Object lock){
+        try{
+            synchronized (lock) {
+                System.out.println(&quot;开始唤醒&quot;);
+                lock.notify;        
+                Thread.sleep(10000);
+                System.out.println(&quot;结束等待&quot;);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>若两线程分别访问methodA与methodB方法,使用同一个Object对象锁，A线程先启动，则产生的结果为:<pre><code>开始等待
+开始唤醒
+结束唤醒
+结束等待
+</code></pre>说明<strong>执行notify后不立即释放锁</strong>。</li>
+<li>在wait时被interrupt中断<br>当线程呈wait状态时，调用线程对象的<strong>interrupt</strong>方法会出现InterruptedException异常。</li>
+<li><strong>notify()只通知并唤醒一个线程</strong><br>可以在执行唤醒的线程的run()方法中这样写:<pre><code>public void run() {
+    super.run();
+    synchronized (lock) {
+        lock.notify();
+        lock.notify();                //连续使用通知多个线程
+        lock.notify();
+        lock.notify();
+    }
+}
+</code></pre>实现通知多个线程。</li>
+<li><strong>notifyAll()通知并唤醒所有线程</strong><br>可以将上述代码修改成这样:<pre><code>public void run() {
+    super.run();
+    synchronized (lock) {
+        lock.notifyAll();
+    }
+}
+</code></pre>实现通知并唤醒所有线程。</li>
+<li>wait(long)方法的使用:<br>带一个参数的wait(long)的功能是等待某一时间(long毫秒)内是否有线程对锁进行唤醒，如果<em>超过这个时间则自动唤醒。</em><br>简单用法：<pre><code>synchronized (lock) {
+                lock.wait(2000);        //等待2秒
+}
+</code></pre></li>
+<li>如果通知过早，则wait(）永远不会被唤醒</li>
+<li><p>如果等待wait的条件发生了变化也会造成程序的混乱:<br>加减方法:</p>
+<pre><code>public class AddCut{
+    private String lock;
+    public AddCut(String lock){
+        super();
+        this.lock=lock;
+    }
+    public void Subtract(){
+        try{
+            synchronized (lock) {
+            if(Object3_08.list.size()==0){
+                System.out.println(&quot;线程开始等待：&quot;+Thread.currentThread().getName());
+                lock.wait();
+                System.out.println(&quot;线程结束等待：&quot;+Thread.currentThread().getName());
+            }
+            Object3_08.list.remove(0);
+            System.out.println(&quot;list size=&quot;+Object3_08.list.size());
+            }
+        }catch (InterruptedException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+    public void add(){
+        synchronized (lock) {
+            Object3_08.list.add(&quot;6666666&quot;);
+            lock.notifyAll();
+        }
+    }
+}
+</code></pre><p>公共资源类：</p>
+<pre><code>public class Object3_08 {
+    public static List list=new ArrayList();
+}
+</code></pre><p>两个线程类:</p>
+<pre><code>public class Thread3_08A extends Thread{
+    private AddCut a;
+    public Thread3_08A(AddCut a){
+        this.a=a;
+    }    
+    @Override
+    public void run() {
+        super.run();
+        a.add();
+    }
+}
+public class Thread3_08B extends Thread{
+    private AddCut b;
+
+    public Thread3_08B(AddCut b){
+        this.b=b;
+    }
+    @Override
+    public void run() {
+        super.run();
+        b.Subtract();
+    }
+}
+</code></pre><p>测试类:<br>public class Test3_08 {<br> public static void main(String[] args) throws InterruptedException {</p>
+<pre><code>String lock=new String(&quot;&quot;);
+AddCut ac=new AddCut(lock);
+Thread3_08B t1=new Thread3_08B(ac);
+t1.setName(&quot;减操作1&quot;);
+t1.start();
+Thread3_08B t2=new Thread3_08B(ac);
+t2.setName(&quot;减操作2&quot;);
+t2.start();
+Thread.sleep(1000);
+Thread3_08A t3=new Thread3_08A(ac);
+t3.setName(&quot;加操作1&quot;);
+t3.start();
+</code></pre><p> }<br>}<br>输出结果:</p>
+<pre><code>线程开始等待：减操作1
+线程开始等待：减操作2
+线程结束等待：减操作2
+Exception in thread &quot;减操作1&quot; list.size=0
+线程结束等待：减操作1
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+    at java.util.ArrayList.rangeCheck(ArrayList.java:653)
+    at java.util.ArrayList.remove(ArrayList.java:492)
+    at Chapter3.Object.Substract3_08.Subtract(Substract3_08.java:21)
+    at Chapter3.Thread.Thread3_08B.run(Thread3_08B.java:16)
+</code></pre><p>原因:<br>进入等待时list.size==0,但是加后唤醒改变了条件继续执行wait后方法，list长度不足，导致越界异常。<br>修改AddCut方法:</p>
+<pre><code>public void Subtract(){
+    try{
+        synchronized (lock) {
+        while(Object3_08.list.size()==0){
+            System.out.println(&quot;线程开始等待：&quot;+Thread.currentThread().getName());
+            lock.wait();
+            System.out.println(&quot;线程结束等待：&quot;+Thread.currentThread().getName());
+        }
+        Object3_08.list.remove(0);
+        System.out.println(&quot;list size=&quot;+Object3_08.list.size());
+        }
+    }catch (InterruptedException e) {
+        // TODO: handle exception
+        e.printStackTrace();
+    }
+}
+</code></pre><p>将if(Object3_08.list.size()==0）{}判断改为while(Object3_08.list.size()==0){}判断，运行结果:</p>
+<pre><code>线程开始等待：减操作1
+线程开始等待：减操作2
+线程结束等待：减操作2
+list size=0
+线程结束等待：减操作1
+线程开始等待：减操作1
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="3-生产者消费者模式"><a href="#3-生产者消费者模式" class="headerlink" title="3.生产者消费者模式"></a>3.生产者消费者模式</h2><hr>
+<h2 id="4-使用管道进行线程间通信"><a href="#4-使用管道进行线程间通信" class="headerlink" title="4.使用管道进行线程间通信"></a>4.使用管道进行线程间通信</h2><hr>
+<h2 id="5-join"><a href="#5-join" class="headerlink" title="5.join"></a>5.join</h2><hr>
+<h2 id="6-ThreadLocal"><a href="#6-ThreadLocal" class="headerlink" title="6.ThreadLocal"></a>6.ThreadLocal</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 11:04</p>
+        <p>最后更新： 2018年03月02日 20:03</p>
         <p>原始链接： <a class="post-url" href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" title="《Java多线程编程核心技术》笔记（三）：线程间的通信">https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -281,7 +525,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制"><span class="post-toc-text">1.等待/通知机制</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制简介"><span class="post-toc-text">1.等待/通知机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-等待-通知机制的实现（用法）"><span class="post-toc-text">2.等待/通知机制的实现（用法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-生产者消费者模式"><span class="post-toc-text">3.生产者消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用管道进行线程间通信"><span class="post-toc-text">4.使用管道进行线程间通信</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-join"><span class="post-toc-text">5.join</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ThreadLocal"><span class="post-toc-text">6.ThreadLocal</span></a></li></ol>
         </nav>
     </aside>
     

@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.重新学习昨天刷Java题的时候有一道题考:  Math.floor(-8.9)返回的什么值?  然后义无反顾地了选了-9，取整嘛，然后就懵逼了，取整函数返回值竟然是double类型，所以决定把Java的Math类(java.lang.Math)再学习测试一遍。(jdk1.8)  1.取整函数 介绍:(1).floor:地板，向下取整，返回值为double。public static doubl">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T07:13:32.782Z">
+<meta property="og:updated_time" content="2018-03-02T10:02:23.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中Math类的基本用法">
 <meta name="twitter:description" content="0.重新学习昨天刷Java题的时候有一道题考:  Math.floor(-8.9)返回的什么值?  然后义无反顾地了选了-9，取整嘛，然后就懵逼了，取整函数返回值竟然是double类型，所以决定把Java的Math类(java.lang.Math)再学习测试一遍。(jdk1.8)  1.取整函数 介绍:(1).floor:地板，向下取整，返回值为double。public static doubl">
@@ -348,7 +348,7 @@ System.out.println(Math.nextAfter(1.2, -1));//输出1.1999999999999997
 </code></pre>b比a大，输出比a大一点点的浮点数；<br>b比a小，输出比a小一点点的浮点数。</li>
 <li>Math.nextUp(a)<br><em>返回比a大一点点的浮点数</em><pre><code>System.out.println(Math.nextUp(1.2));//输出1.2000000000000002  
 </code></pre></li>
-<li>nextDown(a) 返回比a小一点点的浮点数  <pre><code>System.out.println(Math.nextDown(1.2));//输出1.1999999999999997  
+<li>nextDown(a)<br><em>返回比a小一点点的浮点数</em><pre><code>System.out.println(Math.nextDown(1.2));//输出1.1999999999999997  
 </code></pre></li>
 </ol>
 <hr>
@@ -366,7 +366,7 @@ System.out.println(Math.nextAfter(1.2, -1));//输出1.1999999999999997
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 15:13</p>
+        <p>最后更新： 2018年03月02日 18:02</p>
         <p>原始链接： <a class="post-url" href="/2018/03/02/Java中Math类的基本用法/" title="Java中Math类的基本用法">https://zjxkenshine.github.io/2018/03/02/Java中Math类的基本用法/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
