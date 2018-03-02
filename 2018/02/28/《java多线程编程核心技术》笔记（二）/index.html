@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>《java多线程编程核心技术》笔记（二）:对象及变量的并发访问 | 程序人生</title>
+  <title>《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,14 +11,14 @@
   <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/index.html">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-01T14:14:47.742Z">
+<meta property="og:updated_time" content="2018-03-02T03:05:21.758Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
   
   
@@ -110,14 +110,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-《java多线程编程核心技术》笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      《java多线程编程核心技术》笔记（二）:对象及变量的并发访问
+      《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -549,7 +549,7 @@ public class Test2_31 {
 </ol>
 <hr>
 <h2 id="7-原子类-Atomic"><a href="#7-原子类-Atomic" class="headerlink" title="7.原子类(Atomic)"></a>7.原子类(Atomic)</h2><ol>
-<li>使用<a href="http://blog.csdn.net/zuoanyinxiang/article/details/50255043" target="_blank" rel="noopener">原子类</a>进行i++操作:<br>除了在i++时使用synchronized关键字外，还可以使用AtomicInteger原子整型来保证同步。</li>
+<li>使用<a href="http://blog.csdn.net/youyou1543724847/article/details/52735510" target="_blank" rel="noopener">原子类</a>进行i++操作:<br>除了在i++时使用synchronized关键字外，还可以使用AtomicInteger原子整型来保证同步。</li>
 <li><p>原子操作是不可分割的整体，没有其他线程能够中断或者检查正在原子操作中的变量，一个原子类型就是一个原子操作的可用类型，可以在没有锁的情况下做到线程安全。</p>
 <pre><code>public class Thread2_33 extends Thread{
     //使用原子类对i++进行操作
@@ -600,7 +600,7 @@ public class Test2_34 {
 }
 </code></pre><p>方法内部可能是原子的，但是方法之间是非线程安全的，解决方法仍是synchronized关键字。</p>
 </li>
-<li>更多关于java原子类的知识可以访问博客:<a href="http://blog.csdn.net/zuoanyinxiang/article/details/50255043" target="_blank" rel="noopener">java中的原子类</a>。</li>
+<li>更多关于java原子类的知识可以访问博客:<a href="http://blog.csdn.net/youyou1543724847/article/details/52735510" target="_blank" rel="noopener">Java并发:原子类</a>。</li>
 </ol>
 <hr>
 <h2 id="8-总结："><a href="#8-总结：" class="headerlink" title="8.总结："></a>8.总结：</h2><p>学习多线程并发，要着重<strong>“外练互斥，内修可见”</strong>。</p>
@@ -608,8 +608,8 @@ public class Test2_34 {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月01日 22:14</p>
-        <p>原始链接： <a class="post-url" href="/2018/02/28/《java多线程编程核心技术》笔记（二）/" title="《java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/</a></p>
+        <p>最后更新： 2018年03月02日 11:05</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/28/《Java多线程编程核心技术》笔记（二）/" title="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -666,7 +666,7 @@ public class Test2_34 {
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&title=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&title=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -676,22 +676,22 @@ public class Test2_34 {
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&title=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&title=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -701,7 +701,7 @@ public class Test2_34 {
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/28/《java多线程编程核心技术》笔记（二）/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -746,8 +746,8 @@ public class Test2_34 {
     </a>
   
   
-    <a href="/2018/02/27/《java多线程编程核心技术》笔记（一）/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">《java多线程编程核心技术》笔记（一）:java多线程基本操作</span>
+    <a href="/2018/02/27/《Java多线程编程核心技术》笔记（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《Java多线程编程核心技术》笔记（一）:java多线程基本操作</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -813,10 +813,10 @@ public class Test2_34 {
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a>
+            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 20px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a>
+            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 10px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -849,7 +849,7 @@ public class Test2_34 {
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 20px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a>
+            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 10px;">类</a>
         </div>
     </div>
 </div>
