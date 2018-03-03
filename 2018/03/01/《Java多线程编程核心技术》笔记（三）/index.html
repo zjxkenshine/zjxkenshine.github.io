@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T14:40:34.314Z">
+<meta property="og:updated_time" content="2018-03-03T08:15:50.867Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（三）：线程间的通信">
 <meta name="twitter:description" content="0.学习要点 使用wait/notify实现线程通信 生产者/消费者模式的实现 方法join的使用 ThreadLocal类的使用   1.等待/通知机制简介 不使用等待/通知机制实现线程间通信线程与线程之间不是独立的个体，它们彼此之间可以互相通信和协作。可以通过sleep()结合while(true)死循环法来实现多个线程通信。但是使用死循环轮询会浪费CPU资源，所以急需一种机制减少CPU的浪费">
@@ -574,13 +574,370 @@ for(int i=0;i&lt;2;i++){
 <li>多生产者与多消费者：操作栈<br>创建多个生产者对象与多个消费者对象，只要注意wait条件的改变（使用while），并且把公共堆栈中的notify方法全都改为notifyAll，就不会产生假死。</li>
 </ol>
 <hr>
-<h2 id="4-使用管道进行线程间通信"><a href="#4-使用管道进行线程间通信" class="headerlink" title="4.使用管道进行线程间通信"></a>4.使用管道进行线程间通信</h2><h3 id="a-管道流简介"><a href="#a-管道流简介" class="headerlink" title="a.管道流简介"></a>a.管道流简介</h3><h3 id="b-字节流"><a href="#b-字节流" class="headerlink" title="b.字节流"></a>b.字节流</h3><h3 id="c-字符流"><a href="#c-字符流" class="headerlink" title="c.字符流"></a>c.字符流</h3><hr>
-<h2 id="5-join"><a href="#5-join" class="headerlink" title="5.join"></a>5.join</h2><hr>
-<h2 id="6-ThreadLocal"><a href="#6-ThreadLocal" class="headerlink" title="6.ThreadLocal"></a>6.ThreadLocal</h2><hr>
+<h2 id="4-使用管道进行线程间通信"><a href="#4-使用管道进行线程间通信" class="headerlink" title="4.使用管道进行线程间通信"></a>4.使用管道进行线程间通信</h2><h3 id="a-管道流简介"><a href="#a-管道流简介" class="headerlink" title="a.管道流简介"></a>a.管道流简介</h3><p>Java语言中提供了各种各样的输入/输出流Stream，使我们能够更方便地对数据进行操作，其中<a href="http://blog.csdn.net/qq_15150353/article/details/52716827" target="_blank" rel="noopener">管道流</a>（pipeStream）是一种特殊的流，用于在不同线程中<strong>直接传送数据</strong>。<br>一个线程发送数据到<strong>输出管道</strong>，另一个线程从<strong>输入管道</strong>读取数据。<br>JDK提供了四个类：<br><em>PipedTnputStream和PipedOutStream<br>PipedRead和PipedWriter</em></p>
+<h3 id="b-字节流"><a href="#b-字节流" class="headerlink" title="b.字节流"></a>b.字节流</h3><p>测试PipedInputStream和PipedOutputStream类：<br>把值写到输出流:</p>
+<pre><code>public class Write3_15 {
+
+    public void writeMethod(PipedOutputStream out){
+        try{
+           System.out.println(&quot;write :&quot;);
+           for(int i=0;i&lt;300;i++){
+               String outString=&quot;&quot;+(i+1);
+               out.write(outString.getBytes());   //写值到输出流
+               System.out.print(outString);
+           }
+           System.out.println();
+           out.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>把值从输入流读取（输入）:</p>
+<pre><code>public class Read3_15 {
+
+    public void readMethod(PipedInputStream input){
+        try{
+            System.out.println(&quot;read :&quot;);
+            byte[] bytelist=new byte[20];
+            int length=input.read(bytelist);
+            while(length!=-1){
+                String newString=new String(bytelist, 0, length);
+                System.out.print(newString);
+                length=input.read(bytelist);  //从输入流读取
+            }
+            System.out.println();
+            input.close();        
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>管道输出流线程（数据写入）:</p>
+<pre><code>public class Thread3_15A extends Thread{
+    //管道输出流线程
+    private Write3_15 write;
+    private PipedOutputStream out;
+
+    public Thread3_15A( Write3_15 write ,PipedOutputStream out) {
+        this.out=out;
+        this.write=write;
+    }
+    @Override
+    public void run() {
+        super.run();
+        write.writeMethod(out);
+    }
+}
+</code></pre><p>管道输入流线程（数据读出）:</p>
+<pre><code>public class Thread3_15B extends Thread{
+    //管道输入流线程
+    private Read3_15 re;
+    private PipedInputStream input;
+
+    public Thread3_15B(Read3_15 re,PipedInputStream input) {
+        this.re=re;
+        this.input=input;
+    }
+    @Override
+    public void run() {
+        super.run();
+        re.readMethod(input);
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test3_15 {
+    //结果:输出了两次，一次是input输出的，一次是out输出的
+     public static void main(String[] args) throws InterruptedException {
+        try{
+            Write3_15 write=new Write3_15();
+            Read3_15  red=new Read3_15();
+
+            PipedInputStream input=new PipedInputStream();
+            PipedOutputStream out=new PipedOutputStream();
+
+            //input.connect(out);
+            out.connect(input);           //使两个线程产生通信，这样才能将数据进行输入输出
+
+            Thread3_15B t1=new Thread3_15B(red, input);
+            t1.start();
+            Thread.sleep(1000);
+            Thread3_15A t2=new Thread3_15A(write, out);
+            t2.start();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类中的<code>input.connect(out);</code>或<code>out.connect(input);</code>作用是使两个线程产生通信，若同时启用这两个语句，会产生:</p>
+<pre><code>java.io.IOException: Already connected
+</code></pre><p>若都关闭，会产生异常:</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.Error: Unresolved compilation problem: 
+    Unreachable catch block for IOException. This exception is never thrown from the try statement body
+</code></pre><p>若先执行读取线程的读取<code>new Thread3_15B(red, input)</code>，则线程就会阻塞在<code>length=input.read(bytelist)</code>，直到有数据从<code>out.write(outString.getBytes())</code>输入，才继续执行。</p>
+<h3 id="c-字符流"><a href="#c-字符流" class="headerlink" title="c.字符流"></a>c.字符流</h3><p>PipedRead和PipedWriter的用法与PipedTnputStream和PipedOutStream，下面测试PipedRead和PipedWriter。（传送啥与选择哪对管道流并无关系）<br>把值写入到输出流:</p>
+<pre><code>public class Write3_16 {
+    //输出类
+    public void writeMethod(PipedWriter out){
+        try{
+           System.out.println(&quot;write :&quot;);
+           for(int i=0;i&lt;300;i++){
+               String outString=&quot;&quot;+(i+1);
+               out.write(outString);
+               System.out.print(outString);
+           }
+           System.out.println();
+           out.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>把值从输入流读出:</p>
+<pre><code>public class Read3_16 {
+    //输入类
+
+    public void readMethod(PipedReader input){
+        try{
+            System.out.println(&quot;read :&quot;);
+            char[] bytelist=new char[20];
+            int length=input.read(bytelist);
+            while(length!=-1){
+                String newString=new String(bytelist, 0, length);
+                System.out.print(newString);
+                length=input.read(bytelist);
+            }
+            System.out.println();
+            input.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类中这样写:</p>
+<pre><code>  PipedReader input=new PipedReader();
+  PipedWriter out=new PipedWriter();
+//input.connect(out);
+  out.connect(input);
+</code></pre><hr>
+<h2 id="5-join"><a href="#5-join" class="headerlink" title="5.join"></a>5.join</h2><ol>
+<li>使用情况:<br>主线程创建子线程，若子线程执行大量计算，则主线程会早早结束，如果子线程想取得子线程的值，就要用到join方法，join方法的作用是<strong>等待某对象被销毁</strong>。<br>如:<pre><code>MyThread thread =new MyThread();
+thread.start();
+Thread.sleep(?);
+</code></pre>想要让当前线程在thread执行完毕后再执行，不知道sleep中要填多少，这是就能通过join方法来解决：<pre><code>MyThread thread =new MyThread();
+thread.start();
+thread.join();
+</code></pre></li>
+<li>join的基本用法:<br>方法thread.join()的作用是使它所属的线程对象thread正常执行run()方法中的任务，而使当前线程无限阻塞，直到thread对象销毁才继续执行后面的语句。<br>join具有使线程排队的作用，类似同步，但是join和synchronized的不同是:<br><strong>join在内部使用wait()方法进行等待，释放锁；而synchronized关键字使用”对象监视器”原理做为同步</strong>。<br>具体join的简单用法如上方代码所示。</li>
+<li>join时碰到interrupt会产生异常:<pre><code>java.lang.InterruptedException
+    ...
+</code></pre>但是没有出错的异常会继续执行。</li>
+<li>join(long)的使用:<br>内部使用<code>wait(long)</code>方法实现，等待线程对象一段时间，若这段时间线程对象未销毁则放弃等待。<br>join(long)与sleep(long)的区别:<br>join(long)执行后释放锁，不会立即执行后面的代码，而是等到持有的线程对象执行完销毁或者long时长后再执行;Thread.sleep(long)则不会释放锁，发生阻塞，需要等待long时长后才能执行后面的代码。</li>
+<li><p>使用join时出现的<strong>意外情况</strong>：join后面的代码提前运行。<br>线程A：</p>
+<pre><code>public class Thread3_23A extends Thread{
+    private Thread3_23B tb;
+
+    public Thread3_23A(Thread3_23B tb) {
+        this.tb=tb;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        synchronized (tb) {
+            System.out.println(&quot;begin A ThreadName=&quot;+Thread.currentThread().getName()+&quot; &quot;+System.currentTimeMillis());
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(&quot;end A ThreadName=&quot;+Thread.currentThread().getName()+&quot; &quot;+System.currentTimeMillis());
+        }
+    }
+}
+</code></pre><p>线程B:</p>
+<pre><code>public class Thread3_23B extends Thread{
+    @Override
+    synchronized public void run() {
+        super.run();
+        try{
+            System.out.println(&quot;begin b ThreadName=&quot;+Thread.currentThread().getName()+&quot; &quot;+System.currentTimeMillis());
+            Thread.sleep(5000);
+            System.out.println(&quot;end b ThreadName=&quot;+Thread.currentThread().getName()+&quot; &quot;+System.currentTimeMillis());
+        }catch (InterruptedException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test3_23 {    
+    /**
+     * join再次得到锁时已经过了两秒，自动释放导致失效
+     * join总是最先抢到锁
+     */
+    public static void main(String[] args) {
+        try{
+            Thread3_23B tb=new Thread3_23B();
+            Thread3_23A ta=new Thread3_23A(tb);
+            ta.start();
+            tb.start();
+            tb.join(2000);               //将时间变长或直接用join()方法而不用join(long)可解决
+            System.out.println(&quot;main 方法结束了&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+}
+</code></pre><p>join总是最先抢到锁。join再次得到锁时已经过了两秒，自动释放线程异步执行导致后面的代码先执行。</p>
+</li>
+</ol>
+<hr>
+<h2 id="6-ThreadLocal类"><a href="#6-ThreadLocal类" class="headerlink" title="6.ThreadLocal类"></a>6.ThreadLocal类</h2><ol>
+<li><p>ThreadLocal简介及简单用法<br>变量值可以使用public static变量的形式，所有的线程都使用<strong>同一个public static变量</strong>。<br>类ThreadLocal主要解决的是每个线程绑定自己的值，<strong>存储每个线程的私有变量</strong>。简单用法:</p>
+<pre><code>public class Test{
+    public static ThreadLocal t1=new  ThreadLocal();
+
+    public static void main(String[] args) {
+        if(t1.get()==null){
+            System.out.println(t1.get());
+            System.out.println(&quot;此时ThreadLocal中没有值&quot;);
+            t1.set(&quot;有值了&quot;);
+        }
+        System.out.println(t1.get());
+        System.out.println(t1.get());
+    }
+}
+</code></pre><p>默认初始值为null，通过set()赋值与get()取值，取值后值不消失。</p>
+</li>
+<li>变量的隔离性：<br>公共资源类:<pre><code>public class Object3_25_1{
+    //验证线程变量的隔离性
+    public static ThreadLocal t1=new ThreadLocal();
+}
+</code></pre>线程A:<pre><code>public class Thread3_25_1A extends Thread{
+    //验证线程变量的隔离性
+    @Override
+    public void run() {
+        super.run();
+        try{
+            Object3_25_1.t1.set(&quot;ThreadA的值&quot;);
+            System.out.println(&quot;ThreadA取出的值为:&quot;+Object3_25_1.t1.get());
+            Thread.sleep(200);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>线程B：<pre><code>public class Thread3_25_1B extends Thread{
+    //验证线程变量的隔离性
+    @Override
+    public void run() {
+        super.run();
+        try{
+            for(int i=0;i&lt;100;i++){
+                Object3_25_1.t1.set(&quot;ThreadB的值&quot;);
+                System.out.println(&quot;ThreadB取出的值:&quot;+Object3_25_1.t1.get());
+                Thread.sleep(200);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>测试类:<pre><code>public class Test3_25_1 {
+    //每个线程都能取出自己的值
+    public static void main(String[] args) {
+        try{
+            Thread3_25_1A ta=new Thread3_25_1A();
+            Thread3_25_1B tb=new Thread3_25_1B();
+            ta.start();
+            tb.start();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>运行结果:<pre><code>ThreadA的值
+ThreadA取出的值为：ThreadA的值
+ThreadB的值
+ThreadB取出的值为：ThreadB的值
+</code></pre></li>
+<li>设置初始值，使它不为null<br>ThreadLocal继承类:<pre><code>public class ThreadLocalExt extends ThreadLocal{
+    //解决get返回初始值为null的问题
+    //继承至ThreadLocal的initialValue()方法
+    protected Object initialValue(){
+        return &quot;这是默认值，不再是null了&quot;;
+    }
+}
+</code></pre>修改公共资源类:<pre><code>public class Object3_25_1{
+    public static ThreadLocalExt t1=new ThreadLocalExt();
+}
+</code></pre>就可以设置并使用默认初始值了。</li>
+</ol>
+<hr>
+<h2 id="7-InheritableThreadLocal类"><a href="#7-InheritableThreadLocal类" class="headerlink" title="7.InheritableThreadLocal类"></a>7.InheritableThreadLocal类</h2><ol>
+<li>使用InheritableThreadLocal可以在子线程中取得父线程中设置的值(父线程是指启动子线程的线程)<br>设置初始值类:<pre><code>public class InheritableThreadLocalExt extends InheritableThreadLocal&lt;Object&gt;{
+    //InheritableThreadLocal值继承
+    protected Object initialValue(){
+        return new Date().getTime();
+    }
+}
+</code></pre>公共资源类:<pre><code>public class Object3_28_2 {
+    public static InheritableThreadLocalExt t=new InheritableThreadLocalExt();
+}
+</code></pre>线程类:<pre><code>public class Thread3_28 extends Thread{
+    //InheritableThreadLocal值继承
+    @Override
+    public void run() {
+        super.run();
+        try{
+            System.out.println(&quot;子线程得到的值：&quot;+Object3_28_2.t.get());
+            Thread.sleep(100);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>测试类(主线程):<pre><code>public class Test3_28 {
+    //InheritableThreadLocal值继承
+    public static void main(String[] args) {
+        try{
+            System.out.println(&quot; 在父线程中得到的值=&quot;+Object3_28_2.t.get());
+            Thread.sleep(100);
+            Thread.sleep(5000);
+            Thread3_28 tb=new Thread3_28();
+            tb.start();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>得到的两个输出值相同，说明子线程是从父线程得到的值，因为不是的话，因为Date的原因，不能输出相同的值：<pre><code>在父线程中得到的值=1520064921970
+子线程得到的值：1520064921970
+</code></pre></li>
+<li><p>修改继承下来的值<br>修改设置初始值类:</p>
+<pre><code>public class InheritableThreadLocalExt extends InheritableThreadLocal{
+    protected Object initialValue(){
+        return new Date().getTime();
+    }
+
+    protected Object childValue(Object parentValue){
+        return parentValue+&quot; 在子线程添加的&quot;;
+    }
+}
+</code></pre><p>则子类会在取得父类值的基础上加上”在子线程添加的”:</p>
+<pre><code>在父线程中得到的值=1520064869836
+子线程得到的值：1520064869836 在子线程添加的
+</code></pre></li>
+<li>如果在子线程得到值的同时,主线程对InheritableThreadLocal中的值进行更改那么子线程得到的值还是旧值</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 22:40</p>
+        <p>最后更新： 2018年03月03日 16:15</p>
         <p>原始链接： <a class="post-url" href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" title="《Java多线程编程核心技术》笔记（三）：线程间的通信">https://zjxkenshine.github.io/2018/03/01/《Java多线程编程核心技术》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -700,7 +1057,7 @@ for(int i=0;i&lt;2;i++){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制简介"><span class="post-toc-text">1.等待/通知机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-等待-通知机制的实现（用法）"><span class="post-toc-text">2.等待/通知机制的实现（用法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-生产者消费者模式"><span class="post-toc-text">3.生产者消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用管道进行线程间通信"><span class="post-toc-text">4.使用管道进行线程间通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-管道流简介"><span class="post-toc-text">a.管道流简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-字节流"><span class="post-toc-text">b.字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-字符流"><span class="post-toc-text">c.字符流</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-join"><span class="post-toc-text">5.join</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ThreadLocal"><span class="post-toc-text">6.ThreadLocal</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-等待-通知机制简介"><span class="post-toc-text">1.等待/通知机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-等待-通知机制的实现（用法）"><span class="post-toc-text">2.等待/通知机制的实现（用法）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-生产者消费者模式"><span class="post-toc-text">3.生产者消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用管道进行线程间通信"><span class="post-toc-text">4.使用管道进行线程间通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-管道流简介"><span class="post-toc-text">a.管道流简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-字节流"><span class="post-toc-text">b.字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-字符流"><span class="post-toc-text">c.字符流</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-join"><span class="post-toc-text">5.join</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ThreadLocal类"><span class="post-toc-text">6.ThreadLocal类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-InheritableThreadLocal类"><span class="post-toc-text">7.InheritableThreadLocal类</span></a></li></ol>
         </nav>
     </aside>
     
