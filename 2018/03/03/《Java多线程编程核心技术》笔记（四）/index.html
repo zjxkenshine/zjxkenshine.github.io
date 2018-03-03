@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类">
+  <meta name="description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java多线程编程核心技术》笔记（四）:Lock的使用">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/03/《Java多线程编程核心技术》笔记（四）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类">
+<meta property="og:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-03T08:21:51.769Z">
+<meta property="og:updated_time" content="2018-03-03T15:14:37.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（四）:Lock的使用">
-<meta name="twitter:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类">
+<meta name="twitter:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -151,11 +151,396 @@
 <li>ReentranReadWritetLock类的使用。</li>
 </ul>
 <hr>
-<h2 id="1-ReentratLock类"><a href="#1-ReentratLock类" class="headerlink" title="1.ReentratLock类"></a>1.ReentratLock类</h2><hr>
+<h2 id="1-ReentratLock类"><a href="#1-ReentratLock类" class="headerlink" title="1.ReentratLock类"></a>1.ReentratLock类</h2><ol>
+<li>简介：<br>JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上<strong>更加强大</strong>，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。<br>调用ReentrantLock的lock()方法获取锁，调用unlock()方法释放锁。</li>
+<li><p>使用<br>简单语法:</p>
+<pre><code>private Lock lock=new ReentrantLock();
+</code></pre><p>在公共资源类中这样使用：</p>
+<pre><code>public class Service{
+    //使用ReentratLock实现同步：测试1
+    private Lock lock=new ReentrantLock();
+
+    public void testMethod(){
+        lock.lock();             //锁开始
+        //需要同步的代码块
+        lock.unlock();           //释放锁
+    }
+}
+</code></pre><p>线程类：</p>
+<pre><code>public class Thread4_01 extends Thread{
+    //使用ReentratLock实现同步：测试1
+    private Service ser=new Service();
+
+    public Thread4_01(Service ser) {
+        this.ser=ser;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        ser.testMethod();
+    }
+}
+</code></pre><p>若有Thread.sleep()方法，公共资源类可以这样写:</p>
+<pre><code>public class Service {
+    private Lock lock=new ReentrantLock();
+
+    public void MethodA(){
+        try{
+            lock.lock();
+            //公共代码块
+            Thread.sleep(2000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>若公共资源类这样写:</p>
+<pre><code>public class Service {
+    private Lock lock=new ReentrantLock();
+
+    public void MethodA(){
+        lock.lock();
+        //公共代码块
+        lock.unlock();
+    }
+
+    public void MethodB(){
+        lock.lock();
+        //公共代码块
+        lock.unlock();
+    }
+}
+</code></pre><p>访问方法A与方法B是同步的。</p>
+</li>
+</ol>
+<hr>
+<h2 id="2-Lock结合Condition实现等待-通知"><a href="#2-Lock结合Condition实现等待-通知" class="headerlink" title="2.Lock结合Condition实现等待/通知"></a>2.Lock结合Condition实现等待/通知</h2><ol>
+<li>简介:<br>synchronized与wait()、notify()/notifyAll()方法结合使用可以实现等待/通知模式，ReentrantLock也可以实现同样的功能，但要借助<strong>Condition对象</strong>。<br>Condition是JDK5中出现的，使用它有更好的灵活性，如可以实现多路通知功能，也就是<strong>在一个Lock对象里可以创建多个Conditon(即对象监视器)实例</strong>，线程对象可以注册在指定的Condition中，从而可以有选择性地进行通知，调度上更加灵活。<br><strong>synchronized相当与一个Lock对象中只有一个Condition对象</strong>，所有线程都注册在一个对象身上，使用notifyAll()方法时会通有等待线程，没有选择权，会出现效率问题。</li>
+<li><p>使用:<br>简单语法:</p>
+<pre><code>private Lock lock=new ReentrantLock();
+public Condition con=lock.newCondition();
+</code></pre><p>错误用法:</p>
+<pre><code>public class Service4_03_1 {
+    //使用Condition实现等待/通知：错误的用法及解决
+    private Lock lock=new ReentrantLock();
+    private Condition con=lock.newCondition();
+
+    public void await(){
+        try{
+            con.await();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>会出错：</p>
+<pre><code>Exception in thread &quot;Thread-0&quot; Exception in thread &quot;Thread-0&quot; java.lang.IllegalMonitorStateExceptionjava.lang.IllegalMonitorStateException
+</code></pre><p>正确用法：<br>在<code>con.await()</code>前调用<code>lock.lock();</code>获得同步监视器:</p>
+<pre><code>public class Service4_03_2 {
+    private Lock lock=new ReentrantLock();
+    private Condition con=lock.newCondition();
+    //结果只输出了&quot;11111111111111111&quot;
+    public void await(){
+        try{
+            lock.lock();
+            System.out.println(&quot;11111111111111111&quot;);
+            con.await();
+            System.out.println(&quot;22222222222222222&quot;);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            lock.unlock();
+            System.out.println(&quot;锁释放了&quot;);
+        }
+    }
+}
+</code></pre><p>没有线程使用signal()或者signalAll()方法唤醒await()的condition对象，则结果只会输出”11111111111111111”。</p>
+</li>
+<li><p>Condition实现等待通知：<br>公共资源类:</p>
+<pre><code>public class Service4_04 {
+    private Lock lock=new ReentrantLock();
+    public Condition con=lock.newCondition();
+
+    //等待方法
+    public void await(){
+        try{
+            lock.lock();
+            System.out.println(&quot;等待时间为&quot;+System.currentTimeMillis());
+            con.await();
+
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            lock.unlock();
+        }
+    }    
+    //通知方法
+    public void signal(){
+        try{
+            lock.lock();
+            System.out.println(&quot;通知时间为&quot;+System.currentTimeMillis());
+            con.signal();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>线程类：</p>
+<pre><code>public class Thread4_04 extends Thread{
+    private Service4_04 ser=new Service4_04();
+
+    public Thread4_04(Service4_04 ser) {
+        this.ser=ser;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        ser.await();
+    }
+}
+</code></pre><p>测试类：</p>
+<pre><code>public class Test4_04 {
+    public static void main(String[] args) throws InterruptedException {
+        Service4_04 ser=new Service4_04();
+        Thread4_04 th=new Thread4_04(ser);
+        th.start();
+        Thread.sleep(3000);
+        ser.signal();
+    }
+}
+</code></pre><p>测试结果:</p>
+<pre><code>等待时间为1520086544293
+通知时间为1520086547297
+</code></pre><p>Object类中的wait()方法相当于Condition类中的await()方法<br>Object类中的wait(long timeout)方法相当于Condition类中的await(long time,TimeUnit unit)方法<br>Object类中的notify()方法相当于Condition类中的signal()方法<br>Object类中的notifyAll()方法相当于Condition类中的signalAll()方法</p>
+</li>
+<li><p>使用<strong>多个condition实现通知多个线程</strong><br>单独唤醒部分线程:<br>使用多个Condition对象，使用condition对象可以唤醒部分指定线程。可以先对线程进行分组，然后唤醒指定组中的线程。<br>公共资源类:</p>
+<pre><code>public class Service4_06 {
+    private Lock lock=new ReentrantLock();
+    public Condition conditionA=lock.newCondition();
+    public Condition conditionB=lock.newCondition();
+    //ConditionA等待
+    public void awaitA(){
+        try{
+            lock.lock();
+            System.out.println(&quot;begin awaitA的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+            conditionA.await();
+            System.out.println(&quot;end awaitA的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            lock.unlock();
+        }
+    }
+    //ConditionB等待
+    public void awaitB(){
+        try{
+            lock.lock();
+            System.out.println(&quot;begin awaitB的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+            conditionA.await();
+            System.out.println(&quot;end awaitB的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            lock.unlock();
+        }
+    }
+    //ConditionA通知
+    public void signalA(){
+        try{
+            lock.lock();
+            System.out.println(&quot;signalA begin的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+            conditionA.signal();
+        }finally {
+            lock.unlock();
+        }
+    }
+    //ConditionB通知
+    public void signalB(){
+        try{
+            lock.lock();
+            System.out.println(&quot;signalBbegin的时间为&quot;+System.currentTimeMillis()+&quot; ThreadName=&quot;+Thread.currentThread().getName());
+            conditionA.signal();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>线程A：</p>
+<pre><code>public class Thread4_06A extends Thread{
+    private Service4_06 ser=new Service4_06();
+
+    public Thread4_06A(Service4_06 ser){
+        super();
+        this.ser=ser;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        ser.awaitA();
+    }
+}
+</code></pre><p>线程B:</p>
+<pre><code>public class Thread4_06B extends Thread{
+    private Service4_06 ser=new Service4_06();
+
+    public Thread4_06B(Service4_06 ser){
+        super();
+        this.ser=ser;
+    }
+
+    public void run() {
+        super.run();
+        ser.awaitB();
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test4_06 {
+    public static void main(String[] args) throws InterruptedException {
+        Service4_06 ser=new Service4_06();
+        Thread4_06A a=new Thread4_06A(ser);
+        a.setName(&quot;A&quot;);
+        a.start();
+        Thread4_06B b=new Thread4_06B(ser);
+        b.setName(&quot;B&quot;);
+        b.start();
+        Thread.sleep(3000);
+
+        ser.signalA();           //仅唤醒A
+    //    ser.signalB();            //仅唤醒B
+    }
+}
+</code></pre><p>测试结果:</p>
+<pre><code>begin awaitA的时间为1520087906578 ThreadName=A
+begin awaitB的时间为1520087906578 ThreadName=B
+signalA begin的时间为1520087909582 ThreadName=main
+</code></pre><p>A线程与B线程是同步访问lock.lock()和lock.unlock()包裹中的代码的。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-Lock结合Condition实现生产者-消费者模式"><a href="#3-Lock结合Condition实现生产者-消费者模式" class="headerlink" title="3.Lock结合Condition实现生产者/消费者模式"></a>3.Lock结合Condition实现生产者/消费者模式</h2><ol>
+<li>一对一交替打印:<br>公共资源类:<pre><code>public class Service4_07 {
+  //实现生产者/消费者模式：一对一打印
+    private ReentrantLock lock=new ReentrantLock();
+    private Condition condition=lock.newCondition();
+    private boolean value=false;    //仓库，中间值
+    public void set(){
+        try{
+            lock.lock();
+            while(value==true){
+                condition.await();
+            }
+            System.out.println(&quot;打印11111111111&quot;);
+            value=true;
+            condition.signal();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+    public void get(){
+        try{
+            lock.lock();
+            while(value==false){
+                condition.await();
+            }
+            System.out.println(&quot;打印22222222222&quot;);
+            value=false;
+            condition.signal();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre>测试类:<pre><code>public class Test4_07 {
+    //实现生产者/消费者模式：一对一打印
+    public static void main(String[] args) {
+        Service4_07 ser=new Service4_07();
+        Thread4_07A t1=new Thread4_07A(ser);  //循环执行set()方法的线程
+        t1.start();
+        Thread4_07B t2=new Thread4_07B(ser);  //循环执行get()方法的线程
+        t2.start();
+    }
+}
+</code></pre>测试结果:<pre><code>打印11111111111
+打印22222222222
+打印11111111111
+打印22222222222
+打印11111111111
+打印22222222222
+打印11111111111
+.....
+</code></pre></li>
+<li><p>多生产者多消费者：多对多打印<br>将公共资源类修改如下:</p>
+<pre><code>public class Service4_08 {    
+    private ReentrantLock lock=new ReentrantLock();
+    private Condition condition=lock.newCondition();
+    private boolean value=false;
+
+    public void set(){
+        try{
+            lock.lock();
+            while(value==true){
+                condition.await();
+            }
+            System.out.println(&quot;打印11111111111&quot;);
+            value=true;
+//            condition.signal();            //会假死
+            condition.signalAll();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void get(){
+        try{
+            lock.lock();
+            while(value==false){
+                condition.await();
+            }
+            System.out.println(&quot;打印22222222222&quot;);
+            value=false;
+        //    condition.signal();            //会假死
+            condition.signalAll();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>测试类修改:</p>
+<pre><code>public class Test4_08 {
+    public static void main(String[] args) {
+        Service4_08 ser=new Service4_08();
+        Thread4_08A[] t1=new Thread4_08A[10];
+        Thread4_08B[] t2=new Thread4_08B[10];
+        for(int i=0;i&lt;10;i++){
+            t1[i]=new Thread4_08A(ser);  //循环执行set()方法的线程
+            t2[i]=new Thread4_08B(ser);  //循环执行get()方法的线程
+            t1[i].start();
+            t2[i].start();
+        }
+    }
+}
+</code></pre><p>运行结果可能会出现连续打印1111111或者连续打印222222的情况，原因是只使用了一个Condition对象并使用signalAll()唤醒。使用两个condition对象并分组唤醒就可以实现交替打印了，也不会产生死锁。</p>
+</li>
+</ol>
+<hr>
+<h2 id="4-公平锁与非公平锁"><a href="#4-公平锁与非公平锁" class="headerlink" title="4.公平锁与非公平锁"></a>4.公平锁与非公平锁</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月03日 16:21</p>
+        <p>最后更新： 2018年03月03日 23:14</p>
         <p>原始链接： <a class="post-url" href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/" title="《Java多线程编程核心技术》笔记（四）:Lock的使用">https://zjxkenshine.github.io/2018/03/03/《Java多线程编程核心技术》笔记（四）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -275,7 +660,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-ReentratLock类"><span class="post-toc-text">1.ReentratLock类</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-ReentratLock类"><span class="post-toc-text">1.ReentratLock类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Lock结合Condition实现等待-通知"><span class="post-toc-text">2.Lock结合Condition实现等待/通知</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Lock结合Condition实现生产者-消费者模式"><span class="post-toc-text">3.Lock结合Condition实现生产者/消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-公平锁与非公平锁"><span class="post-toc-text">4.公平锁与非公平锁</span></a></li></ol>
         </nav>
     </aside>
     
