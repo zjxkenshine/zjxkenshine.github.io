@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
+  <meta name="description" content="0.学习要点 ReentrantLock类的使用。 ReentrantLock常用方法 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用Re">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java多线程编程核心技术》笔记（四）:Lock的使用">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/03/《Java多线程编程核心技术》笔记（四）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
+<meta property="og:description" content="0.学习要点 ReentrantLock类的使用。 ReentrantLock常用方法 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用Re">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-03T15:14:37.174Z">
+<meta property="og:updated_time" content="2018-03-04T03:26:16.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（四）:Lock的使用">
-<meta name="twitter:description" content="0.学习要点 ReentrantLock类的使用。 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用ReentrantLock的lock()">
+<meta name="twitter:description" content="0.学习要点 ReentrantLock类的使用。 ReentrantLock常用方法 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用Re">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -148,6 +148,7 @@
             
             <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
 <li>ReentrantLock类的使用。</li>
+<li>ReentrantLock常用方法</li>
 <li>ReentranReadWritetLock类的使用。</li>
 </ul>
 <hr>
@@ -222,6 +223,12 @@
 <li><p>使用:<br>简单语法:</p>
 <pre><code>private Lock lock=new ReentrantLock();
 public Condition con=lock.newCondition();
+try{
+    con.await();
+    con.signal();
+}catch(InterruptedException e){
+    e.printStackTrace();
+}
 </code></pre><p>错误用法:</p>
 <pre><code>public class Service4_03_1 {
     //使用Condition实现等待/通知：错误的用法及解决
@@ -536,11 +543,361 @@ signalA begin的时间为1520087909582 ThreadName=main
 </li>
 </ol>
 <hr>
-<h2 id="4-公平锁与非公平锁"><a href="#4-公平锁与非公平锁" class="headerlink" title="4.公平锁与非公平锁"></a>4.公平锁与非公平锁</h2><hr>
+<h2 id="4-公平锁与非公平锁"><a href="#4-公平锁与非公平锁" class="headerlink" title="4.公平锁与非公平锁"></a>4.公平锁与非公平锁</h2><ol>
+<li><p>简介<br>公平锁:<br><em>表示线程获取锁的顺序是按线程加锁(start)的顺序来分配的，即先来先得FIFO顺序。</em><br>非公平锁:<br><em>一种获取锁的抢占机制，是随机获得锁，先来的不一定拿到锁，可能造成某些线程一直得不到锁。</em><br>简单用法:</p>
+<pre><code>ReentrantLock lock=new ReentrantLock(true/false);
+</code></pre><p>true是公平锁，false是非公平锁。默认值是false。<br>2.使用:<br>在公共资源中这样写:</p>
+<pre><code>public class Service4_09 {
+    //公平锁与非公平锁
+    private ReentrantLock lock;
+
+    public Service4_09(boolean isfair) {
+        super();
+        lock=new ReentrantLock(isfair);
+    }
+
+    public void Method(){
+        try{
+            lock.lock();
+            System.out.println(&quot;ThreadName=&quot;+Thread.currentThread().getName()+&quot; 得到锁&quot;);
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="5-ReentrantLock类的一些基本方法"><a href="#5-ReentrantLock类的一些基本方法" class="headerlink" title="5.ReentrantLock类的一些基本方法"></a>5.ReentrantLock类的一些基本方法</h2><h3 id="5-1-getHoldCount-getQueueLength-和getWaitQueueLenth-Condition-方法"><a href="#5-1-getHoldCount-getQueueLength-和getWaitQueueLenth-Condition-方法" class="headerlink" title="5.1 getHoldCount(),getQueueLength()和getWaitQueueLenth(Condition)方法"></a>5.1 getHoldCount(),getQueueLength()和getWaitQueueLenth(Condition)方法</h3><ol>
+<li><p>int getHoldCount()方法:<br><em>查询当前线程保持此锁的个数，也就是调用lock()方法的次数(重入锁的次数+1)。</em></p>
+<pre><code>lock.getHoldCount();
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service4_10_1 {
+    //getHoldCount()方法
+    private ReentrantLock lock=new ReentrantLock();
+    public void Method1(){
+        try{
+            lock.lock();
+            System.out.println(&quot;Method1 getHoldCount=&quot;+lock.getHoldCount());  //getHoldCount()方法
+            Method2();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    private void Method2() {
+        try{
+            lock.lock();
+            System.out.println(&quot;Method2 getHoldCount=&quot;+lock.getHoldCount());  //getHoldCount()方法
+            Method3();
+        }finally {
+            lock.unlock();
+        }
+
+    }
+
+    private void Method3() {
+        try{
+            lock.lock();
+            System.out.println(&quot;Method3 getHoldCount=&quot;+lock.getHoldCount());
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>在测试类中调用Method1方法，运行结果为:</p>
+<pre><code>Method1 getHoldCount=1
+Method2 getHoldCount=2
+Method3 getHoldCount=3
+</code></pre></li>
+<li><p>int getQueueLength()方法：<br><em>返回正等待获取此锁定的线程估计数。</em><br>如有5个线程等待lock锁，1个线程首先执行await()方法，在其余4个线程未执行lock()前调用lock.getQueueLength()返回值为4。</p>
+<pre><code>lock.getQueueLength();
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service4_10_2 {
+    public ReentrantLock lock=new ReentrantLock();
+    public void TestMethod(){
+        try{
+            lock.lock();
+            System.out.println(&quot;ThreadName=&quot;+Thread.currentThread().getName()+&quot; 进入方法&quot;);
+            Thread.sleep(Integer.MAX_VALUE);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test4_10_2 {
+    //getQueueLength()方法    
+    public static void main(String[] args) throws InterruptedException {
+        final Service4_10_2 ser=new Service4_10_2();
+        Runnable runn=new Runnable() {    
+            @Override
+            public void run() {
+                ser.TestMethod();
+
+            }
+        };
+        Thread[] tl=new Thread[10];
+        for(int i=0;i&lt;10;i++){
+            tl[i]=new Thread(runn);
+        }
+        for(int i=0;i&lt;10;i++){
+            tl[i].start();
+        }
+        Thread.sleep(2000);
+        System.out.println(&quot;有&quot;+ser.lock.getQueueLength()+&quot;个线程在等待锁&quot;);
+    }
+}
+</code></pre><p>测试结果:</p>
+<pre><code>ThreadName=Thread-1 进入方法
+有9个线程在等待锁
+</code></pre></li>
+<li><p>int getWaitQueueLength(Condition condition)方法<br><em>返回等待与此锁定相关的给定条件Condition的线程估计数。</em><br>如有5个线程，每一个线程都执行了同一个Condtion对象的await()方法，则调用该方法返回值为5。</p>
+<pre><code>lock.getWaitQueueLength(condition)；
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service4_10_3 {
+    //getWaitQueueLength()方法
+    private ReentrantLock lock=new ReentrantLock();
+    private Condition con=lock.newCondition();
+
+    public void WaitMethod(){
+        try{
+            lock.lock();
+            con.await();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void SingalMethod(){
+        try{
+            lock.lock();
+            System.out.println(&quot;有&quot;+lock.getWaitQueueLength(con)+&quot;个线程正在等待con&quot;);
+            con.signal();
+        }finally {
+            lock.unlock();
+        }    
+    }
+}
+</code></pre><p>测试类调用SingalMethod（）方法时可以打印出共有多少个线程在等待。</p>
+</li>
+</ol>
+<h3 id="5-2-hasQueueThread-Thread-hasueueThreads-和hasWaiters-Condition-方法"><a href="#5-2-hasQueueThread-Thread-hasueueThreads-和hasWaiters-Condition-方法" class="headerlink" title="5.2 hasQueueThread(Thread),hasueueThreads()和hasWaiters(Condition)方法"></a>5.2 hasQueueThread(Thread),hasueueThreads()和hasWaiters(Condition)方法</h3><ol>
+<li>boolean hasQueueThread(Thread thread)方法:<br><em>查询指定线程是否正在等待此锁定释放。</em><pre><code>lock.hasQueueThread(thread);
+</code></pre></li>
+<li>boolean hasQueueThreads()方法:<br><em>查询有线程是否正在等待获取此锁定。</em><pre><code>lock.hasQueueThreads();
+</code></pre></li>
+<li><p>boolean hasWaiters(Condition condition)方法:<br><em>查询是否有线程正在等待（wait）与此锁定condition有关的通知（notify）。</em></p>
+<pre><code>lock.hasWaiters(condition);
+</code></pre><p>而lock.getWaitQueueLength(condition)是查询有多少个正在等待:<br>公共资源类:</p>
+<pre><code>public class Service4_11_2 {
+    public ReentrantLock lock=new ReentrantLock();
+    public Condition con=lock.newCondition();
+
+    public void waitMethod(){
+        try{
+            lock.lock();
+            con.await();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            lock.unlock();
+        }
+    }
+
+    public void notifyMethod(){
+        try{
+            lock.lock();
+            System.out.println(&quot;有么有正在等待该condition对象的线程：&quot;+lock.hasWaiters(con));
+            System.out.println(&quot;有多少个线程在等待：&quot;+lock.getWaitQueueLength(con));
+            con.signal();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre></li>
+</ol>
+<h3 id="5-3-isFair-isHeldByCurrentThread-和isLocked-方法"><a href="#5-3-isFair-isHeldByCurrentThread-和isLocked-方法" class="headerlink" title="5.3 isFair(),isHeldByCurrentThread()和isLocked()方法"></a>5.3 isFair(),isHeldByCurrentThread()和isLocked()方法</h3><ol>
+<li>boolean isFair()方法:<br><em>判断该锁是不是公平锁。</em><pre><code>lock.isFair();
+</code></pre></li>
+<li>boolean isHeldByCurrentThread()方法:<br><em>查询当前线程是否保持此锁定。</em><pre><code>lock.isHeldByCurrentThread();
+</code></pre></li>
+<li><p>boolean isLocked()方法:<br><em>查询此锁定是否由任意线程保持。</em></p>
+<pre><code>lock.isLocked();
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service4_12_3 {
+    private ReentrantLock lock=new ReentrantLock();
+
+    public Service4_12_3(boolean isFair) {
+        lock=new ReentrantLock(isFair);
+    }
+
+    public void TestMethod(){
+        try{
+            System.out.println(lock.isLocked());
+            System.out.println(lock.isHeldByCurrentThread());
+            lock.lock();
+            System.out.println(lock.isLocked());
+            System.out.println(lock.isHeldByCurrentThread());
+        }finally {
+            lock.unlock();
+            System.out.println(lock.isLocked());
+            System.out.println(lock.isHeldByCurrentThread());
+        }
+    }
+}
+</code></pre><p>在测试类中使用线程对象执行TestMethod()方法,结果为:</p>
+<pre><code>false
+false
+true
+true
+false
+false
+</code></pre></li>
+</ol>
+<h3 id="5-4-lockInterruptibly-tryLock-和tryLock-long-timeout-TimeUnit-unit-方法"><a href="#5-4-lockInterruptibly-tryLock-和tryLock-long-timeout-TimeUnit-unit-方法" class="headerlink" title="5.4 lockInterruptibly(),tryLock()和tryLock(long timeout,TimeUnit unit)方法"></a>5.4 lockInterruptibly(),tryLock()和tryLock(long timeout,TimeUnit unit)方法</h3><ol>
+<li><p>void lockInterruptibly()方法:<br><em>如果当前线程未被中断，则获取锁定，如果已经被中断，则出现异常。</em><br>lock遇到interrupt不会被中断。lockInterruptibly遇到interrupt会被异常。</p>
+<pre><code>lock.lockInterruptibly();
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service{
+    public ReentrantLock lock=new ReentrantLock();
+    private Condition con=lock.newCondition();
+
+    public void TestMethod() throws InterruptedException{
+        try{
+            //lock.lock();
+            lock.lockInterruptibly();
+            for(int i=0;i&lt;Integer.MAX_VALUE/10;i++){
+                String newString=new String(&quot;&quot;);
+                Math.random();
+            }
+        }finally {
+            if(lock.isHeldByCurrentThread()){
+                lock.unlock();
+            }
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) throws InterruptedException {
+    final Service ser=new Service();
+    Runnable run=new Runnable() {
+
+        @Override
+        public void run() {
+            try {
+                ser.TestMethod();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Thread t2=new Thread(run);
+    t2.setName(&quot;BBB&quot;);
+    t2.start();
+    t2.interrupt();   //b线程中断时会报错
+    System.out.println(&quot;main end&quot;);
+}
+</code></pre></li>
+<li>boolean tryLock()方法:<br><em>仅在调用时锁定未被另一个线程保持的情况下，才获取该锁定。并返回一个布尔值。</em><pre><code>lock.tryLock();
+</code></pre>公共资源类:<pre><code>public class Service4_13_2 {
+    //tryLock()方法
+    public ReentrantLock lock=new ReentrantLock();
+    public void Method(){
+        if(lock.tryLock()){
+            System.out.println(Thread.currentThread().getName()+&quot; 获得锁&quot;);
+        }else{
+            System.out.println(Thread.currentThread().getName()+&quot; 没有获得锁&quot;);
+        }
+    }
+}
+</code></pre></li>
+<li>boolean tryLock(long timeout,TimeUnit unit)方法:<br><em>如果锁定在给定时间内没有被另一个线程保持，且当前线程未被中断，则获取该锁定;若当前线程被中断，则报<code>java.lang.InterruptedException</code>异常。</em><br>timeout：数字，多长时间<br>TimeUnit:时间单位<pre><code>lock.tryLock(3,TimeUnit.SECONDS);
+</code></pre>公共资源类:<pre><code>public class Service{
+    //tryLock(long timeout,TimeUnit unit)
+    public ReentrantLock lock=new ReentrantLock();
+    public void testMethod(){
+        try{
+            if(lock.tryLock(3, TimeUnit.SECONDS)){
+                System.out.println(&quot;     &quot;+Thread.currentThread().getName()+&quot; 获得锁的时间&quot;+System.currentTimeMillis());
+                 Thread.sleep(10000);//改为3秒以内且线程未中断可以获得锁
+            }else{
+                System.out.println(&quot;     &quot;+Thread.currentThread().getName()+&quot;没有获得锁&quot;);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            if(lock.isHeldByCurrentThread()){
+                lock.unlock();
+            }
+        }
+    }
+}
+</code></pre><h3 id="5-4-awaitUninterruptibly-和awaitUntil-方法"><a href="#5-4-awaitUninterruptibly-和awaitUntil-方法" class="headerlink" title="5.4 awaitUninterruptibly()和awaitUntil()方法"></a>5.4 awaitUninterruptibly()和awaitUntil()方法</h3></li>
+<li>void awaitUninterruptibly()方法:<br><em>作用与await相同，但是遇到interrupt时不会报错。</em><pre><code>condition.awaitUninterruptibly();
+</code></pre>而且不需要try/catch包裹:<pre><code>public void testMethod(){
+    try{
+        lock.lock();
+        System.out.println(&quot;wait begin&quot;);
+        con.awaitUninterruptibly();
+        System.out.println(&quot;wait end&quot;);
+    }finally {
+        lock.unlock();
+    }
+}
+</code></pre></li>
+<li><p>void awaitUntil(Date deadline)方法:<br><em>使线程等待到某一时刻，但是提前可以被提前强制唤醒。</em></p>
+<pre><code>lock.awaitUntil(deadline);
+</code></pre><p>公共资源类:</p>
+<pre><code>public class Service4_15 {
+    //方法awaitUntil()的使用
+    private ReentrantLock lock=new ReentrantLock();
+    private Condition con=lock.newCondition();
+
+    public void waitMethod(){
+        try{
+            Calendar cal=Calendar.getInstance();
+            cal.add(Calendar.SECOND, 10);
+
+            lock.lock();
+            System.out.println(&quot;wait begin time=&quot;+System.currentTimeMillis());
+            con.awaitUntil(cal.getTime());
+
+            System.out.println(&quot;wait end time=&quot;+System.currentTimeMillis());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void notifyMethod(){
+        try{
+            Calendar cal=Calendar.getInstance();
+            cal.add(Calendar.SECOND, 10);
+
+            lock.lock();
+            System.out.println(&quot;notify begin time=&quot;+System.currentTimeMillis());
+            con.signalAll();
+            System.out.println(&quot;notify end time=&quot;+System.currentTimeMillis());
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-ReentrantReadWriteLock类"><a href="#6-ReentrantReadWriteLock类" class="headerlink" title="6.ReentrantReadWriteLock类"></a>6.ReentrantReadWriteLock类</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月03日 23:14</p>
+        <p>最后更新： 2018年03月04日 11:26</p>
         <p>原始链接： <a class="post-url" href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/" title="《Java多线程编程核心技术》笔记（四）:Lock的使用">https://zjxkenshine.github.io/2018/03/03/《Java多线程编程核心技术》笔记（四）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -660,7 +1017,7 @@ signalA begin的时间为1520087909582 ThreadName=main
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-ReentratLock类"><span class="post-toc-text">1.ReentratLock类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Lock结合Condition实现等待-通知"><span class="post-toc-text">2.Lock结合Condition实现等待/通知</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Lock结合Condition实现生产者-消费者模式"><span class="post-toc-text">3.Lock结合Condition实现生产者/消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-公平锁与非公平锁"><span class="post-toc-text">4.公平锁与非公平锁</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-ReentratLock类"><span class="post-toc-text">1.ReentratLock类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Lock结合Condition实现等待-通知"><span class="post-toc-text">2.Lock结合Condition实现等待/通知</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Lock结合Condition实现生产者-消费者模式"><span class="post-toc-text">3.Lock结合Condition实现生产者/消费者模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-公平锁与非公平锁"><span class="post-toc-text">4.公平锁与非公平锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-ReentrantLock类的一些基本方法"><span class="post-toc-text">5.ReentrantLock类的一些基本方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-1-getHoldCount-getQueueLength-和getWaitQueueLenth-Condition-方法"><span class="post-toc-text">5.1 getHoldCount(),getQueueLength()和getWaitQueueLenth(Condition)方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-2-hasQueueThread-Thread-hasueueThreads-和hasWaiters-Condition-方法"><span class="post-toc-text">5.2 hasQueueThread(Thread),hasueueThreads()和hasWaiters(Condition)方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-3-isFair-isHeldByCurrentThread-和isLocked-方法"><span class="post-toc-text">5.3 isFair(),isHeldByCurrentThread()和isLocked()方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-4-lockInterruptibly-tryLock-和tryLock-long-timeout-TimeUnit-unit-方法"><span class="post-toc-text">5.4 lockInterruptibly(),tryLock()和tryLock(long timeout,TimeUnit unit)方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-4-awaitUninterruptibly-和awaitUntil-方法"><span class="post-toc-text">5.4 awaitUninterruptibly()和awaitUntil()方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ReentrantReadWriteLock类"><span class="post-toc-text">6.ReentrantReadWriteLock类</span></a></li></ol>
         </nav>
     </aside>
     
