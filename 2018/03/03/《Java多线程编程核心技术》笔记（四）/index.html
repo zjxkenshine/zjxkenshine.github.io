@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 ReentrantLock类的使用。 ReentrantLock常用方法 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用Re">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-04T03:26:16.354Z">
+<meta property="og:updated_time" content="2018-03-05T03:02:11.981Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（四）:Lock的使用">
 <meta name="twitter:description" content="0.学习要点 ReentrantLock类的使用。 ReentrantLock常用方法 ReentranReadWritetLock类的使用。   1.ReentratLock类 简介：JDK1.5中新增了ReentrantLock类可以和synchronized类一样达到同步效果，并且在扩展功能上更加强大，如有嗅探锁定、多路分支通知等功能，而且在使用上比synchronized更加灵活。调用Re">
@@ -893,11 +893,51 @@ false
 </code></pre></li>
 </ol>
 <hr>
-<h2 id="6-ReentrantReadWriteLock类"><a href="#6-ReentrantReadWriteLock类" class="headerlink" title="6.ReentrantReadWriteLock类"></a>6.ReentrantReadWriteLock类</h2><hr>
+<h2 id="6-ReentrantReadWriteLock类"><a href="#6-ReentrantReadWriteLock类" class="headerlink" title="6.ReentrantReadWriteLock类"></a>6.ReentrantReadWriteLock类</h2><ol>
+<li>读写锁简介:<br>类ReentrantLock具有完全互斥排他的效果，即同一时间只有一个线程在执行ReentrantLock.lock()方法后面的任务。这样做虽然保证了实例变量的安全性，效率却非常低下。JDK中提供了一种读写锁ReentrantReadWriteLock()来提升代码的运行效率。<br><strong><a href="https://baike.baidu.com/item/%E8%AF%BB%E5%86%99%E9%94%81/1756708?fr=aladdin" target="_blank" rel="noopener">读写锁</a></strong>表示有两个锁，一个与读相关的锁，称为共享锁，另一个是和写相关的锁，称为排他锁。<strong>多个读锁不互斥，读锁与写锁互斥，写锁与写锁互斥</strong>。没有线程进行写操作时，进行读取的多个线程都可以获得读锁，一旦有线程进行写入，读写，写读，写写就会产生互斥。多个线程可以同时进行读操作，但是同一时间只允许一个线程进行写操作。</li>
+<li>读锁:<pre><code>private ReentrantReadWriteLock lock=new ReentrantReadWriteLock();
+lock.readLock().lock();
+lock.readLock().unlock();
+</code></pre>写锁:<pre><code>private ReentrantReadWriteLock lock=new ReentrantReadWriteLock();
+lock.writeLock().lock();
+lock.writeLock().unlock();
+</code></pre></li>
+<li><p>代码示例:<br>公共资源类:</p>
+<pre><code>public class Service4_19 {
+    private ReentrantReadWriteLock lock=new ReentrantReadWriteLock();
+
+    public void write(){
+        try{
+            lock.writeLock().lock();
+            System.out.println(Thread.currentThread().getName()+&quot;获得写锁，时间&quot;+System.currentTimeMillis());
+            Thread.sleep(2000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public void Read(){
+        try{
+            lock.readLock().lock();
+            System.out.println(Thread.currentThread().getName()+&quot;获得读锁，时间&quot;+System.currentTimeMillis());
+            Thread.sleep(2000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.readLock().unlock();
+        }
+    }
+}
+</code></pre><p>当有不同线程同时访问同一个lock的读写方法时，会出现互斥，当写方法执行完毕后，读方法是异步执行的。</p>
+</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月04日 11:26</p>
+        <p>最后更新： 2018年03月05日 11:02</p>
         <p>原始链接： <a class="post-url" href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/" title="《Java多线程编程核心技术》笔记（四）:Lock的使用">https://zjxkenshine.github.io/2018/03/03/《Java多线程编程核心技术》笔记（四）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -1024,6 +1064,16 @@ false
 
 <nav id="article-nav">
   
+    <a href="/2018/03/05/《Java多线程编程核心技术》笔记（五）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《Java多线程编程核心技术》笔记（五）:定时器Timer
+        
+      </span>
+    </a>
+  
   
     <a href="/2018/03/02/Java中Math类的基本用法/" id="article-nav-older" class="article-nav-link-wrap">
       <span class="article-nav-title">Java中Math类的基本用法</span>
@@ -1095,7 +1145,7 @@ false
             <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 10px;">类</a>
+            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 13.33px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -1128,7 +1178,7 @@ false
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 10px;">类</a>
+            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 13.33px;">类</a>
         </div>
     </div>
 </div>
