@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>《Java多线程编程核心技术》笔记）（六）：单例模式与多线程 | 程序人生</title>
+  <title>《Java多线程编程核心技术》笔记（六）：单例模式与多线程 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,14 +11,14 @@
   <meta name="description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（六）：单例模式与多线程">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-06T05:40:37.824Z">
+<meta property="og:updated_time" content="2018-03-06T05:58:33.680Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（六）：单例模式与多线程">
 <meta name="twitter:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
   
   
@@ -117,7 +117,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      《Java多线程编程核心技术》笔记）（六）：单例模式与多线程
+      《Java多线程编程核心技术》笔记（六）：单例模式与多线程
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -189,7 +189,7 @@
 </li>
 </ol>
 <hr>
-<h2 id="3-延迟加载-懒汉模式的缺点的三种解决方法"><a href="#3-延迟加载-懒汉模式的缺点的三种解决方法" class="headerlink" title="3.延迟加载/懒汉模式的缺点的三种解决方法"></a>3.延迟加载/懒汉模式的缺点的三种解决方法</h2><ol>
+<h2 id="3-延迟加载-懒汉模式缺点的三种解决方法"><a href="#3-延迟加载-懒汉模式缺点的三种解决方法" class="headerlink" title="3.延迟加载/懒汉模式缺点的三种解决方法"></a>3.延迟加载/懒汉模式缺点的三种解决方法</h2><ol>
 <li>声明synchronize关键字：<pre><code>public class Object6_05 {
     //延迟加载/懒汉模式的缺点的解决方法1：声明synchronize关键字
     private static Object6_05 obj;
@@ -210,7 +210,7 @@
         return obj;
     }
 }
-</code></pre>不足:效率非常低下，同步运行，下一个线程想要取得对象，必须等上一个线程释放锁之后才可以执行</li>
+</code></pre>不足：效率非常低下，同步运行，下一个线程想要取得对象，必须等上一个线程释放锁之后才可以执行</li>
 <li>synchronized同步代码块:<br>将getInstance方法更改如下:<pre><code>public static Object6_05 getInstance(){
     try{
         synchronized (Object6_05.class) {
@@ -392,8 +392,8 @@ readResolve366712642
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月06日 13:40</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/05/《Java多线程编程核心技术》笔记（六）/" title="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/</a></p>
+        <p>最后更新： 2018年03月06日 13:58</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/05/《Java多线程编程核心技术》笔记（六）/" title="《Java多线程编程核心技术》笔记（六）：单例模式与多线程">https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -450,7 +450,7 @@ readResolve366712642
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&title=《《Java多线程编程核心技术》笔记）（六）：单例模式与多线程》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&title=《《Java多线程编程核心技术》笔记（六）：单例模式与多线程》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -460,7 +460,7 @@ readResolve366712642
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&title=《《Java多线程编程核心技术》笔记）（六）：单例模式与多线程》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&title=《《Java多线程编程核心技术》笔记（六）：单例模式与多线程》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -470,7 +470,7 @@ readResolve366712642
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记）（六）：单例模式与多线程》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（六）：单例模式与多线程》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -512,7 +512,7 @@ readResolve366712642
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-立即加载-“饿汉模式”"><span class="post-toc-text">1.立即加载/“饿汉模式”</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-延迟加载-“懒汉模式”简介及其缺点"><span class="post-toc-text">2.延迟加载/“懒汉模式”简介及其缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-延迟加载-懒汉模式的缺点的三种解决方法"><span class="post-toc-text">3.延迟加载/懒汉模式的缺点的三种解决方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用其他方法实现安全的单例模式"><span class="post-toc-text">4.使用其他方法实现安全的单例模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-使用静态内置类实现单例模式"><span class="post-toc-text">4.1 使用静态内置类实现单例模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-序列化与反序列化时的单例模式实现"><span class="post-toc-text">4.2 序列化与反序列化时的单例模式实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-使用static代码块实现"><span class="post-toc-text">4.3 使用static代码块实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用枚举类实现单例模式"><span class="post-toc-text">5.使用枚举类实现单例模式</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-立即加载-“饿汉模式”"><span class="post-toc-text">1.立即加载/“饿汉模式”</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-延迟加载-“懒汉模式”简介及其缺点"><span class="post-toc-text">2.延迟加载/“懒汉模式”简介及其缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-延迟加载-懒汉模式缺点的三种解决方法"><span class="post-toc-text">3.延迟加载/懒汉模式缺点的三种解决方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用其他方法实现安全的单例模式"><span class="post-toc-text">4.使用其他方法实现安全的单例模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-使用静态内置类实现单例模式"><span class="post-toc-text">4.1 使用静态内置类实现单例模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-序列化与反序列化时的单例模式实现"><span class="post-toc-text">4.2 序列化与反序列化时的单例模式实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-使用static代码块实现"><span class="post-toc-text">4.3 使用static代码块实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用枚举类实现单例模式"><span class="post-toc-text">5.使用枚举类实现单例模式</span></a></li></ol>
         </nav>
     </aside>
     
