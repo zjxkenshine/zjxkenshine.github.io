@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。">
+  <meta name="description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。">
+<meta property="og:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-05T15:27:12.835Z">
+<meta property="og:updated_time" content="2018-03-06T05:40:37.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">
-<meta name="twitter:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。">
+<meta name="twitter:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -151,10 +151,248 @@
 <li>如何使单例模式遇到多线程是安全的、正确的。</li>
 </ul>
 <hr>
+<h2 id="1-立即加载-“饿汉模式”"><a href="#1-立即加载-“饿汉模式”" class="headerlink" title="1.立即加载/“饿汉模式”"></a>1.立即加载/“饿汉模式”</h2><ol>
+<li><a href="https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin" target="_blank" rel="noopener">单例模式</a>:<br><strong>一个类只有一个对象实例。</strong></li>
+<li>关于立即加载/饿汉模式：<br><em>立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。</em></li>
+<li>测试代码:<br>单例类:<pre><code>public class Object6_02 {
+    //立即加载/饿汉模式
+    private static Object6_02 obj=new Object6_02();     //提前加载
+    private Object6_02() {
+    }
+    public static Object6_02 getInstance(){
+        //缺点是不能有其他实例变量，因为getInstance方法没有同步，可能会出现非线程安全
+        return obj;
+    }
+}
+</code></pre>在线程类中使用<code>Object6_02.getInstance().hashCode()</code>输出对象的hashCode。<br>在测试类中实例化多个线程对象，并start()，得到的结果是同一个hashCode,说明是只有一个对象。</li>
+</ol>
+<hr>
+<h2 id="2-延迟加载-“懒汉模式”简介及其缺点"><a href="#2-延迟加载-“懒汉模式”简介及其缺点" class="headerlink" title="2.延迟加载/“懒汉模式”简介及其缺点"></a>2.延迟加载/“懒汉模式”简介及其缺点</h2><ol>
+<li>延时加载/懒汉模式:<br><em>在调用get方法时实例才被创建，常见的实现方法是在get()中new实例化。</em></li>
+<li><p>延迟加载（会出错）:</p>
+<pre><code>public class Object6_03 {
+    //延迟加载/懒汉模式解析
+    public static Object6_03 obj;
+    public Object6_03() {
+    }
+
+    public static Object6_03 getInstance(){
+        //延迟加载
+        if(obj!=null){
+        }else{
+            obj=new Object6_03();
+        }
+        return obj;
+    }
+}
+</code></pre><p>在多线程环境下使用<code>Object6_02.getInstance().hashCode()</code>创建对象并打印hashCode会出现非线程安全，会取出多个实例对象。<br>实测在<code>public static Object6_03 obj；</code>前加volatile关键字无法解决问题。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-延迟加载-懒汉模式的缺点的三种解决方法"><a href="#3-延迟加载-懒汉模式的缺点的三种解决方法" class="headerlink" title="3.延迟加载/懒汉模式的缺点的三种解决方法"></a>3.延迟加载/懒汉模式的缺点的三种解决方法</h2><ol>
+<li>声明synchronize关键字：<pre><code>public class Object6_05 {
+    //延迟加载/懒汉模式的缺点的解决方法1：声明synchronize关键字
+    private static Object6_05 obj;
+    public Object6_05() {
+    }
+    //声明synchronize关键字
+    synchronized public static Object6_05 getInstance(){
+        try{
+            if(obj!=null){
+            }else{
+                //模拟创建对象之前做一些准备工作
+                Thread.sleep(3000);
+                obj=new Object6_05();
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+}
+</code></pre>不足:效率非常低下，同步运行，下一个线程想要取得对象，必须等上一个线程释放锁之后才可以执行</li>
+<li>synchronized同步代码块:<br>将getInstance方法更改如下:<pre><code>public static Object6_05 getInstance(){
+    try{
+        synchronized (Object6_05.class) {
+            if(obj!=null){                
+            }else{
+                Thread.sleep(3000);  //创建实例化准备工作
+                obj=new Object6_05();
+            }
+        }
+    }catch (InterruptedException e) {    
+        e.printStackTrace();
+    }
+    return obj;
+}
+</code></pre>但是仍然会有三秒的开支。</li>
+<li>针对某些重要代码进行同步:<pre><code>if(obj!=null){                
+}else{
+    Thread.sleep(3000);
+    synchronized (Object6_05.class) {
+        obj=new Object6_05();
+    }
+}
+</code></pre>但是遇到多线程还是会出现多个对象。没有解决根本问题。</li>
+<li><p>最终方案:<strong>DCL双检查锁机制</strong><br><em>双检查锁就是在同步代码块调用之前检查一遍，再在同步代码块内部再检查一遍。</em><br>代码如下:</p>
+<pre><code>public class Object6_08 {
+    //延迟加载/懒汉模式的缺点的解决方法4：DCL双检查锁机制(Double-Check Locking)
+    private volatile static Object6_08 obj;
+    private Object6_08() {
+    }
+    public static Object6_08 getInstance() {
+        try{
+            if(obj!=null){
+
+            }else{
+                Thread.sleep(3000);
+                synchronized (Object6_08.class) {  //一重锁
+                    if(obj==null){  //二重检查
+                        obj=new Object6_08();
+                    }
+                }
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-使用其他方法实现安全的单例模式"><a href="#4-使用其他方法实现安全的单例模式" class="headerlink" title="4.使用其他方法实现安全的单例模式"></a>4.使用其他方法实现安全的单例模式</h2><h3 id="4-1-使用静态内置类实现单例模式"><a href="#4-1-使用静态内置类实现单例模式" class="headerlink" title="4.1 使用静态内置类实现单例模式"></a>4.1 使用静态内置类实现单例模式</h3><pre><code>public class Object{
+    //使用静态内置类实现单例模式
+    //静态内部类ObjectHandler
+    private static class ObjectHandler{
+        private static Object obj=new Object();
+    }
+
+    public Object() {
+    }
+    public static Object getInstance(){
+        return ObjectHandler.obj;
+    }
+}
+</code></pre><h3 id="4-2-序列化与反序列化时的单例模式实现"><a href="#4-2-序列化与反序列化时的单例模式实现" class="headerlink" title="4.2 序列化与反序列化时的单例模式实现"></a>4.2 序列化与反序列化时的单例模式实现</h3><p><a href="https://baike.baidu.com/item/%E5%BA%8F%E5%88%97%E5%8C%96/2890184" target="_blank" rel="noopener">序列化</a>:<em>将对象的状态信息转换为可以存储或传输的形式的过程。</em><br>4.1的代码在遇到序列化的对象时仍会出现不同对象。输出与读取的对象不同。<br>解决方法:<br>在反序列化中加上readResolve()方法。<br>单例类代码:</p>
+<pre><code>public class Object6_10 implements Serializable{
+    //序列化与反序列化的单例模式实现
+    private static final long serialVersionUID=4448L;
+    //内部类方法
+    private static class Object6_10Handler{
+        private static final Object6_10 obj=new Object6_10();
+    }
+
+    public Object6_10() {
+    }
+    //第一次实例化时要调用该方法
+    public static Object6_10 getInstance(){
+        System.out.println(&quot;getInstance&quot;+Object6_10Handler.obj.hashCode());
+        return Object6_10Handler.obj;
+    }
+    //readResolve反序列化时自动调用
+    protected Object readResolve() throws ObjectStreamException{
+        System.out.println(&quot;调用了readResolve()方法&quot;);
+        System.out.println(&quot;readResolve&quot;+Object6_10Handler.obj.hashCode());
+        return Object6_10Handler.obj;
+    }
+}
+</code></pre><p>测试类：</p>
+<pre><code>public class Test6_10 {
+    //序列化与反序列化的单例模式实现
+    public static void main(String[] args) {
+        try{
+            Object6_10 obj=new Object6_10().getInstance();  //实例化时显式调用getInstance
+            FileOutputStream fosRef=new FileOutputStream(new File(&quot;666.txt&quot;));  //输出一个文件
+            ObjectOutputStream oosRef=new ObjectOutputStream(fosRef);
+            oosRef.writeObject(obj);  //向文件输出一个Object6_10类对象
+            oosRef.close();
+            fosRef.close();
+
+            System.out.println(obj.hashCode());
+
+            FileInputStream fisRef=new FileInputStream(new File(&quot;666.txt&quot;));  //读取该文件
+            ObjectInputStream oisRef=new ObjectInputStream(fisRef);
+            Object6_10 obj1=(Object6_10) oisRef.readObject();  //从文件中读取Object6_10类对象
+            oisRef.close();
+            fisRef.close();
+
+            System.out.println(obj1.hashCode());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>getInstance366712642
+366712642
+调用了readResolve()方法
+readResolve366712642
+366712642
+</code></pre><p>更多关于序列化，反射等和单例模式的知识可以访问博客:<br><a href="https://www.cnblogs.com/ttylinux/p/6498822.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">https://www.cnblogs.com/ttylinux/p/6498822.html?utm_source=itdadao&amp;utm_medium=referral</a></p>
+<h3 id="4-3-使用static代码块实现"><a href="#4-3-使用static代码块实现" class="headerlink" title="4.3 使用static代码块实现"></a>4.3 使用static代码块实现</h3><pre><code>public class Object6_11 {
+    //使用static代码实现单例模式
+    private static Object6_11 ins=null;
+    public Object6_11() {
+    }
+
+    //static代码块
+    static{
+        ins=new Object6_11();
+    }
+    public static Object6_11 get(){
+        return ins;
+    }
+}
+</code></pre><p>在线程中使用<code>Object6_11.get().hashCode()</code>输出，在多线程环境下可以实现单例模式。但在序列化与反序列化时仍要加readResolve()方法。</p>
+<hr>
+<h2 id="5-使用枚举类实现单例模式"><a href="#5-使用枚举类实现单例模式" class="headerlink" title="5.使用枚举类实现单例模式"></a>5.使用枚举类实现单例模式</h2><ol>
+<li>介绍:<br><strong>最被推荐使用的一种方式，在使用枚举类时构造方法会自动调用，自带了readResolve的解决方式</strong>，但注意使用时不能违反“<a href="https://baike.baidu.com/item/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/9456515?fr=aladdin" target="_blank" rel="noopener">职责单一原则</a>”,不能将enum类暴露在外。</li>
+<li>一个例子，使用枚举实现单例模式–JDBC连接<pre><code>public class Object6_13 {
+    //完善使用enum枚举数据类型实现单例模式
+    //内部枚举类
+    public enum mySingleton{
+        connectionFactory;
+        private Connection conn;
+        private mySingleton(){
+            try{
+                System.out.println(&quot;调用了Object6_12的构造&quot;);
+                String url=&quot;jdbc:mysql://localhost:3306/employee?characterEncoding=utf8&amp;useSSL=true&quot;;
+                String username=&quot;root&quot;;
+                String PASSWORD = &quot;******&quot;;
+                String diver=&quot;com.mysql.jdbc.Driver&quot;;
+                Class.forName(diver);
+                conn=DriverManager.getConnection(url,username,PASSWORD);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        public Connection get(){
+            return conn;
+        }
+    }
+    public static Connection getcon(){
+        return mySingleton.connectionFactory.get();
+    }
+}
+</code></pre>测试类:<pre><code>public class Test6_13 {
+    //完善使用enum枚举数据类型实现单例模式
+    public static void main(String[] args) {
+        Thread6_13 t1=new Thread6_13();
+        Thread6_13 t2=new Thread6_13();
+        Thread6_13 t3=new Thread6_13();
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月05日 23:27</p>
+        <p>最后更新： 2018年03月06日 13:40</p>
         <p>原始链接： <a class="post-url" href="/2018/03/05/《Java多线程编程核心技术》笔记（六）/" title="《Java多线程编程核心技术》笔记）（六）：单例模式与多线程">https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -274,12 +512,22 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-立即加载-“饿汉模式”"><span class="post-toc-text">1.立即加载/“饿汉模式”</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-延迟加载-“懒汉模式”简介及其缺点"><span class="post-toc-text">2.延迟加载/“懒汉模式”简介及其缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-延迟加载-懒汉模式的缺点的三种解决方法"><span class="post-toc-text">3.延迟加载/懒汉模式的缺点的三种解决方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用其他方法实现安全的单例模式"><span class="post-toc-text">4.使用其他方法实现安全的单例模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-使用静态内置类实现单例模式"><span class="post-toc-text">4.1 使用静态内置类实现单例模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-序列化与反序列化时的单例模式实现"><span class="post-toc-text">4.2 序列化与反序列化时的单例模式实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-使用static代码块实现"><span class="post-toc-text">4.3 使用static代码块实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用枚举类实现单例模式"><span class="post-toc-text">5.使用枚举类实现单例模式</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/03/06/《Java多线程编程核心技术》笔记（七）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《Java多线程编程核心技术》笔记（七）：其他剩余知识点
+        
+      </span>
+    </a>
   
   
     <a href="/2018/03/05/Java中的Object类/" id="article-nav-older" class="article-nav-link-wrap">
