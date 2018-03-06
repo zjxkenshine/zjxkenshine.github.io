@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="1.关于Object类Object类是所有类的超类，是java中唯一没有父类的类，如果没有明确地指出超类，Object就被认为是这个类的超类  2.Object类的常用方法 equals()方法:判断是否相等。public boolean equals(Object obj) {     return (this == obj); } Object的equals实现其实就是 ==, 判断的其实是地">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-06T09:18:49.615Z">
+<meta property="og:updated_time" content="2018-03-06T10:14:54.284Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的Object类">
 <meta name="twitter:description" content="1.关于Object类Object类是所有类的超类，是java中唯一没有父类的类，如果没有明确地指出超类，Object就被认为是这个类的超类  2.Object类的常用方法 equals()方法:判断是否相等。public boolean equals(Object obj) {     return (this == obj); } Object的equals实现其实就是 ==, 判断的其实是地">
@@ -220,11 +220,9 @@ b=a.clone();
 </code></pre>function(a)a作为参数进行操作，会改变a对象的内容。<br>function(b)对b进行操作a对象不变。<br>相当于在内存中又复制出一个 a对象。不会改变原先a 对象。<br>扩展：<a href="https://www.cnblogs.com/acode/p/6306887.html" target="_blank" rel="noopener">自定义类的克隆</a></li>
 </ol>
 <hr>
-<h2 id="4-getClass-方法"><a href="#4-getClass-方法" class="headerlink" title="4.getClass()方法"></a>4.getClass()方法</h2><p><strong> 返回此 Object 的运行时类。</strong><br><figure class="highlight plain"><figcaption><span>final native Class<?> getClass();```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如代码：</span><br></pre></td></tr></table></figure></p>
-<pre><code>public static void main(String[] args) {
-    System.out.println(new Object().getClass());
-}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">返回值为：</span><br><span class="line">```	</span><br><span class="line">	class java.lang.Object</span><br></pre></td></tr></table></figure>
-</code></pre><hr>
+<h2 id="4-getClass-方法"><a href="#4-getClass-方法" class="headerlink" title="4.getClass()方法"></a>4.getClass()方法</h2><p><strong> 返回此 Object 的运行时类。</strong><br><code>public final native Class&lt;?&gt; getClass();</code><br>如代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	System.out.println(new Object().getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回值为：<br><code>class java.lang.Object</code></p>
+<hr>
 <h2 id="5-finalize-方法与registerNatives-方法"><a href="#5-finalize-方法与registerNatives-方法" class="headerlink" title="5.finalize()方法与registerNatives()方法"></a>5.finalize()方法与registerNatives()方法</h2><ol>
 <li>finalize()方法:<br><strong>子类覆盖 finalize() 方法以整理系统资源或者执行其他清理工作。finalize() 方法是在垃圾收集器删除对象之前对这个对象调用的。</strong><pre><code>void finalize() throws Throwable { }
 </code></pre>扩展:<a href="http://blog.csdn.net/carolzhang8406/article/details/6705831" target="_blank" rel="noopener">Java finalize方法使用</a></li>
@@ -307,7 +305,7 @@ public class Object {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月06日 17:18</p>
+        <p>最后更新： 2018年03月06日 18:14</p>
         <p>原始链接： <a class="post-url" href="/2018/03/05/Java中的Object类/" title="Java中的Object类">https://zjxkenshine.github.io/2018/03/05/Java中的Object类/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">

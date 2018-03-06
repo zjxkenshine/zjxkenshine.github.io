@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T03:05:07.063Z">
+<meta property="og:updated_time" content="2018-03-06T13:00:52.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（一）:java多线程基本操作">
 <meta name="twitter:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
@@ -187,7 +187,7 @@ public Thread(ThreadGroup group, Runnable target);
 public Thread(ThreadGroup group, String name);
 public Thread(ThreadGroup group, Runnable target, String name);
 public Thread(ThreadGroup group, Runnable target, String name, long stackSize);
-</code></pre>详情请参考大佬的博客<a href="http://blog.csdn.net/JackieLiuLixi/article/details/37569575" target="_blank" rel="noopener">Thread 的构造方法</a>。<br>第二个和第四个构造方法说明Thread通过传入一个Runnable对象而产生一个Thread对象。那么使用Runnable接口的方法如下:<pre><code>public class runnable implements Runnable{
+</code></pre>详情请参考博客<a href="http://blog.csdn.net/JackieLiuLixi/article/details/37569575" target="_blank" rel="noopener">Thread 的构造方法</a>。<br>第二个和第四个构造方法说明Thread通过传入一个Runnable对象而产生一个Thread对象。那么使用Runnable接口的方法如下:<pre><code>public class runnable implements Runnable{
     @override
     public void run(){...}
 }
@@ -457,7 +457,7 @@ thread2的priority=6
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 11:05</p>
+        <p>最后更新： 2018年03月06日 21:00</p>
         <p>原始链接： <a class="post-url" href="/2018/02/27/《Java多线程编程核心技术》笔记（一）/" title="《Java多线程编程核心技术》笔记（一）:java多线程基本操作">https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
