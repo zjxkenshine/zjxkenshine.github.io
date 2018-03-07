@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git学习笔记（一）：Git简介与配置安装 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 了解Git 集中式与分布式 Git的安装及配置 简单使用git   1.Git简介 Git是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 Git的的诞生2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git学习笔记（一）：Git简介与配置安装">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 了解Git 集中式与分布式 Git的安装及配置 简单使用git   1.Git简介 Git是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 Git的的诞生2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00001集中式.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00002分布式.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00003GitBash.jpg">
+<meta property="og:updated_time" content="2018-03-07T06:06:30.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git学习笔记（一）：Git简介与配置安装">
+<meta name="twitter:description" content="0.学习要点 了解Git 集中式与分布式 Git的安装及配置 简单使用git   1.Git简介 Git是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 Git的的诞生2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源">
+<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00001集中式.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Git学习笔记（一）：Git简介与配置安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Git学习笔记（一）：Git简介与配置安装
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/版本控制工具/">版本控制工具</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-07
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>了解Git</li>
+<li>集中式与分布式</li>
+<li>Git的安装及配置</li>
+<li>简单使用git</li>
+</ul>
+<hr>
+<h2 id="1-Git简介"><a href="#1-Git简介" class="headerlink" title="1.Git简介"></a>1.Git简介</h2><ol>
+<li>Git是什么<br>Git是目前世界上最先进的<strong>分布式版本控制系统</strong>（没有之一）。</li>
+<li>Git的的诞生<br>2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。<br>2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源项目开始迁移至GitHub。</li>
+</ol>
+<hr>
+<h2 id="2-集中式与分布式"><a href="#2-集中式与分布式" class="headerlink" title="2.集中式与分布式"></a>2.集中式与分布式</h2><h3 id="2-1-集中式版本控制系统"><a href="#2-1-集中式版本控制系统" class="headerlink" title="2.1 集中式版本控制系统"></a>2.1 集中式版本控制系统</h3><ol>
+<li>简介：<br>集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。（CVS/SVN/ClearCase/VSS等）</li>
+<li>示意图:<br><img src="/img/00001集中式.jpg" alt="" title="集中式版本管理系统示意图"></li>
+<li>缺点<br>集中式版本控制系统最大的毛病就是必须联网才能工作，如果在局域网内还好，带宽够大，速度够快，可如果在互联网上，遇到网速慢的话，可能提交一个10M的文件就需要5分钟。</li>
+</ol>
+<h3 id="2-2-分布式版本控制系统"><a href="#2-2-分布式版本控制系统" class="headerlink" title="2.2 分布式版本控制系统"></a>2.2 分布式版本控制系统</h3><ol>
+<li>简介：<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。<br>分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来<strong>方便“交换”大家的修改</strong>，没有它大家也一样干活，只是交换修改不方便而已。（Git/BitKeeper/Mercurial/Bazaar等）</li>
+<li>优点:<br>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</li>
+<li>示意图:<br><img src="/img/00002分布式.jpg" alt="" title="分布式版本管理系统示意图"></li>
+</ol>
+<hr>
+<h2 id="3-Git安装-Windows"><a href="#3-Git安装-Windows" class="headerlink" title="3.Git安装(Windows)"></a>3.Git安装(Windows)</h2><ol>
+<li>安装:<br>在Windows上使用Git，可以从Git官网直接<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">下载安装程序</a>,或者<a href="https://pan.baidu.com/s/1kU5OCOB?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=#list/path=%2Fpub%2Fgit" target="_blank" rel="noopener">百度网盘下载</a>，然后选择自己的版本下载，按默认选项安装即可。<br>安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！<br><img src="/img/00003GitBash.jpg" alt="" title="GitBash示意图"></li>
+<li>设置用户名和初始地址：<pre><code>$ git config --global user.name &quot;Your Name&quot;
+$ git config --global user.email &quot;email@example.com&quot;
+</code></pre>user.name “Your Name”：用户名;<br>user.email “email@example.com”：邮箱地址。<br>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。<br>注意<code>git config</code>命令的<code>--global</code>参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。</li>
+</ol>
+<hr>
+<h2 id="4-创建版本库-仓库"><a href="#4-创建版本库-仓库" class="headerlink" title="4.创建版本库(仓库):"></a>4.创建版本库(仓库):</h2><ol>
+<li>什么是版本库:<br>版本库又名仓库，英文名repository，你可以简单理解成一个目录，这个目录里面的所有文件都可以被Git管理起来，每个文件的修改、删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。</li>
+<li>创建版本库:<br>第一步：选择一个合适的地方，创建一个空目录：<pre><code>$ git mkdir learngit
+</code></pre>转到learngit目录并显示：<pre><code>$ cd learngit
+$ pwd
+/d/GitHub/learngit
+</code></pre><code>pwd</code>命令用于显示当前目录,我的目录位于/d/GitHub/learngit。<br>如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。<br>不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。<br>第二步：通过<code>git init</code>命令把这个目录变成Git可以管理的仓库：<pre><code>$ git init
+Initialized empty Git repository in D:/GitHub/learngit/.git/
+</code></pre>瞬间Git就把仓库建好了，而且告诉你是一个空的仓库（empty Git repository）。<br>当前目录下多了一个.git的目录，这个目录是Git来跟踪管理版本库的，没事千万不要手动修改这个目录里面的文件。<br>如果你没有看到.git目录，那是因为这个目录默认是隐藏的，用<code>ls -ah</code>命令就可以看见。</li>
+<li><strong>版本控制系统无法跟踪二进制文件</strong><br>所有的版本控制系统，其实只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”等。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB。<br>Microsoft的Word格式是二进制格式，因此，<strong>版本控制系统是没法跟踪Word文件的改动的</strong>。真要使用就以纯文本方式编辑，因为纯文本有编码。<br>千万不要使用Windows自带的记事本编辑任何文本文件。会遇到很多不可思议的问题。使用NotePad++。把Notepad++的默认编码设置为UTF-8 without BOM即可。</li>
+</ol>
+<hr>
+<h2 id="5-把文件上传到版本库"><a href="#5-把文件上传到版本库" class="headerlink" title="5.把文件上传到版本库"></a>5.把文件上传到版本库</h2><ol>
+<li>新建一个文件”我的第一个git文件.txt”,内容如下:<pre><code>this is my first git file
+</code></pre>一定要放到learngit目录下（子目录也行），因为这是一个Git仓库，放到其他地方Git再厉害也找不到这个文件。</li>
+<li>把一个文件放到Git仓库只需要两步。<br>1.第一步:<code>git add</code> 添加到仓库<pre><code>git add 我的第一个git文件.txt
+</code></pre>执行上面的命令，没有任何显示，说明添加成功。<br>2.第二步：<code>git commit</code>把文件提交到仓库<pre><code>$ git commit -m &quot;create the first git file&quot;
+[master (root-commit) f3b074a] create the first git file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 &quot;\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+</code></pre><code>-m</code>后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。若只用<code>git commit</code>而不用<code>-m</code>则会报错。</li>
+<li>为什么Git添加文件需要<code>add</code>，<code>commit</code>一共两步呢？因为<code>commit</code>可以一次提交很多文件，所以你可以多次<code>add</code>不同的文件，比如：<pre><code>$ git add file1.txt
+$ git add file2.txt file3.txt
+$ git commit -m &quot;add 3 files.&quot;
+</code></pre></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月07日 14:06</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" title="Git学习笔记（一）：Git简介与配置安装">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/&title=《Git学习笔记（一）：Git简介与配置安装》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/&title=《Git学习笔记（一）：Git简介与配置安装》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git学习笔记（一）：Git简介与配置安装》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Git/" class="color4">Git</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Git简介"><span class="post-toc-text">1.Git简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-集中式与分布式"><span class="post-toc-text">2.集中式与分布式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-集中式版本控制系统"><span class="post-toc-text">2.1 集中式版本控制系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-分布式版本控制系统"><span class="post-toc-text">2.2 分布式版本控制系统</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Git安装-Windows"><span class="post-toc-text">3.Git安装(Windows)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-创建版本库-仓库"><span class="post-toc-text">4.创建版本库(仓库):</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-把文件上传到版本库"><span class="post-toc-text">5.把文件上传到版本库</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/07/Git学习笔记（二）：版本控制与文件管理/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Git学习笔记（二）：版本控制与文件管理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/07/Java中的Date类/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java中的Date类</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 15px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 15px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
