@@ -8,18 +8,20 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习要点">
+  <meta name="description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git学习笔记（二）：版本控制与文件管理">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/07/Git学习笔记（二）：版本控制与文件管理/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习要点">
+<meta property="og:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-07T06:06:44.497Z">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00004工作区与版本库A.jpg">
+<meta property="og:updated_time" content="2018-03-07T09:33:31.165Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（二）：版本控制与文件管理">
-<meta name="twitter:description" content="0.学习要点">
+<meta name="twitter:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
+<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00004工作区与版本库A.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,11 +148,158 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><hr>
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>版本回退</li>
+<li>工作区和暂存区</li>
+<li>管理修改</li>
+<li>撤销修改</li>
+<li>删除文件</li>
+</ul>
+<hr>
+<h2 id="1-版本回退"><a href="#1-版本回退" class="headerlink" title="1.版本回退"></a>1.版本回退</h2><ol>
+<li>简介：<br>Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。</li>
+<li><p>多次修改及查看：<br>第一次修改内容:</p>
+<pre><code>this is my first git file
+第一次更改
+</code></pre><p>使用：</p>
+<pre><code>$ git add 我的第一个git文件.txt
+$ git commit -m &quot;第一次修改&quot;
+[master 1c899ff] 第一次修改
+1 file changed, 2 insertions(+), 1 deletion(-)
+</code></pre><p>添加第一次修改并提交快照。<br>第二次修改内容：</p>
+<pre><code>this is my first git file
+第一次更改
+第二次修改
+</code></pre><p>同样使用add,commit -m提交:</p>
+<pre><code>$ git add 我的第一个git文件.txt
+$ git commit -m &quot;第二次修改&quot;
+</code></pre><p>查看修改日志(git log):</p>
+<pre><code>$ git log
+commit 7abc597ea71d8c81dba4434c53385fcde1f9e080
+Author: poppy &lt;1754294529@qq.com&gt;
+Date:   Wed Mar 7 15:36:55 2018 +0800
+
+    第二次修改
+
+commit 1c899ffd2132af803435198909390f03a730091b
+Author: poppy &lt;1754294529@qq.com&gt;
+Date:   Wed Mar 7 15:22:44 2018 +0800
+
+    第一次修改
+
+commit f3b074a94ed4509f49ffc1618f6a6cb47156a0f1
+Author: poppy &lt;1754294529@qq.com&gt;
+Date:   Wed Mar 7 13:59:47 2018 +0800
+
+    create the first git file
+</code></pre><p>如果嫌输出信息太多，可以试试加上<code>--pretty=oneline</code>参数</p>
+<pre><code>$ git log --pretty=oneline
+7abc597ea71d8c81dba4434c53385fcde1f9e080 第二次修改
+1c899ffd2132af803435198909390f03a730091b 第一次修改
+f3b074a94ed4509f49ffc1618f6a6cb47156a0f1 create the first git file
+</code></pre><p>类似<code>7abc...e080</code>这种的是版本号（commit id），是一个SHA1计算出来的一个非常大的数字，用十六进制表示。</p>
+</li>
+<li>回退到上一个版本<br>Git必须知道当前版本是哪个版本，在Git中，用<code>HEAD</code>表示当前版本，也就是最新的提交<code>7abc...e080</code>，上一个版本就是<code>HEAD^</code>，上上一个版本就是<code>HEAD^^</code>，当然往上100个版本写100个<code>^</code>比较容易数不过来，所以写成<code>HEAD~100</code>。<br>要把当前版本回退到上一版本可以使用<code>git reset</code>命令。<pre><code>$ git reset --hard head^
+HEAD is now at 1c899ff 第一次修改
+</code></pre>使用<code>git log --pretty=oneline</code>查看当前版本库中的状态:<pre><code>$ git log --pretty=oneline
+1c899ffd2132af803435198909390f03a730091b 第一次修改
+f3b074a94ed4509f49ffc1618f6a6cb47156a0f1 create the first git file
+</code></pre>第二次修改没有了。<br>Git的版本回退速度非常快，因为Git在内部有个指向当前版本的<code>HEAD</code>指针，当你回退版本的时候，Git仅仅是把<code>HEAD</code>从指向一个版本指向了另一个版本。然后顺便把工作区的文件更新了。所以你让HEAD指向哪个版本号，你就把当前版本定位在哪。</li>
+<li>回到未来<br>这时再想回到第二次修改的状态，可以找到第二次修改的commit id，这里是<code>7abc...e080</code>，然后通过<code>git reset</code>命令:<pre><code>$ git reset --hard 7abc597ea71d8c81dba4434c53385fcde1f9e080
+HEAD is now at 7abc597 第二次修改
+</code></pre>回到未来的版本。<br>若已经关闭了Git Bash,找不到最新版本号了，可以运行命令<code>git reflog</code>，它记录了你的每一次命令：<pre><code>$ git reflog
+1c899ff HEAD@{0}: reset: moving to head^
+7abc597 HEAD@{1}: reset: moving to 7abc597ea71d8c81dba4434c53385fcde1f9e080
+1c899ff HEAD@{2}: reset: moving to head^
+7abc597 HEAD@{3}: commit: 第二次修改
+1c899ff HEAD@{4}: commit: 第一次修改
+f3b074a HEAD@{5}: commit (initial): create the first git file
+</code></pre>版本号没必要写全，Git会自动去找。当然也不能只写前一两位,可以只写<code>commit id</code>的前半部分,如:<pre><code>$ git reset --hard 7abc597
+HEAD is now at 7abc597 第二次修改
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="2-工作区与暂存区"><a href="#2-工作区与暂存区" class="headerlink" title="2.工作区与暂存区"></a>2.工作区与暂存区</h2><ol>
+<li>Git和其他版本控制系统如SVN的一个不同之处就是有暂存区的概念。</li>
+<li>工作区:<br>就是在电脑里能看到的目录，比如<code>learngit</code>文件夹就是一个工作区：<br>版本库:<br>工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>Git的版本库里存了很多东西，<strong>其中最重要的就是称为stage（或者叫index）的暂存区</strong>，还有Git为我们自动创建的第一个分支<code>master</code>，以及指向<code>master</code>的一个指针叫<code>HEAD</code>。分支与<code>HEAD</code>暂时不用了解。<br><img src="/img/00004工作区与版本库A.jpg" alt="" title="工作区与版本库"></li>
+<li><p>暂存区不同时期的变化<br>我们把文件往Git版本库里添加的时候，是分两步执行的：<br>第一步是用git add把文件添加进去，实际上就是<strong>把文件修改添加到暂存区</strong>，可以添加多个；<br>第二步是用git commit提交更改，实际上就是<strong>把暂存区的所有内容提交到当前分支</strong>。<br>使用<code>git status</code>可以查看文件状态。<br>修改”我的第一个git文件.txt”：</p>
+<pre><code>this is my first git file
+第一次更改
+第二次修改
+第三次修改
+</code></pre><p>未执行<code>git add</code>前使用<code>git status</code>查看状态:</p>
+<pre><code>$ git status
+On branch master
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+
+        modified:   &quot;\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre><p>说明文件被修改而未被添加。执行<code>git add</code>后再使用<code>git status</code>查看状态:</p>
+<pre><code>$ git add 我的第一个git文件.txt
+$ git status
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+        modified:   &quot;\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+</code></pre><p>执行<code>git commit</code>一次性把暂存区的所有修改提交到分支：</p>
+<pre><code>$ git commit -m &quot;第三次修改&quot;
+[master ec9e2b9] 第三次修改
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+</code></pre><p>然后执行<code>git status</code>查看状态:</p>
+<pre><code>$ git status
+On branch master
+nothing to commit, working directory clean
+</code></pre><p>如果没有对工作区做任何修改，那么工作区就是“干净”的，暂存区是空的。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-管理修改"><a href="#3-管理修改" class="headerlink" title="3.管理修改"></a>3.管理修改</h2><ol>
+<li>为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。增删改文件都算是修改。</li>
+<li><p>验证是管理修改：<br>继续更改”我的第一个git文件.txt”</p>
+<pre><code>this is my first git file
+第一次更改
+第二次修改
+第三次修改
+第四次修改
+</code></pre><p>执行<code>$ git commit -m &quot;第四次修改&quot;</code>，然后执行<code>git status</code>得到结果:</p>
+<pre><code>$ git status
+On branch master
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+
+        modified:   &quot;\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+</code></pre><p>发现修改并没有提交:<br><code>git commit</code>只负责把暂存区的修改提交了,但是修改没有添加<code>git add</code>到暂存区，也就没有提交。<br>用<code>git diff HEAD -- 我的第一个git文件.txt</code>命令可以查看工作区和版本库里面最新版本的区别:</p>
+<pre><code>$ git diff HEAD -- 我的第一个git文件.txt
+diff --git &quot;a/\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot; &quot;b/\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+index 35eea08..064a7d0 100644
+--- &quot;a/\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
++++ &quot;b/\346\210\221\347\232\204\347\254\254\344\270\200\344\270\252git\346\226\207\344\273\266.txt&quot;
+@@ -1,4 +1,5 @@
+ this is my first git file
+ 第一次更改
+ 第二次修改
+-第三次修改
+\ No newline at end of file
++第三次修改
++第四次修改
+\ No newline at end of file
+</code></pre><p>执行<code>git add,git commit</code>后再执行<code>git diff HEAD -- 我的第一个git文件.txt</code>命令:</p>
+<pre><code>$ git diff HEAD -- 我的第一个git文件.txt
+</code></pre><p>发现没有了一连串的尾巴。</p>
+</li>
+<li>每次修改，如果不<code>add</code>到暂存区，那就不会加入到<code>commit</code>中。</li>
+</ol>
+<hr>
+<h2 id="4-撤销修改"><a href="#4-撤销修改" class="headerlink" title="4.撤销修改"></a>4.撤销修改</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月07日 14:06</p>
+        <p>最后更新： 2018年03月07日 17:33</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（二）：版本控制与文件管理/" title="Git学习笔记（二）：版本控制与文件管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（二）：版本控制与文件管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -268,7 +417,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-版本回退"><span class="post-toc-text">1.版本回退</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-工作区与暂存区"><span class="post-toc-text">2.工作区与暂存区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-管理修改"><span class="post-toc-text">3.管理修改</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-撤销修改"><span class="post-toc-text">4.撤销修改</span></a></li></ol>
         </nav>
     </aside>
     
