@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00004工作区与版本库A.jpg">
-<meta property="og:updated_time" content="2018-03-07T11:59:31.277Z">
+<meta property="og:updated_time" content="2018-03-07T12:31:08.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（二）：版本控制与修改管理">
 <meta name="twitter:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
@@ -345,13 +345,13 @@ $ git commit -m &quot;delete file2.txt&quot;
 [master 5b3b482] delete file2.txt
  1 file changed, 0 insertions(+), 0 deletions(-)
  delete mode 100644 file2.txt
-</code></pre>或者使用<code>git add</code>，再<code>git commit</code>。</li>
+</code></pre></li>
 <li>另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：<pre><code>$ git checkout -- file2.txt
 </code></pre><code>git checkout</code>其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以一键还原。</li>
 </ol>
 <hr>
 <h2 id="6-学习总结"><a href="#6-学习总结" class="headerlink" title="6.学习总结"></a>6.学习总结</h2><ol>
-<li><p>命令行:<br><code>git log</code>查看版本日志<br><code>git log --pretty=oneline</code>查看修改日志(格式化)<br><code>git reset --hard head^</code>回到上一个版本<br><code>git reset --hard head~n</code>回到n个版本以前<br><code>git reset --hard commit_id</code>回到commit_id所对应的版本<br><code>git reflog</code>记录每一个命令操作<br><code>git status</code>查看当前文件状态<br><code>git diff HEAD -- file</code>命令可以查看工作区和版本库里面最新版本的区别<br><code>git checkout -- file</code>让这个文件回到最近一次<code>git commit</code>或<code>git add</code>时的状态<br><code>git reset HEAD file</code>把暂存区的修改撤销，重新放回工作区<br><code>git rm file</code>删除文件</p>
+<li><p>命令行:<br><code>git log</code>查看版本日志<br><code>git log --pretty=oneline</code>查看修改日志(格式化)<br><code>git reset --hard head^</code>回到上一个版本<br><code>git reset --hard head~n</code>回到n个版本以前<br><code>git reset --hard commit_id</code>回到commit_id所对应的版本<br><code>git reflog</code>记录每一个命令操作<br><code>git status</code>查看当前文件状态<br><code>git diff file</code>查看具体修改了什么内容<br><code>git diff HEAD -- file</code>命令可以查看工作区和版本库里面最新版本的区别<br><code>git checkout -- file</code>让这个文件回到最近一次<code>git commit</code>或<code>git add</code>时的状态<br><code>git reset HEAD file</code>把暂存区的修改撤销，重新放回工作区<br><code>git rm file</code>删除文件</p>
 </li>
 <li><p>学习地址:<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="noopener">https://www.liaoxuefeng.com/</a></p>
 </li>
@@ -360,7 +360,7 @@ $ git commit -m &quot;delete file2.txt&quot;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月07日 19:59</p>
+        <p>最后更新： 2018年03月07日 20:31</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（二）：版本控制与文件管理/" title="Git学习笔记（二）：版本控制与修改管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（二）：版本控制与文件管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -485,12 +485,12 @@ $ git commit -m &quot;delete file2.txt&quot;
 
 <nav id="article-nav">
   
-    <a href="/2018/03/07/Git学习笔记（三）：远程仓库与分支管理/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Git学习笔记（三）：远程仓库与分支管理
+          Git学习笔记（三）：远程仓库与标签管理
         
       </span>
     </a>

@@ -110,14 +110,62 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
-    <article id="post-Git学习笔记（三）：远程仓库与分支管理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Git学习笔记（四）：分支管理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/07/Git学习笔记（三）：远程仓库与分支管理/"  >Git学习笔记（三）：远程仓库与分支管理</a>
+      <a class="article-title" href="/2018/03/07/Git学习笔记（四）：分支管理/"  >Git学习笔记（四）：分支管理</a>
+    </h1>
+  
+
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/03/07/Git学习笔记（四）：分支管理/" >
+                
+                <img src="https://zjxkenshine.github.io/images/banner.jpg" alt="Git学习笔记（四）：分支管理" title="Git学习笔记（四）：分支管理">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-03-07</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/03/07/Git学习笔记（四）：分支管理/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-Git学习笔记（三）：远程仓库与标签管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/"  >Git学习笔记（三）：远程仓库与标签管理</a>
     </h1>
   
 
@@ -134,15 +182,23 @@
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2018/03/07/Git学习笔记（三）：远程仓库与分支管理/" >
+            <a href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" >
                 
-                <img src="https://zjxkenshine.github.io/images/banner.jpg" alt="Git学习笔记（三）：远程仓库与分支管理" title="Git学习笔记（三）：远程仓库与分支管理">
+                <img src="https://zjxkenshine.github.io/images/banner.jpg" alt="Git学习笔记（三）：远程仓库与标签管理" title="Git学习笔记（三）：远程仓库与标签管理">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                
+                0.学习要点
+配置SSH
+连接到远程仓库
+从远程克隆到本地仓库
+标签的创建与操作
+
+
+1.配置SSH
+第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &quot;yourem...
             </p>
         </div>
       
@@ -164,7 +220,7 @@
 
         </ul>
         
-            <a href="/2018/03/07/Git学习笔记（三）：远程仓库与分支管理/#more" class="article-more-link" >more&gt;&gt;</a>
+            <a href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/#more" class="article-more-link" >more&gt;&gt;</a>
         
     </footer>
   </div>
@@ -731,77 +787,6 @@ ReentranReadWritetLock类的使用。
         </ul>
         
             <a href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/#more" class="article-more-link" >more&gt;&gt;</a>
-        
-    </footer>
-  </div>
-</article>
-
-
-  
-    <article id="post-Java中Math类的基本用法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/02/Java中Math类的基本用法/"  >Java中Math类的基本用法</a>
-    </h1>
-  
-
-          
-              <span class="header-cate">
-                <i class="fa fa-map-marker"></i>
-                  
-                  <a href="/categories/编程基础/">编程基础</a>
-                  
-              </span>
-          
-      </header>
-    
-    <div class="article-entry " itemprop="articleBody">
-      
-        <div class="article-img">
-            <a href="/2018/03/02/Java中Math类的基本用法/" >
-                
-                <img src="https://zjxkenshine.github.io/images/banner.jpg" alt="Java中Math类的基本用法" title="Java中Math类的基本用法">
-                
-            </a>
-        </div>
-        <div class="article-feed">
-            <p>
-                0.重新学习昨天刷Java题的时候有一道题考:
-
-Math.floor(-8.9)返回的什么值?
-
-然后义无反顾地了选了-9，取整嘛，然后就懵逼了，取整函数返回值竟然是double类型，所以决定把Java的Math类(java.lang.Math)再学习测试一遍。(jdk1.8)
-
-1.取整函数
-介绍:(1).floor:地板，向下取整，返回值为double。public...
-            </p>
-        </div>
-      
-        
-    </div>
-    <footer class="article-footer">
-        
-        <ul class="article-footer-menu">
-            
-                <li><i class="fa fa-calendar"></i>2018-03-02</li>
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Java/" class="color5">Java</a>
-      
-    <a href="/tags/类/" class="color2">类</a>
-      
-  </li>
-
-        </ul>
-        
-            <a href="/2018/03/02/Java中Math类的基本用法/#more" class="article-more-link" >more&gt;&gt;</a>
         
     </footer>
   </div>
