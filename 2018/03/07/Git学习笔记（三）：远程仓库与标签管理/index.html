@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00005SSH.jpg">
-<meta property="og:updated_time" content="2018-03-07T15:45:30.043Z">
+<meta property="og:updated_time" content="2018-03-08T03:28:45.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（三）：远程仓库与标签管理">
 <meta name="twitter:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
@@ -177,12 +177,7 @@ remote: Resolving deltas: 100% (2/2), done.
 To git@github.com:zjxkenshine/learngit.git
  * [new branch]      master -&gt; master
 Branch master set up to track remote branch master from learngit.
-</code></pre>第一次推送<code>master</code>分支时，加上了<code>-u</code>参数，Git不但会把本地的<code>master</code>分支内容推送的远程新的<code>master</code>分支，还会把本地的<code>master</code>分支和远程的<code>master</code>分支关联起来，在以后的推送或者拉取时就可以简化命令。<br>有时可能需要用<code>git pull origin master</code>来使本地仓库与远程库连接。<pre><code>$ git pull learngit master
-warning: no common commits
-remote: Counting objects: 3, done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-</code></pre>以后只要用：<pre><code>$ git push learngit master
+</code></pre>第一次推送<code>master</code>分支时，加上了<code>-u</code>参数，Git不但会把本地的<code>master</code>分支内容推送的远程新的<code>master</code>分支，还会把本地的<code>master</code>分支和远程的<code>master</code>分支关联起来，在以后的推送或者拉取时就可以简化命令。<br>若报错:可能是本地代码的原版本不是最新的。<br>以后只要用：<pre><code>$ git push learngit master
 </code></pre>就可以推送本地learngit仓库的master仓库了</li>
 </ol>
 <hr>
@@ -216,13 +211,17 @@ README.md
 </code></pre></li>
 </ol>
 <hr>
-<h2 id="5-标签简介及创建标签"><a href="#5-标签简介及创建标签" class="headerlink" title="5.标签简介及创建标签"></a>5.标签简介及创建标签</h2><hr>
+<h2 id="5-标签简介及创建标签-以下是分支后的内容"><a href="#5-标签简介及创建标签-以下是分支后的内容" class="headerlink" title="5.标签简介及创建标签(以下是分支后的内容)"></a>5.标签简介及创建标签(以下是分支后的内容)</h2><ol>
+<li>为什么使用标签:<br>发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。<br>Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针。因为commit id一大串不好记，可以使用tag查找commit，tag与commit是绑定在一起的。</li>
+<li>创建标签:</li>
+</ol>
+<hr>
 <h2 id="6-操作标签"><a href="#6-操作标签" class="headerlink" title="6.操作标签"></a>6.操作标签</h2><hr>
 <h2 id="7-学习总结"><a href="#7-学习总结" class="headerlink" title="7.学习总结"></a>7.学习总结</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月07日 23:45</p>
+        <p>最后更新： 2018年03月08日 11:28</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" title="Git学习笔记（三）：远程仓库与标签管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -340,7 +339,7 @@ README.md
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-配置SSH"><span class="post-toc-text">1.配置SSH</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-远程仓库添加，连接和推送"><span class="post-toc-text">2.远程仓库添加，连接和推送</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SSH警告"><span class="post-toc-text">3.SSH警告</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-从远程库克隆"><span class="post-toc-text">4.从远程库克隆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-标签简介及创建标签"><span class="post-toc-text">5.标签简介及创建标签</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-操作标签"><span class="post-toc-text">6.操作标签</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-学习总结"><span class="post-toc-text">7.学习总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-配置SSH"><span class="post-toc-text">1.配置SSH</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-远程仓库添加，连接和推送"><span class="post-toc-text">2.远程仓库添加，连接和推送</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SSH警告"><span class="post-toc-text">3.SSH警告</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-从远程库克隆"><span class="post-toc-text">4.从远程库克隆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-标签简介及创建标签-以下是分支后的内容"><span class="post-toc-text">5.标签简介及创建标签(以下是分支后的内容)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-操作标签"><span class="post-toc-text">6.操作标签</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-学习总结"><span class="post-toc-text">7.学习总结</span></a></li></ol>
         </nav>
     </aside>
     
@@ -428,7 +427,7 @@ README.md
             <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 13.33px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 13.33px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -461,7 +460,7 @@ README.md
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 13.33px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 13.33px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
         </div>
     </div>
 </div>
