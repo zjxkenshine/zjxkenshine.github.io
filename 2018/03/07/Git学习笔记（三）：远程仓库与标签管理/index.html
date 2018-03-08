@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00005SSH.jpg">
-<meta property="og:updated_time" content="2018-03-08T11:48:48.151Z">
+<meta property="og:updated_time" content="2018-03-08T13:55:52.903Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（三）：远程仓库与标签管理">
 <meta name="twitter:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
@@ -319,7 +319,7 @@ To git@github.com:zjxkenshine/learngit.git
 </ol>
 <hr>
 <h2 id="7-学习总结"><a href="#7-学习总结" class="headerlink" title="7.学习总结"></a>7.学习总结</h2><ol>
-<li><p>命令<br><code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin git@github.com:yourusername/learngit.git</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）</p>
+<li><p>命令<br><code>$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin address</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）</p>
 </li>
 <li><p>学习地址:<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="noopener">https://www.liaoxuefeng.com/</a></p>
 </li>
@@ -328,7 +328,7 @@ To git@github.com:zjxkenshine/learngit.git
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 19:48</p>
+        <p>最后更新： 2018年03月08日 21:55</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" title="Git学习笔记（三）：远程仓库与标签管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
