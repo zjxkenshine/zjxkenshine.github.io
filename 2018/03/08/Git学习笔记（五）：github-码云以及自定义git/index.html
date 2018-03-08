@@ -8,18 +8,20 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
+  <meta name="description" content="0.学习要点 码云的使用 git忽略特殊文件 git配置别名   1.GitHub 选择一个别人的项目，点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后使用clone克隆到本地。一定要从自己的账号下clone仓库，这样你才能推送修改。如果你想修复一个bug，或者新增一个功能，立刻就可以开始干活，干完后，往自己的仓库推送。如果你希望官方库能接受你的修改，你就可以在GitHub上发">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git学习笔记（五）：github,码云以及自定义git">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习要点 码云的使用 git忽略特殊文件 git配置别名   1.GitHub 选择一个别人的项目，点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后使用clone克隆到本地。一定要从自己的账号下clone仓库，这样你才能推送修改。如果你想修复一个bug，或者新增一个功能，立刻就可以开始干活，干完后，往自己的仓库推送。如果你希望官方库能接受你的修改，你就可以在GitHub上发">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-08T10:06:42.191Z">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00007码云.jpg">
+<meta property="og:updated_time" content="2018-03-08T14:16:26.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（五）：github,码云以及自定义git">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:description" content="0.学习要点 码云的使用 git忽略特殊文件 git配置别名   1.GitHub 选择一个别人的项目，点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后使用clone克隆到本地。一定要从自己的账号下clone仓库，这样你才能推送修改。如果你想修复一个bug，或者新增一个功能，立刻就可以开始干活，干完后，往自己的仓库推送。如果你希望官方库能接受你的修改，你就可以在GitHub上发">
+<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00007码云.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,10 +148,59 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>码云的使用</li>
+<li>git忽略特殊文件</li>
+<li>git配置别名</li>
+</ul>
+<hr>
+<h2 id="1-GitHub"><a href="#1-GitHub" class="headerlink" title="1.GitHub"></a>1.GitHub</h2><ol>
+<li>选择一个别人的项目，点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后使用clone克隆到本地。一定要从自己的账号下clone仓库，这样你才能推送修改。如果你想修复一个bug，或者新增一个功能，立刻就可以开始干活，干完后，往自己的仓库推送。如果你希望官方库能接受你的修改，你就可以在GitHub上发起一个pull request。当然，对方是否接受你的pull request就不一定了。</li>
+<li>小结</li>
+</ol>
+<ul>
+<li>在GitHub上，可以任意Fork开源仓库；</li>
+<li>自己拥有Fork后的仓库的读写权限；</li>
+<li>可以推送pull request给官方仓库来贡献代码</li>
+</ul>
+<hr>
+<h2 id="2-码云"><a href="#2-码云" class="headerlink" title="2.码云:"></a>2.码云:</h2><ol>
+<li>相比github的优点<br>使用GitHub时，国内的用户经常遇到的问题是访问速度太慢，有时候还会出现无法连接的情况。<br>如果我们希望体验Git飞一般的速度，可以使用国内的Git托管服务——码云（gitee.com）。<br>和GitHub相比，码云也提供免费的Git仓库。此外，还集成了代码质量检测、项目演示等功能。对于团队协作开发，码云还提供了项目管理、代码托管、文档管理的服务，5人以下小团队免费。码云的免费版本也提供私有库功能，只是有5人的成员上限。</li>
+<li>配置ssh<br>和github类似，注册登录后，选择右上角用户头像 -&gt; 菜单“修改资料”，然后选择“SSH公钥”，填写一个便于识别的标题，然后把用户主目录下的.ssh/id_rsa.pub文件的内容粘贴进去。</li>
+<li>上传项目：<br>和github操作一毛一样，新建一个仓库，<code>git remote add origin address</code>添加远程仓库，<code>git push origin master</code>推送代码。只要这个<code>origin</code>和github的不同，本地仓库的代码就可以同时提交到github与码云。<br>若重复，可以使用<code>git remote rm origin</code>删除远程库。<br><img src="/img/00007码云.jpg" alt="马云"></li>
+</ol>
+<hr>
+<h2 id="3-配置git颜色与忽略特殊文件"><a href="#3-配置git颜色与忽略特殊文件" class="headerlink" title="3.配置git颜色与忽略特殊文件"></a>3.配置git颜色与忽略特殊文件</h2><ol>
+<li>配置git颜色：<br><code>$ git config --global color.ui true</code> </li>
+<li>忽略特殊文件<br>有些时候，你必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件啦，等等，每次git status都会显示Untracked fill..。<br>解决方法:<strong>在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</strong><br>GitHub已经为我们准备了各种配置文件，只需要组合一下就可以使用了。详情点击<a href="https://github.com/github/gitignore" target="_blank" rel="noopener">这里</a>。<br><strong>忽略的原则</strong>是：<br>1.忽略操作系统自动生成的文件，比如缩略图等；<br>2.忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；<br>3.忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。<br>检验.gitignore的标准是<code>git status</code>命令是不是说<code>working directory clean</code>。<br><code>.gitignore</code>文件本身要放到版本库里，并且可以对<code>.gitignore</code>做版本管理！</li>
+<li>涉及到忽略文件的命令行<pre><code>$ git add -f file
+</code></pre>强制添加一个文件（即使它被ignore）<pre><code>$ git check-ignore -v file
+</code></pre>检查是.gitignore文件否出错</li>
+</ol>
+<hr>
+<h2 id="4-配置别名"><a href="#4-配置别名" class="headerlink" title="4.配置别名"></a>4.配置别名</h2><ol>
+<li>基本配置：<br>用<code>git st</code>代替<code>git status</code>：<br> $ git config –global alias.st status<br>然还有别的命令可以简写，很多人都用co表示checkout，ci表示commit，br表示branch：<br> $ git config –global alias.co checkout<br> $ git config –global alias.ci commit<br> $ git config –global alias.br branch<br>以后提交就可以简写成：<pre><code>$ git ci -m &quot;bala bala bala...
+</code></pre><code>--global</code>参数是全局参数，也就是这些命令在这台电脑的所有Git仓库下都有用。<br>也可以使用一个单词代替几个单词，如撤销暂存区修改:<pre><code>$ git config --global alias.unstage &apos;reset HEAD&apos;
+</code></pre>配置别名后可以写成:<pre><code>$ git unstage test.py
+</code></pre>效果同<code>git reset HEAD file</code>。</li>
+<li>其他配置<br>配置一个git last，让其显示最后一次提交信息：<pre><code>$ git config --global alias.last &apos;log -1&apos;
+</code></pre>配置一个很厉害的日志输出:<pre><code>$ git config --global alias.lg &quot;log --color --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="5-配置git服务器"><a href="#5-配置git服务器" class="headerlink" title="5.配置git服务器"></a>5.配置git服务器</h2><p>需要linux知识，以后再说 </p>
+<hr>
+<h2 id="6-学习总结"><a href="#6-学习总结" class="headerlink" title="6.学习总结"></a>6.学习总结</h2><ol>
+<li><p>命令行：<br><code>$ git config --global color.ui true</code> 配置git颜色<br><code>git add -f file</code> 强制添加一个文件<br><code>git check-ignore -v file</code> 检查.gitignore文件是否忽略file<br><code>git config --global alias.othername oldname</code> 配置别名<br><code>git config --global alias.othername &#39;string&#39;</code> 配置别名</p>
+</li>
+<li><p>学习地址：<br><a href="https://www.liaoxuefeng.com" target="_blank" rel="noopener">https://www.liaoxuefeng.com</a></p>
+</li>
+</ol>
+<hr>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 18:06</p>
+        <p>最后更新： 2018年03月08日 22:16</p>
         <p>原始链接： <a class="post-url" href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/" title="Git学习笔记（五）：github,码云以及自定义git">https://zjxkenshine.github.io/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -265,6 +316,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-GitHub"><span class="post-toc-text">1.GitHub</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-码云"><span class="post-toc-text">2.码云:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-配置git颜色与忽略特殊文件"><span class="post-toc-text">3.配置git颜色与忽略特殊文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-配置别名"><span class="post-toc-text">4.配置别名</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-配置git服务器"><span class="post-toc-text">5.配置git服务器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-学习总结"><span class="post-toc-text">6.学习总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
