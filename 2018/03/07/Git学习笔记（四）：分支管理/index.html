@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习要点 什么是分支 创建与合并分支 解决冲突 多人协作开发   1.分支简介你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作。  2.创建与合并分支 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00006分支.jpg">
-<meta property="og:updated_time" content="2018-03-08T09:37:34.515Z">
+<meta property="og:updated_time" content="2018-03-08T09:52:51.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（四）：分支管理">
 <meta name="twitter:description" content="0.学习要点 什么是分支 创建与合并分支 解决冲突 多人协作开发   1.分支简介你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作。  2.创建与合并分支 每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个">
@@ -552,7 +552,7 @@ To git@github.com:yourusername/learngit.git
 </ol>
 <hr>
 <h2 id="8-学习总结"><a href="#8-学习总结" class="headerlink" title="8.学习总结"></a>8.学习总结</h2><ol>
-<li><p>命令行:<br><code>git checkout -b dev</code> 创建并切换到名为dev的分支<br><code>git branch dev</code> 创建名为dev的分支<br><code>git checkout dev</code> 切换到名为dev的分支<br><code>git branch</code> 查看分支列表，当前分支会带一个*号<br><code>git merge dev</code> 合并指定分支dev到当前分支（非dev分支）<br><code>git branch -d dev</code>删除指定分支dev(合并后的)<br><code>git branch -D dev</code>强制删除指定分支dev（合没合并都删）<br><code>git log --graph</code>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code>查看分支（commit）历史（带合并图）<br><code>git merge --no-ff -m &quot;...&quot; dev</code> 不使用Fast forward的合并，附带一次提交<br><code>git stash</code> 保存当前工作现场<br><code>git stash list</code> 查看保存列表<br><code>git stash apply stash@{n}</code> 恢复保存列表的第n+1项保存现场<br><code>git stash drop stash@{n}</code> 删除保存列表的第n+1项保存现场<br><code>git stash pop</code> 恢复并删除最近的添加到栈中的储存现场<br><code>git remote</code> 查看远程库信息<br><code>git remote add origin-name git@github.com:yourusername/projectAddress.git</code>添加远程库<br><code>git remote rename oldname newname</code> 远程仓库重命名<br><code>git remote rm origin-name</code> 删除远程库<br><code>git push origin master</code> 当前分支代码推送到origin远程库的master分支<br><code>git pull</code> 抓取远程库中和当前分支相关联的分支的最新代码<br><code>git branch --set-upstream dev origin/dev</code>创建本地dev与远程库dev的链接</p>
+<li><p>命令行:<br><code>git checkout -b dev</code> 创建并切换到名为dev的分支<br><code>git branch dev</code> 创建名为dev的分支<br><code>git checkout dev</code> 切换到名为dev的分支<br><code>git branch</code> 查看本地分支列表，当前分支会带一个*号<br><code>git merge dev</code> 合并指定分支dev到当前分支（非dev分支）<br><code>git branch -d dev</code>删除指定分支dev(合并后的)<br><code>git branch -D dev</code>强制删除指定分支dev（合没合并都删）<br><code>git branch -r</code> 查看远程分支<br><code>git branch -a</code> 查看所有分支<br><code>git log --graph</code>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code>查看分支（commit）历史（带合并图）<br><code>git merge --no-ff -m &quot;...&quot; dev</code> 不使用Fast forward的合并，附带一次提交<br><code>git stash</code> 保存当前工作现场<br><code>git stash list</code> 查看保存列表<br><code>git stash apply stash@{n}</code> 恢复保存列表的第n+1项保存现场<br><code>git stash drop stash@{n}</code> 删除保存列表的第n+1项保存现场<br><code>git stash pop</code> 恢复并删除最近的添加到栈中的储存现场<br><code>git remote</code> 查看远程库信息<br><code>git remote add origin-name git@github.com:yourusername/projectAddress.git</code>添加远程库<br><code>git remote rename oldname newname</code> 远程仓库重命名<br><code>git remote rm origin-name</code> 删除远程库<br><code>git push origin dev</code> 当前分支代码推送到origin远程库的dev分支<br>（若要在远程创建dev分支，则本地切换到dev分支后使用这句）<br><code>git pull</code> 抓取远程库中和当前分支相关联的分支的最新代码<br><code>git branch --set-upstream dev origin/dev</code>创建本地dev与远程库dev的链接</p>
 </li>
 <li><p>学习地址:<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="noopener">https://www.liaoxuefeng.com/</a></p>
 </li>
@@ -561,7 +561,7 @@ To git@github.com:yourusername/learngit.git
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 17:37</p>
+        <p>最后更新： 2018年03月08日 17:52</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（四）：分支管理/" title="Git学习笔记（四）：分支管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（四）：分支管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -685,6 +685,16 @@ To git@github.com:yourusername/learngit.git
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Git学习笔记（五）：github,码云以及自定义git
+        
+      </span>
+    </a>
   
   
     <a href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" id="article-nav-older" class="article-nav-link-wrap">

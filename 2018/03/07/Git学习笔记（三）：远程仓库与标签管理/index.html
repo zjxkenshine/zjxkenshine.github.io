@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00005SSH.jpg">
-<meta property="og:updated_time" content="2018-03-08T03:28:45.589Z">
+<meta property="og:updated_time" content="2018-03-08T11:48:48.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（三）：远程仓库与标签管理">
 <meta name="twitter:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
@@ -213,15 +213,122 @@ README.md
 <hr>
 <h2 id="5-标签简介及创建标签-以下是分支后的内容"><a href="#5-标签简介及创建标签-以下是分支后的内容" class="headerlink" title="5.标签简介及创建标签(以下是分支后的内容)"></a>5.标签简介及创建标签(以下是分支后的内容)</h2><ol>
 <li>为什么使用标签:<br>发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。<br>Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针。因为commit id一大串不好记，可以使用tag查找commit，tag与commit是绑定在一起的。</li>
-<li>创建标签:</li>
+<li><p>创建标签:<br>切换到需要打标签的分支上:</p>
+<pre><code>$ git branch
+* dev
+  master
+$ git checkout master
+Switched to branch &apos;master&apos;
+</code></pre><p>使用命令<code>git tag &lt;name&gt;</code>就可以打一个新标签：</p>
+<pre><code>$ git tag v1.0
+</code></pre><p>可以用命令<code>git tag</code>查看所有标签：</p>
+<pre><code>$ git tag
+v1.0
+</code></pre><p>默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，比如，现在已经是周五了，但应该在周一打的标签没有打,怎么办,方法是找到历史提交的commit id，然后打上就可以了：</p>
+<pre><code>$ git log --pretty=oneline --abbrev-commit
+97d5cda 合并bug与工作
+3a86388 git 工作完成
+786ba47 bug修复分支合并
+2a8a8ec bug修复
+a59aa3f 不用ff的合并
+2ebb903 测试--no-ff
+7f23e9a 解决冲突
+d80455d master的修改
+2cbbe5e a分支的修改
+bd5dbdf 分支测试
+5b3b482 delete file2.txt
+3c22783 add new file2
+dbb03c7 第四次修改
+ec9e2b9 第三次修改
+7abc597 第二次修改
+1c899ff 第一次修改
+f3b074a create the first git file
+</code></pre><p>若要在解决冲突这里打上一个v0.9可以这样写:</p>
+<pre><code>$ git tag v0.9 7f23e9a
+</code></pre><p>再用命令<code>git tag</code>查看标签:</p>
+<pre><code>$ git tag
+v0.9
+v1.0
+</code></pre><p>标签不是按时间顺序列出，而是按字母排序的。<br>查看标签信息可以用<code>git show &lt;tagname&gt;</code>：</p>
+<pre><code>$ git show v0.9
+commit 7f23e9aab68153e0fc1d6c0424fd7cfd5ca33600
+Merge: d80455d 2cbbe5e
+Author: poppy &lt;1754294529@qq.com&gt;
+Date:   Thu Mar 8 12:31:08 2018 +0800
+
+    解决冲突
+
+diff --cc gitBranchFile.txt
+index 96ba9ff,e4f07dc..ba9b436
+--- a/gitBranchFile.txt
++++ b/gitBranchFile.txt
+@@@ -1,2 -1,2 +1,6 @@@
+  这是分支文件
+- master主分支的修改
+ -a分支的修改
+++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+++master主分支的修改
+++=======
+++master分支的修改
+++&gt;&gt;&gt;&gt;&gt;&gt;&gt; a
+</code></pre><p>还可以创建带有说明的标签，用<code>-a</code>指定标签名，<code>-m</code>指定说明文字：</p>
+<pre><code>$ git tag -a v0.7 -m &quot;0.7版本&quot; dbb03c7
+$ git show v0.7
+tag v0.7
+Tagger: poppy &lt;1754294529@qq.com&gt;
+Date:   Thu Mar 8 19:04:16 2018 +0800
+
+0.7版本
+
+commit dbb03c7fa0c83a477d70a9b7cce8b32f1e66fecb
+Author: poppy &lt;1754294529@qq.com&gt;
+Date:   Wed Mar 7 17:31:40 2018 +0800
+
+    第四次修改
+</code></pre><p><code>git show</code>后尾巴太长省略，按ctrl+c可以退出。<br>还可以通过<code>-s</code>用私钥签名一个标签：</p>
+<pre><code>$ git tag -s v0.2 -m &quot;signed version 0.2 released&quot; fec145a
+</code></pre><p>签名采用PGP签名，因此，必须首先安装gpg（GnuPG），如果没有找到gpg，或者没有gpg密钥对，就会报错：</p>
+<pre><code>gpg: signing failed: secret key not available
+error: gpg failed to sign the data
+error: unable to sign the tag
+</code></pre><p>如果报错，请参考GnuPG帮助文档配置Key。</p>
+</li>
 </ol>
 <hr>
-<h2 id="6-操作标签"><a href="#6-操作标签" class="headerlink" title="6.操作标签"></a>6.操作标签</h2><hr>
-<h2 id="7-学习总结"><a href="#7-学习总结" class="headerlink" title="7.学习总结"></a>7.学习总结</h2><hr>
+<h2 id="6-操作标签"><a href="#6-操作标签" class="headerlink" title="6.操作标签"></a>6.操作标签</h2><ol>
+<li>删除标签:<br>使用<code>git tag -d tagname</code>：<pre><code>$ git tag -d v0.8
+Deleted tag &apos;v0.8&apos; (was 48c291b)
+</code></pre>创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。</li>
+<li>推送到远程以及从远程删除:<br>推送某个标签到远程，使用命令<code>git push origin &lt;tagname&gt;</code>：<pre><code>$ git push learngit v1.0
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:zjxkenshine/learngit.git
+ * [new tag]         v1.0 -&gt; v1.0
+</code></pre>一次性推送所有标签到远程<code>git push origin --tags</code>:<pre><code>$ git push learngit --tags
+Counting objects: 1, done.
+Writing objects: 100% (1/1), 163 bytes | 0 bytes/s, done.
+Total 1 (delta 0), reused 0 (delta 0)
+To git@github.com:zjxkenshine/learngit.git
+ * [new tag]         v0.7 -&gt; v0.7
+ * [new tag]         v0.9 -&gt; v0.9
+</code></pre>从远程删除标签，分两步:<br>1.先删除本地的标签：<pre><code>$ git tag -d v0.9
+Deleted tag &apos;v0.9&apos; (was 7f23e9a)
+</code></pre>2.再使用<code>git push</code>按如下方式删除标签<pre><code>$ git push learngit :refs/tags/v0.9
+To git@github.com:zjxkenshine/learngit.git
+ - [deleted]         v0.9
+</code></pre>登录github查看，发现已经删除了v0.9标签。</li>
+</ol>
+<hr>
+<h2 id="7-学习总结"><a href="#7-学习总结" class="headerlink" title="7.学习总结"></a>7.学习总结</h2><ol>
+<li><p>命令<br><code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin git@github.com:yourusername/learngit.git</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）</p>
+</li>
+<li><p>学习地址:<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="noopener">https://www.liaoxuefeng.com/</a></p>
+</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 11:28</p>
+        <p>最后更新： 2018年03月08日 19:48</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" title="Git学习笔记（三）：远程仓库与标签管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
