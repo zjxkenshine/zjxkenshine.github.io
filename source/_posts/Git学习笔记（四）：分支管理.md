@@ -501,10 +501,12 @@ Git用`<<<<<<<`，`=======`，`>>>>>>>`标记出不同分支的内容。
 `git checkout -b dev` 创建并切换到名为dev的分支
 `git branch dev` 创建名为dev的分支
 `git checkout dev` 切换到名为dev的分支
-`git branch` 查看分支列表，当前分支会带一个*号
+`git branch` 查看本地分支列表，当前分支会带一个*号
 `git merge dev` 合并指定分支dev到当前分支（非dev分支）
 `git branch -d dev`删除指定分支dev(合并后的)
 `git branch -D dev`强制删除指定分支dev（合没合并都删）
+`git branch -r` 查看远程分支
+`git branch -a` 查看所有分支
 `git log --graph`查看分支合并图：
 `git log --graph --pretty=oneline --abbrev-commit`查看分支（commit）历史（带合并图）
 `git merge --no-ff -m "..." dev` 不使用Fast forward的合并，附带一次提交
@@ -517,8 +519,9 @@ Git用`<<<<<<<`，`=======`，`>>>>>>>`标记出不同分支的内容。
 `git remote add origin-name git@github.com:yourusername/projectAddress.git`添加远程库
 `git remote rename oldname newname` 远程仓库重命名
 `git remote rm origin-name` 删除远程库
-`git push origin dev` 当前分支代码推送到origin远程库的dev分支,若远程库没有，则会自动创建并提交
-`git pull` 抓取远程库中和当前分支相关联的分支的最新代码
+`git push origin dev` 当前分支代码推送到origin远程库的dev分支
+（若要在远程创建dev分支，则本地切换到dev分支后使用这句）
+`git pull origin` 抓取远程库中和当前分支相关联的分支的最新代码
 `git branch --set-upstream dev origin/dev`创建本地dev与远程库dev的链接
 
 2. 学习地址:

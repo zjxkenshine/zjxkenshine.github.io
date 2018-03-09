@@ -653,6 +653,7 @@ Thread.setDefaultExceptionHandler(UncaughtExceptionHandler)方法:
 **有对象异常处理的执行对象的；
 没有对象异常处理的执行类，静态和线程组的异常处理。**
 修改测试类:
+
 	public static void main(String[] args) {
 		ThreadGroup7_18 tg=new ThreadGroup7_18("wod线程组");
 		Thread7_18 th=new Thread7_18(tg,"线程1");

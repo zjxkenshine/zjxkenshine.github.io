@@ -97,12 +97,140 @@ Git会输出一个警告，告诉你已经把GitHub的Key添加到本机的一�
 发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
 Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针。因为commit id一大串不好记，可以使用tag查找commit，tag与commit是绑定在一起的。
 2. 创建标签:
-
+切换到需要打标签的分支上:
+		$ git branch
+		* dev
+		  master
+		$ git checkout master
+		Switched to branch 'master'
+使用命令`git tag <name>`就可以打一个新标签：
+		$ git tag v1.0
+可以用命令`git tag`查看所有标签：
+		$ git tag
+		v1.0
+默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，比如，现在已经是周五了，但应该在周一打的标签没有打,怎么办,方法是找到历史提交的commit id，然后打上就可以了：
+		$ git log --pretty=oneline --abbrev-commit
+		97d5cda 合并bug与工作
+		3a86388 git 工作完成
+		786ba47 bug修复分支合并
+		2a8a8ec bug修复
+		a59aa3f 不用ff的合并
+		2ebb903 测试--no-ff
+		7f23e9a 解决冲突
+		d80455d master的修改
+		2cbbe5e a分支的修改
+		bd5dbdf 分支测试
+		5b3b482 delete file2.txt
+		3c22783 add new file2
+		dbb03c7 第四次修改
+		ec9e2b9 第三次修改
+		7abc597 第二次修改
+		1c899ff 第一次修改
+		f3b074a create the first git file
+若要在解决冲突这里打上一个v0.9可以这样写:
+		$ git tag v0.9 7f23e9a
+再用命令`git tag`查看标签:
+		$ git tag
+		v0.9
+		v1.0
+标签不是按时间顺序列出，而是按字母排序的。
+查看标签信息可以用`git show <tagname>`：
+		$ git show v0.9
+		commit 7f23e9aab68153e0fc1d6c0424fd7cfd5ca33600
+		Merge: d80455d 2cbbe5e
+		Author: poppy <1754294529@qq.com>
+		Date:   Thu Mar 8 12:31:08 2018 +0800
+		
+		    解决冲突
+		
+		diff --cc gitBranchFile.txt
+		index 96ba9ff,e4f07dc..ba9b436
+		--- a/gitBranchFile.txt
+		+++ b/gitBranchFile.txt
+		@@@ -1,2 -1,2 +1,6 @@@
+		  这是分支文件
+		- master主分支的修改
+		 -a分支的修改
+		++<<<<<<< HEAD
+		++master主分支的修改
+		++=======
+		++master分支的修改
+		++>>>>>>> a
+还可以创建带有说明的标签，用`-a`指定标签名，`-m`指定说明文字：
+		$ git tag -a v0.7 -m "0.7版本" dbb03c7
+		$ git show v0.7
+		tag v0.7
+		Tagger: poppy <1754294529@qq.com>
+		Date:   Thu Mar 8 19:04:16 2018 +0800
+		
+		0.7版本
+		
+		commit dbb03c7fa0c83a477d70a9b7cce8b32f1e66fecb
+		Author: poppy <1754294529@qq.com>
+		Date:   Wed Mar 7 17:31:40 2018 +0800
+		
+		    第四次修改
+`git show`后尾巴太长省略，按ctrl+c可以退出。
+还可以通过`-s`用私钥签名一个标签：
+		$ git tag -s v0.2 -m "signed version 0.2 released" fec145a
+签名采用PGP签名，因此，必须首先安装gpg（GnuPG），如果没有找到gpg，或者没有gpg密钥对，就会报错：
+		gpg: signing failed: secret key not available
+		error: gpg failed to sign the data
+		error: unable to sign the tag
+如果报错，请参考GnuPG帮助文档配置Key。
 
 ---
 ## 6.操作标签
+1. 删除标签:
+使用`git tag -d tagname`：
+		$ git tag -d v0.8
+		Deleted tag 'v0.8' (was 48c291b)
+创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+2. 推送到远程以及从远程删除:
+推送某个标签到远程，使用命令`git push origin <tagname>`：
+		$ git push learngit v1.0
+		Total 0 (delta 0), reused 0 (delta 0)
+		To git@github.com:zjxkenshine/learngit.git
+		 * [new tag]         v1.0 -> v1.0
+一次性推送所有标签到远程`git push origin --tags`:
+		$ git push learngit --tags
+		Counting objects: 1, done.
+		Writing objects: 100% (1/1), 163 bytes | 0 bytes/s, done.
+		Total 1 (delta 0), reused 0 (delta 0)
+		To git@github.com:zjxkenshine/learngit.git
+		 * [new tag]         v0.7 -> v0.7
+		 * [new tag]         v0.9 -> v0.9
+从远程删除标签，分两步:
+1.先删除本地的标签：
+		$ git tag -d v0.9
+		Deleted tag 'v0.9' (was 7f23e9a)
+2.再使用`git push`按如下方式删除标签
+		$ git push learngit :refs/tags/v0.9
+		To git@github.com:zjxkenshine/learngit.git
+		 - [deleted]         v0.9
+登录github查看，发现已经删除了v0.9标签。
 
 ---
 ## 7.学习总结
+1. 命令
+`$ ssh-keygen -t rsa -C "youremail@example.com"`设置ssh密钥
+`git remote add origin address` 添加远程仓库
+`git push -u origin master` 将代码推送到远程库的master并与之关联
+`git push origin master`将当前分支推送到远程库的master。
+`git clone address` 从address处克隆一个库到本地
+`git tag tagmane` 在最近一次commit创建本地名为tagname的标签
+`git tag tagmane commit-id` 在commitid那次提交创建本地名为tagname的标签
+`git log --pretty=oneline --abbrev-commit`查看历史提交，无分支
+`git tag` 查看标签列表
+`git tag -a tagname -m "..." (commit-id)`（在commit-id版本）创建一个标签名为tagname的标签。
+`git tag -s tagname -m "..." (commit-id)`创建一个带gpg签名的标签
+`git show tagname` 查看tagname标签的所有信息
+`git tag -d tagname` 删除本地tagname标签
+`git push origin tagname` 推送tagname标签到远程仓库
+`git push origin --tags ` 推送所有标签到远程仓库
+`git push origin :refs/tags/tagname ` 删除远程tagname标签（需先删除本地）
+
+2. 学习地址:
+<https://www.liaoxuefeng.com/>
 
 ---
