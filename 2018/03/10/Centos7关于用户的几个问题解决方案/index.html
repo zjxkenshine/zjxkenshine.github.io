@@ -3,23 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Git命令行总结及常见问题的解决，不断更新 | 程序人生</title>
+  <title>Centos7关于用户的几个问题的解决方案 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
-<meta name="keywords" content="Git">
+  <meta name="description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决?   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入之后，将光标一直移动到 LANG=en_">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git命令行总结及常见问题的解决，不断更新">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/index.html">
+<meta property="og:title" content="Centos7关于用户的几个问题的解决方案">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
+<meta property="og:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决?   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入之后，将光标一直移动到 LANG=en_">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-08T14:20:31.082Z">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码1.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码2.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码3.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos出现问题.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码4.jpg">
+<meta property="og:updated_time" content="2018-03-10T03:59:26.946Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git命令行总结及常见问题的解决，不断更新">
-<meta name="twitter:description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
+<meta name="twitter:title" content="Centos7关于用户的几个问题的解决方案">
+<meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决?   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入之后，将光标一直移动到 LANG=en_">
+<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -110,14 +116,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Git命令行总结及常见问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Centos7关于用户的几个问题解决方案" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Git命令行总结及常见问题的解决，不断更新
+      Centos7关于用户的几个问题的解决方案
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -125,12 +131,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/版本控制工具/">版本控制工具</a>
+                      <a href="/categories/操作系统/">操作系统</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-03-08
+          <i class="fa fa-calendar"></i>  2018-03-10
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -146,25 +152,31 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1.命令行"></a>1.命令行</h2><pre><code>$ git config --global user.name &quot;Your Name&quot;
-$ git config --global user.email &quot;email@example.com&quot;
-</code></pre><p>设置用户名和密码<br><code>git init</code> 把这个目录变成Git可以管理的仓库<br><code>git add file</code> 添加<br><code>git add -A .</code> 一次添加所有改变的文件（注意最后有个句点）。<br><code>git add -A</code> 添加所有内容<br><code>git add .</code> 添加新文件和编辑过的文件不包括删除的文件<br><code>git add -u</code> 表示添加编辑或者删除的文件，不包括新添加的文件。<br><code>git commit -m &quot;...&quot;</code> 批量提交(快照)<br><code>git log</code>查看版本日志<br><code>git log --pretty=oneline</code>查看修改日志(格式化)<br><code>git reset --hard head^</code>回到上一个版本<br><code>git reset --hard head~n</code>回到n个版本以前<br><code>git reset --hard commit_id</code>回到commit_id所对应的版本<br><code>git reflog</code>记录每一个命令操作<br><code>git status</code>查看当前文件状态<br><code>git diff file</code>查看具体修改了什么内容<br><code>git diff HEAD -- file</code>命令可以查看工作区和版本库里面最新版本的区别<br><code>git checkout -- file</code>让这个文件回到最近一次<code>git commit</code>或<code>git add</code>时的状态<br><code>git reset HEAD file</code>把暂存区的修改撤销，重新放回工作区<br><code>git rm file</code>删除文件<br><code>$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin address</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git checkout -b dev</code> 创建并切换到名为dev的分支<br><code>git branch dev</code> 创建名为dev的分支<br><code>git checkout dev</code> 切换到名为dev的分支<br><code>git branch</code> 查看本地分支列表，当前分支会带一个*号<br><code>git merge dev</code> 合并指定分支dev到当前分支（非dev分支）<br><code>git branch -d dev</code>删除指定分支dev(合并后的)<br><code>git branch -D dev</code>强制删除指定分支dev（合没合并都删）<br><code>git branch -r</code> 查看远程分支<br><code>git branch -a</code> 查看所有分支<br><code>git log --graph</code>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code>查看分支（commit）历史（带合并图）<br><code>git merge --no-ff -m &quot;...&quot; dev</code> 不使用Fast forward的合并，附带一次提交<br><code>git stash</code> 保存当前工作现场<br><code>git stash list</code> 查看保存列表<br><code>git stash apply stash@{n}</code> 恢复保存列表的第n+1项保存现场<br><code>git stash drop stash@{n}</code> 删除保存列表的第n+1项保存现场<br><code>git stash pop</code> 恢复并删除最近的添加到栈中的储存现场<br><code>git remote</code> 查看远程库信息<br><code>git remote add address</code>添加远程库<br><code>git remote rename oldname newname</code> 远程仓库重命名<br><code>git remote rm origin-name</code> 删除远程库<br><code>git push origin dev</code> 当前分支代码推送到origin远程库的dev分支<br>（若要在远程创建dev分支，则本地切换到dev分支后使用这句）<br><code>git pull origin</code> 抓取远程库中和当前分支相关联的分支的最新代码<br><code>git branch --set-upstream dev origin/dev</code>创建本地dev与远程库dev的链接<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）<br><code>$ git config --global color.ui true</code> 配置git颜色<br><code>git add -f file</code> 强制添加一个文件<br><code>git check-ignore -v file</code> 检查.gitignore文件是否忽略file<br><code>git config --global alias.othername oldname</code> 配置别名<br><code>git config --global alias.othername &#39;string&#39;</code> 配置别名</p>
-<hr>
-<h2 id="2-我遇到的问题列表"><a href="#2-我遇到的问题列表" class="headerlink" title="2.我遇到的问题列表"></a>2.我遇到的问题列表</h2><ol>
-<li><code>git log/show/diff</code>信息过多怎么返回(退出)?</li>
-<li><code>git commit</code>忘记加-m报错怎么解决?</li>
+            <h2 id="0-我遇到的问题列表（关于用户-管理员的）"><a href="#0-我遇到的问题列表（关于用户-管理员的）" class="headerlink" title="0.我遇到的问题列表（关于用户/管理员的）"></a>0.我遇到的问题列表（关于用户/管理员的）</h2><ol>
+<li>Centos7忘记密码怎么解决?</li>
 </ol>
 <hr>
-<h2 id="3-问题解决"><a href="#3-问题解决" class="headerlink" title="3.问题解决"></a>3.问题解决</h2><ol>
-<li><code>git log/show/diff</code>信息过多怎么返回(退出)：<br>方法1：按ctrl+C;<br>方法2：英文状态下按q。</li>
-<li><code>git commit</code>忘记加-m报错怎么解决：<br>方法1：关掉重启Git Bash<br>方法2：输入:wq然后回车</li>
+<h2 id="1-Centos7忘记密码怎么解决"><a href="#1-Centos7忘记密码怎么解决" class="headerlink" title="1.Centos7忘记密码怎么解决"></a>1.Centos7忘记密码怎么解决</h2><p>太久没使用Linux（Centos7）了，忘记root密码了怎么办？</p>
+<ol>
+<li>在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。<br><img src="/img/00008centos忘记密码1.jpg" alt=""><br>然后选择忘记密码的那个系统按下<code>e</code>键进入编辑模式。</li>
+<li>进入之后，将光标一直移动到 LANG=en_US.UTF-8 后面，空格，再追加init=/bin/sh。这里特别注意，需要写在UTF-8后，保持在同一行，并注意空格。由于屏幕太小，会自动添加\换行，这个是正常的。（移动光标时上下换段左右换段内文字）<br><img src="/img/00008centos忘记密码2.jpg" alt=""></li>
+<li>按下CTRL+X进行引导启动，成功后进入该界面<br><img src="/img/00008centos忘记密码3.jpg" alt=""><br>有时可能会产生这样的错误<br><img src="/img/00008centos出现问题.jpg" alt=""><br>可以查看以下第2步是否写对（注意=后面有斜杠）</li>
+<li>输入以下命令：<br>挂载根目录 <pre><code>mount -o remount, rw /
+</code></pre>选择要修改密码的用户名，这里选择root用户进行修改，可以更换为你要修改的用户<pre><code>passwd root
+</code></pre>输入2次一样的新密码，注意输入密码的时候屏幕上不会有字符出现。<br>如果输入的密码太简单，会提示警告（BAD PASSWORD：The password fails the dictionary check - it is too simplistic/systematic），可以无视它，继续输入密码，不过建议还是设置比较复杂一些的密码，以保证安全性，如下图：<br><img src="/img/00008centos忘记密码4.jpg" alt=""></li>
+<li>如果已经开启了SElinux，则需要输入以下命令 <pre><code>touch /.autorelabel
+</code></pre></li>
+<li>最后输入以下命令重启系统即可：<pre><code>exec /sbin/init 
+</code></pre>或<pre><code>exec /sbin/reboot
+</code></pre></li>
+<li>转自:<br><a href="http://blog.csdn.net/wcy00q/article/details/70570043" target="_blank" rel="noopener">http://blog.csdn.net/wcy00q/article/details/70570043</a></li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 22:20</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/08/Git命令行总结及常见问题的解决/" title="Git命令行总结及常见问题的解决，不断更新">https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/</a></p>
+        <p>最后更新： 2018年03月10日 11:59</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/10/Centos7关于用户的几个问题解决方案/" title="Centos7关于用户的几个问题的解决方案">https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -221,7 +233,7 @@ $ git config --global user.email &quot;email@example.com&quot;
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/&title=《Centos7关于用户的几个问题的解决方案》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -231,22 +243,22 @@ $ git config --global user.email &quot;email@example.com&quot;
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/&title=《Centos7关于用户的几个问题的解决方案》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Centos7关于用户的几个问题的解决方案》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -256,7 +268,7 @@ $ git config --global user.email &quot;email@example.com&quot;
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/10/Centos7关于用户的几个问题解决方案/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -268,7 +280,7 @@ $ git config --global user.email &quot;email@example.com&quot;
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/Git/" class="color4">Git</a>
+    <a href="/tags/Linux/" class="color1">Linux</a>
       
   </li>
 
@@ -281,26 +293,16 @@ $ git config --global user.email &quot;email@example.com&quot;
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-命令行"><span class="post-toc-text">1.命令行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-我遇到的问题列表"><span class="post-toc-text">2.我遇到的问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-问题解决"><span class="post-toc-text">3.问题解决</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-我遇到的问题列表（关于用户-管理员的）"><span class="post-toc-text">0.我遇到的问题列表（关于用户/管理员的）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Centos7忘记密码怎么解决"><span class="post-toc-text">1.Centos7忘记密码怎么解决</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习
-        
-      </span>
-    </a>
   
-  
-    <a href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Git学习笔记（五）：github,码云以及自定义git</span>
+    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（二）初始命令行</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   

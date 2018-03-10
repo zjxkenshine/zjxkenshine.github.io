@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Git命令行总结及常见问题的解决，不断更新 | 程序人生</title>
+  <title>《鸟哥的Linux私房菜》笔记（二）初始命令行 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
-<meta name="keywords" content="Git">
+  <meta name="description" content="包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第五章:首次登陆与在线求助man page  本节重点：    命令行与图形界面的切换    1.首次登录系统 为什么要登录:Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进行，因此正确关机很重要。不正常关机会导致文件系统错乱，造成数据的">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git命令行总结及常见问题的解决，不断更新">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/index.html">
+<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（二）初始命令行">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
+<meta property="og:description" content="包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第五章:首次登陆与在线求助man page  本节重点：    命令行与图形界面的切换    1.首次登录系统 为什么要登录:Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进行，因此正确关机很重要。不正常关机会导致文件系统错乱，造成数据的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-08T14:20:31.082Z">
+<meta property="og:updated_time" content="2018-03-10T02:54:11.851Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git命令行总结及常见问题的解决，不断更新">
-<meta name="twitter:description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
+<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（二）初始命令行">
+<meta name="twitter:description" content="包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第五章:首次登陆与在线求助man page  本节重点：    命令行与图形界面的切换    1.首次登录系统 为什么要登录:Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进行，因此正确关机很重要。不正常关机会导致文件系统错乱，造成数据的">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -110,14 +110,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Git命令行总结及常见问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-《鸟哥的Linux私房菜》笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Git命令行总结及常见问题的解决，不断更新
+      《鸟哥的Linux私房菜》笔记（二）初始命令行
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -125,12 +125,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/版本控制工具/">版本控制工具</a>
+                      <a href="/categories/学习笔记/">学习笔记</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-03-08
+          <i class="fa fa-calendar"></i>  2018-03-09
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -146,25 +146,39 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1.命令行"></a>1.命令行</h2><pre><code>$ git config --global user.name &quot;Your Name&quot;
-$ git config --global user.email &quot;email@example.com&quot;
-</code></pre><p>设置用户名和密码<br><code>git init</code> 把这个目录变成Git可以管理的仓库<br><code>git add file</code> 添加<br><code>git add -A .</code> 一次添加所有改变的文件（注意最后有个句点）。<br><code>git add -A</code> 添加所有内容<br><code>git add .</code> 添加新文件和编辑过的文件不包括删除的文件<br><code>git add -u</code> 表示添加编辑或者删除的文件，不包括新添加的文件。<br><code>git commit -m &quot;...&quot;</code> 批量提交(快照)<br><code>git log</code>查看版本日志<br><code>git log --pretty=oneline</code>查看修改日志(格式化)<br><code>git reset --hard head^</code>回到上一个版本<br><code>git reset --hard head~n</code>回到n个版本以前<br><code>git reset --hard commit_id</code>回到commit_id所对应的版本<br><code>git reflog</code>记录每一个命令操作<br><code>git status</code>查看当前文件状态<br><code>git diff file</code>查看具体修改了什么内容<br><code>git diff HEAD -- file</code>命令可以查看工作区和版本库里面最新版本的区别<br><code>git checkout -- file</code>让这个文件回到最近一次<code>git commit</code>或<code>git add</code>时的状态<br><code>git reset HEAD file</code>把暂存区的修改撤销，重新放回工作区<br><code>git rm file</code>删除文件<br><code>$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin address</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git checkout -b dev</code> 创建并切换到名为dev的分支<br><code>git branch dev</code> 创建名为dev的分支<br><code>git checkout dev</code> 切换到名为dev的分支<br><code>git branch</code> 查看本地分支列表，当前分支会带一个*号<br><code>git merge dev</code> 合并指定分支dev到当前分支（非dev分支）<br><code>git branch -d dev</code>删除指定分支dev(合并后的)<br><code>git branch -D dev</code>强制删除指定分支dev（合没合并都删）<br><code>git branch -r</code> 查看远程分支<br><code>git branch -a</code> 查看所有分支<br><code>git log --graph</code>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code>查看分支（commit）历史（带合并图）<br><code>git merge --no-ff -m &quot;...&quot; dev</code> 不使用Fast forward的合并，附带一次提交<br><code>git stash</code> 保存当前工作现场<br><code>git stash list</code> 查看保存列表<br><code>git stash apply stash@{n}</code> 恢复保存列表的第n+1项保存现场<br><code>git stash drop stash@{n}</code> 删除保存列表的第n+1项保存现场<br><code>git stash pop</code> 恢复并删除最近的添加到栈中的储存现场<br><code>git remote</code> 查看远程库信息<br><code>git remote add address</code>添加远程库<br><code>git remote rename oldname newname</code> 远程仓库重命名<br><code>git remote rm origin-name</code> 删除远程库<br><code>git push origin dev</code> 当前分支代码推送到origin远程库的dev分支<br>（若要在远程创建dev分支，则本地切换到dev分支后使用这句）<br><code>git pull origin</code> 抓取远程库中和当前分支相关联的分支的最新代码<br><code>git branch --set-upstream dev origin/dev</code>创建本地dev与远程库dev的链接<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）<br><code>$ git config --global color.ui true</code> 配置git颜色<br><code>git add -f file</code> 强制添加一个文件<br><code>git check-ignore -v file</code> 检查.gitignore文件是否忽略file<br><code>git config --global alias.othername oldname</code> 配置别名<br><code>git config --global alias.othername &#39;string&#39;</code> 配置别名</p>
-<hr>
-<h2 id="2-我遇到的问题列表"><a href="#2-我遇到的问题列表" class="headerlink" title="2.我遇到的问题列表"></a>2.我遇到的问题列表</h2><ol>
-<li><code>git log/show/diff</code>信息过多怎么返回(退出)?</li>
-<li><code>git commit</code>忘记加-m报错怎么解决?</li>
+            <ol>
+<li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）<br>第五章:首次登陆与在线求助man page</p>
+</li>
+<li><p>本节重点：</p>
+</li>
 </ol>
+<ul>
+<li>命令行与图形界面的切换</li>
+<li></li>
+</ul>
 <hr>
-<h2 id="3-问题解决"><a href="#3-问题解决" class="headerlink" title="3.问题解决"></a>3.问题解决</h2><ol>
-<li><code>git log/show/diff</code>信息过多怎么返回(退出)：<br>方法1：按ctrl+C;<br>方法2：英文状态下按q。</li>
-<li><code>git commit</code>忘记加-m报错怎么解决：<br>方法1：关掉重启Git Bash<br>方法2：输入:wq然后回车</li>
+<h2 id="1-首次登录系统"><a href="#1-首次登录系统" class="headerlink" title="1.首次登录系统"></a>1.首次登录系统</h2><ol>
+<li>为什么要登录:<br>Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进行，因此正确关机很重要。不正常关机会导致文件系统错乱，造成数据的损毁，这也是为什么<strong>通常Linux主机都会加挂一个不断电系统</strong>。</li>
+<li>Linux常见的图形化界面(X Window):GNOME和KDE<br>重启X Window快捷键：Ctrl+Alt+Backspace<br>但是Centos7下默认不可用，想要恢复可以参考<a href="http://mazaoliang.blog.163.com/blog/static/1384550932010101625214254/" target="_blank" rel="noopener">这里</a>。</li>
+<li>关于个人文件夹：<br>Linux是多用户，多任务的操作系统，每个人都会有自己的工作目录，这个目录是用户完全可以掌控的，称为用户个人主文件夹。<br>一般在目录：计算机/home/用户账号；<br>如我的目录在：计算机/home/kenshine下。</li>
+<li>X Window 与命令行模式的切换（VMwaver下的Centos7）：<br>切换到命令行:Ctrl+Alt+f2/f3/f4/f5/f6/f7<br>切换到图形界面:Ctrl+Alt+f1<br>若曾经在命令行使用init跳到图形界面，就会进入图形界面</li>
+<li>Linux启动时可以选择纯文本或是窗口环境。与运行等级相关。<br>Linux默认提供了7个Run level给我们使用:<pre><code>0：关机，机器关闭
+1：单用户模式
+2：多用户，无网络连接
+3：多用户,启动网络连接
+4：用户自定义
+5：多用户,具备图形界面
+6：重启
+</code></pre>最常用到的是run level3（命令行标准模式）与run level5（界面环境）。在各种模式间切换需要init这个命令，例如： <pre><code>init 0 : 关机 
+init 3 : 进入命令行模式 
+</code></pre>也可以更改 /etc/inittab 这个文件的内容改变Linux开机时默认使用的环境,但是<strong>CentOS-7不支持这种修改方式</strong>。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 22:20</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/08/Git命令行总结及常见问题的解决/" title="Git命令行总结及常见问题的解决，不断更新">https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/</a></p>
+        <p>最后更新： 2018年03月10日 10:54</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" title="《鸟哥的Linux私房菜》笔记（二）初始命令行">https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -221,7 +235,7 @@ $ git config --global user.email &quot;email@example.com&quot;
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/&title=《《鸟哥的Linux私房菜》笔记（二）初始命令行》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -231,22 +245,22 @@ $ git config --global user.email &quot;email@example.com&quot;
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/&title=《《鸟哥的Linux私房菜》笔记（二）初始命令行》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（二）初始命令行》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -256,7 +270,7 @@ $ git config --global user.email &quot;email@example.com&quot;
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -268,7 +282,7 @@ $ git config --global user.email &quot;email@example.com&quot;
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/Git/" class="color4">Git</a>
+    <a href="/tags/Linux/" class="color1">Linux</a>
       
   </li>
 
@@ -281,26 +295,26 @@ $ git config --global user.email &quot;email@example.com&quot;
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-命令行"><span class="post-toc-text">1.命令行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-我遇到的问题列表"><span class="post-toc-text">2.我遇到的问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-问题解决"><span class="post-toc-text">3.问题解决</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-首次登录系统"><span class="post-toc-text">1.首次登录系统</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/10/Centos7关于用户的几个问题解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习
+          Centos7关于用户的几个问题的解决方案
         
       </span>
     </a>
   
   
-    <a href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Git学习笔记（五）：github,码云以及自定义git</span>
+    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
