@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理 | 程序人生</title>
+  <title>《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理">
+<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录&#x2F;文件的配置、管理">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-10T14:33:03.959Z">
+<meta property="og:updated_time" content="2018-03-11T13:40:32.203Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限">
+<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录&#x2F;文件的配置、管理">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +117,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理
+      《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -154,13 +154,283 @@
 </ol>
 <ul>
 <li>文件的权限</li>
+<li>文件的属性</li>
+<li>Linux常见的目录</li>
+<li></li>
+<li></li>
 </ul>
 <hr>
+<h2 id="1-用户与用户组"><a href="#1-用户与用户组" class="headerlink" title="1.用户与用户组"></a>1.用户与用户组</h2><ol>
+<li>Linux一般将文件可存取访问的身份分为3个类别：owner,group,others<br>且三种身份都各有read,write,excute（执行）等权限。</li>
+<li>用户与用户组：<br>不同的用户可以分到不同的组，如用户1，2分到A组，3，4分到B组，A对于12来说就是group,34对于12来说就是others。<br>一个用户可以归属于一个或多个用户组。</li>
+<li>root用户:<br>有无限的权限，凌驾于所有用户之上。</li>
+<li>Linux用户身份与用户组记录的文件（默认情况下）：<ul>
+<li>记录系统上的账号与一般用户及root的信息：/etc/passwd文件内</li>
+<li>个人密码：/etc/shadow</li>
+<li>所有组名：/etc/group</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-文件的权限与属性（最好切换为root用户）"><a href="#2-文件的权限与属性（最好切换为root用户）" class="headerlink" title="2.文件的权限与属性（最好切换为root用户）"></a>2.文件的权限与属性（最好切换为root用户）</h2><ol>
+<li>一个非常重要的命令：<code># ls</code>，用来显示文件名与相关属性。<br>如执行：<code># ls -ai</code><br>就可以显示所有文件的详细权限与属性（包括文件名开头为”.”的隐藏文件）</li>
+<li>执行上述命令后会出现诸如此类的列表：<pre><code>dr-xr-x---. 4 root root 4096 Mar 10 22:13 .
+-rw-r--r--. 1 root root 176  Dec 29 2013  .bash_logout
+[1]        [2] [3]  [4] [5]      [6]      [7]
+类型和权限  连接 丨 用户组 丨     修改日期   文件名
+              所有者   文件容量
+</code></pre><ul>
+<li>[1]列代表了文件的类型和权限<pre><code>-rwxrw----
+</code></pre>可以分割为：<pre><code> -  rwx  rw-  ---
+[A] [B]  [C]  [D]
+r:read/w:write/x:excute/-:无此权限
+</code></pre><ul>
+<li>其中[A]部分代表了文件的类型：<ul>
+<li>d:目录</li>
+<li>-:文件</li>
+<li>|:连接文件</li>
+<li>b:设备文件里可供存储的接口设备</li>
+<li>c:设备文件里的串型端口设备：键盘鼠标等（一次性读取设备）</li>
+</ul>
+</li>
+<li>[B][C][D]部分分别代表了：<br>B:文件所有者权限(owner)<br>C:同用户组权限(group)<br>D:其他非本用户组的权限(others)</li>
+</ul>
+</li>
+<li>[2]列表示有多少文件名连接到此节点（i-node）：<br>每个文件都会将它的权限与属性记录到文件系统的i-node中，第8章细讲。<br>其中最少为1个，即为文件。也可以多于一个：目录。</li>
+<li>[3]列表示这个文件（或目录）的所有者账号</li>
+<li>[4]表示这个文件的所属用户组</li>
+<li>[5]表示这个文件的容量大小，默认单位为B</li>
+<li>[6]文件的创建日期或最近修改日期<br>太过久远只会显示到日期，可以通过使用带参数ls显示完整格式：<pre><code># ls -l --full-time
+</code></pre></li>
+<li>[7]文件名：<br>以”.”开头的为隐藏文件，可以使用<code># ls -a</code>去查看</li>
+<li>更多ls的用法：<code># man ls</code>或<code># info ls</code>.</li>
+</ul>
+</li>
+<li>文件权限的重要性：<br> 系统保护功能，保证数据安全，实现团队合作共享<br> <strong>在修改linux文件目录属性之前，一定搞清楚什么数据是可变的，什么数据是不可变的。</strong></li>
+<li>改变文件属性与权限<ul>
+<li>常用的改变文件的所有者，用户组及文件权限的命令：<br><code># chgrp</code>：改变文件所属用户组<br><code># chown</code>：改变文件所有者<br><code># chmod</code>：改变文件的权限</li>
+<li>改变所属用户组:chgrp<br><code># chgrp [-R] groupname direname/filename ...</code>：用户组必须是在/etc/group/下存在的才行，否则会报错误。<br>[-R]参数表示递归持续更改，目录下所有文件，目录都更改到新用户组。用于目录的修改。<br>如：<pre><code># chgrp groupA install.log
+</code></pre>将install.log文件修改到groupA用户组</li>
+<li>改变文件的所有者:chown<br><code># chown [-R] 用户名 文件或目录</code>：用户必须是存在/etc/passwd中的。</li>
+<li>需要改变文件的所有者时，一般先copy一份，再把复制的给他。<br><code># cp 源文件 目标文件</code> 复制一份源文件到目标文件<br>示例：<pre><code># cp .bash .bash_copy
+# ls -al .bash*      查询以.bash开头的文件信息
+# chown -R kenshine .bash_copy
+</code></pre></li>
+<li>改变文件权限：chmod<br>用数字代表权限（9个3组），各权限的数字对照表为:<br>r：4<br>w：2<br>x：1<br>-：0<br>如<code>rw-r--r--</code>的权限数字是644，<code>rwxr-----</code>权限数字为740。<br>命令格式:<br><code>chmod [-R] 权限数字 文件名</code></li>
+<li>用符号类型改变文件权限（上面是数字）:<br><code>chmod u/g/o/a +/-/= r/w/x 目录名/文件名</code><br>u/g/o/a:user,group,othre,all<br>+加入/-除去/=设置   rwx读写执行</li>
+</ul>
+</li>
+<li>修改目录与文件权限的注意事项:<ul>
+<li>文件:<br>w写权限可以对文件新增，编辑名字和修改文件内容，但是<strong>不包括删除</strong><br>文件是否可执行是由是否x权限决定的，和文件名及后缀无绝对的关系。</li>
+<li>目录:<br>r:读取目录结构列表（$ ls）<br>w:新建新文件与目录，删除已经存在的文件或目录（不管它权限如何），将已存在的文件或目录重命名，转移该目录下的文件目录位置。<br>x:<strong>能否进入该目录内</strong><br>如果在某目录下没有x权限，你就无法切换到该目录下，也就无法执行该目录下的任何命令，即使拥有r权限。所以至少要有r权限和x权限才能开发浏览。<br><strong>w权限不能随便给</strong></li>
+<li>几个命令(后面会有详细介绍):<br><code># mkdir dirname</code>：新建目录<br><code># touch dirname/filenam</code>：新建空文件<br><code># su - kenshine</code>：从root用户切换到kenshine用户<br>root到普通用户不用密码，反过来则需要<br><code># cat ~/.bash</code>：将用户主目录下的.bash文件内容读取出来（用于读取普通文件）<br><code># last dirname/filename</code>：用于读取特殊文件（使用cat会乱码）</li>
+</ul>
+</li>
+<li>Linux文件种类：<ul>
+<li>普通文件:权限列第一个字符为[-]<ul>
+<li>纯文本文件，Linux上最多的类型</li>
+<li>二进制文件，大部分可执行文件</li>
+<li>数据格式文件:data file，如登录时会将登录数据记录在/var/log/wtmp下</li>
+</ul>
+</li>
+<li>目录：第一个属性为[d]</li>
+<li>连接：类似windows下的快捷方式</li>
+<li>设备与设备文件:<br>与系统外设与存储相关的文件，通常放在/dev目录下<br>  -块设备文件:存储数据可以随机访问，成组设备，如硬盘等,属性为[b]<br>  -字符设备文件:一些串行端口设备，一次性设备，如键盘鼠标，属性[c]</li>
+<li>套接字：数据接口文件，常被用于网络上的数据连接，第一个属性[s],通常在/var/run可以看到这类文件。</li>
+<li>管道:第一个属性为[p]</li>
+<li>设备文件非常重要，不要随意修改。</li>
+</ul>
+</li>
+<li>Linux扩展名：<br>文件可不可执行与第一列10个属性有关，和扩展名无关。但可执行不代表执行成功。一般还是会加上扩展名表示文件类别:<ul>
+<li><code>*.sh</code>：脚本或批处理文件，因为批处理文件是用shell写得</li>
+<li><code>*Z,*.tar,*.zip,*.tar.gz,*.tgz</code>：压缩文件</li>
+<li><code>*.html,*.php</code>：网页相关文件</li>
+</ul>
+</li>
+<li>文件名长度与文件名限制:<ul>
+<li>文件长度限制:<ul>
+<li>单一文件最大容许文件名225个字符</li>
+<li>包含文件完整路径名称及目录(/)的完整路径名限制为4096个字符</li>
+</ul>
+</li>
+<li>文件名限制:<br>最好不要使用特殊字符，不要用.，-，+-开头</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-Linux目录配置"><a href="#3-Linux目录配置" class="headerlink" title="3.Linux目录配置"></a>3.Linux目录配置</h2><ol>
+<li>Linux目录的配置标准：FHS<br>详细关于FHS以及目录树的介绍参考博客:<br><a href="http://www.cnblogs.com/lifeinsmile/p/4280223.html" target="_blank" rel="noopener">文件系统层次标准FHS的详细介绍</a><br>以及<a href="http://www.cnblogs.com/lifeinsmile/p/4280342.html" target="_blank" rel="noopener">FHS目录配置下，常见的几个问题及解答</a></li>
+<li>三层目录定义:<ul>
+<li>/ (root,根目录)：与开机系统有关</li>
+<li>/usr：与软件的安装执行有关</li>
+<li>/var：与系统的安装运作过程有关</li>
+</ul>
+</li>
+<li>常用目录:<ul>
+<li>五个与开机有关的重要目录：<ul>
+<li>/etc：配置文件</li>
+<li>/bin：重要执行文件</li>
+<li>/dev：所需要的设备文件</li>
+<li>/lib：执行文件所需的文件与内核所需的模块</li>
+<li>/sbin：重要的系统执行文件</li>
+</ul>
+</li>
+<li>根目录下几个很重要的目录:<ul>
+<li>/boot：存放开机会用到的文件</li>
+<li>/home：用户主目录（~dmstsai代表dmstsai的用户主目录，~代表自己）</li>
+<li>/lib：开机会用到的函数库</li>
+<li>/media：可删除设备</li>
+<li>/mnt：与media相同，现只用来暂时挂载</li>
+<li>/root：管理员主文件目录</li>
+<li>/opt：第三方软件放置目录，最好是distribution提供的</li>
+<li>/ser：网络服务数据目录</li>
+<li>/proc：虚拟文件系统</li>
+<li>/sys：也虚拟文件系统，记录内核相关信息</li>
+</ul>
+</li>
+<li>/usr相关几个重要目录：<ul>
+<li>/usr/bin/：绝大部分用户可以使用的命令，与开机无关的</li>
+<li>/usr/lib/：各应用程序的函数库，目标文件及不被一般用户惯用的执行文件或脚本。</li>
+<li>/usr/local/：自己下载安装的软件放这，非distribution提供的。</li>
+<li>/usr/sbin/：非系统正常运行所需要的系统命令，常见的是网络服务命令</li>
+<li>/usr/src/：源码放这里，内核源码放在/usr/src/Linux/下</li>
+</ul>
+</li>
+<li>/var相关的几个重要目录：<ul>
+<li>/var/cache/：应用程序运行中产生的一些暂存文件</li>
+<li>/var/lib/：程序执行过程需要使用的数据文件放置目录，如MySQL放到/var/lib/mysql/下</li>
+<li>/var/lock/：同步资源放置处</li>
+<li>/var/log/：登录文件</li>
+<li>/var/run/：放置启动后的服务/程序的PID</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查看Centos：<br><code># uname -r</code>：查看实际的内核版本</li>
+</ol>
+<hr>
+<h2 id="4-目录与路径"><a href="#4-目录与路径" class="headerlink" title="4.目录与路径"></a>4.目录与路径</h2><ol>
+<li>绝对路径与相对路径<ul>
+<li>绝对路径：由根目录（/)写起</li>
+<li>相对路径：由当前目录出发，相对于当前目录。如../表示上级目录下<ul>
+<li>.：代表此层目录</li>
+<li>..：上一层目录</li>
+<li>-：前一个工作目录(从下层目录cd上来的则去到下层)</li>
+<li>~：目前用户所在的主文件夹</li>
+<li>~kenshine：用户kenshine的主文件夹</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>目录的相关操作:<pre><code># cd     切换目录
+# pwd    显示当前目录
+# mkdir  新建一个新的目录
+# rmdir 删除一个空目录
+</code></pre><ul>
+<li><code># cd</code>简单介绍：<br>  <code>$ cd 绝对路径/相对路径</code><br>提示：可以利用Tab键快速补全目录文件。</li>
+<li><code># pwd</code>显示出当前工作的目录：<br><code># pwd -p</code>：显示当前工作路径的真实目录，非连接目录</li>
+<li><code># mkdir dirname</code>创建新目录：<br><code># mkdir -mp</code>:-m配置权限数字，-p创建所需要的目录如：<br><code># mkdir -p test1/test2/test3/test4</code>：若test1-3不存在则会自动创建<br><code># mkdir -m 755 test1</code>创建并配置test1目录权限为drwxr-xr-x。<br>新创建的目录中会有两个隐藏文件.和..代表本目录与上级。</li>
+<li><code># rmdir dirname</code>删除空目录<br><code># rmdir -p dirname</code>删除空目录并连同上级空目录一起删除<br>如<code># rmdir -p test01/test02</code>,若cd到test01下再执行，则test01不会被删除</li>
+</ul>
+</li>
+<li>关于执行文件路径的变量：$PATH<ul>
+<li>FHS标准告诉我们一些命令如<code># ls</code>的真实路径是/bin/ls,但是在任何地方只要用ls就能执行了，这是因为环境变量PATH的帮助。</li>
+<li>如ls,系统会查询每个PATH目录下名为ls的可执行文件，先找到的先执行</li>
+<li>可以使用<code># echo $PATH</code>命令查询PATH中定义了哪些变量。<br>echo显示，打印出。$表示后面接的是变量<br>注意：使用普通用户查询比使用root查询缺少包含sbin的目录</li>
+<li>如何将一个目录加到可执行文件的查询路径PATH中(如/root/test01)：<br><code># PATH=&quot;$PATH&quot;:/root/test01</code></li>
+<li>若本身在/root/bin内未配置PATH如何调用ls:<br><code># ./ls</code>或<code># /root/bin/ls</code>不能直接使用<code># ls</code></li>
+<li>本目录”.”最好不要放到PATH中</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-文件与目录管理"><a href="#5-文件与目录管理" class="headerlink" title="5.文件与目录管理"></a>5.文件与目录管理</h2><ol>
+<li>查看文件与目录：ls<pre><code># ls [-aAdfFhilnrRSt] 目录名称
+# ls [--color={never,auto,always}] 目录名称
+# ls [--full-time] 目录名称
+</code></pre>常用参数介绍：<pre><code>-a:列出全部文件，连同隐藏文件（常用）
+-A:列出全部文件，连同隐藏文件但是不包括&quot;.&quot;与&quot;..&quot;这俩目录
+-d:仅列出目录本身，而不是列出目录内的数据（常用）
+-f:直接列出结果而不进行排序
+-F:根据文件目录信息给予附加的数据结构，如：
+   *代表可执行文件；/代表目录；|代表FIFO文件；=代表socket文件
+-h:将文件容量以人类较易读的方式列出来。（KB,GB等)
+-i:列出icode码
+-l:列出长数据串，包含文件属性与文件等级等数据（常用）
+-n:列出UID和GID而非用户和用户组
+-r:将排序结果反向输出
+-R:连同子目录内容一起列出来
+-S:以文件容量大小排序而不是用文件名排序
+-t:依时间排序而不是用文件名
+--color=never:不要给文件依据特性给予颜色显示
+--color=always:显示颜色
+--color=auto:系统自动判断是否显示颜色
+--full-time:以完整时间模式显现（年月日时分秒）
+--time={atime,ctime}输出访问时间或改变权限属性时间（ctime）而不是内容更改时间（atime）
+</code></pre>ls最常用的参数还是<code>-l</code>,可以用<code>$ ll</code>效果等同于<code>$ ls -l</code>，至于为什么会这样涉及到了bash shell的alias（别名）功能。<br>如执行<code># ls /etc</code>会显示很多蓝色的目录和白色的一般文件。<br>注意：如果你在文件夹test01中，使用<code># ls test01</code>将会没有效果，要使用<code># ls</code>或者<code># ls .</code></li>
+<li>复制、删除与移动:cp,rm,mv3</li>
+<li><p>复制：cp(copy)<br><code>cp</code>除了单纯的复制功能，还可以创建连接文件（即快捷方式），对比新旧并予以更新，以及复制整个目录等。用法如下:</p>
+<pre><code># cp [-adfilprsu] 源文件（source） 目标文件（distination）
+# cp [options] source1 source2 source3 ... directory
+注意:多个源文件最后必须是目录
+</code></pre><p>参数说明:</p>
+<pre><code>-a:相当于-pdr的作用，-p-d-r稍后介绍（常用）
+-p:连同文件属性一同复制过去而不是使用默认属性（备份常用）
+-d:若源文件为连接文件的属性，则复制连接文件的属性而并非文件本身
+-r:递归持续复制常用于目录的复制行为（常用）
+-f:强制复制，若文件已存在而无法使用，则删除后再尝试复制
+-i:若目标已存在，则会询问是否覆盖（常用）
+-l:进行硬连接的连接文件创建而非文件本身复制
+-s:复制成复制成符号链接文件，即快捷方式。
+-u:若destination比source旧才更新destination。
+</code></pre><p>在默认条件下，cp的源文件与目标文件的权限是不同的，目标文件所有者通常是命令操作者。在-a下可以复制所有（包括权限，属性等）。<br>几个例子:</p>
+<pre><code># cp -r /etc/ /tmp  复制/etc/目录下的所有内容到/tmp，如果不加-r则会失败
+# cp -a /root/test01 .  将test01文件复制到自身（完整复制）
+# cp -u /root/test01 test01  两个文件有差异是才会复制（备份常用）
+
+# cp -s test01 test02  软连接复制
+# cp -l test01 test03  硬连接复制
+若使用ls -al查看会发现：
+硬连接test03的文件名仍然为test03
+软连接test02的文件名是像这样的：test02 -&gt; test01
+</code></pre><p>不同身份者执行这个命令会有不同的结果产生，尤其是-a与-p参数：</p>
+<pre><code>$ -a /var/log/wtmp /tmp/vbird_wtmp
+可以复制 除用户文件组 以外的所有属性，有时该身份无权限。
+</code></pre><p>复制之前需要了解：</p>
+<blockquote>
+<p>是否需要完整保留源文件的信息?  -a<br>软连接或硬连接  -s  -l<br>源文件是否为链接文件  -d(不加则会复制实际文件)<br>源文件是否为特殊文件  -a<br>源文件是否为目录  -r</p>
+</blockquote>
+</li>
+<li>删除，移除文件或目录：rm(remove)<pre><code># rm [-fir] 文件或目录
+</code></pre>参数说明：<pre><code>-f:强制删除，忽略不存在的文件，不会发出警告
+-i:互动模式，再删除前询问用户是否操作
+-r:递归删除，常用在目录删除，非常危险
+</code></pre>示例：<pre><code># rm -i test*  删掉本目录下以test开头的所有文件/目录，*是通配符，代表从0到无穷多个任意字符。
+# rm -r dir01  递归循环删除dir01目录下的所有子项但是会一直询问
+# \rm -r dir01 忽略掉alias指定参数（-i）,不询问，但是很危险
+# rm ./-aaa-  文件名以-开头的直接rm -aaa-会被当成参数，所以需要这样删除或者# rm -- -aaa-
+</code></pre>为了文件误杀，很distributions都已经默认加入了-i这个参数</li>
+<li>移动文件与目录，或改名：mv(move)<pre><code># mv [-fiu] source destination（目标文件）
+# mv [options] source1 source2 ....direction
+多个文件最后一个目标一定是目录
+</code></pre>参数说明:<pre><code>-f:强制移动，若目标已存在，则不会询问直接删除
+-i:目标存在，询问
+-u:update,目标存在且source比较新，更新
+</code></pre>示例：<pre><code>重命名：# mv A B   将A重命名为B，需要B不存在才行
+移动:# mv file dir
+</code></pre></li>
+<li>关于重命名：<br>Linux中有一个名为rename的命令，可以用来更改大量的文件文件名，具体用法man rename</li>
+<li>获得文件名与目录名：<br><code># basename 完整文件名</code>获得文件名<br><code># direname 完整文件名</code>获得目录名<br>如：<pre><code># basename /etc/sysconfig/network    //network
+# dirname /etc/sysconfig/network     ///etc/sysconfig/
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-文件内容查询"><a href="#6-文件内容查询" class="headerlink" title="6.文件内容查询"></a>6.文件内容查询</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月10日 22:33</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" title="《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理">https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/</a></p>
+        <p>最后更新： 2018年03月11日 21:40</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" title="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理">https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -217,7 +487,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&title=《《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&title=《《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -227,7 +497,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&title=《《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&title=《《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -237,7 +507,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（三）：文件以及目录的配置、管理》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -277,7 +547,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-用户与用户组"><span class="post-toc-text">1.用户与用户组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-文件的权限与属性（最好切换为root用户）"><span class="post-toc-text">2.文件的权限与属性（最好切换为root用户）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Linux目录配置"><span class="post-toc-text">3.Linux目录配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-目录与路径"><span class="post-toc-text">4.目录与路径</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-文件与目录管理"><span class="post-toc-text">5.文件与目录管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-文件内容查询"><span class="post-toc-text">6.文件内容查询</span></a></li></ol>
         </nav>
     </aside>
     

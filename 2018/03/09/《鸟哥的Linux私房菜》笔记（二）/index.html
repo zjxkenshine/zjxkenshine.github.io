@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第五章:首次登陆与在线求助man page  本节重点：    命令行与图形界面的切换 简单命令的执行 man page 常用热键 正确关机   1.首次登录系统 为什么要登录:Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjxkenshine.github.io/img/00009Linux学习2-1.jpg">
-<meta property="og:updated_time" content="2018-03-10T14:30:35.915Z">
+<meta property="og:updated_time" content="2018-03-11T04:52:29.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（二）初识命令行与正常关机">
 <meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第五章:首次登陆与在线求助man page  本节重点：    命令行与图形界面的切换 简单命令的执行 man page 常用热键 正确关机   1.首次登录系统 为什么要登录:Linux系统中由于是多人多任务的环境，所以系统随时都有很多任务在进">
@@ -186,7 +186,7 @@ init 3 : 进入命令行模式
 </code></pre>也可以更改 /etc/inittab 这个文件的内容改变Linux开机时默认使用的环境,但是<strong>CentOS-7不支持这种修改方式</strong>。<br>Centos7使用以下:<pre><code>systemctl set-default multi-user.target  //设置成命令模式
 systemctl set-default graphical.target  //设置成图形模式
 </code></pre>具体Centos7修改默认开机环境可以参考<a href="https://jingyan.baidu.com/article/ea24bc39960fa0da62b331e0.html" target="_blank" rel="noopener">这里</a>。</li>
-<li>登录：<br>使用用户名密码登录即可。<br>最好使用普通账户登录，root权限太大容易玩脱。一般只有需要动用到系统功能修改时才会转换身份为root。<br>如果想要添加新用户或忘记密码可以参考：<br><a href="/Centos7关于用户的几个问题解决方案.md">Centos7关于用户的几个问题解决方案</a><br>注意:Centos7默认的数字键盘和是关闭的！！<br>登录后会看到一行像这样的文字：<br><img src="/img/00009Linux学习2-1.jpg" alt="登录后文字"><br>其中kenshine是我的用户名，bogon是我的主机名，~是用户主文件夹，<br>root用户的~为/root，我的~指向home/kenshine。<br>$是普通用户提示符，root用户提示符为#。</li>
+<li>登录：<br>使用用户名密码登录即可。输入密码时不会显示字符，连<code>***</code>都没有。<br>最好使用普通账户登录，root权限太大容易玩脱。一般只有需要动用到系统功能修改时才会转换身份为root。<br>如果想要添加新用户或忘记密码可以参考：<br><a href="/Centos7关于用户的几个问题解决方案.md">Centos7关于用户的几个问题解决方案</a><br>注意:Centos7默认的数字键盘和是关闭的！！<br>登录后会看到一行像这样的文字：<br><img src="/img/00009Linux学习2-1.jpg" alt="登录后文字"><br>其中kenshine是我的用户名，bogon是我的主机名，~是用户主文件夹，<br>root用户的~为/root，我的~指向home/kenshine。<br>$是普通用户提示符，root用户提示符为#。</li>
 <li>注销Linux(登出)：<br> $ exit<br>不是关机，是退出，执行后回到未登录状态。</li>
 </ol>
 <hr>
@@ -216,7 +216,7 @@ $ DATE
 </li>
 <li>语言的支持:<br>很多时候发现输入命令之后显示的结果是乱码，可能是编码问题，在命令行输入:<pre><code>$ echo $LANG
 </code></pre>可以查看目前的编码，zh_CN为中文，en_US为英文，Centos7好像默认是英文。<br>可以通过以下代码修改：<pre><code>$ LANG=en_US/zh_CN
-</code></pre>但是修改仅对这一次有效</li>
+</code></pre>但是修改仅对这一次有效，若要一直有效，可以通过<code>nano</code>(后面会介绍)修改<code>/etc/sysconfig/i18n</code>内的LANG（Centos5.x）。</li>
 <li>基础命令操作–date/cal:<br>显示日期与时间：<pre><code>$ date
 </code></pre>显示日期与时间（格式化）：<pre><code>$ date +%Y/%m/%d       &lt;==如：2018/3/10年月日
 $ date +%H:%M:%S       &lt;==如：18:27:14时分秒
@@ -372,7 +372,7 @@ $ date +%H:%M:%S       &lt;==如：18:27:14时分秒
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月10日 22:30</p>
+        <p>最后更新： 2018年03月11日 12:52</p>
         <p>原始链接： <a class="post-url" href="/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" title="《鸟哥的Linux私房菜》笔记（二）初识命令行与正常关机">https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
