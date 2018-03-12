@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
+  <meta name="description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-10T08:32:07.896Z">
+<meta property="og:updated_time" content="2018-03-11T15:47:34.049Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,10 +146,64 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <h2 id="0-数据库再学习"><a href="#0-数据库再学习" class="headerlink" title="0.数据库再学习"></a>0.数据库再学习</h2><p>以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。<br>从删库到跑路！</p>
+<hr>
+<h2 id="1-数据库基础"><a href="#1-数据库基础" class="headerlink" title="1.数据库基础"></a>1.数据库基础</h2><ol>
+<li>什么是数据库?<ul>
+<li>database，存储数据的仓库。</li>
+<li>高效的存储和处理数据的介质。（磁盘，内存）</li>
+</ul>
+</li>
+<li>数据库的分类:<br>基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL）</li>
+<li>数据库产品：<ul>
+<li>关系型数据库<ul>
+<li>大型:Oracle,DB2</li>
+<li>中型:SQL-SERVER,Mysql</li>
+<li>小型:access等</li>
+</ul>
+</li>
+<li>非关系型数据库：<br>memcached,mongodb,Redis</li>
+</ul>
+</li>
+<li>关系型数据库和非关系型数据库的区别:<br>关系型数据库：安全（保存磁盘基本不可能丢失），容易理解，比较浪费空间（二维表）<br>非关系型数据库：效率，但是不够安全（丢失断电）</li>
+</ol>
+<hr>
+<h2 id="2-关系型数据库及关键字说明"><a href="#2-关系型数据库及关键字说明" class="headerlink" title="2.关系型数据库及关键字说明"></a>2.关系型数据库及关键字说明</h2><ol>
+<li>什么是关系型数据库？<br>建立在关系模型上(数学模型)的数据库。</li>
+<li>关系模型：建立在关系上的模型。<br>关系模型包括三个方面：<ul>
+<li>数据结构:数据存储的问题，二维表（有行和列）</li>
+<li>操作指令:所有SQL语句</li>
+<li>完整性约束:表内数据约束（字段与字段），表与表之间的约束（外键）</li>
+</ul>
+</li>
+<li>关系型数据库的设计：<br>从需要存储的数据需求中分析，如果是一类数据（实体）应该设计成一张二维表。<br><strong>表</strong>：表由<strong>表头</strong>（字段名：规定数据的名字）和<strong>数据部分</strong>（存储数据的单元）组成。</li>
+<li>实际分析:<br>简单分析一个教学系统：<br> 1.找出实体类：讲师表，学生表，班级表<br> 2.找出实体中应该存在的数据信息<pre><code>讲师：姓名，性别，年龄，工资...
+学生：姓名，性别，学号，学科...
+班级：班级名称，教师编号
+</code></pre> 3.关系型数据库：维护实体与内部，实体与实体之间的联系。<br> 实体内部联系：<br> —每个学生都有姓名，性别，学号，学科信息<br> —某一行所有字段都是描述一个学生（内部联系），某一列只能放性别（内部约束）<br> 实体与实体之间的联系:<br> —每个学生肯定属于某个班级，每个班级一定有多个学生（一对多）<br> —在学生表内增加一个班级字段来指向班级</li>
+<li>关键字说明：<br>数据库：database(DB)<br>数据库系统：DBS（Database System）:是一种虚拟系统，将多种内容关联起来称呼<br>DBS=DBMS+DB<br>DBMS：Database Management System:数据库管理系统，专门管理数据库<br>DBA：Database Administator,数据库管理员<br>= - =<br>行/记录（row/record）：本质是一个东西，指的都是表中的一行，行是从结构角度出发，记录是从数据角度出发。<br>列/字段（column/field）：本质都是数据库中的一列数据</li>
+</ol>
+<hr>
+<h2 id="3-SQL"><a href="#3-SQL" class="headerlink" title="3.SQL"></a>3.SQL</h2><ol>
+<li>SQL：Structed Query Language,结构化查询语言（数据以查询为主:99%是在进行查询操作）</li>
+<li>SQL分为三个部分:<ul>
+<li>DDL:Date Definiton Language,数据定义语言用来维护存储数据的结构（数据库，表）<br>代表指令:creat,drop,alter等</li>
+<li>DML：Data Maniplation Language,数据操作语言，用来对数据进行操作（数据表中的内容），代表指令：insert，delete，update等。其中DML内部又单独进行了一个分类：<br>—DQL:Data Query Language,数据查询语言，如select<br>—DCL:Data Control Language,数据库控制语言，主要负责管理权限（用户），代表指令：grank,revoke等。</li>
+</ul>
+</li>
+<li>SQL是关系型数据库的操作指令，SQL是一种约束（类似W3C）,不同的数据库产品（如Orcal,mysql）内部会有一些细微差别。</li>
+</ol>
+<hr>
+<h2 id="4-MySQL"><a href="#4-MySQL" class="headerlink" title="4.MySQL"></a>4.MySQL</h2><ol>
+<li>MySQL是一种c/s结构的软件:客户端/服务器，若想访问服务器必须通过客户端（服务器一直运行，客户端在需要的时候运行）</li>
+<li>交互方式：<br>–1.客户端连接认证，连接服务器：mysql.exe -hPup<br>–2.发送SQL<br>–3.服务器接收SQL指令，处理SQL指令，返回操作结果<br>–4.客户端接收结果，显示结果<br>–5.断开连接（释放资源，服务器并发限制）</li>
+</ol>
+<hr>
+<h2 id="5-Mysql的安装"><a href="#5-Mysql的安装" class="headerlink" title="5.Mysql的安装"></a>5.Mysql的安装</h2><hr>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月10日 16:32</p>
+        <p>最后更新： 2018年03月11日 23:47</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/MySQL数据库学习笔记（一）/" title="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -265,6 +319,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-数据库再学习"><span class="post-toc-text">0.数据库再学习</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-数据库基础"><span class="post-toc-text">1.数据库基础</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-关系型数据库及关键字说明"><span class="post-toc-text">2.关系型数据库及关键字说明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL"><span class="post-toc-text">3.SQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-MySQL"><span class="post-toc-text">4.MySQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Mysql的安装"><span class="post-toc-text">5.Mysql的安装</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
@@ -279,8 +339,8 @@
     </a>
   
   
-    <a href="/2018/03/10/Centos7关于用户的几个问题解决方案/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Centos7关于用户的几个问题的解决方案</span>
+    <a href="/2018/03/10/Centos7几个常见问题解决方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Centos7关于几个常见问题的解决方案</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   

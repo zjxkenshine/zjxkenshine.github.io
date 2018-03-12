@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录 文件权限管理 文件查找   1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录&#x2F;文件的配置、管理">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录 文件权限管理 文件查找   1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-11T13:40:32.203Z">
+<meta property="og:updated_time" content="2018-03-12T09:47:27.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录&#x2F;文件的配置、管理">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录     1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group,others且三种">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第6章：文件的权限与目录的配置第7章：Linux文件与目录管理  学习重点    文件的权限 文件的属性 Linux常见的目录 文件权限管理 文件查找   1.用户与用户组 Linux一般将文件可存取访问的身份分为3个类别：owner,group">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -156,8 +156,8 @@
 <li>文件的权限</li>
 <li>文件的属性</li>
 <li>Linux常见的目录</li>
-<li></li>
-<li></li>
+<li>文件权限管理</li>
+<li>文件查找</li>
 </ul>
 <hr>
 <h2 id="1-用户与用户组"><a href="#1-用户与用户组" class="headerlink" title="1.用户与用户组"></a>1.用户与用户组</h2><ol>
@@ -173,7 +173,7 @@
 </ol>
 <hr>
 <h2 id="2-文件的权限与属性（最好切换为root用户）"><a href="#2-文件的权限与属性（最好切换为root用户）" class="headerlink" title="2.文件的权限与属性（最好切换为root用户）"></a>2.文件的权限与属性（最好切换为root用户）</h2><ol>
-<li>一个非常重要的命令：<code># ls</code>，用来显示文件名与相关属性。<br>如执行：<code># ls -ai</code><br>就可以显示所有文件的详细权限与属性（包括文件名开头为”.”的隐藏文件）</li>
+<li>一个非常重要的命令：<code># ls</code>，用来显示文件名与相关属性。<br>如执行：<code># ls -al</code><br>就可以显示所有文件的详细权限与属性（包括文件名开头为”.”的隐藏文件）</li>
 <li>执行上述命令后会出现诸如此类的列表：<pre><code>dr-xr-x---. 4 root root 4096 Mar 10 22:13 .
 -rw-r--r--. 1 root root 176  Dec 29 2013  .bash_logout
 [1]        [2] [3]  [4] [5]      [6]      [7]
@@ -386,7 +386,7 @@ r:read/w:write/x:excute/-:无此权限
 </code></pre><p>在默认条件下，cp的源文件与目标文件的权限是不同的，目标文件所有者通常是命令操作者。在-a下可以复制所有（包括权限，属性等）。<br>几个例子:</p>
 <pre><code># cp -r /etc/ /tmp  复制/etc/目录下的所有内容到/tmp，如果不加-r则会失败
 # cp -a /root/test01 .  将test01文件复制到自身（完整复制）
-# cp -u /root/test01 test01  两个文件有差异是才会复制（备份常用）
+# cp -u /root/test01 test01  两个文件有差异时才会复制（备份常用）
 
 # cp -s test01 test02  软连接复制
 # cp -l test01 test03  硬连接复制
@@ -394,7 +394,7 @@ r:read/w:write/x:excute/-:无此权限
 硬连接test03的文件名仍然为test03
 软连接test02的文件名是像这样的：test02 -&gt; test01
 </code></pre><p>不同身份者执行这个命令会有不同的结果产生，尤其是-a与-p参数：</p>
-<pre><code>$ -a /var/log/wtmp /tmp/vbird_wtmp
+<pre><code>$ cp -a /var/log/wtmp /tmp/vbird_wtmp
 可以复制 除用户文件组 以外的所有属性，有时该身份无权限。
 </code></pre><p>复制之前需要了解：</p>
 <blockquote>
@@ -425,11 +425,276 @@ r:read/w:write/x:excute/-:无此权限
 </code></pre></li>
 </ol>
 <hr>
-<h2 id="6-文件内容查询"><a href="#6-文件内容查询" class="headerlink" title="6.文件内容查询"></a>6.文件内容查询</h2><hr>
+<h2 id="6-文件查看与创建"><a href="#6-文件查看与创建" class="headerlink" title="6.文件查看与创建"></a>6.文件查看与创建</h2><ol>
+<li>简单介绍各个文件查看命令：<ul>
+<li>cat:由第一行开始显示文件内容</li>
+<li>tac:从最后一行开始显示</li>
+<li>nl:显示的时候顺便输出行号</li>
+<li>more:一页一页地显示文件内容</li>
+<li>less:与more相似，但是更好用，可以向前翻页</li>
+<li>head:只看头几行</li>
+<li>tail:只看后几行</li>
+<li>od:以二进制方式读取文件内容</li>
+</ul>
+</li>
+<li>直接查看文件内容的几个命令:cat,tac,nl<ul>
+<li>cat<pre><code># cat [-AbEnTv] filename
+-A:相当于-vET，可以列出一些字符
+-v:列出一些看不出来的字符
+-E:将结尾的换行符（$）显示出来
+-T:将Tab键以^T的方式显示
+-b:列出行号，仅针对非空白行列出行号
+-n:列出行号，空白行也有行号
+</code></pre>有一些特殊字符要显示的话就要用-a等参数<br>cat是Concatenate(连续的简写)，主要功能是将内容连续显示在屏幕上。<br>但是当行数超过40行时会来不及查看。</li>
+<li>tac<pre><code># tac filename
+</code></pre>与cat刚好反过来，由最后一行向第一行显示</li>
+<li>nl:显示的时候顺便输出行号<pre><code># nl [-bnw] filename
+-b:指定行号指定方式，主要有两种:
+    -b a:空行也显示行号（类似cat -n）
+    -b t:空行不显示行号(类似cat -b)
+-n:列出行号表示的方法，有三种:
+    -n ln:行号在屏幕左边显示
+    -n rn:行号在右边显示，不加0
+    -n rz:行号在右边显示，加0
+-w:行号字段占用位数
+</code></pre>如：<code># nl -b a -n rz /etc/issue
+注意：若只使用-b，则会报错。如</code># nl -b issue`会报错</li>
+</ul>
+</li>
+<li>可翻页查看的查阅:more与less<ul>
+<li>more<pre><code># more filename
+</code></pre>当文件行数大于显示行数时，光标会在最后一行停留并显示目前百分比，可以按下面的键进行操作:<ul>
+<li>空格键（Space）：下一页</li>
+<li>Enter：下一行</li>
+<li>/字符串:在这个显示当中向下查询”字符串”关键字</li>
+<li>: f：立刻显示出文件名以及现在显示的行数</li>
+<li>q：立刻离开more，不再显示该文件内容</li>
+<li>b或Ctrl-b：往回翻页，不过只对文件有用，对管道无用</li>
+<li>n：重复查询</li>
+</ul>
+</li>
+<li>less<pre><code># less filename
+</code></pre>比more的用法更有弹性，可以向上翻动与向上查询<ul>
+<li>空格键：向下一页</li>
+<li>[PageDown]：向下翻动一页</li>
+<li>[PageUp]：向上翻动一页</li>
+<li>/字符串：向下查询</li>
+<li>?字符串：向上查询</li>
+<li>n：重复前一个查询</li>
+<li>N：反向重复查询前一个查询（向上变向下）</li>
+<li>q：离开less</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据选取:head,tail<ul>
+<li>head<pre><code># head [-n number] filename
+-n number:代表显示几行，默认为10行
+</code></pre>显示前20行:<pre><code># head -n 20 issue
+</code></pre>若总共100行，则显示前90行可以这样写:<pre><code># head -n -10 issue
+</code></pre>-10代表最后10行不显示。</li>
+<li>tail<pre><code># tail [-n number][-f] filename
+-n number:显示最后几行，默认最后10行
+-f:持续监测，新加入的数据都会显示出来，直到按下ctrl+c离开
+</code></pre>显示最后20行:<pre><code># tail -n 20 issue
+</code></pre>从第100行开始显示:<pre><code># tail -n +100 issue
+</code></pre>持续监测issue的更新：<pre><code># tail -f issue
+</code></pre></li>
+</ul>
+</li>
+<li>读取为进制文件:od（查阅非纯文本文件）<pre><code># od [-t 参数] filename
+-t后面可以加各种参数达到不同输出效果:
+    a：利用默认的字符来输出
+    c：使用ASCII字符来输出
+    d[size]：使用十进制来输出数据，每个整数占用size bite
+    f[size]：利用浮点数来输出数据，每个数占用size bite
+    o[size]：用八进制来输出数据，每个数占用size bite
+    x[size]：用十六进制来输出数据，每个整数占用size bite
+</code></pre></li>
+<li>修改文件时间或创建新文件:touch<ul>
+<li>每个文件在Linux下都会有很多记录时间的参数:<ul>
+<li>modification time(mtime):<br>文件内容修改时会更新这个时间，属性或权限更改时不会更新</li>
+<li>status time(ctime):<br>文件状态改变时会更新这个时间，属性或权限更改也会更新</li>
+<li>access time(atime):<br>文件内容被取用时会更新这个时间。如使用cat读取时就会更新这个时间</li>
+</ul>
+</li>
+<li>使用ls时获取的时间时mtime,也就是内容上次被更改的时间</li>
+<li>touch<pre><code># touch [-acdmt] filename
+不加参数:创建一个空白文件
+-a：仅修改atime读取时间为当前时间
+-c：仅修改ctime状态更新时间为当前时间
+-d：后面接时间，不用当前时间，也可以用--date=&quot;日期或时间&quot;
+-m：仅修改mname内容修改时间为当前时间
+-t：后面接时间，格式为[YYMMDDhhmm]
+</code></pre></li>
+<li><code># touch filename</code><br>若文件不存在，则创建一个新文件，且三个时间默认更新为当前时间    </li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-文件与目录的默认权限与隐藏权限"><a href="#7-文件与目录的默认权限与隐藏权限" class="headerlink" title="7.文件与目录的默认权限与隐藏权限"></a>7.文件与目录的默认权限与隐藏权限</h2><ol>
+<li>文件默认权限：unmask<ul>
+<li>表示用户在新建文件或目录时的权限默认值(目前所在目录的权限)<pre><code># unmask
+# unmask -S
+</code></pre>上面一种方式会输出4个数字如：<pre><code>0022
+</code></pre>第一个数字是特殊权限，后面三组就是ugo的权限，022代表的权限数字是755，是表示没有哪项权限的。所以权限是这样的：rwxr-xr-x.<br>下面加了-S参数的，表示以字符显示，结果：<pre><code>u=rwx,g=rx,o=rx
+</code></pre></li>
+<li>使用unmask修改默认权限<pre><code># unmask 反权限数字
+</code></pre>如一个原本权限为rwxr–r–的权限改为rwxrwxr-x可以这样写：<pre><code># unmask 002
+</code></pre></li>
+</ul>
+</li>
+<li>文件隐藏属性设置与修改：chattr<br>chattr属性只能在<a href="http://blog.csdn.net/u012317833/article/details/24537265" target="_blank" rel="noopener">Ext2/Ext3文件系统</a>上面生效。<pre><code># chartt [+-=][ASacdistu] dirname/filename
++:增加某一个参数，其他原本存在的参数不动
+-:删除某一个参数，其他原本存在的参数不动
+=:仅有后面接的参数，其他参数失效
+(下面是常用的俩参数)
+a：设置了a权限后，这个文件的数据只能增加，不能删除，不能修改只有root才能操作这个属性
+s：可以让一个文件无法（增删改查），设置连接也不行，只有root能设置这个属性
+（其他参数）
+A:设置了A后访问此文件或目录时atime不会被修改，防止IO较慢的及其过渡磁盘访问，对速度慢的计算机有帮助。
+S:一般文件是异步写入磁盘的，加上S参数会同步写入磁盘
+c:自动将文件压缩，读取再解压，存储时先压缩再存储，对大文件有很大帮助
+d:但dump程序被执行时，设置该属性可以使该文件或目录不会被dump备份。
+s:设置这个属性后，若该文件被删除，则会被从磁盘也删除
+u:与s相反，文件删除会保存在磁盘里
+</code></pre>如：<br>设置与取消issue的i属性可以这样:<pre><code># chartt +i issue
+# chartt -i issue
+</code></pre></li>
+<li>隐藏属性的查看：lsatter<br>显示文件隐藏属性：<pre><code># lsatter [-adR] 文件或目录
+-a:将隐藏文件的属性也列出来
+-d:如果接的是目录，仅列出目录本身的属性（不会列出目录内的文件名）
+-R:连同子目录属性也一起列出来
+</code></pre></li>
+<li>文件的特殊权限：SUID,SGID,SBIT(最好看完17章程序再回来看)<ul>
+<li>SUID:Set UID(Set UerId标记用户id)<br>权限像这样情况下就是SUID:(s将user的x代替)<pre><code>-rwsr-xr-x
+</code></pre>SUID的限制和特殊功能：<pre><code>1.仅对二进制程序有效（不能用于shell脚本）
+2.执行这需要对该文件有x执行权限
+3.本权限仅在程序执行过程中有效
+4.执行者将拥有此程序所有者的权限
+</code></pre></li>
+<li>SGID:Set GID（设置用户组id）<br>权限像这样：(s将group的x代替)<pre><code>-rwxr-sr-x
+</code></pre>SGID可以标记文件和目录有效<br>对于文件:<pre><code>1.SGID对二进制程序有用
+2.程序执行者对于该程序来说，需具备x的权限
+3.执行者在执行过程中将会获得该程序所属用户组的权限
+</code></pre>对于目录:<pre><code>1.用户对于此目录有r与x权限时，该用户能进入此目录
+2.用户在此目录下的有效用户组将会变成该目录的用户组?_?
+3.若用户在此目录下右w权限（可新建文件），则用户所创建的新文件的用户组与此用户的用户组相同。
+</code></pre><strong>对于项目开发非常有用</strong>。</li>
+<li>SBIT：(Sticky Bit)只针对目录有效<br>如/temp的本身权限是：<pre><code>drwxrwxrwt
+</code></pre>使用SBIT有以下限制效果:<pre><code>1.当用户对于此目录有w,x，即具有写入权限时才有效
+2.当用户在该目录下创建文件或目录时，仅有自己与root能删除
+</code></pre></li>
+<li>SUID/SGID/SBIT权限设置:<pre><code>SUID:4
+SGID:2
+SBIT:1
+</code></pre>设置方法和普通权限相同，使用chmod或unmask如:<br><code># chmod 7755</code>则为rwsr-sr-t`</li>
+</ul>
+</li>
+<li>查看文件类型:<pre><code># file filename
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="8-命令与文件查询"><a href="#8-命令与文件查询" class="headerlink" title="8.命令与文件查询"></a>8.命令与文件查询</h2><ol>
+<li>命令简介<ul>
+<li>which:查找脚本，命令等可执行文件</li>
+<li>whereis:查找特定类型文件</li>
+<li>locate:简单查找文件，与whereis都是用数据库找，速度很快</li>
+<li>find:多种方式查找文件，不常用，locate与locate找不到才有find找</li>
+</ul>
+</li>
+<li>脚本,命令文件名查询:which（寻找”执行文件”）<pre><code># which -a command
+-a:将所有PATH目录中可以找到的命令都列出，而不只是第一个
+</code></pre> 可以查询到用别名命名过的命令。如<code># which -a ls</code></li>
+<li>whereis:查询特定的文件<pre><code># where [-bmsu] dirname/filename
+-b:只找二进制格式的文件
+-m:只找在说明文件manual路径下的文件
+-s:只找source源文件
+-u:查找不在上述选项中的其他特殊文件
+</code></pre>有些文件目录未加入PATH中无法被which找到，可以使用whereis查找到。<br>但是有时会找到已经被删除的文件或找不到刚创建的文件，因为它是在数据库中查找的，速度很快，数据库说明见locate。</li>
+<li>模糊查找：locate<pre><code># locate [-ir] keyword
+-i:忽略大小写差异
+-r:后面可接正则表达式的显示方式
+</code></pre>直接在locate后面输入部分文件名就可以查找。但是使用需要注意更新数据库。<br>注意:locate的数据库在/var/lib/mlocate/下，但是每天只更新一次，所以刚创建的文件使用locate是查不到的。可以使用：<pre><code># updatedb
+</code></pre>命令更新locate数据库后再查找。</li>
+<li><p>多种方式查找：find<br>在硬盘中查找，速度不是很快：</p>
+<pre><code>find [PATH] [option] [action]
+      路径    参数     额外动作
+</code></pre><p>它有好几种参数:<br>1.与时间有关的参数：</p>
+<pre><code>有-ctime,-atime和-mtime,下面以-mtime说明:
+-mtime n:n为数字，意义为在n天之前的“一天内”被修改的文件（n-1,n）
+-mtime +n:列出n天之前（不含n天）修改的文件(好久以前，n)
+-mtime -n:列出n天内修改的文件[n,0)
+-newer file:file为一个存在的文件，列出比file还要新的文件
+
+# find /home 0
+0代表现在，表示查找从现在开始24小时内所有改动的文件
+</code></pre><p>2.与用户用户组有关的参数:</p>
+<pre><code>- UID n:n为用户的id即uid
+- GID n:n为用户组id即gid
+- user name:按用户账号查找
+- group name:按用户组名查找
+- nouser:文件的所有者不存在/etc/passwd/中的文件
+- nogroup:文件的所在用户组不存在/etc/group中的文件
+</code></pre><p>3.与文件名称及权限有关的参数:</p>
+<pre><code>-name filename:查找文件名为filename的文件
+-size [+-]SIZE:查找比SIZE大+或小-的文件，c代表byte,k代表kB,
+    查找大于50KB的文件:find -size +50k
+-perm mode:权限刚好等于mode的文件如-perm 7777
+-perm -mode:查找文件必须全部包括mode权限，或者说是权限大于mode
+-perm +mode:查找包含mode某一项（特殊ugo）权限的文件
+如：
+# find / -perm -mode +7000:查找包含--s--s--t权限的文件
+</code></pre><p>4.其他相关参数：</p>
+<pre><code>-exec command:command为其他命令，-exec后面可再接其他命令来处理查找结果
+-print:默认参数，将结果打印
+</code></pre><p>如：</p>
+<pre><code># find / -perm -mode +7000 -exec ls -l {} \;
+</code></pre><p>从<code>-perm</code>到<code>\;</code>为额外命令，用<code>{}</code>指代<code>-perm</code>前的查询结果，并对结果进行<code>ls -l</code>操作。</p>
+</li>
+</ol>
+<hr>
+<h2 id="9-权限与命令间的关系（很重要）"><a href="#9-权限与命令间的关系（很重要）" class="headerlink" title="9.权限与命令间的关系（很重要）"></a>9.权限与命令间的关系（很重要）</h2><ol>
+<li>让用户进入某目录成为<strong>可工作目录</strong>的基本权限是什么:<ul>
+<li>可使用命令：如cd切换到工作目录</li>
+<li>权限要求：至少要有x权限</li>
+<li>额外需求：若要使用ls,则需要r权限</li>
+</ul>
+</li>
+<li>用户在某一个目录内读取一个文件的基本权限：<ul>
+<li>可用命令：cat,tac,less,more等</li>
+<li>目录权限要求：对这个目录至少要有x权限</li>
+<li>文件权限需求：对这个文件有r权限</li>
+</ul>
+</li>
+<li>用户可以修改某一文件的基本权限：<ul>
+<li>可使用命令：nano,vi编辑器等</li>
+<li>目录所需权限：至少要有x权限</li>
+<li>文件所在权限：至少要有r,x权限</li>
+</ul>
+</li>
+<li>一个用户可以创建一个文件：<br>目录所需权限：至少要有w,x权限</li>
+<li>让用户进入某目录并执行该目录下的某个命令的基本权限：<ul>
+<li>目录所需权限：至少有x</li>
+<li>文件所需权限：至少有x</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="10-重要命令总结"><a href="#10-重要命令总结" class="headerlink" title="10.重要命令总结"></a>10.重要命令总结</h2><p><code># ls -al</code>:显示文件名与相关属性(含隐藏文件)<br><code># chgrp [-R] groupname direname/filename ...</code>：修改文件/目录所在用户组，目录用-R表示递归，子目录也修改<br><code># chown [-R] 用户名 文件或目录</code>：用户必须是存在/etc/passwd中的，改变文件的所有者<br><code>chmod [-R] 权限数字 文件名</code>：用权限数字改变文件权限<br><code>chmod u/g/o/a +/-/= r/w/x 目录名/文件名</code>：用符号改变权限数字</p>
+<p><code># su - kenshine</code>：从root用户切换到kenshine用户，root到普通用户不用密码，反过来则需要<br><code># uname -r</code>：查看实际的内核版本</p>
+<p><code>$ cd 绝对路径/相对路径</code>：切换到目录<br><code># pwd</code>显示出当前工作的目录：<br><code># pwd -p</code>：显示当前工作路径的真实目录，非连接目录<br><code># mkdir dirname</code>创建新目录：<br><code># mkdir -mp</code>:-m配置权限数字，-p创建所需要的目录如：<br><code># mkdir -p test1/test2/test3/test4</code>：若test1-3不存在则会自动创建<br><code># mkdir -m 755 test1</code>：创建并配置test1目录权限为drwxr-xr-x。<br><code># rmdir dirname</code>：删除空目录<br><code># rmdir -p dirname</code>：删除空目录并连同上级空目录一起删除<br><code># echo $PATH</code>：查询PATH中定义了哪些变量<br><code># PATH=&quot;$PATH&quot;:/root/test01</code>：将一个目录加到可执行文件的查询路径PATH中(如/root/test01)</p>
+<p><code># ls [-aAdfFhilnrRSt] 目录名称</code>：列出文件目录属性<br><code># ls [--color={never,auto,always}] 目录名称</code>：列出的文件目录属性是否显示颜色<br><code># ls [--full-time] 目录名称</code>:列出文件目录的完整时间<br><code># cp [-adfilprsu] 源文件（source） 目标文件（distination）</code>:复制文件或目录<br><code># cp [options] source1 source2 source3 ... directory</code>:复制文件到目录<br><code># cp -r /etc/ /tmp</code>: 复制/etc/目录下的所有内容到/tmp，如果不加-r则会失败<br><code># cp -a /root/test01</code>:  将test01文件复制到自身（完整复制）<br><code># cp -u /root/test01 test01</code>:两个文件有差异时才会复制（备份常用）<br><code># rm [-fir] 文件或目录</code>:删除文件或目录（-f:强制删除，-i:互动模式，-r:递归删除）<br><code># rm -i test*</code>: 删掉本目录下以test开头的所有文件/目录，*是通配符。<br><code># rm -r dir01</code>:递归循环删除dir01目录下的所有子项但是会一直询问<br><code># \rm -r dir01</code>: 忽略掉alias指定参数（-i）,不询问，但是很危险<br><code># rm ./-aaa-</code>：文件名以-开头的直接<code>rm -aaa-</code>会被当成参数，所以需要这样删除或者<code># rm -- -aaa-</code><br><code># mv [-fiu] source destination（目标文件）</code> ：移动文件到目标地点（f:强制移动，-i:目标存在，询问，-u:更新）<br><code># mv [options] source1 source2 ....direction</code>： 移动多个文件到目录<br><code># mv A B</code>: 将A重命名为B，需要B不存在才行<br><code># mv file dir</code>:移动文件到目录<br><code># basename 完整文件名</code>：获得文件名<br><code># direname 完整文件名</code>：获得目录名</p>
+<p><code># cat [-AbEnTv] filename</code>:由第一行开始显示文件内容<br><code># tac filename</code>:与cat刚好反过来，由最后一行向第一行显示<br><code># nl [-bnw] filename</code>:显示的时候顺便输出行号<br><code># more filename</code>:带分页的显示<br><code># less filename</code>:more的升级版<br><code># head [-n number] filename</code>:显示头number行，默认10<br><code># head -n -10 issue</code>：最后10行不显示。<br><code># tail [-n number][-f] filename</code>:显示最后几行，默认最后10行</p>
+<p><code># tail -n +100 issue</code>：从第100行开始显示。<br><code># tail -f issue</code>：持续监测issue的更新（-f:持续监测直到按下ctrl+c离开）<br><code># od [-t 参数] filename</code>:查阅非纯文本文件</p>
+<p><code>modification time(mtime)</code>:文件内容修改时会更新这个时间，属性或权限更改时不会更新<br><code>status time(ctime)</code>:文件状态改变时会更新这个时间，属性或权限更改也会更新<br><code>access time(atime)</code>:文件内容被取用时会更新这个时间。如使用cat读取时就会更新这个时间<br><code># touch [-acdmt] filename</code>:修改文件时间或穿件空白文件<br><code># touch filename</code>:创建一个空白文件</p>
+<p><code># unmask</code>：目前用户所在目录的权限，反权限数字表示<br><code># unmask -S</code>：目前用户所在目录的权限，字符表示<br><code># unmask 反权限数字</code>:使用unmask修改默认权限<br><code># chartt [+-=][ASacdistu] dirname/filename</code>:文件隐藏属性的设置和修改<br><code># chartt +i issue</code><br><code># chartt -i issue</code>:设置与取消issue的i属性<br><code># lsatter [-adR] 文件或目录</code>：显示文件隐藏属性<br><code># file filename</code>:查看文件类型</p>
+<p><code># which -a command</code>:脚本命令文件查找（-a:将所有PATH目录中可以找到的命令都列出）<br><code># where [-bmsu] dirname/filename</code>:查找特定文件（b:二进制的，-m:在说明文件路径下的文件-s:source源文件-u:查找不在上述选项中的其他文件）<br><code># locate [-ir] keyword</code>：简单查找（-i:忽略大小写差异-r:后面可接正则表达式的显示方式）<br><code># updatedb</code>:更新查找数据库<br><code># find [PATH] [option] [action]</code>:在磁盘中查找，多样查找<br><code># find / -perm -mode +7000 -exec ls -l {} \;</code>:查找包含权限–s–s–t的文件并以list打印</p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月11日 21:40</p>
+        <p>最后更新： 2018年03月12日 17:47</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" title="《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理">https://zjxkenshine.github.io/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -547,7 +812,7 @@ r:read/w:write/x:excute/-:无此权限
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-用户与用户组"><span class="post-toc-text">1.用户与用户组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-文件的权限与属性（最好切换为root用户）"><span class="post-toc-text">2.文件的权限与属性（最好切换为root用户）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Linux目录配置"><span class="post-toc-text">3.Linux目录配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-目录与路径"><span class="post-toc-text">4.目录与路径</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-文件与目录管理"><span class="post-toc-text">5.文件与目录管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-文件内容查询"><span class="post-toc-text">6.文件内容查询</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-用户与用户组"><span class="post-toc-text">1.用户与用户组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-文件的权限与属性（最好切换为root用户）"><span class="post-toc-text">2.文件的权限与属性（最好切换为root用户）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Linux目录配置"><span class="post-toc-text">3.Linux目录配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-目录与路径"><span class="post-toc-text">4.目录与路径</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-文件与目录管理"><span class="post-toc-text">5.文件与目录管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-文件查看与创建"><span class="post-toc-text">6.文件查看与创建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-文件与目录的默认权限与隐藏权限"><span class="post-toc-text">7.文件与目录的默认权限与隐藏权限</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-命令与文件查询"><span class="post-toc-text">8.命令与文件查询</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-权限与命令间的关系（很重要）"><span class="post-toc-text">9.权限与命令间的关系（很重要）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-重要命令总结"><span class="post-toc-text">10.重要命令总结</span></a></li></ol>
         </nav>
     </aside>
     
