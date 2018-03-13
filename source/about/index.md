@@ -14,8 +14,8 @@
 
 学历：`某不知名大学就读中`
 
-希望成为一个终身学习者。。
-近期学习方向：H5混合开发，java框架，准备面试
+学习使我快乐，我要终身快乐
+近期学习方向：java框架，redis，Linux准备面试
 
 ### 座右铭
 > Today is the first day in your rest life.(今天是你余生的第一天)
@@ -28,5 +28,6 @@
 * Blog: [kenshine's blog](https://zjxkenshine.github.io "程序人生")
 * Email: 1754294529@qq.com
 * GitHub: [zjxkenshine](https://github.com/zjxkenshine)
-* WeiBo: [MinHow](http://weibo.com/3807155334)
+* WeiBo: [哈哈哈](http://weibo.com/3807155334)
+* 码云: [kenshine](https://gitee.com/zjxkenshine)
 
