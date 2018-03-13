@@ -3,23 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL | 程序人生</title>
+  <title>MySQL学习笔记（一）:数据库基础知识介绍与基本操作 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
+  <meta name="description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only S">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">
+<meta property="og:title" content="MySQL学习笔记（一）:数据库基础知识介绍与基本操作">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
+<meta property="og:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only S">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-11T15:47:34.049Z">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一3.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一4.jpg">
+<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一5.jpg">
+<meta property="og:updated_time" content="2018-03-13T07:38:18.099Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">
-<meta name="twitter:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only SQL） 数据库产品： 关系型数据库 大型:Oracle,DB2 中型:SQL-SERV">
+<meta name="twitter:title" content="MySQL学习笔记（一）:数据库基础知识介绍与基本操作">
+<meta name="twitter:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only S">
+<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +123,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL
+      MySQL学习笔记（一）:数据库基础知识介绍与基本操作
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -146,7 +152,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-数据库再学习"><a href="#0-数据库再学习" class="headerlink" title="0.数据库再学习"></a>0.数据库再学习</h2><p>以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。<br>从删库到跑路！</p>
+            <h2 id="0-数据库再学习"><a href="#0-数据库再学习" class="headerlink" title="0.数据库再学习"></a>0.数据库再学习</h2><p>以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。<br>从删库到跑路！<br>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
 <hr>
 <h2 id="1-数据库基础"><a href="#1-数据库基础" class="headerlink" title="1.数据库基础"></a>1.数据库基础</h2><ol>
 <li>什么是数据库?<ul>
@@ -187,8 +193,8 @@
 <h2 id="3-SQL"><a href="#3-SQL" class="headerlink" title="3.SQL"></a>3.SQL</h2><ol>
 <li>SQL：Structed Query Language,结构化查询语言（数据以查询为主:99%是在进行查询操作）</li>
 <li>SQL分为三个部分:<ul>
-<li>DDL:Date Definiton Language,数据定义语言用来维护存储数据的结构（数据库，表）<br>代表指令:creat,drop,alter等</li>
-<li>DML：Data Maniplation Language,数据操作语言，用来对数据进行操作（数据表中的内容），代表指令：insert，delete，update等。其中DML内部又单独进行了一个分类：<br>—DQL:Data Query Language,数据查询语言，如select<br>—DCL:Data Control Language,数据库控制语言，主要负责管理权限（用户），代表指令：grank,revoke等。</li>
+<li>DDL:Date Definiton Language,数据定义语言用来维护存储数据的结构（数据库，表）<br>代表指令:<strong>creat,drop,alter</strong>等</li>
+<li>DML：Data Maniplation Language,数据操作语言，用来对数据进行操作（数据表中的内容），代表指令：i<strong>nsert，delete，update</strong>等。其中DML内部又单独进行了一个分类：<br>—DQL:Data Query Language,数据查询语言，如<strong>select</strong><br>—DCL:Data Control Language,数据库控制语言，主要负责管理权限（用户），代表指令：<strong>grank,revoke</strong>等。</li>
 </ul>
 </li>
 <li>SQL是关系型数据库的操作指令，SQL是一种约束（类似W3C）,不同的数据库产品（如Orcal,mysql）内部会有一些细微差别。</li>
@@ -196,15 +202,168 @@
 <hr>
 <h2 id="4-MySQL"><a href="#4-MySQL" class="headerlink" title="4.MySQL"></a>4.MySQL</h2><ol>
 <li>MySQL是一种c/s结构的软件:客户端/服务器，若想访问服务器必须通过客户端（服务器一直运行，客户端在需要的时候运行）</li>
-<li>交互方式：<br>–1.客户端连接认证，连接服务器：mysql.exe -hPup<br>–2.发送SQL<br>–3.服务器接收SQL指令，处理SQL指令，返回操作结果<br>–4.客户端接收结果，显示结果<br>–5.断开连接（释放资源，服务器并发限制）</li>
+<li>MySQL的安装与配置：<br>参考地址：<br><a href="https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html</a></li>
+<li>交互方式：<br>–1.客户端连接认证，连接服务器。<br>开启服务：<code>mysqld --console</code>或<code>net start mysql</code><br>root用户登录：<code>mysql -u root -p</code><br>–2.发送SQL<br>–3.服务器接收SQL指令，处理SQL指令，返回操作结果<br>–4.客户端接收结果，显示结果<br><code>show databases;</code>(注意分号)<br><img src="/img/00010mysql学习笔记一1.jpg" alt=""><br>–5.断开连接（释放资源，服务器并发限制）<br><code>exit</code>,<code>quit</code>或<code>\q</code>。</li>
+<li>Mysql服务器对象：<br>没有办法完全了解内部的内容：只能粗略分析数据库服务器的内部结构。<br>将Mysql服务器内部对象分成了四层：<br>系统（DBMS）&gt;数据库（DB）&gt;数据表（Table）&gt;字段（field）<br>windows&gt;mysqld.exe&gt;DB&gt;Table&gt;filed</li>
 </ol>
 <hr>
-<h2 id="5-Mysql的安装"><a href="#5-Mysql的安装" class="headerlink" title="5.Mysql的安装"></a>5.Mysql的安装</h2><hr>
+<h2 id="5-SQL基本操作"><a href="#5-SQL基本操作" class="headerlink" title="5.SQL基本操作"></a>5.SQL基本操作</h2><ol>
+<li>基本操作：CRUD<br>按操作对象进行分类，分为三类：库操作，表操作，数据操作</li>
+<li>在cmd中注释<br><code>-- 注释</code>,也可以用<code>#</code>号</li>
+</ol>
+<hr>
+<h2 id="6-库操作"><a href="#6-库操作" class="headerlink" title="6.库操作"></a>6.库操作</h2><ol>
+<li>创建数据库：<ul>
+<li>基本语法：<br>  <code>Create database 数据库名字 [库选项]；</code><br>  库选项：用来约束数据库，分为两个选项：<br>  –1.字符集设置：charset/character set 具体字符集（数据存储的编码格式），常用GBK,UTF8<br>  –2.校对集：collation 集体校对集（数据比较的规则）<br>  关于字符集和校对集的介绍<a href="http://www.jb51.net/article/30865.htm" target="_blank" rel="noopener">点这里</a><br>  以下是标准写法：<pre><code>CREATE DATABASE test
+CHARACTER SET &apos;utf8&apos; COLLATE &apos;utf8_general_ci&apos;;
+</code></pre>  或者： <pre><code>CREATE DATABASE test
+CHARSET &apos;utf8&apos; COLLATE &apos;utf8_general_ci&apos;;
+</code></pre></li>
+<li>注意：<br>实测:一定要带上字符集与校对集一起，否则会报错，具体为什么报错我也不清楚。<br>数据库的名字不能使用关键字或保留字，如果非要使用，那么必须用反引号:<pre><code>create database `database` charset &apos;utf8&apos;;
+</code></pre>中文名数据库是可以的，但是要要保证服务器能识别字符集，建议别用。<pre><code>create database 中国 charset &apos;utf8&apos;;
+create database `中国` charset &apos;utf8&apos;;
+</code></pre>都会出错。<br>解决方案：在创建前提示字符集。（set names gbk）<pre><code>set names gbk;
+creat database 中国 charset &apos;utf8&apos; ...;
+</code></pre></li>
+<li>创建数据库的SQL语句执行之后发生了什么:<br>1.在数据库系统中，增加了对应的数据库信息。<br>2.会在保存数据的文件下：Data目录创建一个对应数据库名字的文件夹。但是中文数据库在此时会乱码，所以不推荐。<br>3.每个数据库下都有一个opt文件，保存了库选项。（字符集，校对集）</li>
+</ul>
+</li>
+<li>查看数据库：<ul>
+<li>查看所有数据库：<pre><code>show databases;
+</code></pre></li>
+<li>查看指定部分数据库：模糊查询<pre><code>show databases like &apos;pattern&apos;;
+</code></pre>pattern：匹配模式<br>_：匹配单个字符<br>%：匹配多个字符<br>效果如下：<br><img src="/img/00010mysql学习笔记一1.jpg" alt=""><br>若有特殊字符则需要转义</li>
+<li>查看数据库的创建语句：<pre><code>show create database 数据库名字；
+</code></pre>若出现错误，检查一下是否是拼写错误。</li>
+</ul>
+</li>
+<li>更新数据库（修改）：<br><strong>数据库名字：不可修改</strong>（不安全）<br>数据库修改仅限库选项和字符集。<pre><code>Alter database dbname [库选项]；
+Charset/character set [=] 字符集
+Collate [=] 校对集
+</code></pre>修改数据库<code>test</code>字符集为GBK：<pre><code>Alter database test charset GBK;
+</code></pre>修改后校对集也会跟着改变。<br>一旦数据库里有数据后<code>最好不要修改</code>。指定为UTF8就行。</li>
+<li>删除数据库（所有操作的删除最简单）<br>结构的操作属于DDL：<pre><code>dorp database dbname;
+</code></pre>删除test02数据库：<pre><code>drop database test02;
+</code></pre>执行数据库删除后会发生什么：<br>–看不到数据库文件了<br>–数据库内部表全部删除<br>不要随意删除，需先备份后操作，删除不可逆。</li>
+</ol>
+<hr>
+<h2 id="7-表操作"><a href="#7-表操作" class="headerlink" title="7.表操作:"></a>7.表操作:</h2><p>表与字段是密不可分的。</p>
+<ol>
+<li>新增数据表<pre><code>Create table [if not exists] 表名（字段名称 数据类型，字段名称 数据类型...）[表选项]
+</code></pre>if not exists：如果表不存在则执行，否则不执行后面代码。<br>[表选项]：控制表的表现<br>&nbsp;&nbsp;&nbsp;&nbsp;-字符集:charset/character set 具体字符集;  –保证表中数据存储的字符集<br>&nbsp;&nbsp;&nbsp;&nbsp;-校对集:collate 具体校对集;<br>&nbsp;&nbsp;&nbsp;&nbsp;-存储引擎：innodb和myisam等;<br><br><br>例：创建一张学生表<br>若直接使用：<pre><code>create table if not exits student(
+name varchar(10),
+number varchar(10),
+age int
+)charset utf8;
+</code></pre>会报错：原因是没有指定数据库，有两个解决办法：<br>1.显式地指定表所属数据库(在数据库环境外):<pre><code>create table [if not exists] dbname.tablename(...)[字符集]
+</code></pre>2.隐式地指定表所属数据库(进入数据库环境，则表自动归属):<br>进入数据库环境：<pre><code>use dbname
+</code></pre>若进入test数据库则使用<code>use test</code>。<br>再执行上述代码。<br><img src="/img/00010mysql学习笔记一3.jpg" alt=""><br>创建数据表的SQL指令执行后发生了什么:<br>–指定数据库上已经存在的对应表<br>–在数据库对应的文件夹下会产生对应表的结构（跟存储引擎有关）:编译后的文件，需要反编译才能看</li>
+<li>查看数据表：<br>查看数据表之前需先进入某数据库环境，再用show查询:<pre><code>use dbname
+</code></pre>有几种方式：<ul>
+<li>查看所有表:<pre><code>show tables;
+</code></pre></li>
+<li>查看部分表:模糊查询<pre><code>show tables &apos;parttern&apos;;
+</code></pre>如查询以s结尾的表:<pre><code>SHOW TABLES LIKE &apos;%s&apos;;
+</code></pre>但这样会使索引失效，影响效率。</li>
+<li>查看表创建语句：<pre><code>show create table student\g  --\g效果和‘；’相同
+show create table student\G  --\G将查到的结果旋转90度，纵向
+</code></pre></li>
+<li>查看表结构(三种方式):<pre><code>DESC student;
+descripe student;
+show colums from student;
+</code></pre><img src="/img/00010mysql学习笔记一4.jpg" alt=""></li>
+</ul>
+</li>
+<li>修改数据表：<br>包括修改表本身及修改字段。<ul>
+<li>修改表本身：表名和表选项<br>修改表名：<pre><code>rename table 老表名 to 新表名；
+</code></pre>修改表选项：字符集，校对集和存储引擎<pre><code>Alter table 表名 表选项 [=] 值；
+</code></pre></li>
+<li>修改字段：增加，修改，重命名，删除<br>1.新增字段：<pre><code>alter table 表名 add [column] 字段名 数据类型 [属性][位置]
+</code></pre>属性：是否自增，是否为空，是否有默认值等<br>位置：字段可以存放在表中的任意位置<br>–First:第一个位置<br>–After column：在哪个字段后（后跟字段名）<br>给学生表新增一个ID字段放到第一个位置：<pre><code>ALTER TABLE te_student
+ADD COLUMN id int
+FIRST;
+</code></pre>在name属性后添加一个sex性别:<pre><code>ALTER TABLE te_student ADD COLUMN sex VARCHAR(4) AFTER name;
+</code></pre>2.修改字段：位置，属性数据类型等:<pre><code>alter table 表名 modify 字段名 数据类型 [属性][位置]
+</code></pre>如修改字段age位置：<pre><code>ALTER TABLE te_student MODIFY age INT AFTER name;
+</code></pre>3.修改字段名字（也可以修改位置不加则不变）<pre><code>alter table 表名 change 旧字段 新字段名 数据类型 [属性][位置]；
+</code></pre>如修改te_student表中的name为stu_name:<pre><code>ALTER TABLE te_student CHANGE name stu_name VARCHAR(10);
+</code></pre>4.删除字段:<pre><code>alter table 表名 drop 字段名;
+</code></pre>注意:<br>如果表中已经存在数据，会删除表中所有数据且不可逆。</li>
+</ul>
+</li>
+<li>删除数据表:<pre><code>drop table 表名;
+</code></pre>如删除st_student表：<pre><code>DROP TABLE te_student;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="8-数据操作"><a href="#8-数据操作" class="headerlink" title="8.数据操作:"></a>8.数据操作:</h2><ol>
+<li>新增数据:<br>有两种方案:<ol>
+<li>全表字段插入数据，不需要指定字段列表：<strong>要求数据的值出现的顺序必须与表中设计的字段的顺序一致，凡是非数值数据都需要用引号（单引号）包裹</strong>。<pre><code>insert into 表名 values(值列表)[,(值列表)]；  --可以一次性插入多条
+</code></pre>如给te_student添加我的信息（先把number数据类型改为varchar(20)）:<pre><code>INSERT INTO te_student VALUES(1,&apos;kenshine&apos;,&apos;男&apos;,22,&apos;201503111073&apos;);
+</code></pre>但是添加中文时要注意。参考第9条。</li>
+<li>给部分字段插入数据，需要选定字段名列表：<strong>子段列表的顺序与字段的顺序无关，但是致列表的顺序必须和字段列表顺序一致。</strong><pre><code>insert into 表名（字段列表） values(值列表)；
+</code></pre>如再给te_student添加一个Tom的信息:<pre><code>INSERT INTO te_student(id,name,number,sex,age) VALUES(2,&apos;Tom&apos;,&apos;123456789&apos;,&apos;女&apos;,18);
+</code></pre>注意：非数值类型一定要加上单引号。</li>
+</ol>
+</li>
+<li>查看数据(查询):<ul>
+<li>简单查看:<pre><code>select * from 表名;
+SELECT * FROM te_student;
+</code></pre></li>
+<li>查看指定字段，指定条件的数据:<pre><code>select 字段名[,字段名] from 表名 where 字段名 = 值；
+</code></pre>如查看我的学号和名字:<pre><code>SELECT number,name FROM te_student WHERE id=1;
+</code></pre></li>
+</ul>
+</li>
+<li>更新数据:<pre><code>Update 表名 set 字段=值[,字段=值] [where 字段名=值]；
+</code></pre>建议都加上where,否则都会更新。<br>如更新学生Tom的性别为男：<pre><code>UPDATE te_student SET sex=&apos;男&apos; WHERE name=&apos;Tom&apos;;
+</code></pre></li>
+<li>删除数据:<br>删除是不可逆的，三思而后行。<pre><code>delete from 表名 [where 字段名=值]；    --建议加上where
+</code></pre>把Tom删除:<pre><code>DELETE FROM te_student WHERE name=&apos;Tom&apos;;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="9-中文数据的问题（在cmd中）"><a href="#9-中文数据的问题（在cmd中）" class="headerlink" title="9.中文数据的问题（在cmd中）"></a>9.中文数据的问题（在cmd中）</h2><ol>
+<li>原因:<br>计算机只识别二进制，人类更多的是识别符号，需要有个二进制与字符的对应关系（字符集）。</li>
+<li>存中文数据，会出现问题:<br>中文数据转换成了像<code>\xD5\xC5\xD4\xBD</code>这种形式,报错。<br>原因1:这是中文在当前(编码)字符集下对应的二进制编码转换为十六进制，两个汉字-&gt;四个字节-（GBK）。<br>原因2:服务器任务数据时UTF-8，一个汉字三个字节，第四个就出错了。<br><br><br>所有的数据库服务器的一些特性都是通过服务器端的变量来保存，系统会先读取自己的变量。<br>1.查看服务器能识别哪些字符集:<pre><code>show character set;
+</code></pre>我的mysql查询出了41种，基本是都能识别的。<br>2.查看服务器与客户端交互的字符集(默认的对外处理的字符集):<pre><code>show variables like &apos;character_set%&apos;;
+</code></pre><img src="/img/00010mysql学习笔记一5.jpg" alt=""><br>问题根源:第一行character_set_client,客户端对服务器的字符集为utf8,而客户端数据为gbk。<br>修改服务器对客户端的字符集为GBK:<pre><code>set character_set_client=gbk;
+</code></pre></li>
+<li>上述问题解决之后，插入中文数据，使用select查看数据，仍然乱码：<br>原因:数据来源服务器，解析数据是客户端（服务器给三个字节UTF8，而客户端接收却是GBK）<br>解决方法:<pre><code>set character_set_result=gbk;
+</code></pre></li>
+<li>但是，一个很严重的问题:<br><strong>set 变量=值；修改只是会话级别，当前客户端，当次连接有效，关闭失效</strong>。<br>所以设置这种服务器的字符集有快捷方式:<pre><code>set names gbk;
+</code></pre>它等价于：<br><code>set character_set_result=gbk;</code>加<code>set character_set_client=gbk;</code>加<code>set character_set_connection=gbk;</code><br>connection连接层，与client和result统一效率更高。</li>
+</ol>
+<hr>
+<h2 id="10-校对集"><a href="#10-校对集" class="headerlink" title="10.校对集:"></a>10.校对集:</h2><ol>
+<li>校对集：数据比较的方式。</li>
+<li>校对集有三种格式：<ul>
+<li>_bin (binary)：二进制比较，取出二进制位，从左到右一位一位的比较，区分大小写。</li>
+<li>_cs (case sensitive)：大小写敏感，区分大小写（不常见）</li>
+<li>_ci (case insensitive)：大小写不敏感，不区分大小写</li>
+</ul>
+</li>
+<li>查看字符集:<br>查看服务器支持的所有字符集:<pre><code>show collaction;
+</code></pre></li>
+<li>校对集的应用:<br>只有当数据产生比较时才会生效。如<code>order by字段名 [asc|desc]</code>才有效,asc升序，desc降序，默认是降序。</li>
+<li>注意：<br>校对集必须在没有数据之前设定好，如果有了数据再修改，那么修改无效。<br>具体如何修改字符集参考表的修改。</li>
+<li>老师是这么讲的，但是我的编码都是utf8在cmd下也没有乱码，很奇怪。</li>
+</ol>
+<hr>
+<h2 id="11-web乱码问题"><a href="#11-web乱码问题" class="headerlink" title="11.web乱码问题"></a>11.web乱码问题</h2><ol>
+<li>动态网站的构成：浏览器，Apache服务器（java后端），数据库服务器，三个部分都有自己的字符集（针对中文的），数据在三个部分来回传递，很容易产生乱码。</li>
+<li>最好的结果三码合一，但是很难做到。<br>解决方案:<br>java服务端—&gt;浏览器(jsp自带):<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+</code></pre>浏览器—&gt;服务器:表单有由java服务端提供，也不用管。<br><br><br>java服务端—&gt;数据库服务器端:<code>set character_set_client = utf8;</code>,<br>数据库服务器端—&gt;java服务端:<code>set character_set_result = utf8;</code>,<br>一劳永逸的办法:<code>set names utf8;</code><br>但是默认好像就是utf-8的。<br><br><br>数据库服务器&lt;—&gt;编码不同的数据库，数据库表：系统自动解决，不用管。<br><br><br>操作系统（GBK）—&gt;java服务端字符集:<br>从本地读东西时，要改变自己字符集，如读取本地文件时:<pre><code>BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName),&quot;UTF-8&quot;));
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="12-知识点补充"><a href="#12-知识点补充" class="headerlink" title="12.知识点补充"></a>12.知识点补充</h2><p><a href="https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html" target="_blank" rel="noopener">MySQL的安装与配置，占位，待写</a></p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月11日 23:47</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/10/MySQL数据库学习笔记（一）/" title="MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL">https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/</a></p>
+        <p>最后更新： 2018年03月13日 15:38</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/10/MySQL数据库学习笔记（一）/" title="MySQL学习笔记（一）:数据库基础知识介绍与基本操作">https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -261,7 +420,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&title=《MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&title=《MySQL学习笔记（一）:数据库基础知识介绍与基本操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -271,7 +430,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&title=《MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&title=《MySQL学习笔记（一）:数据库基础知识介绍与基本操作》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -281,7 +440,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（一）:数据库基础知识介绍与安装MySQL》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（一）:数据库基础知识介绍与基本操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -321,7 +480,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-数据库再学习"><span class="post-toc-text">0.数据库再学习</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-数据库基础"><span class="post-toc-text">1.数据库基础</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-关系型数据库及关键字说明"><span class="post-toc-text">2.关系型数据库及关键字说明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL"><span class="post-toc-text">3.SQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-MySQL"><span class="post-toc-text">4.MySQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Mysql的安装"><span class="post-toc-text">5.Mysql的安装</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-数据库再学习"><span class="post-toc-text">0.数据库再学习</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-数据库基础"><span class="post-toc-text">1.数据库基础</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-关系型数据库及关键字说明"><span class="post-toc-text">2.关系型数据库及关键字说明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL"><span class="post-toc-text">3.SQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-MySQL"><span class="post-toc-text">4.MySQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-SQL基本操作"><span class="post-toc-text">5.SQL基本操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-库操作"><span class="post-toc-text">6.库操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-表操作"><span class="post-toc-text">7.表操作:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-数据操作"><span class="post-toc-text">8.数据操作:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-中文数据的问题（在cmd中）"><span class="post-toc-text">9.中文数据的问题（在cmd中）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-校对集"><span class="post-toc-text">10.校对集:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#11-web乱码问题"><span class="post-toc-text">11.web乱码问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#12-知识点补充"><span class="post-toc-text">12.知识点补充</span></a></li></ol>
         </nav>
     </aside>
     
