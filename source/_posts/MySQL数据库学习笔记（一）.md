@@ -226,9 +226,144 @@ if not exists：如果表不存在则执行，否则不执行后面代码。
 			rename table 老表名 to 新表名；
 	修改表选项：字符集，校对集和存储引擎
 			Alter table 表名 表选项 [=] 值；
-	
-	
+	- 修改字段：增加，修改，重命名，删除
+	1.新增字段：
+			alter table 表名 add [column] 字段名 数据类型 [属性][位置]
+	属性：是否自增，是否为空，是否有默认值等
+	位置：字段可以存放在表中的任意位置
+	--First:第一个位置
+	--After column：在哪个字段后（后跟字段名）
+	给学生表新增一个ID字段放到第一个位置：
+			ALTER TABLE te_student
+			ADD COLUMN id int
+			FIRST;
+	在name属性后添加一个sex性别:
+			ALTER TABLE te_student ADD COLUMN sex VARCHAR(4) AFTER name;
+	2.修改字段：位置，属性数据类型等:
+			alter table 表名 modify 字段名 数据类型 [属性][位置]
+	如修改字段age位置：
+			ALTER TABLE te_student MODIFY age INT AFTER name;
+	3.修改字段名字（也可以修改位置不加则不变）
+			alter table 表名 change 旧字段 新字段名 数据类型 [属性][位置]；
+	如修改te_student表中的name为stu_name:
+			ALTER TABLE te_student CHANGE name stu_name VARCHAR(10);
+	4.删除字段:
+			alter table 表名 drop 字段名;
+	注意:
+	如果表中已经存在数据，会删除表中所有数据且不可逆。
+4. 删除数据表:
+		drop table 表名;
+如删除st_student表：
+		DROP TABLE te_student;
+
 ---
+## 8.数据操作:
+1. 新增数据:
+有两种方案:
+	1. 全表字段插入数据，不需要指定字段列表：**要求数据的值出现的顺序必须与表中设计的字段的顺序一致，凡是非数值数据都需要用引号（单引号）包裹**。
+			insert into 表名 values(值列表)[,(值列表)]；  --可以一次性插入多条
+	如给te_student添加我的信息（先把number数据类型改为varchar(20)）:
+			INSERT INTO te_student VALUES(1,'kenshine','男',22,'201503111073');
+	但是添加中文时要注意。参考第9条。
+	2. 给部分字段插入数据，需要选定字段名列表：**子段列表的顺序与字段的顺序无关，但是致列表的顺序必须和字段列表顺序一致。**
+			insert into 表名（字段列表） values(值列表)；
+	如再给te_student添加一个Tom的信息:
+			INSERT INTO te_student(id,name,number,sex,age) VALUES(2,'Tom','123456789','女',18);
+	注意：非数值类型一定要加上单引号。
+2. 查看数据(查询):
+	- 简单查看:
+			select * from 表名;
+			SELECT * FROM te_student;
+	- 查看指定字段，指定条件的数据:
+			select 字段名[,字段名] from 表名 where 字段名 = 值；
+	如查看我的学号和名字:
+			SELECT number,name FROM te_student WHERE id=1;
+3. 更新数据:
+		Update 表名 set 字段=值[,字段=值] [where 字段名=值]；
+建议都加上where,否则都会更新。
+如更新学生Tom的性别为男：
+		UPDATE te_student SET sex='男' WHERE name='Tom';
+4. 删除数据:
+删除是不可逆的，三思而后行。
+		delete from 表名 [where 字段名=值]；    --建议加上where
+把Tom删除:
+		DELETE FROM te_student WHERE name='Tom';
+
+---
+## 9.中文数据的问题（在cmd中）
+1. 原因:
+计算机只识别二进制，人类更多的是识别符号，需要有个二进制与字符的对应关系（字符集）。
+2. 存中文数据，会出现问题:
+中文数据转换成了像`\xD5\xC5\xD4\xBD`这种形式,报错。
+原因1:这是中文在当前(编码)字符集下对应的二进制编码转换为十六进制，两个汉字->四个字节-（GBK）。
+原因2:服务器任务数据时UTF-8，一个汉字三个字节，第四个就出错了。
+<br>
+所有的数据库服务器的一些特性都是通过服务器端的变量来保存，系统会先读取自己的变量。
+1.查看服务器能识别哪些字符集:
+		show character set;
+我的mysql查询出了41种，基本是都能识别的。
+2.查看服务器与客户端交互的字符集(默认的对外处理的字符集):
+		show variables like 'character_set%';
+![](/img/00010mysql学习笔记一5.jpg)
+问题根源:第一行character_set_client,客户端对服务器的字符集为utf8,而客户端数据为gbk。
+修改服务器对客户端的字符集为GBK:
+		set character_set_client=gbk;
+3. 上述问题解决之后，插入中文数据，使用select查看数据，仍然乱码：
+原因:数据来源服务器，解析数据是客户端（服务器给三个字节UTF8，而客户端接收却是GBK）
+解决方法:
+		set character_set_result=gbk;
+4. 但是，一个很严重的问题:
+**set 变量=值；修改只是会话级别，当前客户端，当次连接有效，关闭失效**。
+所以设置这种服务器的字符集有快捷方式:
+		set names gbk;
+它等价于：
+`set character_set_result=gbk;`加`set character_set_client=gbk;`加`set character_set_connection=gbk;`
+connection连接层，与client和result统一效率更高。
+
+---
+## 10.校对集:
+1. 校对集：数据比较的方式。
+2. 校对集有三种格式：
+	- _bin (binary)：二进制比较，取出二进制位，从左到右一位一位的比较，区分大小写。
+	- _cs (case sensitive)：大小写敏感，区分大小写（不常见）
+	- _ci (case insensitive)：大小写不敏感，不区分大小写
+3. 查看字符集:
+查看服务器支持的所有字符集:
+		show collaction;
+4. 校对集的应用:
+只有当数据产生比较时才会生效。如`order by字段名 [asc|desc]`才有效,asc升序，desc降序，默认是降序。
+5. 注意：
+校对集必须在没有数据之前设定好，如果有了数据再修改，那么修改无效。
+具体如何修改字符集参考表的修改。
+6. 老师是这么讲的，但是我的编码都是utf8在cmd下也没有乱码，很奇怪。
+---
+## 11.web乱码问题
+1. 动态网站的构成：浏览器，Apache服务器（java后端），数据库服务器，三个部分都有自己的字符集（针对中文的），数据在三个部分来回传递，很容易产生乱码。
+2. 最好的结果三码合一，但是很难做到。
+解决方案:
+java服务端--->浏览器(jsp自带):
+		<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+浏览器--->服务器:表单有由java服务端提供，也不用管。
+<br>
+java服务端--->数据库服务器端:`set character_set_client = utf8;`,
+数据库服务器端--->java服务端:`set character_set_result = utf8;`,
+一劳永逸的办法:`set names utf8;`
+但是默认好像就是utf-8的。
+<br>
+数据库服务器<--->编码不同的数据库，数据库表：系统自动解决，不用管。
+<br>
+操作系统（GBK）--->java服务端字符集:
+从本地读东西时，要改变自己字符集，如读取本地文件时:
+		BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"UTF-8"));
+
+---
+## 12.知识点补充
+[MySQL的安装与配置，占位，待写](https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html)
+
+
+---
+
+
 
 
 
