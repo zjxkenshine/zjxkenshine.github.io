@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only S">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一3.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一4.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一5.jpg">
-<meta property="og:updated_time" content="2018-03-13T07:38:18.099Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-3.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-4.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-5.jpg">
+<meta property="og:updated_time" content="2018-03-14T07:16:16.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（一）:数据库基础知识介绍与基本操作">
 <meta name="twitter:description" content="0.数据库再学习以前一直用的都是简单的增删改查，是时候来一波高大上的操作了。从删库到跑路！参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.数据库基础 什么是数据库? database，存储数据的仓库。 高效的存储和处理数据的介质。（磁盘，内存）   数据库的分类:基于存储介质不同：关系型数据库（SQL）和非关系型数据库（NoSQL：not only S">
-<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00010mysql学习笔记一1.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -203,7 +203,7 @@
 <h2 id="4-MySQL"><a href="#4-MySQL" class="headerlink" title="4.MySQL"></a>4.MySQL</h2><ol>
 <li>MySQL是一种c/s结构的软件:客户端/服务器，若想访问服务器必须通过客户端（服务器一直运行，客户端在需要的时候运行）</li>
 <li>MySQL的安装与配置：<br>参考地址：<br><a href="https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html</a></li>
-<li>交互方式：<br>–1.客户端连接认证，连接服务器。<br>开启服务：<code>mysqld --console</code>或<code>net start mysql</code><br>root用户登录：<code>mysql -u root -p</code><br>–2.发送SQL<br>–3.服务器接收SQL指令，处理SQL指令，返回操作结果<br>–4.客户端接收结果，显示结果<br><code>show databases;</code>(注意分号)<br><img src="/img/00010mysql学习笔记一1.jpg" alt=""><br>–5.断开连接（释放资源，服务器并发限制）<br><code>exit</code>,<code>quit</code>或<code>\q</code>。</li>
+<li>交互方式：<br>–1.客户端连接认证，连接服务器。<br>开启服务：<code>mysqld --console</code>或<code>net start mysql</code><br>root用户登录：<code>mysql -u root -p</code><br>–2.发送SQL<br>–3.服务器接收SQL指令，处理SQL指令，返回操作结果<br>–4.客户端接收结果，显示结果<br><code>show databases;</code>(注意分号)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-1.jpg" alt=""><br>–5.断开连接（释放资源，服务器并发限制）<br><code>exit</code>,<code>quit</code>或<code>\q</code>。</li>
 <li>Mysql服务器对象：<br>没有办法完全了解内部的内容：只能粗略分析数据库服务器的内部结构。<br>将Mysql服务器内部对象分成了四层：<br>系统（DBMS）&gt;数据库（DB）&gt;数据表（Table）&gt;字段（field）<br>windows&gt;mysqld.exe&gt;DB&gt;Table&gt;filed</li>
 </ol>
 <hr>
@@ -232,7 +232,7 @@ creat database 中国 charset &apos;utf8&apos; ...;
 <li>查看所有数据库：<pre><code>show databases;
 </code></pre></li>
 <li>查看指定部分数据库：模糊查询<pre><code>show databases like &apos;pattern&apos;;
-</code></pre>pattern：匹配模式<br>_：匹配单个字符<br>%：匹配多个字符<br>效果如下：<br><img src="/img/00010mysql学习笔记一1.jpg" alt=""><br>若有特殊字符则需要转义</li>
+</code></pre>pattern：匹配模式<br>_：匹配单个字符<br>%：匹配多个字符<br>效果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-2.jpg" alt=""><br>若有特殊字符则需要转义</li>
 <li>查看数据库的创建语句：<pre><code>show create database 数据库名字；
 </code></pre>若出现错误，检查一下是否是拼写错误。</li>
 </ul>
@@ -257,7 +257,7 @@ age int
 )charset utf8;
 </code></pre>会报错：原因是没有指定数据库，有两个解决办法：<br>1.显式地指定表所属数据库(在数据库环境外):<pre><code>create table [if not exists] dbname.tablename(...)[字符集]
 </code></pre>2.隐式地指定表所属数据库(进入数据库环境，则表自动归属):<br>进入数据库环境：<pre><code>use dbname
-</code></pre>若进入test数据库则使用<code>use test</code>。<br>再执行上述代码。<br><img src="/img/00010mysql学习笔记一3.jpg" alt=""><br>创建数据表的SQL指令执行后发生了什么:<br>–指定数据库上已经存在的对应表<br>–在数据库对应的文件夹下会产生对应表的结构（跟存储引擎有关）:编译后的文件，需要反编译才能看</li>
+</code></pre>若进入test数据库则使用<code>use test</code>。<br>再执行上述代码。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-3.jpg" alt=""><br>创建数据表的SQL指令执行后发生了什么:<br>–指定数据库上已经存在的对应表<br>–在数据库对应的文件夹下会产生对应表的结构（跟存储引擎有关）:编译后的文件，需要反编译才能看</li>
 <li>查看数据表：<br>查看数据表之前需先进入某数据库环境，再用show查询:<pre><code>use dbname
 </code></pre>有几种方式：<ul>
 <li>查看所有表:<pre><code>show tables;
@@ -271,7 +271,7 @@ show create table student\G  --\G将查到的结果旋转90度，纵向
 <li>查看表结构(三种方式):<pre><code>DESC student;
 descripe student;
 show colums from student;
-</code></pre><img src="/img/00010mysql学习笔记一4.jpg" alt=""></li>
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-4.jpg" alt=""></li>
 </ul>
 </li>
 <li>修改数据表：<br>包括修改表本身及修改字段。<ul>
@@ -327,7 +327,7 @@ SELECT * FROM te_student;
 <li>原因:<br>计算机只识别二进制，人类更多的是识别符号，需要有个二进制与字符的对应关系（字符集）。</li>
 <li>存中文数据，会出现问题:<br>中文数据转换成了像<code>\xD5\xC5\xD4\xBD</code>这种形式,报错。<br>原因1:这是中文在当前(编码)字符集下对应的二进制编码转换为十六进制，两个汉字-&gt;四个字节-（GBK）。<br>原因2:服务器任务数据时UTF-8，一个汉字三个字节，第四个就出错了。<br><br><br>所有的数据库服务器的一些特性都是通过服务器端的变量来保存，系统会先读取自己的变量。<br>1.查看服务器能识别哪些字符集:<pre><code>show character set;
 </code></pre>我的mysql查询出了41种，基本是都能识别的。<br>2.查看服务器与客户端交互的字符集(默认的对外处理的字符集):<pre><code>show variables like &apos;character_set%&apos;;
-</code></pre><img src="/img/00010mysql学习笔记一5.jpg" alt=""><br>问题根源:第一行character_set_client,客户端对服务器的字符集为utf8,而客户端数据为gbk。<br>修改服务器对客户端的字符集为GBK:<pre><code>set character_set_client=gbk;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-5.jpg" alt=""><br>问题根源:第一行character_set_client,客户端对服务器的字符集为utf8,而客户端数据为gbk。<br>修改服务器对客户端的字符集为GBK:<pre><code>set character_set_client=gbk;
 </code></pre></li>
 <li>上述问题解决之后，插入中文数据，使用select查看数据，仍然乱码：<br>原因:数据来源服务器，解析数据是客户端（服务器给三个字节UTF8，而客户端接收却是GBK）<br>解决方法:<pre><code>set character_set_result=gbk;
 </code></pre></li>
@@ -353,7 +353,7 @@ SELECT * FROM te_student;
 <h2 id="11-web乱码问题"><a href="#11-web乱码问题" class="headerlink" title="11.web乱码问题"></a>11.web乱码问题</h2><ol>
 <li>动态网站的构成：浏览器，Apache服务器（java后端），数据库服务器，三个部分都有自己的字符集（针对中文的），数据在三个部分来回传递，很容易产生乱码。</li>
 <li>最好的结果三码合一，但是很难做到。<br>解决方案:<br>java服务端—&gt;浏览器(jsp自带):<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
-</code></pre>浏览器—&gt;服务器:表单有由java服务端提供，也不用管。<br><br><br>java服务端—&gt;数据库服务器端:<code>set character_set_client = utf8;</code>,<br>数据库服务器端—&gt;java服务端:<code>set character_set_result = utf8;</code>,<br>一劳永逸的办法:<code>set names utf8;</code><br>但是默认好像就是utf-8的。<br><br><br>数据库服务器&lt;—&gt;编码不同的数据库，数据库表：系统自动解决，不用管。<br><br><br>操作系统（GBK）—&gt;java服务端字符集:<br>从本地读东西时，要改变自己字符集，如读取本地文件时:<pre><code>BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName),&quot;UTF-8&quot;));
+</code></pre>浏览器—&gt;服务器:表单由java服务端提供，也不用管。<br><br><br>java服务端—&gt;数据库服务器端:<code>set character_set_client = utf8;</code>,<br>数据库服务器端—&gt;java服务端:<code>set character_set_result = utf8;</code>,<br>一劳永逸的办法:<code>set names utf8;</code><br>但是默认好像就是utf-8的。<br><br><br>数据库服务器&lt;—&gt;编码不同的数据库，数据库表：系统自动解决，不用管。<br><br><br>操作系统（GBK）—&gt;java服务端字符集:<br>从本地读东西时，要改变自己字符集，如读取本地文件时:<pre><code>BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName),&quot;UTF-8&quot;));
 </code></pre></li>
 </ol>
 <hr>
@@ -362,7 +362,7 @@ SELECT * FROM te_student;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月13日 15:38</p>
+        <p>最后更新： 2018年03月14日 15:16</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/MySQL数据库学习笔记（一）/" title="MySQL学习笔记（一）:数据库基础知识介绍与基本操作">https://zjxkenshine.github.io/2018/03/10/MySQL数据库学习笔记（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -487,12 +487,12 @@ SELECT * FROM te_student;
 
 <nav id="article-nav">
   
-    <a href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/10/MySQL数据库学习笔记（二）/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理
+          MySQL学习笔记（二）:基本数据类型与列属性介绍
         
       </span>
     </a>
@@ -565,10 +565,10 @@ SELECT * FROM te_student;
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -601,7 +601,7 @@ SELECT * FROM te_student;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

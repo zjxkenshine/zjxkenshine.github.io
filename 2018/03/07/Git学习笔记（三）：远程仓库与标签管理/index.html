@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00005SSH.jpg">
-<meta property="og:updated_time" content="2018-03-08T13:55:52.903Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00003git%E5%AD%A6%E4%B9%A03-1.jpg">
+<meta property="og:updated_time" content="2018-03-14T06:59:37.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（三）：远程仓库与标签管理">
 <meta name="twitter:description" content="0.学习要点 配置SSH 连接到远程仓库 从远程克隆到本地仓库 标签的创建与操作   1.配置SSH 第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:$ ssh-keygen -t rsa -C &amp;quot;youremail@example.c">
-<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00005SSH.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00003git%E5%AD%A6%E4%B9%A03-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -158,7 +158,7 @@
 <h2 id="1-配置SSH"><a href="#1-配置SSH" class="headerlink" title="1.配置SSH"></a>1.配置SSH</h2><ol>
 <li>第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件，如果已经有了跳过这一步。若没有，在Git Bash下输入:<pre><code>$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;
 </code></pre>把邮件地址换成自己的邮件地址,不用设置密码。<br><code>id_rsa</code>是私钥，不能泄露出去，<code>id_rsa.pub</code>是公钥，可以放心地告诉任何人。</li>
-<li>第二步:注册并登陆GitHub，点击settings，再点击SSH and GPG keys，然后点击New SSH key。填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。<br><img src="/img/00005SSH.jpg" alt="" title="SSH"></li>
+<li>第二步:注册并登陆GitHub，点击settings，再点击SSH and GPG keys，然后点击New SSH key。填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00003git%E5%AD%A6%E4%B9%A03-1.jpg" alt="" title="SSH"></li>
 <li>为什么添加SSH:<br>GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。<br>GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。</li>
 </ol>
 <hr>
@@ -328,7 +328,7 @@ To git@github.com:zjxkenshine/learngit.git
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月08日 21:55</p>
+        <p>最后更新： 2018年03月14日 14:59</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/" title="Git学习笔记（三）：远程仓库与标签管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（三）：远程仓库与标签管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -531,10 +531,10 @@ To git@github.com:zjxkenshine/learngit.git
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -567,7 +567,7 @@ To git@github.com:zjxkenshine/learngit.git
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

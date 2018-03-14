@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决?   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入之后，将光标一直移动到 LANG=en_">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码1.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码2.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码3.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos出现问题.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码4.jpg">
-<meta property="og:updated_time" content="2018-03-12T03:23:48.798Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%982.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%983.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%984.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%985.jpg">
+<meta property="og:updated_time" content="2018-03-14T07:07:28.962Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7关于几个常见问题的解决方案">
 <meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决?   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入之后，将光标一直移动到 LANG=en_">
-<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00008centos忘记密码1.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -158,12 +158,12 @@
 <hr>
 <h2 id="1-Centos7忘记密码怎么解决"><a href="#1-Centos7忘记密码怎么解决" class="headerlink" title="1.Centos7忘记密码怎么解决"></a>1.Centos7忘记密码怎么解决</h2><p>太久没使用Linux（Centos7）了，忘记root密码了怎么办？</p>
 <ol>
-<li>在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。<br><img src="/img/00008centos忘记密码1.jpg" alt=""><br>然后选择忘记密码的那个系统按下<code>e</code>键进入编辑模式。</li>
-<li>进入之后，将光标一直移动到 LANG=en_US.UTF-8 后面，空格，再追加init=/bin/sh。这里特别注意，需要写在UTF-8后，保持在同一行，并注意空格。由于屏幕太小，会自动添加\换行，这个是正常的。（移动光标时上下换段左右换段内文字）<br><img src="/img/00008centos忘记密码2.jpg" alt=""></li>
-<li>按下CTRL+X进行引导启动，成功后进入该界面<br><img src="/img/00008centos忘记密码3.jpg" alt=""><br>有时可能会产生这样的错误<br><img src="/img/00008centos出现问题.jpg" alt=""><br>可以查看以下第2步是否写对（注意=后面有斜杠）</li>
+<li>在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg" alt=""><br>然后选择忘记密码的那个系统按下<code>e</code>键进入编辑模式。</li>
+<li>进入之后，将光标一直移动到 LANG=en_US.UTF-8 后面，空格，再追加init=/bin/sh。这里特别注意，需要写在UTF-8后，保持在同一行，并注意空格。由于屏幕太小，会自动添加\换行，这个是正常的。（移动光标时上下换段左右换段内文字）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%982.jpg" alt=""></li>
+<li>按下CTRL+X进行引导启动，成功后进入该界面<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%983.jpg" alt=""><br>有时可能会产生这样的错误<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%984.jpg" alt=""><br>可以查看以下第2步是否写对（注意=后面有斜杠）</li>
 <li>输入以下命令：<br>挂载根目录 <pre><code>mount -o remount, rw /
 </code></pre>选择要修改密码的用户名，这里选择root用户进行修改，可以更换为你要修改的用户<pre><code>passwd root
-</code></pre>输入2次一样的新密码，注意输入密码的时候屏幕上不会有字符出现。<br>如果输入的密码太简单，会提示警告（BAD PASSWORD：The password fails the dictionary check - it is too simplistic/systematic），可以无视它，继续输入密码，不过建议还是设置比较复杂一些的密码，以保证安全性，如下图：<br><img src="/img/00008centos忘记密码4.jpg" alt=""></li>
+</code></pre>输入2次一样的新密码，注意输入密码的时候屏幕上不会有字符出现。<br>如果输入的密码太简单，会提示警告（BAD PASSWORD：The password fails the dictionary check - it is too simplistic/systematic），可以无视它，继续输入密码，不过建议还是设置比较复杂一些的密码，以保证安全性，如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%985.jpg" alt=""></li>
 <li>如果已经开启了SElinux，则需要输入以下命令 <pre><code>touch /.autorelabel
 </code></pre></li>
 <li>最后输入以下命令重启系统即可：<pre><code>exec /sbin/init 
@@ -175,7 +175,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月12日 11:23</p>
+        <p>最后更新： 2018年03月14日 15:07</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/Centos7几个常见问题解决方案/" title="Centos7关于几个常见问题的解决方案">https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -378,10 +378,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -414,7 +414,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

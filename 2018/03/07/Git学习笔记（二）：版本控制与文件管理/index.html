@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00004工作区与版本库A.jpg">
-<meta property="og:updated_time" content="2018-03-07T12:31:08.983Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00002git%E5%AD%A6%E4%B9%A02-1.jpg">
+<meta property="og:updated_time" content="2018-03-14T06:58:27.810Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（二）：版本控制与修改管理">
 <meta name="twitter:description" content="0.学习要点 版本回退 工作区和暂存区 管理修改 撤销修改 删除文件   1.版本回退 简介：Git可以像玩游戏保存存档一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为commit。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作，而不是把几个月的工作成果全部丢失。 多次修改及查看：第一次修改内容: this is my">
-<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00004工作区与版本库A.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00002git%E5%AD%A6%E4%B9%A02-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -221,7 +221,7 @@ HEAD is now at 7abc597 第二次修改
 <hr>
 <h2 id="2-工作区与暂存区"><a href="#2-工作区与暂存区" class="headerlink" title="2.工作区与暂存区"></a>2.工作区与暂存区</h2><ol>
 <li>Git和其他版本控制系统如SVN的一个不同之处就是有暂存区的概念。</li>
-<li>工作区:<br>就是在电脑里能看到的目录，比如<code>learngit</code>文件夹就是一个工作区：<br>版本库:<br>工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>Git的版本库里存了很多东西，<strong>其中最重要的就是称为stage（或者叫index）的暂存区</strong>，还有Git为我们自动创建的第一个分支<code>master</code>，以及指向<code>master</code>的一个指针叫<code>HEAD</code>。分支与<code>HEAD</code>暂时不用了解。<br><img src="/img/00004工作区与版本库A.jpg" alt="" title="工作区与版本库"></li>
+<li>工作区:<br>就是在电脑里能看到的目录，比如<code>learngit</code>文件夹就是一个工作区：<br>版本库:<br>工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>Git的版本库里存了很多东西，<strong>其中最重要的就是称为stage（或者叫index）的暂存区</strong>，还有Git为我们自动创建的第一个分支<code>master</code>，以及指向<code>master</code>的一个指针叫<code>HEAD</code>。分支与<code>HEAD</code>暂时不用了解。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00002git%E5%AD%A6%E4%B9%A02-1.jpg" alt=""></li>
 <li><p>暂存区不同时期的变化<br>我们把文件往Git版本库里添加的时候，是分两步执行的：<br>第一步是用git add把文件添加进去，实际上就是<strong>把文件修改添加到暂存区</strong>，可以添加多个；<br>第二步是用git commit提交更改，实际上就是<strong>把暂存区的所有内容提交到当前分支</strong>。<br>使用<code>git status</code>可以查看文件状态。<br>修改”我的第一个git文件.txt”：</p>
 <pre><code>this is my first git file
 第一次更改
@@ -360,7 +360,7 @@ $ git commit -m &quot;delete file2.txt&quot;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月07日 20:31</p>
+        <p>最后更新： 2018年03月14日 14:58</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（二）：版本控制与文件管理/" title="Git学习笔记（二）：版本控制与修改管理">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（二）：版本控制与文件管理/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -563,10 +563,10 @@ $ git commit -m &quot;delete file2.txt&quot;
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -599,7 +599,7 @@ $ git commit -m &quot;delete file2.txt&quot;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

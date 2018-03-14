@@ -16,14 +16,14 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 了解Git 集中式与分布式 Git的安装及配置 简单使用git   1.Git简介 Git是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 Git的的诞生2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00001集中式.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00002分布式.jpg">
-<meta property="og:image" content="https://zjxkenshine.github.io/img/00003GitBash.jpg">
-<meta property="og:updated_time" content="2018-03-07T12:27:35.870Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-3.jpg">
+<meta property="og:updated_time" content="2018-03-14T06:56:50.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记（一）：Git简介与配置安装">
 <meta name="twitter:description" content="0.学习要点 了解Git 集中式与分布式 Git的安装及配置 简单使用git   1.Git简介 Git是什么Git是目前世界上最先进的分布式版本控制系统（没有之一）。 Git的的诞生2005年，Linux的开发者Linus用C写了一个分布式版本控制系统，用于管理Linux源代码，Git迅速成为最流行的分布式版本控制系统。2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源">
-<meta name="twitter:image" content="https://zjxkenshine.github.io/img/00001集中式.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -164,17 +164,17 @@
 <hr>
 <h2 id="2-集中式与分布式"><a href="#2-集中式与分布式" class="headerlink" title="2.集中式与分布式"></a>2.集中式与分布式</h2><h3 id="2-1-集中式版本控制系统"><a href="#2-1-集中式版本控制系统" class="headerlink" title="2.1 集中式版本控制系统"></a>2.1 集中式版本控制系统</h3><ol>
 <li>简介：<br>集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。（CVS/SVN/ClearCase/VSS等）</li>
-<li>示意图:<br><img src="/img/00001集中式.jpg" alt="" title="集中式版本管理系统示意图"></li>
+<li>示意图:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-1.jpg" alt=""></li>
 <li>缺点<br>集中式版本控制系统最大的毛病就是必须联网才能工作，如果在局域网内还好，带宽够大，速度够快，可如果在互联网上，遇到网速慢的话，可能提交一个10M的文件就需要5分钟。</li>
 </ol>
 <h3 id="2-2-分布式版本控制系统"><a href="#2-2-分布式版本控制系统" class="headerlink" title="2.2 分布式版本控制系统"></a>2.2 分布式版本控制系统</h3><ol>
 <li>简介：<br>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。<br>分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来<strong>方便“交换”大家的修改</strong>，没有它大家也一样干活，只是交换修改不方便而已。（Git/BitKeeper/Mercurial/Bazaar等）</li>
 <li>优点:<br>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</li>
-<li>示意图:<br><img src="/img/00002分布式.jpg" alt="" title="分布式版本管理系统示意图"></li>
+<li>示意图:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-2.jpg" alt=""></li>
 </ol>
 <hr>
 <h2 id="3-Git安装-Windows"><a href="#3-Git安装-Windows" class="headerlink" title="3.Git安装(Windows)"></a>3.Git安装(Windows)</h2><ol>
-<li>安装:<br>在Windows上使用Git，可以从Git官网直接<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">下载安装程序</a>,或者<a href="https://pan.baidu.com/s/1kU5OCOB?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=#list/path=%2Fpub%2Fgit" target="_blank" rel="noopener">百度网盘下载</a>，然后选择自己的版本下载，按默认选项安装即可。<br>安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！<br><img src="/img/00003GitBash.jpg" alt="" title="GitBash示意图"></li>
+<li>安装:<br>在Windows上使用Git，可以从Git官网直接<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">下载安装程序</a>,或者<a href="https://pan.baidu.com/s/1kU5OCOB?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=#list/path=%2Fpub%2Fgit" target="_blank" rel="noopener">百度网盘下载</a>，然后选择自己的版本下载，按默认选项安装即可。<br>安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00001git%E5%AD%A6%E4%B9%A01-3.jpg" alt=""></li>
 <li>设置用户名和初始地址：<pre><code>$ git config --global user.name &quot;Your Name&quot;
 $ git config --global user.email &quot;email@example.com&quot;
 </code></pre>user.name “Your Name”：用户名;<br>user.email “email@example.com”：邮箱地址。<br>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。<br>注意<code>git config</code>命令的<code>--global</code>参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。</li>
@@ -217,7 +217,7 @@ $ git config --global user.email &quot;email@example.com&quot;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月07日 20:27</p>
+        <p>最后更新： 2018年03月14日 14:56</p>
         <p>原始链接： <a class="post-url" href="/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" title="Git学习笔记（一）：Git简介与配置安装">https://zjxkenshine.github.io/2018/03/07/Git学习笔记（一）：Git简介与配置安装/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -420,10 +420,10 @@ $ git config --global user.email &quot;email@example.com&quot;
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -456,7 +456,7 @@ $ git config --global user.email &quot;email@example.com&quot;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/框架/" style="font-size: 10px;">框架</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>
