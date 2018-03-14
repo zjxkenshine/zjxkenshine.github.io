@@ -18,7 +18,7 @@ categories: 版本控制工具
 把邮件地址换成自己的邮件地址,不用设置密码。
 `id_rsa`是私钥，不能泄露出去，`id_rsa.pub`是公钥，可以放心地告诉任何人。
 2. 第二步:注册并登陆GitHub，点击settings，再点击SSH and GPG keys，然后点击New SSH key。填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。
-![](/img/00005SSH.jpg "SSH")
+![](http://p5ki4lhmo.bkt.clouddn.com/00003git%E5%AD%A6%E4%B9%A03-1.jpg "SSH")
 3. 为什么添加SSH:
 GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。
 GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。

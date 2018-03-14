@@ -90,7 +90,7 @@ root用户登录：`mysql -u root -p`
 --3.服务器接收SQL指令，处理SQL指令，返回操作结果
 --4.客户端接收结果，显示结果
 `show databases;`(注意分号)
-![](/img/00010mysql学习笔记一1.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-1.jpg)
 --5.断开连接（释放资源，服务器并发限制）
 `exit`,`quit`或`\q`。
 4. Mysql服务器对象：
@@ -145,7 +145,7 @@ windows>mysqld.exe>DB>Table>filed
 	_：匹配单个字符
 	%：匹配多个字符
 	效果如下：
-![](/img/00010mysql学习笔记一1.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-2.jpg)
 	若有特殊字符则需要转义
 	- 查看数据库的创建语句：
 			show create database 数据库名字；
@@ -196,7 +196,7 @@ if not exists：如果表不存在则执行，否则不执行后面代码。
 		use dbname
 若进入test数据库则使用`use test`。
 再执行上述代码。
-![](/img/00010mysql学习笔记一3.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-3.jpg)
 创建数据表的SQL指令执行后发生了什么:
 --指定数据库上已经存在的对应表
 --在数据库对应的文件夹下会产生对应表的结构（跟存储引擎有关）:编译后的文件，需要反编译才能看
@@ -218,7 +218,7 @@ if not exists：如果表不存在则执行，否则不执行后面代码。
 			DESC student;
 			descripe student;
 			show colums from student;
-	![](/img/00010mysql学习笔记一4.jpg)
+	![](http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-4.jpg)
 3. 修改数据表：
 包括修改表本身及修改字段。
 	- 修改表本身：表名和表选项
@@ -304,7 +304,7 @@ if not exists：如果表不存在则执行，否则不执行后面代码。
 我的mysql查询出了41种，基本是都能识别的。
 2.查看服务器与客户端交互的字符集(默认的对外处理的字符集):
 		show variables like 'character_set%';
-![](/img/00010mysql学习笔记一5.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00009mysql%E5%AD%A6%E4%B9%A01-5.jpg)
 问题根源:第一行character_set_client,客户端对服务器的字符集为utf8,而客户端数据为gbk。
 修改服务器对客户端的字符集为GBK:
 		set character_set_client=gbk;
@@ -343,7 +343,7 @@ connection连接层，与client和result统一效率更高。
 解决方案:
 java服务端--->浏览器(jsp自带):
 		<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-浏览器--->服务器:表单有由java服务端提供，也不用管。
+浏览器--->服务器:表单由java服务端提供，也不用管。
 <br>
 java服务端--->数据库服务器端:`set character_set_client = utf8;`,
 数据库服务器端--->java服务端:`set character_set_result = utf8;`,

@@ -63,7 +63,7 @@ Centos7使用以下:
 [Centos7关于用户的几个问题解决方案](/Centos7关于用户的几个问题解决方案.md)
 注意:Centos7默认的数字键盘和是关闭的！！
 登录后会看到一行像这样的文字：
-![登录后文字](/img/00009Linux学习2-1.jpg)
+![登录后文字](http://p5ki4lhmo.bkt.clouddn.com/00007%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A02-1.jpg)
 其中kenshine是我的用户名，bogon是我的主机名，~是用户主文件夹，
 root用户的~为/root，我的~指向home/kenshine。
 $是普通用户提示符，root用户提示符为#。

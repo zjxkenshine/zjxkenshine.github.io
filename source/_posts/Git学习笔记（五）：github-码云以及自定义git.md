@@ -29,7 +29,7 @@ categories: 版本控制工具
 3. 上传项目：
 和github操作一毛一样，新建一个仓库，`git remote add origin address`添加远程仓库，`git push origin master`推送代码。只要这个`origin`和github的不同，本地仓库的代码就可以同时提交到github与码云。
 若重复，可以使用`git remote rm origin`删除远程库。
-![马云](/img/00007码云.jpg)
+![马云](http://p5ki4lhmo.bkt.clouddn.com/00005git%E5%AD%A6%E4%B9%A05-1.jpg)
 
 ---
 ## 3.配置git颜色与忽略特殊文件
