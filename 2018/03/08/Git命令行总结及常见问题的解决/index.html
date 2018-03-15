@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html>
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   
-  <title>Git命令行总结及常见问题的解决，不断更新 | 程序人生</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
-  
-  <meta name="description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
+    <title>Git命令行总结及常见问题的解决，不断更新 | 程序人生</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="周建新">
+    
+
+    
+    <meta name="description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git命令行总结及常见问题的解决，不断更新">
@@ -20,133 +23,86 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git命令行总结及常见问题的解决，不断更新">
 <meta name="twitter:description" content="1.命令行$ git config --global user.name &amp;quot;Your Name&amp;quot; $ git config --global user.email &amp;quot;email@example.com&amp;quot; 设置用户名和密码git init 把这个目录变成Git可以管理的仓库git add file 添加git add -A . 一次添加所有改变的文件（注意最后">
-  
-  
-    <link rel="icon" href="/favicon.ico">
-  
-  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css">
-  <script src="/js/pace.min.js"></script>
-  
 
-  
-  
-
+    
+    <link rel="alternative" href="/atom.xml" title="程序人生" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
-  <div id="container">
-      <header id="header">
-    <div id="banner"></div>
-    <div id="header-outer">
-        <div id="header-menu" class="header-menu-pos animated">
-            <div class="header-menu-container">
-                <a href="/" class="left">
-                    <span class="site-title">Kenshine&#39;s Blog</span>
-                </a>
-                <nav id="header-menu-nav" class="right">
-                    
-                    <a  href="/">
-                        <i class="fa fa-home"></i>
-                        <span>首页</span>
-                    </a>
-                    
-                    <a  href="/archives">
-                        <i class="fa fa-archive"></i>
-                        <span>归档</span>
-                    </a>
-                    
-                    <a target="_blank" href="/about">
-                        <i class="fa fa-user"></i>
-                        <span>关于</span>
-                    </a>
-                    
-                </nav>
-                <a class="mobile-header-menu-button">
-                    <i class="fa fa-bars"></i>
-                </a>
-            </div>
-        </div>
-        <div id="header-row">
-            <div id="logo">
-                <a href="/">
-                    <img src="/images/logo.png" alt="logo">
-                </a>
-            </div>
-            <div class="header-info">
-                <div id="header-title">
-                    
-                    <h2>
-                        Kenshine&#39;s Blog
-                    </h2>
-                    
-                </div>
-                <div id="header-description">
-                    
-                    <h3>
-                        今天,是你余生的第一天
-                    </h3>
-                    
-                </div>
-            </div>
-            <nav class="header-nav">
-                <div class="social">
-                    
-                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
-                            <i class="fa fa-github fa-2x"></i></a>
-                    
-                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
-                            <i class="fa fa-weibo fa-2x"></i></a>
-                    
-                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
-                            <i class="fa fa-qq fa-2x"></i></a>
-                    
-                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
-                            <i class="fa fa-weixin fa-2x"></i></a>
-                    
-                </div>
-            </nav>
-        </div>
-    </div>
-</header>
-      <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Git命令行总结及常见问题的解决" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 class="post-title" itemprop="name">
-      Git命令行总结及常见问题的解决，不断更新
-    </h1>
-    <div class="post-title-bar">
-      <ul>
-          
-              <li>
-                  <i class="fa fa-book"></i>
-                  
-                      <a href="/categories/版本控制工具/">版本控制工具</a>
-                  
-              </li>
-          
-        <li>
-          <i class="fa fa-calendar"></i>  2018-03-08
-        </li>
-        <li>
-          <i class="fa fa-eye"></i>
-          <span id="busuanzi_value_page_pv"></span>
-        </li>
-      </ul>
-    </div>
-  
-
-          
-      </header>
-    
-    <div class="article-entry post-content" itemprop="articleBody">
+  <body>
+    <header>
       
-            
-            <h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1.命令行"></a>1.命令行</h2><pre><code>$ git config --global user.name &quot;Your Name&quot;
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="程序人生" title="程序人生"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="程序人生">程序人生</a></h1>
+				<h2 class="blog-motto">一天进步一点</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zjxkenshine.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/08/Git命令行总结及常见问题的解决/" title="Git命令行总结及常见问题的解决，不断更新" itemprop="url">Git命令行总结及常见问题的解决，不断更新</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="周建新" target="_blank" itemprop="author">周建新</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-08T11:50:51.000Z" itemprop="datePublished"> 发表于 2018-03-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-命令行"><span class="toc-number">1.</span> <span class="toc-text">1.命令行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-我遇到的问题列表"><span class="toc-number">2.</span> <span class="toc-text">2.我遇到的问题列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-问题解决"><span class="toc-number">3.</span> <span class="toc-text">3.问题解决</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1.命令行"></a>1.命令行</h2><pre><code>$ git config --global user.name &quot;Your Name&quot;
 $ git config --global user.email &quot;email@example.com&quot;
 </code></pre><p>设置用户名和密码<br><code>git init</code> 把这个目录变成Git可以管理的仓库<br><code>git add file</code> 添加<br><code>git add -A .</code> 一次添加所有改变的文件（注意最后有个句点）。<br><code>git add -A</code> 添加所有内容<br><code>git add .</code> 添加新文件和编辑过的文件不包括删除的文件<br><code>git add -u</code> 表示添加编辑或者删除的文件，不包括新添加的文件。<br><code>git commit -m &quot;...&quot;</code> 批量提交(快照)<br><code>git log</code>查看版本日志<br><code>git log --pretty=oneline</code>查看修改日志(格式化)<br><code>git reset --hard head^</code>回到上一个版本<br><code>git reset --hard head~n</code>回到n个版本以前<br><code>git reset --hard commit_id</code>回到commit_id所对应的版本<br><code>git reflog</code>记录每一个命令操作<br><code>git status</code>查看当前文件状态<br><code>git diff file</code>查看具体修改了什么内容<br><code>git diff HEAD -- file</code>命令可以查看工作区和版本库里面最新版本的区别<br><code>git checkout -- file</code>让这个文件回到最近一次<code>git commit</code>或<code>git add</code>时的状态<br><code>git reset HEAD file</code>把暂存区的修改撤销，重新放回工作区<br><code>git rm file</code>删除文件<br><code>$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>设置ssh密钥<br><code>git remote add origin address</code> 添加远程仓库<br><code>git push -u origin master</code> 将代码推送到远程库的master并与之关联<br><code>git push origin master</code>将当前分支推送到远程库的master。<br><code>git clone address</code> 从address处克隆一个库到本地<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git checkout -b dev</code> 创建并切换到名为dev的分支<br><code>git branch dev</code> 创建名为dev的分支<br><code>git checkout dev</code> 切换到名为dev的分支<br><code>git branch</code> 查看本地分支列表，当前分支会带一个*号<br><code>git merge dev</code> 合并指定分支dev到当前分支（非dev分支）<br><code>git branch -d dev</code>删除指定分支dev(合并后的)<br><code>git branch -D dev</code>强制删除指定分支dev（合没合并都删）<br><code>git branch -r</code> 查看远程分支<br><code>git branch -a</code> 查看所有分支<br><code>git log --graph</code>查看分支合并图：<br><code>git log --graph --pretty=oneline --abbrev-commit</code>查看分支（commit）历史（带合并图）<br><code>git merge --no-ff -m &quot;...&quot; dev</code> 不使用Fast forward的合并，附带一次提交<br><code>git stash</code> 保存当前工作现场<br><code>git stash list</code> 查看保存列表<br><code>git stash apply stash@{n}</code> 恢复保存列表的第n+1项保存现场<br><code>git stash drop stash@{n}</code> 删除保存列表的第n+1项保存现场<br><code>git stash pop</code> 恢复并删除最近的添加到栈中的储存现场<br><code>git remote</code> 查看远程库信息<br><code>git remote add address</code>添加远程库<br><code>git remote rename oldname newname</code> 远程仓库重命名<br><code>git remote rm origin-name</code> 删除远程库<br><code>git push origin dev</code> 当前分支代码推送到origin远程库的dev分支<br>（若要在远程创建dev分支，则本地切换到dev分支后使用这句）<br><code>git pull origin</code> 抓取远程库中和当前分支相关联的分支的最新代码<br><code>git branch --set-upstream dev origin/dev</code>创建本地dev与远程库dev的链接<br><code>git tag tagmane</code> 在最近一次commit创建本地名为tagname的标签<br><code>git tag tagmane commit-id</code> 在commitid那次提交创建本地名为tagname的标签<br><code>git log --pretty=oneline --abbrev-commit</code>查看历史提交，无分支<br><code>git tag</code> 查看标签列表<br><code>git tag -a tagname -m &quot;...&quot; (commit-id)</code>（在commit-id版本）创建一个标签名为tagname的标签。<br><code>git tag -s tagname -m &quot;...&quot; (commit-id)</code>创建一个带gpg签名的标签<br><code>git show tagname</code> 查看tagname标签的所有信息<br><code>git tag -d tagname</code> 删除本地tagname标签<br><code>git push origin tagname</code> 推送tagname标签到远程仓库<br><code>git push origin --tags</code> 推送所有标签到远程仓库<br><code>git push origin :refs/tags/tagname</code> 删除远程tagname标签（需先删除本地）<br><code>$ git config --global color.ui true</code> 配置git颜色<br><code>git add -f file</code> 强制添加一个文件<br><code>git check-ignore -v file</code> 检查.gitignore文件是否忽略file<br><code>git config --global alias.othername oldname</code> 配置别名<br><code>git config --global alias.othername &#39;string&#39;</code> 配置别名</p>
 <hr>
@@ -160,281 +116,350 @@ $ git config --global user.email &quot;email@example.com&quot;
 <li><code>git commit</code>忘记加-m报错怎么解决：<br>方法1：关掉重启Git Bash<br>方法2：输入:wq然后回车</li>
 </ol>
 <hr>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-            <div class="post-copyright">
-    <div class="content">
-        <p>最后更新： 2018年03月08日 22:20</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/08/Git命令行总结及常见问题的解决/" title="Git命令行总结及常见问题的解决，不断更新">https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/</a></p>
-        <footer>
-            <a href="https://zjxkenshine.github.io">
-                <img src="/images/logo.png" alt="周建新">
-                周建新
-            </a>
-        </footer>
-    </div>
-</div>
-
-      
-        
-            
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;">赏</a>
-</div>
-
-<div id="reward" class="post-modal reward-lay">
-    <a class="close" href="javascript:;" id="reward-close">×</a>
-    <span class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        请我吃糖~
-        <i class="icon icon-quote-right"></i>
-    </span>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
-        </div>
-        <div class="reward-select">
-            
-            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
-                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
-            </label>
-            
-            
-            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
-                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
-            </label>
-            
-        </div>
-    </div>
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/版本控制工具/">版本控制工具</a>
 </div>
 
 
-        
-    </div>
-    <footer class="article-footer">
-        
-        
-<div class="post-share">
-    <a href="javascript:;" id="share-sub" class="post-share-fab">
-        <i class="fa fa-share-alt"></i>
-    </a>
-    <div class="post-share-list" id="share-list">
-        <ul class="share-icons">
-          <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
-              <i class="fa fa-weibo"></i>
-            </a>
-          </li>
-          <li>
-            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
-              <i class="fa fa-weixin"></i>
-            </a>
-          </li>
-          <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&title=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&source=程序人生" data-title="QQ">
-              <i class="fa fa-qq"></i>
-            </a>
-          </li>
-          <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-          </li>
-          <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git命令行总结及常见问题的解决，不断更新》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/&via=https://zjxkenshine.github.io" data-title="Twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-          <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Google+">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        </ul>
-     </div>
-</div>
-<div class="post-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;" id="wxShare-close">×</a>
-    <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" alt="微信分享二维码">
-</div>
-
-<div class="mask"></div>
-
-        
-        <ul class="article-footer-menu">
-            
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Git/" class="color4">Git</a>
-      
-  </li>
-
-        </ul>
-        
-    </footer>
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Git/">Git</a>
   </div>
-</article>
+
+</div>
 
 
-    <aside class="post-toc-pos post-toc-top" id="post-toc">
-        <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-命令行"><span class="post-toc-text">1.命令行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-我遇到的问题列表"><span class="post-toc-text">2.我遇到的问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-问题解决"><span class="post-toc-text">3.问题解决</span></a></li></ol>
-        </nav>
-    </aside>
-    
 
-<nav id="article-nav">
-  
-    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://zjxkenshine.github.io/2018/03/08/Git命令行总结及常见问题的解决/" data-title="Git命令行总结及常见问题的解决，不断更新 | 程序人生" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
 
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习
-        
-      </span>
-    </a>
-  
-  
-    <a href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Git学习笔记（五）：github,码云以及自定义git</span>
-      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-    </a>
-  
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" title="《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习">
+  <strong>上一篇：</strong><br/>
+  <span>
+  《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/03/08/Git学习笔记（五）：github-码云以及自定义git/"  title="Git学习笔记（五）：github,码云以及自定义git">
+ <strong>下一篇：</strong><br/> 
+ <span>Git学习笔记（五）：github,码云以及自定义git
+</span>
+</a>
+</div>
+
 </nav>
 
+	
 
 
-    
-          <div id="uyan_frame"></div>
-  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
 
-    
-</section>
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-命令行"><span class="toc-number">1.</span> <span class="toc-text">1.命令行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-我遇到的问题列表"><span class="toc-number">2.</span> <span class="toc-text">2.我遇到的问题列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-问题解决"><span class="toc-number">3.</span> <span class="toc-text">3.问题解决</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java框架/" title="Java框架">Java框架<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/版本控制工具/" title="版本控制工具">版本控制工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程基础/" title="编程基础">编程基础<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/类/" title="类">类<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mybatis/" title="Mybatis">Mybatis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
         
-      </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
+          <li>
+            
+            	<a href="https://www.csdn.net" target="_blank" title="专业IT技术社区">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
 
 
-      <p>
-        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
-        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
-      &copy; 2018 周建新<br>
-      </p>
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
     </div>
-  </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 一个终将成为大佬的小菜鸟 <br/>
+			在这里记录我在IT路上的成长吧</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1754294529@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="周建新">周建新</a>
+		
+		
+		</p>
+</div>
 </footer>
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script>
-  var mihoConfig = {
-      root: "https://zjxkenshine.github.io",
-      animate: true,
-      isHome: false,
-      share: true,
-      reward: 1
-  }
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
 </script>
-<div class="sidebar">
-    <div id="sidebar-search" title="Search">
-        <i class="fa fa-search"></i>
-    </div>
-    <div id="sidebar-category" title="Categories">
-        <i class="fa fa-book"></i>
-    </div>
-    <div id="sidebar-tag" title="Tags">
-        <i class="fa fa-tags"></i>
-    </div>
-    <div id="sidebar-top">
-        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
-    </div>
-</div>
-<div class="sidebar-menu-box" id="sidebar-menu-box">
-    <div class="sidebar-menu-box-container">
-        <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
-        </div>
-        <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
-        </div>
-    </div>
-    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
-</div>
-<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
-    <div class="mobile-header-menu-container">
-        <span class="title">Menus</span>
-        <ul class="mobile-header-menu-navbar">
-            
-            <li>
-                <a  href="/">
-                    <i class="fa fa-home"></i><span>首页</span>
-                </a>
-            </li>
-            
-            <li>
-                <a  href="/archives">
-                    <i class="fa fa-archive"></i><span>归档</span>
-                </a>
-            </li>
-            
-            <li>
-                <a target="_blank" href="/about">
-                    <i class="fa fa-user"></i><span>关于</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    <div class="mobile-header-tag-container">
-        <span class="title">Tags</span>
-        <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
-        </div>
-    </div>
-</div>
-<div class="search-wrap">
-    <span class="search-close">&times;</span>
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-            <i class="icon icon-lg icon-chevron-left"></i>
-        </a>
-        <input class="search-field" placeholder="Search..." id="keywords">
-        <a id="search-submit" href="javascript:;">
-            <i class="fa fa-search"></i>
-        </a>
-    <div class="search-container" id="search-container">
-        <ul class="search-result" id="search-result">
-        </ul>
-    </div>
-</div>
 
-<div id="search-tpl">
-    <li class="search-result-item">
-        <a href="{url}" class="search-item-li">
-            <span class="search-item-li-title" title="{title}">{title}</span>
-        </a>
-    </li>
-</div>
-<script src="/js/search.js"></script>
-<script src="/js/main.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
-  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
-  <div id="particles"></div>
-  <script src="/js/particles.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
 
 
 
@@ -442,16 +467,69 @@ $ git config --global user.email &quot;email@example.com&quot;
 
 
 
-  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
-  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
-  <script src="/js/animate.js"></script>
 
 
-  <script src="/js/pop-img.js"></script>
-  <script>
-     $(".article-entry p img").popImg();
-  </script>
 
-  </div>
-</body>
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
 </html>
