@@ -3,23 +3,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器 | 程序人生</title>
+  <title>《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点    压缩及打包 各种备份操作 vim(很重要)   1.压缩简介已及常见的压缩命令 压缩简介:文件压缩：利用一些复杂的计算使文件占用空间变小。解压缩：使用这些被压缩的文件数">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器">
+<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点    压缩及打包 各种备份操作 vim(很重要)   1.压缩简介已及常见的压缩命令 压缩简介:文件压缩：利用一些复杂的计算使文件占用空间变小。解压缩：使用这些被压缩的文件数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-15T09:26:02.991Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00008%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:updated_time" content="2018-03-17T05:55:55.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点">
+<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第9章：文件与文件系统的压缩打包第10章：vim程序编辑器  学习重点    压缩及打包 各种备份操作 vim(很重要)   1.压缩简介已及常见的压缩命令 压缩简介:文件压缩：利用一些复杂的计算使文件占用空间变小。解压缩：使用这些被压缩的文件数">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +127,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器
+      《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -152,12 +162,197 @@
 <li><p>学习重点</p>
 </li>
 </ol>
+<ul>
+<li>压缩及打包</li>
+<li>各种备份操作</li>
+<li>vim(很重要)</li>
+</ul>
+<hr>
+<h2 id="1-压缩简介已及常见的压缩命令"><a href="#1-压缩简介已及常见的压缩命令" class="headerlink" title="1.压缩简介已及常见的压缩命令"></a>1.压缩简介已及常见的压缩命令</h2><ol>
+<li>压缩简介:<br>文件压缩：利用一些复杂的计算使文件占用空间变小。<br>解压缩：使用这些被压缩的文件数据时，将他们还原成未压缩前的样子。<br>压缩比：压缩前与压缩后的磁盘空间大小比。</li>
+<li>关于压缩文件的扩展名:<br>压缩的技术不同，解压也需要不同的技术，为了方便人们在解压时知道是哪种技术压缩的，所以适当的扩展名还是需要的,下面是常用的扩展名:<pre><code>*.Z    compress程序压缩的文件
+*.gz    gzip程序压缩的文件
+*.bz2   bzip2程序压缩的文件
+*.tar   tar程序打包的数据，并没有压缩过
+*.tar.gz  tar打包的数据，其中经过gzip的压缩
+*.tar.bz2 tar程序的打包文件，其中经过的是bzip2的压缩
+</code></pre></li>
+<li>Compress:<br>太老旧了，只有在非常旧的Unix系统中才会有，CentOS没有安装，需要自己手动装。但是gzip已经可以打开.Z文件了，所以使用compress没有什么意义。（我把语法抄一抄）<pre><code># compress[-rcv] 文件或目录     //压缩
+-r:递归压缩目录下的文件
+-c:将数据输出成为标准输出，并输出到屏幕上
+-v:显示压缩后的文件信息以及压缩时的过程名变化
+# uncompress 文件.Z           //解压
+</code></pre></li>
+<li><strong>gzip,gcat</strong>:<br>gzip是目前应用最广的压缩命令，gzip主要是想要来代替compress的，所有gzip可以用来解压Compress,zip,gzip等文件压缩的文件，gzip的简单用法如下:<pre><code># gzip [-cdtv#] 文件名
+-c:将压缩数据输出到屏幕上，可以通过数据流重定向处理
+-d:解压
+-t:可以用来检验一个压缩文件的一致性，看看文件有无错误
+-v:可以显示出源文件/压缩文件的压缩比等信息
+-#:压缩等级-1最快但是压缩比最差，-9最慢但是压缩比最好,默认6
+</code></pre>使用gzip压缩的文件在Windows系统中被WinRAR解压。使用例子：<pre><code># gzip -v man.config   //压缩，会将源文件删除
+# gzip -d man.config.gz   //解压缩，会将.gz删除（不要用gunzip）
+# gzip -9 -c man.config &gt; main.config.gz
+//将man.config以最优压缩比压缩，并保留原来的文件
+</code></pre>使用zcat命令可以纯文本被压缩后的文件,不用解压(类似cat):<pre><code># zcat 文件.gz
+# zcat man.config.gz   //例子
+</code></pre>好像不能用来压缩目录与软链接文件。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-01.jpg" alt=""></li>
+<li><strong>bzip2,bzcat</strong>:<br>bzip2就比较吊了，是为了取代gzip提供更好的压缩比而生的。压缩比比gzip还厉害，用法几乎与gzip相同，只是后缀为<code>.bz2</code>：<pre><code># bzip2 [-cdkzv#] 文件名
+-c:降压缩过程中产生的数据输出到屏幕上
+-d:解压
+-k:保留源文件，不会删除原始文件
+-z:压缩
+-v:可以显示出源文件/压缩文件的压缩比等信息
+-#:压缩等级，-9最好最慢，-1最快最差，默认6
+</code></pre>若解压时已经有相同的文件存在，则会解压失败，不会问你覆不覆盖。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00008%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-02.jpg" alt=""><br>使用bzcat和使用gcat效果相同，都是不解压读取文件数据:<pre><code># bzcat 文件名.bz2
+</code></pre>还可以使用bunzip来代替bzip2 -d解压。详细用法<code>man bunzip</code></li>
+</ol>
+<hr>
+<h2 id="2-打包命令：-tar"><a href="#2-打包命令：-tar" class="headerlink" title="2.打包命令：.tar"></a>2.打包命令：.tar</h2><p>上一节的文件压缩只能进行文件的压缩，虽然可以加上-r参数，但也只是对目录内文件进行单独压缩。</p>
+<ol>
+<li>打包命令tar：<br>将多个文件或目录包成一个大文件的命令。–tar,tar可以将多个文件或目录打包成一个大文件同时还可以通过gzip/bzip2的支持，将该文件同时进行压缩。<br>tar的参数非常多，只介绍几个，详情man tar。</li>
+<li>文件的压缩与打包:<pre><code># tar [-j][-z] [cv] [-f 新建的文件名] 被压缩的文件/目录
+-j:通过bzip2支持进行压缩/解压缩，此时文件名最好为*.tar.bz2。
+-z:通过gzip的支持进行压缩/解压，此时文件名最好为*.tar.gz。
+-c 目录 ：在解压时若要指定特定的目录解压就可以使用这个参数
+-v:压缩/解压过程中将正在处理的文件名显示出来
+-f filename:后接被处理（打包压缩）后的文件名，建议-f单独写
+-p:保留备份数据的原本权限与属性，常用于备份（-c）重要文件
+-P:保留绝对路径，允许备份数据之中含有根目录
+</code></pre>简单记忆:<pre><code># tar -jcv -f filename.tar.bz2 要被压缩的文件或者目录名称
+# tar -zpcv -f filename.tar.bg 要被压缩的文件或者目录名称
+</code></pre>加上-p参数备份保存属性与权限是一个好习惯，简单测试:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-03.jpg" alt=""></li>
+<li>tar压缩文件的查阅<pre><code># tar [-j][-z] [-tv] [-f 新建文件名]
+-t:查看打包文件的内容，含有那些文件名，重点是查看文件名
+其他参数与压缩打包相同。
+</code></pre>简单记忆:<pre><code># tar -jtv -f filename.tar.bz2
+# tar -ztv -f filename.tar.gz
+</code></pre>简单测试:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-04.jpg" alt=""><br>注意：上述文件压缩与打包时是默认将根目录“/”去掉的，防止出现覆盖，更加安全，若执意要加上根目录可以使用-P参数。</li>
+<li>解压：<pre><code># tar [-j][-z] [xv] [-f 新建文件夹] [-C 目录]
+-x:解打包或解压缩的功能，可以搭配-C在特定目录打开，特别留意的是，-c,-t,-x不能同时出现在一串命令行中。
+-C 目录：用在解压时，指定特定的目录解压可以使用这个参数。
+</code></pre>简单记忆:<pre><code># tar -jxv -f filename.tar.bz2 -C 欲解压目录
+# tar -zxv -f filename.tar.gz -C 欲解压目录
+</code></pre>简单测试（-C后所带的目录必须要存在才行）:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-05.jpg" alt=""></li>
+<li>解压某一特定文件的方法(未测试):<br>书上的例子:<pre><code>//先查找需要的文件，假设为shadow,配合|与grep选取关键字
+# tar -jtv -f /root/etc.tar.bz2 |grep&apos;shadow&apos;
+//再将文件解开(假设找到的是etc/shadow)
+# tar -jxv -f /root/etc.tar.bz2 etc/shadow
+</code></pre>解开单一文件的语法:<pre><code># tar -jxv -f filename.tar.bz2 待解压文件名
+</code></pre></li>
+<li>打包某目录但不包括该目录下某些文件:<br>使用<code>--exclude=file</code>参数，可以将指定的file文件排除在压缩文件之外。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-06.jpg" alt=""><br>基本语法:<pre><code># tar -jcv -f 新建文件名 --exclude=不想加的文件1 [--exclude=...] 待打包压缩的文件或目录
+</code></pre></li>
+<li>仅备份比某个时刻还要新的文件：<br>有两个参数可以使用：<code>--newer-mtime</code>和<code>--newer</code>，前者只包含了mtime,后者包含了mtime和ctime。<br>书上例子:<pre><code>//find找出比/etc/passwd新的文件
+# find /etc-newer /etc/passwd
+// 打包比某一时间新的文件
+# tar -jcv -f /root/etc.newer.tar.bz2 --newer-mtime=\
+  &gt;&quot;2008/09/29&quot; /etc*
+</code></pre></li>
+<li>tar备份到磁带机（不知道centos7可不可以）：<br>tar不仅可以将数据打包成文件，还可以将文件打包到其它设备中。<br>想要将/home,/root,/etc备份到磁带机/dev/st0时，可以这么写:<pre><code># tar -cv -f /dev/st0 /root /home /etc
+</code></pre></li>
+<li>特殊应用：利用管道流命令与数据流（11章）<br>将整个目录一边打包一边在/tmp中解开<pre><code># cd /tmp
+# tar -cvf - /etc |tar-xvf -
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="3-完整备份工具-dump"><a href="#3-完整备份工具-dump" class="headerlink" title="3.完整备份工具:dump"></a>3.完整备份工具:<strong>dump</strong></h2><ol>
+<li>dump简介及原理<br>dump除了可以备份整个文件系统(仅用于EXT2/EXT3)之外，还可以定制等级，但是需要文件系统备份。<br>第一次dump（默认等级为0）备份后，第二次备份时可以指定备份等级，如等级1则会和等级0比较，而备份2只会记录与第一次的差别。</li>
+<li>dump备份分两种情况<ul>
+<li>当备份数据为单一文件系统:<br>单一文件系统可以使用dump的完整dump功能，包括利用0-9的数个等级备份，同时备份时可以用挂载点或设备文件名进行备份。</li>
+<li>当备份的数据只是目录，并非文件系统时:<br>有限制：<br>1.所有备份数据都必须在该目录下面<br>2.仅能支持使用level 0,仅支持完整的备份而已<br>3.不支持-u参数，无法创建/etc/dumpdates记录备份时间</li>
+</ul>
+</li>
+<li>dump语法:<pre><code># dump [-Suvj] [-level] [-f 备份文件] 待备份数据
+# dump -W
+-S:仅列出后面的待备份数据要多少空间才能备份完毕
+-u:将这次dump时间记录到/etc/dumpdateS文件中
+-v:将dump过程显示出来
+-j:加入bzip2的支持对数据进行压缩，默认等级为2
+-level：备份等级0-9
+-f:类似tar,后面接产生的文件，可接设备文件名
+-W:列出在/etc/fstab里面的dump设置的分区是否备份过
+更多参数man dump.
+</code></pre></li>
+<li>文件系统的备份：<br>具体可以参考:<br><a href="https://jingyan.baidu.com/article/17bd8e5223348f85ab2bb821.html" target="_blank" rel="noopener">Centos7xfs文件系统的dump备份</a></li>
+<li>非文件系统（文件目录）的备份<br>-u,level 1~9都不适用<br>将 /etc 整个目录通过dump进行备份，且含压缩功能（未测试）<pre><code># dump -0j -f /root/etc.dump.bz2 /etc
+</code></pre>一般情况下dump下不会使用压缩功能。<br>测试的时候发现我的Centos7已经没有了dump这个命令，也没有restore这个命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-07.jpg" alt=""><br>这是因为没有安装dump这个命令,使用如下命令可以安装dump和restore命令：<pre><code>yum –y install dump*    //装不了就加*号，一般不加
+</code></pre>如下:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>再man dump一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>可以用了。</li>
+<li>restore简介<br>和dump配套，可以还原备份。也分好几种情况：</li>
+<li>查看dump后备份数据内容<pre><code>restore -t [-f dumpfile] [-h]
+-t:查看备份文件中含有什么重要数据
+-f:后面跟想要处理的dump文件
+-h:查看完整备份数据中的inode与文件系统label等信息
+</code></pre>如查看/root/boot.dump备份：<pre><code># restore -t -f /root/boot.dump
+</code></pre></li>
+<li>比较差异并还原整个文件系统<pre><code># restore -C [-f filename] [-D 挂载点]   //比较dump与实际文件
+# restore -r [-f filename]    //还原整个文件系统
+-C：可以将dump数据和实际文件相比较
+-D：与-C搭配可以查出后面接的挂载点与dump内有不同的文件
+-r：将整个文件系统还原的一种操作
+</code></pre>如查看差异并还原/root/boot.dump备份：<pre><code># restore -C -f /root/boot.dump
+# restore -r -f /root/boot.dump
+# partprobe   //刷新分区
+</code></pre></li>
+<li>仅还原部分文件的restore互动操作（互动模式）<pre><code># restore -i [-f filename]
+-i:进入互动模式，可以仅还原部分文件。
+</code></pre>使用该命令后会进入文件环境内，可以使用help查看具体命令。使用quit离开。</li>
+</ol>
+<hr>
+<h2 id="4-光盘写入工具及其他常用工具："><a href="#4-光盘写入工具及其他常用工具：" class="headerlink" title="4.光盘写入工具及其他常用工具："></a>4.光盘写入工具及其他常用工具：</h2><ol>
+<li>mkisofs:新建镜像文件<br>将数据包成一个镜像文件刻入到DVD时就可以这么做。<pre><code># misk [-o 镜像文件] [-rv] [-m file] 带备份文件.. [-V vol] -graft-point isodir=systemdir ...
+-o:后面接想要产生的那个镜像文件名
+-r:通过Rock Ridge产生支持Unix/Linux的文件数据，可记录较多的信息
+-v:显示构建ISO镜像文件的过程
+-m file:排除文件file,file不会备份到镜像文件中
+-V vol:新建Volume
+-graft-point:graft有移植的意思
+</code></pre>默认情况下所有要被加到镜像文件的目录都会被放到镜像文件中的根目录。</li>
+<li>cdrecord:光盘刻录工具<pre><code># cdrecord -scanbuSdev=ATA       //查询刻录机的位置
+# cdrecord -v dev=ATA:x,y,z blank=[fast|all]   //抹除重复读写片
+# cdrecord -v dev=ATA:x,y,z -format
+# cdrecord -v dev=ATA:x,y,z [可用参数功能] file.iso
+-scanbuS:用在扫描磁盘总线并找出可用的刻录机
+-v:显示过程
+dev=ATA:x,y,z：后续x,y,z为系统上刻录机所在的位置，非常重要
+blank=[fast|all]：blank抹除时是快还是慢
+-format:仅针对DVD+RW这种格式的DVD
+</code></pre></li>
+</ol>
+<pre><code>[可用参数功能]:写入CD/DVD时可以使用的参数常见的有
+    -data:以数据的格式写入而不是以音轨的形式
+    speed=X:指定刻录速度。
+    -eject:指定刻录完毕后自动退出光盘
+    fs=Ym:指定多少缓冲存储器，默认4m,建议8m
+    针对DVD的功能有:
+    dirveropts=burnfree:打开Buffer Underrun Free模式的写入
+    -sao:支持DVD-RW的格式
+</code></pre><ol>
+<li>dd:制作文件，备份<br>dd的功能不只在于制作一个大文件，更重要的是可以备份：<pre><code># dd if=&quot;input file&quot; of=&quot;output file&quot; bs=&quot;block size&quot; count=&quot;number&quot;
+if:input file,也可以是设备文件
+of:output file,也可以是设备文件
+bs:规划一个block大小，未指定则是512bytes
+count:多少个bs
+</code></pre>tar可以用来备份关键数据，而dd则可以用来备份整块磁盘分区或整块磁盘。<br>尤其是要将数据写回到文件系统时要考虑原有的文件系统。</li>
+<li>cpio:<br>可以备份任何东西，包括设备文件。<br>但是有个致命缺点：cpio不会主动去找文件来备份，需要配合find使用，还要用到数据流重定向。<pre><code># cpio -ovcB &gt; [file|device]    //备份
+# cpio -ivcdu &lt; [file|device]   //还原
+# cpid -ivct &lt; [file|devic]     //查看
+-o:将数据copy输出到文件或设备上
+-B:让默认的Block增加到10倍（5120bytes）,可以让大文件的存储速度加快
+-i:将数据自文件或设备复制到系统中
+-d:启动新建目录
+-u:自动用新文件将旧文件覆盖
+-t:配合-i可以看出新建文件的内容
+-v:显示存储过程中的文件名
+-c:使用portable format存储
+</code></pre>备份：<br>可以通过（&gt;）将数据重新导向一个新文件<br>还原，查看：<br>通过（&lt;）将将备份文件读取进来处理<br>若要备份到设备文件/dev/st0可以这么写：<br>备份：find / |cpio-ocvB&gt;/dev/st0<br>还原：cpio-idvc&lt;/dev/st0</li>
+</ol>
+<hr>
+<h2 id="5-vi与vim简介"><a href="#5-vi与vim简介" class="headerlink" title="5.vi与vim简介"></a>5.vi与vim简介</h2><p>非常重要，待学待写</p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月15日 17:26</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/" title="《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器">https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/</a></p>
+        <p>最后更新： 2018年03月17日 13:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/" title="《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介">https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -214,7 +409,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&title=《《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&title=《《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -224,7 +419,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&title=《《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&title=《《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -234,7 +429,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -274,7 +469,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-压缩简介已及常见的压缩命令"><span class="post-toc-text">1.压缩简介已及常见的压缩命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-打包命令：-tar"><span class="post-toc-text">2.打包命令：.tar</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-完整备份工具-dump"><span class="post-toc-text">3.完整备份工具:dump</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-光盘写入工具及其他常用工具："><span class="post-toc-text">4.光盘写入工具及其他常用工具：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-vi与vim简介"><span class="post-toc-text">5.vi与vim简介</span></a></li></ol>
         </nav>
     </aside>
     
@@ -286,7 +481,7 @@
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          MySQL数据库学习笔记（三）
+          MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎
         
       </span>
     </a>
@@ -362,7 +557,7 @@
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -395,7 +590,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL数据库学习笔记（三） | 程序人生</title>
+  <title>MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
+  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引：">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL数据库学习笔记（三）">
+<meta property="og:title" content="MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-16T08:45:28.756Z">
+<meta property="og:updated_time" content="2018-03-17T05:58:49.158Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL数据库学习笔记（三）">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:title" content="MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎">
+<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引：">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -116,10 +117,17 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL数据库学习笔记（三）
+      MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎
     </h1>
     <div class="post-title-bar">
       <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
           
         <li>
           <i class="fa fa-calendar"></i>  2018-03-16
@@ -138,11 +146,15 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
+<p>索引简介与范式为视频内容<br>运算符以及存储引擎为书上视频中未涉及的部分知识点</p>
+<hr>
+<h2 id="1-索引："><a href="#1-索引：" class="headerlink" title="1.索引："></a>1.索引：</h2><hr>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月16日 16:45</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/16/MySQL数据库学习笔记（三）/" title="MySQL数据库学习笔记（三）">https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/</a></p>
+        <p>最后更新： 2018年03月17日 13:58</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/16/MySQL数据库学习笔记（三）/" title="MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎">https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -199,7 +211,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&title=《MySQL数据库学习笔记（三）》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&title=《MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -209,7 +221,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&title=《MySQL数据库学习笔记（三）》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&title=《MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -219,7 +231,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（三）》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（三）：索引简介，范式，运算符以及存储引擎》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -243,6 +255,13 @@
         <ul class="article-footer-menu">
             
             
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
         </ul>
         
     </footer>
@@ -250,12 +269,18 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-索引："><span class="post-toc-text">1.索引：</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
   
     <a href="/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（五）:文件压缩与vim编辑器</span>
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -324,7 +349,7 @@
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -357,7 +382,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 17.5px;">多线程</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>
