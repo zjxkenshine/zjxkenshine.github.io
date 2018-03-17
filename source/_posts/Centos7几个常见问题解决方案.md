@@ -7,6 +7,7 @@ categories: 操作系统
 ---
 ## 0.我遇到的问题列表（关于用户/管理员的）
 1. Centos7忘记密码怎么解决?
+2. 没有dump和restore命令怎么办
 
 
 
@@ -41,4 +42,15 @@ categories: 操作系统
 <http://blog.csdn.net/wcy00q/article/details/70570043>
 
 ---
+## 2.Centos7没有dump与restore命令怎么办
+既然没有装了，那就是默认不推荐使用了，备份可以cp或打包压缩嘛。备份文件系统可以用xfsdump。
+如果执意要安装可以这么做:
+输入以下命令：
+		yum –y install dump*    //装不了就加*号，一般不加
+结果如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg)
+再man dump一下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg)
+可以用了。连restore也给你附带装好了。
 
+---

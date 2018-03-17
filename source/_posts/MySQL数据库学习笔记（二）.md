@@ -1,6 +1,6 @@
 ---
 title: MySQL学习笔记（二）:基本数据类型与列属性介绍
-date: 2018-03-10 16:20:31
+date: 2018-03-12 16:20:31
 tags: MySQL
 categories: 数据库
 
@@ -91,7 +91,7 @@ SQL中的数值类型,分正负，有符号的tinyint的范围是-128~127，可�
 		![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-4.jpg)
 	结论:超出精度范围的浮点数一定会进行四舍五入，浮点数如果是因为系统进位而导致整数部分长度超出指定范围，系统也是允许的。
 3. 定点型(DECIMAL):
-	- 绝对的保证**整数部分**不会被四舍五入（不会丢失精度），小数部分有很小的可能会丢失精度。
+	- 绝对的保证**整数部分**不会被四舍五入（不会丢失精度），小数部分有很小的可能会丢失精度。以字符串的形式存储。
 	DECIMAL（M，D）：编长，大致是每9个数字采用4个字节存储，整数与小数分开计算,
 	M最大值是65，D最大值是30，默认值是（10，2）
 	- 创建定点表:
@@ -226,6 +226,209 @@ Mysql中规定:任何一条**记录**最长不能超过65535个字符（varchar�
 
 ---
 ## 5.列属性：
-待学习
+### 空属性，注释，默认值
+列属性：真正约束字段的是数据类型，但是数据类型的约束很单一，需要有一些额外的约束来更加保证数据的合法性。
+列属性简介：NULL/NOT NULL,default,Primary key,unique key,auto_increment,comment
+1. **空属性**：
+两个值：NULL和NOT NULL（非空）
+虽然数据库默认字段基本都为空，但是实际上开发时，尽可能要保证所有的数据都不为空：**空数据没有意义，也不参与运算。**任何数字和NULL相乘都为NULL;
+案例:创建一个班级表（名字，教室）
+		CREATE TABLE te_class(
+		name VARCHAR(20) NOT NULL,
+		room VARCHAR(20) NULL  -- 代表运行为空,默认也为空
+		)CHARSET utf8;
+2. **注释comment**，列描述
+列描述:**comment** 描述，没有实际意义，是专门来描述字段的，会根据表创建语句保存。用来给程序员（或DBA）来进行了解。 
+案例：创建教师表
+		CREATE TABLE te_teacher(
+		name VARCHAR(20) NOT NULL COMMENT '姓名',
+		money VARCHAR(20) NOT NULL COMMENT '工资'
+		)CHARSET utf8;
+使用`show creat table te_teacher即可查看`:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-12.jpg)
+但是需要注意的是,使用desc te_teacher并不能显示:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-13.jpg)
+3. **默认值default**
+默认值:某一种数据会经常性的出现某一个具体的值时，可以一开始就指定好,在需要真实数据的时候，用户可以选择性的使用默认值。关键字default。
+案例：创建default测试表
+		CREATE TABLE te_default(
+		name VARCHAR(20) NOT NULL,
+		age TINYINT UNSIGNED DEFAULT 0,
+		gender enum('男','女','保密') DEFAULT '男'
+		)CHARSET utf8;
+使用`desc te_default;`会发现已经有了默认值。
+默认值的生效：数据进行插入时不给该字段赋值。
+使用默认值可以不一定指定列表，故意不使用字段列表，可以使用default关键字代替：
+		INSERT INTO te_default VALUES('周建新',22,DEFAULT);
 
 ---
+## 6.主键
+1. **增加主键**：
+SQL操作中有多种方式可以给表增加主键，大致可以分为三种：
+1.创建表是直接在字段后面跟primary key关键字（主键本身不允许为空）
+		CREATE TABLE te_pri1(
+		name VARCHAR(20) NOT NULL COMMENT '姓名',
+		number CHAR(10) PRIMARY KEY COMMENT '学号: itcast + 0000 不能重复'
+		)CHARSET utf8;
+使用desc查看表的字段信息:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-15.jpg)
+注意：PRI不一定代表主键，但是大部分时间都是代表主键。
+优点：非常直接；缺点：**只能使用一个字段作为主键**。
+2.在创建表的时候，在所有的字段之后，使用primary key(主键字段列表)来创建之间（如果有多个字段，则作为**复合主键**）
+		CREATE TABLE te_pri2(
+		number CHAR(10) COMMENT '学号：itcast + 0000',
+		course CHAR(10) COMMENT '课程代码：学校代码 + 0000',
+		score TINYINT UNSIGNED DEFAULT 60 COMMENT '成绩',
+		-- 增加复合主键限制（学号与课程号对应并且唯一）
+		PRIMARY KEY(number,course)
+		)CHARSET utf8;
+使用desc发现有两个主键，一个表里不可能存在两个主键，所以是复合主键：
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-16.jpg)
+3.表创建好之后（没有主键时），额外追加主键:可以通过修改表字段属性，也可以直接追加。
+&nbsp;&nbsp;&nbsp;&nbsp;修改属性：
+		alter table 表名 modify/change ...;  -- 详情见笔记一
+&nbsp;&nbsp;&nbsp;&nbsp;直接追加：
+		alter table 表名 add primary key(字段列表);
+创建表并追加主键：
+		CREATE TABLE te_pri3(
+		course CHAR(10) NOT NULL COMMENT '课程编号：学校代码 + 0000',
+		name VARCHAR(20) NOT NULL COMMENT '课程名字'
+		)CHARSET utf8;
+		-- 追加主键（方式一）
+		ALTER TABLE te_pri3 modify course char(10) PRIMARY KEY COMMENT '课程编号：学校代码 + 0000';
+		-- 追加主键(方式二)
+		ALTER TABLE te_pri3 ADD PRIMARY KEY(course);
+**追加主键的前提**:
+表中数据本身是独立的（不重复，否则无法添加主键）。
+2. **主键约束**
+主键对应的字段中的数据不允许重复，一旦重复，则数据操作会失败（仅限增和改）。
+如向te_pri1表中插入如下数据(主键冲突):
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-18.jpg)
+3. **主键删除**
+**没有办法更新主键：主键必须先删除才能增加。**
+删除主键的方法:
+		alter table 表名 drop primary key;
+不管主键在哪，是什么主键，都删除。
+如删除表te_pri1的主键：
+		ALTER TABLE te_pri1 DROP PRIMARY KEY;
+显示结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-19.jpg)
+4. **主键分类**
+在实际创建表的过程中，很少使用真实业务数据作为主键字段（业务主键，如学号，课程号），大部分时候是用逻辑性的字段（字段没有业务意义，值是什么都没有关系），将这种字段主键称为**逻辑主键**。
+		CREATE TABLE te_pri4(
+		id int PRIMARY KEY auto_increment COMMENT '逻辑主键，自增长',
+		Number CHAR(10) NOT NULL COMMENT '学号,本来这个是主键',
+		Name VARCHAR(20) NOT NULL COMMENT '姓名'
+		)CHARSET utf8;
+添加数据（未指定id）:
+		INSERT INTO te_pri4(Number,Name) VALUES('1234567890','小学生');
+发现id已经有值了:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-20.jpg)
+
+---
+## 7.自增长
+1. **自增长简介**
+自增长：当对应的字段不给值，或者说是默认值或者给NULL时，会自动被系统触发，系统会从当前字段中已有的最大值再进行+1操作，得到一个新的在不同的字段。
+**自增长通常是和主键搭配的。**
+2. 自增长的特点：auto_increment
+&nbsp;&nbsp;&nbsp;&nbsp;a.任何一个字段要做自增长必须前提是本身是一个索引。（key一栏有值）
+&nbsp;&nbsp;&nbsp;&nbsp;b.自增长字段必须是数字。（整型）
+&nbsp;&nbsp;&nbsp;&nbsp;c.一张表最多只能有一个自增长。
+3. 创建一个自增长表:
+		-- 需要满足上述上述三个条件
+		CREATE TABLE te_inc1(
+		id int PRIMARY KEY auto_increment COMMENT '自动增长',
+		name VARCHAR(10) NOT NULL COMMENT '姓名'
+		)CHARSET utf8;
+4. **自增长的使用**
+		-- 触发自增长
+		INSERT INTO te_inc1(name) VALUES('学生1');
+		INSERT INTO te_inc1 VALUES(null,'学生2');
+		INSERT INTO te_inc1 VALUES(DEFAULT,'学生3');
+添加结果为:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-21.jpg)
+特性:
+&nbsp;&nbsp;&nbsp;&nbsp;--第一个元素默认为1，每次自增长加1。
+&nbsp;&nbsp;&nbsp;&nbsp;--自增长输入值后本次失效，但是下一次开始还是能自动自增长，从最大值开始+1。
+若删除学生三后在进行添加，且测试给自增长赋值：
+		DELETE FROM te_inc1 WHERE id=3;
+		INSERT INTO te_inc1 VALUES(null,'学生4');
+		INSERT INTO te_inc1 VALUES(20,'学生5');
+		INSERT INTO te_inc1 VALUES(null,'学生6');
+查看结果，发现删除后还会在原来的基础上再增加:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-22.jpg)
+如何确定下一次是什么增长呢？可以使用`show create table name`查看：
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-23.jpg)
+所以自增长是可以修改的。
+5. 自增长的修改(两种情况):
+情况1：自增长如果涉及到字段的改变，必须先删除自增长，后增加（一张表只能有一个自增长）。--修改自增长换字段
+情况2：修改当前自增长已经存在的值，修改只能比当前已有的自增长的最大值大，不能小。（小不报错但是也不生效）
+		-- 修改的是表选项的值
+		alter table 表名 auto_increment = 0;
+如修改表选项后再添加：
+		ALTER TABLE te_inc1 auto_increment = 25;
+		INSERT INTO te_inc1 VALUES(null,'学生7');
+结果如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-24.jpg)
+6. **自增长的变量修改**
+思考：为什么自增长是从1开始且每次都只自增1呢?
+所有系统的表现（如字符集，校对集等）都是由系统内部的变量进行控制的。
+查看自增长对应的变量:
+		show variables like 'auto_increment%';
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-25.jpg)
+可以修改变量实现不同的效果:**修改是对整个数据库修改，而不是但张表。**（修改会话级:当前客户端当次连接有效）且不会改变表现有的状态。
+		set auto_increment_increment=2;  -- 一次自增2(自增长步长)
+		set auto_increment_offset=2;  -- 修改起始值
+一般情况下不修改，没啥意义，且修改后第一次会有误差。
+7. **删除自增长**:
+自增长是字段的字段一个属性：可以通过modify来进行修改(保证没有auto_increment即可)：
+		alter table 表名 modify 字段 类型
+错误的修改:
+		ALTER TABLE te_inc1 MODIFY id INT PRIMARY KEY;  -- 主键是单独存在的，见上面的show create table te_inc1
+正确的修改（不要加主键名）:
+		ALTER TABLE te_inc1 MODIFY id INT;
+结果:自增长删除了，但是发现注释也没有了，所以得注意
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-26.jpg)
+
+---
+## 8.唯一键（unique key）
+1. 介绍
+一张表往往有很多字段需要唯一性，数据不能重复，但是一张表只能有一个主键，唯一键就可以解决表中有多个字段需要唯一约束的问题。
+唯一键的本质与主键差不多，但是：唯一键默认自动为空，而且可以多个为空。（空字段不参与唯一性比较）
+2. 增加唯一键（与增加主键差不多）
+方案1：在创建表的时候，字段后面直接跟unique/unique key。
+		CREATE TABLE te_uni1(
+		number CHAR(10) UNIQUE COMMENT '学号，唯一，允许为空',
+		name VARCHAR(20) NOT NULL
+		)CHARSET utf8;
+方案2：复合唯一键(主键错觉)
+		CREATE TABLE te_uni2(
+		number CHAR(10) NOT NULL COMMENT '学号，唯一，不允许为空',
+		name VARCHAR(20) NOT NULL,
+		unique key(number)
+		)CHARSET utf8;
+使用desc会发现number竟然有主键的标志:
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-27.jpg)
+注意:number不是主键，而且该表没有主键，number又具有主键特性，所以number就被系统认为是主键了。使用show create table表名可以查看真实情况。
+方案3：在创建表之后增加（追加）唯一键
+		CREATE TABLE te_uni3(
+		id INT PRIMARY KEY auto_increment COMMENT 'id',
+		number CHAR(10) NOT NULL COMMENT '学号',
+		name VARCHAR(20) NOT NULL COMMENT '姓名'
+		)CHARSET utf8;
+追加唯一键(和主键差不多):
+		ALTER TABLE te_uni3 ADD UNIQUE KEY(number);
+再使用desc te_uni3查看数据：
+![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-28.jpg)
+3. 唯一键约束：
+唯一键与主键本质相同，但唯一键默认为空，且是多个为空。
+如有一个表唯一键为number，可以往number中存入多个null，不会出错，而且不会冲突，若唯一键也不允许为空，那么与主键的作用一致。
+4. 更新唯一键与删除唯一键：
+**更新唯一键**需要先删除后增加，如果其他字段新增则不用删。
+删除唯一键：
+		alter table 表名 drop index 索引名字；  -- 也是删除索引的方法
+唯一键默认使用字段名作为索引。如删除te_uni3表number字段上的唯一键：
+		ALTER TABLE te_uni3 DROP INDEX number； 
+
+---
+
