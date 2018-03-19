@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入">
+  <meta name="description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办?   1.问题1~5解决方案1)Centos7忘记密码怎么解决?太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Centos7关于几个常见问题的解决方案">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入">
+<meta property="og:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办?   1.问题1~5解决方案1)Centos7忘记密码怎么解决?太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%982.jpg">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%985.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg">
-<meta property="og:updated_time" content="2018-03-17T03:47:00.176Z">
+<meta property="og:updated_time" content="2018-03-19T04:34:31.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7关于几个常见问题的解决方案">
-<meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办   1.Centos7忘记密码怎么解决太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。然后选择忘记密码的那个系统按下e键进入编辑模式。 进入">
+<meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办?   1.问题1~5解决方案1)Centos7忘记密码怎么解决?太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg">
   
   
@@ -156,10 +156,11 @@
             
             <h2 id="0-我遇到的问题列表（关于用户-管理员的）"><a href="#0-我遇到的问题列表（关于用户-管理员的）" class="headerlink" title="0.我遇到的问题列表（关于用户/管理员的）"></a>0.我遇到的问题列表（关于用户/管理员的）</h2><ol>
 <li>Centos7忘记密码怎么解决?</li>
-<li>没有dump和restore命令怎么办</li>
+<li>没有dump和restore命令怎么办?</li>
+<li>vim打开了一个文件后还想打开另一个文件怎么办?</li>
 </ol>
 <hr>
-<h2 id="1-Centos7忘记密码怎么解决"><a href="#1-Centos7忘记密码怎么解决" class="headerlink" title="1.Centos7忘记密码怎么解决"></a>1.Centos7忘记密码怎么解决</h2><p>太久没使用Linux（Centos7）了，忘记root密码了怎么办？</p>
+<h2 id="1-问题1-5解决方案"><a href="#1-问题1-5解决方案" class="headerlink" title="1.问题1~5解决方案"></a>1.问题1~5解决方案</h2><p><strong>1)Centos7忘记密码怎么解决?</strong><br>太久没使用Linux（Centos7）了，忘记root密码了怎么办？</p>
 <ol>
 <li>在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981.jpg" alt=""><br>然后选择忘记密码的那个系统按下<code>e</code>键进入编辑模式。</li>
 <li>进入之后，将光标一直移动到 LANG=en_US.UTF-8 后面，空格，再追加init=/bin/sh。这里特别注意，需要写在UTF-8后，保持在同一行，并注意空格。由于屏幕太小，会自动添加\换行，这个是正常的。（移动光标时上下换段左右换段内文字）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%982.jpg" alt=""></li>
@@ -174,13 +175,34 @@
 </code></pre></li>
 <li>转自:<br><a href="http://blog.csdn.net/wcy00q/article/details/70570043" target="_blank" rel="noopener">http://blog.csdn.net/wcy00q/article/details/70570043</a></li>
 </ol>
-<hr>
-<h2 id="2-Centos7没有dump与restore命令怎么办"><a href="#2-Centos7没有dump与restore命令怎么办" class="headerlink" title="2.Centos7没有dump与restore命令怎么办"></a>2.Centos7没有dump与restore命令怎么办</h2><p>既然没有装了，那就是默认不推荐使用了，备份可以cp或打包压缩嘛。备份文件系统可以用xfsdump。<br>如果执意要安装可以这么做:<br>输入以下命令：<br>        yum –y install dump<em>    //装不了就加</em>号，一般不加<br>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>再man dump一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>可以用了。连restore也给你附带装好了。</p>
+<p><strong>2)Centos7没有dump与restore命令怎么办?</strong><br>既然没有装了，那就是默认不推荐使用了，备份可以cp或打包压缩嘛。备份文件系统可以用xfsdump。<br>如果执意要安装可以这么做:<br>输入以下命令：</p>
+<pre><code>yum –y install dump*    //装不了就加*号，一般不加
+</code></pre><p>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>再man dump一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>可以用了。连restore也给你附带装好了。</p>
+<p><strong>3)vim打开了一个文件后还想打开另一个文件怎么办?</strong></p>
+<ol>
+<li>原窗口打开新文件<pre><code>:open filename
+</code></pre>但是这样打开文件无法使用<code>:n</code>、<code>:N</code>选择文件。<br>需要使用这些命令切换：<pre><code>[Ctrl]+6 ：互相切换
+:bn/N ：编辑下一个文件，最后一个文件的下一个为第一个文件
+:bp ：编辑上一个文件，第一个文件的上一个为最后一个
+</code></pre>对于用(v)split在多个窗格中打开的文件，这种方法只会在当前窗格中切换不同的文件。</li>
+<li>在多个窗口打开：<pre><code>:vs/vsp ：文件路径/文件名      在新的垂直分屏中打开文件
+:sp ：文件路径/文件名      在新的水平分屏中打开文件
+</code></pre>打开了多个窗口间切换：<pre><code>Ctrl+w+方向键——切换到前／下／上／后一个窗格
+Ctrl+w+h/j/k/l ——同上
+Ctrl+ww——依次向后切换到下一个窗格中
+</code></pre></li>
+<li>多个个文件之间复制：<ul>
+<li>在第一个文件中使用可视模式，就是VISUAL，然后选中要复制的文本，执行命令 <code>+y</code>,或者<code>*y</code>这就把内容复制到剪贴板。这里可以三个字符，而且一定要在可视化模式中，并存选中你要复制的代码以后，输入上面的命令，这时在VIM中的下面并不显示你输入的这条命令。</li>
+<li>在另一个文件中，执行命令<code>+p</code>,或者”<code>*p</code>。就能复制过来，＋指的是寄存器的意思,似乎也是操作系统的剪贴板，复制了之后，在别的地方，例如文本文件里就可以用ctrl＋v了。这里也是在可视模式下，不需要输入冒号<code>：</code>，这里输入的命令也是看不到的</li>
+</ul>
+</li>
+<li>参考博客：<br><a href="http://blog.csdn.net/orangleliu/article/details/41745975" target="_blank" rel="noopener">http://blog.csdn.net/orangleliu/article/details/41745975</a></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月17日 11:47</p>
+        <p>最后更新： 2018年03月19日 12:34</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/Centos7几个常见问题解决方案/" title="Centos7关于几个常见问题的解决方案">https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -298,7 +320,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-我遇到的问题列表（关于用户-管理员的）"><span class="post-toc-text">0.我遇到的问题列表（关于用户/管理员的）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Centos7忘记密码怎么解决"><span class="post-toc-text">1.Centos7忘记密码怎么解决</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Centos7没有dump与restore命令怎么办"><span class="post-toc-text">2.Centos7没有dump与restore命令怎么办</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-我遇到的问题列表（关于用户-管理员的）"><span class="post-toc-text">0.我遇到的问题列表（关于用户/管理员的）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决方案"><span class="post-toc-text">1.问题1~5解决方案</span></a></li></ol>
         </nav>
     </aside>
     
@@ -386,7 +408,7 @@
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -419,7 +441,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>
