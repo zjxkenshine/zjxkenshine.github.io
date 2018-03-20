@@ -1,5 +1,5 @@
 ---
-title: Centos7关于几个常见问题的解决方案
+title: Centos7几个常见问题和解决方案
 date: 2018-03-10 10:24:58
 tags: Linux
 categories: 操作系统

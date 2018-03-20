@@ -7,7 +7,7 @@ categories: 开发工具
 ---
 ## 0.学习要点
 1. 学习视频
-慕课网《项目管理利器——maven》
+[慕课网《项目管理利器——maven》](https://www.imooc.com/learn/443)
 
 2. 学习重点
 	- 什么是Maven

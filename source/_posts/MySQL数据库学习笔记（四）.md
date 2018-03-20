@@ -297,7 +297,16 @@ where加载时数据还没到内存，count(*)与别名sum都还没加载。
 4. 主要作用：**实现数据的分页**
 分页：为用户节省时间，提高服务器响应效率，减少资源浪费。
 
-Length=每页显示的数据量：基本不变
-Offset=(页码数量-1)*每页显示数量
+5. 分页的简单理论实现
+	- Page model类需要的属性：
+	totalCount：总的记录数量
+	totalPage：总的记录数量
+	//前俩用于前台首末页等功能，后俩用于分页
+	PageSize：每页显示数量（最好固定）
+	NowPage:当前所在哪页
+	- Length=每页显示的数据量：基本不变
+ 	Offset=(页码数量-1)*每页显示数量
+	- 简单的查询语句这样写：
+	`select * from ***  limit "+(page.getNowPage()-1)*page.getPageSize()+","+page.getPageSize();`
 
 ---
