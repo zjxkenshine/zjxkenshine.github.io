@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记（五）：连接、联合查询，子查询即外键 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（五）：连接、联合查询，子查询即外键">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-30.jpg">
+<meta property="og:updated_time" content="2018-03-21T12:05:00.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记（五）：连接、联合查询，子查询即外键">
+<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（五）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL学习笔记（五）：连接、联合查询，子查询即外键
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
+<hr>
+<h2 id="1-连接查询（交叉连接与内连接）"><a href="#1-连接查询（交叉连接与内连接）" class="headerlink" title="1.连接查询（交叉连接与内连接）"></a>1.连接查询（交叉连接与内连接）</h2><p><strong>1)连接查询准备（了解）</strong></p>
+<ol>
+<li><p>创建学生与班级表,且是多对一的关系，并且添加信息：</p>
+<pre><code>-- 连接查询准备
+-- 创建学生表
+CREATE TABLE te_stu3 LIKE te_stu1;
+ALTER TABLE te_stu3 CHANGE class classid TINYINT UNSIGNED;
+
+-- 插入数据
+INSERT INTO te_stu3(CODE,NAME) VALUES(&apos;0000000001&apos;,&apos;学生1&apos;),(&apos;0000000002&apos;,&apos;学生2&apos;),(&apos;0000000003&apos;,&apos;学生3&apos;),(&apos;0000000004&apos;,&apos;学生4&apos;),
+(&apos;0000000005&apos;,&apos;学生5&apos;),(&apos;0000000006&apos;,&apos;学生6&apos;),(&apos;0000000007&apos;,&apos;学生7&apos;),(&apos;0000000008&apos;,&apos;学生8&apos;),(&apos;0000000009&apos;,&apos;学生9&apos;),(&apos;0000000010&apos;,&apos;学生10&apos;);
+-- 随机身高，性别，年龄，班级id(1,2,3)
+UPDATE te_stu3 SET sex=FLOOR(RAND()*2+1),height=FLOOR(RAND()*30+160),age=FLOOR(RAND()*10+20),classid=FLOOR(RAND()*3+1);
+-- 创建班级表
+CREATE TABLE te_class1(
+id TINYINT PRIMARY KEY auto_increment COMMENT &apos;班级id&apos;,
+cla_name VARCHAR(10) NOT NULL COMMENT &apos;班级&apos;
+)ENGINE=INNODB DEFAULT CHARSET utf8;
+-- 添加班级信息
+INSERT INTO te_class1 VALUES(null,&apos;班级一&apos;),(null,&apos;班级二&apos;),(null,&apos;班级三&apos;);
+</code></pre></li>
+<li>连接查询：<br>将多张表(可以大于两张)进行记录的连接(按照某个特定的条件进行数据拼接)。<br>最终的结果是：记录数可能有变化，字段书一定会增加(至少两张表)<br>关键字：join,使用方式:<pre><code>左表 join 右表
+</code></pre></li>
+<li>连接查询的意义：<br>在用户查看数据的时候，需要显示的数据来自多张表。</li>
+<li>连接查询分类：<br>内连接<br>外连接<br>自然连接<br>交叉连接</li>
+</ol>
+<p><strong>2）交叉连接：</strong></p>
+<ol>
+<li>交叉连接：cross join从一张表中循环取出每一条记录，每条记录都去另一张表中进行匹配，匹配一定保留（没有条件的匹配）,连接本身子段会增加，最后形成的结果： 笛卡尔积</li>
+<li>基本语法：<pre><code>feom 左表 cross join 右表
+</code></pre>等价于：<pre><code>from 左表，右表
+</code></pre>注意，连接后的表作为整个数据源。</li>
+<li>案例：<pre><code>-- 交叉连接
+SELECT * from te_stu3 CROSS JOIN te_class1;
+SELECT * from te_stu3,te_class1;
+</code></pre>查询结果(条数)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-01.jpg" alt=""></li>
+<li>注意：<br>笛卡尔积没有意义，应该尽量避免。<br>只是为了保证结构的完整性。一般不用。</li>
+</ol>
+<p><strong>3)内连接：</strong></p>
+<ol>
+<li>内连接：[innner] join,从左表中取出每一条记录去右表中匹配条件，且必须是左表与右表某个条件相同最终才会保留结果，否则不保留。</li>
+<li>基本语法:<pre><code>左表 [inner] join 右表 on 左表.字段 = 右表.字段
+</code></pre>on表示连接条件:条件字段就是代表相同的业务含义(如te_stu3表中的classid与te_class1表中的id)</li>
+<li>案例:<pre><code>-- 内连接
+SELECT * FROM te_stu3 stu JOIN te_class1 cla ON stu.classid=cla.id;
+</code></pre>将<code>stu.classid=cla.id</code>改为<code>classid=cla.id</code>也可，前提是字段要有唯一性。<br>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-02.jpg" alt=""><br>发现有两个id,第二个因为使用Navicate运行自动加上了1，使用cmd运行时不会加。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-03.jpg" alt=""><br>所以最好是建字段时加上表名前缀加以区分，或者使用字段别名。</li>
+<li>别名使用:<br>在查询数据时不同的表有同名字段时，这个时候需要加上表名才能区分，而表名太长，需要别名，以及字段别名才能区分。<br>当然像这种id和classid值相同的情况，只留下一列就可以了（假设name重名）：<pre><code>SELECT s.*,c.cla_name as c_name FROM
+te_stu3 s JOIN te_class1 c ON s.classid=c.id;
+</code></pre>运行结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-04.jpg" alt=""></li>
+<li>注意：<br>内连接只会保留满足条件的字段，如果没有条件（on）,则会变成交叉连接。<br>内连接还可以使用where代替on关键字:<pre><code>select * fron 表1 join 表2 where 条件；
+select * fron 表1，表2 where 条件；
+</code></pre>但是通常不用where：<br><strong>where效率没有on高</strong></li>
+</ol>
+<hr>
+<h2 id="2-连接查询-外连接，自然连接-："><a href="#2-连接查询-外连接，自然连接-：" class="headerlink" title="2.连接查询(外连接，自然连接)："></a>2.连接查询(外连接，自然连接)：</h2><ol>
+<li>外连接（outer join）： join<br>指以某张表为主取出里面的所有记录，每条与另外一张表表进行连接，不管能不能匹配上条件，最终都会保留：能匹配正确保留；<strong>不能匹配,其他表的字段都置空。</strong></li>
+<li>外连接分为两种：以某张表为主<br>left join..on：左连接，以左表为主；<br>right join..on：右连接，以右表为主。</li>
+<li>基本语法:<pre><code>左表 [left|right] join 右表 on 左表.字段=右表.字段
+</code></pre><strong>外连接的on必须要有</strong>，必须要有条件。</li>
+<li>示例：<br>往班级表添加班级四并且修改某两个学生班级ID为0：<pre><code>-- 外连接准备
+INSERT INTO te_class1 VALUES(NULL,&apos;班级4&apos;);
+UPDATE te_stu3 SET classid=0 WHERE id in (5,6);
+</code></pre>执行左连接:<pre><code>SELECT s.*,c.cla_name as c_name FROM
+te_stu3 s LEFT JOIN te_class1 c on s.classid=c.id;
+</code></pre>运行结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-05.jpg" alt=""><br>记录数&gt;=左表。class4因副表匹配不上主表而置空。<br>执行右连接:<pre><code>SELECT s.*,c.cla_name as c_name FROM
+te_stu3 s RIGHT JOIN te_class1 c on s.classid=c.id;
+</code></pre>运行结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-06.jpg" alt=""><br>记录数&gt;=右表，有两个学生没有匹配班级，都变为NULL后记录相同，只保留一条。<br>如果将某一个classid置为NULL也仍然会全部置空。</li>
+<li>注意：<br>左连接和右连接有主表差异，但是显示的结果永远是左表数据在左，右表数据在右。</li>
+</ol>
+<p><strong>2)自然连接：</strong></p>
+<ol>
+<li>自然连接：natural join,自动匹配连接条件。<br>系统以字段名字作为匹配模式，同名字段作为匹配条件，多个字段同名则都作为匹配条件。</li>
+<li>分类：<br>自然内连接，自然外连接。<br>其实和内连接外连接一样，就是条件自动找。<pre><code>左表 natural [left|right] join 右表
+</code></pre></li>
+<li>自然内连接：<br>准备(将te_class1的id字段改为classid)：<pre><code>ALTER TABLE te_class1 CHANGE id classid TINYINT UNSIGNED auto_increment;  -- 自增长需重新指定，主键不用.
+SHOW CREATE TABLE te_class1;
+</code></pre>使用自然内连接：<pre><code>SELECT * FROM te_stu3 NATURAL JOIN te_class1;
+</code></pre>结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-07.jpg" alt=""><br>重名的字段连接后自动合并。</li>
+<li>自然外连接：<pre><code>SELECT * FROM te_stu3 NATURAL LEFT JOIN te_class1;
+SELECT * FROM te_stu3 NATURAL RIGHT JOIN te_class1;
+</code></pre></li>
+<li>需要保证表的严格规范，一般不用自然连接。<br>内连接和外连接都可以模拟自然连接。<pre><code>左表  [left|right] join 右表 USING(字段名)
+</code></pre>使用左连接模拟自然连接：<pre><code>SELECT * FROM te_stu3 LEFT JOIN te_class1 USING(classid);
+</code></pre>运行结果（之前已将学生5班级id改为null）:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-08.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-外键-增删与默认约束"><a href="#3-外键-增删与默认约束" class="headerlink" title="3.外键(增删与默认约束)"></a>3.外键(增删与默认约束)</h2><p><strong>1)外键简介与新增：</strong></p>
+<ol>
+<li>外键(foreign key)：<br>foreign key：外键，外面的键（键不在自己表中）：<br>如果一张表中有一个字段(非主键)指向另一张表的主键，则该字段称为外键。<br>外键必须满足一些要求才可以称为外键(后面会说)。<br><strong>一张表可以有多个外键</strong></li>
+<li>增加一个外键：<br>外键可以在创建表的时候新增或者创建表之后增加。但是要考虑数据的问题（约束）。</li>
+<li>创建表的时候增加外键：<pre><code>create table 表名（
+字段 类型 列属性,
+...
+字段 类型 列属性,
+[constraint 外键名字] foreign key(外键字段) references 外部表（主键字段）
+）charset utf8;
+</code></pre>先创建te_class2表：<pre><code>CREATE TABLE te_class2(
+cla_id TINYINT UNSIGNED auto_increment PRIMARY KEY,
+cla_name VARCHAR(10) NOT NULL COMMENT &apos;班级名&apos;
+)CHARSET utf8;
+</code></pre>创建te_stu4表并指定外键为cla_id：<pre><code>CREATE TABLE te_stu4(
+stu_id INT UNSIGNED auto_increment PRIMARY KEY,
+stu_name VARCHAR(10) NOT NULL COMMENT &apos;姓名&apos;,
+cla_id TINYINT UNSIGNED,
+FOREIGN KEY(cla_id) REFERENCES te_class2(cla_id)
+)CHARSET utf8;
+</code></pre>此时使用desc查看te_stu4表:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>发现外键处多了MUL。使用<code>show create table te_stu4</code>查看建表语句:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>发现从先key了cla_id然后再使用了外键。<br><strong>外键：要求字段本身必须是索引，如果不是索引的话，就会先创建索引（key）,然后再创建外键。</strong><br>重点看倒数第二句:<pre><code>CONSTRAINT `te_stu4_ibfk_1` FOREIGN KEY (`cla_id`) REFERENCES `te_class2` (`cla_id`)
+</code></pre><code>CONSTRAINT</code>指定的是外键名字（可修改）,<code>FOREIGN KEY</code>后面跟的是外键字段，<code>REFERENCES</code>后面是外键引用（其他表的主键）</li>
+<li>在新增表之后增加外键：<pre><code>Alter table 表名 add [constraint 外键名字] foreign key(外键字段) references 父亲（主键字段）
+</code></pre>创建没有外键的学生表te_stu5：CREATE TABLE te_stu5(<pre><code>stu_id INT UNSIGNED auto_increment PRIMARY KEY,
+stu_name VARCHAR(10) NOT NULL COMMENT &apos;姓名&apos;,
+cla_id TINYINT UNSIGNED
+)CHARSET utf8;
+</code></pre>为te_stu5增加外键：<pre><code>-- 增加外键
+ALTER TABLE te_stu5 ADD 
+-- 指定外键名
+CONSTRAINT stu_class_1
+-- 指定外键字段
+FOREIGN KEY(cla_id)
+-- 引用父表主键
+REFERENCES te_class2(cla_id);
+</code></pre>使用desc查看：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg" alt=""></li>
+</ol>
+<p><strong>2)删除外键：</strong></p>
+<ol>
+<li>外键不能修改，只能先删除，后新增。</li>
+<li>删除外键语法：<pre><code>Alter table 表名 drop foreign key 外键名；
+ -- 一张表中可以有多个外键但是名字不能相同
+</code></pre></li>
+<li>删除te_stu5的外键:<pre><code>ALTER TABLE te_stu5 DROP FOREIGN KEY stu_class_1;
+</code></pre>提示删除成功，但是查看表结构会发现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg" alt=""><br>根本没有变化，但是查看建表语句，会发现已经删掉了：<br>![](<a href="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg" target="_blank" rel="noopener">http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg</a><br>之所以表结构看不到是因为外键创建之前变为了索引（key）。<br>所以<strong>外键的删除不能在表结构中看到，要看建表语句。</strong></li>
+</ol>
+<p><strong>3)外键默认作用：</strong></p>
+<ol>
+<li>外键的默认作用有两种：<br>&nbsp;&nbsp;&nbsp;&nbsp;a.对子表的约束（外键字段所在的表）：子表进行写操作，如果对于的外键字段在父表中找不到对应的匹配，那么操作会失败。（约束子表的数据操作）<br>&nbsp;&nbsp;&nbsp;&nbsp;b.对父表的约束：父表数据进行操作（删和改：都涉及到主键本身时），如果对应的主键在子表中被数据所引用，则删和改都会失败。</li>
+<li>对子表的约束测试：<br>先给te_class2添加数据：<pre><code>INSERT INTO te_class2 SELECT * FROM te_class1;
+</code></pre>然后给te_stu4添加一个班级id为5（不存在）的学生：<pre><code>INSERT INTO te_stu4 VALUES (null,&apos;学生一&apos;,5);
+</code></pre>会报错：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-13.jpg" alt=""><br>不能更新子表的行，原因是父表没有id=5的班级。</li>
+<li>对父表的约束测试：<br>给te_stu4添加对的数据：<pre><code>INSERT INTO te_stu4 VALUES (null,&apos;学生一&apos;,2),(null,&apos;学生二&apos;,3);
+</code></pre>删除：<pre><code>DELETE FROM te_class2 WHERE cla_id=2; -- 失败
+</code></pre>结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-14.jpg" alt=""><br>更新：<pre><code>UPDATE te_class2 SET cla_id=5 WHERE cla_id=2;  -- 失败，已经被学生引用
+UPDATE te_class2 SET cla_id=5 WHERE cla_id=1;  -- 成功，未被学生引用
+</code></pre>这里就不运行代码了。</li>
+</ol>
+<hr>
+<h2 id="4-外键（外键条件与约束）"><a href="#4-外键（外键条件与约束）" class="headerlink" title="4.外键（外键条件与约束）"></a>4.外键（外键条件与约束）</h2><p><strong>1)外键的条件：</strong></p>
+<ol>
+<li><p>外键存在的条件:</p>
+<ul>
+<li><strong>保证表的存储引擎是innoDB</strong>,非innoDB存储引擎,外键可以创建成功但是没有约束效果。</li>
+<li><strong>外键字段的列类型必须与父表的主键字段类型一致</strong>。</li>
+<li>一张表中外键名字不能重复。</li>
+<li>增加外键的字段(数据已经存在)，必须保证数据与父表主键对应。</li>
+</ul>
+</li>
+<li><p>如在te_stu5(外键已删)中插入数据：<br>若添加如下(cla_id范围为1234)：</p>
+<pre><code>INSERT INTO te_stu5 VALUES (null,&apos;学生一&apos;,2),(null,&apos;学生二&apos;,3);
+</code></pre><p>则可以在cla_id字段新增外键。<br>若添加了如下数据：</p>
+<pre><code>INSERT INTO te_stu5 VALUES (null,&apos;学生三&apos;,5);
+</code></pre><p>则无法新增外键。会报错。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-15.jpg" alt=""><br>数据已经存在，新增外键时无法改变不能匹配的事实，所以添加失败。</p>
+</li>
+</ol>
+<p><strong>2)外键约束：</strong></p>
+<ol>
+<li>所谓的外键约束：就是指外键作用<br>之前的约束是外键的默认作用，可以对外键的需求，进行定制操作–<strong>外键约束模式</strong>。<br>但是，对子表的约束无法更改。</li>
+<li>有三种约束模式（都是对父表的约束，操作都指有关主键的操作）：<ul>
+<li>District：严格模式：父表不能更新或删除一个已经被字表数据应用的记录。</li>
+<li>Caseade：级联模式：父表的操作，对应子表关联的数据也跟着被删除、修改。</li>
+<li>Set null：置空模式：父表操作之后，子表对应的数据（外键字段）被置空。</li>
+</ul>
+</li>
+<li>默认情况下更新与删除都是严格模式。<br>通常一个合理的做法（约束模式）：<br><strong>删除的时候子表置空，更新的时候子表级联操作。</strong></li>
+<li>语法：<pre><code>Foreign key(外键字段) references 父表（主键字段） on delete 删除模式 on update 更新模式；
+</code></pre></li>
+</ol>
+<p><strong>3)外键约束测试：</strong></p>
+<ol>
+<li>创建表te_stu6并指定模式：删除置空，更新级联<pre><code>-- 外键约束
+CREATE TABLE te_stu6(
+stu_id INT UNSIGNED PRIMARY KEY auto_increment,
+stu_name VARCHAR(10) NOT NULL COMMENT &apos;姓名&apos;,
+cla_id TINYINT UNSIGNED,
+CONSTRAINT stu6_cla2 FOREIGN KEY(cla_id) REFERENCES te_class2(cla_id)
+-- 指定删除模式
+ON DELETE SET NULL
+-- 指定更新模式
+ON UPDATE CASCADE
+)CHARSET utf8;
+</code></pre>查看表创建语句<code>show create table te_stu6</code>：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-16.jpg" alt=""><br>模式已经指定好了。</li>
+<li>上述模式测试：<br>添加学生信息：<pre><code>INSERT INTO te_stu6 VALUES (NULL,&apos;学生1&apos;,1),(NULL,&apos;学生2&apos;,2),(NULL,&apos;学生3&apos;,3),(NULL,&apos;学生4&apos;,3),(NULL,&apos;学生5&apos;,4),(NULL,&apos;学生6&apos;,1);
+</code></pre>更新父表主键（将4班变为5班）：<pre><code>UPDATE te_class2 SET cla_id=5 AND cla_name=&quot;班级5&quot; WHERE cla_id=4;
+</code></pre>发现可以修改，查询学生表的数据,发现学生5级联修改：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-17.jpg" alt=""><br>然后删除班级5（删除父表主键）：<pre><code>DELETE FROM te_class2 WHERE cla_id=5;
+</code></pre>再此查看学生表te_stu6的数据：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-18.jpg" alt=""><br>发现学生5的外键置为NULL了。</li>
+<li>删除置空的前提条件：<br>外键字段允许为空。若不满足条件则外键无法创建。</li>
+<li>需要注意的地方：<br>如果一个表的主键同时被多个表外键引用，那么这张表的更新删除时只要有一个外键不满足，就操作不成功。<br>外键虽然很强大，能进行各种约束，但是降低了数据的可控性。</li>
+<li>可控性：<br>在实际开发中很少使用外键来处理。但是外键很重要。</li>
+</ol>
+<hr>
+<h2 id="5-联合查询"><a href="#5-联合查询" class="headerlink" title="5.联合查询:"></a>5.联合查询:</h2><p><strong>1)语法及介绍：</strong></p>
+<ol>
+<li>联合查询：<br>将多次查询（多条select语句）,在记录上进行拼凑（字段不会增加）<br>由多条select语句构成，每一条select语句获取的字段数必须严格一致(字段类型无关)。</li>
+<li>基本语法：<pre><code>select 语句1 Union[union 选项] select 语句2 [Union...]
+</code></pre>可以多个表联合查询。</li>
+<li>union选项，有俩：<br>All：保留所有（不管重复）；<br>Distinct：去重（整个重复），默认值。</li>
+<li>简单的测试：<br>去重与不去重：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-19.jpg" alt=""><br>字段数量一致就可以，其他都不用管:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-20.jpg" alt=""></li>
+</ol>
+<p><strong>2）联合查询的意义：</strong></p>
+<ol>
+<li>查询同一张表，但是需求不同。<br>如查询同一张学生表，要求男生身高升序，女生身高降序。</li>
+<li>多表查询（开发中必然会涉及）：<br>多张表的结构是完全一样的，保存的数据的结构也是完全一样的。<br>数据太多（如腾讯的QQ号）必须分表，而且分表后表的结构完全相同。</li>
+</ol>
+<p><strong>3)男生身高升序，女生身高降序的实现：(orderby正确用法)</strong></p>
+<ol>
+<li>理论上的实现：<pre><code>SELECT * FROM te_stu1 WHERE sex=&apos;男&apos; ORDER BY Height ASC
+UNION
+SELECT * FROM te_stu1 WHERE sex=&apos;女&apos; ORDER BY Height DESC;
+</code></pre>但是会报错且告诉你用法错误:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-21.jpg" alt=""></li>
+<li><strong>order by</strong>的使用：<br>a.<strong>在联合查询中order by不能直接使用，需要使用（）</strong>，但仅这一步未生效。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-22.jpg" alt=""><br>b.<strong>若要order by生效必须搭配limit：</strong>使用limit限定的自定义条数。<br>正确的用法：<pre><code>(SELECT * FROM te_stu1 WHERE sex=&apos;男&apos; ORDER BY Height ASC LIMIT 9999999999)
+UNION
+(SELECT * FROM te_stu1 WHERE sex=&apos;女&apos; ORDER BY Height DESC LIMIT 9999999999);
+</code></pre>查看结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-23.jpg" alt=""><br>这是硬性搭配，牢记。</li>
+</ol>
+<hr>
+<h2 id="6-子查询"><a href="#6-子查询" class="headerlink" title="6.子查询"></a>6.子查询</h2><h3 id="子查询分类及标量子查询"><a href="#子查询分类及标量子查询" class="headerlink" title="子查询分类及标量子查询"></a>子查询分类及标量子查询</h3><p>1)什么是子查询:<br>子查询：sub query<br>查询是在某个结果之上进行的：(一条select语句内部包含另外一条select语句)<br><strong>2)子查询的分类：</strong><br>有两种分类：按位置分，按结果分</p>
+<ol>
+<li>按位置分：子查询（select语句）在外部查询中出现的位置。<ul>
+<li>from子查询：子查询跟在from之后</li>
+<li>wher子查询：子查询出现在Where条件中</li>
+<li>Exists子查询：子查询出现在exists中</li>
+</ul>
+</li>
+<li>按结果分类（理论上讲任何一个查询结果都是二维表）：<ul>
+<li>标量子查询：子查询得到的结果是一行一列</li>
+<li>列子查询：子查询得到的结果是一列多行</li>
+<li>行子查询：子查询得到的结果是一行多列（多行多列）</li>
+<li>表子查询：子查询得到的结果是多行多列的（出现的位置在from之后）</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)标量子查询：</strong></p>
+<ol>
+<li>需求字段：<br>获取te_class1中班级三的所有学生（te_stu3）。</li>
+<li>步骤：<br>确定数据源（所有学生）：<pre><code>select * from te_stu3 where classid=?;
+</code></pre>获取班级id:<pre><code>select classid from te_class1 where cla_name=&apos;班级三&apos;;
+</code></pre>查询语句：<pre><code>SELECT * FROM te_stu3 WHERE classid=(SELECT classid from te_class1 WHERE cla_name=&apos;班级三&apos;);
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-24.jpg" alt=""></li>
+<li>查询出的id是一行一列的。</li>
+</ol>
+<h3 id="列子查询与行子查询"><a href="#列子查询与行子查询" class="headerlink" title="列子查询与行子查询"></a>列子查询与行子查询</h3><p><strong>1）列子查询：</strong></p>
+<ol>
+<li>需求：<br>查询所有在读班级的学生（班级表中存在的班级）。</li>
+<li>步骤：<br>确定数据源：学生<pre><code>select * from te_stu3 where classid in(?);
+</code></pre>获取班级id:<pre><code>select classid from te_class1;
+</code></pre>查询语句：<pre><code>select * from te_stu3 where classid in(select classid from te_class1);
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-25.jpg" alt=""></li>
+<li>列子查询返回的结果会比较长，需要使用in作为条件匹配，在mysql中还有几个类似的条件：<strong>all，some，any</strong>。<br>any，等于其中一个即可，=Any等价于in，any和some是一样的。<br>all，等于其中的全部。<br>如:<pre><code>select * from te_stu3 where classid =ANY(select classid from te_class1);
+select * from te_stu3 where classid =SOME(select classid from te_class1);
+</code></pre>效果和in相同。<pre><code>select * from te_stu3 where classid =all(select classid from te_class1);
+</code></pre>显示无结果。<br>否定时：<pre><code>select * from te_stu3 where classid !=ANY(select classid from te_class1);
+select * from te_stu3 where classid !=SOME(select classid from te_class1);
+</code></pre>显示的是所有结果（null除外）。<pre><code>select * from te_stu3 where classid！=all(select classid from te_class1);
+</code></pre>显示和in刚好相反。本表来说只有班级id为0和null。</li>
+</ol>
+<p><strong>2)行子查询：</strong></p>
+<ol>
+<li>可以使一行多列也可以是多行多列（构造行元素）</li>
+<li>需求：<br>查询出学生中年龄最大或身高最高的学生。<br>注意：where后面不能用max等函数，因为数据未到内存。</li>
+<li>步骤：<br>确定数据源：<pre><code>select * from te_stu3 where age=? OR height=?;
+</code></pre>确定最大年龄与身高：<pre><code>select max(age),max(height) from te_stu3;
+</code></pre>可以实现的一个语句：<pre><code>select * from te_stu3 where
+age =(select max(age) from te_stu3)
+AND
+Height=(select max(height) from te_stu3);
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-26.jpg" alt=""><br>但是这样太麻烦了，可以构造行元素。</li>
+<li><strong>构造行元素</strong>：<pre><code>select * from te_stu3 where
+(age,Height) =(select max(age),max(height) from te_stu3);
+</code></pre>(age,Height)代表的就是一个行元素。<br>运行结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-27.jpg" alt=""></li>
+<li>另一种方法使用order by和limit，但是效率低，且有很多问题。</li>
+</ol>
+<h3 id="表子查询与exsists子查询"><a href="#表子查询与exsists子查询" class="headerlink" title="表子查询与exsists子查询"></a>表子查询与exsists子查询</h3><p><strong>1)表子查询：</strong></p>
+<ol>
+<li>概念：<br>返回的结果是当做一个二维表来使用的。</li>
+<li>要求：<br>找出每个班中最高的一个学生</li>
+<li>步骤：<br>确定数据源（暂时无法确定）<br>先将学生按身高降序排序：<pre><code>SELECT * FROM te_stu3 ORDER BY Height DESC;
+</code></pre>每个班选出第一个学生(group by只保留每类第一个)：<pre><code>SELECT * FROM te_stu3 GROUP BY classid;
+</code></pre>表子查询：将得到的结果作为from数据源（from子查询）<pre><code>SELECT * FROM （SELECT * FROM te_stu3 ORDER BY Height DESC） as stu GROUP BY classid;  -- 要加别名构建表
+</code></pre>结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-28.jpg" alt=""></li>
+</ol>
+<p><strong>2)exists子查询：</strong></p>
+<ol>
+<li>介绍：<br>exists:是否存在的意思，exists子查询就是用来判断某些条件是否满足（跨表）<br>exists是接在where之后的。exists返回的结果为0和1。</li>
+<li>关于exists的测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-29.jpg" alt=""></li>
+<li>exist子句的需求：<br>查询所有班级存在的学生。</li>
+<li>步骤：<br>确定数据源：<pre><code>Select * from te_stu3 where ?;
+</code></pre>确定条件是否成立(有数据为1，无数据为0)<pre><code>Exists(Select * from te_class1);
+</code></pre>exists子查询:<pre><code>Select * from te_stu3 where Exists(Select * from te_class1);
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-30.jpg" alt=""></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月21日 20:05</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/21/MySQL数据库学习笔记（五）/" title="MySQL学习笔记（五）：连接、联合查询，子查询即外键">https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-连接查询（交叉连接与内连接）"><span class="post-toc-text">1.连接查询（交叉连接与内连接）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-连接查询-外连接，自然连接-："><span class="post-toc-text">2.连接查询(外连接，自然连接)：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-外键-增删与默认约束"><span class="post-toc-text">3.外键(增删与默认约束)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-外键（外键条件与约束）"><span class="post-toc-text">4.外键（外键条件与约束）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-联合查询"><span class="post-toc-text">5.联合查询:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-子查询"><span class="post-toc-text">6.子查询</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#子查询分类及标量子查询"><span class="post-toc-text">子查询分类及标量子查询</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#列子查询与行子查询"><span class="post-toc-text">列子查询与行子查询</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#表子查询与exsists子查询"><span class="post-toc-text">表子查询与exsists子查询</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/20/Mybatis学习笔记（一）：环境搭建/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Mybatis学习笔记（一）：环境搭建</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 16.67px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18.33px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 16.67px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18.33px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
