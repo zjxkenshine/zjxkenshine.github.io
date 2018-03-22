@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL学习笔记（五）：连接、联合查询，子查询即外键 | 程序人生</title>
+  <title>MySQL学习笔记（五）：连接、联合查询，子查询及外键 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,7 +11,7 @@
   <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记（五）：连接、联合查询，子查询即外键">
+<meta property="og:title" content="MySQL学习笔记（五）：连接、联合查询，子查询及外键">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
@@ -28,6 +28,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-13.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-14.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-15.jpg">
@@ -46,9 +47,9 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-28.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-30.jpg">
-<meta property="og:updated_time" content="2018-03-21T12:05:00.203Z">
+<meta property="og:updated_time" content="2018-03-22T01:10:19.491Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL学习笔记（五）：连接、联合查询，子查询即外键">
+<meta name="twitter:title" content="MySQL学习笔记（五）：连接、联合查询，子查询及外键">
 <meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.连接查询（交叉连接与内连接）1)连接查询准备（了解）  创建学生与班级表,且是多对一的关系，并且添加信息： -- 连接查询准备 -- 创建学生表 CREATE TABLE te_stu3 LIKE te_stu1; ALTER TABLE te_stu3 CHANGE class classi">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-01.jpg">
   
@@ -148,7 +149,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL学习笔记（五）：连接、联合查询，子查询即外键
+      MySQL学习笔记（五）：连接、联合查询，子查询及外键
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -200,14 +201,14 @@ cla_name VARCHAR(10) NOT NULL COMMENT &apos;班级&apos;
 -- 添加班级信息
 INSERT INTO te_class1 VALUES(null,&apos;班级一&apos;),(null,&apos;班级二&apos;),(null,&apos;班级三&apos;);
 </code></pre></li>
-<li>连接查询：<br>将多张表(可以大于两张)进行记录的连接(按照某个特定的条件进行数据拼接)。<br>最终的结果是：记录数可能有变化，字段书一定会增加(至少两张表)<br>关键字：join,使用方式:<pre><code>左表 join 右表
+<li>连接查询：<br>将多张表(可以大于两张)进行记录的连接(按照某个特定的条件进行数据拼接)。<br>最终的结果是：记录数可能有变化，字段数一定会增加(至少两张表)<br>关键字：join,使用方式:<pre><code>左表 join 右表
 </code></pre></li>
 <li>连接查询的意义：<br>在用户查看数据的时候，需要显示的数据来自多张表。</li>
 <li>连接查询分类：<br>内连接<br>外连接<br>自然连接<br>交叉连接</li>
 </ol>
 <p><strong>2）交叉连接：</strong></p>
 <ol>
-<li>交叉连接：cross join从一张表中循环取出每一条记录，每条记录都去另一张表中进行匹配，匹配一定保留（没有条件的匹配）,连接本身子段会增加，最后形成的结果： 笛卡尔积</li>
+<li>交叉连接：cross join从一张表中循环取出每一条记录，每条记录都去另一张表中进行匹配，匹配一定保留（没有条件的匹配）,连接本身字段会增加，最后形成的结果： 笛卡尔积</li>
 <li>基本语法：<pre><code>feom 左表 cross join 右表
 </code></pre>等价于：<pre><code>from 左表，右表
 </code></pre>注意，连接后的表作为整个数据源。</li>
@@ -309,7 +310,7 @@ REFERENCES te_class2(cla_id);
  -- 一张表中可以有多个外键但是名字不能相同
 </code></pre></li>
 <li>删除te_stu5的外键:<pre><code>ALTER TABLE te_stu5 DROP FOREIGN KEY stu_class_1;
-</code></pre>提示删除成功，但是查看表结构会发现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg" alt=""><br>根本没有变化，但是查看建表语句，会发现已经删掉了：<br>![](<a href="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg" target="_blank" rel="noopener">http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg</a><br>之所以表结构看不到是因为外键创建之前变为了索引（key）。<br>所以<strong>外键的删除不能在表结构中看到，要看建表语句。</strong></li>
+</code></pre>提示删除成功，但是查看表结构会发现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-11.jpg" alt=""><br>根本没有变化，但是查看建表语句，会发现已经删掉了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-12.jpg" alt=""><br>之所以表结构看不到是因为外键创建之前变为了索引（key）。<br>所以<strong>外键的删除不能在表结构中看到，要看建表语句。</strong></li>
 </ol>
 <p><strong>3)外键默认作用：</strong></p>
 <ol>
@@ -481,8 +482,8 @@ Height=(select max(height) from te_stu3);
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月21日 20:05</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/21/MySQL数据库学习笔记（五）/" title="MySQL学习笔记（五）：连接、联合查询，子查询即外键">https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/</a></p>
+        <p>最后更新： 2018年03月22日 09:10</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/21/MySQL数据库学习笔记（五）/" title="MySQL学习笔记（五）：连接、联合查询，子查询及外键">https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -539,7 +540,7 @@ Height=(select max(height) from te_stu3);
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询及外键》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -549,7 +550,7 @@ Height=(select max(height) from te_stu3);
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&title=《MySQL学习笔记（五）：连接、联合查询，子查询及外键》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -559,7 +560,7 @@ Height=(select max(height) from te_stu3);
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（五）：连接、联合查询，子查询即外键》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（五）：连接、联合查询，子查询及外键》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/21/MySQL数据库学习笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -605,6 +606,16 @@ Height=(select max(height) from te_stu3);
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《鸟哥的Linux私房菜》笔记（六）：认识与学习bash
+        
+      </span>
+    </a>
   
   
     <a href="/2018/03/20/Mybatis学习笔记（一）：环境搭建/" id="article-nav-older" class="article-nav-link-wrap">

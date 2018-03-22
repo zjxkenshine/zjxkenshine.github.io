@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《鸟哥的Linux私房菜》笔记（六）：认识与学习bash | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-31.jpg">
+<meta property="og:updated_time" content="2018-03-22T13:28:19.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《鸟哥的Linux私房菜》笔记（六）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《鸟哥的Linux私房菜》笔记（六）：认识与学习bash
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/操作系统/">操作系统</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习之前"><a href="#0-学习之前" class="headerlink" title="0.学习之前"></a>0.学习之前</h2><ol>
+<li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）<br>第11章：认识与学习bash</p>
+</li>
+<li><p>学习重点</p>
+</li>
+</ol>
+<hr>
+<h2 id="1-认识Shell-Bash"><a href="#1-认识Shell-Bash" class="headerlink" title="1.认识Shell,Bash"></a>1.认识Shell,Bash</h2><p><strong>1)硬件，内核与shell的关系：</strong></p>
+<ol>
+<li>简单来说：<br>用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-01.jpg" alt=""></li>
+<li>大致定义：<br>只要能够操作应用程序的接口都能称为shell，狭义的shell指的是命令行方面的软件，包括Bash等，广义的shell则包括图形界面的软件，因为图形界面其实能够操作各种应用程序来调用内核工作。</li>
+</ol>
+<p><strong>2)为什么学shell:</strong><br>1.所有Linux发行版的shell都是差不多的，学好了shell就可以随意切换了。<br>2.远程管理时命令行界面的传输速度比较快，而且较不容易出现断线等问题。</p>
+<p><strong>3)shell简介:</strong></p>
+<ol>
+<li>Bash:<br>Bourne Again SHell:Linux使用的Shell。<br>shell有很多种类：<br>BSD,C shell,sh等。<br>检查一下/etc/shells会发现有很多可用的shell,必须将可用的shell写到这个文件里：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-02.jpg" alt=""><br>当打开命令行开始工作时，会得到一个shell，这个shell记录在<code>/etc/passwd</code>文件内。<br>默认为<code>bin\bash</code>。</li>
+<li>bash shell 的功能：<br>bash shell是Linux发行版的标准shell，它有如下优点：<ul>
+<li>命令记忆功能：<br>本次登录执行过的命令会暂存在内存中，直到退出时会被写入~/.bash_history文件内，可以查询所做过的操作，默认可以记忆1000个。</li>
+<li>命令与文件补全功能：[Tab键]<br>tab接在一串命令的第一个字后则为命令补全，否则为文件补全</li>
+<li>命令别名设置功能，可以直接设置别名：<br>使用alias，如<code>alias lm=&#39;ls -al&#39;</code></li>
+<li>作业控制，前后台控住作业</li>
+<li>程序脚本：shell script(13章)</li>
+<li>通配符*</li>
+</ul>
+</li>
+<li>查看bash shell内置命令：type<br>输入man page可以看见一大堆！！！说明，据说在里面可以找到cd，umask等命令，而这些命令就是bash的内置命令。判断一个命令是否是内置命令可以使用type命令：<pre><code>$ type [-tpa] name
+-p:后面接的name为外部命令时，显示完整的文件名
+-a:将PATH变量中能找到的name都列出来。
+-t:根据不同类型的命令显示不同的说明：
+    file:外部命令
+    alias:表示是别名设置过的命令
+    builtin:bash内置的命令功能。
+不加参数：列出命令主要使用情况
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>命令的换行：<br>在行尾输入[Enter]来转义，到下一行开头会自动出现&gt;号，就可以继续写未写完的命令。</li>
+</ol>
+<hr>
+<h2 id="2-shell的变量功能（环境变量，语系变量等）"><a href="#2-shell的变量功能（环境变量，语系变量等）" class="headerlink" title="2.shell的变量功能（环境变量，语系变量等）"></a>2.shell的变量功能（环境变量，语系变量等）</h2><p><strong>1)什么是变量?</strong></p>
+<ol>
+<li>变量：<br>用一个简单的文字代替另一个比较复杂或者容易变动的数据。</li>
+<li>变量可变性，方便：<br>如：Mail变量管理邮箱访问，不同的用户输入Mail命令时会访问不同的邮件目录。</li>
+<li>变量可变，但是很方便。</li>
+<li>环境变量：<br>系统需要一些变量来提供它的数据访问–环境变量，如PATH,HOME,MAIL,SHELL等，为了区分普通变量，一般以大写字母表示。</li>
+<li>变量可以方便程序的设计</li>
+<li>变量的定义：<br>变量就是以一组文字或符号等，代替一些设置或者一些保留符号。</li>
+</ol>
+<p><strong>2)变量的显示与设置：echo和unset</strong></p>
+<ol>
+<li>变量的显示：echo<br>可以利用echo这个命令来显示变量，但是变量被显示时，前面必须加上字符”$”才行,也可以加上花括号{}，如显示PATH的值：<pre><code># echo $PATH
+</code></pre>或者：<pre><code># echo ${PATH}
+</code></pre></li>
+<li>变量的设置与取消：=，unset<br>设置变量：直接# 变量名=值就行<br>变量设置取消：<code># unset 变量名</code><br>下面是一个简单的测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-04.jpg" alt=""><br>变量未设置时默认内容为空。</li>
+<li>变量设置规则：<br>变量设置是需要符合以下规则，否则会创建失败：<ul>
+<li>变量与变量内容以一个=来连接</li>
+<li>等号两边不能接空格符：以下都是错的<pre><code># myname = kenshine   # myname=ken shine
+</code></pre></li>
+<li>变量名称只能是数字或字母，但是开头不能是数字</li>
+<li>变量内容若有空格符可以用””或单引号括起来，但是<br>双引号保持原有特性，而单引号则只会保留为字符串：<pre><code># var=&quot;is $LANG&quot; --&gt;echo $var--&gt; is en_US
+# var=&apos;is $LANG&apos; --&gt;echo $var--&gt; is $LANG
+</code></pre></li>
+<li>可用转义符号将特殊符号变为一般字符：#,$,!等</li>
+<li>一串命令中若要得到其他命令的信息，可以使用反引号``，如：<pre><code># version=`uname -r`--&gt;ceho $version--&gt;会输出版本信息
+</code></pre></li>
+<li>若变量为了增加内容时，可以使用$*或${*}来累加内容：<pre><code># PATH=&quot;$PATH&quot;:/home/bin
+</code></pre></li>
+<li>变量要在其他子线程进程，需要用export编程环境变量：<pre><code># export PATH
+</code></pre></li>
+<li>大写字母为环境变量，小写字母为用户自己设置的变量。</li>
+</ul>
+</li>
+<li>子进程：<br>在当前的shell打开另一个新的shell,则哪个shell就是子进程。</li>
+</ol>
+<p><strong>3)环境变量的功能：</strong></p>
+<ol>
+<li>使用<code>env</code>与<code>export</code>查看目前shell环境下的环境变量：<br>环境变量的基本功能如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-05.jpg" alt=""><br>使用export也是一样的效果。</li>
+<li>使用<code># set</code>查看当前shell的所有变量<br>包括环境变量，接口有关的变量，用户自己设置的变量和其他变量。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-06.jpg" alt=""></li>
+<li>命令提示符PS1：<br>就是常看见的<code>#</code>与<code>$</code>及前面部分的内容，但是还有很多参数，具体可以<code>man bash</code>,简单几个：<pre><code>\t:显示时间，24小时制，HH:MM:SS
+\#:执行的第几个命令
+\u:目前账号名称
+\H:完整的主机名
+\w:完整的工作目录
+</code></pre>…还有很多<br>修改命令提示符：<pre><code># PS1=&apos;[\参数...]\$&apos;
+</code></pre></li>
+<li>本机shell的PID:<code>$</code></li>
+<li><code>?</code>:上个命令的回传值（0执行成功，非0不成功）</li>
+<li><code>export</code>:将自定义变量转换为环境变量<br>不转换切到子进程则变量不见，直到离开子进程回到父进程才能重新看到变量。</li>
+</ol>
+<p><strong>4)语系变量（local）:</strong></p>
+<ol>
+<li>可以使用:<pre><code># local [-a]
+</code></pre>来查询语系变量。</li>
+<li>使用<code># local</code>会发现有很多种变量，都是关于数字，时间，币值等各种显示，只要修改LANG或LC_ALL时其他变量就会随之改变。<pre><code># LANG=en_US
+</code></pre></li>
+<li>整体系统默认的语系：<br>定义在<code>/etc/sysconfig/i18n</code>中</li>
+</ol>
+<hr>
+<h2 id="3-变量的范围，修改，键盘输入及限制变量"><a href="#3-变量的范围，修改，键盘输入及限制变量" class="headerlink" title="3.变量的范围，修改，键盘输入及限制变量"></a>3.变量的范围，修改，键盘输入及限制变量</h2><p><strong>1)变量的有效范围：</strong><br>环境变量==全局变量<br>自定义变量==局部变量</p>
+<p><strong>2)变量的键盘读取、数组与声明：read,array,declare</strong></p>
+<ol>
+<li>读取键盘输入的值：<strong>read</strong><pre><code># read [-pt] 变量名（variable）
+-p:后面可以接提示符
+-t:后面接等待的秒数
+</code></pre>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-07.jpg" alt=""></li>
+<li>变量声明：<strong>declare或typeset</strong><br><code>declare</code>与<code>typeset</code>功能一样，后面不加任何参数就会将变量全部列出，和set差不多：<pre><code># declare [+-aixr] 变量名（variable）
+-a:将后面的变量声明为数组（array）类型
+-i:将后面的变量声明为整数（integer）类型
+-x:同export一样，将变量变为环境变量
+-r:将变量设置为只读变量，无法更改
++参数:取消该参数的设置，变回默认的状态
+</code></pre>默认类型为字符串，而且没有字符型的运算，如1/3结果为0。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-08.jpg" alt=""><br>使用typeset也是一样的效果。</li>
+<li>数组（阵列）变量类型：<strong>array</strong><br>在程序设计中，数组非常重要。<br>声明数组：<pre><code># declare -a variable
+</code></pre>数组赋值：<pre><code># variable[n]=值
+</code></pre>读取数组：<pre><code># echo &quot;${var[1]},${var[2]}...&quot;
+</code></pre>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-09.jpg" alt=""></li>
+</ol>
+<p><strong>3)与文件系统及程序的限制关系：ulimit</strong></p>
+<ol>
+<li>环境：<br>如果有多个人同时登录同一个系统，且每个人都打开了很多文件，使用了很多资源，那么系统就会炸掉。<br>这时就可以使用<code>ulimit</code>来限制用户的某些系统资源，包括：<br>打开文件的数量，可以使用CPU的时间，可以使用的内存总量等</li>
+<li>使用方法：<pre><code># ulimit [-SHacdfltu] [配额]
+-H：hard limit,严格的设置，一定不能超过这个值
+-S：soft limit,警告的设置，超过则会有警告
+    一般来说警告设置会比严格设置小
+-a：后面不接参数，可以列出所有的限制配额
+-c：限制内核文件的最大容量。
+    某些进程发生错误时，系统会将进程中的内存写到文件中（内核文件）
+-f：此shell可创建的最大文件容量（一般为2GB），单位为KB
+-d：此进程可使用的最大断裂内存容量
+-l：可用于锁定的内存量
+-t：可使用的最大CPU时间
+-u：单一用户可使用的最大进程数量
+</code></pre>如我的配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-10.jpg" alt=""></li>
+</ol>
+<p><strong>4)变量内容的部分删除、替代与替换：</strong></p>
+<ol>
+<li>变量内容的部分删除：<br>从前向后删除：<pre><code>${变量#关键字}    从头开始符合关键字的最短数据删除
+${变量##关键字}    从头开始符合关键字的最长数据删除
+</code></pre>从后向前删除：<pre><code>${变量%关键字}    从尾开始符合关键字的最短数据删除
+${变量%%关键字}    从尾开始符合关键字的最长数据删除
+</code></pre>关键字中一般使用<code>*</code>通配符来代表一大段字符串。<br>如书本上的范例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-11.jpg" alt=""><br>从后向前删也是一样的。</li>
+<li>变量的替换：<pre><code>${变量/旧字符串/新字符串}    第一个旧字符串被新字符串替换
+${变量//旧字符串/新字符串}    全部旧字符串都被新字符串替换
+</code></pre></li>
+<li>变量设置方式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-12.jpg" alt=""><br>会根据不同的情况赋予不同的值:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-13.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-命令别名与历史命令"><a href="#4-命令别名与历史命令" class="headerlink" title="4.命令别名与历史命令"></a>4.命令别名与历史命令</h2><p><strong>1)命令别名设置：alias,unalias</strong></p>
+<ol>
+<li>关于clean：<br>早期的DOS使用cls来清除屏幕上的信息，Linux则使用<code># clear</code>来清除界面。<br>如果想要用<code># cls</code>来执行清除任务，就可以用别名来设置。</li>
+<li>alias设置别名<br>查看当前设置了哪些别名：<code># alias</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-14.jpg" alt=""><br>别名的设置(详情查看上图↑)：<pre><code># alias 别名=&quot;命令 选项&quot;
+</code></pre>设置cls为<code>clear</code>的别名：<pre><code># alias cls=&quot;clear&quot;
+</code></pre></li>
+<li>取消别名：<pre><code># unalias 别名
+</code></pre>如取消上述设置的cls:<pre><code># unalias cls
+</code></pre></li>
+</ol>
+<p><strong>2)历史命令：history</strong></p>
+<ol>
+<li>基本用法：<pre><code># history [n]
+# history [-c]
+# history [-raw] historyfiles
+不加参数：列出所有历史
+n:数字，列出最近的几行命令
+-c:消除当前shell的所有history
+-a:将新增的history中的命令加入historyfiles中，如果没有加historyfiles参数，则会默认添加到~/.bash_history中
+-r:将historyfiles中的记录读取出来
+-w:将目前的history记录加入historyfiles中
+</code></pre>使用：<pre><code>$ echo $HISTSIZE
+</code></pre>可以查看一共可以容纳多少条记录（容量）。</li>
+<li>三个执行历史命令的方法：<pre><code># !number
+number代表命名标号，执行第几条命令
+# !command
+从后往前搜索第一个以command开头的命令并执行
+# !!
+执行上一个命令
+</code></pre></li>
+<li>不同窗口多次登录同一账号产生的问题：<br>如在tt2-tt6都登陆了root账号且都执行了一些命令，那么前面退出的root记录都会被最后退出的root覆盖，只会将最后一个退出的history信息写入文件.</li>
+<li>历史命令无法记录时间</li>
+</ol>
+<hr>
+<h2 id="5-Bash-Shell的操作环境"><a href="#5-Bash-Shell的操作环境" class="headerlink" title="5.Bash Shell的操作环境"></a>5.Bash Shell的操作环境</h2><p><strong>1)命令的执行顺序：</strong></p>
+<ol>
+<li>命令的运行顺序：<br>a.以绝对/相对路径执行命令，如<code># /bin/ls</code><br>b.由alias找到该命令来执行<br>c.有Bash内置的（builtin）命令来执行<br>d.通过$PATH这个变量来找到第一个命令来执行。</li>
+<li>一个例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-15.jpg" alt=""><br>按照<code>alias--&gt;builtin--&gt;$PATH</code>这个顺序执行。</li>
+</ol>
+<p><strong>2)bash的登录与欢迎信息：</strong></p>
+<ol>
+<li>系统的登录信息位置：<pre><code>/etc/issue
+</code></pre>里面的变量是通过反斜杠<code>\</code>来定义的，有如下变量：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-16.jpg" alt=""></li>
+<li>提供给telnet远程登录的欢迎信息：<pre><code>/etc/issue.net
+</code></pre></li>
+<li>root用户在其他用户登录时通知信息：<pre><code>/etc/motd
+</code></pre>不需要反斜杠，使用vim打开，把想通知用户的消息都记录下来就可以了。</li>
+</ol>
+<p><strong>3)bash环境配置文件：</strong></p>
+<ol>
+<li>命令别名，自定义变量等在注销退出bash后就会失效，若想保留你的设置，就需要将这些设置写入配置文件才行。</li>
+<li>认识配置文件之前必须知道的两个东西：<strong>login shell和non-login shell</strong><ul>
+<li>login shell:需要登录才能取得bash的shell称为login shell（[Ctrl]+[Alt]+F23456打开的黑窗口）</li>
+<li>non-login shell:取得shell不需要不需要登录的。（图形界面登录后通过终端跳转，或者打开一个子进程<code># bash</code>）</li>
+<li>login shell：此种方式登录时，shell会重新读取/etc/profile和~/.bash_profile来应用新的环境变量。</li>
+<li>non-login shell：此时shell不会读取/etc/profile和~/.bash_profile，而是读取~/.bashrc来应用新的环境变量。</li>
+</ul>
+</li>
+<li>/etc/profile(login shell才会读:第一个读取)<br>这是系统的整体配置，最好不要修改，了解即可。<br>所含变量：<pre><code>PATH:依据UID决定是否含UID目录
+MAIL:依据账号设置好的mailbox的账号名
+USER:根据用户的账号设置此变量的内容
+HOSTNAME:根据主机的HOSTNAME决定的此变量内容
+HISTSIZE:历史命令记录容量
+umask:默认root为022，普通用户为002
+</code></pre>读取该配置文件时以下的配置文件会依次被读取：<br><blockquote><br>a.<code>/etc/profile.d/*.sh</code>:<br>定义了bash的颜色，语系，默认别名等<br>b.<code>/etc/locale.conf</code>:<br>定义了默认的语系<br>c.<code>usr/share/bash-completion/completions</code>:<br>tab的文件/命令补齐功能<br></blockquote><br><code>login shell</code>环境下读取的整体配置文件只有<code>/etc/profile</code></li>
+<li>~/.bash_profile(login shell才会读:第二个读取)<br>login shell在读取完整体配置文件(/etc/profile)后会依次读取下列文件：<pre><code>~/.bash_profile
+~/.bash_login
+~/.profile
+</code></pre>只会读取一个，后面的不读取，这么多文件是为了照顾其他shell用户的习惯。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-17.jpg" alt=""><br>如果~/.bashrc如果存在就会把这个文件的配置也读取进来。</li>
+<li>~/.bashrc（<code>non-login shell</code>才会主动读取）:<br>root用户与一般用户的会不一样。<br>主要有下面的功能：<br>&nbsp;&nbsp;&nbsp;–用户的个人设置（别名等）<br>&nbsp;&nbsp;&nbsp;–依据不同的UID规定umask值<br>&nbsp;&nbsp;&nbsp;–依据不同UID规定PS1命令提示符<br>&nbsp;&nbsp;&nbsp;–调用/etc/profile.d/*.sh设置<br>如果不小心删除，可以复制/etc/skel/.bashrc文件过来并<code># source ~/.bashrc</code><br>这是我刚配置的.bash文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-18.jpg" alt=""></li>
+<li><code>source</code>命令：<br>立即读入刚配置的环境变量（login shell不用注销再登录）。<br>立即应用刚配置的环境：<code>source</code>或小数点<pre><code># source 配置文件
+</code></pre>如应用我刚刚配置好的.bashrc文件可以这么写：<pre><code>$ source ~/.bashrc
+</code></pre>或者<pre><code>$ . ~/.bashrc
+</code></pre></li>
+<li>其他相关配置文件：<br>这些文件也可能会影响你的bash操作：<ul>
+<li>/etc/man.config：<br>规定了使用man page时man page的路径去哪里寻找</li>
+<li>~/.bash_history:<br>记录历史命令的地方</li>
+<li>~/.bash_logout:<br>注销bash后系统做的工作</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)设置终端机环境：stty,set</strong></p>
+<ol>
+<li>stty:settinf tty,设置终端机，其实就是设置热键（快捷键），一般不建议修改。<br>可以使用<code># stty [-a]</code>查看[所有]参数列表。</li>
+<li>终端环境中几个功能字符串的意义：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-19.jpg" alt=""><br>如想要设置[Ctrl]+h来删除字符串可以这么写：<pre><code># stty erase ^h
+</code></pre>这里的<code>^</code>都是代表[Ctrl]。</li>
+<li><code>set</code>可以设置整个命令的输入输出环境：<pre><code># set [-uvCHhmBx]
+-u:未设置变量报错功能，默认未启用
+-v:信息输出时显示原始内容，默认未启用
+-x:命令执行前默认启用
+-H,h:默认启用，与历史命令有关
+-m:默认启用，与工作管理有关
+-B:默认启用，与[]的作用有关
+-C:默认不启用，使用数据流重定向等时原有的文件存在则不覆盖
+</code></pre>最好还是保持默认就好。<br>常用的组合按键表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-20.jpg" alt=""></li>
+</ol>
+<p><strong>5)通配符遇特殊符号：</strong></p>
+<ol>
+<li>常用通配符：<pre><code>* : 0到无穷多个任意字符
+? : 一定有一个任意字符
+[]: 一定有一个在[]中的任意字符，如[a,b,c]表示一定有abc中的一个
+</code></pre></li>
+</ol>
+<pre><code>[-]: 括号内有-号代表在编码顺序内的所有字符。
+[^]: 表示反向选择，[^abc]有任意一个非abc的字符
+</code></pre><ol>
+<li>常见的特殊符号：<br>书上定义的列表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-21.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-数据流重定向："><a href="#6-数据流重定向：" class="headerlink" title="6.数据流重定向："></a>6.数据流重定向：</h2><p><strong>1)什么是数据流重定向：</strong></p>
+<ol>
+<li>简单的说：<br>数据流重定向就是讲某个命令执行后应该要出现在屏幕上的数据传输到其他地方（文件或者是设备等地方，用于保存数据）</li>
+<li>命令执行过程的数据传输情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-22.jpg" alt=""></li>
+<li>标准输出与标准错误输出：<br>standard outout标准输出：指的是命令执行后所传回来的正确信息。<br>standard error output标准错误输出：命令执行失败后输出的异常信息。</li>
+<li>数据流重定向可以将这些输出都重定向到其他文件或设备去，所用字符如下：<pre><code>标准输入(stdin):代码为0，使用&lt;或&lt;&lt;
+标准输出(stdout):代码为1，使用&gt;或&gt;&gt;
+标准错误输出（stderr）:代码为2，使用2&gt;或者2&gt;&gt;
+</code></pre>简单测试:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-23.jpg" alt=""><br>若重定向的文件不存在，则会自动创建，若存在，使用<code>&gt;</code>覆盖，使用<code>&gt;&gt;</code>不覆盖。<br>使用<code>2&gt;</code>,<code>2&gt;&gt;</code>则是输出错误的信息。</li>
+<li>黑洞设备垃圾桶（/dev/null）<br>查找<code>/home</code>下是否有名为<code>.bashrc</code>文件，如果有，则显示，错误信息丢弃：<pre><code>$ find /home -name .bashrc 2&gt;dev&gt;null
+</code></pre></li>
+<li>正确与错误信息都输入同一个文件(list):<pre><code>$ find /home -name .bashrc &gt;list 2&gt;&amp;1
+</code></pre>或者：<pre><code>$ find /home -name .bashrc &amp;&gt;list
+</code></pre></li>
+<li>利用cat创建一个文件:<pre><code># cat &gt;~/catfile
+</code></pre>然后可以输入，输入完后按[Ctrl]+d来离开，创建完毕。</li>
+<li>标准输入（<code>&lt;</code>与<code>&lt;&lt;</code>）<br>相当于从键盘输入数据到文件中，只不过是从文件中读入。<br><strong>注意&lt;与&lt;&lt;的功能并不相同</strong>：<br><code>&lt;</code>表示从一个文件读入数据：<pre><code># cat &gt; catfile &lt;~/log
+</code></pre><code>&lt;&lt;</code>后面跟字符串，输入这个字符串则离开输入：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-24.jpg" alt=""></li>
+</ol>
+<p><strong>2）何时使用重定向：</strong></p>
+<ul>
+<li>输出信息很重要需要保存</li>
+<li>后台执行程序的输出会干扰当前执行程序</li>
+<li>一些系统例行命令的执行结果保存</li>
+<li>一些已知的不重要的错误信息可以丢弃</li>
+<li>错误信息需要与正确信息分别输出时</li>
+</ul>
+<p><strong>3)命令执行的判断依据：；，&amp;&amp;，||</strong></p>
+<ol>
+<li>想要一次性执行多个命令有两种方法：<ul>
+<li>编写shell script脚本去执行（13章）</li>
+<li>使用<code>;</code>，<code>&amp;&amp;</code>或<code>||</code></li>
+</ul>
+</li>
+<li><code>cmd1;cmd2</code>：<br>不考虑文件相关性连续执行命令（Linux默认从左往右）<br>如关机前使用多个<code>syn</code>将数据同步到磁盘：<pre><code># syn;syn;syn
+</code></pre></li>
+<li>命令回传码$?:<br>若一个命令执行成功则回传<code>$?=0</code>，执行失败则传回非0的值。</li>
+<li><code>cmd1&amp;&amp;cmd2</code>：<br>若cmd1执行完毕且正确执行（$?=0）则执行cmd2,错误不执行。</li>
+<li><code>cmd1||cmd2</code>：<br>若cmd1执行完毕且错误执行（$?≠0）则执行cmd2,正确不执行。</li>
+</ol>
+<hr>
+<h2 id="7-常用命令（管道，选取，排序，双向重定向）"><a href="#7-常用命令（管道，选取，排序，双向重定向）" class="headerlink" title="7.常用命令（管道，选取，排序，双向重定向）"></a>7.常用命令（管道，选取，排序，双向重定向）</h2><p><strong>1)管道命令与连续执行命令的区别：</strong></p>
+<ol>
+<li><code>cmd1|cmd2</code>:<br>cmd1执行完毕且正确执行时，将其标准输出作为标准输入作为cmd2的数据，然后执行cmd2.(仅能处理standard output)<br>如用ls-al查看文件但是太多了想用less输出可以这样写:<pre><code># ls -al /etc | less
+</code></pre></li>
+<li>管道命令仅会处理standard output的信息，对于错误输出无法处理；<br>管道命令必须能够接收来自前一个数据命令的数据成为标准输入继续处理。</li>
+</ol>
+<p><strong>2)选取命令：cut,grep</strong></p>
+<ol>
+<li>选取信息一般来说是针对”行”来分析而不是整篇信息。</li>
+<li>cut:<br>基本用法：<pre><code># cut -d&apos;分隔字符&apos; -f fileds      &lt;==用于分隔字符
+# cut -c 字符范围                 &lt;==用于排列整齐的信息
+-d:接分隔符，与-f一起使用
+-f:依据-d分隔符分为数段，-f表示取第几段
+-c:以字符为单位取出字符区间
+</code></pre>例子：<pre><code>$ echo $PATH | cut -d&apos;:&apos; -f 5        &quot;以：给PATH变量分段并取第五段（第3与第5：-f 3,5）
+# export | cut -c 12-        &quot;输出所有的环境变量信息，并且每行都删除前11个字符，只保留第十二个字符及之后的
+# export | cut -c 12-20            &quot;每行只保留第12-20的字符
+</code></pre></li>
+<li>last:<br><code># last</code>可以显示出用户登录列表，后面有用到。</li>
+<li>grep:<br>cut是在一行中找到我们想要的信息，grep是分析一行信息，其中有我们需要的信息时，<strong>将该行拿出来。</strong><br>基本用法：<pre><code># grep [-acinv] [--color-auto] &apos;查找字符串&apos; filename
+-a：将binary文件以text文件的方式查找数据
+-c：计算找到&apos;查找字符串&apos;的次数
+-i：忽略大小写
+-n：输出行号
+-v：反向选择
+--color=auto：找到的关键字加上颜色显示
+</code></pre>简单例子：<pre><code># last | grep &apos;root&apos; | cut -d &apos; &apos; -f1
+&quot;显示登录信息的所有root
+# grep --color=auto &apos;MANPATH&apos; /etc/main.config
+&quot;找出 /etc/main.config文件中带MANPATH关键字的行并显示颜色
+</code></pre>grep配合正则表达式还可以有更多的功能。</li>
+</ol>
+<p><strong>3)排序命令：sort,wc,uniq</strong></p>
+<ol>
+<li>sort:<br>可以用于排序，而且可以根据不同的数据类型进行排序：<br>排序与语系有关，建议先使用LANG=C让语系同一后排序。<br>基本语法：<pre><code># sort [-fbMnrtuk] [file or stdin]
+-f:忽略大小写差异
+-b:忽略最前面的空格符
+-M:以月份名字来排序
+-n:使用纯数字进行排序
+-r:反向排序
+-u:uniq,相同的数据不重复排序
+-t:分隔符，默认为[Tab],作用同cut的-d
+-k:以区间（filed）进行排序
+</code></pre>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-25.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-26.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-27.jpg" alt=""><br>书上的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-28.jpg" alt=""></li>
+<li>uniq:去重<br>基本用法：<pre><code># uniq [-ic]
+-i:忽略大小写
+-c:进行计数
+</code></pre>例子：<br>记录登录的总次数：<pre><code># last | grep &apos;root&apos; | cut -d &apos; &apos; -f1 | uniq -c
+</code></pre></li>
+<li>wc:记录有多少个字，多少行<br>基本用法：<pre><code># wc [-lwm]
+-l：仅列出多少行
+-w:仅列出多少字（单词）
+-m:列出多少字符
+</code></pre>如得知当前账号文件中有多少账号：<pre><code># cat /etc/passwd | wc -l
+</code></pre></li>
+</ol>
+<p><strong>3)双向数据流重定向：tee</strong></p>
+<ol>
+<li>一个输出，即想将它保存处理，又想将其显示出来：<br>使用&gt;,&gt;&gt;无法做到，除非读入那个文件，这时就可以使用tee.</li>
+<li>tee的工作流程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-29.jpg" alt=""><br>输出到屏幕的是stdout，可以让下一个命令继续处理</li>
+<li>基本语法：<pre><code># tee [-a] file
+-a:以累加的方式重定向到file
+</code></pre></li>
+<li>将last输出备份一份到last.list中并输出登录用户：<pre><code># last | tee last.list | cut -d &apos; &apos;  -f1
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="8-常用命令（字符转换，切割，参数代换和减号）"><a href="#8-常用命令（字符转换，切割，参数代换和减号）" class="headerlink" title="8.常用命令（字符转换，切割，参数代换和减号）"></a>8.常用命令（字符转换，切割，参数代换和减号）</h2><p><strong>1)字符串转换命令:tr,col,join，paste,expand</strong></p>
+<ol>
+<li>tr：<br>可以删除掉一段信息当中的文字，或者进行文字信息的转换<br>用法：<pre><code># tr [-ds] SET1...
+-d:删除信息当中的SET1这个字符串
+-s:替换重复的字段(正则表达式)
+</code></pre>例子：<pre><code>&quot;将/etc/passwd输出信息中的&quot;:&quot;删除：
+# cat /etc/passwd | tr -d &apos;:&apos;
+&quot;将last输出信息的所有小写字母变为大写字母：
+# last | tr &apos;[a-z]&apos; &apos;[A-Z]&apos;      &quot;不加引号也可以
+</code></pre></li>
+<li>col:<br>col经常被用于将man page转存为纯文本文件方便查阅：<pre><code># col [-Axb]
+-A:将tab键显示为^（默认）
+-x:将tab键转换为对等的空格键
+-b:文字内有反斜杠时仅保留反斜杠后面的那个字符
+</code></pre>例子：<br>将col的man page转换为文本文件：<pre><code># man col | col -b &gt; col.man
+</code></pre></li>
+<li><strong>join:</strong><br>处理两个文件之间的数据。主要是将两个文件当中有相同数据的那一行加在一起。<br>基本用法：<pre><code># join [-ti12] file1 file2
+-r:默认以空格符分隔数据，默认比较第一个字段的数据，若相同则连在一起
+-i:忽略大小写的比较
+-1：第一个文件用哪个字段比较
+-2：第二个文件用哪个字段来比较
+</code></pre>书上的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-30.jpg" alt=""></li>
+<li>paste：<br>直接将文件的两行粘贴在一起，中间以[tab]隔开<br>基本用法：<pre><code># paste [-d] [-] file1 file2
+-d:后面可以写分隔符，默认为tab
+-:重要的参数，代表标准输入的结果（即管道前的标准输出）
+</code></pre>例子：<pre><code># cat /etc/group|paste /etc/passwd /etc/shadow - |head -n 3
+&quot;三重连接并且取出连接结果的前三行
+</code></pre>上述例子的<code>-</code>参数就代表了<code>cat /etc/group</code>的标准输出，即对于后面的标准输入。</li>
+<li>expand:<br>就是将tab键转换成空格键：<br>基本语法：<pre><code># expand [-t] file
+-t:后面可以接数字，表示将一个tab用多少个空格代替，一般是8个空格。
+</code></pre></li>
+<li>unexpand:<br>和expand刚好相反，将空格转换为[tab]</li>
+</ol>
+<p><strong>2）切割命令：split</strong></p>
+<ol>
+<li>使用环境：<br>如果文件太大导致便携式设备无法复制，就可以切割成小文件。</li>
+<li>基本用法：<pre><code># split [-bl] file SPEFIX
+-b:后面接想切割成的大小，可以带单位（b,k,m等）
+-l:以行数来进行切割
+SPEFIX:前导符，作为切割文件的前导文字，会以前导文字+aa,ab,ac...为文件名创建小文件
+</code></pre></li>
+<li>例子：<br>将一个文件以300k一份切割并设置前导文字为aaa<pre><code># cd /tmp;split -b 300k /etc/termcap aaa
+</code></pre>将使用<code>ls -al /</code>输出的信息以10行为一份分为多个小文件<pre><code># ls -al / | split -l 10 -  aaa
+</code></pre></li>
+</ol>
+<p><strong>3)参数代换：xargs</strong></p>
+<ol>
+<li>finger命令:可以显示内容，后面例子里有</li>
+<li>xargs:<br>产生某个命令的参数的意思。xargs可以读入stdin的数据，并且以空格符或者断行字符进行分辨，将stdin的数据分割成参数。因为以空格作为分隔符，有可能误判。</li>
+<li>具体用法：<pre><code>xargs [-0epn] command
+-0:stdin中有特殊字符，将它还原为一般字符
+-e:eof,end of file,后面可以接一个字符串，xargs碰到该字符串时停止工作。
+-p:执行每个命令的参数时都会询问用户的意思
+-n:接次数，表示一次Commad使用几个参数
+不加参数的xargs默认使用echo输出
+</code></pre></li>
+<li>例子:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-31.jpg" alt=""></li>
+<li><strong>有些命令不支持管道时就可以使用参数代换，将前面的显示结果作为参数传给改名令（如finger）</strong>。</li>
+</ol>
+<p><strong>4)关于减号的用途：</strong><br>使用前一个命令的stdout作为这个命令的stdin.</p>
+<hr>
+<h2 id="9-重要命令总结"><a href="#9-重要命令总结" class="headerlink" title="9.重要命令总结"></a>9.重要命令总结</h2><p><code>$ type [-tpa] name</code> :判断一个命令是否是内置命令<br><code># echo $变量</code>或<code># echo ${变量}</code> ：显示变量的值<br><code># 变量=&quot;$变量&quot;:累加内容</code> :变量累加<br><code># export 变量</code> ：将自定义变量转换为环境变量<br><code># env</code>与<code># export</code> :查看目前shell环境下的环境变量<br><code># set</code> :查看当前shell的所有变量<br><code># PS1=&#39;[\参数...]\$&#39;</code> :修改命令提示符<br><code># local [-a]</code> :查询语系变量</p>
+<p><code># read [-pt] 变量名（variable）</code> :读取键盘输入的值存入变量中<br><code># declare [+-aixr] 变量名（variable）</code> :声明变量类型<br><code># declare</code> :列出全部变量<br>声明数组：<br><code># declare -a variable</code><br>数组赋值：<br><code># variable[n]=值</code><br>读取数组：<br><code># echo &quot;${var[1]},${var[2]}...&quot;</code><br><code># ulimit [-SHacdfltu] [配额]</code> :限制用户的系统资源</p>
+<pre><code>${变量#关键字}    从头开始符合关键字的最短数据删除
+${变量##关键字}    从头开始符合关键字的最长数据删除
+${变量%关键字}    从尾开始符合关键字的最短数据删除
+${变量%%关键字}    从尾开始符合关键字的最长数据删除
+${变量/旧字符串/新字符串}    第一个旧字符串被新字符串替换
+${变量//旧字符串/新字符串}    全部旧字符串都被新字符串替换
+</code></pre><p><code># alias 别名=&quot;命令 选项&quot;</code> ：设置别名<br><code># unalias 别名</code> :取消别名设置</p>
+<pre><code># history [n]
+# history [-c]
+# history [-raw] historyfiles
+查看历史记录
+</code></pre><p><code>$ echo $HISTSIZE</code> ：可以查看一共可以容纳多少条记录（容量）。<br><code># !number</code> :number代表命名标号，执行第几条命令<br><code># !command</code> :从后往前搜索第一个以command开头的命令并执行<br><code># !!</code> :执行上一个命令</p>
+<p><code># source 配置文件</code>或<code># . 配置文件</code> :立即应用刚配置的环境<br><code># stty [-a]</code> :查看[所有]热键参数列表<br><code># set [-uvCHhmBx]</code> ：设置整个命令的输入输出环境</p>
+<pre><code>常用通配符
+* : 0到无穷多个任意字符
+? : 一定有一个任意字符
+[]: 一定有一个在[]中的任意字符，如[a,b,c]表示一定有abc中的一个
+[-]: 括号内有-号代表在编码顺序内的所有字符。
+[^]: 表示反向选择，[^abc]有任意一个非abc的字符
+
+数据流重定向
+标准输入(stdin):代码为0，使用&lt;或&lt;&lt;
+标准输出(stdout):代码为1，使用&gt;或&gt;&gt;
+标准错误输出（stderr）:代码为2，使用2&gt;或者2&gt;&gt;
+</code></pre><p>正确与错误信息都输入同一个文件(list):<br><code>$ find /home -name .bashrc &gt;list 2&gt;&amp;1</code><br>或者：<br><code>$ find /home -name .bashrc &amp;&gt;list</code></p>
+<p><code>cmd1;cmd2</code> ：不考虑文件相关性连续执行命令<br><code>cmd1&amp;&amp;cmd2</code> ：若cmd1执行完毕且正确执行（$?=0）则执行cmd2,错误不执行。<br><code>cmd1||cmd2</code> ：若cmd1执行完毕且错误执行（$?≠0）则执行cmd2,正确不执行。<br><code>cmd1|cmd2</code> :cmd1执行完毕且正确执行时，将其标准输出作为标准输入作为cmd2的数据，然后执行cmd2.(仅能处理standard output)</p>
+<p><code># cut -d&#39;分隔字符&#39; -f fileds</code> :分隔后选取<br><code># cut -c 字符范围</code> :排列好后按字符选取<br><code># grep [-acinv] [--color-auto] &#39;查找字符串&#39; filename</code> :按行选取</p>
+<p><code># sort [-fbMnrtuk] [file or stdin]</code> :排序<br><code># uniq [-ic]</code> :去重<br><code># wc [-lwm]</code> :记录有多少个字，多少行</p>
+<p><code># tee [-a] file</code> :双向数据流重定向，-a:以累加的方式重定向到file<br><code># tr [-ds] SET1...</code> :删除信息中的文字<br><code># man col | col -b &gt; col.man</code> :将col的man page转换为文本文件</p>
+<p><code># join [-ti12] file1 file2</code> :将两个文件有相同数据的文件连在一起<br><code># paste [-d] [-] file1 file2</code> :直接将两个文件连在一起</p>
+<p><code># expand [-t] file</code> :将tab键转换为空格<br><code># unexpand [-t] file</code> :将空格准转换为tab</p>
+<p><code># split [-bl] file SPEFIX</code> :将大文件以某种标准切割成小文件</p>
+<p><code>xargs [-0epn] command</code> :参数代换</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月22日 21:28</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" title="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/&title=《《鸟哥的Linux私房菜》笔记（六）：认识与学习bash》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/&title=《《鸟哥的Linux私房菜》笔记（六）：认识与学习bash》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（六）：认识与学习bash》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-认识Shell-Bash"><span class="post-toc-text">1.认识Shell,Bash</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-shell的变量功能（环境变量，语系变量等）"><span class="post-toc-text">2.shell的变量功能（环境变量，语系变量等）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-变量的范围，修改，键盘输入及限制变量"><span class="post-toc-text">3.变量的范围，修改，键盘输入及限制变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-命令别名与历史命令"><span class="post-toc-text">4.命令别名与历史命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Bash-Shell的操作环境"><span class="post-toc-text">5.Bash Shell的操作环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-数据流重定向："><span class="post-toc-text">6.数据流重定向：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-常用命令（管道，选取，排序，双向重定向）"><span class="post-toc-text">7.常用命令（管道，选取，排序，双向重定向）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-常用命令（字符转换，切割，参数代换和减号）"><span class="post-toc-text">8.常用命令（字符转换，切割，参数代换和减号）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-重要命令总结"><span class="post-toc-text">9.重要命令总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/21/MySQL数据库学习笔记（五）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MySQL学习笔记（五）：连接、联合查询，子查询及外键</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 16.67px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18.33px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 16.67px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 10px;">Mybatis</a> <a href="/tags/多线程/" style="font-size: 18.33px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
