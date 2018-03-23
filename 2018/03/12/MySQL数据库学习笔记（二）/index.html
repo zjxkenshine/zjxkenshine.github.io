@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-26.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-27.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-28.jpg">
-<meta property="og:updated_time" content="2018-03-16T08:43:00.943Z">
+<meta property="og:updated_time" content="2018-03-23T09:22:07.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（二）:基本数据类型与列属性介绍">
 <meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
@@ -265,14 +265,14 @@ INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,
 </li>
 </ol>
 <hr>
-<h2 id="4-字符串类型"><a href="#4-字符串类型" class="headerlink" title="4.字符串类型"></a>4.字符串类型</h2><p>在SQL中，将字符串类型分成了6类：<strong>char,varchar,text,blog,enum和set</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg" alt=""></p>
+<h2 id="4-字符串类型"><a href="#4-字符串类型" class="headerlink" title="4.字符串类型"></a>4.字符串类型</h2><p>在SQL中，将字符串类型分成了6类：<strong>char,varchar,text,blob,enum和set</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg" alt=""></p>
 <ol>
 <li><p>定长字符串：<strong>char</strong><br> 磁盘（二维表）在定义结构的时候，就已经确定了最终数据的存储长度。<br> Char(L)：L代表length,可以存储的长度，单位为字符，最大长度值可以为255。<br> Char(4)：在UTF8环境下，需要4*3=12个字符。<br> <br><br>变长字符串:<strong>varchar</strong><br> 在分配空间是按照最大的空间分配，但实际上用了多少是根据具体的数据来确定的。<br> Varchar(L)：L代表字符长度，理论长度是65536个字符，但是会多出1-2个字节来确定存储的实际长度（255个字以下1位，255个字以上2位）<br> Varchar(10)：若存满了10个字实际使用的字节10*3+1=31个字节。若只存储了3个字符则实际上使用了3*3+1=10个字符。</p>
 </li>
 <li><p>定长与变长的比较:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-8.jpg" alt=""><br>如何选择定长和变长字符串:<br>数据长度固定–定长：身份证，电话号码，学号等。<br>长度不固定–变长：姓名，住址等其他很多。<br>定长的磁盘空间比较浪费，但是效率高。<br>变长磁盘空间比较节省，但是效率低。</p>
 </li>
 <li><p>文本字符串:<br>如果数据量非常大就会使用文本字符串（超过255个字符）：<br>文本字符串根据存储的数据的格式进行分类：text和blog</p>
-<blockquote>Text:存放文字。<br>Blog:存放二进制数据（通常不用，通常存路径）。</blockquote>
+<blockquote>Text:存放文字。<br>Blob:存放二进制数据（通常不用，通常存路径）。</blockquote>
 </li>
 <li><p>枚举字符串（ENUM）<br><strong>枚举</strong>:事先将所有可能出现的结果都设计好，实际上存储的数据必须是规定好的数据中的一个。（性别最常用）<br>使用方法：</p>
 <pre><code>CREATE TABLE te_enum(
@@ -419,7 +419,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月16日 16:43</p>
+        <p>最后更新： 2018年03月23日 17:22</p>
         <p>原始链接： <a class="post-url" href="/2018/03/12/MySQL数据库学习笔记（二）/" title="MySQL学习笔记（二）:基本数据类型与列属性介绍">https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -625,7 +625,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 11.43px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -658,7 +658,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 11.43px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
 </div>
