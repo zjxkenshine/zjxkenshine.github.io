@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点  认识bash 各种变量的功能 别名与历史 bash 环境 管道命令     1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点  认识bash 各种变量的功能 别名与历史 bash 环境 管道命令     1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-02.jpg">
@@ -47,10 +47,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-30.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-31.jpg">
-<meta property="og:updated_time" content="2018-03-22T13:28:19.671Z">
+<meta property="og:updated_time" content="2018-03-23T07:56:08.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点    1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制硬件准确无误地工作。 示意图： 大致定义：只要能够操作应用程序的接口都能">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第11章：认识与学习bash  学习重点  认识bash 各种变量的功能 别名与历史 bash 环境 管道命令     1.认识Shell,Bash1)硬件，内核与shell的关系：  简单来说：用户可以通过shell来与内核通信，使内核能够控制">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00017%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A06-01.jpg">
   
   
@@ -182,6 +182,13 @@
 <li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）<br>第11章：认识与学习bash</p>
 </li>
 <li><p>学习重点</p>
+<ul>
+<li>认识bash</li>
+<li>各种变量的功能</li>
+<li>别名与历史</li>
+<li>bash 环境</li>
+<li>管道命令</li>
+</ul>
 </li>
 </ol>
 <hr>
@@ -641,7 +648,7 @@ ${变量//旧字符串/新字符串}    全部旧字符串都被新字符串替�
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月22日 21:28</p>
+        <p>最后更新： 2018年03月23日 15:56</p>
         <p>原始链接： <a class="post-url" href="/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" title="《鸟哥的Linux私房菜》笔记（六）：认识与学习bash">https://zjxkenshine.github.io/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -771,7 +778,7 @@ ${变量//旧字符串/新字符串}    全部旧字符串都被新字符串替�
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          《鸟哥的Linux私房菜》笔记（六）：认识与学习bash
+          《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script
         
       </span>
     </a>
