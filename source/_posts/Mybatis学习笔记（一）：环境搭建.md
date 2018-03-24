@@ -1,7 +1,7 @@
 ---
-title: Mybatis学习笔记（一）：MyBatis入门
+title: MyBatis学习笔记（一）：MyBatis入门
 date: 2018-3-20 22:42:27 
-tags: MyBatis
+tags: MyBatis3
 categories: Java框架
 
 ---

@@ -146,7 +146,7 @@ java的Date没研究过，最好还是用time类型吧。
 
 ---
 ## 4.字符串类型
-在SQL中，将字符串类型分成了6类：**char,varchar,text,blog,enum和set**。
+在SQL中，将字符串类型分成了6类：**char,varchar,text,blob,enum和set**。
 ![](http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg)
 1. 定长字符串：**char**
 	磁盘（二维表）在定义结构的时候，就已经确定了最终数据的存储长度。
@@ -170,7 +170,7 @@ java的Date没研究过，最好还是用time类型吧。
 如果数据量非常大就会使用文本字符串（超过255个字符）：
 文本字符串根据存储的数据的格式进行分类：text和blog
 <blockquote>Text:存放文字。
-Blog:存放二进制数据（通常不用，通常存路径）。</blockquote>
+Blob:存放二进制数据（通常不用，通常存路径）。</blockquote>
 
 4. 枚举字符串（ENUM）
 **枚举**:事先将所有可能出现的结果都设计好，实际上存储的数据必须是规定好的数据中的一个。（性别最常用）
