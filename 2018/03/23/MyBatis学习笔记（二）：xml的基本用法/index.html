@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备： 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类：1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管">
-<meta name="keywords" content="MyBatis3">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
+<meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备： 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类：1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-02.jpg">
@@ -37,10 +37,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-19.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-20.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-21.jpg">
-<meta property="og:updated_time" content="2018-03-24T12:42:45.041Z">
+<meta property="og:updated_time" content="2018-03-24T12:53:53.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">
-<meta name="twitter:description" content="0.学习准备： 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类：1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg">
   
   
@@ -168,7 +168,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-学习准备："><a href="#0-学习准备：" class="headerlink" title="0.学习准备："></a>0.学习准备：</h2><ol>
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
 <li><p>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis官方文档</a></p>
 </li>
 <li><p>本章重点</p>
@@ -181,7 +181,7 @@
 </li>
 </ol>
 <hr>
-<h2 id="1-创建RBAC数据库及实体类："><a href="#1-创建RBAC数据库及实体类：" class="headerlink" title="1.创建RBAC数据库及实体类："></a>1.创建RBAC数据库及实体类：</h2><p><strong>1)RBAC介绍及需求</strong></p>
+<h2 id="1-创建RBAC数据库及实体类"><a href="#1-创建RBAC数据库及实体类" class="headerlink" title="1.创建RBAC数据库及实体类"></a>1.创建RBAC数据库及实体类</h2><p><strong>1)RBAC介绍及需求</strong></p>
 <ol>
 <li>RBAC:<br>Role-Based Access Control,基于角色的访问控制。<br>简单的权限管理。</li>
 <li>权限管理的需求：<br>一个用户拥有若干角色，一个角色拥有若干权限。<br>权限就是对某个资源的某种操作：增删改查。<br>用户与角色之间，角色与权限之间一般都是多对多的关系。<br>rbac的简单数据库需求：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg" alt=""></li>
@@ -495,7 +495,7 @@ public interface RoleMapper {
 <li>为了简单还可以将<code>id,role_name,enabled,create_by,create_time</code>写成<code>*</code>,但是为了效率，一般不用。</li>
 </ol>
 <hr>
-<h2 id="5-接口代理测试："><a href="#5-接口代理测试：" class="headerlink" title="5.接口代理测试："></a>5.接口代理测试：</h2><p><strong>1)使用继承修改CountryMapperTest:</strong></p>
+<h2 id="5-接口代理测试"><a href="#5-接口代理测试" class="headerlink" title="5.接口代理测试"></a>5.接口代理测试</h2><p><strong>1)使用继承修改CountryMapperTest:</strong></p>
 <ol>
 <li><p>因为会有许多个测试，所以最好提取一个基础测试类，将可以复用的代码写入其中并使其它测试类继承或调用它：<br>在src/test/java下创建一个Mybatis.simple.base包，创建BaseMapperTest.java，代码如下：</p>
 <pre><code>package Mybatis.simple.base;
@@ -984,7 +984,7 @@ public void testSelectRolesByUserIdAndRoleEnabled2(){
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月24日 20:42</p>
+        <p>最后更新： 2018年03月24日 20:53</p>
         <p>原始链接： <a class="post-url" href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" title="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -1089,7 +1089,7 @@ public void testSelectRolesByUserIdAndRoleEnabled2(){
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/MyBatis3/" class="color4">MyBatis3</a>
+    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
       
   </li>
 
@@ -1102,12 +1102,22 @@ public void testSelectRolesByUserIdAndRoleEnabled2(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-创建RBAC数据库及实体类："><span class="post-toc-text">1.创建RBAC数据库及实体类：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-最常用的XML使用方式–接口代理"><span class="post-toc-text">3.最常用的XML使用方式–接口代理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-返回值单一的select用法"><span class="post-toc-text">4.返回值单一的select用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-接口代理测试："><span class="post-toc-text">5.接口代理测试：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多表查询的Select"><span class="post-toc-text">6.多表查询的Select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-insert的用法"><span class="post-toc-text">7.insert的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-简单的update与delete的用法："><span class="post-toc-text">8.简单的update与delete的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-多个接口参数的用法"><span class="post-toc-text">9.多个接口参数的用法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-创建RBAC数据库及实体类"><span class="post-toc-text">1.创建RBAC数据库及实体类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-最常用的XML使用方式–接口代理"><span class="post-toc-text">3.最常用的XML使用方式–接口代理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-返回值单一的select用法"><span class="post-toc-text">4.返回值单一的select用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-接口代理测试"><span class="post-toc-text">5.接口代理测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多表查询的Select"><span class="post-toc-text">6.多表查询的Select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-insert的用法"><span class="post-toc-text">7.insert的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-简单的update与delete的用法："><span class="post-toc-text">8.简单的update与delete的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-多个接口参数的用法"><span class="post-toc-text">9.多个接口参数的用法</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MyBatis学习笔记（三）：注解方式的基本用法
+        
+      </span>
+    </a>
   
   
     <a href="/2018/03/22/《鸟哥的Linux私房菜》笔记（七）/" id="article-nav-older" class="article-nav-link-wrap">
@@ -1180,7 +1190,7 @@ public void testSelectRolesByUserIdAndRoleEnabled2(){
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis3/" style="font-size: 11.43px;">MyBatis3</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -1213,7 +1223,7 @@ public void testSelectRolesByUserIdAndRoleEnabled2(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis3/" style="font-size: 11.43px;">MyBatis3</a> <a href="/tags/MySQL/" style="font-size: 14.29px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>
