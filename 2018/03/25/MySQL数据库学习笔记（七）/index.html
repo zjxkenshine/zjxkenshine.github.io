@@ -3,20 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Category: Java框架 | 程序人生</title>
+  <title>MySQL数据库学习笔记（七）：变量、触发器和函数 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
   <meta name="description" content="程序人生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序人生">
-<meta property="og:url" content="https://zjxkenshine.github.io/categories/Java框架/index.html">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL数据库学习笔记（七）：变量、触发器和函数">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="程序人生">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-25T10:52:03.401Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序人生">
+<meta name="twitter:title" content="MySQL数据库学习笔记（七）：变量、触发器和函数">
 <meta name="twitter:description" content="程序人生">
   
   
@@ -108,117 +110,179 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap">
-  
-  
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（七）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" class="archive-article-date">
-  <time datetime="2018-03-24T12:55:32.000Z" itemprop="datePublished">03-24</time>
-</a>
-      
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/"  >MyBatis学习笔记（三）：注解方式的基本用法</a>
+    <h1 class="post-title" itemprop="name">
+      MySQL数据库学习笔记（七）：变量、触发器和函数
     </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-25
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
   
 
-    </header>
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
-        <div class="archive-post-footer">
+            
+            
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月25日 18:52</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL数据库学习笔记（七）：变量、触发器和函数">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
             
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
       
   </li>
 
-        </div>
-      
+        </ul>
+        
+    </footer>
   </div>
 </article>
 
+
+
+<nav id="article-nav">
   
+  
+    <a href="/2018/03/24/MySQL数据库学习笔记（六）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MySQL数据库学习笔记（六）：视图，备份还原与事务</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
     
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" class="archive-article-date">
-  <time datetime="2018-03-23T07:59:35.000Z" itemprop="datePublished">03-23</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/"  >MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/20/MyBatis学习笔记（一）：环境搭建/" class="archive-article-date">
-  <time datetime="2018-03-20T14:42:27.000Z" itemprop="datePublished">03-20</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/20/MyBatis学习笔记（一）：环境搭建/"  >MyBatis学习笔记（一）：MyBatis入门</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-  
-    </div></section>
-  
-
 </section>
         
       </div>

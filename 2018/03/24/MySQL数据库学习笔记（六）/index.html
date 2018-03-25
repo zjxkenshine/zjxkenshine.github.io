@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL数据库学习笔记（六）：视图与数据备份还原 | 程序人生</title>
+  <title>MySQL数据库学习笔记（六）：视图，备份还原与事务 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,7 +11,7 @@
   <meta name="description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL数据库学习笔记（六）：视图与数据备份还原">
+<meta property="og:title" content="MySQL数据库学习笔记（六）：视图，备份还原与事务">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
@@ -24,9 +24,27 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-06-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-07.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-08.jpg">
-<meta property="og:updated_time" content="2018-03-24T15:14:05.179Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-20-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-26.jpg">
+<meta property="og:updated_time" content="2018-03-25T10:48:24.814Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL数据库学习笔记（六）：视图与数据备份还原">
+<meta name="twitter:title" content="MySQL数据库学习笔记（六）：视图，备份还原与事务">
 <meta name="twitter:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-01.jpg">
   
@@ -126,7 +144,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL数据库学习笔记（六）：视图与数据备份还原
+      MySQL数据库学习笔记（六）：视图，备份还原与事务
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -243,12 +261,243 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
 </code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-08.jpg" alt=""></li>
 <li>视图可以操作数据，但是一般情况下不允许操作。</li>
 </ol>
+<p><strong>3)更新数据：</strong></p>
+<ol>
+<li>理论上不论单表视图或者多表视图都可以更新数据库。<br>但是我的Mysql版本不能修改多表视图（可能某个版本之后不能修改了）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-09.jpg" alt=""><br>单表更新：<pre><code>UPDATE v1 SET Height=178 WHERE id=5;
+</code></pre>会发现原表的数据也一起修改了。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-10.jpg" alt=""></li>
+<li><strong>更新限制：</strong><br><code>with check option</code>,如果在新增的时候限定了某个字段有限制，那么在对视图进行数据更新操作时数据会进行验证：<br><strong>保证更新之后该字段的数据依然可以被视图查询出来，否则不让更新。</strong></li>
+<li>限制测试：<br>创建限制视图：<pre><code>CREATE VIEW v4 AS
+SELECT * FROM m_stu1 
+WHERE age&gt;25 WITH CHECK OPTION；
+</code></pre><code>WITH CHECK OPTION</code>限制视图更新时不能将已经得到的数据（age&gt;25）的改为年龄小于25。<pre><code>UPDATE V4 SET age=24 WHERE id=6;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-11.jpg" alt=""><br>可以修改数据为视图可以查到的。<pre><code>UPDATE V4 SET age=26 WHERE id=6;
+</code></pre>也可以修改视图中没有的数据让视图可以查看的：<pre><code>-- 可以操作，但是无效果
+UPDATE V4 SET age=26 WHERE id=5;
+</code></pre>只能操作看到的数据。</li>
+</ol>
+<p><strong>4）视图算法：</strong></p>
+<ol>
+<li>需求：<br>查询每个班身高最高的学生。（使用视图解决）<br>原来的方法：<pre><code>SELECT * FROM (SELECT * FROM m_stu1 ORDER BY Height DESC) as stu GROUP BY classid;
+</code></pre>错误的修改方法：<pre><code>CREATE VIEW v5 AS
+SELECT * FROM m_stu1 ORDER BY Height DESC;
+SELECT * FROM v5 GROUP BY classid;
+</code></pre>这条方法的执行结果与<pre><code>SELECT * FROM m_stu1 GROUP BY classid ORDER BY Height DESC;
+</code></pre>效果是一样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-12.jpg" alt=""><br>这时候就需要视图算法了。</li>
+<li><strong>视图算法</strong><br>系统对视图以及外部查询视图的select语句的一种解析方式。</li>
+<li>视图算法分类：<br>分为三种：<ul>
+<li>Unserfined：未定义，默认的，不是一种实际使用的算法，告诉系统没有定义算法，让系统自己选择下列的算法：</li>
+<li><code>Temptable</code>：临时表算法，表示系统应该先执行视图的select语句，后执行外部的查询语句。</li>
+<li><code>Merge</code>：上面使用的算法，合并算法，系统先将视图对应的selec语句与外部查询视图的select语句合并，然后再执行。（效率高，但有时不准确），系统经常选择merge。</li>
+</ul>
+</li>
+<li>算法指定，在创建视图时使用<code>algorithm</code>指定:<pre><code>CREATE ALGORITHM=TEMPTABLE VIEW v6 AS
+SELECT * FROM m_stu1 ORDER BY Height DESC;
+SELECT * FROM v6 GROUP BY classid;
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-13.jpg" alt=""></li>
+<li>视图的算法选择：<br>如果select语句包含查询子句（五子句：where等）,且顺序比外部的子句靠后，则一定得选择Temptable。<br>其他情况下选择默认或Merge。</li>
+</ol>
+<hr>
+<h2 id="3-数据备份"><a href="#3-数据备份" class="headerlink" title="3.数据备份"></a>3.数据备份</h2><h3 id="备份简介及存储引擎"><a href="#备份简介及存储引擎" class="headerlink" title="备份简介及存储引擎"></a>备份简介及存储引擎</h3><p><strong>1)备份还原简介：</strong></p>
+<ol>
+<li>备份：将当前已有的数据或者记录保留<br>还原：将已保留的数据恢复到对应的表中</li>
+<li>为什么要备份还原（必要性）：<ul>
+<li>防止数据丢失，被盗，误操作等；</li>
+<li>保护数据记录。</li>
+</ul>
+</li>
+<li>数据备份还原的操作：<br>数据表备份，单表数据备份，SQL备份，增量备份。</li>
+</ol>
+<p><strong>2)存储引擎概述：</strong></p>
+<ol>
+<li>详情见<a href="https://zjxkenshine.github.io/2018/03/16/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/">MySQL学习笔记（三）</a><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-14.jpg" alt=""><br>一般只有Myisam和InnoDB是免费的。</li>
+<li>对比Myisam和InnoDB的数据存储方式:<ul>
+<li>InnoDB：只有表结构,数据全部存储到ibdata1文件中。（.ibd）</li>
+<li>Myisam：表，数据，索引全都单独存储</li>
+</ul>
+</li>
+</ol>
+<h3 id="文件备份与单表备份"><a href="#文件备份与单表备份" class="headerlink" title="文件备份与单表备份"></a>文件备份与单表备份</h3><p><strong>1)数据表(文件)备份：</strong></p>
+<ol>
+<li>不需要通过SQL来备份：<br>直接进入到数据库文件夹，复制对应的表结构以及数据文件。以后还原的时候直接将备份的内容放进去即可。</li>
+<li>数据表(文件)备份只要复制对应的结构与数据文件即可。<br>直接复制文件到其他数据库下即可。<br>(老版本的InnoDB不能这样备份，因为.ibd文件不是分离的)</li>
+</ol>
+<p><strong>2)单表数据备份：</strong></p>
+<ol>
+<li>每次只能备份一张表，只能备份数据（表结构不能备份）。</li>
+<li>通常的使用：将表中的数据进行到导出到文件(一般是使用)。</li>
+<li>备份：从表中选出一部分数据保存到外部的文件中(outfile)：<br>语法：<pre><code>select */字段列表 into outfile 文件路径 from 数据表；
+</code></pre>前提：外部文件不存在。<br>测设备份（备份学生表到D:\mysql\dump目录）：<pre><code>SELECT * INTO OUTFILE &apos;D:/mysql/dump/m_stu1.txt&apos; FROM m_stu1;
+</code></pre>打开目录下的<code>m_stu1.txt</code>，查看结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-15.jpg" alt=""><br>不要用记事本打开,否则编码改变数据会丢失。<br>注意要备份哪个数据库的表就要进入到哪个数据库环境下操作(<code>user database</code>)。</li>
+</ol>
+<p><strong>3)单表数据高级备份：</strong></p>
+<ol>
+<li>可以自己指定一些字段和行的处理方式：<pre><code>select */字段列表 into outfile 文件路径 fields 字段处理 lines 行处理 from 数据表；
+</code></pre></li>
+<li>参数说明：<ul>
+<li>fields 字段处理：<br><code>Enclosed by</code>:字段使用什么内容包裹,默认是控字符串<br><code>Terminated by</code>:字段以什么结束,默认’\r’,tab键<br><code>Escaped by</code>:特殊符号用什么方式处理，默认是使用反斜杠转义</li>
+<li>lines 行处理：<br><code>starting by</code>:每行以什么开始，默认是空字符串<br><code>Terminated by</code>:每行以什么结束，默认’/r /n’换行符</li>
+</ul>
+</li>
+<li>测试，指定备份方式：<pre><code>-- 高级单表备份:
+SELECT * INTO OUTFILE &apos;D:/mysql/dump/m_stu2.txt&apos;
+-- 字段处理方式
+FIELDS ENCLOSED BY &apos;&quot;&apos;  -- 使用双引号包裹
+TERMINATED BY &apos;|&apos; -- 使用竖线分隔数据
+-- 行处理
+LINES STARTING BY &apos;start:&apos;
+FROM m_stu1;
+</code></pre>查看备份结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-16.jpg" alt=""></li>
+</ol>
+<p><strong>4)单表数据还原：</strong></p>
+<ol>
+<li>还原：<br>讲一个在外部保存的数据重新恢复到表中<br>单表还原前提：<br><strong>表结构一定要存在。</strong></li>
+<li>语法：<pre><code>Load data infile 文件所在的路径 into table 表名（字段列表） fileds 字段处理 lines 行处理；
+</code></pre></li>
+<li>测试：<pre><code>-- 模拟误删
+DELETE FROM m_stu1;
+-- 单表备份还原
+LOAD DATA INFILE &apos;D:/mysql/dump/m_stu2.txt&apos;
+INTO TABLE m_stu1
+-- 字段处理方式
+FIELDS 
+ENCLOSED BY &apos;&quot;&apos;  -- 使用双引号包裹
+TERMINATED BY &apos;|&apos; -- 使用竖线分隔数据
+-- 行处理
+LINES STARTING BY &apos;start:&apos;;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-17.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-数据备份（SQL备份与增量备份）"><a href="#4-数据备份（SQL备份与增量备份）" class="headerlink" title="4.数据备份（SQL备份与增量备份）"></a>4.数据备份（SQL备份与增量备份）</h2><h3 id="SQL备份"><a href="#SQL备份" class="headerlink" title="SQL备份"></a>SQL备份</h3><p><strong>1)简介：</strong><br>最常用的备份方式，备份的是SQL语句，系统会对表结构以及数据进行处理，变成对应的SQL语句再进行备份。<br>还原只需要执行SQL语句即可(主要是针对表结构)。</p>
+<ol>
+<li>SQL备份：<strong>MySQL没有提供备份指令</strong>，需要利用mysql提供的软件：<strong>mysqldump.exe</strong>（在mysql的bin目录下可以找到）</li>
+</ol>
+<p><strong>2)mysqldump.exe使用：</strong></p>
+<ol>
+<li>mysqldump.exe也是一种客户端，想要操作服务器，必须要认证。<pre><code>mysqldump[.exe] -hPup 数据库名字 [数据表名字1..][数据表名字2..] &gt; 外部文件目录（.sql结尾）
+</code></pre></li>
+<li>备份我的m_stu1到<code>D:/mysql/dump/m_stu3.sql</code>:<pre><code>mysqldump -uroot -p test02 m_stu1 &gt; D:/mysql/dump/m_stu3.sql
+</code></pre>备份成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-18.jpg" alt=""><br>但是会提示你这样是不安全的，但是只能这样操作（以我目前的认知）。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-19.jpg" alt=""><br>还原的时候会先把原表删除后再创建添加。</li>
+<li>备份test02数据库：<pre><code>mysqldump -uroot -p test02 &gt; D:/mysql/dump/test02.sql
+</code></pre>时间会比较长,就不测试了。注意需要使用exit或quit退出mysql环境先。</li>
+</ol>
+<p><strong>3)还原两种方式：</strong></p>
+<ol>
+<li>两种方式(单表与多表无区别)：<ul>
+<li>1.使用<code>mysql.exe</code>客户端还原：<pre><code>mysql[.exe] -hPup 数据库名字 &lt; 备份文件目录
+</code></pre>指定的数据库可以是别的数据库。</li>
+<li>2.使用SQL指令还原<code>Source</code>：<pre><code>Source 备份文件所在目录
+</code></pre></li>
+</ul>
+</li>
+<li>测试客户端方式还原：<pre><code>mysql -uroot -p test02 &lt; D:/mysql/dump/m_stu3.sql
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-20-2.jpg" alt=""><br>也需要退出mysql环境才可以操作。</li>
+<li>测试SQL指令还原方式（需在数据库环境下）：<pre><code>DROP TABLE m_stu1;
+source D:/mysql/dump/m_stu3.sql;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-21.jpg" alt=""></li>
+</ol>
+<p><strong>4)SQL备份优缺点：</strong><br>优点：</p>
+<ol>
+<li>可以备份表结构和数据，操作方便</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>会浪费空间，备份会额外增加很多sql指令</li>
+<li>备份时间较长（一定要整表备份）</li>
+</ol>
+<h3 id="增量备份"><a href="#增量备份" class="headerlink" title="增量备份"></a>增量备份</h3><ol>
+<li>简介：<br>比较麻烦，视频中未详细介绍。<br>不是针对数据或者SQL指令进行备份，而是针对mysql服务器的日志文件进行备份。</li>
+<li>特点：<br>可以指定时间段进行备份，备份数据不会重复，而且<strong>所有的操作都会备份。</strong><br>大项目一般都用增量备份。(还原数据精确)</li>
+<li>更多备份操作以后看书再写。</li>
+</ol>
+<hr>
+<h2 id="5-事务-手动控制"><a href="#5-事务-手动控制" class="headerlink" title="5.事务(手动控制)"></a>5.事务(手动控制)</h2><p><strong>1)事务介绍：</strong></p>
+<ol>
+<li>适用情景：<br><em>有一张银行账户表，A向B转账，A账户钱先减少，B用户钱后增加，但是A操作完之后断电了。A的钱减少了，但是B的钱没用增加。</em><br>解决方案：<br><em>A减少钱，但是不立即修改数据表，B收到钱之后，同时修改数据表。</em><br>而负责这样做的一种机制—-<strong>事务</strong>安全</li>
+<li>简介：<br>事务(transaction)：一系列要发生的连续的操作。<br>事务安全：一种保护连续操作同时满足(实现)的一种机制。</li>
+<li>事务安全的意义：<br><strong>保证数据操作的完整性。</strong></li>
+<li>数据库准备：<br>创建表并插入数据：<pre><code>-- 创建表
+CREATE TABLE m_account(
+id INT PRIMARY KEY auto_increment,
+number CHAR(16) NOT NULL UNIQUE COMMENT &apos;账户&apos;,
+name VARCHAR(20) NOT NULL,
+money DECIMAL(10,2) DEFAULT 0.0 COMMENT &apos;账户余额&apos;
+)charset utf8;
+-- 插入数据
+INSERT INTO m_account VALUES(null,&apos;0000000000000001&apos;,&apos;张三&apos;,1000),(null,&apos;0000000000000002&apos;,&apos;李四&apos;,2000);
+</code></pre>模拟张三给李四转1000元(数据减少):<pre><code>-- 模拟扣钱
+UPDATE m_account SET money=money-1000 WHERE id =1;
+</code></pre>此时张三钱减少了，李四未收到钱，若这时退出了就会出现和刚开始的情况。</li>
+<li>事务操作的分类(两种)：<br>自动事务（默认的），手动事务</li>
+</ol>
+<p><strong>2)手动事务：</strong></p>
+<ol>
+<li>开启事务：告诉系统以下所有的操作（写）不要直接写入到数据表，先存放到事务日志，data目录下的ib_log.file就是日志文件。<br>开启事务的命令：<pre><code>Start transaction
+</code></pre>测试代码：<pre><code>-- 开启事务
+START TRANSACTION;
+-- 模拟李四借钱给张三，李四钱减少
+UPDATE m_account SET money=money-1000 WHERE id =2;
+-- 张三得到钱
+UPDATE m_account SET money=money+1000 WHERE id =1;
+</code></pre>在一个窗口运行，并打开另一个窗口查看数据：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-22.jpg" alt=""><br>表并没有修改。（使用同一个窗口会看见修改但是实际并未修改）</li>
+<li>关闭事务：选择性的将日子文件中的结果保存到数据表（同步）或者说直接清空事务。<ul>
+<li>提交事务：同步数据表（操作成功）<pre><code>COMMIT;
+</code></pre></li>
+<li>回滚事务：直接清空日志表<pre><code>rollback;
+</code></pre></li>
+</ul>
+</li>
+<li>测试：<br>提交事务后再通过其他窗口查看：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-23.jpg" alt=""><br>已经修改了。此时再rollback已经没有意义了。</li>
+<li>事务要么提交，要么全部擦除。</li>
+<li><strong>免费的存储引擎只有InnoDB支持事务。</strong></li>
+</ol>
+<hr>
+<h2 id="6-事务-原理及回滚点"><a href="#6-事务-原理及回滚点" class="headerlink" title="6.事务(原理及回滚点)"></a>6.事务(原理及回滚点)</h2><p><strong>1)事务原理：</strong></p>
+<ol>
+<li>事务开启后，所有的操作都会临时保存到事务日志，事务日志只有在得到commit指令才会同步到数据表，其他任何情况都会被清空（rollback,断开连接，断电）</li>
+<li>原理图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-24.jpg" alt=""></li>
+</ol>
+<p><strong>2)回滚点：</strong></p>
+<ol>
+<li>在某一个成功的操作完成之后，后续的操作有可能成功也可能失败，不管成功还是失败，前面的操作都已经成功，可以在当前成功的位置设置一个点，可以供后续失败操作返回到该位置，而不是返回所有操作。这个点称为回滚点。<br>在事务步骤很多的情况下经常用。</li>
+<li>语法<pre><code>-- 开启事务
+START TRANSACTION;
+-- 张三发工资
+UPDATE m_account SET money=money+10000 WHERE id =1;
+-- 设置回滚点
+SAVEPOINT sp1;
+-- 银行扣税
+UPDATE m_account SET money=money-10000*0.05 WHERE id =1;
+-- 回到回滚点
+ROLLBACK TO sp1;
+-- 继续操作
+UPDATE m_account SET money=money-10000*0.05 WHERE id =1;
+-- 查询结果 
+SELECT * FROM m_account;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-25.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-事务-自动事务及事务特性"><a href="#7-事务-自动事务及事务特性" class="headerlink" title="7.事务(自动事务及事务特性)"></a>7.事务(自动事务及事务特性)</h2><p><strong>1)自动事务:</strong></p>
+<ol>
+<li>在mysql中默认的都是自动事务处理，用户操作完会立即同步到数据表中。</li>
+<li>自动事务的控制：<code>autocommit</code>变量<pre><code>show vairiables like &apos;autocommit&apos;
+</code></pre>关闭事务：<pre><code>set autocommit=off/0;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-26.jpg" alt=""><br>自动关闭后需要手动来选择处理：<pre><code>commit/rollback
+</code></pre></li>
+<li>通常都会使用自动事务。<br>开启事务：<pre><code>set autocommit=on/1;
+</code></pre></li>
+</ol>
+<p><strong>2)事务的特性：</strong></p>
+<ol>
+<li>事务有四大特性：ACID<br>A:Atomatic，原子性，事务的整个操作是一个整体，不可分割，要么全部成功，要么全部失败。<br>C:Consistency，一致性，事务操作前后，表中的数据没有变化。<br>I:Isolation，隔离性，事务操作是相互隔离不受影响的。<br>D:Durability,持久性，数据一旦提交，不可改变，永久改变数据表数据。</li>
+<li>锁机制：<br>InnoDB，默认是行锁，但是如果在事务过程中，没有用到索引，那么系统会自动全表检索，自动省纪委表锁。<br>行锁：只有当前行被锁住，别的用户不能操作。<br>标锁：整张表被锁住，别的用户都不能碰。</li>
+<li>何时使用事务：和钱有关的操作会用手动事务。<br>其余时候都是自动事务。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月24日 23:14</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/24/MySQL数据库学习笔记（六）/" title="MySQL数据库学习笔记（六）：视图与数据备份还原">https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/</a></p>
+        <p>最后更新： 2018年03月25日 18:48</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/24/MySQL数据库学习笔记（六）/" title="MySQL数据库学习笔记（六）：视图，备份还原与事务">https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -305,7 +554,7 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图与数据备份还原》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -315,7 +564,7 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图与数据备份还原》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -325,7 +574,7 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（六）：视图与数据备份还原》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -365,12 +614,22 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-视图基本操作"><span class="post-toc-text">1.视图基本操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-视图的数据操作"><span class="post-toc-text">2.视图的数据操作</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-视图基本操作"><span class="post-toc-text">1.视图基本操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-视图的数据操作"><span class="post-toc-text">2.视图的数据操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-数据备份"><span class="post-toc-text">3.数据备份</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#备份简介及存储引擎"><span class="post-toc-text">备份简介及存储引擎</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#文件备份与单表备份"><span class="post-toc-text">文件备份与单表备份</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-数据备份（SQL备份与增量备份）"><span class="post-toc-text">4.数据备份（SQL备份与增量备份）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SQL备份"><span class="post-toc-text">SQL备份</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#增量备份"><span class="post-toc-text">增量备份</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-事务-手动控制"><span class="post-toc-text">5.事务(手动控制)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-事务-原理及回滚点"><span class="post-toc-text">6.事务(原理及回滚点)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-事务-自动事务及事务特性"><span class="post-toc-text">7.事务(自动事务及事务特性)</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/03/25/MySQL数据库学习笔记（七）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MySQL数据库学习笔记（七）：变量、触发器和函数
+        
+      </span>
+    </a>
   
   
     <a href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" id="article-nav-older" class="article-nav-link-wrap">
@@ -443,7 +702,7 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 16.67px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -476,7 +735,7 @@ INSERT INTO v1 VALUES(11,&apos;0000000011&apos;,&apos;学生11&apos;,20,175,&apo
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 16.67px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>
