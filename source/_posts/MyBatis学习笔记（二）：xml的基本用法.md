@@ -1,11 +1,11 @@
 ---
 title: MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作
 date: 2018-03-23 15:59:35
-tags: MyBatis3
+tags: MyBatis
 categories: Java框架
 
 ---
-## 0.学习准备：
+## 0.学习准备
 1. 学习资料：
 书本：《MyBatis从入门到精通》
 视频：某培训班视频
@@ -18,7 +18,7 @@ categories: Java框架
 	- Mapper接口动态代理
 
 ---
-## 1.创建RBAC数据库及实体类：
+## 1.创建RBAC数据库及实体类
 **1)RBAC介绍及需求**
 1. RBAC:
 Role-Based Access Control,基于角色的访问控制。
@@ -357,7 +357,7 @@ RoleMapper.xml：
 4. 为了简单还可以将`id,role_name,enabled,create_by,create_time`写成`*`,但是为了效率，一般不用。
 
 ---
-## 5.接口代理测试：
+## 5.接口代理测试
 **1)使用继承修改CountryMapperTest:**
 1. 因为会有许多个测试，所以最好提取一个基础测试类，将可以复用的代码写入其中并使其它测试类继承或调用它：
 在src/test/java下创建一个Mybatis.simple.base包，创建BaseMapperTest.java，代码如下：
