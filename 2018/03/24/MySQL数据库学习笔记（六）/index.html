@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL数据库学习笔记（六）：视图，备份还原与事务 | 程序人生</title>
+  <title>MySQL学习笔记（六）：视图，备份还原与事务 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,7 +11,7 @@
   <meta name="description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL数据库学习笔记（六）：视图，备份还原与事务">
+<meta property="og:title" content="MySQL学习笔记（六）：视图，备份还原与事务">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
@@ -42,9 +42,9 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-24.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-25.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-26.jpg">
-<meta property="og:updated_time" content="2018-03-25T10:48:24.814Z">
+<meta property="og:updated_time" content="2018-03-25T12:02:18.021Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL数据库学习笔记（六）：视图，备份还原与事务">
+<meta name="twitter:title" content="MySQL学习笔记（六）：视图，备份还原与事务">
 <meta name="twitter:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-01.jpg">
   
@@ -144,7 +144,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL数据库学习笔记（六）：视图，备份还原与事务
+      MySQL学习笔记（六）：视图，备份还原与事务
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -496,8 +496,8 @@ SELECT * FROM m_account;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月25日 18:48</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/24/MySQL数据库学习笔记（六）/" title="MySQL数据库学习笔记（六）：视图，备份还原与事务">https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/</a></p>
+        <p>最后更新： 2018年03月25日 20:02</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/24/MySQL数据库学习笔记（六）/" title="MySQL学习笔记（六）：视图，备份还原与事务">https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -554,7 +554,7 @@ SELECT * FROM m_account;
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL学习笔记（六）：视图，备份还原与事务》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -564,7 +564,7 @@ SELECT * FROM m_account;
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&title=《MySQL学习笔记（六）：视图，备份还原与事务》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -574,7 +574,7 @@ SELECT * FROM m_account;
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（六）：视图，备份还原与事务》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（六）：视图，备份还原与事务》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -626,7 +626,7 @@ SELECT * FROM m_account;
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          MySQL数据库学习笔记（七）：变量、触发器和函数
+          MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程
         
       </span>
     </a>

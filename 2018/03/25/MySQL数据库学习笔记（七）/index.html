@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL数据库学习笔记（七）：变量、触发器和函数 | 程序人生</title>
+  <title>MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,14 +11,14 @@
   <meta name="description" content="程序人生">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL数据库学习笔记（七）：变量、触发器和函数">
+<meta property="og:title" content="MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="程序人生">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-25T10:52:03.401Z">
+<meta property="og:updated_time" content="2018-03-25T11:55:54.620Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL数据库学习笔记（七）：变量、触发器和函数">
+<meta name="twitter:title" content="MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程">
 <meta name="twitter:description" content="程序人生">
   
   
@@ -117,7 +117,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL数据库学习笔记（七）：变量、触发器和函数
+      MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -149,8 +149,8 @@
             
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月25日 18:52</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL数据库学习笔记（七）：变量、触发器和函数">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
+        <p>最后更新： 2018年03月25日 19:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -207,7 +207,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -217,7 +217,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -227,7 +227,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL数据库学习笔记（七）：变量、触发器和函数》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -270,7 +270,7 @@
   
   
     <a href="/2018/03/24/MySQL数据库学习笔记（六）/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">MySQL数据库学习笔记（六）：视图，备份还原与事务</span>
+      <span class="article-nav-title">MySQL学习笔记（六）：视图，备份还原与事务</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
