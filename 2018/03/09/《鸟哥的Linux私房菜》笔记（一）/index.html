@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）第0章:计算机概论第1章:Linux是什么第2章：Linux如何学习  本节重点：    计算机组成 什么是Linux 如何学习Linux 遇到问题的解决方案   1.计算机简介 本书关于计算机的定义:计算机其实是：接收用户指令与数据，经过中央处理器与算罗运算单元的处理，能产生或存储有用信息的设备。 计算机的五大单元： 输入单元">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）第0章:计算机概论第1章:Linux是什么第2章：Linux如何学习  本节重点：    计算机组成 什么是Linux 如何学习Linux 遇到问题的解决方案   1.计算机简介 本书关于计算机的定义:计算机其实是：接收用户指令与数据，经过中央处理器与算罗运算单元的处理，能产生或存储有用信息的设备。 计算机的五大单元： 输入单元">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-10T08:32:42.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）第0章:计算机概论第1章:Linux是什么第2章：Linux如何学习  本节重点：    计算机组成 什么是Linux 如何学习Linux 遇到问题的解决方案   1.计算机简介 本书关于计算机的定义:计算机其实是：接收用户指令与数据，经过中央处理器与算罗运算单元的处理，能产生或存储有用信息的设备。 计算机的五大单元： 输入单元">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《鸟哥的Linux私房菜》笔记（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/操作系统/">操作系统</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习之前"><a href="#0-学习之前" class="headerlink" title="0.学习之前"></a>0.学习之前</h2><ol>
+<li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>第0章:计算机概论<br>第1章:Linux是什么<br>第2章：Linux如何学习</p>
+</li>
+<li><p>本节重点：</p>
+</li>
+</ol>
+<ul>
+<li>计算机组成</li>
+<li>什么是Linux</li>
+<li>如何学习Linux</li>
+<li>遇到问题的解决方案</li>
+</ul>
+<hr>
+<h2 id="1-计算机简介"><a href="#1-计算机简介" class="headerlink" title="1.计算机简介"></a>1.计算机简介</h2><ol>
+<li>本书关于计算机的定义:<br>计算机其实是：<em>接收用户指令与数据，经过中央处理器与算罗运算单元的处理，能产生或存储有用信息的设备。</em></li>
+<li>计算机的五大单元：<ul>
+<li><strong>输入单元</strong>：键盘，鼠标，手写板，触摸屏，扫描仪等;</li>
+<li>中央处理器：<strong>算数逻辑运算单元，控制单元，内存（记忆单元）</strong>;</li>
+<li><strong>输出单元</strong>：屏幕，打印机等。</li>
+</ul>
+</li>
+<li>CPU的种类:<ul>
+<li>精简指令集（RISC）:<br>SPARC(sun)：学术领域的大型工作站；<br>ARM：手机，PDA，导航系统，网络设备等；<br>目前世界上应用最广的CPU可能就是ARM。</li>
+<li>复杂指令集（CISC）:<br>ADM,Intel,VIA等X86架构个人计算机。（x86叫法因为最早的cpu代号8086）<br>64位个人计算机：x86 64架构。<br>新的x86计算机大多含有更先进的微指令集。</li>
+</ul>
+</li>
+<li>接口设备：<ul>
+<li>存储设备：硬软盘，光盘，磁带等；</li>
+<li>显示设备：显卡等；</li>
+<li>网络设备：网卡等。</li>
+</ul>
+</li>
+<li>运作流程(与人类比)：<br>CPU=大脑<br>内存/硬盘=大脑中的记忆区块<br>主板=神经系统<br>各项接口设备=人体与外部通信的眼，手脚，口等<br>显卡=脑袋中的影像<br>电源=心脏</li>
+<li>计算机分类：<br>超级计算机，大型计算机，迷你计算机，工作站，微电脑（PC）。</li>
+<li>计算机的计算单位（容量，速度）<ul>
+<li>容量：<br>b,B,KB,MB,GB,TB,PB(二进制，1024进，B=8b)</li>
+<li>速度：<br>Hz,KHz,MHz,GHz,THz,PHz(十进制，1000进)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-计算机各接口设备简介"><a href="#2-计算机各接口设备简介" class="headerlink" title="2.计算机各接口设备简介"></a>2.计算机各接口设备简介</h2><ol>
+<li>主板的组成:<br>主要组件有:CPU，内存，磁盘设备（IDE/SATA），总线芯片组（南桥/北桥），显卡接口与其他适配卡（PCI）。</li>
+<li>CPU:<ul>
+<li>每个CPU内都有风扇来散热</li>
+<li>不同的CPU型号大多有不同的插脚，能够搭配的主板芯片组也不同。</li>
+<li>同的CPU之间不能以频率来判断运算性能，每个CPU的微指令集不同，架构不同，每次频率工作指令数也不同，频率只能比较同款CPU。</li>
+<li>外频:CPU与外部组件进行数据传输/运算时的速度。<br>倍频：CPU内部用来加速工作性能的一个倍数。<br>计算机频率=外频*倍频。</li>
+<li>超频:将CPU倍频或外频通过主板设定功能修改成较高频率的一种方式，倍频一般无法修改，频率非正常工作可能导致死机。</li>
+<li>关于南北桥：<br>北桥：系统总线，内存传输的主要通道；<br>南桥：IO总线，用于连接各接口设备。</li>
+</ul>
+</li>
+<li>内存:<ul>
+<li>个人计算机的主要组件为<strong>动态随机访问内存</strong>（DRAM）:<br>通电时才能记录与使用，断电时数据就消失了，也叫挥发性内存。</li>
+<li>DRAM主要分SDRAM和DDR SDRAM(双倍速):<br>SDRAM,DDR,DDR2,DDR3，新一代PC大多使用DDR</li>
+<li>内存除了频率/频宽与型号要考虑外，容量也要考虑</li>
+<li>双通道设计：<br>内存数据宽度越大越好，但是内存一般仅达64位，芯片组厂商的双通道设计可以将两个芯片汇总在一起，两个64位可达128位，最好型号容量都相同。</li>
+<li>CPU与内存的外频应该相同最好</li>
+<li>SRAM:<strong>静态随机访问内存</strong><br>速度快，价格贵，不易做成大容量，一般集成在CPU内部作为高速缓存。</li>
+<li><strong>只读存储器</strong>(ROM)：<br>只读存储器上中的程序使写死的，它在未通电时也能将数据记录下来。<br>ROM是一种非挥发性内存。</li>
+<li>关于BIOS:<br>以前是写到ROM中无法修改的，现在更多是写入闪存或者EEPROM(电可擦可编程只读存储器)中。</li>
+</ul>
+</li>
+<li>显卡:<ul>
+<li>显卡又称为VGA，用于显示图像，主要是分辨率和色彩深度</li>
+<li>显卡上会有一个内存容量，这个内存容量会最早影响到屏幕的分辨率与色彩深度。</li>
+<li>GPU：显卡上嵌入了一个3D加速的芯片。</li>
+<li>显卡也是通过北桥芯片与CPU内存等通信。</li>
+<li>显卡型号（往右越好）：<br>PCI/AGP/PCIe(PCI-Express)</li>
+<li>显卡内存还是越大越好。</li>
+</ul>
+</li>
+<li>硬盘与存储设备:<ul>
+<li>计算机上的存储设备包括硬盘、软盘、MO（光盘）、CD、DVD、磁带机、U盘（闪存）等，硬盘是最常见的。</li>
+<li>硬盘由许多盘片，机械手臂，磁头与主轴马达组成。<br>实际运行时主轴马达让盘片转到，机械手臂可伸展让读取头在盘片上进行读写操作。</li>
+<li>盘片上数据存储:<br>磁盘最小的存储单位–扇区（Sector），每个扇区固定为512b。<br>扇区组成的一个圆–磁道（Track），多个硬盘所有盘片的同一个扇区组成–柱面。<br>柱面一般是我们分割硬盘的最小单位。</li>
+<li>计算硬盘的存储容量：<br>硬盘容量=磁头数<em>每个磁头负责的柱面数</em>每个柱面包含的扇区数*扇区容量（512b）</li>
+<li>传输接口:硬盘与主机系统连接的槽口，有几种规格。<br>IDE接口/SATA接口/SCSI接口</li>
+<li>选购时的注意事项:<br>主板可接受的插槽接口是哪种。<br>容量：越大越好，主流已达360GB以上。<br>缓冲存储器:越大越好，主流可达16M<br>转速:主流台式机7200转，笔记本5400转</li>
+</ul>
+</li>
+<li>PCI适配卡:<br>如果用户有额外的功能卡就可以安插在这种槽口上。但是目前主流计算机的主板上已经集成了很多组件了，包括声卡，网卡，USB控制卡，显卡，磁盘阵列卡等。</li>
+<li>主板:<ul>
+<li>主板上负责通信的各个组件就是<strong>芯片组</strong>，分为南桥和北桥:<br>北桥:系统总线，负责CPU/RAM/VGA等的连接<br>南桥:I/O总线，负责PCI接口和速度较慢的I/O设备</li>
+<li>购买或升级新主机时，CPU，主板，内存与接口设备要同时考虑才行。</li>
+<li>连接设备接口：<br>主要有PS/2接口，USB设备插槽，声音输入与麦克风接口，RJ45接口等。</li>
+</ul>
+</li>
+<li>电源:<ul>
+<li>考虑能源转换率</li>
+<li>考率连接接口：20pin和24pin</li>
+</ul>
+</li>
+<li>选购须知:<br>计算机的性能和整体系统最慢的那个设备有关。</li>
+</ol>
+<hr>
+<h2 id="3-数据表示方式"><a href="#3-数据表示方式" class="headerlink" title="3.数据表示方式"></a>3.数据表示方式</h2><ol>
+<li>数字系统:<br>早期计算机使用的是通电与否特性的真空管，通电为1，不通电为0，沿用至今，这种0/1环境称为二进制。</li>
+<li>文字编码系统:<br>文本文件也是被记录为0和1的形式取出时必须经过一个编码系统。类似对照表。<br>常见的英文并表为ASCII系统。<br>国际组织ISO/IEC制定了Unicode编码系统（统一编码UTF-8）；</li>
+</ol>
+<hr>
+<h2 id="4-操作系统"><a href="#4-操作系统" class="headerlink" title="4.操作系统"></a>4.操作系统</h2><ul>
+<li>操作系统的作用仅在于驱动和管理硬件，而要使用硬件时，就需要通过应用软件或者shell来调用操作系统操作硬件工作。</li>
+<li>操作系统必须能够驱动硬件，如此应用程序才能使用该应用程序的功能。</li>
+</ul>
+<hr>
+<h2 id="5-Linux简介"><a href="#5-Linux简介" class="headerlink" title="5.Linux简介"></a>5.Linux简介</h2><ol>
+<li>Linux就是一套操作系统，就是内核层+系统调用层。</li>
+<li>Linux的优点:<ul>
+<li>Linux提供了一个完整的操作系统当中最底层的硬件控制与资源管理的完整架构，相当稳定并且功能强大。</li>
+<li>虽然Linux仅是其内核与内核提供的工具，不过由于内核，内核工具与这些软件的整合，使Linux成为一个更完整的，功能强大的操作系统。</li>
+</ul>
+</li>
+<li>Linux历史:<ul>
+<li>1973年，Unix诞生</li>
+<li>1977年，Unix重要分支–BSD诞生</li>
+<li>1979年，重要的System V架构与版权声明</li>
+<li>1984年，x86架构的Minix操作系统诞生</li>
+<li>1984年另一个大事件，GUN项目与FSF基金会成立</li>
+<li>1994年，Torvalds和虚拟团队开发出了Linux1.0版本</li>
+<li>1996年，推出了Linux2.0版本</li>
+</ul>
+</li>
+<li>Linux内核版本：<br>类似如下:<pre><code>2.6.18-92.e15
+</code></pre>主版本.次版本.释出版本-修改版本<br>主次版本为奇数：开发中版本<br>主次版本为偶数：稳定版本<br>Linux内核版本与distribution版本不一样</li>
+<li>Linux其实就是一个操作系统最底层的内核以及其提供的内核工具。<br>它是GUN GPL授权模式，任何人均可取得与可执行这个内核程序，并且可以做更改。<br>Linux参考POSIX设计规范，因此兼容Unix操作系统，是类UNIX的。</li>
+<li>Linux distributions<br>商业或非盈利团体将内核，工具与可运行软件结合起来，并加上自己具有创意的工具程序集成起来，这个kernel+tools+softwares可完全安装的系统，称为Linux distribution。</li>
+<li>Linux特色：<ul>
+<li>自由与开放的使用和学习环境：基于GPL授权，完全免费</li>
+<li>设备需求低廉：支持个人X86计算机</li>
+<li>内核功能强大而稳定</li>
+<li>独立作业:Linux近年来已经可以独立完成几乎所有的工作栈或服务器端的服务了。</li>
+</ul>
+</li>
+<li>Linux优缺点：<br>优点：<ul>
+<li>稳定的系统</li>
+<li>免费或少许费用</li>
+<li>安全性漏洞的快速修补</li>
+<li>多任务多用户</li>
+<li>用户与用户组规划</li>
+<li>相对比较不消耗资源</li>
+<li>适合嵌入式系统</li>
+<li>整合度好且有多样的图形化界面（GUI）<br>缺点：</li>
+<li>没有特定支持厂商</li>
+<li>游戏支持度不够</li>
+<li>专业软件支持不足</li>
+</ul>
+</li>
+<li>授权<ol>
+<li>Open Source:<br>GNUGPL,BSD,Apach License</li>
+<li>Close Source:<br>freeware,shareware</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="6-如何学习Linux"><a href="#6-如何学习Linux" class="headerlink" title="6.如何学习Linux"></a>6.如何学习Linux</h2><ol>
+<li>Linux当前的应用：<ul>
+<li>企业环境利用:网络服务器，关键任务的应用，学术机构的高性能运算任务。</li>
+<li>个人环境使用:桌面计算机，手持系统，嵌入式系统等</li>
+</ul>
+</li>
+<li>学习Linux的必备知识技能：<ul>
+<li>计算机概论与硬件相关知识</li>
+<li>Linux安装与命令学起</li>
+<li>Linux操作系统基础技能</li>
+<li>务必学会vi文本编辑器</li>
+<li>Shell与Shell脚本的学习</li>
+<li>一定要会软件管理员</li>
+<li>网络基础的建立</li>
+<li>有兴趣</li>
+<li>有成就感</li>
+<li>勇于实践</li>
+</ul>
+</li>
+<li>发生问题的解决方案:<br>在自己的Linux主机/网络数据库上查询How-To或FAQ(帮助)<br>Linux自身的文件数据：/user/share/doc</li>
+</ol>
+<hr>
+<h2 id="7-关于Linux的安装"><a href="#7-关于Linux的安装" class="headerlink" title="7.关于Linux的安装"></a>7.关于Linux的安装</h2><p>由于我已经在虚拟机上安装了Centos7所以跳过了以下几章</p>
+<ul>
+<li>第三章：主机规划与磁盘分区</li>
+<li>第四章：安装CentOS5.x与多重引导小技巧<br>等以后有钱买硬件了再更</li>
+</ul>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月10日 16:32</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" title="《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习">https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/&title=《《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/&title=《《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《鸟哥的Linux私房菜》笔记（一）：计算机，Linux简介与如何学习》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/09/《鸟哥的Linux私房菜》笔记（一）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-计算机简介"><span class="post-toc-text">1.计算机简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-计算机各接口设备简介"><span class="post-toc-text">2.计算机各接口设备简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-数据表示方式"><span class="post-toc-text">3.数据表示方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-操作系统"><span class="post-toc-text">4.操作系统</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Linux简介"><span class="post-toc-text">5.Linux简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-如何学习Linux"><span class="post-toc-text">6.如何学习Linux</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-关于Linux的安装"><span class="post-toc-text">7.关于Linux的安装</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《鸟哥的Linux私房菜》笔记（二）初识命令行与正常关机
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/08/Git命令行总结及常见问题的解决/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Git命令行总结及常见问题的解决，不断更新</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

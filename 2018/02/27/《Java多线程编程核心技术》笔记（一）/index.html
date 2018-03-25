@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java多线程编程核心技术》笔记（一）:java多线程基本操作 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
+<meta name="keywords" content="Java,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（一）:java多线程基本操作">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-06T13:00:52.451Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（一）:java多线程基本操作">
+<meta name="twitter:description" content="0.学习要点 线程的启动 如何使线程暂停 如何使线程停止 线程的优先级 线程安全相关的问题   1.进程与线程概念及多线程优点 进程： 是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位   线程： 在进程中独立运行的子任务   多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。   2">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《Java多线程编程核心技术》笔记（一）:java多线程基本操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-27
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>线程的启动</li>
+<li>如何使线程暂停</li>
+<li>如何使线程停止</li>
+<li>线程的优先级</li>
+<li>线程安全相关的问题</li>
+</ul>
+<hr>
+<h2 id="1-进程与线程概念及多线程优点"><a href="#1-进程与线程概念及多线程优点" class="headerlink" title="1.进程与线程概念及多线程优点"></a>1.进程与线程概念及多线程优点</h2><ol>
+<li>进程：<blockquote>
+<p>是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；是系统进行资源分配和调度的一个独立单位</p>
+</blockquote>
+</li>
+<li>线程：<blockquote>
+<p>在进程中独立运行的子任务</p>
+</blockquote>
+</li>
+<li>多线程是异步的，而且线程被调用的时机是随机的。代码顺序≠程序执行顺序。</li>
+</ol>
+<hr>
+<h2 id="2-如何使用多线程"><a href="#2-如何使用多线程" class="headerlink" title="2.如何使用多线程"></a>2.如何使用多线程</h2><ol>
+<li>关于main线程：<br>在public void static main()方法中打印:<pre><code>System.out.println(Thread.currentThread().getName());
+</code></pre>控制台输出的结果为<code>main</code>,说明这时有一个main线程在执行，由JVM创建。但是这个main和main方法没有任何关系，仅仅只是名字相同而已。</li>
+<li>继承Thread类：<br>Thread类的结构:<pre><code>public Thread implements Runnable
+</code></pre>使用Thread和使用Runnable没有本质区别。只是使用Thread不能多继承。<br>使用Thread：<pre><code>public class MyThread extends Thread {
+    @override
+    public void run(){...}
+}
+public class run{ public static void main(String args[]){
+    MyThread mythread =new MyThread();
+    mythread.start();
+}
+</code></pre>一定要重写run()方法。</li>
+<li>实现Runnable接口:<br>先来看看Thread的构造方法:<pre><code>public Thread( );
+public Thread(Runnable target);
+public Thread(String name);
+public Thread(Runnable target, String name);
+public Thread(ThreadGroup group, Runnable target);
+public Thread(ThreadGroup group, String name);
+public Thread(ThreadGroup group, Runnable target, String name);
+public Thread(ThreadGroup group, Runnable target, String name, long stackSize);
+</code></pre>详情请参考博客<a href="http://blog.csdn.net/JackieLiuLixi/article/details/37569575" target="_blank" rel="noopener">Thread 的构造方法</a>。<br>第二个和第四个构造方法说明Thread通过传入一个Runnable对象而产生一个Thread对象。那么使用Runnable接口的方法如下:<pre><code>public class runnable implements Runnable{
+    @override
+    public void run(){...}
+}
+public class Test1_4 {
+    //线程的另一种实现方式：实现runnable接口
+    //Thread类也是通过实现该接口
+    public static void main(String[] args) {
+        runnable run=new runnable();
+        Thread thread=new Thread(run，A); //线程thread的name设为A，可通过getName()方法得到
+        thread.start();
+        System.out.println(&quot;main线程结束！&quot;);
+    }
+}
+</code></pre>因为Thread实现了Runnable接口，所以也可以传入Thread类对象。</li>
+<li>随机性:<br>多线程具有随机的特性，<strong>执行start()的顺序不代表线程启动的顺序</strong>。</li>
+</ol>
+<hr>
+<h2 id="3-关于非线程安全"><a href="#3-关于非线程安全" class="headerlink" title="3.关于非线程安全"></a>3.关于非线程安全</h2><ol>
+<li>非线程安全:<blockquote>
+<p>指多个线程对同一个对象中的同一个实例变量进行操作时会出现值被更改、值不相同的情况。进而影响程序执行流程。</p>
+</blockquote>
+</li>
+<li>如何解决非线程安全:（简要方法）<br>使用在可能出现非线程安全的方法前使用<strong>synchronized</strong>关键字，如：<pre><code>public class MyThread extends Thread{
+    @override
+    synchronized public void run(){...}
+}
+</code></pre></li>
+<li>i–,i++与System.out.println()联用可能会产生的异常:<br>在线程中使用如下代码:<pre><code>System.out.println(&quot;i=&quot; + (i++) + &quot;threadName=&quot; + Thread.currentThread.getName());
+</code></pre>时有发生非线程安全的概率，因为println()虽然是线程安全的，但是i++是在进入println()之前发生的。解决方法依然是使用同步。</li>
+</ol>
+<hr>
+<h2 id="4-一些Thread常用方法"><a href="#4-一些Thread常用方法" class="headerlink" title="4.一些Thread常用方法"></a>4.一些Thread常用方法</h2><ol>
+<li>currentThread()方法:<br><em>currentThread()方法可以返回代码段正在被哪个线程调用的信息。</em><br>this则返回当前所处的线程，this.getName()得到线程名。<br>有一个线程:<pre><code>public class MyThread extends Thread{
+    public MyThread(){
+        System.out.println(Thread.currentThread.getName());
+        System.out.println(this.getName());
+    }
+    public void run{
+        System.out.println(Thread.currentThread.getName());
+        System.out.println(this.getName());
+    }
+}
+</code></pre>测试:<pre><code>public static void main(String[] args) {
+    MyThread thread=new MyThread();    
+    Thread t=new Thread(thread);           //将thread交给t执行
+    t.setName(&quot;A&quot;);
+    t.start();
+    thread.run();
+}
+</code></pre>结果：<pre><code>main
+Thread-0
+A
+Thread-0
+main
+Thread-0
+</code></pre>这里输出的Thread-0实际上是thread的name。<br>构造函数被main线程调用，run()方法是被线程A自动调用的，直接调用run()方法时Thread.curretThread时main线程。<br>具体this.getName()与Thread.currentThread.getName()区别可以参考博客：<a href="http://blog.csdn.net/qq_34970891/article/details/78881463" target="_blank" rel="noopener">多线程当中this.name和Thread.currentThread.getName的区别</a>。</li>
+<li>isAlive()方法:<br><em>判断当前线程是否处于活动状态。<br>活动状态：线程处于正在运行或准备开始运行的状态。</em><br>判断当前线程是否存活:<pre><code>this.isAlive();
+</code></pre>判断上级线程是否存活：<pre><code>Thread.currentThread().isAlive();
+</code></pre>判断某一线程是否存活：<pre><code>Thread t=new Thread();
+t.isAlive();
+</code></pre></li>
+<li>sleep()方法：<br><em>在指定毫秒内让当前“正在执行的线程”休眠（暂停执行）。<br>这个正在执行的线程&gt;是指<code>this.currentThread()</code>返回的线程。</em><br>this.currentThread().getName()=this.getName()<br>(我的理解，如有异议请告知）<br>注意:sleep()是静态方法，调用方式为：<pre><code>Thread.sleep();  //括号内为毫秒数
+</code></pre></li>
+<li>getId()方法:<br><em>取得线程的唯一标识符</em></li>
+</ol>
+<hr>
+<h2 id="5-线程的中断与判断"><a href="#5-线程的中断与判断" class="headerlink" title="5.线程的中断与判断"></a>5.线程的中断与判断</h2><ol>
+<li>线程中断（与停止区分开，中断只是一种状态，不会真正停止线程）：<br>thread.interrupt()方法（非静态）:<br><strong>中断一个线程，在线程thread中打了一个中断标记，并不会真正停止线程</strong>。</li>
+<li>Thread.interrupted()方法:<br><em>静态方法，判断当前线程是否中断，当前线程是指执行Thread.interrupted()方法的线程，<strong>执行后清除当前线程的中断标记</strong>。</em></li>
+<li>thread.isInterrupted()方法:<br><em>非静态方法，判断一个线程(thread)是否是中断状态，<strong>执行后不清除该线程的中断标记</strong></em>。</li>
+</ol>
+<hr>
+<h2 id="6-停止线程的几种方法"><a href="#6-停止线程的几种方法" class="headerlink" title="6.停止线程的几种方法"></a>6.停止线程的几种方法</h2><ol>
+<li>异常法(推荐):<pre><code>public class Thread1_18_2 extends Thread{
+    //for语句加break实现部分中断，for语句下的语句还会继续行
+    //使用throw new InterruptedException()抛出异常则不会
+    public void run(){
+        super.run();
+        try{
+            for(int i=0;i&lt;200;i++){
+                System.out.println(&quot;i=&quot;+i);
+                if(this.interrupted()){
+                    throw new InterruptedException(&quot;线终止啦&quot;);
+                }
+            }
+            System.out.println(&quot;这是for语句后面的语句，是执行&quot;);
+        }catch(InterruptedException e){
+            System.out.println(&quot;成功进入threadcatch&quot;);
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>测试代码:<pre><code>public static void main(String[] args) {
+    try{
+        Thread1_18_2 thread=new Thread1_18_2(); 
+        thread.start();
+        Thread.sleep(10);
+        thread.interrupt();
+    }catch(InterruptedException e){
+        System.out.println(&quot;main catch&quot;);
+        e.printStackTrace();
+    }
+    System.out.println(&quot;end!&quot;);
+}
+</code></pre></li>
+<li>沉睡异常法（Thread.sleep()）(推荐):<br>先中断再沉睡:<pre><code>public class Thread1_19_2 extends Thread{
+    //在interrput()状态下使用sleep()的情况
+    //抛出异常从而停止线程（推荐使用）
+    public void run(){
+        super.run();
+        try{
+            for(int i=0;i&lt;1000;i++){
+                System.out.println(&quot;i=&quot;+(i+1));
+            }
+            System.out.println(&quot;run begin&quot;);
+            Thread.sleep(1000);
+            System.out.println(&quot;run end&quot;);
+        }catch(InterruptedException e){
+            System.out.println(&quot;先停止，再遇见sleep!出错进入catch&quot;);
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+        Thread1_19_2 thread =new Thread1_19_2();
+        thread.start();
+        thread.interrupt();
+        System.out.println(&quot;end!&quot;);
+    }
+}
+</code></pre>运行结果:<pre><code>run begin
+先停止，再遇见sleep!出错进入catch
+java.lang.InterruptedException: sleep interrupted
+    at java.lang.Thread.sleep(Native Method)
+    at Chapter1.Thread.Thread1_19_2.run(Thread1_19_2.java:14)
+</code></pre>若调换main()方法中的thread.start()与thread.interrupt()的位置，则不会抛异常，thread线程也不会停止;<br>先sleep()再中断也可以停止线程，效果与上述相同。</li>
+<li>暴力法（不推荐使用）:<br>使用stop()方法:<blockquote>
+<p>1.会抛出java.lang.ThreadDeath异常，不用显式捕捉<br>2.会使一些清理性工作得不到完成<br>3.会对锁定的对象解锁，导致数据得不到同步处理，出现数据不一致的结果(使sychornized失效)</p>
+</blockquote>
+</li>
+<li>return法停止线程:<pre><code>public class Thread1_21 extends Thread{
+    //interrupt()与return结合使用实现停止线程（可以使用）
+    public void run(){
+        while(true){
+            if(this.isInterrupted()){
+                System.out.println(&quot;线程停止了&quot;);
+                return;
+            }
+            System.out.println(&quot;timer=&quot;+System.currentTimeMillis());
+        }
+    }
+    public static void main(String[] args) throws InterruptedException {
+        Thread1_21 thread=new Thread1_21();
+        thread.start();
+        Thread.sleep(2000);
+        thread.interrupt();
+    }
+}
+</code></pre>不过还是建议使用异常法，因为在catch中可以将异常向上拋，使线程的停止事件得以传播。</li>
+</ol>
+<hr>
+<h2 id="7-线程的挂起-暂停与恢复"><a href="#7-线程的挂起-暂停与恢复" class="headerlink" title="7.线程的挂起/暂停与恢复"></a>7.线程的挂起/暂停与恢复</h2><ol>
+<li>suspend()与resume()方法:<pre><code>Thread thread =new Thread();
+thread.start();
+thread.suspend();
+thread.resume();
+</code></pre>但是会看到<del>suspend()</del>和<del>resume()</del>,说明它们已经不被推荐使用。</li>
+<li>suspend()与resume()方法的缺点:<blockquote>
+<p>独占：</p>
+<blockquote>
+<p>使用不当会造成公共同步对象的独占，使其它线程无法访问公共资源。</p>
+</blockquote>
+<p>不同步:</p>
+<blockquote>
+<p>容易出现因线程暂停而导致数据不同步的现象。</p>
+</blockquote>
+</blockquote>
+</li>
+<li>yield()方法:<br><em>yield()方法的作用是放弃当前的cpu资源，将它让给其他任务去占用CPU执行时间。</em><br>但是放弃的时间不确定，有可能刚刚放弃，马上又获得CPU时间片。<br>测试代码:<pre><code>public class Thread1_25 extends Thread{
+    //yield()方法：使线程放弃当前CPU资源，将它让给其他任务去占用cpu执行时间        
+    public void run(){
+        long begin=System.currentTimeMillis();
+        int count=0;
+        for(int i=0;i&lt;500000;i++){ 
+            Thread.yield();            //加上注释可以测试yield是否让资源
+            count=count+1;
+        }
+        long end=System.currentTimeMillis();
+        System.out.println(&quot;用时：&quot;+(end-begin)+&quot;毫秒!&quot;);
+    }
+    public static void main(String[] args) {
+        Thread1_25 thread=new Thread1_25();
+        thread.start();
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="8-线程的优先级"><a href="#8-线程的优先级" class="headerlink" title="8.线程的优先级"></a>8.线程的优先级</h2><ol>
+<li><p>简介:<br>线程可以划分优先级，优先级较高的线程得到的CPU资源较多，也就是CPU优先执行优先级较高的线程中的任务。<br>设置线程优先级:</p>
+<pre><code>thread.setPriority()；
+</code></pre><p>获取线程优先级:</p>
+<pre><code>thread.getPriority();
+</code></pre><p>setPriority()方法的实现：</p>
+<pre><code>public final void setPriority(int newPriority) {
+    ThreadGroup g;
+    checkAccess();
+    if (newPriority &gt; MAX_PRIORITY || newPriority &lt; MIN_PRIORITY) {
+        throw new IllegalArgumentException();
+    }
+    if((g = getThreadGroup()) != null) {
+        if (newPriority &gt; g.getMaxPriority()) {
+            newPriority = g.getMaxPriority();
+        }
+        setPriority0(priority = newPriority);
+    }
+}
+</code></pre><p>java中线程的优先级有10个等级（1~10）,如果小于1或者大于10则JDK会抛出异常throw new IllegalArgumentException()（非法参数异常）。<br>java有三个优先级常量:</p>
+<pre><code>public final static int MIN_PRIORITY = 1;
+
+public final static int NORM_PRIORITY = 5;  //默认值
+
+public final static int MAX_PRIORITY = 10;
+</code></pre></li>
+<li>优先级的继承性:<br><strong>A线程启动B线程，则B线程优先级与A相同</strong>。<pre><code>public class Thread1_26_1 extends Thread{
+    //线程1
+    public void run(){
+        System.out.println(&quot;thread1 的 priority=&quot;+this.getPriority());
+        Thread1_26_2 thread2=new Thread1_26_2();  //1线程启动2线程
+        thread2.start();
+    }
+}
+public class Thread1_26_2 extends Thread{
+    //线程2
+    public void run(){
+        System.out.println(&quot;thread2的priority=&quot;+this.getPriority());
+    }
+}
+public class test{
+    public static void main(String[] args) {
+        System.out.println(&quot;main 的 priority=&quot;+Thread.currentThread().getPriority());
+        Thread.currentThread().setPriority(6);    //注释这一行测试
+        System.out.println(&quot;main 的 priority=&quot;+Thread.currentThread().getPriority());
+        Thread1_26_1 thread=new Thread1_26_1();  //main线程启动线程1
+        thread.start();
+    }
+}
+</code></pre>测试结果1（未给main线程重新设置优先级）:<pre><code>main 的 priority=5
+main 的 priority=5
+thread1 的 priority=5
+thread2的priority=5
+</code></pre>测试结果2（将main线程优先级重设为6）:<pre><code>main 的 priority=5
+main 的 priority=6
+thread1 的 priority=6
+thread2的priority=6
+</code></pre></li>
+<li>优先级的规则性:<br>规则:<strong>CPU尽量将执行资源让给优先级比较高的线程</strong>。<br>当现场优先级等级差距很大时，谁先执行完代码和代码的调用顺序无关。</li>
+<li>优先级的随机性:<br><strong>优先级较高的线程不一定每一次都先执行完</strong>。<br>不要把线程的优先级与运行结果的顺序作为衡量的标准。（如优先级为5和优先级为6的线程）</li>
+<li>优先级高的线程运行得快。</li>
+</ol>
+<hr>
+<h2 id="9-守护线程-后台线程"><a href="#9-守护线程-后台线程" class="headerlink" title="9.守护线程(后台线程)"></a>9.守护线程(后台线程)</h2><ol>
+<li>java中有两种线程，一种是用户线程，另一种是守护线程<br>守护线程<strong>是一种特殊的线程，当进程中不存在非守护线程时，守护线程自动销毁</strong>，典型的守护线程就是JVM的垃圾回收(GC)线程了。</li>
+<li>设置守护线程:<br>Thread thread =new Thread();<br>thread.setDaemon(true);  //s=设为守护线程,需在start()前<br>thread.start();</li>
+<li>更多关于守护线程的知识可以查看博客:<a href="https://www.cnblogs.com/lixuan1998/p/6937986.html" target="_blank" rel="noopener">守护线程与非守护线程</a>。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月06日 21:00</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/27/《Java多线程编程核心技术》笔记（一）/" title="《Java多线程编程核心技术》笔记（一）:java多线程基本操作">https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/&title=《《Java多线程编程核心技术》笔记（一）:java多线程基本操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/&title=《《Java多线程编程核心技术》笔记（一）:java多线程基本操作》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（一）:java多线程基本操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/27/《Java多线程编程核心技术》笔记（一）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-进程与线程概念及多线程优点"><span class="post-toc-text">1.进程与线程概念及多线程优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-如何使用多线程"><span class="post-toc-text">2.如何使用多线程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-关于非线程安全"><span class="post-toc-text">3.关于非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-一些Thread常用方法"><span class="post-toc-text">4.一些Thread常用方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-线程的中断与判断"><span class="post-toc-text">5.线程的中断与判断</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-停止线程的几种方法"><span class="post-toc-text">6.停止线程的几种方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-线程的挂起-暂停与恢复"><span class="post-toc-text">7.线程的挂起/暂停与恢复</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-线程的优先级"><span class="post-toc-text">8.线程的优先级</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-守护线程-后台线程"><span class="post-toc-text">9.守护线程(后台线程)</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/02/28/《Java多线程编程核心技术》笔记（二）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/02/26/Markdown基础语法学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Markdown基础语法学习笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
+<meta name="keywords" content="MyBatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-13-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-21.jpg">
+<meta property="og:updated_time" content="2018-03-24T12:53:53.175Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  rbac的原理及数据库表设计 xml的基本用法 使用接口-xml进行增删改查 Mapper接口动态代理     1.创建RBAC数据库及实体类1)RBAC介绍及需求  RBAC:Role-Based Access Control,基于角色的访问控制。简单的权限管理。 权限管理的">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MyBatis学习笔记（二）：xml的基本用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java框架/">Java框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis官方文档</a></p>
+</li>
+<li><p>本章重点</p>
+<ul>
+<li>rbac的原理及数据库表设计</li>
+<li>xml的基本用法</li>
+<li>使用接口-xml进行增删改查</li>
+<li>Mapper接口动态代理</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-创建RBAC数据库及实体类"><a href="#1-创建RBAC数据库及实体类" class="headerlink" title="1.创建RBAC数据库及实体类"></a>1.创建RBAC数据库及实体类</h2><p><strong>1)RBAC介绍及需求</strong></p>
+<ol>
+<li>RBAC:<br>Role-Based Access Control,基于角色的访问控制。<br>简单的权限管理。</li>
+<li>权限管理的需求：<br>一个用户拥有若干角色，一个角色拥有若干权限。<br>权限就是对某个资源的某种操作：增删改查。<br>用户与角色之间，角色与权限之间一般都是多对多的关系。<br>rbac的简单数据库需求：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-01.jpg" alt=""></li>
+<li>分别要创建5个表：<br>用户表(user),角色表（role）,权限表(privilege),用户角色关联表（user_role）,角色权限关联表(role_privilege)</li>
+</ol>
+<p><strong>2)创建数据库：</strong></p>
+<ol>
+<li>创建数据表：<br>创建user用户表：<pre><code>CREATE TABLE user(
+id BIGINT NOT NULL auto_increment COMMENT &apos;用户ID&apos;,
+user_name VARCHAR(50) COMMENT &apos;用户名&apos;,
+user_password VARCHAR(50) COMMENT &apos;密码&apos;,
+user_email VARCHAR(50) COMMENT &apos;邮箱&apos;,
+user_info text COMMENT &apos;简介&apos;,
+head_img BLOB COMMENT &apos;头像&apos;,
+create_time datetime COMMENT &apos;创建时间&apos;,
+PRIMARY KEY(id)
+)CHARSET utf8;
+</code></pre>创建role角色表：<pre><code>CREATE TABLE role(
+id BIGINT NOT NULL auto_increment COMMENT &apos;用户ID&apos;,
+role_name VARCHAR(50) COMMENT &apos;角色名&apos;,
+enabled INT COMMENT &apos;有效标志&apos;,
+create_by BIGINT COMMENT &apos;创建人&apos;,
+create_time datetime COMMENT &apos;创建时间&apos;,
+PRIMARY KEY (id)
+)CHARSET utf8;
+</code></pre>创建user_role联系表：<pre><code>CREATE TABLE user_role(
+user_id BIGINT COMMENT &apos;用户ID&apos;,
+role_id BIGINT COMMENT &apos;角色ID&apos;
+)CHARSET utf8;
+</code></pre>权限表与role_privilege关联表与创建方式与上述相同。<br>创建完的数据库如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-02.jpg" alt=""></li>
+<li>添加数据：<br>为了方便测试学习，给各个表添加数据如下:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-03.jpg" alt=""></li>
+<li><p>创建实体类：<br>MyBatis默认的是<strong>下划线转驼峰</strong>的命名方式，所以实体类一般按照这种方式进行创建(对应字段)。<br>Java工程仍用前面的，在src/main/java/Mybatis/simple/model下：<br>创建User类：</p>
+<pre><code>package Mybatis.simple.model;
+import java.util.Arrays;
+import java.util.Date;
+//用户表
+public class User {
+    //用户id
+    private Long id;
+    //用户名
+    private String userName;
+    //密码
+    private String userPassword;
+    //邮箱
+    private String userEmail;
+    //简介
+    private String userInfo;
+    //头像
+    private byte[] headImg;
+    //创建时间
+    private Date createTime;
+
+    //set,get方法，toString方法
+
+}
+</code></pre><p>创建Role类：</p>
+<pre><code>package Mybatis.simple.model;
+import java.util.Date;
+//角色表
+public class Role {
+    //角色id
+    private Long id;
+    //用户名
+    private String roleName;
+    //有效标志
+    private int enabled;
+    //创建人ID
+    private long createBy;
+    //创建时间
+    private Date creatTime;
+
+    //set,get方法，toString方法
+}
+</code></pre><p>创建UserRole类：</p>
+<pre><code>package Mybatis.simple.model;
+//用户角色关系
+public class UserRole {
+    //用户ID
+    private Long userId;
+    //角色ID
+    private Long roleId;
+    public Long getUserId() {
+        return userId;
+    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    public Long getRoleId() {
+        return roleId;
+    }
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+    @Override
+    public String toString() {
+        return &quot;UserRole [userId=&quot; + userId + &quot;, roleId=&quot; + roleId + &quot;]&quot;;
+    }
+}
+</code></pre><p>Privilege类和RolePrivilege类的创建和上面的差不多。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-最常用的XML使用方式–接口代理"><a href="#3-最常用的XML使用方式–接口代理" class="headerlink" title="3.最常用的XML使用方式–接口代理"></a>3.最常用的XML使用方式–接口代理</h2><p><strong>1)接口代理调用：</strong></p>
+<ol>
+<li>MyBatis最大的强大之处在于映射语句，笔记1使用sqlSession的方法是属于映射器方法。<br>映射器传多个参数时，需要使用Map等才能实现传值，比较麻烦。</li>
+<li>MyBatis3.0相比MyBatis2.0最大的区别就是支持<strong>接口调用方法</strong>。<br>MyBatis使用Java的动态代理可以直接通过接口来调用方法，而不需要提供接口的实现类，更不需要在实现类中使用SqlSession通过命名空间.id来调用Sql方法。<br>有多个参数时，通过参数注解@Param设置参数的名字，省去了手动构造Mapper的过程。</li>
+<li>接口可以配合XML使用，也可以配合注解使用。XML可以单独使用，但是注解必须要在接口中使用。</li>
+<li>接口使用更加方便且已经被广泛使用。</li>
+</ol>
+<p><strong>2)接口+XML的使用方式：</strong></p>
+<ol>
+<li>在src/main/sources/Mybatis/simple/mapper目录下创建与表对应的映射XML文件：<br>UserMapper.xml,RoleMapper.xml,UserRoleMapper.xml,PrivilegeMaper.xml,RolePrivilegeMapper.xml</li>
+<li><p>在src/main/java下创建Mybatis/simple/mapper目录，在此目录下创建5个对应的接口：<br>UserMapper.java,RoleMapper.java,UserRoleMapper.java,PrivilegeMaper.java,RolePrivilegeMapper.java(为上次的CountryMapper也创建一个)<br>新建的接口的内容如下，如UserMapper:</p>
+<pre><code>package Mybatis.simple.mapper;
+
+public interface UserMapper {
+
+}
+</code></pre><p>此时的所有XML都是空的状态。接下来逐步添加。<br>创建好的目录是这个样子的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-04.jpg" alt=""></p>
+</li>
+<li><p>配置Mapper.xml使其与接口相关联。(namespace=接口全名）<br>如配置UserMapper.xml：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+  &lt;mapper namespace=&quot;Mybatis.simple.mapper.UserMapper&quot;&gt;
+  &lt;/mapper&gt;
+</code></pre><p>配置RoleMapper.xml：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+  &lt;mapper namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot;&gt;
+  &lt;/mapper&gt;
+</code></pre><p>配置UserRoleMapper.xml：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+  &lt;mapper namespace=&quot;Mybatis.simple.mapper.UserRoleMapper&quot;&gt;
+  &lt;/mapper&gt;
+</code></pre><p>其余两个XML的配置和上面的相同。<br>Mapper接口与XML文件相关联时，需要配置XML文件的namespace为对应接口的全限定名称。</p>
+</li>
+<li>配置MyBatis核心配置文件：<br>一般方法：<pre><code>&lt;mappers&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/CountryMapper.xml&quot;/&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/UserMapper.xml&quot;/&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/RoleMapper.xml&quot;/&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/UserRoleMapper.xml&quot;/&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/PrivilegeMapper.xml&quot;/&gt;
+    &lt;mapper resource=&quot;Mybatis/simple/mapper/RolePrivilegeMapper.xml&quot;/&gt;
+&lt;/mappers&gt;
+</code></pre>特殊方法：<br>因为<code>Mybatis/simple/mapper</code>下的所有映射文件都有相应的Mapper接口，所以可以一起配置：<pre><code>&lt;mappers&gt;
+    &lt;package name=&quot;Mybatis.simple.mapper&quot;/&gt;
+&lt;/mappers&gt;
+</code></pre>使用<code>&lt;package&gt;</code>标签的name属性。</li>
+</ol>
+<p><strong>3)特殊配置方法的工作过程：</strong><br>使用<code>&lt;package name=&quot;Mybatis.simple.mapper&quot;/&gt;</code>时的工作流程：</p>
+<ul>
+<li>1.MyBatis会先查找Mybatis/simple/mapper包下所有接口，循环对每个接口进行2-4步的操作</li>
+<li>2.判断接口的命名空间是否已经存在（已经加载），若存在则报错，不存在则继续运行。</li>
+<li>3.加载接口对应的XML映射文件，并将接口全限定名称转换为路径加上.xml并解析(设置成<code>&lt;mapper&gt;</code>的resource)<br>如Mybatis.simple.mapper.UserMapper会转换成Mybatis/simple/mapper/UserMapper.xml并解析</li>
+<li>4.处理接口中的注解方法。</li>
+</ul>
+<hr>
+<h2 id="4-返回值单一的select用法"><a href="#4-返回值单一的select用法" class="headerlink" title="4.返回值单一的select用法"></a>4.返回值单一的select用法</h2><p><strong>1)使用id查询用户信息：</strong></p>
+<ol>
+<li>使用JDBC需要写查询语句，并对结果集进行手动处理，将结果集手动映射到对象属性中。<br>使用MyBatis时只需要在XML中添加一个select元素，写一个SQL，在接口中添加一个方法并且简单配置XML即可。</li>
+<li><p>在UserMapper.java接口中添加一个selectById()方法，返回值为User类：</p>
+<pre><code>package Mybatis.simple.mapper;
+
+import Mybatis.simple.model.User;
+
+public interface UserMapper {
+
+    User selectById(Long Id);
+}
+</code></pre></li>
+<li><p>然后在UserMapper.xml中配置结果集（resultMap）对应实体类以及SQL语句，配置完的UserMapper.xml如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+  &lt;mapper namespace=&quot;Mybatis.simple.mapper.UserMapper&quot;&gt;
+
+  &lt;resultMap type=&quot;Mybatis.simple.model.User&quot; id=&quot;userMap&quot;&gt;
+      &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
+      &lt;result property=&quot;userName&quot; column=&quot;user_name&quot;/&gt;
+      &lt;result property=&quot;userPassword&quot; column=&quot;user_password&quot;/&gt;
+      &lt;result property=&quot;userEmail&quot; column=&quot;user_email&quot;/&gt;
+      &lt;result property=&quot;userInfo&quot; column=&quot;user_info&quot;/&gt;
+      &lt;result property=&quot;headImg&quot; column=&quot;head_img&quot;/&gt;
+      &lt;result property=&quot;createTime&quot; column=&quot;create_time&quot;/&gt;
+  &lt;/resultMap&gt;
+
+  &lt;select id=&quot;selectById&quot; resultMap=&quot;userMap&quot;&gt;
+      SELECT * FROM user WHERE id=#{id}
+  &lt;/select&gt;
+  &lt;/mapper&gt;
+</code></pre><p>select的id属性与接口方法名相同。<br>select返回值与resultMap的id相同（如果返回值是实体类对象的话）<br>先不做测试，先对XML与接口命名的规则以及XML中一些标签和属性进行介绍</p>
+</li>
+</ol>
+<p><strong>2)命名规则，标签与属性的功能与介绍：</strong></p>
+<ol>
+<li>映射XML和接口的命名规则：<ul>
+<li>只使用XML而不使用接口时，namespace可以是任意不重复的名称。</li>
+<li>id属性在任何时候不能出现<code>.</code>,同一个命名空间下不能有重复的id。</li>
+<li>接口方法是可以重载的，但是对应的id值不能重复，所以会出现多个接口方法对应一个select查询的情况，这时可以在同名方法中的其中一个方法加上一个RowBound类型的参数用于实现<strong>分页查询。</strong>（但这是内存分页，一般不用）</li>
+</ul>
+</li>
+<li>XML中一些标签和属性的作用：<ul>
+<li><code>&lt;select&gt;</code>:映射查询语句的标签。</li>
+<li>id：命名空间的唯一标识符，可用来代表（定位）这条语句。</li>
+<li>resultMap：用于设置返回值的类型和映射的关系</li>
+<li><code>#{id}</code>：MyBatis SQL中预处理参数的一种方式，大括号的id是传入的参数名。</li>
+</ul>
+</li>
+<li><strong>resultMap的属性：</strong><br><code>&lt;resultMap&gt;</code>标签用于配置Java对象和查询结果列的对应关系。resultMap是一种很重要的配置结果映射的方法，必须熟练掌握。<br>resultMap包含了许多<strong>属性</strong>：<ul>
+<li>id：必填，且唯一，<code>&lt;select&gt;</code>标签的resultMap指定的值就是这个id的值。</li>
+<li>type:必填，配置查询列所对应的java对象类型。</li>
+<li>expends:选填，继承，可以配置当前的resultMap继承至其他的resultMap,填的是被继承的那个resultMap的id。</li>
+<li>autoMapping：选填，可选值为true或false,用于配置是否启用非映射字段（没有在resultMap中配置的字段）的自动映射功能（该配置可以覆盖全局的autoMappingBehavior的值)</li>
+</ul>
+</li>
+<li><strong>resultMap的标签：</strong><ul>
+<li>construtor:配置使用构造方法注入结果，有两个子标签：<ul>
+<li>idArg：id参数，标记结果做为id（唯一值），可以帮助提高整体性能。</li>
+<li>arg：注入到构造方法的一个普通结果。</li>
+</ul>
+</li>
+<li>id：id参数，标记结果做为id（唯一值），可以帮助提高整体性能。</li>
+<li>result：注入到java对象属性的一个普通结果。</li>
+<li>association：一个复杂的关联集，许多结果将包成这种类型。</li>
+<li>collection：复杂类型的集合</li>
+<li>discriminator：根据结果值来决定使用哪个结果映射。</li>
+<li>case：就某些值的结果映射。</li>
+</ul>
+</li>
+<li>constructor,id,result是常用标签，其他标签后面章节才讲。</li>
+<li>标签属性之间的关系：<ul>
+<li>constructor:<strong>通过构造方法注入属性的结果值。</strong>其中的idArg和arg属性的含义和resultMap的id和result相同，只是注入的方式不同。</li>
+<li>resultMap的id和result标签的属性完全相同，不同的是id标识了主键（或唯一键）字段(唯一键可以有多个)，result则是普通的字段。resultMap是通过set方法注入的。</li>
+</ul>
+</li>
+<li>id与result标签包含的属性：<ul>
+<li>column：数据库表的字段名（或别名）。</li>
+<li>property：映射到字段的实体类属性。(可以映射简单的也可以映射复杂的)</li>
+<li>javaType：一个java类的完全限定名，也可以是别名。<ul>
+<li>结果映射到javaBean，MyBatis可以自动判断。</li>
+<li>结果映射到HashMap，则需要明确指定javaType属性。</li>
+</ul>
+</li>
+<li>jdbcType：字段类型，JDBC类仅仅需要对增删改可为空的字段进行处理。<br>这是JDBC的需要，不是MyBatis的需要。</li>
+<li>typeHandler：可以覆盖默认的类型处理器。属性值为类的完全限定名或者类的别名。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)测试接口返回值的定义：</strong></p>
+<ol>
+<li>在<code>userMapper.java</code>接口中新增查询所有用户的方法：<pre><code>//查询所有用户
+List&lt;User&gt; selectAll();
+</code></pre></li>
+<li>在对应的<code>userMapper.xml</code>中新增查询所有用户的SQL语句：<pre><code>&lt;select id=&quot;selectAll&quot; resultType=&quot;Mybatis.simple.model.User&quot;&gt;
+      SELECT 
+          id,user_name userName,user_password userPassword,user_email userEmail,user_info userInfo,head_img headImg,create_time createTime
+      FROM
+          user
+&lt;/select&gt;
+</code></pre></li>
+<li>注意上述select标签与查询一个记录的select标签的区别：<br><code>&lt;select id=&quot;selectById&quot; resultMap=&quot;userMap&quot;&gt;</code><br><code>&lt;select id=&quot;selectAll&quot; resultType=&quot;Mybatis.simple.model.User&quot;&gt;</code><br>resultMap属性使用的是id对应的resultMap标签进行注入。<br>resultType属性则是指定了实体类名，使用别名进行注入(自动映射)。</li>
+<li>resultType属性中要使用全限定名，若在核心配置文件中配置了别名则可以使用别名。如果未配置别名可以下载一个MyBatipse插件，具有全限定名提示功能：<br>Eclipse(或STS)–&gt;【Help】–&gt;【Ecipse Marketplace】–&gt;搜索安装重启即可：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-05.jpg" alt=""><br>重启后进入映射文件，resultMap或resultType下按【ALT】+【/】,会出现如下提示（灰色是因为已经配置了别名）：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-06.jpg" alt=""></li>
+<li>接口方法返回值为List<user>而resultType写的是User,如果写List<user>或User[]也没什么大问题。因为返回值为一个值(集合)。<br>但是<strong>返回值为多个结果时一定要使用List<user>或User[]</user></strong>，否则会报错：<br><code>TooManyResultsException</code>。</user></user></li>
+</ol>
+<p><strong>4)更简单的映射：</strong></p>
+<ol>
+<li>除了resultMap映射与直接映射外，还有一种更加简单的配置映射。<br>但是需要数据库字段与实体类属性严格符合<strong>“下划线转驼峰”</strong>的命名规范。</li>
+<li>MyBtis提供了一个全局属性mapUndercoreToCameCase，配置该属性为true可以将字段的下划线自动映射到对应的驼峰对象属性中。在核心配置文件myBatis中配置如下：<pre><code>&lt;settings&gt;
+    &lt;setting name=&quot;mapUnderscoreToCamelCase&quot; value=&quot;true&quot;/&gt;
+&lt;/settings&gt;
+</code></pre></li>
+<li><p>测试，添加一个查询所有角色的方法：<br>RoleMapper.java：</p>
+<pre><code>package Mybatis.simple.mapper;
+import java.util.List;
+import Mybatis.simple.model.Role;
+public interface RoleMapper {
+    //查询所有角色
+    List&lt;Role&gt; selectAll();
+}
+</code></pre><p>RoleMapper.xml：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+  PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+  &lt;mapper namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot;&gt;
+      &lt;select id=&quot;selectAll&quot; resultType=&quot;Role&quot;&gt;
+      SELECT
+          id,role_name,enabled,create_by,create_time
+      FROM
+          role
+      &lt;/select&gt;
+  &lt;/mapper&gt;
+</code></pre></li>
+<li>为了简单还可以将<code>id,role_name,enabled,create_by,create_time</code>写成<code>*</code>,但是为了效率，一般不用。</li>
+</ol>
+<hr>
+<h2 id="5-接口代理测试"><a href="#5-接口代理测试" class="headerlink" title="5.接口代理测试"></a>5.接口代理测试</h2><p><strong>1)使用继承修改CountryMapperTest:</strong></p>
+<ol>
+<li><p>因为会有许多个测试，所以最好提取一个基础测试类，将可以复用的代码写入其中并使其它测试类继承或调用它：<br>在src/test/java下创建一个Mybatis.simple.base包，创建BaseMapperTest.java，代码如下：</p>
+<pre><code>package Mybatis.simple.base;
+import java.io.IOException;
+import java.io.Reader;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.BeforeClass;
+
+public class BaseMapperTest {
+    //SqlSession工厂类
+    private static SqlSessionFactory sqlSessionFactory;
+
+    @BeforeClass
+    public static void init(){
+        try{
+            // 加载核心配置文件
+            Reader reader=Resources.getResourceAsReader(&quot;mybatis-config.xml&quot;);
+            //新建工厂对象，相当于JDBCconnect
+            sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader);
+            //关闭输入流
+            reader.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public SqlSession getSqlSession(){
+        return sqlSessionFactory.openSession();
+    }    
+}
+</code></pre><p>2.修改CountryMapperTest为继承(省略import)：</p>
+<pre><code>package Mybatis.simple.mapper;
+
+public class CountryMapperTest extends BaseMapperTest{
+    @Test
+    public void testSelectAll(){
+        //使用sqlSession实例化一个sqlSession对象,相当于使用预处理语句
+        SqlSession sqlSession=getSqlSession();
+        try{
+            List&lt;Country&gt; countryList=sqlSession.selectList(&quot;Mybatis.simple.mapper.CountryMapper.selectAll&quot;);
+            for(Country coun:countryList){
+                System.out.println(coun);
+            }
+        }finally{
+            //关闭sqlSession
+            sqlSession.close();
+        }
+    }
+}
+</code></pre><p>继承至BaseMapperTest,使用getSqlSession方法来获取sqlSession。</p>
+</li>
+</ol>
+<p><strong>2)测试通过关于用户的两个方法：</strong></p>
+<ol>
+<li><p>创建User测试类UserMapperTest:</p>
+<pre><code>package Mybatis.simple.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Assert;
+import org.junit.Test;
+
+import Mybatis.simple.base.BaseMapperTest;
+import Mybatis.simple.model.User;
+
+public class UserMapperTest extends BaseMapperTest{
+
+    @Test
+    public void testSelectById(){
+        //获取sqlSession
+        SqlSession sqlSession =getSqlSession();
+        try{
+            //获取UserMapper接口
+            UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+            //调用selectById方法
+            User user=userMapper.selectById(1L);
+            //断言测试user不为空
+            Assert.assertNotNull(user);
+            //判断userName=admin是否成立
+            Assert.assertEquals(&quot;admin&quot;, user.getUserName());
+        }finally{
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectAll(){
+        //获取sqlSession
+        SqlSession sqlSession =getSqlSession();
+        try{
+            //获取UserMapper接口
+            UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+            //调用selectALL方法
+            List&lt;User&gt; luser=userMapper.selectAll();
+            //断言测试luser不为空
+            Assert.assertNotNull(luser);
+            //判断luser长度是否为大于0
+            Assert.assertTrue(luser.size()&gt;0);
+        }finally{
+            sqlSession.close();
+        }
+    }
+}
+</code></pre></li>
+<li>测试方法:<br>测试本文件所有方法：文件–&gt;右键–&gt;【RUN AS】…<br>测试某一个方法，如testSelectAll：选中方法名–&gt;右键–&gt;【RUN AS】…</li>
+<li>运行测试，测试结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-07.jpg" alt=""></li>
+</ol>
+<p><strong>3)测试配置映射RoleMapper:</strong></p>
+<ol>
+<li><p>创建测试类RoleMapperTest(import已省略):</p>
+<pre><code>package Mybatis.simple.mapper;
+
+public class RoleMapperTest extends BaseMapperTest{
+    @Test
+    public void testSelectAll(){
+        //获取sqlSession
+        SqlSession sqlSession =getSqlSession();
+        try{
+            //获取RoleMapper接口
+            RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+            //调用selectAll方法
+            List&lt;Role&gt; lrole=roleMapper.selectAll();
+            //断言测试lrole不为空
+            Assert.assertNotNull(lrole);
+            //判断lrole中是否有值
+            Assert.assertTrue(lrole.size()&gt;0);
+        }finally{
+            sqlSession.close();
+        }
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-08.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-多表查询的Select"><a href="#6-多表查询的Select" class="headerlink" title="6.多表查询的Select"></a>6.多表查询的Select</h2><p><strong>1)多表查询返回单一对象：</strong></p>
+<ol>
+<li>上面的都是单表查询，且返回值为单一实体类或实体类的集合。</li>
+<li>情景：<br>根据用户id查询用户拥有的所有角色信息并输出。</li>
+<li>在RoleMapper.java创建接口方法:<pre><code>//根据用户id查询角色信息
+List&lt;Role&gt; selectRolesByUserId(long id);
+</code></pre>在RoleMapper.xml中新增查询语句：<pre><code>&lt;select id=&quot;selectRolesByUserId&quot; resultType=&quot;Role&quot;&gt;
+     SELECT
+        r.id,role_name,enabled,create_by,r.create_time
+    FROM
+        user u
+    JOIN user_role ur ON u.id=ur.user_id
+    JOIN role r ON ur.role_id=r.id 
+    WHERE
+        u.id=#{1}
+&lt;/select&gt;
+</code></pre>因为表user与role中都有id，create_time两个字段，所以要加上别名加以区分。</li>
+<li>在RoleMapperTest中新增测试方法：<pre><code>@Test
+public void testselectRolesByUserId(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取RoleMapper接口
+        RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+        //调用selectAll方法
+        List&lt;Role&gt; lrole=roleMapper.selectRolesByUserId(1L);
+        //断言测试lrole不为空
+        Assert.assertNotNull(lrole);
+        //判断lrole中是否有值
+        Assert.assertTrue(lrole.size()&gt;0);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-09.jpg" alt=""></li>
+</ol>
+<p><strong>2)多表查询返回对象不单一：</strong></p>
+<ol>
+<li>情景：<br>根据用户id查询用户拥有的所有角色信息。并输出用户名及角色信息。</li>
+<li>有两种方式：Role继承与内嵌User</li>
+<li>方式一：使用继承的实体类（不推荐）<br>创建Role的继承类RoleExtend如下：<pre><code>package Mybatis.simple.model;
+//角色扩展类
+public class RoleExtend extends Role {
+    private String userName;
+    //get,set方法
+}
+</code></pre>修改其余操作和返回单一对象相同。但是多了就非常麻烦。</li>
+<li><p>方式二，<strong>在不考虑XML嵌套的情况下</strong>，可以在Role类中嵌入一个User对象，修改Role类的代码如下：</p>
+<pre><code>public class Role {
+
+    //角色id
+    private Long id;
+    //用户名
+    private String roleName;
+    //有效标志
+    private int enabled;
+    //创建人ID
+    private long createBy;
+    //创建时间
+    private Date creatTime;
+    //User对象
+    private User user;
+
+    //getset方法
+}
+</code></pre><p>修改XML中的select如下：</p>
+<pre><code>&lt;select id=&quot;selectRolesByUserId&quot; resultType=&quot;Role&quot;&gt;
+      SELECT
+          r.id,role_name,enabled,create_by,r.create_time,
+          u.user_name as &quot;user.userName&quot;
+      FROM
+          user u
+      JOIN user_role ur ON u.id=ur.user_id
+      JOIN role r ON ur.role_id=r.id 
+      WHERE
+          u.id=#{1}
+      &lt;/select&gt;
+</code></pre><p>注意，添加了一句：</p>
+<pre><code>u.user_name as &quot;user.userName&quot;
+</code></pre><p>这样设置可以直接将user_name的值赋给Role对象中的user对象的userName属性。</p>
+</li>
+<li>测试类代码无需改变，在此运行测试，结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-10.jpg" alt=""><br>用户名也一起输出了。</li>
+</ol>
+<hr>
+<h2 id="7-insert的用法"><a href="#7-insert的用法" class="headerlink" title="7.insert的用法"></a>7.insert的用法</h2><p>insert的用法比select简单的多。<br>复杂一点的也就是根据不同方式返回主键了。<br><strong>1)简单的Insert:</strong></p>
+<ol>
+<li>在UserMapper.java接口中添加方法如下：<pre><code>//添加用户
+int insert(User user);
+</code></pre></li>
+<li>在UserMapper.xml中添加代码： <insert id="insert"><br>       INSERT INTO user<br>       VALUES(<br>       #{id},#{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg,jdbcType=BLOB},#{createTime,jdbcType=TIMESTAMP})<br>   </insert></li>
+<li><p>在UserMapperTest类中添加测试代码：</p>
+<pre><code>@Test
+public void testInsert(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //创建一个user对象：
+        User user=new User();
+        user.setUserName(&quot;测试用户2&quot;);
+        user.setUserPassword(&quot;111111&quot;);
+        user.setUserEmail(&quot;123123@00&quot;);
+        user.setUserInfo(&quot;傻子&quot;);
+        //本来是存图片的
+        user.setHeadImg(null);
+        user.setCreateTime(new Date());
+
+        //result是执行sql影响的函数
+        int result=userMapper.insert(user);
+        //是否插入一条数据
+        Assert.assertEquals(1, result);
+        //id是否为Null
+        Assert.assertNull(user.getId());
+
+    }finally{
+        sqlSession.commit();    //CUD操作一定要提交才生效
+        //sqlSession.rollback();  //回滚
+        sqlSession.close();
+    }
+}
+</code></pre><p>注意，默认的sqlSession是没有commit操作的，如果不执行提交，则所有操作都不会改变数据库，即使输出插入成功，<code>sqlSession.commit();</code>才会将数据插入数据库。只要对数据库数据进行改变的操作都需要commit。</p>
+</li>
+<li>测试结果：<br>输出结果正确：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-11.jpg" alt=""><br>查看数据库，添加成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-12.jpg" alt=""></li>
+</ol>
+<p><strong>2)insert标签属性介绍及特殊类型处理：</strong></p>
+<ol>
+<li>insert标签属性介绍：<ul>
+<li><code>id</code>：命名空间中的唯一标识符，可以用来代表这条语句。</li>
+<li><code>parameterType</code>：不介意配置，传入语句的参数的完全限定类名或别名。MyBatis会自己判断，所以不建议配置。</li>
+<li><code>flushCache</code>：默认值为true,只要有语句被调用，都会清空以及缓存及二级缓存。</li>
+<li><code>timeout</code>:设置在抛出异常之前，驱动程序等待数据库返回结果的秒数。</li>
+<li><code>statementType</code>：三个值，STATEMENT,PREPARED,COLLABLE,分别对应了jdbc的三种对象（Statement,PerparedStatement等），默认PREPARED。</li>
+<li><code>useGeneratedKeys</code>：默认false,设置为true则MyBatis会使用JDBC的getGeneratedKes()方法取出数据库内部生成的主键值（自动生成值）</li>
+<li><code>keyPropert</code>：上一个参数得到主键值（自动生成值）后使用这个参数指定属性。</li>
+<li><code>keyColumn</code>：仅对INSERT和UPDATE有效，且对于一般数据库来说不用配置，通过生成的键值生成表中的列名</li>
+<li><code>databaseId</code>:若配置了databaseIdProvider,Mybatis会加载所有的不带databaseId的或匹配当前databaseId语句。同时则不带databaseId的被忽略。</li>
+</ul>
+</li>
+<li>特殊类型的处理：<br>如上面插入语句中的这部分:<pre><code>#{headImg,jdbcType=BLOB},#{createTime,jdbcType=TIMESTAMP}
+</code></pre>基本的类型一般MyBatis会自动处理，对于特殊的类型，认了防止出错，必须使用jdbcType指定类型。(BLOB是二进制字符串)<br>时间类的特殊处理：<br>数据库中的时间类分date,time,datetime等好几种，而java自带只有Date,为了保证数据准确性一般也使用jdbcType指定，有三种值，DATE,TIME,TIMESTAMP与上述类别一一对应。</li>
+</ol>
+<p><strong>3)使用JDBC方式返回主键自增的值：</strong></p>
+<ol>
+<li>假设需要返回插入后的值进行某种操作(显示等)，有两种方法：JDBC方法以及selectKey方法。</li>
+<li>在UserMapper.java接口中增加insert2方法：<pre><code>//添加用户(JDBC返回自动生成值)
+int insert2(User user);
+</code></pre>在UserMapper.xml中新增insert2：<pre><code>&lt;insert id=&quot;insert2&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;
+  INSERT INTO user(user_name,user_password,user_email,user_info,head_img,create_time)
+  VALUES(
+  #{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg,jdbcType=BLOB},#{createTime,jdbcType=TIMESTAMP})
+</code></pre>   <br>和insert相比主要是增加了<code>useGeneratedKeys</code>属性与<code>keyProperty</code>属性。以及将#{id}去掉（或改为null）。<br><code>useGeneratedKeys=true</code>会将主键值返回<br><code>keyProperty=id</code>则会以id去接这个值<br>由于要使用数据库返回值，所以将#{id}去掉或改为null。<br>需要设置多个属性时则需要指定<code>keyColumn</code>属性。</li>
+<li>测试，代码和insert的测试差不多，将方法改为insert2,且设置断言测试为：<br><code>Assert.assertNotNull(user.getId())</code>，user对象也改一改。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-13-1.jpg" alt=""><br>能正确输出结果，说明断言<code>Assert.assertNotNull(user.getId())</code>满足，说明返回了结果。</li>
+</ol>
+<p><strong>4)使用selectKey返回主键自增的值：</strong></p>
+<ol>
+<li>上述方法（jdbc方法）只满足提供主键自增的数据库，没有主键自增的数据库不适用（如Oracal），所有就可以使用<selectkey>标签开获取主键的值。</selectkey></li>
+<li>selectKey方式即适用于主键自增数据库也适用于主键不自增数据库。</li>
+<li>新增insert3方法：<pre><code>//添加用户(selectKey标签方式)
+int insert3(User user);
+</code></pre></li>
+<li>(MySQL)新增UserMapper.xml方法：<pre><code>&lt;insert id=&quot;insert3&quot;&gt;
+      &lt;selectKey keyColumn=&quot;id&quot; resultType=&quot;long&quot; keyProperty=&quot;id&quot; order=&quot;AFTER&quot;&gt;
+          SELECT LAST_INSERT_ID()
+      &lt;/selectKey&gt;
+      INSERT INTO user 
+      VALUES(
+      null,#{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg,jdbcType=BLOB},#{createTime,jdbcType=TIMESTAMP})
+  &lt;/insert&gt;
+</code></pre><code>keyColumn</code>指定主键字段，    <code>resultType</code>指定返回值，<code>keyProperty</code>指定接值属性，<code>order</code>指定是在insert执行前或执行后获取id。</li>
+<li>Oracal有一个id序列自动增长，插入时先从序列取值，然后再放入对象中一起插入。所以Oracal的selectKey标签这样写：<pre><code>&lt;selectKey keyColumn=&quot;id&quot; resultType=&quot;long&quot; keyProperty=&quot;id&quot; order=&quot;BEFORE&quot;&gt;
+    SELECT SEQ_ID.nextval from dual
+&lt;/selectKey&gt;
+</code></pre>Oracal的Insert语句也需要指定id参数。而MySql不能（改为null）。</li>
+<li>各个数据库selectKey标签内的查询语句也不一样，常用的如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-14.jpg" alt=""></li>
+<li>创建测试方法（和insert2的差不多），修改user对象，输出id到控制台，并进行插入测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-15.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="8-简单的update与delete的用法："><a href="#8-简单的update与delete的用法：" class="headerlink" title="8.简单的update与delete的用法："></a>8.简单的update与delete的用法：</h2><p><strong>1)update:</strong></p>
+<ol>
+<li>在userMapper接口中添加根据主键更新的方法：<pre><code>//根据id更新用户
+int updateById(User user);
+</code></pre></li>
+<li>在userMapper映射文件中添加更新代码：<pre><code>&lt;update id=&quot;updateById&quot;&gt;
+    UPDATE user SET
+        user_name=#{userName},user_password=#{userPassword},user_email=#{userEmail},user_info=#{userInfo},head_img=#{headImg,jdbcType=BLOB},create_time=#{createTime,jdbcType=TIMESTAMP}
+    WHERE id=#{id}
+&lt;/update&gt;
+</code></pre></li>
+<li>在UserMapperTest中创建测试方法：<pre><code>//测试更新
+public void testUpdateById(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //从数据库中查询一个user对象
+        User user=userMapper.selectById(1001L);
+        //测试是否是想要的那个数据
+        Assert.assertEquals(&quot;test&quot;, user.getUserName());
+        //修改用户名
+        user.setUserName(&quot;测试用户1&quot;);
+        //修改邮箱
+        user.setUserEmail(&quot;000001@11.11&quot;);
+        //更新数据(返回值为SQL影响条数)
+        int result=userMapper.updateById(user);
+        //只更新一条数据
+        Assert.assertEquals(1, result);
+        //查询修改后的数据
+        user=userMapper.selectById(1001L);
+        //验证修改后的名字
+        Assert.assertEquals(&quot;测试用户1&quot;, user.getUserName());
+    }finally{
+        sqlSession.commit();
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>运行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-16.jpg" alt=""></li>
+</ol>
+<p><strong>2)delete:</strong></p>
+<ol>
+<li>在UserMapper接口中创建根据主键删除的方法：<pre><code>//根据主键删除
+int deleteById(long id);
+</code></pre>也可以使用User类型的参数。</li>
+<li>UserMapper映射文件添加删除代码：<pre><code>&lt;delete id=&quot;deleteById&quot;&gt;
+    delete from user where id=#{id}
+&lt;/delete&gt;
+</code></pre></li>
+<li>创建测试类：<pre><code>//删除user测试
+@Test
+public void testDeleteById(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //查询Id为7的用户，确定它存在
+        User user=userMapper.selectById(7L);
+        //测试是否存在
+        Assert.assertNotNull(user);
+        //执行删除
+        int result=userMapper.deleteById(7L);
+        //是否删一条
+        Assert.assertEquals(1, result);
+        //继续查询Id为7的用户
+        user=userMapper.selectById(7L);
+        //查看是否为空(被删除)
+        Assert.assertNull(user);
+    }finally{
+        //增删改需要提交
+        sqlSession.commit();
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试结果如下:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-17.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="9-多个接口参数的用法"><a href="#9-多个接口参数的用法" class="headerlink" title="9.多个接口参数的用法"></a>9.多个接口参数的用法</h2><p><strong>1)多个接口情况及一般方法会出现的错误：</strong></p>
+<ol>
+<li>接口方法只有一个参数时，参数类型可以是两种情况：基本类型与JavaBean。</li>
+<li>实际应用中经常会遇到使用很多个参数的情况，可以将多个参数合并到一个JavaBean中，但是也非常麻烦，通常会使用两种方法：<strong>使用Map类型做参数或使用@Param注解</strong>。</li>
+<li>使用Map类型：<br>在Map中使用Key来映射XML中SQL使用的参数值名字，value用来存放参数值。但是Map仍然要手动创建，并不简洁。所以主要还是使用@Param注解。</li>
+<li>不使用@param注解与Map的测试(头铁)：<br>要求，根据用户Id和角色的enable状态获取用户的可用角色。<br>添加接口方法：<pre><code>//根据用户Id返回该用户可用的角色(enable=1)
+List&lt;Role&gt; selectRolesByUserIdAndRoleEnabled(Long id,Integer enabled);
+</code></pre>添加XML代码：<pre><code>&lt;select id=&quot;selectRolesByUserIdAndRoleEnabled&quot; resultType=&quot;Role&quot;&gt;
+    SELECT
+        r.id,role_name,enabled,create_by,r.create_time,
+        u.user_name as &quot;user.userName&quot;
+    FROM user u
+    JOIN user_role ur ON u.id=ur.user_id
+    JOIN role r ON ur.role_id=r.id 
+    WHERE
+        u.id=#{userId} and r.enabled=#{enabled}
+&lt;/select&gt;
+</code></pre>添加测试方法：<pre><code>//多参数测试
+@Test
+public void testSelectRolesByUserIdAndRoleEnabled(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //进行查询
+        List&lt;Role&gt; lrole=userMapper.selectRolesByUserIdAndRoleEnabled(1L, 1);
+        //结果不为NULL
+        Assert.assertNotNull(lrole);
+        //可用角色数&gt;0
+        Assert.assertTrue(lrole.size()&gt;0);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试，出现错误，提示说XML的可用参数只有0，1，param1,param2：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-18.jpg" alt=""><br>一个书上<strong>不建议</strong>但是可行的方法:<br>将#{userId}改为#{0}或#{param1},将#{enabled}改为#{1}或#{param2}</li>
+</ol>
+<p><strong>2)@param配置传简单的类型：</strong></p>
+<ol>
+<li>将上一个例子的接口方法修改如下（加上@param注解）：<pre><code>//根据用户Id返回该用户可用的角色(enable=1)
+List&lt;Role&gt; selectRolesByUserIdAndRoleEnabled(@Param(&quot;userId&quot;)Long id,@Param(&quot;enabled&quot;)Integer enabled);
+</code></pre></li>
+<li>再次测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-19.jpg" alt=""></li>
+<li>原理：<br>使用@param注解后MyBatis会自动将参数封装成Map,param的值作为Map的Key,所以SQL就可以配置注解的值来获得参数值。<br>也可以将SQL参数写成#{param1},#{param2}形式。<br>参数值单一时没有key这一说，有值就用所以不用担心。</li>
+</ol>
+<p><strong>3)@param配置传实体类对象：</strong></p>
+<ol>
+<li>向UserMapper.java中添加使用user对象及role对象查询的方法：<pre><code>//根据用户Id返回该用户可用的角色
+List&lt;Role&gt; selectRolesByUserIdAndRoleEnabled2(@Param(&quot;User&quot;)User user,@Param(&quot;Role&quot;)Role role);
+</code></pre>添加XML查询代码：<pre><code>&lt;select id=&quot;selectRolesByUserIdAndRoleEnabled2&quot; resultType=&quot;Role&quot;&gt;
+    SELECT
+        r.id,role_name,enabled,create_by,r.create_time,
+        u.user_name as &quot;user.userName&quot;
+    FROM user u
+    JOIN user_role ur ON u.id=ur.user_id
+    JOIN role r ON ur.role_id=r.id 
+    WHERE
+        u.id=#{User.id} and r.enabled=#{Role.enabled}
+&lt;/select&gt;
+</code></pre>注意此时不能直接用UserId或RoleId,而是要通过小数点取值的方式:<code>#{User.id}</code> 及<code>#{Role.enable}</code></li>
+<li>添加测试类：<pre><code>//多参数测试
+@Test
+public void testSelectRolesByUserIdAndRoleEnabled2(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //新建User,Role对象
+        User user=new User();
+        user.setId(1l);
+        Role role=new Role();
+        role.setEnabled(1);
+        //进行查询
+        List&lt;Role&gt; lrole=userMapper.selectRolesByUserIdAndRoleEnabled2(user,role);
+        //结果不为NULL
+        Assert.assertNotNull(lrole);
+        //可用角色数&gt;0
+        Assert.assertTrue(lrole.size()&gt;0);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-20.jpg" alt=""></li>
+<li>如果测试时出现了这种错误：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00019MyBatis%E5%AD%A6%E4%B9%A02-21.jpg" alt=""><br>看看测试方法前有没有加@Test。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月24日 20:53</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" title="MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作">https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/&title=《MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/&title=《MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-创建RBAC数据库及实体类"><span class="post-toc-text">1.创建RBAC数据库及实体类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-最常用的XML使用方式–接口代理"><span class="post-toc-text">3.最常用的XML使用方式–接口代理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-返回值单一的select用法"><span class="post-toc-text">4.返回值单一的select用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-接口代理测试"><span class="post-toc-text">5.接口代理测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多表查询的Select"><span class="post-toc-text">6.多表查询的Select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-insert的用法"><span class="post-toc-text">7.insert的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-简单的update与delete的用法："><span class="post-toc-text">8.简单的update与delete的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-多个接口参数的用法"><span class="post-toc-text">9.多个接口参数的用法</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MyBatis学习笔记（三）：注解方式的基本用法
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/22/《鸟哥的Linux私房菜》笔记（七）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

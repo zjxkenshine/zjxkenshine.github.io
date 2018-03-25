@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java多线程编程核心技术》笔记（七）：其他剩余知识点 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 线程的状态与切换 线程组的使用 SimpleDataFormat类与多线程的意外及解决办法 如何处理线程的异常   1.线程的状态 简介:在java.lang.Thread中线程状态的定义(注释已删除)：public enum State {      NEW,  //至今尚未启动的线程的状态      RUNNABLE,  //正在虚拟机中执行的线程的状态      BLOCKED">
+<meta name="keywords" content="Java,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（七）：其他剩余知识点">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 线程的状态与切换 线程组的使用 SimpleDataFormat类与多线程的意外及解决办法 如何处理线程的异常   1.线程的状态 简介:在java.lang.Thread中线程状态的定义(注释已删除)：public enum State {      NEW,  //至今尚未启动的线程的状态      RUNNABLE,  //正在虚拟机中执行的线程的状态      BLOCKED">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-08T15:05:11.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（七）：其他剩余知识点">
+<meta name="twitter:description" content="0.学习要点 线程的状态与切换 线程组的使用 SimpleDataFormat类与多线程的意外及解决办法 如何处理线程的异常   1.线程的状态 简介:在java.lang.Thread中线程状态的定义(注释已删除)：public enum State {      NEW,  //至今尚未启动的线程的状态      RUNNABLE,  //正在虚拟机中执行的线程的状态      BLOCKED">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（七）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《Java多线程编程核心技术》笔记（七）：其他剩余知识点
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-06
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>线程的状态与切换</li>
+<li>线程组的使用</li>
+<li>SimpleDataFormat类与多线程的意外及解决办法</li>
+<li>如何处理线程的异常</li>
+</ul>
+<hr>
+<h2 id="1-线程的状态"><a href="#1-线程的状态" class="headerlink" title="1.线程的状态"></a>1.线程的状态</h2><ol>
+<li>简介:<br>在java.lang.Thread中线程状态的定义(注释已删除)：<pre><code>public enum State {
+     NEW,  //至今尚未启动的线程的状态
+     RUNNABLE,  //正在虚拟机中执行的线程的状态
+     BLOCKED,  //受阻塞并等待某个监视器锁的状态
+     WAITING,  //无限期地等待另一个线程来执行某一特定操作的线程的状态
+     TIMED_WAITING,  //等待另一个线程来执行操作取决于指定等待时间的线程处于这种状态
+     TERMINATED;  //已退出的线程的状态
+ }
+</code></pre>产生各种状态的代码:<br><strong>NEW到RUNNABLE</strong>:start()<br><strong>RUNNABLE到WATING</strong>:wait()/join()/LockSupport.park()<br><strong>RUNNABLE到TIMED_WAITING</strong>:wait(timeout)/sleep(sleeptime)/join(timeout)/LockSupport.parkNanos()/LockSupport.parkUntil()<br><strong>RUNNABLE到BLOCK</strong>:线程阻塞<br><strong>WATING到RUNNABLE</strong>:notify()/notifyAll()<br><strong>除NEW,BLOCK到TERMINATED</strong>:线程停止或退出。<br>有些状态之间是不能转换的:<br>NEW只能到RUNNABLE,不能转换为其他状态；<br>BLOCKED不能转换为TERMINATED；<br>TERMINATED不能转换为其他状态。</li>
+<li>查看线程状态：<pre><code>thread.getState();
+</code></pre></li>
+<li><p>NEW,RUNNABLE和TERMINATED<br>NEW状态是实例化后未执行run的状态，RUNNABLE是线程进入运行时的状态，TERMINATED状态是线程销毁时的状态<br>线程类:</p>
+<pre><code>public class Thread7_01 extends Thread{
+    //验证NEW,RUNNABLE和TERMINATED状态
+    public Thread7_01() {
+        System.out.println(&quot;构造方法中的状态：&quot;+Thread.currentThread().getState());          //这里显示的是main线程的状态
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        System.out.println(&quot;run方法中的状态：&quot;+Thread.currentThread().getState());
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    try{
+        Thread7_01 t1=new Thread7_01();
+        System.out.println(&quot;main方法中的状态1：&quot;+t1.getState());
+        Thread.sleep(1000);
+        t1.start();
+        Thread.sleep(1000);
+        System.out.println(&quot;main方法中的状态2：&quot;+t1.getState());
+    }catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>构造方法中的状态：RUNNABLE
+main方法中的状态1：NEW
+run方法中的状态：RUNNABLE
+main方法中的状态2：TERMINATED
+</code></pre></li>
+<li>TIMED_WAITING状态<br>执行sleep方法后状态的枚举值就变为了TIMED_WAITING<br>线程类:<pre><code>public class Thread7_02 extends Thread{
+    //验证TIMED_WAITING状态
+    @Override
+    public void run() {
+        super.run();
+        try{
+            System.out.println(&quot;begin sleep&quot;);
+            Thread.sleep(10000);
+            System.out.println(&quot;end sleep&quot;);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>测试类:<pre><code>public static void main(String[] args) {
+    try{
+        Thread7_02 t1=new Thread7_02();
+        t1.start();
+        Thread.sleep(1000);
+        System.out.println(&quot;main方法中的状态&quot;+t1.getState());
+    }catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>运行结果:<pre><code>begin sleep
+main方法中的状态TIMED_WAITING
+end sleep
+</code></pre></li>
+<li>BLOCKED与WATING:<br>公共资源类:<pre><code>public class Service7_03 {
+    //验证BLOCKED状态
+    synchronized static public void serviceMethod(){
+        try{
+            System.out.println(Thread.currentThread().getName()+&quot;进入了业务方法&quot;);
+            Thread.sleep(5000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>测试类:<pre><code>public static void main(String[] args) throws InterruptedException {
+    Thread7_03A t1=new Thread7_03A();  //线程A执行serviceMethod方法
+    t1.setName(&quot;AAA&quot;);
+    t1.start();
+    Thread.sleep(100);
+    Thread7_03B t2=new Thread7_03B();  //线程B执行serviceMethod方法
+    t2.setName(&quot;BBB&quot;);
+    t2.start();
+    Thread.sleep(100);        //去掉这一行状态变为Runnable
+    System.out.println(&quot;main方法中的t2的状态：&quot;+t2.getState());
+    Thread.sleep(5000); 
+    System.out.println(&quot;main方法中的t1的状态：&quot;+t1.getState());
+}
+</code></pre>测试结果:<pre><code>AAA进入了业务方法
+main方法中的t2的状态：BLOCKED
+BBB进入了业务方法
+main方法中的t1的状态：WAITING
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="2-线程组"><a href="#2-线程组" class="headerlink" title="2.线程组"></a>2.线程组</h2><h3 id="2-1-对象关联线程组"><a href="#2-1-对象关联线程组" class="headerlink" title="2.1 对象关联线程组"></a>2.1 对象关联线程组</h3><ol>
+<li>简介：<br>a.可以把线程归属到某一个线程组中，线程组中可以有线程对象也可以有线程组,组中还可以有线程<br>b.线程组的作用是，<strong>可以批量管理线程或线程组,有效地对线程或线程组对象进行组织</strong><br>Thread的四个与线程组有关的构造方法:<pre><code>public Thread(ThreadGroup group, Runnable target);
+public Thread(ThreadGroup group, String name);
+public Thread(ThreadGroup group, Runnable target, String name);
+public Thread(ThreadGroup group, Runnable target, String name, long stackSize);
+</code></pre></li>
+<li><p>线程对象关联线程组:<strong>1级关联</strong><br>所谓的1级关联就是父对象中有子对象，但是并不创建子孙对象。<br>这种情况常出现在开发中。通常情况下是创建一个线程组，然后再将部分线程归属到该组中。这样处理可以对零散的线程对象进行有效的组织与规划。</p>
+<pre><code>public static void main(String[] args) {
+    Thread7_05A t1=new Thread7_05A();
+    Thread7_05B t2=new Thread7_05B();
+    ThreadGroup tg=new ThreadGroup(&quot;666组&quot;);
+
+    Thread t11=new Thread(tg,t1);  //将线程对象归并到tg组
+    Thread t22=new Thread(tg,t2);
+
+    t11.start();
+    t22.start();
+
+    System.out.println(&quot;活动线程数为：&quot;+tg.activeCount());
+    System.out.println(&quot;线程组的名称为：&quot;+tg.getName());
+}
+</code></pre><p>tg.activeCount()：得到线程组对象中活动的线程数量。<br>tg.getName():得到线程组的名称。</p>
+</li>
+<li><p>线程对象关联线程组:<strong>多级关联</strong><br>多级关联就是父对象中有子对象，子对象中再创建子对象，也就是出现子孙对象。<br><strong>此种方法在开发中不常见</strong>，线程树过于复杂反而不利于线程对象的管理，但是JDK提供了支持多级关联的线程树结构:</p>
+<pre><code>public static void main(String[] args) {
+    //在main线程组中添加一个线程组tg1,在tg1中添加线程对象Z
+    //方法activeGroupCount()和activeCount()的值不是固定的
+    //是环境中的一个快照
+    ThreadGroup mainGrop=Thread.currentThread().getThreadGroup();  //main线程的线程组
+    ThreadGroup tg=new ThreadGroup(mainGrop,&quot;666&quot;);  //main组中加666组
+    Runnable runn=new Runnable() {
+        @Override
+        public void run() {
+            try {
+                System.out.println(&quot;runMethod&quot;);
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Thread newtd=new Thread(tg,runn);  //z线程归到tg组
+    newtd.setName(&quot;Z&quot;);
+    newtd.start();            //必须启动才会归到tg线程组中
+
+    ThreadGroup[] listgroup=new ThreadGroup[Thread.currentThread().getThreadGroup().activeCount()];
+    Thread.currentThread().getThreadGroup().enumerate(listgroup);
+    System.out.println(&quot;main线程组有多少个子线程组&quot;+listgroup.length+&quot;   名字为：&quot;+listgroup[0].getName());
+
+    Thread[] listTd=new Thread[listgroup[0].activeCount()];
+    listgroup[0].enumerate(listTd);
+    System.out.println(listTd[0].getName());
+}
+</code></pre><p>java.lang.ThreadGroup.enumerate(Thread[] list)方法：<em>复制该线程组及其子组中的所有活动线程到指定的线程数组。同样适用于线程组数组。</em></p>
+</li>
+<li><p>线程组自动归属特性:</p>
+<pre><code>public static void main(String[] args) {    
+    System.out.println(&quot;A处线程：&quot;+Thread.currentThread().getName()+&quot; 所属线程组名称：&quot;+Thread.currentThread().getThreadGroup()+&quot; 线程组内有线程组的数量：&quot;+Thread.currentThread().getThreadGroup().activeGroupCount());
+    ThreadGroup group=new ThreadGroup(&quot;新的组&quot;);          //自动加入到main线程组中
+    System.out.println(&quot;B处线程：&quot;+Thread.currentThread().getName()+&quot; 所属线程组名称：&quot;+Thread.currentThread().getThreadGroup()+&quot; 线程组内有线程组的数量：&quot;+Thread.currentThread().getThreadGroup().activeGroupCount());
+
+    ThreadGroup[] tgrup=new ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
+    Thread.currentThread().getThreadGroup().enumerate(tgrup);
+    for(int i=0;i&lt;tgrup.length;i++){
+        System.out.println(&quot;第一个线程组名称为：&quot;+tgrup[i].getName());
+    }
+}
+</code></pre><p>方法activeGroupCount()作用是获取当前线程对象中的子线程组的数量<br>在实例化一个ThreadGroup线程数组X时如果不指定所属线程组，<strong>则x线程组自动归到当前线程所属的线程组中</strong>，也就是隐式地在一个线程组中添加了一个子线程组。</p>
+</li>
+</ol>
+<h3 id="2-2-获取根线程组与组里加组"><a href="#2-2-获取根线程组与组里加组" class="headerlink" title="2.2 获取根线程组与组里加组"></a>2.2 获取根线程组与组里加组</h3><ol>
+<li>获取根线程:<pre><code>public static void main(String[] args) {
+    System.out.println(&quot;线程：&quot;+Thread.currentThread().getName()+&quot; 所在线程组名：&quot;+Thread.currentThread().getThreadGroup().getName());
+    System.out.println(&quot;main线程所在线程组的父线程组名是：&quot;+Thread.currentThread().getThreadGroup().getParent().getName());
+    System.out.println(&quot;main线程所在线程组的父线程组的父线程组名是：&quot;+Thread.currentThread().getThreadGroup().getParent().getParent().getName());
+}
+</code></pre><strong>JVM的根线程组就是system</strong>，再取其父线程组则报空指针异常。</li>
+<li><p>往线程组中加线程组:</p>
+<pre><code>public static void main(String[] args) {
+    System.out.println(&quot;线程组名称&quot;+Thread.currentThread().getThreadGroup().getName());
+    System.out.println(&quot;线程组中活动的线程数量：&quot;+Thread.currentThread().getThreadGroup().activeCount());
+    System.out.println(&quot;线程组中活动的线程组数量--加线程组前：&quot;+Thread.currentThread().getThreadGroup().activeGroupCount());
+
+    ThreadGroup newgop=new ThreadGroup(Thread.currentThread().getThreadGroup(),&quot;newGroup&quot;);
+
+    System.out.println(&quot;线程组中活动的线程组数量--加线程组后：&quot;+Thread.currentThread().getThreadGroup().activeGroupCount());
+
+}
+</code></pre><p>运行结果:</p>
+<pre><code>线程组名称main
+线程组中活动的线程数量：1
+线程组中活动的线程组数量--加线程组前：0
+线程组中活动的线程组数量--加线程组后：1
+</code></pre></li>
+</ol>
+<h3 id="2-3-批量”停止”线程组内线程"><a href="#2-3-批量”停止”线程组内线程" class="headerlink" title="2.3 批量”停止”线程组内线程"></a>2.3 批量”停止”线程组内线程</h3><p>线程类:</p>
+<pre><code>public class Thread7_10 extends Thread{
+    //线程组内的线程批量停止
+    public Thread7_10(ThreadGroup tg,String name) {
+        super(tg,name);
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        System.out.println(&quot;ThreadName&quot;+Thread.currentThread().getName()+&quot; 开始死循环&quot;);
+        while(!this.isInterrupted()){
+        }
+        System.out.println(&quot;ThreadName&quot;+Thread.currentThread().getName()+&quot; 死循环结束了&quot;);
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    try{
+        ThreadGroup tg=new ThreadGroup(&quot;新线程组&quot;);
+        for(int i=0;i&lt;5;i++){
+            Thread7_10 t1=new Thread7_10(tg, &quot; 线程&quot;+(i+1));
+            t1.start();
+        }
+        Thread.sleep(5000);
+        tg.interrupt();
+        System.out.println(&quot;调用了interrupt方法&quot;);
+    }catch (InterruptedException e) {
+        System.out.println(&quot;停止了&quot;);
+        e.printStackTrace();
+    }
+}
+</code></pre><p>调用线程组ThreadGroup的interrupt()方法时可以将该线程组所有正在运行的线程批量”停止”,并不是真正的停止，只是打上停止标记。</p>
+<h3 id="2-4-递归与非递归取得组内对象"><a href="#2-4-递归与非递归取得组内对象" class="headerlink" title="2.4 递归与非递归取得组内对象"></a>2.4 递归与非递归取得组内对象</h3><pre><code>public static void main(String[] args) {
+    ThreadGroup mainGroup=Thread.currentThread().getThreadGroup();
+    ThreadGroup groupA=new ThreadGroup(mainGroup,&quot;A&quot;);
+
+    Runnable run=new Runnable() {
+        @Override
+        public void run() {
+            try{
+                System.out.println(&quot;runMethod!&quot;);
+                Thread.sleep(5000);
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    };
+
+    ThreadGroup  groupB=new ThreadGroup(groupA,&quot;B&quot;);
+    //分配空间，但是不一定全部使用
+    ThreadGroup[]  listGroup1=new ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
+    //传入true是递归取得子孙或子孙组
+    Thread.currentThread().getThreadGroup().enumerate(listGroup1,true);
+    for(int i=0;i&lt;listGroup1.length;i++){
+        if(listGroup1[i]!=null){
+            System.out.println(listGroup1[i].getName());
+        }
+    }
+
+    ThreadGroup[]  listGroup2=new ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
+    //传入false是非递归取得子对象
+    Thread.currentThread().getThreadGroup().enumerate(listGroup2,false);
+    for(int i=0;i&lt;listGroup2.length;i++){
+        if(listGroup2[i]!=null){
+            System.out.println(listGroup2[i].getName());
+        }
+    }
+}
+</code></pre><p>代码:<br>Thread.currentThread().getThreadGroup().enumerate(listGroup1,true)：<br>传入true是递归取得<strong>子孙或子孙组</strong>。在代码中是A,B。<br>Thread.currentThread().getThreadGroup().enumerate(listGroup2,false)：<br>传入false是非递归取得<strong>子对象</strong>，不会取孙对象。在代码中是A。<br>运行结果:</p>
+<pre><code>A
+B
+A
+</code></pre><hr>
+<h2 id="3-使线程具有有序性"><a href="#3-使线程具有有序性" class="headerlink" title="3.使线程具有有序性"></a>3.使线程具有有序性</h2><p>正常情况下，线程在运行多个线程之间执行任务的时机是无序的。<br>可以通过改造代码的方式使它们的运行具有有序性。<br>线程类:</p>
+<pre><code>public class Thread7_12 extends Thread{
+    //使线程具有有序性
+    private Object lock;
+    private String showChar;
+    private int showNumPosition;
+    private int printCount=0;           //统计打印了几个字母
+    volatile private static int addNumber=1;
+
+    public Thread7_12(Object lock,String showChar,int showNumPosition) {
+        super();
+        this.lock=lock;
+        this.showChar=showChar;
+        this.showNumPosition=showNumPosition;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        try{
+            synchronized (lock) {
+                while(true){
+                    if(addNumber%3==showNumPosition){
+                        System.out.println(&quot;ThreadName=&quot;+Thread.currentThread().getName()+&quot; runCount=&quot;+addNumber+&quot; showChar=&quot;+showChar);
+                        lock.notifyAll();
+                        addNumber++;
+                        printCount++;
+                        if(printCount==3){          //每个对象打印三次后退出,共三组ABC
+                            break;
+                        }
+                    }else{
+                        lock.wait();
+                    }
+                }
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    Object lock=new Object();
+    Thread7_12 t1=new Thread7_12(lock, &quot;A&quot;, 1);
+    Thread7_12 t2=new Thread7_12(lock, &quot;B&quot;, 2);
+    Thread7_12 t3=new Thread7_12(lock, &quot;C&quot;, 0);
+    t1.start();
+    t2.start();
+    t3.start();
+}
+</code></pre><p>测试结果:<br>三组ABC</p>
+<hr>
+<h2 id="4-SimpleDateFormat非线程安全"><a href="#4-SimpleDateFormat非线程安全" class="headerlink" title="4.SimpleDateFormat非线程安全"></a>4.SimpleDateFormat非线程安全</h2><ol>
+<li><p>错误出现:<br>SimpleDateFormat主要负责日期的转换与格式化，但是在多线程的情况下使用此类容易造成数据转换及处理的不准确性,因为SimpleDateFormat类并不是线程安全的<br>线程类:</p>
+<pre><code>public class Thread7_13 extends Thread{
+    //SimpleDateFormat出现异常的情况
+    private SimpleDateFormat sdf;
+    private String dateString;
+
+    public Thread7_13(SimpleDateFormat sdf,String dateString) {
+        super();
+        this.sdf=sdf;
+        this.dateString=dateString;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        try{
+            System.out.println(dateString);
+            Date dateRef=sdf.parse(dateString);
+            String newDateString=sdf.format(dateRef).toString();
+            if(!newDateString.equals(dateString)){
+                System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;转换出错了,日期字符串=&quot;+dateString+&quot;,转换后字符串=&quot;+newDateString);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }    
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+    String[] dateStringList=new String[]{&quot;2017-10-14&quot;,&quot;2017-07-11&quot;,&quot;2017-11-20&quot;,&quot;2017-05-01&quot;,&quot;2015-11-14&quot;};
+    Thread[] tl=new Thread[dateStringList.length];
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i]=new Thread7_13(sdf, dateStringList[i]);
+    }
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i].start();
+    }
+}
+</code></pre><p>测试结果:</p>
+<pre><code>2017-07-11
+2015-11-14
+2017-11-20
+2017-10-14
+2017-05-01
+线程Thread-0转换出错了,日期字符串=2017-10-14,转换后字符串=2017-11-20
+Exception in thread &quot;Thread-4&quot; Exception in thread &quot;Thread-1&quot; java.lang.NumberFormatException: multiple points
+java.lang.NumberFormatException: multiple points
+</code></pre><p>使用单例的SimpleDateFormat在多线程环境下处理日期，极易出现日期转换错误的情况。<br>multiple points出错是因为SimpleDateFormat类并不是线程安全的。</p>
+</li>
+<li><p>解决异常方法1：创建多个SimpleDateFormat对象<br>线程类:</p>
+<pre><code>public class Thread7_14 extends Thread{
+    //解决异常方法1：创建多个SimpleDateFormat对象
+    private SimpleDateFormat ref;
+    private String dateString;
+
+    public Thread7_14(SimpleDateFormat ref,String dateString) {
+        super();
+        this.ref=ref;
+        this.dateString=dateString;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        try{
+            Date dateRef=Tool7_14.parse(&quot;yyyy-MM-dd&quot;, dateString);
+            String DateString=Tool7_14.formate(&quot;yyyy-MM-dd&quot;, dateRef);
+            if(!DateString.equals(dateString)){
+                System.out.println(&quot;ThreadName=&quot;+this.getName()+&quot;转换出错了， 日期字符串=&quot;+dateString+&quot;,转换成日期为=&quot;+DateString);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+    String[] dateStringList=new String[]{&quot;2017-10-14&quot;,&quot;2017-07-11&quot;,&quot;2017-11-20&quot;,&quot;2017-05-01&quot;,&quot;2015-11-14&quot;};
+    Thread[] tl=new Thread[dateStringList.length];
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i]=new Thread7_14(sdf, dateStringList[i]);
+    }
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i].start();
+    }
+}
+</code></pre></li>
+<li><p>解决异常方法2： 使用ThreadLocal类<br>使用ThreadLocal类能使线程绑定到指定对象，使用该类也能解决多线程下SimpleDateFormat的异常。<br>线程类:</p>
+<pre><code>public class Thread7_15 extends Thread{
+    // 解决异常方法2： 使用ThreadLocal类
+    private SimpleDateFormat ref;
+    private String dateString;
+
+    public Thread7_15(SimpleDateFormat ref,String dateString) {
+        super();
+        this.ref=ref;
+        this.dateString=dateString;
+    }
+    @Override
+    public void run() {
+        super.run();
+        try{
+            Date dateRef=Tool7_15.getsimpledateformat(&quot;yyyy-MM-dd&quot;).parse(dateString);
+            String DateString=Tool7_15.getsimpledateformat(&quot;yyyy-MM-dd&quot;).format(dateRef).toString();
+            if(!DateString.equals(dateString)){
+                System.out.println(&quot;ThreadName=&quot;+this.getName()+&quot;转换出错了， 日期字符串=&quot;+dateString+&quot;,转换成日期为=&quot;+DateString);
+            }    
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+    String[] dateStringList=new String[]{&quot;2017-10-14&quot;,&quot;2017-07-11&quot;,&quot;2017-11-20&quot;,&quot;2017-05-01&quot;,&quot;2015-11-14&quot;};
+    Thread[] tl=new Thread[dateStringList.length];
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i]=new Thread7_15(sdf, dateStringList[i]);
+
+    }
+    for(int i=0;i&lt;tl.length;i++){
+        tl[i].start();
+    }
+}
+</code></pre><p>同一个线程再次使用不用创建新的SimpleDateFormat对象，比上一个方法效率更高。</p>
+</li>
+</ol>
+<hr>
+<h2 id="5-线程组异常的处理"><a href="#5-线程组异常的处理" class="headerlink" title="5.线程组异常的处理"></a>5.线程组异常的处理</h2><ol>
+<li><p>线程中出现的异常：<br>thread.setUncaughtExceptionHandler(UncaughtExceptionHandler)方法:<br><strong>对【指定的线程对象】设置默认的异常处理器。</strong><br>Thread.setDefaultExceptionHandler(UncaughtExceptionHandler)方法:<br><strong>为【指定线程类的所有线程对象】设置默认的线程处理器。</strong><br>对类与对象一起添加默认的处理，遇到时只执行对象的。<br>线程类:</p>
+<pre><code>public class Thread7_16 extends Thread{
+    //线程中出现异常的处理
+    @Override
+    public void run() {
+        super.run();
+        String username=null;
+        System.out.println(username.hashCode());
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    Thread7_16 t1=new Thread7_16();
+    t1.setName(&quot;线程1&quot;);
+    UncaughtExceptionHandler eh=new UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            System.out.println(&quot;线程：&quot;+t.getName()+&quot;   出现异常：&quot;);
+            e.printStackTrace();
+        }
+    };
+    t1.setUncaughtExceptionHandler(eh);
+    //Thread7_16.setDefaultUncaughtExceptionHandler(eh);
+
+    Thread7_16 t1=new Thread7_16();
+    t1.setName(&quot;线程t1&quot;);
+    t1.start();
+    Thread7_16 t2=new Thread7_16();
+    t2.start();
+    t2.start();        
+}
+</code></pre></li>
+<li><p>线程组内异常的处理:<br>一个线程出现异常，线程组内其他线程会不会停止<br>线程组一个线程出现异常不会影响其他线程的运行<br>想要实现一个线程异常，组内其他线程也停止运行:<br>使用自定义线程组类，并重写uncaughtException()方法<br>自定义线程组类:</p>
+<pre><code>public class ThreadGroup7_17_2 extends ThreadGroup{
+    //线程组内处理异常
+    public ThreadGroup7_17_2(String name) {
+        super(name);
+    }
+
+    //方法uncaughtException(Thread t, Throwable e)中的t是出现异常的线程对象
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        super.uncaughtException(t, e);
+        this.interrupt();
+    }
+}
+</code></pre><p>线程类:</p>
+<pre><code>public class Test7_17_2 {
+    //线程组内处理异常
+    public static void main(String[] args) {
+        ThreadGroup group=new ThreadGroup(&quot;线程组&quot;);
+        Thread7_17_2[] tlist=new Thread7_17_2[10];
+        for(int i=0;i&lt;tlist.length;i++){
+            tlist[i]=new Thread7_17_2(group, &quot;线程&quot;+(i+1),&quot;1&quot;);
+            tlist[i].start();
+        }
+        Thread7_17_2 th=new Thread7_17_2(group, &quot;报错线程&quot;, &quot;a&quot;);
+        th.start();
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    ThreadGroup7_17_2 group=new ThreadGroup7_17_2(&quot;线程组&quot;);
+    Thread7_17_2[] tlist=new Thread7_17_2[10];
+    for(int i=0;i&lt;tlist.length;i++){
+        tlist[i]=new Thread7_17_2(group, &quot;线程&quot;+(i+1),&quot;1&quot;);
+        tlist[i].start();
+    }
+    Thread7_17_2 th=new Thread7_17_2(group, &quot;报错线程&quot;, &quot;a&quot;);
+    th.start();
+}
+</code></pre><p>注意:使用自定义ThreadGroup线程组并且重写uncaughtException方法处理组内线程中断行为时，<strong>每个线程对象内都不能有catch语句</strong>，如果有，则uncaughtException(Thread t, Throwable e)方法不执行。</p>
+</li>
+<li><p>线程异常处理的传递:<br>对象异常处理类:</p>
+<pre><code>public class ObjectUncaughtExceptionHandler implements UncaughtExceptionHandler{
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        System.out.println(&quot;对象的异常处理&quot;);
+        e.printStackTrace();
+    }
+}
+</code></pre><p>静态的异常处理类:</p>
+<pre><code>public class StateUncaughtExceptionHandler implements UncaughtExceptionHandler{
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        //uncaughtException(t, e);
+        System.out.println(&quot;静态的异常处理&quot;);
+        e.printStackTrace();
+    }
+}
+</code></pre><p>自定义线程组类（线程组异常处理）:</p>
+<pre><code>public class ThreadGroup7_18 extends ThreadGroup{
+    //线程异常处理的传递
+    public ThreadGroup7_18(String name) {
+        super(name);
+    }
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        super.uncaughtException(t, e);
+        System.out.println(&quot;线程组的异常处理&quot;);
+        e.printStackTrace();
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public static void main(String[] args) {
+    ThreadGroup7_18 tg=new ThreadGroup7_18(&quot;wod线程组&quot;);
+    Thread7_18 th=new Thread7_18(tg,&quot;线程1&quot;);
+
+    //对象
+    //th.setUncaughtExceptionHandler(new ObjectUncaughtExceptionHandler());  //注释掉这一行
+
+    //类
+    Thread7_18.setDefaultUncaughtExceptionHandler(new StateUncaughtExceptionHandler());
+
+    th.start();
+}
+</code></pre></li>
+</ol>
+<p><strong>有对象异常处理的执行对象的；<br>没有对象异常处理的执行类，静态和线程组的异常处理。</strong><br>修改测试类:</p>
+<pre><code>public static void main(String[] args) {
+    ThreadGroup7_18 tg=new ThreadGroup7_18(&quot;wod线程组&quot;);
+    Thread7_18 th=new Thread7_18(tg,&quot;线程1&quot;);
+    th.start();
+}
+</code></pre><p>则静态的线程处理不会打印<code>System.out.println(&quot;静态的异常处理&quot;);</code><br>想要打印出静态处理的信息必须在 public void uncaughtException(Thread t, Throwable e)中加上uncautException(t,e);<br>注意将静态异常处理作为传到类异常处理时不能加uncautException(t,e)，否则会出现栈溢出错误。</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月08日 23:05</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/06/《Java多线程编程核心技术》笔记（七）/" title="《Java多线程编程核心技术》笔记（七）：其他剩余知识点">https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/&title=《《Java多线程编程核心技术》笔记（七）：其他剩余知识点》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/&title=《《Java多线程编程核心技术》笔记（七）：其他剩余知识点》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（七）：其他剩余知识点》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/06/《Java多线程编程核心技术》笔记（七）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程的状态"><span class="post-toc-text">1.线程的状态</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-线程组"><span class="post-toc-text">2.线程组</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-对象关联线程组"><span class="post-toc-text">2.1 对象关联线程组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-获取根线程组与组里加组"><span class="post-toc-text">2.2 获取根线程组与组里加组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-批量”停止”线程组内线程"><span class="post-toc-text">2.3 批量”停止”线程组内线程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-4-递归与非递归取得组内对象"><span class="post-toc-text">2.4 递归与非递归取得组内对象</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-使线程具有有序性"><span class="post-toc-text">3.使线程具有有序性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SimpleDateFormat非线程安全"><span class="post-toc-text">4.SimpleDateFormat非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-线程组异常的处理"><span class="post-toc-text">5.线程组异常的处理</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/07/Git学习笔记（一）：Git简介与配置安装/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Git学习笔记（一）：Git简介与配置安装
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/05/《Java多线程编程核心技术》笔记（六）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《Java多线程编程核心技术》笔记（六）：单例模式与多线程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

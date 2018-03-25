@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
+<meta name="keywords" content="Java,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-02T03:05:21.758Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
+<meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>synchronized对象监视器为Object时的使用。</li>
+<li>synchronized对象监视器为Class时的使用。</li>
+<li>非线程安全何时出现。</li>
+<li>关键字volatile的主要作用。</li>
+<li>关键字volatile与synchronized的区别及使用情况。</li>
+</ul>
+<hr>
+<h2 id="1-线程安全与非线程安全"><a href="#1-线程安全与非线程安全" class="headerlink" title="1.线程安全与非线程安全"></a>1.线程安全与非线程安全</h2><ol>
+<li>“非<a href="https://baike.baidu.com/item/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/9747724?fr=aladdin" target="_blank" rel="noopener">线程安全</a>“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”<a href="https://baike.baidu.com/item/%E8%84%8F%E8%AF%BB/152977?fr=aladdin" target="_blank" rel="noopener">脏读</a>“，也就是取到的数据实际是被修改过的。<br>“线程安全”就是获得的实例变量的值是经过同步处理的。</li>
+<li>“非线程安全”问题存在于”实例变量中”，如果是方法内部的私有变量，则不存在”非线程安全”问题。这是方法内部变量的私有性造成的。</li>
+<li>多个线程共同访问同一个对象中的“实例变量”，则有可能出现”非线程安全”。</li>
+<li>使用<strong>synchronized关键字</strong>修饰可能会出现非线程安全的方法，使之上锁变为同步方法，多个线程访问同一个对象中的同步方法时一定是线程安全的。</li>
+</ol>
+<hr>
+<h2 id="2-sychronized同步方法"><a href="#2-sychronized同步方法" class="headerlink" title="2.sychronized同步方法"></a>2.sychronized同步方法</h2><ol>
+<li>synchronized关键字的锁是对象锁，多个对象会产生多个锁:<br>公共资源类:<pre><code>public class Object2_04_2 {
+    //synchronized方法锁的是这个对象而非方法
+    synchronized public void methodA(){          
+        try{
+            System.out.println(&quot;begin method A threadName=&quot;+Thread.currentThread().getName());
+            Thread.sleep(2000);
+            System.out.println(&quot;end!&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    synchronized public void methodB(){                   
+        //加上synchronized则要等A线程执行完A方法结束后B线程才能执行方法，对象被锁
+        try{
+            System.out.println(&quot;begin method BthreadName=&quot;+Thread.currentThread().getName());
+            Thread.sleep(2000);
+            System.out.println(&quot;end!&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>线程A:<pre><code>public class Thread2_04_2A extends Thread{
+    //synchronized方法锁的是这个对象而非方法
+    private Object2_04_2 obj;    
+    public Thread2_04_2A(Object2_04_2 obj) {
+        super();
+        this.obj=obj;
+    }
+    public void run() {
+        super.run();
+        obj.methodA();
+    }
+}
+</code></pre>线程B:<pre><code>public class Thread2_04_2A extends Thread{
+    private Object2_04_2 obj;
+    public Thread2_04_2B(Object2_04_2 obj) {
+        super();
+        this.obj=obj;
+    }
+    public void run() {
+        super.run();
+        obj.methodA();
+    }
+}
+</code></pre>测试类:<pre><code>public class Test{
+    public static void main(String[] args) {
+        Object2_04_2 obj=new Object2_04_2();
+        Thread2_04_2A a=new Thread2_04_2A(obj);
+        a.setName(&quot;a&quot;);
+        Thread2_04_2B b=new Thread2_04_2B(obj);  //A与B相同
+        b.setName(&quot;b&quot;);
+        a.start();
+        b.start();
+    }
+}
+</code></pre>测试结果:<pre><code>begin method A threadName=a
+begin method A threadName=a
+end!
+begin method B threadName=b
+end!
+begin method B threadName=b
+end!
+</code></pre>结论：<blockquote>
+<p>1.A线程先持有object对象的lock锁，B线程可以以异步方式调用object对象中的非synchronized类型方法<br>2.A线程先持有object对象的lock锁，B线程如果在这时调用object对象中synchronized类型方法则需要等待，也就是同步。</p>
+</blockquote>
+</li>
+<li>脏读(dirtyRead):<br>脏读发生的情况是在读取实例变量时，<strong>此值已经被其他线程更改过了</strong>。<br>脏读是通过<strong>synchronized关键字</strong>解决的。</li>
+<li>synchronized锁重入:<br>关键字synchronized拥有锁重入功能，也就是在使用synchronized时，当一个线程得到一个对象锁后，再次请求此对象锁时是可以再次得到该对象锁的。如:<pre><code>public class MyThread extends Thread{
+    synchronized public void run（）{
+        methodA();
+    }
+    synchronized public void methodA(){...}
+}
+</code></pre>当启动MyThread的对象线程时，调用methodA()方法时锁并未释放，但是可以再次获得该对象锁。不会产生<a href="1">死锁</a>。<br>证明在一个synchronized方法/块内部调用本类其他synchronized方法/块时，是永远可以得到锁的。<br>“<a href="http://blog.csdn.net/johnking123/article/details/50043961" target="_blank" rel="noopener">可重入锁</a>“的概念是：自己可以再次获取自己的内部锁。<br>可重入锁可以用于父子继承的环境中，子类完全可以通过”可重入锁”调用父类的同步方法。</li>
+<li><strong>出现异常，锁会自动释放</strong>：<br>当一个线程出现异常时，其所持有的锁会自动释放。</li>
+<li>同步<strong>不具有继承性</strong>：<pre><code>public class AA{
+    synchronized public void testMethod(){...}
+}
+public class BB extends AA{
+    public void testMethod(){...}
+}
+</code></pre>当多个线程访问同一个BB类对象的testMethos()方法时，不会出现同步。若BB未重写testMethod()方法，则仍会出现同步。若一个调父类，一个调子类，则不同步。</li>
+</ol>
+<hr>
+<h2 id="3-synchronized同步代码块"><a href="#3-synchronized同步代码块" class="headerlink" title="3.synchronized同步代码块"></a>3.synchronized同步代码块</h2><ol>
+<li>synchronized关键字的弊端:<br>若A线程与B线程访问同一对象的同步方法，若A的同步方法执行了一个时间很长的任务，则B也必须等待很长的时间。<br>解决方法:使用synchronized(this)同步代码段。</li>
+<li>synchronized(this)同步代码段的使用:<pre><code>public class Task{  //公共资源类
+    public void methodA(){
+        //一些执行时间长但是不会产生非线程安全的代码段
+        synchronized(this){  //使用synchronized(this)同步语句块
+            //会出现非线程安全的代码段
+        }
+    }
+    synchronized public void methodB(){  //使用synchronized关键字
+        //一些执行时间长但是不会产生非线程安全的代码段
+        //会出现非线程安全的代码段
+    }
+}
+</code></pre>一半同步，一半异步:<br>不在synchronized(this)与同步方法中的代码异步，在的同步。</li>
+<li>synchronized(this)锁的仍然是<strong>对象</strong>。<br>上述代码中,如有两个线程A与B分别同时访问同一个Task类对象的methodA()与methodB()方法时，当A线程通过synchronized(this)获得<strong>对象锁</strong>时，B线程必须要等A线程释放锁才能执行methodB()中的代码，反之亦然。</li>
+<li>synchronized(任意非this对象)同步代码块:<br>java支持将”任意对象”作为”对象监视器”来实现同步功能。<br>synchronized(非this对象)同步代码块的作用:<br>(1).在多个线程持有的”对象监视器”为同一个的对象的前提下，同一时间只能有一个线程可以执行synchronized(非this对象)同步代码块中的代码。<br>(2).当持有的”对象监视器”为同一个的对象的前提下，同一时间只能有一个线程可以执行synchronized(非this对象)同步代码块中的代码。<br>String对象也可以当做对象监视器：<pre><code>public class Task{
+    public void method(){
+        synchronized(&quot;哈哈哈&quot;){
+            //同步代码块A
+        }
+        synchronized(&quot;哈哈哈&quot;){
+            //同步代码块B
+        }
+    }
+}
+</code></pre>则代码块A与代码块B是同步的<br>synchronized(非this对象)同步代码块不与synchronized(this)对象和synchronized方法争抢锁</li>
+<li>两个线程同时执行分支判断时，可能会出现逻辑上的错误，可能会出现脏读。</li>
+<li>synchronized(非this对象x)的三个重要结论:<br>(1).多个线程同时执行synchronized(x){}同步代码块时呈同步效果。<br>(2).当其他线程执行x对象中的synchronized同步方法时呈同步效果。<br>(3).当其他线程执行x对象中的synchronized(this)同步代码块时呈同步效果。</li>
+</ol>
+<hr>
+<h2 id="4-静态锁，synchronized-class-死锁等"><a href="#4-静态锁，synchronized-class-死锁等" class="headerlink" title="4.静态锁，synchronized(class),死锁等"></a>4.静态锁，synchronized(class),死锁等</h2><ol>
+<li>静态synchronized方法<br>关键字synchronized还可以应用在static方法上，如果这样写，那是对当前的*.java文件对应的Class类进行持锁。如:<pre><code>public class test{
+    synchronized public static void methodA(){
+    //代码段A
+    }
+    synchronized public void methodB(){
+    //代码段B
+    }
+}
+</code></pre>(1).若有两个线程同时访问test类不同对象的methodA()方法，出现同步互斥。<br>(2).若有两个线程同时分别访问test类相同对象的methodA()和methodB()方法时，则是异步。因为一个是给Class上锁，一个是给对象上锁，一个线程得到了Class锁，一个线程得到了对象锁。</li>
+<li>synchronized(Class)同步代码块<br>作用其实和静态synchronized方法的作用一样。也是锁Class。<pre><code>public class Test{
+    public static void methodA(){
+        synchronized(Test.class){   //代码段A
+        }
+    }
+    public void methodB(){
+        synchronized(Test.class){   //代码段B
+        }
+    }
+}
+</code></pre>这时有两个线程同时分别访问Test类不同对象的methodA()和methodB方法时，都会出现同步，因为要获取的都是Test.class锁。</li>
+<li><p>synchronized(string)的问题<br>工作类:</p>
+<pre><code>public class Task {
+    // 【String常量池的特性】给synchronized(String)带来的例外
+    public static void print(String param){
+        try{
+            synchronized(param){
+                while(true){
+                    System.out.println(Thread.currentThread().getName());
+                    Thread.sleep(1000);
+                }
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>两个线程:</p>
+<pre><code>public class Thread2_22_1A extends Thread{
+    private Task obj;
+
+    public Thread2_22_1A(Task obj) {
+        super();
+        this.obj=obj;
+    }
+    @Override
+    public void run() {
+        super.run();
+        obj.print(&quot;AAA&quot;);
+    }
+}
+public class Thread2_22_1B extends Thread{
+    private Task obj;
+
+    public Thread2_22_1B(Task obj) {
+        super();
+        this.obj=obj;
+    }
+    @Override
+    public void run() {
+        super.run();
+        obj.print(&quot;AAA&quot;);  //与A相同的String传入
+    }
+}
+</code></pre><p>测试类：</p>
+<pre><code>public class Test{
+    public static void main(String[] args) {
+        Task obj=new Task();
+        Thread2_22_1A a=new Thread2_22_1A(obj);
+        a.setName(&quot;A&quot;);
+        a.start();
+        Thread2_22_1B b=new Thread2_22_1B(obj);
+        b.setName(&quot;B&quot;);
+        b.start();
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>A
+A
+A
+A
+A
+...
+</code></pre><p>说明:<br>A与B线程持有的是相同的锁(“AAA”)。<br>所以一般不用String作为锁对象，而改用其他，如使用new Object()传入一个对象实现<strong>异步</strong>，但是它并不放入缓存中。</p>
+</li>
+<li><a href="1">死锁</a>:<br>不同的线程都在等待不可能被释放的锁，从而导致所有的任务都无法完成。<br><strong>死锁是必须避免的</strong>，这会造成程序的假死。<br>相互等待对方释放锁就有可能出现死锁。<br>死锁的判断可以参考博客:<a href="http://blog.csdn.net/sidihuo/article/details/52474227" target="_blank" rel="noopener">java死锁的排查</a>。</li>
+</ol>
+<hr>
+<h2 id="5-内置类与同步"><a href="#5-内置类与同步" class="headerlink" title="5.内置类与同步"></a>5.内置类与同步</h2><ol>
+<li>内置类<br>关于java内部类具体内容可以参考博客:<br><a href="http://blog.csdn.net/u011424470/article/details/52319069" target="_blank" rel="noopener">java四种内部类详解</a><br><a href="http://blog.csdn.net/zhangjg_blog/article/details/20000769" target="_blank" rel="noopener">深入理解Java中为什么内部类可以访问外部类的成员</a><br>普通内置类的使用:<pre><code>public class OutClass{
+    class InClass{
+    }
+}
+//测试类中实例化
+public class test{
+    public static void main(String args[]){
+        InClass inclass=OutClass.new InClass();  //普通内部类的实例化
+    }
+}
+</code></pre>若OutClass与test不在同一个包内，则需要将InClass内置声明成public的。</li>
+<li>静态内置类<pre><code>public class OutClass{
+    static class InClass{
+    }
+}
+//测试类中实例化
+public class test{
+    public static void main(String args[]){
+        InClass inclass=new InClass();  //静态内部类的实例化
+    }
+}
+</code></pre></li>
+<li>内置类的同步:<pre><code>public class Run{
+    static public class InnerClass1{
+        public void method1(InnerClass2 class2){
+            synchronized (class2) {
+            //代码段
+            }
+        }
+        public synchronized void method2(){
+        //代码段
+        }
+    }
+    //静态内部类2
+    static public class InnerClass2{
+        public synchronized void method3(){
+        //代码段
+        }
+    }
+}
+</code></pre>同步代码块synchronized(class2)对class2上锁后，其他线程只能同步调用class2对象中的方法。</li>
+<li><p>锁对象的改变<br>公共资源类:</p>
+<pre><code>public class Object2_28_1 {
+    private String lock=&quot;123&quot;;
+    public void testMethod(){
+        try{
+            synchronized (lock) {
+                //输出
+                lock=&quot;456&quot;;      //锁对象改变
+                Thread.sleep(2000);
+                //输出
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>两个线程:</p>
+<pre><code>public class Thread2_28_1A extends Thread{
+
+    private Object2_28_1 obj;
+
+    public Thread2_28_1A(Object2_28_1 obj){
+        this.obj=obj;
+    }
+    public void run(){
+        super.run();
+        obj.testMethod();
+    }
+}
+public class Thread2_28_1B extends Thread{
+
+    private Object2_28_1 obj;
+
+    public Thread2_28_1B(Object2_28_1 obj){
+        this.obj=obj;
+    }
+    public void run(){
+        super.run();
+        obj.testMethod();
+    }
+}
+</code></pre><p>测试类:</p>
+<pre><code>public class Test2_28_1 {
+    public static void main(String[] args) throws InterruptedException {
+        Object2_28_1 obj=new Object2_28_1();
+        Thread2_28_1A a=new Thread2_28_1A(obj);
+        a.setName(&quot;aaa&quot;);
+        Thread2_28_1B b=new Thread2_28_1B(obj);
+        b.setName(&quot;bbb&quot;);
+        a.start();
+        Thread.sleep(50);           //不加这句同步
+        b.start();
+    }
+}
+</code></pre><p>结果:<br>(1).若加上Thread.sleep(50)，则异步，因为50毫秒后线程B获得的锁是”456”。<br>(2).若不加Thread.sleep(50)，则同步，即使对象改变，线程B从一开始等待”123”锁，不会改变等待的锁。<br>还有一个结论:<br>只要作为对象监视器的对象，即使对象的属性改变了，运行结果也还是同步的。</p>
+</li>
+</ol>
+<hr>
+<h2 id="6-volatile关键字"><a href="#6-volatile关键字" class="headerlink" title="6.volatile关键字"></a>6.volatile关键字</h2><ol>
+<li>Thread与Runnable<br>不是在多继承的情况下使用继承Thread和实现Runnable取得的实验结果并没有什么太大区别。但是一旦出现多继承，就得用实现Runnable接口的方式。</li>
+<li><p>volatile关键字的用法:<br><strong>强制从公共堆栈中读取变量的值</strong>。<br>不使用volatile出现死循环的情况:</p>
+<pre><code>public class Thread2_31 extends Thread{
+    //volatile解决异步死循环
+
+    private boolean isRunning=true;                  //在_server运行环境下死循环
+    //volatile private boolean isRunning=true;
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
+    @Override
+    public void run() {
+        super.run();
+        System.out.println(&quot;进入run了!&quot;);
+        while(isRunning){
+            System.out.println(&quot;123&quot;);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(&quot;线程被停止了!&quot;);
+    }
+}
+
+public class Test2_31 {
+    public static void main(String[] args) {
+        try{
+            Thread2_31 thread=new Thread2_31();
+            thread.start();
+            Thread.sleep(1000);             //thread线程停止1秒
+            thread.setRunning(false);
+            System.out.println(&quot;已经赋值为false&quot;);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>以上代码在JVM设置为-server时会出现死循环。原因是-server为了运行效率，一只获取的是私有堆栈中的isRunning值，而<code>thread.setRunning(false);</code>更新的是公有堆栈中的值。所以程序会一直死循环。<br>关于JVM-server的具体内容可以参考博客:<a href="http://www.importnew.com/20715.html" target="_blank" rel="noopener">关于JVM的类型和模式</a>。</p>
+</li>
+<li><strong>volatile与synchronized的区别</strong>:<br>(1).volatile是synchronized的轻量级实现，性能肯定比synchronized好，但是volatile只能修饰变量，synchronized可以修饰方法以及代码块。新版本的JDK发布使得synchronized的性能有了很大提升。<br>(2).多线程访问volatile不会阻塞，访问synchronized会发生阻塞。<br>(3).volatile能保证数据的可见性，<strong>不能保证原子性*</strong>;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。<br>(4).关键字volatile保证了数据的可见性;而synchronized保证了多个线程访问同步资源的可见性。</li>
+<li><p>volatile的非原子性(致命缺陷):<br>对于volatile修饰的变量，JVM只是保证从内存加载到线程工作内存的值是最新的，但是多个线程同时访问同一个实例变量并修改时，无法保证同步修改(非原子操作时)，所以在多个线程访问同一个实例变量还是需要加锁。</p>
+<pre><code>public class Thread2_32_1 extends Thread{
+    //volatile的非原子特性
+    volatile public static int count;
+    private static void addCount(){
+        for(int i=0;i&lt;100;i++){
+            count++;    //这一步是非线程安全的
+        }
+        System.out.println(&quot;count=&quot;+count);
+    }
+
+    public void run() {
+        // TODO Auto-generated method stub
+        addCount();
+    }
+}
+</code></pre><p>具体的解释:<br>变量在内存中的工作阶段:<br>(1).read和load阶段:从主存复制变量到当前线程工作内存<br>(2).use和assign阶段:执行代码阶段，改变变量值<br>(3).store和write阶段:用对应数据刷新主存对应变量的值<br>多线程环境中use和assign是多次出现的，load,use,assign都是非线程安全的</p>
+</li>
+<li>synchronized代码块具有volatile同步的功能<pre><code>public class Object2_35 {
+    //synchronized代码块有volatile同步功能          
+    private boolean isRun=true;
+    public void runMethod(){
+        while(isRun){
+            synchronized (&quot;AAA&quot;) {               //可视,_server服务器环境下
+            }
+        }
+        System.out.println(&quot;停了&quot;);
+    }
+    public void stopMethod(){
+        isRun=false;
+    }
+}
+</code></pre>同步synchronized不仅可以解决一个线程看到对象处于不一致的状态，还可以保证进入同步方法/代码块的每个线程，都看到由一个锁保护之前的所有修改结果。</li>
+</ol>
+<hr>
+<h2 id="7-原子类-Atomic"><a href="#7-原子类-Atomic" class="headerlink" title="7.原子类(Atomic)"></a>7.原子类(Atomic)</h2><ol>
+<li>使用<a href="http://blog.csdn.net/youyou1543724847/article/details/52735510" target="_blank" rel="noopener">原子类</a>进行i++操作:<br>除了在i++时使用synchronized关键字外，还可以使用AtomicInteger原子整型来保证同步。</li>
+<li><p>原子操作是不可分割的整体，没有其他线程能够中断或者检查正在原子操作中的变量，一个原子类型就是一个原子操作的可用类型，可以在没有锁的情况下做到线程安全。</p>
+<pre><code>public class Thread2_33 extends Thread{
+    //使用原子类对i++进行操作
+
+    private AtomicInteger count=new AtomicInteger(0);
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        super.run();
+        for(int i=0;i&lt;10000;i++){
+            System.out.println(count.incrementAndGet());      //count++操作
+        }
+    }
+}
+</code></pre></li>
+<li><p>原子类也并非绝对线程安全的:<br>原子操作在具有逻辑性的情况下输出结果也具有随机性。</p>
+<pre><code>public class Object2_34 {
+    //有原子类也并非完全安全
+
+    public static AtomicLong along=new AtomicLong();
+
+//    synchronized public void addNum(){                 //需要同步,两方法之间不是原子的
+    public void addNum(){
+        System.out.println(Thread.currentThread().getName()+&quot; 加了100后的值是：&quot;+along.addAndGet(100));
+        along.addAndGet(1);
+    }
+}
+
+public class Test2_34 {
+
+    public static void main(String[] args) {
+        try{
+            Object2_34 obj=new Object2_34();
+            Thread2_34[] array=new Thread2_34[5];
+            for(int i=0;i&lt;array.length;i++){
+                array[i]=new Thread2_34(obj);
+            }
+            for(int i=0;i&lt;array.length;i++){
+                array[i].start();
+            }
+            Thread.sleep(1000);
+            System.out.println(obj.along.get());
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>方法内部可能是原子的，但是方法之间是非线程安全的，解决方法仍是synchronized关键字。</p>
+</li>
+<li>更多关于java原子类的知识可以访问博客:<a href="http://blog.csdn.net/youyou1543724847/article/details/52735510" target="_blank" rel="noopener">Java并发:原子类</a>。</li>
+</ol>
+<hr>
+<h2 id="8-总结："><a href="#8-总结：" class="headerlink" title="8.总结："></a>8.总结：</h2><p>学习多线程并发，要着重<strong>“外练互斥，内修可见”</strong>。</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月02日 11:05</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/28/《Java多线程编程核心技术》笔记（二）/" title="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&title=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&title=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问》 — 程序人生&url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全与非线程安全"><span class="post-toc-text">1.线程安全与非线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-sychronized同步方法"><span class="post-toc-text">2.sychronized同步方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-synchronized同步代码块"><span class="post-toc-text">3.synchronized同步代码块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-静态锁，synchronized-class-死锁等"><span class="post-toc-text">4.静态锁，synchronized(class),死锁等</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-内置类与同步"><span class="post-toc-text">5.内置类与同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-volatile关键字"><span class="post-toc-text">6.volatile关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-原子类-Atomic"><span class="post-toc-text">7.原子类(Atomic)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-总结："><span class="post-toc-text">8.总结：</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《Java多线程编程核心技术》笔记（三）：线程间的通信
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/02/27/《Java多线程编程核心技术》笔记（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《Java多线程编程核心技术》笔记（一）:java多线程基本操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
