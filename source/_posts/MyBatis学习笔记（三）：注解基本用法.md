@@ -78,7 +78,7 @@ selectById2测试与测试selectById的方法相同。测试略。
 
 ---
 ## 2.@insert注解
-1. 不需要返回主键：
+1. 不需要返回主键值：
 和xml中的sql完全一样：
 		//添加Role对象
 		@Insert({"insert into role values(#{id},#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})"})
@@ -108,7 +108,134 @@ selectById2测试与测试selectById的方法相同。测试略。
 		}
 测试结果：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-02.jpg)
-2. 返回自增主键的值：
+为了不影响数据库而选择回滚。
+2. 返回自增主键的值(@option标签)：
+添加以下接口方法：
+		@Insert({"insert into role values(null,#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})"})
+		@Options(useGeneratedKeys=true,keyProperty="id")
+		int addRole2(Role role);
+测试方法同上，测试结果为：
+![](http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-03.jpg)
+3. 返回非自增的主键：
+添加接口方法indsert3()：
+		//添加Role对象返回非自增主键
+		@Insert({"insert into role values(null,#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})"})
+		@SelectKey(statement="SELECT LAST_INSERT_ID()",keyProperty="id",resultType=Long.class,before=false)
+		int addRole3(Role role);
+测试方法与上面的相同，就不测试了。
+需要注意的是最后的`before=false`这句话，效果等同于`order=after`。
+不同的数据库需要配置的order是不一样的。
 
+---
+## 3.@Update注解
+1. 添加接口方法：
+		//根据Id更新
+		@Update({"update role set role_name=#{roleName},enabled=#{enabled},create_by=#{createBy},create_time=#{createTime} where id=#{id}"})
+		int updateById();
+2. 添加测试类方法：
+		@Test
+		public void testUpdateById(){
+			//获取sqlSession
+			SqlSession sqlSession =getSqlSession();
+			try{
+				//获取RoleMapper接口
+				RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+				//创建角色对象
+				Role role=new Role();
+				role.setId(5l);
+				role.setRoleName("人力管理");
+				role.setEnabled(1);
+				role.setCreateBy(1);
+				role.setCreateTime(new Date());
+				//调用addRole方法	
+				int result = roleMapper.updateById(role);
+				//断言是否添加成功
+				Assert.assertEquals(1,result);
+				//查询添加后的结果
+				role = roleMapper.selectById(role.getId());
+				//断言测试是否添加成功
+				Assert.assertEquals("人力管理",role.getRoleName());
+			}finally{
+				sqlSession.rollback();
+				sqlSession.close();
+			}
+		}
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-04.jpg)
+
+----
+## 4.@Delete注解
+1. 在接口中添加删方法：
+		//根据Id删除
+		@Delete({"delete from role where id = #{id}"})
+		int deleteById(long id);
+2. 添加测试方法：
+		@Test
+		public void testDeleteById(){
+			//获取sqlSession
+			SqlSession sqlSession =getSqlSession();
+			try{
+				//获取RoleMapper接口
+				RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+				//调用删除方法	
+				int result = roleMapper.deleteById(5L);
+				//检测是否删除成功
+				Assert.assertEquals(1,result);
+			}finally{
+				sqlSession.rollback();
+				sqlSession.close();
+			}
+		}
+3. 测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-05.jpg)
+
+---
+## 5.Provider注解：
+1. 除了使用简单的注解SQL外，MyBatis还提供了四种Provider注解：
+@SelectProvider,@InsertProvider,@UpdateProvider,@DeleteProvider
+同样可以实现增删改查的操作。
+2. 通过@SelectProvider来了解它们的基本用法。
+首先在src/main/java下创建一个Mabatis.simple.provider包，并在该包内创建RoleProvider()类：
+		package Mybatis.simple.provider;
+		import org.apache.ibatis.jdbc.SQL;
+		public class RoleProvider {
+			public String selectById(final long id){
+				return new SQL().SELECT("id,role_name,enabled,create_by,create_tim").FROM("role").WHERE("id=#{id}").toString();
+			}
+		}
+使用`new SQL().SELECT().FROM().WHERE()...`可以组装SQL语句。
+RoleProvider()类的方法也可以这样写：
+		public String selectById(final long id){
+			return "SELECT id,role_name,enabled,create_by,create_tim FROM role WHERE id=#{id}";
+		}
+3. 在RoleMapper中添加接口方法：
+		//根据Id查询
+		@SelectProvider(type=RoleProvider.class,method="selectById")
+		Role selectByProviderId(long id);
+@Provider注解有两个必的属性：
+type属性指定的包含method属性方法的类，该类必须要有一个空的构造方法，
+method属性指定的是方法名，且返回值必须要是String
+4. 测试代码：
+		@Test
+		public void testSelectByProviderId(){
+			//获取sqlSession
+			SqlSession sqlSession =getSqlSession();
+			try{
+				//获取RoleMapper接口
+				RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+				//调用selectById方法
+				Role role=roleMapper.selectByProviderId(1L);
+				//断言测试role不为空
+				Assert.assertNotNull(role);
+				//角色名字是否为管理员
+				Assert.assertEquals("管理员", role.getRoleName());
+			}finally{
+				sqlSession.close();
+			}
+		}
+5. 测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-06.jpg)
+6. 注解模式：
+注解模式不是主流，高级的用法以后在学习吧。
 
 ---
