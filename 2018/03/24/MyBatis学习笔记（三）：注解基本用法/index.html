@@ -18,7 +18,11 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-02.jpg">
-<meta property="og:updated_time" content="2018-03-25T15:03:15.279Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-06.jpg">
+<meta property="og:updated_time" content="2018-03-26T07:44:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（三）：注解方式的基本用法">
 <meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档  本章重点  注解的基本用法     1.注解方式简介MyBatis注解的方式就是直接将SQL语句写在接口上。优点是对于需求比较简单的系统，效率较高。缺点是每次改变需求都需要重新编译代码。一般情况下不会使用注解方式。  2.@select注解1)使用方法：  别名方式的@select注解：在">
@@ -206,7 +210,7 @@ public void testSelectById(){
 </ol>
 <hr>
 <h2 id="2-insert注解"><a href="#2-insert注解" class="headerlink" title="2.@insert注解"></a>2.@insert注解</h2><ol>
-<li>不需要返回主键：<br>和xml中的sql完全一样：<pre><code>//添加Role对象
+<li>不需要返回主键值：<br>和xml中的sql完全一样：<pre><code>//添加Role对象
 @Insert({&quot;insert into role values(#{id},#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})&quot;})
 int addRole(Role role);
 </code></pre>测试类：<pre><code>@Test
@@ -231,14 +235,121 @@ public void testAddRole(){
         sqlSession.close();
     }
 }
-</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-02.jpg" alt=""></li>
-<li>返回自增主键的值：</li>
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-02.jpg" alt=""><br>为了不影响数据库而选择回滚。</li>
+<li>返回自增主键的值(@option标签)：<br>添加以下接口方法：<pre><code>@Insert({&quot;insert into role values(null,#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})&quot;})
+@Options(useGeneratedKeys=true,keyProperty=&quot;id&quot;)
+int addRole2(Role role);
+</code></pre>测试方法同上，测试结果为：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-03.jpg" alt=""></li>
+<li>返回非自增的主键：<br>添加接口方法indsert3()：<pre><code>//添加Role对象返回非自增主键
+@Insert({&quot;insert into role values(null,#{roleName},#{enabled},#{createBy},#{createTime,jdbcType=TIMESTAMP})&quot;})
+@SelectKey(statement=&quot;SELECT LAST_INSERT_ID()&quot;,keyProperty=&quot;id&quot;,resultType=Long.class,before=false)
+int addRole3(Role role);
+</code></pre>测试方法与上面的相同，就不测试了。<br>需要注意的是最后的<code>before=false</code>这句话，效果等同于<code>order=after</code>。<br>不同的数据库需要配置的order是不一样的。</li>
+</ol>
+<hr>
+<h2 id="3-Update注解"><a href="#3-Update注解" class="headerlink" title="3.@Update注解"></a>3.@Update注解</h2><ol>
+<li>添加接口方法：<pre><code>//根据Id更新
+@Update({&quot;update role set role_name=#{roleName},enabled=#{enabled},create_by=#{createBy},create_time=#{createTime} where id=#{id}&quot;})
+int updateById();
+</code></pre></li>
+<li>添加测试类方法：<pre><code>@Test
+public void testUpdateById(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取RoleMapper接口
+        RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+        //创建角色对象
+        Role role=new Role();
+        role.setId(5l);
+        role.setRoleName(&quot;人力管理&quot;);
+        role.setEnabled(1);
+        role.setCreateBy(1);
+        role.setCreateTime(new Date());
+        //调用addRole方法    
+        int result = roleMapper.updateById(role);
+        //断言是否添加成功
+        Assert.assertEquals(1,result);
+        //查询添加后的结果
+        role = roleMapper.selectById(role.getId());
+        //断言测试是否添加成功
+        Assert.assertEquals(&quot;人力管理&quot;,role.getRoleName());
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-04.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-Delete注解"><a href="#4-Delete注解" class="headerlink" title="4.@Delete注解"></a>4.@Delete注解</h2><ol>
+<li>在接口中添加删方法：<pre><code>//根据Id删除
+@Delete({&quot;delete from role where id = #{id}&quot;})
+int deleteById(long id);
+</code></pre></li>
+<li>添加测试方法：<pre><code>@Test
+public void testDeleteById(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取RoleMapper接口
+        RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+        //调用删除方法    
+        int result = roleMapper.deleteById(5L);
+        //检测是否删除成功
+        Assert.assertEquals(1,result);
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-05.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-Provider注解："><a href="#5-Provider注解：" class="headerlink" title="5.Provider注解："></a>5.Provider注解：</h2><ol>
+<li>除了使用简单的注解SQL外，MyBatis还提供了四种Provider注解：<br>@SelectProvider,@InsertProvider,@UpdateProvider,@DeleteProvider<br>同样可以实现增删改查的操作。</li>
+<li>通过@SelectProvider来了解它们的基本用法。<br>首先在src/main/java下创建一个Mabatis.simple.provider包，并在该包内创建RoleProvider()类：<pre><code>package Mybatis.simple.provider;
+import org.apache.ibatis.jdbc.SQL;
+public class RoleProvider {
+    public String selectById(final long id){
+        return new SQL().SELECT(&quot;id,role_name,enabled,create_by,create_tim&quot;).FROM(&quot;role&quot;).WHERE(&quot;id=#{id}&quot;).toString();
+    }
+}
+</code></pre>使用<code>new SQL().SELECT().FROM().WHERE()...</code>可以组装SQL语句。<br>RoleProvider()类的方法也可以这样写：<pre><code>public String selectById(final long id){
+    return &quot;SELECT id,role_name,enabled,create_by,create_tim FROM role WHERE id=#{id}&quot;;
+}
+</code></pre></li>
+<li>在RoleMapper中添加接口方法：<pre><code>//根据Id查询
+@SelectProvider(type=RoleProvider.class,method=&quot;selectById&quot;)
+Role selectByProviderId(long id);
+</code></pre>@Provider注解有两个必的属性：<br>type属性指定的包含method属性方法的类，该类必须要有一个空的构造方法，<br>method属性指定的是方法名，且返回值必须要是String</li>
+<li>测试代码：<pre><code>@Test
+public void testSelectByProviderId(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取RoleMapper接口
+        RoleMapper roleMapper =sqlSession.getMapper(RoleMapper.class);
+        //调用selectById方法
+        Role role=roleMapper.selectByProviderId(1L);
+        //断言测试role不为空
+        Assert.assertNotNull(role);
+        //角色名字是否为管理员
+        Assert.assertEquals(&quot;管理员&quot;, role.getRoleName());
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00021MyBatis%E5%AD%A6%E4%B9%A03-06.jpg" alt=""></li>
+<li>注解模式：<br>注解模式不是主流，高级的用法以后在学习吧。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月25日 23:03</p>
+        <p>最后更新： 2018年03月26日 15:44</p>
         <p>原始链接： <a class="post-url" href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" title="MyBatis学习笔记（三）：注解方式的基本用法">https://zjxkenshine.github.io/2018/03/24/MyBatis学习笔记（三）：注解基本用法/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -356,7 +467,7 @@ public void testAddRole(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-注解方式简介"><span class="post-toc-text">1.注解方式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-select注解"><span class="post-toc-text">2.@select注解</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-insert注解"><span class="post-toc-text">2.@insert注解</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-注解方式简介"><span class="post-toc-text">1.注解方式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-select注解"><span class="post-toc-text">2.@select注解</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-insert注解"><span class="post-toc-text">2.@insert注解</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Update注解"><span class="post-toc-text">3.@Update注解</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Delete注解"><span class="post-toc-text">4.@Delete注解</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Provider注解："><span class="post-toc-text">5.Provider注解：</span></a></li></ol>
         </nav>
     </aside>
     
@@ -444,7 +555,7 @@ public void testAddRole(){
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 16.67px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -477,7 +588,7 @@ public void testAddRole(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 13.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 16.67px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
 </div>
