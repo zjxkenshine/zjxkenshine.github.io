@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-24.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-25.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00020mysql%E5%AD%A6%E4%B9%A06-26.jpg">
-<meta property="og:updated_time" content="2018-03-25T12:02:18.021Z">
+<meta property="og:updated_time" content="2018-03-26T08:13:09.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（六）：视图，备份还原与事务">
 <meta name="twitter:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 构建新表：CREATE TABLE m_stu1 LIKE te_stu3; -- 蠕虫复制 INSERT INTO m_stu1 SELECT * FROM te_stu3; CREATE TABLE m_class1 LIKE te_class1; INSERT INTO m_clas">
@@ -492,11 +492,12 @@ SELECT * FROM m_account;
 <li>锁机制：<br>InnoDB，默认是行锁，但是如果在事务过程中，没有用到索引，那么系统会自动全表检索，自动省纪委表锁。<br>行锁：只有当前行被锁住，别的用户不能操作。<br>标锁：整张表被锁住，别的用户都不能碰。</li>
 <li>何时使用事务：和钱有关的操作会用手动事务。<br>其余时候都是自动事务。</li>
 </ol>
+<p><strong>3)事务的操作时数据的操作：</strong><br>删除数据表等针对结构的操作不可逆。</p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月25日 20:02</p>
+        <p>最后更新： 2018年03月26日 16:13</p>
         <p>原始链接： <a class="post-url" href="/2018/03/24/MySQL数据库学习笔记（六）/" title="MySQL学习笔记（六）：视图，备份还原与事务">https://zjxkenshine.github.io/2018/03/24/MySQL数据库学习笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -626,7 +627,7 @@ SELECT * FROM m_account;
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          MySQL学习笔记（七）：变量、触发器、函数、分支及存储过程
+          MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程
         
       </span>
     </a>
