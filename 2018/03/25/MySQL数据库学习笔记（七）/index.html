@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程 | 程序人生</title>
+  <title>MySQL学习笔记（七）：变量、触发器、函数及流程控制 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,7 +11,7 @@
   <meta name="description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  系统函数部分及补充部分参考书本其余部分参考视频  建表准备：创建订单表与货物表并添加数据 -- 创建商品表 CREATE TABLE m_goods( id INT PRIMARY KEY auto_increment, name VARCHAR(20) NOT NULL, price">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记（七）：变量、触发器、函数、分支&#x2F;循环及存储过程">
+<meta property="og:title" content="MySQL学习笔记（七）：变量、触发器、函数及流程控制">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  系统函数部分及补充部分参考书本其余部分参考视频  建表准备：创建订单表与货物表并添加数据 -- 创建商品表 CREATE TABLE m_goods( id INT PRIMARY KEY auto_increment, name VARCHAR(20) NOT NULL, price">
@@ -29,9 +29,27 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-11.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-12.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-13-1.jpg">
-<meta property="og:updated_time" content="2018-03-26T14:43:05.739Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20-0.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-28-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-30.jpg">
+<meta property="og:updated_time" content="2018-03-27T10:17:44.394Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL学习笔记（七）：变量、触发器、函数、分支&#x2F;循环及存储过程">
+<meta name="twitter:title" content="MySQL学习笔记（七）：变量、触发器、函数及流程控制">
 <meta name="twitter:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  系统函数部分及补充部分参考书本其余部分参考视频  建表准备：创建订单表与货物表并添加数据 -- 创建商品表 CREATE TABLE m_goods( id INT PRIMARY KEY auto_increment, name VARCHAR(20) NOT NULL, price">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-01.jpg">
   
@@ -131,7 +149,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程
+      MySQL学习笔记（七）：变量、触发器、函数及流程控制
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -337,28 +355,267 @@ End while;
     -- 循环体
     -- 循环控制
     Iterate/Leave 循环名字
-End while;
+End while [循环名];
 </code></pre></li>
-<li>循环不适合在触发器中使用。</li>
+<li>循环不适合在触发器中使用。<br>配合函数食用效果更佳<br>所以等学完函数再补充</li>
 </ol>
 <hr>
-<h2 id="4-代码执行结构补充"><a href="#4-代码执行结构补充" class="headerlink" title="4.代码执行结构补充"></a>4.代码执行结构补充</h2><hr>
-<h2 id="5-函数及系统函数"><a href="#5-函数及系统函数" class="headerlink" title="5.函数及系统函数"></a>5.函数及系统函数</h2><p><strong>1)函数简介:</strong></p>
+<h2 id="4-函数及系统函数"><a href="#4-函数及系统函数" class="headerlink" title="4.函数及系统函数"></a>4.函数及系统函数</h2><p><strong>1)函数简介:</strong></p>
 <ol>
-<li>函数：将一段代码封装到一个结构中，需要执行代码块的时候调用结构执行即可。（代码复用）</li>
+<li>函数：将一段代码封装到一个结构中，需要执行代码块的时候调用结构执行即可。（代码复用）<br>所有函数都不区分大小写，系统函数最好用大写。</li>
 <li>函数分为两类：<br>系统函数，自定义函数</li>
 <li>系统函数：<br>系统定义好的函数，直接调用即可。<br>任何函数都必须要有返回值，所以可以通过select来查看调用。</li>
 </ol>
 <p><strong>2)字符串系统函数：</strong></p>
+<ol>
+<li>常用的字符串系统函数：<ul>
+<li>concat(S1,S2…Sn)：连接S1到Sn为一个字符串</li>
+<li>insert(str,x,y,instr)：将字符串str从第x位置开始，y个字符长的字符串替换为instr</li>
+<li>lower/upper(str)：将字符串str变为小写/大写。</li>
+<li>left/right(str,x)：返回字符串str最左/右边x个字符。</li>
+<li>lpad/rpad(str,n,pad)：用字符串pad对str的最左边/最右边进行填充，直到字符串长度为n。</li>
+<li>ltrim/rtrim(str)：去掉字符串最左边/右边的空格。</li>
+<li>trim(str)：去掉行头和行尾的空格</li>
+<li>repeat(str,x)：返回str重复x次的结果。</li>
+<li>replace(str,a,b)：将str中所有的字符串a用b代替。</li>
+<li>strcmp(a,b)：比较字符串a和b。</li>
+<li>substring(str,x,y)：返回从x位置起y个字符长度的字符串。</li>
+<li>char_length/length(str)：返回字符串长度。</li>
+</ul>
+</li>
+<li>测试第一组方法：<pre><code>SELECT CONCAT(&apos;aaa&apos;,&apos;bbb&apos;),CONCAT(&apos;aaa&apos;,NULL),INSERT(&apos;shabi&apos;,4,2,&apos;diao&apos;);
+SELECT LOWER(&apos;HAHA&apos;),UPPER(&apos;haha&apos;),UPPER(NULL);
+SELECT LEFT(&apos;12345678&apos;,3),LEFT(&apos;12345678&apos;,NULL),RIGHT(&apos;12345678&apos;,3);
+</code></pre>测试结果（注意为null的情况）：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-14.jpg" alt=""></li>
+<li>测试第二组方法：<pre><code>SELECT LPAD(&apos;123&apos;,10,&apos;6&apos;),LPAD(&apos;123&apos;,10,NULL),RPAD(&apos;123&apos;,10,&apos;6&apos;);
+SELECT LTRIM(&apos;      haha&apos;),RTRIM(&apos;haha     &apos;);
+SELECT REPEAT(&apos;a&apos;,5),REPLACE(&apos;666666&apos;,&apos;6&apos;,&apos;7&apos;);
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-15.jpg" alt=""></li>
+<li>测试第三组方法：<pre><code>SELECT STRCMP(&apos;a&apos;,&apos;b&apos;),STRCMP(&apos;a&apos;,null),STRCMP(&apos;a&apos;,&apos;a&apos;),STRCMP(&apos;b&apos;,&apos;a&apos;);
+SELECT SUBSTRING(&apos;12345678910&apos;,3,5);
+SELECT LENGTH(&apos;123456&apos;),CHAR_LENGTH(&apos;123456&apos;);
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-16.jpg" alt=""><br>注意：sql的下标是从1开始的。</li>
+</ol>
+<p><strong>3)数值系统函数：</strong></p>
+<ol>
+<li>常用的数值函数：<ul>
+<li>ABS(x)：返回x的绝对值。</li>
+<li>FLOOR/CEIL(x)：向下取整。</li>
+<li>MOD(x,y)：返回x/y的值。</li>
+<li>RAND()：返回0-1之内的随机值。</li>
+<li>ROUND(x,y)：返回x四舍五入后带有y位小数的值。</li>
+<li>truncate(x,y)：返回数字x截断为y位小数的结果。</li>
+</ul>
+</li>
+<li>函数测试1：<pre><code>SELECT ABS(-0.8),ABS(0.8);
+SELECT CEIL(-0.8),CEIL(0.8),FLOOR(-0.8),FLOOR(0.8);
+SELECT RAND(),FLOOR(RAND()),CEIL(RAND());
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-17.jpg" alt=""><br>可以通过Rand()取到任意范围内的随机数。</li>
+<li>函数测试2：<pre><code>SELECT MOD(1,3),MOD(0,3),MOD(3,0),MOD(null,3),MOD(3,NULL);
+SELECT ROUND(1,2),ROUND(1.6,2),ROUND(1.66666,2),ROUND(1.4);
+SELECT TRUNCATE(1.66666,2),TRUNCATE(1.66666,0);
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-18.jpg" alt=""><br>MOD相当于%，任何人一个参数为null返回值都为null;<br>truncate和round的最大区别就是一个会四舍五入一个人只是截断。</li>
+</ol>
+<p><strong>4)时间与日期函数：</strong></p>
+<ol>
+<li>常用日期与时间函数：<ul>
+<li>curdate()/curtime()：返回当前日期/时间</li>
+<li>now()：返回当前的日期和时间</li>
+<li>unix_timestamp(date)：返回日期date的unix时间戳</li>
+<li>from_unixtime(…）：返回unix时间戳的日期值</li>
+<li>week(date)：返回date是一年中的第几周</li>
+<li>year(date)：返回date的年份</li>
+<li>monthName(date)：返回date的月份名</li>
+<li>hour(time)/minute(time)：返回time的小时值/分钟值</li>
+<li>date_format(date,fmt)：按字符串fmt格式化日期date值</li>
+<li>datediff(end,begin)：返回起始时间begin和结束时间end之间的天数</li>
+<li>date_add(date,INTERVAL expr type)：返回与所给时间date相差INTERVAL时间段的值</li>
+</ul>
+</li>
+<li>函数测试1：<pre><code>SELECT CURDATE(),CURTIME(),NOW(),WEEK(NOW());
+SELECT unix_timestamp(NOW()),from_unixtime(unix_timestamp(NOW()));
+SELECT YEAR(NOW()),MONTHNAME(NOW()),HOUR(NOW()),MINUTE(NOW());
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-19.jpg" alt=""></li>
+<li>最后三个函数介绍：<br><code>date_format(date,fmt)</code>时间格式化函数：<br>mysql中的日期和时间格式非常多，主要有如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20-0.jpg" alt=""><br><code>date_add(date,INTERVAL expr type)</code>：返回与所给时间date相差INTERVAL时间段的值<br>如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-21.jpg" alt=""><br>如返回1年零两个月后的时间：<pre><code>SELECT DATE_ADD(NOW(),INTERVAL 1_2 YEAR_MONTH);
+</code></pre><code>datediff(expr,expr2)</code>：返回起始时间expr2和结束时间expr之间的天数</li>
+<li>测试最后三个函数：<pre><code>SELECT DATE_FORMAT(NOW(),&apos;%D,%T,%Y,%M&apos;);
+SELECT DATE_ADD(NOW(),INTERVAL &apos;1_2&apos; YEAR_MONTH) 1year2monthlater;
+SELECT DATEDIFF(NOW(),DATE_ADD(NOW(),INTERVAL 60 DAY)) later2now,DATEDIFF(NOW(),DATE_ADD(NOW(),INTERVAL -60 DAY)) before2now;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-22.jpg" alt=""></li>
+</ol>
+<p><strong>5)流程(分支)函数(和流程控制的稍有不同)</strong></p>
+<ol>
+<li>在一个SQL语句中实现条件选择可以提高语句的效率。</li>
+<li>常见的流程函数：<ul>
+<li>if(condition,t,f)：如果condition成立返回t,不成立返回f</li>
+<li>ifnull(value1,value2)：如果value1不为空返回value1否则返回value2</li>
+<li><code>CASE WHEN value1 THEN [result1][when(value2)...] ELSE [default] end</code><br>满足条件value则返回result否则返回default。</li>
+<li><code>CASE [expr] WHEN value1 THEN [result1][when(value2)...] ELSE [default] end</code><br>满足条件value=expr则返回result,否则返回default。</li>
+</ul>
+</li>
+<li>测试(m_stu2表)：<pre><code>SELECT id,name,if(Height&gt;175,&apos;tall&apos;,&apos;short&apos;) FROM m_stu1; -- 返回身高175以上为高，以下为矮
+SELECT id,name,(CASE height WHEN 161 THEN &apos;残疾&apos; WHEN 182 THEN &apos;完美&apos; ELSE &apos;还行&apos; END) as pingji FROM m_stu1;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-23.jpg" alt=""></li>
+</ol>
+<p><strong>6)其他函数（加密函数等）</strong></p>
+<ol>
+<li>其他常用的函数：<ul>
+<li>DATABASE()：返回当前的数据库名</li>
+<li>VERSION()：返回当前的数据库版本</li>
+<li>USER()：返回当前登录用户</li>
+<li>INET_ATON(IP)：返回IP地址的数字表示</li>
+<li>INET_NTOA(num)：返回数字表示的IP地址</li>
+<li>PASSWORD(str)：返回字符串str的加密版本，不能用来对应用数据加密</li>
+<li>MD5(str)：返回str的MD5加密版本，常用于应用的数据加密</li>
+</ul>
+</li>
+<li>函数测试：<pre><code>SELECT DATABASE(),VERSION(),USER();
+SELECT INET_ATON(&apos;192.168.1.1&apos;),INET_NTOA(&apos;3232235777&apos;);
+SELECT PASSWORD(&apos;123456&apos;),MD5(&apos;123456&apos;);
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-24.jpg" alt=""></li>
+<li>PASSWORD与MD5的简单区别：<br>password用于修改mysql的用户密码，如果是应用与web程序建议使用md5()函数<br>password函数旧版16位，新版41位，可用<code>select length(password(&#39;123456&#39;))</code>察看。<br>password函数加密不可逆，如果和数据库里加密后内容比较时可以采用<code>password(pwd)==字段内容</code>的方式；<br>md5函数加密后32位，此加密算法不可逆，其实md5算法是信息摘要算法，如果拿来做压缩也是有损压缩，理论上即使有反向算法也无法恢复信息原样。常被用来检验下载数据的完整性。</li>
+</ol>
 <hr>
-<h2 id="6-自定义函数及函数的操作"><a href="#6-自定义函数及函数的操作" class="headerlink" title="6.自定义函数及函数的操作"></a>6.自定义函数及函数的操作</h2><hr>
-<h2 id="7-存储过程的使用"><a href="#7-存储过程的使用" class="headerlink" title="7.存储过程的使用"></a>7.存储过程的使用</h2><hr>
-<h2 id="8-存储过程补充"><a href="#8-存储过程补充" class="headerlink" title="8.存储过程补充"></a>8.存储过程补充</h2><hr>
+<h2 id="5-自定义函数及函数的操作"><a href="#5-自定义函数及函数的操作" class="headerlink" title="5.自定义函数及函数的操作"></a>5.自定义函数及函数的操作</h2><p><strong>1)自定义函数：</strong></p>
+<ol>
+<li>函数的要素：<br>函数名，参数列表(形参，实参)，返回值，函数体(作用域)。</li>
+<li>自定义函数与系统函数调用的方式相同。</li>
+</ol>
+<p><strong>2)自定义函数创建与查看：</strong></p>
+<ol>
+<li>创建语法：<pre><code>create function 函数名([形参列表]) returns 数据类型 
+Begin 
+        -- 函数体
+        -- 返回值：return的类型（指定的数据类型）
+        -- 只有一行时不用begin和end
+End 结束表标识
+</code></pre>注意设置返回值时是returns。</li>
+<li>创建测试：<pre><code>CREATE FUNCTION display1() RETURNS INT return 100;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-25.jpg" alt=""></li>
+<li>查看所有自定义函数：<pre><code>show function status[like &apos;...&apos;];
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-26.jpg" alt=""><br>发现该数据库下共有23个函数,第一行指定了数据库，说明只有这个数据库能使用该函数。</li>
+<li>查看函数的创建语句：<pre><code>show create function 函数名；
+</code></pre>如：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-27.jpg" alt=""></li>
+</ol>
+<p><strong>3)函数删除及带参数的函数的创建：</strong></p>
+<ol>
+<li>函数无法修改，只能先删除，后新增：<pre><code>drop function 函数名;
+</code></pre></li>
+<li>函数的参数：<br>参数分为两种，定义时的参数–形参，使用时的参数–实参。<br>形参：必须指定数据类型。</li>
+<li>带参数的函数的创建：<pre><code>delimiter $$
+create function 函数名(形参名字 字段类型[...]) returns 数据类型 
+Begin 
+        -- 函数体
+        -- 返回值：return的类型（指定的数据类型）
+        -- 只有一行时不用begin和end
+End $$
+delimiter ;
+</code></pre>如果函数体中需要使用<code>；</code>做结束标志，则需要使用<code>delimater</code>修改结束符。</li>
+<li>创建测试：<br>创建一个sum1函数求1到n的和：<br>– 自定义求和函数<pre><code>delimiter $$ 
+CREATE FUNCTION sum1(n INT) RETURNS INT
+BEGIN
+        -- 定义条件变量
+        SET @sum=0;
+        SET @i=1;
+        -- 循环求和
+        WHILE @i&lt;=n DO
+                -- 求和,mysql中任何变量的修改都必须用set关键字
+                -- mysql中没有+=，++等运算符
+                SET @sum =@sum+@i;
+                -- 修改循环变量
+                SET @i=@i+1;
+                -- 返回值
+        END WHILE;
+        RETURN @sum;
+END
+$$
+delimiter ; 
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-28-2.jpg" alt=""><br>带有@的变量时全局变量，不带@的函数是局部变量。</li>
+<li>使用上述函数进行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-29.jpg" alt=""></li>
+</ol>
+<p><strong>4)作用域：</strong></p>
+<ol>
+<li>在函数内部使用@定义的符号，在外部也可以使用。<br>全局变量能在任何地方使用，局部变量只能在函数内部(begin~end间)使用。</li>
+<li>全局变量：<br>使用set关键字定义，并使用@符号标识：<pre><code>set @变量名=值；
+</code></pre></li>
+<li>局部变量：<br>使用declare关键字声明，没有@符号标识。且必须在函数体开始之前声明：<pre><code>declare 变量名1[,变量名2...] 类型 default 默认值；
+</code></pre>修改局部变量的值：<pre><code>set 变量名=值；
+</code></pre>也可以通过查询直接赋值：与全局变量相同。</li>
+<li>测试局部变量：<br>创建一个sum1函数求1到n的和，但是5的倍数不加：<pre><code>delimiter $$ 
+CREATE FUNCTION sum2(n INT) RETURNS INT
+BEGIN
+        -- 声明局部变量 
+        DECLARE sum INT DEFAULT 0;
+        DECLARE i INT DEFAULT 1;
+        -- 循环求和
+        oneton:WHILE i&lt;=n DO
+                -- 判断如果是5的倍数跳出该次循环
+                IF MOD(i,5)=0 THEN
+                        SET i=i+1;
+                        ITERATE oneton;
+                END IF;
+                -- 求和
+                SET sum =sum+i;
+                    -- 修改循环变量
+                SET i=i+1;
+        END WHILE;
+        -- 返回值
+        RETURN sum;
+END
+$$
+delimiter ; 
+</code></pre>创建及测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-30.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-流程控制补充"><a href="#6-流程控制补充" class="headerlink" title="6.流程控制补充"></a>6.流程控制补充</h2><p>除了if,while外mysql还有一些常用的流程控制语句<br><strong>1)CASE语句：</strong></p>
+<ol>
+<li>case语句可以实现比if更复杂的条件结构</li>
+<li>基本语法：<pre><code>CASE case_value
+    WHEN value1 THEN result1[when value2 then...]
+    [ELSE result];
+END CASE;
+</code></pre>或者：<pre><code>CASE 
+    WHEN 条件1 THEN 结果1[when 条件2 then...]
+    [ELSE result]
+END CASE;
+</code></pre></li>
+</ol>
+<p><strong>2)LOOP语句：</strong></p>
+<ol>
+<li>能实现简单的死循环。</li>
+<li>一般创建形式：<pre><code>LOOP
+    -- 循环体：操作
+END LOOP;
+</code></pre></li>
+<li>如果要退出死循环需要结合if和iterate/leave操作：<pre><code>循环名字：Loop
+    -- 循环体
+    -- 循环控制
+    Iterate/Leave 循环名字
+End Loop [循环名];
+</code></pre></li>
+</ol>
+<p><strong>3)REPEAT语句：</strong></p>
+<ol>
+<li>REPEAT:满足条件时退出循环，相当于<code>do while ... until</code>。</li>
+<li>基本语法：<pre><code>REPEAT
+    -- 循环体：操作
+UNTIL 终止循环的条件
+END REPEAT;
+</code></pre></li>
+<li>配合iterate/leave操作：<pre><code>循环名字：REPEAT
+    -- 循环体
+    -- 循环控制
+    Iterate/Leave 循环名字
+UNTIL 终止循环的条件
+End REPEAT [循环名];
+</code></pre>可以看出三种循环其实差不多。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月26日 22:43</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
+        <p>最后更新： 2018年03月27日 18:17</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL学习笔记（七）：变量、触发器、函数及流程控制">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -415,7 +672,7 @@ End while;
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数及流程控制》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -425,7 +682,7 @@ End while;
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&title=《MySQL学习笔记（七）：变量、触发器、函数及流程控制》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -435,7 +692,7 @@ End while;
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（七）：变量、触发器、函数及流程控制》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -475,7 +732,7 @@ End while;
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-变量"><span class="post-toc-text">1.变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-触发器"><span class="post-toc-text">2.触发器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-代码执行结构"><span class="post-toc-text">3.代码执行结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-代码执行结构补充"><span class="post-toc-text">4.代码执行结构补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-函数及系统函数"><span class="post-toc-text">5.函数及系统函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-自定义函数及函数的操作"><span class="post-toc-text">6.自定义函数及函数的操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-存储过程的使用"><span class="post-toc-text">7.存储过程的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-存储过程补充"><span class="post-toc-text">8.存储过程补充</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-变量"><span class="post-toc-text">1.变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-触发器"><span class="post-toc-text">2.触发器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-代码执行结构"><span class="post-toc-text">3.代码执行结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-函数及系统函数"><span class="post-toc-text">4.函数及系统函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-自定义函数及函数的操作"><span class="post-toc-text">5.自定义函数及函数的操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-流程控制补充"><span class="post-toc-text">6.流程控制补充</span></a></li></ol>
         </nav>
     </aside>
     
@@ -563,7 +820,7 @@ End while;
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -596,7 +853,7 @@ End while;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
 </div>
