@@ -8,18 +8,22 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-26T14:43:34.266Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-03.jpg">
+<meta property="og:updated_time" content="2018-03-27T15:10:50.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,10 +150,62 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <h2 id="0-学习之前"><a href="#0-学习之前" class="headerlink" title="0.学习之前"></a>0.学习之前</h2><ol>
+<li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）<br>第12章：正则表达式与文件格式化处理<br>第13章：学习shell script</p>
+</li>
+<li><p>学习重点</p>
+<ul>
+<li>正则表达式</li>
+<li>基础的正则表达式</li>
+<li>扩展的正则表达式</li>
+<li>文件格式化处理</li>
+<li>shell script的使用</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-认识正则表达式"><a href="#1-认识正则表达式" class="headerlink" title="1.认识正则表达式"></a>1.认识正则表达式</h2><ol>
+<li>正则表达式对于系统管理员来说很重要（可惜我不是..）</li>
+<li>简单来说：<br><em>正则表达式就是处理字符串的方法，以行为单位对字符串进行处理的程序。能通过一些特殊的符号来帮助用户更方便地查找、删除或替换某字符串。</em></li>
+<li>正则表达式是一种表示法，只要工具程序支持这种表示法，改程序就可以被用来处理字符串。（cp,ls等命令不支持正则表达式）</li>
+<li>正则表达式和shell在Linux中的作用：任督二脉。</li>
+<li>分类：<br>正则表达式依照不同的严谨程度分为<strong>基础正则表达式</strong>和<strong>扩展正则表达式</strong>。</li>
+<li>与通配符的区别：<br>通配符是bush接口的一个功能<br>正则表达式则是一种字符串处理的方式</li>
+</ol>
+<hr>
+<h2 id="2-基础正则表达式"><a href="#2-基础正则表达式" class="headerlink" title="2.基础正则表达式"></a>2.基础正则表达式</h2><p><strong>1)语系对正则表达式的影响：</strong></p>
+<ol>
+<li>书上的练习都是以LANG=C来练习的，一般练习的时候就选择这个语系。因为它兼容POSIX接口。</li>
+<li>为了避免这个编码对数字和英文的选取造成影响，需要一些特殊符号的支持，如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg" alt=""><br>几个特别重要的：<ul>
+<li><code>[:alnum:]</code>： 0-9,A-Z,a-z</li>
+<li><code>[:alpha:]</code>：A-Z,a-z</li>
+<li><code>[:upper:]</code>：A-Z</li>
+<li><code>[:lower:]</code>：a-z</li>
+<li><code>[:digit:]</code>：0-9</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)grep的高级用法：</strong></p>
+<ol>
+<li>语法：<pre><code># grep [-A][-B] [--color=auto] &apos;搜索字符串&apos; filename
+-A:后面可加数字，after，列出该行后再列出该行后面的n行
+-B:后面可加数字，before，列出该行后再列出该行前面的n行
+--color=auto 将正确的那个选取数据列出颜色
+</code></pre>grep是以整行为单位查找的。</li>
+<li>测试：<br>使用<code># dmesg</code>列出内核信息并查询含有’etc’的行并显示前后三行：<pre><code># dmesg | grep -n -A3 -B3 --color=auto &apos;eth&apos;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-02.jpg" alt=""></li>
+<li>可以配置别名：<code>alias grep = &#39;grep --color=auto&#39;</code></li>
+</ol>
+<p><strong>3)基础正则表达式的练习:</strong></p>
+<ol>
+<li>查找特定字符串：<br><code>grep -n &#39;字符串&#39; 文件名</code><br>反选：<br><code>grep -vn &#39;字符串&#39; 文件名</code><br>不分大小写：<br><code>grep -in &#39;字符串&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-03.jpg" alt=""></li>
+<li>使用[]来查找集合字符串：<br>查找含test或者tast的行：<br><code>grep -n &#39;t[ae]st&#39; 文件名</code> –[ae]代表从a,e中选择一个字符<br>查找含有oo但是不以g开头的行：<br><code>grep -n &#39;[^g]oo&#39; 文件名</code> –[^g]反向选择，代表不包括g<br>查找含oo但是前面不含小写字母的行：<br><code>grep -n &#39;[^a-z]oo&#39; 文件名</code> –a-z的ASCII码是连续的，可以这样写<br>取得有数字的那一行：<br><code>grep -n &#39;[0-9]&#39; 文件名</code><br>还可以使用特殊符号来实现：<br><code>grep -n &#39;[^[:lower:]]oo&#39; 文件名</code><br><code>grep -n &#39;[[:digit:]]&#39; 文件名</code><br>测试：</li>
+</ol>
+<hr>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月26日 22:43</p>
+        <p>最后更新： 2018年03月27日 23:10</p>
         <p>原始链接： <a class="post-url" href="/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/" title="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">https://zjxkenshine.github.io/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -265,6 +321,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-认识正则表达式"><span class="post-toc-text">1.认识正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-基础正则表达式"><span class="post-toc-text">2.基础正则表达式</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
