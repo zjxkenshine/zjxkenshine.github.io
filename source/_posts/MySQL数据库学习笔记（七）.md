@@ -1,5 +1,5 @@
 ---
-title: MySQL学习笔记（七）：变量、触发器、函数、分支/循环及存储过程
+title: MySQL学习笔记（七）：变量、触发器、函数及流程控制
 date: 2018-03-25 18:51:00
 tags: MySQL
 categories: 数据库
@@ -247,17 +247,16 @@ Leave：离开，类似break，整个循环结束
 			-- 循环体
 			-- 循环控制
 			Iterate/Leave 循环名字
-		End while;
+		End while [循环名];
 4. 循环不适合在触发器中使用。
+配合函数食用效果更佳
+所以等学完函数再补充
 
 ---
-## 4.代码执行结构补充
-
-
----
-## 5.函数及系统函数
+## 4.函数及系统函数
 **1)函数简介:**
 1. 函数：将一段代码封装到一个结构中，需要执行代码块的时候调用结构执行即可。（代码复用）
+所有函数都不区分大小写，系统函数最好用大写。
 2. 函数分为两类：
 系统函数，自定义函数
 3. 系统函数：
@@ -265,16 +264,290 @@ Leave：离开，类似break，整个循环结束
 任何函数都必须要有返回值，所以可以通过select来查看调用。
 
 **2)字符串系统函数：**
+1. 常用的字符串系统函数：
+	- concat(S1,S2...Sn)：连接S1到Sn为一个字符串
+	- insert(str,x,y,instr)：将字符串str从第x位置开始，y个字符长的字符串替换为instr
+	- lower/upper(str)：将字符串str变为小写/大写。
+	- left/right(str,x)：返回字符串str最左/右边x个字符。
+	- lpad/rpad(str,n,pad)：用字符串pad对str的最左边/最右边进行填充，直到字符串长度为n。
+	- ltrim/rtrim(str)：去掉字符串最左边/右边的空格。
+	- trim(str)：去掉行头和行尾的空格
+	- repeat(str,x)：返回str重复x次的结果。
+	- replace(str,a,b)：将str中所有的字符串a用b代替。
+	- strcmp(a,b)：比较字符串a和b。
+	- substring(str,x,y)：返回从x位置起y个字符长度的字符串。
+	- char_length/length(str)：返回字符串长度。
+2. 测试第一组方法：
+		SELECT CONCAT('aaa','bbb'),CONCAT('aaa',NULL),INSERT('shabi',4,2,'diao');
+		SELECT LOWER('HAHA'),UPPER('haha'),UPPER(NULL);
+		SELECT LEFT('12345678',3),LEFT('12345678',NULL),RIGHT('12345678',3);
+测试结果（注意为null的情况）：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-14.jpg)
+3. 测试第二组方法：
+		SELECT LPAD('123',10,'6'),LPAD('123',10,NULL),RPAD('123',10,'6');
+		SELECT LTRIM('      haha'),RTRIM('haha     ');
+		SELECT REPEAT('a',5),REPLACE('666666','6','7');
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-15.jpg)
+4. 测试第三组方法：
+		SELECT STRCMP('a','b'),STRCMP('a',null),STRCMP('a','a'),STRCMP('b','a');
+		SELECT SUBSTRING('12345678910',3,5);
+		SELECT LENGTH('123456'),CHAR_LENGTH('123456');
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-16.jpg)
+注意：sql的下标是从1开始的。
 
+**3)数值系统函数：**
+1. 常用的数值函数：
+	- ABS(x)：返回x的绝对值。
+	- FLOOR/CEIL(x)：向下取整。
+	- MOD(x,y)：返回x/y的值。
+	- RAND()：返回0-1之内的随机值。
+	- ROUND(x,y)：返回x四舍五入后带有y位小数的值。
+	- truncate(x,y)：返回数字x截断为y位小数的结果。
+2. 函数测试1：
+		SELECT ABS(-0.8),ABS(0.8);
+		SELECT CEIL(-0.8),CEIL(0.8),FLOOR(-0.8),FLOOR(0.8);
+		SELECT RAND(),FLOOR(RAND()),CEIL(RAND());
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-17.jpg)
+可以通过Rand()取到任意范围内的随机数。
+3. 函数测试2：
+		SELECT MOD(1,3),MOD(0,3),MOD(3,0),MOD(null,3),MOD(3,NULL);
+		SELECT ROUND(1,2),ROUND(1.6,2),ROUND(1.66666,2),ROUND(1.4);
+		SELECT TRUNCATE(1.66666,2),TRUNCATE(1.66666,0);
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-18.jpg)
+MOD相当于%，任何人一个参数为null返回值都为null;
+truncate和round的最大区别就是一个会四舍五入一个人只是截断。
+
+**4)时间与日期函数：**
+1. 常用日期与时间函数：
+	- curdate()/curtime()：返回当前日期/时间
+	- now()：返回当前的日期和时间
+	- unix_timestamp(date)：返回日期date的unix时间戳
+	- from_unixtime(...）：返回unix时间戳的日期值
+	- week(date)：返回date是一年中的第几周
+	- year(date)：返回date的年份
+	- monthName(date)：返回date的月份名
+	- hour(time)/minute(time)：返回time的小时值/分钟值
+	- date_format(date,fmt)：按字符串fmt格式化日期date值
+	- datediff(end,begin)：返回起始时间begin和结束时间end之间的天数
+	- date_add(date,INTERVAL expr type)：返回与所给时间date相差INTERVAL时间段的值
+2. 函数测试1：
+		SELECT CURDATE(),CURTIME(),NOW(),WEEK(NOW());
+		SELECT unix_timestamp(NOW()),from_unixtime(unix_timestamp(NOW()));
+		SELECT YEAR(NOW()),MONTHNAME(NOW()),HOUR(NOW()),MINUTE(NOW());
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-19.jpg)
+3. 最后三个函数介绍：
+`date_format(date,fmt)`时间格式化函数：
+mysql中的日期和时间格式非常多，主要有如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-20-0.jpg)
+`date_add(date,INTERVAL expr type)`：返回与所给时间date相差INTERVAL时间段的值
+如下图：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-21.jpg)
+如返回1年零两个月后的时间：
+		SELECT DATE_ADD(NOW(),INTERVAL 1_2 YEAR_MONTH);
+`datediff(expr,expr2)`：返回起始时间expr2和结束时间expr之间的天数
+4. 测试最后三个函数：
+		SELECT DATE_FORMAT(NOW(),'%D,%T,%Y,%M');
+		SELECT DATE_ADD(NOW(),INTERVAL '1_2' YEAR_MONTH) 1year2monthlater;
+		SELECT DATEDIFF(NOW(),DATE_ADD(NOW(),INTERVAL 60 DAY)) later2now,DATEDIFF(NOW(),DATE_ADD(NOW(),INTERVAL -60 DAY)) before2now;
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-22.jpg)
+
+**5)流程(分支)函数(和流程控制的稍有不同)**
+1. 在一个SQL语句中实现条件选择可以提高语句的效率。
+2. 常见的流程函数：
+	- if(condition,t,f)：如果condition成立返回t,不成立返回f
+	- ifnull(value1,value2)：如果value1不为空返回value1否则返回value2
+	- `CASE WHEN value1 THEN [result1][when(value2)...] ELSE [default] end`
+	满足条件value则返回result否则返回default。
+	- `CASE [expr] WHEN value1 THEN [result1][when(value2)...] ELSE [default] end`
+	满足条件value=expr则返回result,否则返回default。
+3. 测试(m_stu2表)：
+		SELECT id,name,if(Height>175,'tall','short') FROM m_stu1; -- 返回身高175以上为高，以下为矮
+		SELECT id,name,(CASE height WHEN 161 THEN '残疾' WHEN 182 THEN '完美' ELSE '还行' END) as pingji FROM m_stu1;
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-23.jpg)
+
+**6)其他函数（加密函数等）**
+1. 其他常用的函数：
+	- DATABASE()：返回当前的数据库名
+	- VERSION()：返回当前的数据库版本
+	- USER()：返回当前登录用户
+	- INET_ATON(IP)：返回IP地址的数字表示
+	- INET_NTOA(num)：返回数字表示的IP地址
+	- PASSWORD(str)：返回字符串str的加密版本，不能用来对应用数据加密
+	- MD5(str)：返回str的MD5加密版本，常用于应用的数据加密
+2. 函数测试：
+		SELECT DATABASE(),VERSION(),USER();
+		SELECT INET_ATON('192.168.1.1'),INET_NTOA('3232235777');
+		SELECT PASSWORD('123456'),MD5('123456');
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-24.jpg)
+3. PASSWORD与MD5的简单区别：
+password用于修改mysql的用户密码，如果是应用与web程序建议使用md5()函数
+password函数旧版16位，新版41位，可用`select length(password('123456'))`察看。
+password函数加密不可逆，如果和数据库里加密后内容比较时可以采用`password(pwd)==字段内容`的方式；
+md5函数加密后32位，此加密算法不可逆，其实md5算法是信息摘要算法，如果拿来做压缩也是有损压缩，理论上即使有反向算法也无法恢复信息原样。常被用来检验下载数据的完整性。
 
 ---
-## 6.自定义函数及函数的操作
+## 5.自定义函数及函数的操作
+**1)自定义函数：**
+1. 函数的要素：
+函数名，参数列表(形参，实参)，返回值，函数体(作用域)。
+2. 自定义函数与系统函数调用的方式相同。
+
+**2)自定义函数创建与查看：**
+1. 创建语法：
+		create function 函数名([形参列表]) returns 数据类型 
+		Begin 
+				-- 函数体
+				-- 返回值：return的类型（指定的数据类型）
+				-- 只有一行时不用begin和end
+		End 结束表标识
+注意设置返回值时是returns。
+2. 创建测试：
+		CREATE FUNCTION display1() RETURNS INT return 100;
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-25.jpg)
+3. 查看所有自定义函数：
+		show function status[like '...'];
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-26.jpg)
+发现该数据库下共有23个函数,第一行指定了数据库，说明只有这个数据库能使用该函数。
+4. 查看函数的创建语句：
+		show create function 函数名；
+如：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-27.jpg)
+
+**3)函数删除及带参数的函数的创建：**
+1. 函数无法修改，只能先删除，后新增：
+		drop function 函数名;
+2. 函数的参数：
+参数分为两种，定义时的参数--形参，使用时的参数--实参。
+形参：必须指定数据类型。
+3. 带参数的函数的创建：
+		delimiter $$
+		create function 函数名(形参名字 字段类型[...]) returns 数据类型 
+		Begin 
+				-- 函数体
+				-- 返回值：return的类型（指定的数据类型）
+				-- 只有一行时不用begin和end
+		End $$
+		delimiter ;
+如果函数体中需要使用`；`做结束标志，则需要使用`delimater`修改结束符。
+4. 创建测试：
+创建一个sum1函数求1到n的和：
+-- 自定义求和函数
+		delimiter $$ 
+		CREATE FUNCTION sum1(n INT) RETURNS INT
+		BEGIN
+				-- 定义条件变量
+				SET @sum=0;
+				SET @i=1;
+				-- 循环求和
+				WHILE @i<=n DO
+						-- 求和,mysql中任何变量的修改都必须用set关键字
+						-- mysql中没有+=，++等运算符
+						SET @sum =@sum+@i;
+						-- 修改循环变量
+						SET @i=@i+1;
+						-- 返回值
+				END WHILE;
+				RETURN @sum;
+		END
+		$$
+		delimiter ; 
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-28-2.jpg)
+带有@的变量时全局变量，不带@的函数是局部变量。
+5. 使用上述函数进行测试：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-29.jpg)
+
+**4)作用域：**
+1. 在函数内部使用@定义的符号，在外部也可以使用。
+全局变量能在任何地方使用，局部变量只能在函数内部(begin~end间)使用。
+2. 全局变量：
+使用set关键字定义，并使用@符号标识：
+		set @变量名=值；
+3. 局部变量：
+使用declare关键字声明，没有@符号标识。且必须在函数体开始之前声明：
+		declare 变量名1[,变量名2...] 类型 default 默认值；
+修改局部变量的值：
+		set 变量名=值；
+也可以通过查询直接赋值：与全局变量相同。
+4. 测试局部变量：
+创建一个sum1函数求1到n的和，但是5的倍数不加：
+		delimiter $$ 
+		CREATE FUNCTION sum2(n INT) RETURNS INT
+		BEGIN
+				-- 声明局部变量 
+				DECLARE sum INT DEFAULT 0;
+				DECLARE i INT DEFAULT 1;
+				-- 循环求和
+				oneton:WHILE i<=n DO
+						-- 判断如果是5的倍数跳出该次循环
+						IF MOD(i,5)=0 THEN
+								SET i=i+1;
+								ITERATE oneton;
+						END IF;
+						-- 求和
+						SET sum =sum+i;
+							-- 修改循环变量
+						SET i=i+1;
+				END WHILE;
+				-- 返回值
+				RETURN sum;
+		END
+		$$
+		delimiter ; 
+创建及测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-30.jpg)
 
 ---
-## 7.存储过程的使用
+## 6.流程控制补充
+除了if,while外mysql还有一些常用的流程控制语句
+**1)CASE语句：**
+1. case语句可以实现比if更复杂的条件结构
+2. 基本语法：
+		CASE case_value
+			WHEN value1 THEN result1[when value2 then...]
+			[ELSE result];
+		END CASE;
+或者：
+		CASE 
+			WHEN 条件1 THEN 结果1[when 条件2 then...]
+			[ELSE result]
+		END CASE;
 
----
-## 8.存储过程补充
+**2)LOOP语句：**
+1. 能实现简单的死循环。
+2. 一般创建形式：
+		LOOP
+			-- 循环体：操作
+		END LOOP;
+3. 如果要退出死循环需要结合if和iterate/leave操作：
+		循环名字：Loop
+			-- 循环体
+			-- 循环控制
+			Iterate/Leave 循环名字
+		End Loop [循环名];
 
+**3)REPEAT语句：**
+1. REPEAT:满足条件时退出循环，相当于`do while ... until`。
+2. 基本语法：
+		REPEAT
+			-- 循环体：操作
+		UNTIL 终止循环的条件
+		END REPEAT;
+3. 配合iterate/leave操作：
+		循环名字：REPEAT
+			-- 循环体
+			-- 循环控制
+			Iterate/Leave 循环名字
+		UNTIL 终止循环的条件
+		End REPEAT [循环名];
+可以看出三种循环其实差不多。
 
 ---
