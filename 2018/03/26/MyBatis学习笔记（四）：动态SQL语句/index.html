@@ -8,18 +8,25 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（四）：动态SQL语句">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-26T07:48:56.480Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-06.jpg">
+<meta property="og:updated_time" content="2018-03-28T14:40:14.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（四）：动态SQL语句">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -150,11 +157,326 @@
 <li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis官方文档</a></li>
 </ol>
 <hr>
-<h2 id="1-if的用法"><a href="#1-if的用法" class="headerlink" title="1.if的用法"></a>1.if的用法</h2><hr>
+<h2 id="1-if的用法："><a href="#1-if的用法：" class="headerlink" title="1.if的用法："></a>1.if的用法：</h2><p><strong>1)动态SQL语句：</strong></p>
+<ol>
+<li>使用标签简化JDBC对字符串拼接的操作。<br>MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后）</li>
+<li>目前的MyBatis在XML中支持的标签：<ul>
+<li>if</li>
+<li>choose(when,otherwise)</li>
+<li>trim ，where,set</li>
+<li>foreach</li>
+<li>bind</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)WHERE条件中使用if：</strong></p>
+<ol>
+<li>if标签经常用于where，update标签，也可以搭配insert使用。</li>
+<li>需求：<br>实现高级的查询用户的功能：<br>若只输入用户名，根据用户名进行模糊查询<br>若只输入邮箱名，根据邮箱进行完全匹配<br>若同时输入用户和邮箱，使用这两个条件查询匹配的用户</li>
+<li>在UserMapper.java接口中添加方法：<pre><code>//where中的if标签，根据不同条件来查询User
+List&lt;User&gt; selectByUser(User user);
+</code></pre>添加UserMapper.xml的方法：<pre><code>&lt;select id=&quot;selectByUser&quot; resultType=&quot;User&quot;&gt;
+    SELECT 
+        id,user_name,user_password,user_email,user_info,head_img,create_time
+    FROM User
+    WHERE 1
+    &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+        and user_name like concat(&apos;%&apos;,#{userName},&apos;%&apos;)
+    &lt;/if&gt;
+    &lt;if test=&quot;userEmail!=null and userEmail!=&apos;&apos;&quot;&gt;
+        and user_email=#{userEmail}
+    &lt;/if&gt;
+&lt;/select&gt;
+</code></pre><code>where 1</code>可以保证没有没有用户名和邮箱的时候SQL能正常执行。</li>
+<li>if标签中有一个必填属性test,里面填的是一个符合OGNL要求的判断表达式：<br>返回值可以为true和false（推荐），除此之外还可以返回0代表false，返回其他值都为true。<br>有如下的规则：<pre><code>property =/!= null:适用于所有类型用于判断是否为空
+property =/!= &apos;&apos;:仅适用于字符串类型，判断是否为空字符串
+and和or:与和或
+</code></pre>注意：<strong>test属性中property是实体类属性名而不是字段名。</strong></li>
+<li><p>新增测试类方法：</p>
+<pre><code>//where内使用if标签动态sql
+@Test
+public void testSelectByUser(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        //创建查询对象
+        User user=new User();
+
+        //情况一：仅有用户名
+        user.setUserName(&quot;ad&quot;);
+        //调用selectByUser方法
+        List&lt;User&gt; luser=userMapper.selectByUser(user);
+        //判断luser长度是否为大于0
+        Assert.assertTrue(luser.size()&gt;0);
+
+        //情况二：仅有邮箱
+        user.setUserName(null);
+        user.setUserEmail(&quot;6666@00&quot;);
+        //调用selectByUser方法
+        List&lt;User&gt; luser2=userMapper.selectByUser(user);
+        //判断luser长度是否大于0
+        Assert.assertTrue(luser2.size()&gt;0);
+
+        //情况二：仅有邮箱
+        user.setUserName(&quot;测试&quot;);
+        //调用selectByUser方法
+        List&lt;User&gt; luser3=userMapper.selectByUser(user);
+        //判断luser长度是否大于0
+        Assert.assertTrue(luser3.size()&gt;0);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg" alt=""></p>
+</li>
+</ol>
+<p><strong>3)update中使用if：</strong></p>
+<ol>
+<li>需求：<br>实现用户信息的更新：<br>只更新有变化的字段，不能将已有值的字段修改为null或空字符串。</li>
+<li>创建接口方法：<pre><code>//if根据条件动态更新
+int updateUserById(User user);
+</code></pre>新增xml方法：<pre><code>&lt;update id=&quot;updateUserById&quot;&gt;
+    UPDATE user SET
+    &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+      user_name=#{userName},
+  &lt;/if&gt;
+  &lt;if test=&quot;userPassword!=null and userPassword!=&apos;&apos;&quot;&gt;
+      user_password=#{userPassword},
+  &lt;/if&gt;
+  &lt;if test=&quot;userEmail!=null and userEmail!=&apos;&apos;&quot;&gt;
+      user_email=#{userEmail},
+  &lt;/if&gt;
+  &lt;if test=&quot;userInfo!=null and userInfo!=&apos;&apos;&quot;&gt;
+      user_info=#{userInfo},
+  &lt;/if&gt;
+  &lt;if test=&quot;headImg!=null&quot;&gt;
+      head_img=#{headImg,jdbcType=BLOB},
+  &lt;/if&gt;
+  &lt;if test=&quot;createTime!=null&quot;&gt;
+      create_time=#{createTime,jdbcType=TIMESTAMP},
+  &lt;/if&gt;
+  id=#{id}
+  WHERE id=#{id}
+&lt;/update&gt;
+</code></pre>注意where之前的<code>id=#{id}</code>也是为了没有任何更新时程序不出错：<pre><code>UPDATE user SET id=#{id} WHERE id=#{id}
+</code></pre>也可以最大限度保证程序不出错。<br>后面还有Where标签与set标签也可以解决这个问题。</li>
+<li>新建测试类：<pre><code>//测试动态if更新
+@Test
+public void testUpdateUserById(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectById(6L);            //从数据库中查询一个user对象
+        Assert.assertEquals(&quot;测试用户3&quot;, user.getUserName());        //测试是否是想要的那个数据
+        user.setUserName(&quot;大老板&quot;);                //修改用户名
+        user.setUserEmail(&quot;7777@11.11&quot;);            //修改邮箱
+        int result=userMapper.updateUserById(user);        //更新数据(返回值为SQL影响条数)
+        Assert.assertEquals(1, result);            //是否只更新一条数据
+        user=userMapper.selectById(6L);        //查询修改后的数据
+        Assert.assertEquals(&quot;大老板&quot;, user.getUserName());        //验证修改后的名字
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre>使用rollback回滚，不对数据库进行更新。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-02.jpg" alt=""></li>
+</ol>
+<p><strong>4)Insert中使用if动态插入：</strong></p>
+<ol>
+<li>需求：<br>数据库插入数据时，如果某一字段的参数不为空，那么传入该值，如果某一字段参数为空则不传入，使用默认值进行插入。</li>
+<li>创建UserMapper.java接口方法：<pre><code>//if动态添加并返回主键
+int insertByIf(User user);
+</code></pre>创建xml方法：<pre><code>&lt;insert id=&quot;insertByIf&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;
+    INSERT INTO user 
+    VALUES(
+    null
+    &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+    ,#{userName}
+    &lt;/if&gt;
+    &lt;if test=&quot;userName==null or userName==&apos;&apos;&quot;&gt;
+    ,default
+    &lt;/if&gt;
+    &lt;if test=&quot;userPassword!=null and userPassword!=&apos;&apos;&quot;&gt;
+    ,#{userPassword}
+    &lt;/if&gt;
+    &lt;if test=&quot;userPassword==null or userPassword==&apos;&apos;&quot;&gt;
+    ,default
+    &lt;/if&gt;
+    &lt;!--其他属性相同--&gt;
+    )
+&lt;/insert&gt;
+</code></pre>一般在列的地方添加if,values相应的地方也要添加if,这是不用写字段列表的一种写法，但是同样需要两对if标签。</li>
+<li>新建测试方法：<pre><code>//新增用户(jdbc返回主键),if动态插入
+@Test
+public void testInsertByIf(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        User user=new User();                    //创建一个user对象：
+        user.setUserName(&quot;测试用户4&quot;);
+        user.setUserPassword(&quot;66666&quot;);
+        user.setUserEmail(&quot;&quot;);
+        user.setUserInfo(&quot;小猫&quot;);
+        user.setHeadImg(null);                    //本来是存图片的
+        user.setCreateTime(new Date());
+        int result=userMapper.insertByIf(user);
+        Assert.assertEquals(1, result);            //是否插入一条数据
+        Assert.assertNotNull(user.getId());            //id是否为Null
+        System.out.println(&quot;id=&quot;+user.getId());
+    }finally{
+        //sqlSession.commit();
+        sqlSession.rollback();  //回滚
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-03.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-choose的用法（when-otherwise）："><a href="#2-choose的用法（when-otherwise）：" class="headerlink" title="2.choose的用法（when,otherwise）："></a>2.choose的用法（when,otherwise）：</h2><p><strong>1)if标签在insert中使用时的缺陷：</strong></p>
+<ol>
+<li>无法实现if…else…这种结构。只有if…结构</li>
+<li>想要实现这样的逻辑就需要使用choose标签了.<br>choose标签中有<code>&lt;when&gt;</code>和<code>&lt;otherwise&gt;</code>两个子标签：<br><strong>一个choose中至少要有一个when，0个或一个otherwise</strong>。</li>
+<li>当然也可以通过choose来实现上面的动态插入。</li>
+<li>使用choose when otherwise时一定要严谨，避免某些特殊值导致SQL错误</li>
+</ol>
+<p><strong>2）choose使用测试–动态查询：</strong></p>
+<ol>
+<li>需求：<br>查询用户信息：<br>id有值用id查，id没值用用户名查(完全匹配)，用户名也没值则返回查询失败。</li>
+<li>添加UserMapper接口方法：<pre><code>//使用choose实现动态查询
+User selectByIdOrName(User user);
+</code></pre>添加UserMapperXML方法：<pre><code>&lt;!-- choose实现动态查询 --&gt;
+&lt;select id=&quot;selectByIdOrName&quot; resultType=&quot;User&quot;&gt;
+    SELECT     id,user_name,user_password,user_email,user_info,head_img,create_time
+    FROM User
+    WHERE 1
+    &lt;choose&gt;
+    &lt;when test=&quot;id!=null&quot;&gt;
+        and id=#{id}
+    &lt;/when&gt;
+    &lt;when test=&quot;userName!=null&quot;&gt;
+        and user_name=#{userName}
+    &lt;/when&gt;
+    &lt;otherwise&gt;
+        and 0
+    &lt;/otherwise&gt;
+    &lt;/choose&gt;
+&lt;/select&gt;
+</code></pre>注意otherwise标签中的写法，当以的条件都不满足时返回0，代表不会查出任何值。如果不加则会查出所有的值。</li>
+<li>添加测试类方法：<pre><code>//测试choose实现动态查询
+@Test
+public void testSelectByIdOrName(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        //获取UserMapper接口
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+        User user =new User();  //创建查询实体类
+        User que_user0 =userMapper.selectByIdOrName(user);  //测试啥都没有时
+        Assert.assertNull(que_user0);        //判断是否查出空值
+        user.setId(5L);   //测试情况一：只有Id
+        User que_user =userMapper.selectByIdOrName(user);  //查询
+        Assert.assertEquals(&quot;测试用户2&quot;, que_user.getUserName());  //测试是不是得到对的值
+        user.setId(null);         //测试情况2：只有用户名
+        user.setUserName(&quot;测试用户3&quot;); 
+        User que_user2 =userMapper.selectByIdOrName(user);  //查询
+        Assert.assertTrue(que_user2.getId()==6L);         //测试是不是得到对的值
+        user.setId(1001L);                //测试情况3：都有
+        user.setUserName(&quot;测试用户1&quot;); 
+        User que_user3 =userMapper.selectByIdOrName(user);  //查询
+        Assert.assertEquals(&quot;测试用户&quot;, que_user3.getUserInfo());
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-04.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-where-set-trim的用法"><a href="#3-where-set-trim的用法" class="headerlink" title="3.where,set,trim的用法"></a>3.where,set,trim的用法</h2><p>where和set都属于trim的一种具体用法。<br><strong>1)where的用法：</strong></p>
+<ol>
+<li>作用：<strong>如果该标签包含的元素有返回值，就插入一个where；如果where后面的字符串是以AND或OR开头的，就将它们删除。</strong></li>
+<li>参考if在where中的用法：<br>需求与那个例子相同：（对比方法，尤其是xml的方法）<br>新建接口方法：<pre><code>//where标签结合if标签实现动态查询
+List&lt;User&gt; selectByUser2(User user);
+</code></pre>新建xml方法：<pre><code>&lt;select id=&quot;selectByUser2&quot; resultType=&quot;User&quot;&gt;
+    SELECT     id,user_name,user_password,user_email,user_info,head_img,create_time
+    FROM User
+    &lt;where&gt;
+    &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+         user_name like concat(&apos;%&apos;,#{userName},&apos;%&apos;)
+    &lt;/if&gt;
+    &lt;if test=&quot;userEmail!=null and userEmail!=&apos;&apos;&quot;&gt;
+        and user_email=#{userEmail}
+    &lt;/if&gt;
+    &lt;/where&gt;
+&lt;/select&gt;
+</code></pre>不用在where后写1=1了，它会自动去除。</li>
+<li>测试方法:<br>与testSelectByUser()相同，把方法换一下就好了。<br>测试结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-05.jpg" alt=""></li>
+</ol>
+<p><strong>2)set的用法：</strong></p>
+<ol>
+<li>作用：<strong>如果set标签包含的元素有返回值则插入一个set；如果set后面的字符串是以逗号结尾的就讲这个逗号删除。</strong></li>
+<li><p>测试set的方法：<br>参考前面if在update中的用法：需求相同(对比前面的xml方法)<br>新增接口方法：</p>
+<pre><code>//if配合set动态更新
+int updateUserById2(User user);
+</code></pre><p>新增xml方法：</p>
+<pre><code>&lt;update id=&quot;updateUserById2&quot;&gt;
+      UPDATE user 
+    &lt;set&gt;
+      &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+        user_name=#{userName},
+    &lt;/if&gt;
+    &lt;if test=&quot;userPassword!=null and userPassword!=&apos;&apos;&quot;&gt;
+        user_password=#{userPassword},
+    &lt;/if&gt;
+    &lt;if test=&quot;userEmail!=null and userEmail!=&apos;&apos;&quot;&gt;
+        user_email=#{userEmail},
+    &lt;/if&gt;
+    &lt;if test=&quot;userInfo!=null and userInfo!=&apos;&apos;&quot;&gt;
+        user_info=#{userInfo},
+    &lt;/if&gt;
+    &lt;if test=&quot;headImg!=null&quot;&gt;
+        head_img=#{headImg,jdbcType=BLOB},
+    &lt;/if&gt;
+    &lt;if test=&quot;createTime!=null&quot;&gt;
+        create_time=#{createTime,jdbcType=TIMESTAMP},
+    &lt;/if&gt;
+    id=#{id}
+    &lt;/set&gt;
+    where id=#{id}
+&lt;/update&gt;
+</code></pre><p>这里的set中的<code>id=#{id}</code>最好还是加上，因为<set>标签中什么都没有会报异常，所以这样必然存在的赋值很有存在的必要。</set></p>
+</li>
+<li><p>测试类和update中使用if的差不多。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-06.jpg" alt=""></p>
+</li>
+</ol>
+<p><strong>3)trim的用法：</strong></p>
+<ol>
+<li>where,set标签的功能都可以用trim标签来实现。<br>而且这三个标签的底层都是由TrimSqlNode来实现的。</li>
+<li><strong>trim标签的属性</strong>：<ul>
+<li>prefix：当trim标签内包含内容时,会给内容增加prefix指定的前缀。</li>
+<li>prefixOverrides：当trim标签内包含内容时，会把内容中匹配的前缀字符串去掉。</li>
+<li>suffix：当trim标签内包含内容时,会给内容增加suffix指定的后缀。</li>
+<li>suffixOverrides：当trim标签内包含内容时，会把内容中匹配的后缀字符串去掉。</li>
+</ul>
+</li>
+<li>用trim简单实现where标签：<pre><code>&lt;trim prefix=&apos;WHERE&apos; prefixOverrides=&quot;AND |OR &quot;&gt;
+...
+&lt;/trim&gt;
+</code></pre>实际上where的<code>prefixOverrides</code>还有许多情况，AND和OR后面还有换行符，空格等。<br>用trim简单实现set标签：<pre><code>&lt;trim prefix=&apos;SET&apos; suffixOverrides=&quot;,&quot;&gt;
+...
+&lt;/trim&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-foreach标签的用法"><a href="#4-foreach标签的用法" class="headerlink" title="4.foreach标签的用法"></a>4.foreach标签的用法</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月26日 15:48</p>
+        <p>最后更新： 2018年03月28日 22:40</p>
         <p>原始链接： <a class="post-url" href="/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/" title="MyBatis学习笔记（四）：动态SQL语句">https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -272,7 +594,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法"><span class="post-toc-text">1.if的用法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法："><span class="post-toc-text">1.if的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-choose的用法（when-otherwise）："><span class="post-toc-text">2.choose的用法（when,otherwise）：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-where-set-trim的用法"><span class="post-toc-text">3.where,set,trim的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-foreach标签的用法"><span class="post-toc-text">4.foreach标签的用法</span></a></li></ol>
         </nav>
     </aside>
     
