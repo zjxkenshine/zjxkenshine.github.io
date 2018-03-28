@@ -1,5 +1,5 @@
 ---
-title: MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引介绍
+title: MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则
 date: 2018-03-27 18:19:57
 tags: MySQL
 categories: 数据库
