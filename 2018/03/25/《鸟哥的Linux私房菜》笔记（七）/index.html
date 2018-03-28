@@ -19,7 +19,18 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-03.jpg">
-<meta property="og:updated_time" content="2018-03-27T15:10:50.975Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-14.jpg">
+<meta property="og:updated_time" content="2018-03-28T08:48:54.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">
 <meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
@@ -198,14 +209,147 @@
 </ol>
 <p><strong>3)基础正则表达式的练习:</strong></p>
 <ol>
-<li>查找特定字符串：<br><code>grep -n &#39;字符串&#39; 文件名</code><br>反选：<br><code>grep -vn &#39;字符串&#39; 文件名</code><br>不分大小写：<br><code>grep -in &#39;字符串&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-03.jpg" alt=""></li>
-<li>使用[]来查找集合字符串：<br>查找含test或者tast的行：<br><code>grep -n &#39;t[ae]st&#39; 文件名</code> –[ae]代表从a,e中选择一个字符<br>查找含有oo但是不以g开头的行：<br><code>grep -n &#39;[^g]oo&#39; 文件名</code> –[^g]反向选择，代表不包括g<br>查找含oo但是前面不含小写字母的行：<br><code>grep -n &#39;[^a-z]oo&#39; 文件名</code> –a-z的ASCII码是连续的，可以这样写<br>取得有数字的那一行：<br><code>grep -n &#39;[0-9]&#39; 文件名</code><br>还可以使用特殊符号来实现：<br><code>grep -n &#39;[^[:lower:]]oo&#39; 文件名</code><br><code>grep -n &#39;[[:digit:]]&#39; 文件名</code><br>测试：</li>
+<li>查找特定字符串：<br><code>grep -n &#39;字符串&#39; 文件名</code><br>反选：<br><code>grep -vn &#39;字符串&#39; 文件名</code><br>不分大小写：<br><code>grep -in &#39;字符串&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-03.jpg" alt=""><br><br></li>
+<li>使用<code>[]</code>来查找集合字符串：<br>查找含test或者tast的行：<br><code>grep -n &#39;t[ae]st&#39; 文件名</code> –[ae]代表从a,e中选择一个字符<br>查找含有oo但是不以g开头的行：<br><code>grep -n &#39;[^g]oo&#39; 文件名</code> –[^g]反向选择，代表不包括g<br>查找含oo但是前面不含小写字母的行：<br><code>grep -n &#39;[^a-z]oo&#39; 文件名</code> –a-z的ASCII码是连续的，可以这样写<br>取得有数字的那一行：<br><code>grep -n &#39;[0-9]&#39; 文件名</code><br>还可以使用特殊符号来实现：<br><code>grep -n &#39;[^[:lower:]]oo&#39; 文件名</code><br><code>grep -n &#39;[[:digit:]]&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-04.jpg" alt=""><br><br></li>
+<li>行尾与行首字符<code>^$</code>:<br>找出以’the’开头的行：<br><code>grep -n &#39;^the&#39; 文件名</code><br>找出开头是小写字母的行：<br><code>grep -n &#39;^[a-z]&#39; 文件名</code>或者使用<code>&#39;^[[:lower:]]&#39;</code><br>找出开头不是英文字母的行：<br><code>gerp -n &#39;^[^a-zA-Z]&#39; 文件名</code><br>找出结尾是小数点的行：<br><code>grep -n &#39;\.$&#39; 文件名</code> –小数点是有意义的，需要使用\转义<br>找到空白行(打印时节省纸张可省略空白行)：<br><code>grep -n &#39;^$&#39; 文件名</code> –Linux<code>^</code>代表开始，<code>$</code>代表结束<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-05.jpg" alt=""><br><br></li>
+<li>任意一个字符<code>.</code>与重复字符<code>*</code>:<br>小数点代表一定有一个任意字符；星号代表重复前一个字符任意次。<br>查找包含’g??d’的字符串：<br><code>grep -n &#39;g..d&#39; 文件名</code><br>‘o*‘代表包含0个或任意多个o,所以查找含有两个以上o的行需要这样写：<br><code>grep -n &#39;ooo*&#39; 文件名</code><br>查找以含以g开头和结尾中间任意个(&gt;1)o的字符串：<br><code>grep -n &#39;goo*g&#39; 文件名</code><br>查找包含以g开头和结尾，中间可以是任意字符组合的字符串的行(‘g….g’)：<br><code>grep -n &#39;g.*g&#39; 文件名</code><br>查找含有数字字符串的行：<br><code>grep -n &#39;[0-9][0-9]*&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-06.jpg" alt=""><br><br></li>
+<li>限定连续的RE字符串范围<code>{}</code>：<br>使用<code>{}</code>规定重复多少次：相当于加了长度约束的星号。<br>但是{}在Linux中有特殊意义，需要转义。<br>查找含有两个o(及以上)的行：<br><code>grep -n &#39;o\{2\}&#39; 文件名</code><br>查找含有以g开头和结尾并且只含有两个到五个o的字符串的行：<br><code>grep -n &#39;go\{2,5\}g&#39; 文件名</code><br>查找包含以g开头和结尾并且有两个及以上o的行：<br><code>grep -n &#39;go\{2,\}g&#39; 文件名</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-07.jpg" alt=""></li>
+</ol>
+<p><strong>4)基础正则表达式字符和sed工具：</strong></p>
+<ol>
+<li>基础正则表达式字符：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-08.jpg" alt=""><br>正则表达式也可以用于查找文件。<br>查找以a开头的文件，相当于<code># ls -la*</code>:<pre><code>ls | grep -n &apos;^a.*&apos;
+</code></pre></li>
+<li>sed简介：<br>sed本身也是一个管道命令，可以分析stdin，还可以将数据进行替换，删除，新增，选取特定行等。</li>
+<li>sed基本语法：<pre><code># sed [-nefr] [动作]
+参数：
+-n：使用安静模式，只列出经过处理的行或者操作（默认列出全部）
+-e：直接在命令行模式下进行sed的动作编辑
+-f filename：后面可以接文件表示将sed动作写在该文件内
+-r：开启扩展正则表达式语法支持（默认是基础的）
+-i：直接修改文件内容，而不是由屏幕输出(最好别用，危险参数)
+动作说明：
+    [n1[,n2]] function
+n1n2为起始和结束行
+function的可用值:
+a    ：新增，后接字符串，在下一行新增
+c    ：替换，后接字符串，替换n1到n2之间的值
+d    ：删除，后面一般不加参数
+i    ：插入，后接字符串，在上一行插入。
+p    ：将某个选择的数据打印出来，通常和-n一起使用
+s    ：替换，直接进行替换，可以配合正则表达式
+</code></pre></li>
+<li>sed测试：以行为单位的新增删除<br>列出测试文件<code>regular_express.txt</code>显示行号并删除第5-20行(d)：<br><code># nl regular_express.txt | sed &#39;5-20d&#39;</code><br>再在第二行加上’this is the second line’(第一行后a）<br><code># nl regular_express.txt | sed &#39;5-20d&#39; | sed &#39;1a this is the second line &#39;</code><br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-09.jpg" alt=""><br>发现确实添加了但是不会影响原来的行号输出。也不会改编源文件的内容。</li>
+<li>sed测试：整行替换与指定显示行号<br>只显示文件<code>regular_express.txt</code>的第5-15行(p)：<br><code># nl regular_express.txt | sed -n &#39;5-15p&#39;</code><br>不使用-n配合会输出很多没用的东西。<br>再将第789行替换为’three lines’(c):<br><code># nl regular_express.txt | sed -n &#39;5-15p&#39; | sed &#39;7,9c three lines&#39;</code><br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-10.jpg" alt=""><br>发现这些操作都是根据前面的标准输出来进行的（替换的根本不是源文件的第789行而是选择显示后的789行）</li>
+<li>sed测试：部分数据的查找并替换(可配合正则表达式）：<br>语法：<pre><code>sed &apos;s/要被替换的字符串/新的字符串/g&apos;
+</code></pre>例如将文件<code>regular_express.txt</code>中的任意数量的o全都替换为666：<br><code>grep -n &#39;oo*&#39; regular_express.txt | sed &#39;s/oo*/666/g&#39;</code><br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-11.jpg" alt=""><br>如果新字符串为空，则相当于删除。</li>
 </ol>
 <hr>
+<h2 id="3-扩展的正则表达式"><a href="#3-扩展的正则表达式" class="headerlink" title="3.扩展的正则表达式"></a>3.扩展的正则表达式</h2><p><strong>1)扩展正则表达式介绍：</strong></p>
+<ol>
+<li>一般来说只用基本的正则表达式就已经完全够用了，扩展的正则表达式命令更多时候是为了简化命令操作。</li>
+<li>如想要去除以小写字母开头或以ASC开头的行：<br>基础正则表达式的写法：<br><code>grep -v &#39;^[[:lower:]]&#39; 文件名 | grep -v &#39;^[ABC]&#39;</code><br>扩展正则表达式的写法：<br><code>egrep -v &#39;^[a-z|ABC]&#39; 文件名</code></li>
+<li>注意需要使用<code>egrep</code>或者<code>grep -E</code>才能使用扩展正则表达式，前者是后者的别名。</li>
+</ol>
+<p><strong>2)扩展正则表达式的语法</strong></p>
+<ol>
+<li><code>A+</code>：重复一个或一个以上的字符A</li>
+<li><code>A?</code>：有0或1个前面的字符A</li>
+<li><code>A|B</code>：用或的方式从A或B中选择一个</li>
+<li><code>()</code>：找出组字符串，如<code>g（oo|aa）d</code>表示可以是good也可以是gaad</li>
+<li><code>()+</code>：多个重复组的判断如<code>egrep &#39;A(xyz)+C&#39;</code>表示查找以A开头C结束且中间有任意个xyz的行</li>
+<li>！和&gt;等在正则表达式中并不是特殊符号，所以要查找只需要这样写：<pre><code># grep -n &apos;[!&gt;]&apos; 文件名
+</code></pre></li>
+</ol>
+<p><strong>3)扩展正则表达式的测试：</strong></p>
+<ol>
+<li>找出含有三个以上o的行：<br><code>egrep -n &#39;ooo+&#39; 文件名</code></li>
+<li>找出含good或者god的行：<br><code>egrep -n &#39;goo?d&#39; 文件名</code></li>
+<li>查找含gd或者god或者good的行：<br><code>egrep -n &#39;good|god|gd&#39; 文件名</code></li>
+<li>同上，使用组：<br><code>egrep -n &#39;g(|o|oo)d&#39; 文件名</code></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-12.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-文件格式化与相关处理工具"><a href="#4-文件格式化与相关处理工具" class="headerlink" title="4.文件格式化与相关处理工具"></a>4.文件格式化与相关处理工具</h2><p><strong>1)格式化打印工具：printf</strong></p>
+<ol>
+<li>很多时候需要将数据格式化输出，而printf可以帮助我们</li>
+<li>基本语法：<pre><code># printf &apos;打印格式&apos; 实际内容
+关于格式的参数：
+    \a：警告声音输出
+    \b：退格键输出
+    \f：清除屏幕
+    \n：输出新的一行
+    \r：ENTER按键
+    \t：水平的tab按键
+    \v：垂直的tab按键
+    \xNN：将数值NN转换为字符(根据编码转换)
+C的常见变量格式：
+    %ns:n是数字，代表多少字符
+    %ni:代表多少整数字数
+    %N.nf:N位整数与n位小数的浮点数
+</code></pre></li>
+<li>注意grep不是管道命令，所以输入需要使用$(…)来代替|</li>
+<li>例子：<br>列出16进制数45代表的字符：<br><code># print &#39;\x45\n&#39;</code><br>格式化列出某文件的值：<br><code># print &#39;%ns %ni %N.nf \n&#39; $(cat 文件名)</code></li>
+</ol>
+<p><strong>2)awk：好用的数据处理工具</strong></p>
+<ol>
+<li>awk和sed都是Linux中很好用的数据处理工具，但是sed更倾向对一整行的处理，而awk则倾向于将一行分为部分（字段）来处理。awk和sed一样是管道命令。</li>
+<li>基本语法：<pre><code>awk &apos;条件类型1{动作1} 条件类型2{动作2}...&apos; filename
+</code></pre>awk主要是处理每一行字段内的数据，默认的字段分隔符是空格或【tab】键。<br>每行的字段都有名称(编号)：从左到右依次是$1,$2,$3…,还有$0，代表一整行。</li>
+<li>基本使用及awk的处理流程：<br>列出最后5行并只输出每行的第一和第三个字段：<pre><code># last -n 5 | awk &apos;{print $1 &quot;\t&quot; $3}&apos;
+</code></pre>awk处理流程：<ul>
+<li>读入第一行并将第一行数据填入$0$2等变量当中</li>
+<li>根据条件判断是否要进行后面的操作</li>
+<li>完成所有动作与条件类型</li>
+<li>还有后续行则重复1-3步的操作直到所有的行都处理完毕</li>
+</ul>
+</li>
+<li>awk内置变量：<br>–NF：每一行拥有的字段总数<br>–NR：目前awk所处的是第几行<br>–FS：目前的分隔符，默认是空格<br>上面的例子如想要列出当前第几行以及每行共多少个字段可以这么写：<pre><code># last -n 5 | awk &apos;{print $1 &quot;\t&quot; lines: &quot;NR&quot; \t columes: &quot;NF&quot;}&apos;
+</code></pre></li>
+<li>awk的逻辑运算符：<br>主要用在条件类别处：和java的完全相同<br>变量设置用=，判断相等用==；</li>
+<li>书上的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-13.jpg" alt=""></li>
+<li>awk简单使用总结：<ul>
+<li>所有的{}中的动作如果需要多个命令可以使用;分开或者使用ENTER键换行</li>
+<li>逻辑运算的等于是==</li>
+<li>printf格式化输出时必须加上\n才能实现换行</li>
+<li>awk中的变量可以之间使用而不用加上$.</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)文件比较：diff,cmp，patch</strong></p>
+<ol>
+<li>diff：<br>比较两文件的差别，一般用在ASCII纯文本文件的比较。<br>以行为比较单位，因此通常用在同一文件（软件）的新旧版本区别。</li>
+<li>diff语法：<pre><code># diff [-bBi] from-file to-file
+参数：
+from-file：欲比较文件的文件名
+to-file：目的比较文件的文件名（from和to的-代表stdin）
+-b：忽略长空格，一行中无论有几个空格都会被当成一个
+-B：忽略空白行
+-i：忽略大小写
+</code></pre>如：<br><code># diff passwd.old passwd.new</code></li>
+<li>cmp：<br>的使用没有diff那么广，主要是以字节为单位进行比较，可以比较二进制文件。基本语法如下：<pre><code># cmp [-s] file1 file2
+-s:将所有不同点的字节处都列出来。（默认仅会输出第一的不同点）
+</code></pre></li>
+<li>diff比较之后制作补丁文件（patch）:<pre><code># diff -Naur file.old file.new &gt; file.patch  &lt;==制作补丁文件
+# patch -pN &lt; file.patch  &lt;==更新旧文件
+# patch -R -pN &lt; file.path  &lt;==还原
+参数:
+-p:N为数字，代表取消几层目录
+-R：将文件还原到旧版本
+</code></pre></li>
+</ol>
+<p><strong>4)文件打印准备：pr的简单使用</strong></p>
+<ol>
+<li>使用pr打印某一文件后会输出文件创建时间，文件名以及页码三大项<pre><code># pr file
+</code></pre></li>
+<li>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-14.jpg" alt=""></li>
+<li>更多用法可以<code>man pr</code>查看</li>
+</ol>
+<hr>
+<h2 id="5-shell-script介绍"><a href="#5-shell-script介绍" class="headerlink" title="5.shell script介绍"></a>5.shell script介绍</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月27日 23:10</p>
+        <p>最后更新： 2018年03月28日 16:48</p>
         <p>原始链接： <a class="post-url" href="/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/" title="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">https://zjxkenshine.github.io/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -323,7 +467,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-认识正则表达式"><span class="post-toc-text">1.认识正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-基础正则表达式"><span class="post-toc-text">2.基础正则表达式</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-认识正则表达式"><span class="post-toc-text">1.认识正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-基础正则表达式"><span class="post-toc-text">2.基础正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-扩展的正则表达式"><span class="post-toc-text">3.扩展的正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-文件格式化与相关处理工具"><span class="post-toc-text">4.文件格式化与相关处理工具</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-shell-script介绍"><span class="post-toc-text">5.shell script介绍</span></a></li></ol>
         </nav>
     </aside>
     
