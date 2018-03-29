@@ -9,7 +9,7 @@ categories: Java框架
 1. 学习资料：
 书本：《MyBatis从入门到精通》
 视频：某培训班视频
-资料：[MyBatis官方文档](http://www.mybatis.org/mybatis-3/zh/index.html)
+资料：[MyBatis中文文档](http://www.mybatis.org/mybatis-3/zh/index.html)
 
 ---
 ## 1.if的用法：
@@ -365,7 +365,302 @@ where和set都属于trim的一种具体用法。
 
 ---
 ## 4.foreach标签的用法
+**1)使用foreach的场景：**
+1. 在SQL中会有一些操作会用到集合，如`in (a,b,c)`还有some，all等。
+()中的值可以直接使用${}来获取但是有[SQL注入](https://baike.baidu.com/item/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/4766224?fr=aladdin)的风险。
+想要避免SQL注入就需要使用#{},这时就得使用foreach标签配合了。
+2. foreach标签可以对数组、Map或实现了Iterable接口（set,List等）的对象进行遍历。数组在遍历时会转换为List。
+所以foreach循环的遍历分为两类：Iterable类和Map类。
 
+**2)foreach实现in集合：**
+1. foreach实现in集合是最简单和最常见的一种情况。
+2. 需求：
+根据用户id的集合查询所有符合id的用户。
+3. 新建UserMapper接口方法：
+		//foreach标签实现动态查询user列表
+		List<User> selectByIdList(List<Long> idList);
+新建UserMapper.xml方法：
+		<select id="selectByIdList" resultType="User">
+			SELECT 	id,user_name,user_password,user_email,user_info,head_img,create_time
+			FROM User
+			<where> id in
+			<foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+				#{id}
+			</foreach>
+			</where>
+		</select>
+新建测试类：
+		//foreach动态标签实现in集合
+		@Test
+		public void testSelectByIdList(){
+			//获取sqlSession
+			SqlSession sqlSession =getSqlSession();
+			try{
+				UserMapper userMapper =sqlSession.getMapper(UserMapper.class);		//获取UserMapper接口
+			//	Long a[]={1L,5L,6L};					//创建参数合集
+				List<Long> idlist=new ArrayList<Long>();
+				idlist.add(1L);
+				idlist.add(5L);
+				idlist.add(6L);
+				List<User> users =userMapper.selectByIdList(idlist);
+				Assert.assertEquals(3, users.size());    //是否查询到了三条数据	
+			}finally{
+				sqlSession.close();
+			}
+		}
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-07.jpg)
 
+**3)foreach标签包含的属性：**
+`<foreach collection="list" open="(" close=")" separator="," item="id" index="i">`
+- collection：必填，值为要迭代循环的类型名（属性名）。有很多种情况。
+- item：值为从迭代对象中取到的每一个值。(名字可以任取但是需要统一)
+- index：填索引名字。在集合或数组情况下值为当前的索引值。跌代对象是Map类似时值为Map的key(键值)。（这个名字可以随便起，一般用i，使用的时候只会用值）
+- open：整个循环的开始字符串。
+- close：整个循环的结束字符串。
+- separator：每次循环之间的分隔符。
+
+**4)不同情况下collection的属性指定：**
+1. 先查看DefaultSqlSession默认处理类的源码(MyBatis)：
+		private Object wrapCollection(final Object object) {
+		  if (object instanceof Collection) {	//如果是collection集合类
+		    StrictMap<Object> map = new StrictMap<Object>();
+		    map.put("collection", object);		//先添加collection为map的key
+		    if (object instanceof List) {		//如果是list类型
+		      map.put("list", object);		//再添加一个list为key
+		    }
+		    return map;
+		  } else if (object != null && object.getClass().isArray()) {		//不为空且为数组类型
+		    StrictMap<Object> map = new StrictMap<Object>();
+		    map.put("array", object);		//添加一个key为array
+		    return map;
+		  }
+		  return object;
+		}
+2. 如果参数是List类型使用：`collection="list"`
+如果参数是Array类型使用：`collection="array"`；
+这是默认的使用值，也可以**使用@param注解自定义**：
+接口方法像这样写：
+		List<User> selectByIdList(@Param("idlist")List<Long> idList);
+在xml中就可以使用`collection="idlist"`，或者param1:
+![](http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-08.jpg)
+数组同样也可以这样做。
+3. 有两个以上参数时:
+		List<User> selectByIdList(@Param("idlist")List<Long> idList,@Param("666")long id);
+需要使用@param为每个参数指定名字，colletion的值为@param为参数起的名字。(和上面一样)
+如果有多个参数都需要循环遍历，那么就需要使用多组foreach标签。
+4. 参数是一个Map类型时：
+如果是Map参数中包含了一个需要循环的对象，如：Map<Integer,List>中有一个map(6,idlist)，那么需要这样写：`collection="6"`。
+如果是想要遍历这个Map本身，取出所有的键值对，可以使用默认值：`collection="_parameter"`，不过更推荐使用@param给这个map指定名字。
+5. 参数是自定义类对象中一个需要循环遍历的属性：
+直接指定对象的属性名即可：`collection="对象名.属性名"`
+需要遍历的是对象本身，则指定为对象名(使用@param注解指定)。
+多层嵌套则使用多个小数点取出。
+
+**4)foreach标签实现批量插入：**
+1. 数据库支持批量插入的话就可以使用foreach来批量插入，
+批量插入是SQL-92特性，目前支持的数据库有：Mysql,DB2,SQL Sever2008以上版本，SQLite3.711及以上版本，H2等。（Oracal不支持）
+批量插入的语法：
+		Insert into 表名（字段列表） values(值列表),（值列表）...
+可以看出后面的值列表是循环的，所以可以使用foreach实现。
+2. 添加接口方法：
+		//foreach标签实现动态批量插入
+		int insertUserList(List<User> userlist);
+添加xml方法：
+		<insert id="insertUserList">
+			insert into user
+			values
+			<foreach collection="list" item="user" separator=",">
+				(
+				#{user.id},#{user.userName},#{user.userPassword},#{user.userEmail},#{user.userInfo},#{user.headImg,jdbcType=BLOB},#{user.createTime,jdbcType=TIMESTAMP}
+				)
+			</foreach>
+		</insert>
+注意，item指定了遍历出来的值名字为user,后面需要使用这个值(user)内部的属性时就需要使用user.属性来获取。
+3. 新增测试类方法：
+		//foreach动态标签实现批量插入
+		@Test
+		public void testInsertUserList(){
+			//获取sqlSession
+			SqlSession sqlSession =getSqlSession();
+			try{
+				UserMapper userMapper =sqlSession.getMapper(UserMapper.class);		//获取UserMapper接口
+				List<User> users =new ArrayList<User>();		//创建需要添加的User列表
+				for(int i=0;i<3;i++){
+					User user=new User();
+					user.setUserName("测试用户");
+					user.setUserEmail("123456");
+					user.setUserInfo("批量新增用户");
+					user.setCreateTime(new Date());
+					users.add(user);
+				}
+				int result = userMapper.insertUserList(users);
+				Assert.assertEquals(users.size(),result);    //测试是否成功添加
+			}finally{
+				sqlSession.rollback;
+				sqlSession.close();
+			}
+		}
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-09.jpg)
+4. 批量返回主键(仅支持MyBatis3.3.1及以上版本，数据库最好使用Mysql)：
+书上只写了JDBC的方式，而且需要3.3.1版本及以上的支持。
+只需要在xml的insert标签上添加属性即可：
+		<insert id="insertUserList" useGeneratedKeys="true" keyProperty="id">
+useGeneratedKeys与keyProperty属性，然后执行插入后参数对象的所有user的id都有了返回的key值，可以手动遍历查看。
+
+**5)foreach标签实现动态Update更新：**
+1. 参数对象是Map,遍历取出所有的键值对并以此对user进行更新。
+2. 新建接口方法：
+		//foreach标签实现动态更新
+		int updateByMap(Map<String,Object> userMap);
+新增xml文件方法：
+		<update id="updateByMap">
+			update user
+			<set>
+				<foreach collection="_parameter" item="val" index="key" separator=",">
+					${key}=#{val}
+				</foreach>
+			</set>
+			where id=#{id}
+		</update>
+如果这样只要在map中存入一个id值就不用在where前写id=#{id}了。
+3. 新建测试方法：
+		//foreach动态更新
+		@Test
+		public void testUpdateByMap(){
+			SqlSession sqlSession =getSqlSession();
+			try{
+				UserMapper userMapper =sqlSession.getMapper(UserMapper.class);		//获取UserMapper接口
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("id",5L);
+				map.put("user_name", "hahaha");
+				map.put("user_info", "666");
+				int result =userMapper.updateByMap(map);
+				Assert.assertEquals(1,result);  //是不是更新一条数据
+				User user=userMapper.selectById((Long) map.get("id"));
+				Assert.assertEquals(user.getUserName(),(String)map.get("user_name"));  //测试是否更新成功
+			}finally{
+				sqlSession.rollback();
+				sqlSession.close();
+			}
+		}
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-10.jpg)
 
 ---
+## 5.bind的用法
+1. 问题引入：
+在使用模糊查询时一般都是使用的concat()来连接like后面的内容，如：
+		<select id="selectByUser" resultType="User">
+			SELECT 	id,user_name,user_password,user_email,user_info,head_img,create_time
+			FROM User
+			WHERE 1
+			<if test="userName!=null and userName!=''">
+				and user_name like concat('%',#{userName},'%')
+			</if>
+		</select>
+但是concat在Mysql和Oracle数据库中的使用有很大的不同：
+concat在Mysql中支持多个参数，但是在oracle中仅支持两个参数。
+为了转换数据库时不会出错，就需要使用bind标签。
+2. bind标签的作用：
+使用OGNL表达式创建一个人变量并将其绑定到上下文中。
+3. 简单例子：
+将上述例子的含模糊查询的部分修改如下：
+		<if test="userName!=null and userName!=''">
+			<bind name="nameLike" value="'%',#{userName},'%'"/>
+			and user_name like #{nameLike}
+		</if>
+4. 属性说明：
+name：必填，变量名
+value：必填，OGNL表达式，变量值
+5. 使用bind不仅可以方便更换数据库，也可以防止SQL注入。
+但是bind并不能完全解决更换数据库的问题。
+
+---
+## 6.多数据库支持
+**1)databaseIdProvider配置介绍**
+1. MyBatis可以根据不同的数据库厂商执行不同的语句，这种机制是基于映射语句中的databaseId属性的。
+2. Mybatis会加载所有带和不带databaseId属性值的语句，如果同时找到了带和不带databaseId的语句，那么后者会被忽略。
+3. 支持多厂商特性，需要在Mybatis核心配置文件中加入如下配置：
+（注意需要加在Mapper映射配置的上方）
+		<databaseIdProvider type="DB_VENDOR"></databaseIdProvider>
+4. DB_VENDOR是使用DatabaseMetData#getDatabaseProductName()方法返回的值来设置的，但是这个值非常长，所以一般需要设置属性别名：
+		<databaseIdProvider type="DB_VENDOR">
+			<property name="SQL Sever" value="sqlsever"/>
+			<property name="DB2" value="db2"/>
+			<property name="Oracle" value="oracle"/>
+			<property name="MySQL" value="mysql"/>
+			<property name="H2" value="h2"/>
+			<!-- 其他数据库 -->
+		</databaseIdProvider>
+这样配置后databaseId会被设置成第一个能匹配的数据库的属性键对应的值（value），没有匹配到则会被设置成null。
+5. **匹配测策略：**
+DatabaseMetData#getDatabaseProductName()返回的值中包含`<property name="" value=""/>`中的name属性值即可，将value赋值给databaseId。
+6. 数据库产品名是由所选择的当前数据库的JDBC指定的（实现DatabaseMetData接口指定）。而是使用getDatabaseProductName()就能得到数据库产品名。
+
+**2）多数据库的用法：**
+1. 配置了databaseIdProvider后，一些映射文件的标签中的databaseId属性就有作用了：
+	- select
+	- insert
+	- delete
+	- update
+	- selectKey
+	- sql
+2. 整条SQL语句的自动匹配（以MySQL和Oracle为例子）：
+		<select id="selecttest01" databaseId="mysql" resultType="User">
+				select * from user where
+				user_name like concat('%',#{userName},'%')
+		</select>
+		<select id="selecttest01" databaseId="oracle" resultType="User">
+				select * from user where
+				user_name like	'%'||#{userName}||'%'
+		</select>
+3. Mysql和Oracle中的大部分SQL语句都是差不多的，所以可以使用if标签配合默认的上下文中的_databaseId参数实现部分匹配，可以省去很多不必要的SQL语句。
+4. 部分匹配：
+		<select id="selecttest02" resultType="User">
+				select * from user
+		<where>
+		<if test="_databaseId='mysql'">
+			user_name like concat('%',#{userName},'%')
+		</if>
+		<if test="_databaseId='orcale'">
+			user_name like	'%'||#{userName}||'%'
+		</if>
+		</where>
+		</select>
+
+---
+## 7.OGNL的简单用法
+1. OGNL简介：
+OGNL（Object-Graph Navigation Language的简称），对象图导航语言，它是一门表达式语言，除了用来设置和获取Java对象的属性之外，另外提供诸如集合的投影和过滤以及lambda表达式等。解决了java和页面之间数据不匹配的问题。
+2. MyBatis常用的OGNL表达式：
+	- e1 or e2
+	- e1 and e2
+	- e1 == e2 或者 e1 eq e2
+	- e1 != e2 或者 e1 neq e2
+	- e1 lt e2   -- 小于（大于：gt）
+	- e1 lte e2    -- 小于等于(大于等于：gte)
+	- e1+e2、e1*e2、e1/e2、e1-e2、e1%e2
+	- !e或not e    -- 非，反
+	- e.method(args)		--调用对象方法
+	- e.property		-- 对象属性值(可多层嵌套)
+	- e1[e2]		-- 按索引取值(List,Map和数组)
+	- @class@method(args)		--调用类的静态方法
+	- @class@filed		--调用类的静态字段
+3. 最后俩表达式常用于简化一些校验或者进特殊的操作。
+		@类名@静态方法名	/	@类名@静态属性名
+4. 更多关于OGNL的操作可以参考博客：
+【1】[OGNL表达式原理及使用](https://blog.csdn.net/yxflovegs2012/article/details/53227889)
+【2】[OGNL表达式语言详解](https://blog.csdn.net/yu102655/article/details/52179695)
+【3】[MyBatis中的OGNL教程](https://blog.csdn.net/isea533/article/details/50061705)
+
+---
+## 8.动态SQL中的可插拔脚本语言
+1. MyBatis 从 3.2 开始支持可插拔脚本语言，这允许你插入一种脚本语言驱动，并基于这种语言来编写动态SQL查询语句。
+可以通过实现LanguageDriver接口实现。
+更多的操作以后再学吧。
+2. 详见[MyBatis中文文档](http://www.mybatis.org/mybatis-3/zh/index.html)
+
+---
+
