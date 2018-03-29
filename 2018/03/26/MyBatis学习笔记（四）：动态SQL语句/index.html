@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（四）：动态SQL语句">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-02.jpg">
@@ -22,10 +22,14 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-06.jpg">
-<meta property="og:updated_time" content="2018-03-28T14:40:14.991Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-10.jpg">
+<meta property="og:updated_time" content="2018-03-29T12:12:40.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（四）：动态SQL语句">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis官方文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
@@ -154,7 +158,7 @@
       
             
             <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
-<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis官方文档</a></li>
+<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
 </ol>
 <hr>
 <h2 id="1-if的用法："><a href="#1-if的用法：" class="headerlink" title="1.if的用法："></a>1.if的用法：</h2><p><strong>1)动态SQL语句：</strong></p>
@@ -472,11 +476,265 @@ int updateUserById2(User user);
 </code></pre></li>
 </ol>
 <hr>
-<h2 id="4-foreach标签的用法"><a href="#4-foreach标签的用法" class="headerlink" title="4.foreach标签的用法"></a>4.foreach标签的用法</h2><hr>
+<h2 id="4-foreach标签的用法"><a href="#4-foreach标签的用法" class="headerlink" title="4.foreach标签的用法"></a>4.foreach标签的用法</h2><p><strong>1)使用foreach的场景：</strong></p>
+<ol>
+<li>在SQL中会有一些操作会用到集合，如<code>in (a,b,c)</code>还有some，all等。<br>()中的值可以直接使用${}来获取但是有<a href="https://baike.baidu.com/item/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/4766224?fr=aladdin" target="_blank" rel="noopener">SQL注入</a>的风险。<br>想要避免SQL注入就需要使用#{},这时就得使用foreach标签配合了。</li>
+<li>foreach标签可以对数组、Map或实现了Iterable接口（set,List等）的对象进行遍历。数组在遍历时会转换为List。<br>所以foreach循环的遍历分为两类：Iterable类和Map类。</li>
+</ol>
+<p><strong>2)foreach实现in集合：</strong></p>
+<ol>
+<li>foreach实现in集合是最简单和最常见的一种情况。</li>
+<li>需求：<br>根据用户id的集合查询所有符合id的用户。</li>
+<li>新建UserMapper接口方法：<pre><code>//foreach标签实现动态查询user列表
+List&lt;User&gt; selectByIdList(List&lt;Long&gt; idList);
+</code></pre>新建UserMapper.xml方法：<pre><code>&lt;select id=&quot;selectByIdList&quot; resultType=&quot;User&quot;&gt;
+    SELECT     id,user_name,user_password,user_email,user_info,head_img,create_time
+    FROM User
+    &lt;where&gt; id in
+    &lt;foreach collection=&quot;list&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot; item=&quot;id&quot; index=&quot;i&quot;&gt;
+        #{id}
+    &lt;/foreach&gt;
+    &lt;/where&gt;
+&lt;/select&gt;
+</code></pre>新建测试类：<pre><code>//foreach动态标签实现in集合
+@Test
+public void testSelectByIdList(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+    //    Long a[]={1L,5L,6L};                    //创建参数合集
+        List&lt;Long&gt; idlist=new ArrayList&lt;Long&gt;();
+        idlist.add(1L);
+        idlist.add(5L);
+        idlist.add(6L);
+        List&lt;User&gt; users =userMapper.selectByIdList(idlist);
+        Assert.assertEquals(3, users.size());    //是否查询到了三条数据    
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-07.jpg" alt=""></li>
+</ol>
+<p><strong>3)foreach标签包含的属性：</strong><br><code>&lt;foreach collection=&quot;list&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot; item=&quot;id&quot; index=&quot;i&quot;&gt;</code></p>
+<ul>
+<li>collection：必填，值为要迭代循环的类型名（属性名）。有很多种情况。</li>
+<li>item：值为从迭代对象中取到的每一个值。(名字可以任取但是需要统一)</li>
+<li>index：填索引名字。在集合或数组情况下值为当前的索引值。跌代对象是Map类似时值为Map的key(键值)。（这个名字可以随便起，一般用i，使用的时候只会用值）</li>
+<li>open：整个循环的开始字符串。</li>
+<li>close：整个循环的结束字符串。</li>
+<li>separator：每次循环之间的分隔符。</li>
+</ul>
+<p><strong>4)不同情况下collection的属性指定：</strong></p>
+<ol>
+<li>先查看DefaultSqlSession默认处理类的源码(MyBatis)：<pre><code>private Object wrapCollection(final Object object) {
+  if (object instanceof Collection) {    //如果是collection集合类
+    StrictMap&lt;Object&gt; map = new StrictMap&lt;Object&gt;();
+    map.put(&quot;collection&quot;, object);        //先添加collection为map的key
+    if (object instanceof List) {        //如果是list类型
+      map.put(&quot;list&quot;, object);        //再添加一个list为key
+    }
+    return map;
+  } else if (object != null &amp;&amp; object.getClass().isArray()) {        //不为空且为数组类型
+    StrictMap&lt;Object&gt; map = new StrictMap&lt;Object&gt;();
+    map.put(&quot;array&quot;, object);        //添加一个key为array
+    return map;
+  }
+  return object;
+}
+</code></pre></li>
+<li>如果参数是List类型使用：<code>collection=&quot;list&quot;</code><br>如果参数是Array类型使用：<code>collection=&quot;array&quot;</code>；<br>这是默认的使用值，也可以<strong>使用@param注解自定义</strong>：<br>接口方法像这样写：<pre><code>List&lt;User&gt; selectByIdList(@Param(&quot;idlist&quot;)List&lt;Long&gt; idList);
+</code></pre>在xml中就可以使用<code>collection=&quot;idlist&quot;</code>，或者param1:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-08.jpg" alt=""><br>数组同样也可以这样做。</li>
+<li>有两个以上参数时:<pre><code>List&lt;User&gt; selectByIdList(@Param(&quot;idlist&quot;)List&lt;Long&gt; idList,@Param(&quot;666&quot;)long id);
+</code></pre>需要使用@param为每个参数指定名字，colletion的值为@param为参数起的名字。(和上面一样)<br>如果有多个参数都需要循环遍历，那么就需要使用多组foreach标签。</li>
+<li>参数是一个Map类型时：<br>如果是Map参数中包含了一个需要循环的对象，如：Map<integer,list>中有一个map(6,idlist)，那么需要这样写：<code>collection=&quot;6&quot;</code>。<br>如果是想要遍历这个Map本身，取出所有的键值对，可以使用默认值：<code>collection=&quot;_parameter&quot;</code>，不过更推荐使用@param给这个map指定名字。</integer,list></li>
+<li>参数是自定义类对象中一个需要循环遍历的属性：<br>直接指定对象的属性名即可：<code>collection=&quot;对象名.属性名&quot;</code><br>需要遍历的是对象本身，则指定为对象名(使用@param注解指定)。<br>多层嵌套则使用多个小数点取出。</li>
+</ol>
+<p><strong>4)foreach标签实现批量插入：</strong></p>
+<ol>
+<li>数据库支持批量插入的话就可以使用foreach来批量插入，<br>批量插入是SQL-92特性，目前支持的数据库有：Mysql,DB2,SQL Sever2008以上版本，SQLite3.711及以上版本，H2等。（Oracal不支持）<br>批量插入的语法：<pre><code>Insert into 表名（字段列表） values(值列表),（值列表）...
+</code></pre>可以看出后面的值列表是循环的，所以可以使用foreach实现。</li>
+<li>添加接口方法：<pre><code>//foreach标签实现动态批量插入
+int insertUserList(List&lt;User&gt; userlist);
+</code></pre>添加xml方法：<pre><code>&lt;insert id=&quot;insertUserList&quot;&gt;
+    insert into user
+    values
+    &lt;foreach collection=&quot;list&quot; item=&quot;user&quot; separator=&quot;,&quot;&gt;
+        (
+        #{user.id},#{user.userName},#{user.userPassword},#{user.userEmail},#{user.userInfo},#{user.headImg,jdbcType=BLOB},#{user.createTime,jdbcType=TIMESTAMP}
+        )
+    &lt;/foreach&gt;
+&lt;/insert&gt;
+</code></pre>注意，item指定了遍历出来的值名字为user,后面需要使用这个值(user)内部的属性时就需要使用user.属性来获取。</li>
+<li>新增测试类方法：<pre><code>//foreach动态标签实现批量插入
+@Test
+public void testInsertUserList(){
+    //获取sqlSession
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        List&lt;User&gt; users =new ArrayList&lt;User&gt;();        //创建需要添加的User列表
+        for(int i=0;i&lt;3;i++){
+            User user=new User();
+            user.setUserName(&quot;测试用户&quot;);
+            user.setUserEmail(&quot;123456&quot;);
+            user.setUserInfo(&quot;批量新增用户&quot;);
+            user.setCreateTime(new Date());
+            users.add(user);
+        }
+        int result = userMapper.insertUserList(users);
+        Assert.assertEquals(users.size(),result);    //测试是否成功添加
+    }finally{
+        sqlSession.rollback;
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-09.jpg" alt=""></li>
+<li>批量返回主键(仅支持MyBatis3.3.1及以上版本，数据库最好使用Mysql)：<br>书上只写了JDBC的方式，而且需要3.3.1版本及以上的支持。<br>只需要在xml的insert标签上添加属性即可：<pre><code>&lt;insert id=&quot;insertUserList&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;
+</code></pre>useGeneratedKeys与keyProperty属性，然后执行插入后参数对象的所有user的id都有了返回的key值，可以手动遍历查看。</li>
+</ol>
+<p><strong>5)foreach标签实现动态Update更新：</strong></p>
+<ol>
+<li>参数对象是Map,遍历取出所有的键值对并以此对user进行更新。</li>
+<li>新建接口方法：<pre><code>//foreach标签实现动态更新
+int updateByMap(Map&lt;String,Object&gt; userMap);
+</code></pre>新增xml文件方法：<pre><code>&lt;update id=&quot;updateByMap&quot;&gt;
+    update user
+    &lt;set&gt;
+        &lt;foreach collection=&quot;_parameter&quot; item=&quot;val&quot; index=&quot;key&quot; separator=&quot;,&quot;&gt;
+            ${key}=#{val}
+        &lt;/foreach&gt;
+    &lt;/set&gt;
+    where id=#{id}
+&lt;/update&gt;
+</code></pre>如果这样只要在map中存入一个id值就不用在where前写id=#{id}了。</li>
+<li>新建测试方法：<pre><code>//foreach动态更新
+@Test
+public void testUpdateByMap(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        Map&lt;String,Object&gt; map=new HashMap&lt;String, Object&gt;();
+        map.put(&quot;id&quot;,5L);
+        map.put(&quot;user_name&quot;, &quot;hahaha&quot;);
+        map.put(&quot;user_info&quot;, &quot;666&quot;);
+        int result =userMapper.updateByMap(map);
+        Assert.assertEquals(1,result);  //是不是更新一条数据
+        User user=userMapper.selectById((Long) map.get(&quot;id&quot;));
+        Assert.assertEquals(user.getUserName(),(String)map.get(&quot;user_name&quot;));  //测试是否更新成功
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-10.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-bind的用法"><a href="#5-bind的用法" class="headerlink" title="5.bind的用法"></a>5.bind的用法</h2><ol>
+<li>问题引入：<br>在使用模糊查询时一般都是使用的concat()来连接like后面的内容，如：<pre><code>&lt;select id=&quot;selectByUser&quot; resultType=&quot;User&quot;&gt;
+    SELECT     id,user_name,user_password,user_email,user_info,head_img,create_time
+    FROM User
+    WHERE 1
+    &lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+        and user_name like concat(&apos;%&apos;,#{userName},&apos;%&apos;)
+    &lt;/if&gt;
+&lt;/select&gt;
+</code></pre>但是concat在Mysql和Oracle数据库中的使用有很大的不同：<br>concat在Mysql中支持多个参数，但是在oracle中仅支持两个参数。<br>为了转换数据库时不会出错，就需要使用bind标签。</li>
+<li>bind标签的作用：<br>使用OGNL表达式创建一个人变量并将其绑定到上下文中。</li>
+<li>简单例子：<br>将上述例子的含模糊查询的部分修改如下：<pre><code>&lt;if test=&quot;userName!=null and userName!=&apos;&apos;&quot;&gt;
+    &lt;bind name=&quot;nameLike&quot; value=&quot;&apos;%&apos;,#{userName},&apos;%&apos;&quot;/&gt;
+    and user_name like #{nameLike}
+&lt;/if&gt;
+</code></pre></li>
+<li>属性说明：<br>name：必填，变量名<br>value：必填，OGNL表达式，变量值</li>
+<li>使用bind不仅可以方便更换数据库，也可以防止SQL注入。<br>但是bind并不能完全解决更换数据库的问题。</li>
+</ol>
+<hr>
+<h2 id="6-多数据库支持"><a href="#6-多数据库支持" class="headerlink" title="6.多数据库支持"></a>6.多数据库支持</h2><p><strong>1)databaseIdProvider配置介绍</strong></p>
+<ol>
+<li>MyBatis可以根据不同的数据库厂商执行不同的语句，这种机制是基于映射语句中的databaseId属性的。</li>
+<li>Mybatis会加载所有带和不带databaseId属性值的语句，如果同时找到了带和不带databaseId的语句，那么后者会被忽略。</li>
+<li>支持多厂商特性，需要在Mybatis核心配置文件中加入如下配置：<br>（注意需要加在Mapper映射配置的上方）<pre><code>&lt;databaseIdProvider type=&quot;DB_VENDOR&quot;&gt;&lt;/databaseIdProvider&gt;
+</code></pre></li>
+<li>DB_VENDOR是使用DatabaseMetData#getDatabaseProductName()方法返回的值来设置的，但是这个值非常长，所以一般需要设置属性别名：<pre><code>&lt;databaseIdProvider type=&quot;DB_VENDOR&quot;&gt;
+    &lt;property name=&quot;SQL Sever&quot; value=&quot;sqlsever&quot;/&gt;
+    &lt;property name=&quot;DB2&quot; value=&quot;db2&quot;/&gt;
+    &lt;property name=&quot;Oracle&quot; value=&quot;oracle&quot;/&gt;
+    &lt;property name=&quot;MySQL&quot; value=&quot;mysql&quot;/&gt;
+    &lt;property name=&quot;H2&quot; value=&quot;h2&quot;/&gt;
+    &lt;!-- 其他数据库 --&gt;
+&lt;/databaseIdProvider&gt;
+</code></pre>这样配置后databaseId会被设置成第一个能匹配的数据库的属性键对应的值（value），没有匹配到则会被设置成null。</li>
+<li><strong>匹配测策略：</strong><br>DatabaseMetData#getDatabaseProductName()返回的值中包含<code>&lt;property name=&quot;&quot; value=&quot;&quot;/&gt;</code>中的name属性值即可，将value赋值给databaseId。</li>
+<li>数据库产品名是由所选择的当前数据库的JDBC指定的（实现DatabaseMetData接口指定）。而是使用getDatabaseProductName()就能得到数据库产品名。</li>
+</ol>
+<p><strong>2）多数据库的用法：</strong></p>
+<ol>
+<li>配置了databaseIdProvider后，一些映射文件的标签中的databaseId属性就有作用了：<ul>
+<li>select</li>
+<li>insert</li>
+<li>delete</li>
+<li>update</li>
+<li>selectKey</li>
+<li>sql</li>
+</ul>
+</li>
+<li>整条SQL语句的自动匹配（以MySQL和Oracle为例子）：<pre><code>&lt;select id=&quot;selecttest01&quot; databaseId=&quot;mysql&quot; resultType=&quot;User&quot;&gt;
+        select * from user where
+        user_name like concat(&apos;%&apos;,#{userName},&apos;%&apos;)
+&lt;/select&gt;
+&lt;select id=&quot;selecttest01&quot; databaseId=&quot;oracle&quot; resultType=&quot;User&quot;&gt;
+        select * from user where
+        user_name like    &apos;%&apos;||#{userName}||&apos;%&apos;
+&lt;/select&gt;
+</code></pre></li>
+<li>Mysql和Oracle中的大部分SQL语句都是差不多的，所以可以使用if标签配合默认的上下文中的_databaseId参数实现部分匹配，可以省去很多不必要的SQL语句。</li>
+<li>部分匹配：<pre><code>&lt;select id=&quot;selecttest02&quot; resultType=&quot;User&quot;&gt;
+        select * from user
+&lt;where&gt;
+&lt;if test=&quot;_databaseId=&apos;mysql&apos;&quot;&gt;
+    user_name like concat(&apos;%&apos;,#{userName},&apos;%&apos;)
+&lt;/if&gt;
+&lt;if test=&quot;_databaseId=&apos;orcale&apos;&quot;&gt;
+    user_name like    &apos;%&apos;||#{userName}||&apos;%&apos;
+&lt;/if&gt;
+&lt;/where&gt;
+&lt;/select&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="7-OGNL的简单用法"><a href="#7-OGNL的简单用法" class="headerlink" title="7.OGNL的简单用法"></a>7.OGNL的简单用法</h2><ol>
+<li>OGNL简介：<br>OGNL（Object-Graph Navigation Language的简称），对象图导航语言，它是一门表达式语言，除了用来设置和获取Java对象的属性之外，另外提供诸如集合的投影和过滤以及lambda表达式等。解决了java和页面之间数据不匹配的问题。</li>
+<li>MyBatis常用的OGNL表达式：<ul>
+<li>e1 or e2</li>
+<li>e1 and e2</li>
+<li>e1 == e2 或者 e1 eq e2</li>
+<li>e1 != e2 或者 e1 neq e2</li>
+<li>e1 lt e2   – 小于（大于：gt）</li>
+<li>e1 lte e2    – 小于等于(大于等于：gte)</li>
+<li>e1+e2、e1*e2、e1/e2、e1-e2、e1%e2</li>
+<li>!e或not e    – 非，反</li>
+<li>e.method(args)        –调用对象方法</li>
+<li>e.property        – 对象属性值(可多层嵌套)</li>
+<li>e1[e2]        – 按索引取值(List,Map和数组)</li>
+<li>@class@method(args)        –调用类的静态方法</li>
+<li>@class@filed        –调用类的静态字段</li>
+</ul>
+</li>
+<li>最后俩表达式常用于简化一些校验或者进特殊的操作。<pre><code>@类名@静态方法名    /    @类名@静态属性名
+</code></pre></li>
+<li>更多关于OGNL的操作可以参考博客：<br>【1】<a href="https://blog.csdn.net/yxflovegs2012/article/details/53227889" target="_blank" rel="noopener">OGNL表达式原理及使用</a><br>【2】<a href="https://blog.csdn.net/yu102655/article/details/52179695" target="_blank" rel="noopener">OGNL表达式语言详解</a><br>【3】<a href="https://blog.csdn.net/isea533/article/details/50061705" target="_blank" rel="noopener">MyBatis中的OGNL教程</a></li>
+</ol>
+<hr>
+<h2 id="8-动态SQL中的可插拔脚本语言"><a href="#8-动态SQL中的可插拔脚本语言" class="headerlink" title="8.动态SQL中的可插拔脚本语言"></a>8.动态SQL中的可插拔脚本语言</h2><ol>
+<li>MyBatis 从 3.2 开始支持可插拔脚本语言，这允许你插入一种脚本语言驱动，并基于这种语言来编写动态SQL查询语句。<br>可以通过实现LanguageDriver接口实现。<br>更多的操作以后再学吧。</li>
+<li>详见<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月28日 22:40</p>
+        <p>最后更新： 2018年03月29日 20:12</p>
         <p>原始链接： <a class="post-url" href="/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/" title="MyBatis学习笔记（四）：动态SQL语句">https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -594,7 +852,7 @@ int updateUserById2(User user);
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法："><span class="post-toc-text">1.if的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-choose的用法（when-otherwise）："><span class="post-toc-text">2.choose的用法（when,otherwise）：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-where-set-trim的用法"><span class="post-toc-text">3.where,set,trim的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-foreach标签的用法"><span class="post-toc-text">4.foreach标签的用法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法："><span class="post-toc-text">1.if的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-choose的用法（when-otherwise）："><span class="post-toc-text">2.choose的用法（when,otherwise）：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-where-set-trim的用法"><span class="post-toc-text">3.where,set,trim的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-foreach标签的用法"><span class="post-toc-text">4.foreach标签的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-bind的用法"><span class="post-toc-text">5.bind的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多数据库支持"><span class="post-toc-text">6.多数据库支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-OGNL的简单用法"><span class="post-toc-text">7.OGNL的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-动态SQL中的可插拔脚本语言"><span class="post-toc-text">8.动态SQL中的可插拔脚本语言</span></a></li></ol>
         </nav>
     </aside>
     
