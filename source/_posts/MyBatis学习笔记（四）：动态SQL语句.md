@@ -12,7 +12,7 @@ categories: Java框架
 资料：[MyBatis中文文档](http://www.mybatis.org/mybatis-3/zh/index.html)
 
 ---
-## 1.if的用法：
+## 1.if的用法
 **1)动态SQL语句：**
 1. 使用标签简化JDBC对字符串拼接的操作。
 MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后）
@@ -211,7 +211,7 @@ MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic 
 ![](http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-03.jpg)
 
 ---
-## 2.choose的用法（when,otherwise）：
+## 2.choose的用法（when,otherwise）
 **1)if标签在insert中使用时的缺陷：**
 1. 无法实现if...else...这种结构。只有if...结构
 2. 想要实现这样的逻辑就需要使用choose标签了.
