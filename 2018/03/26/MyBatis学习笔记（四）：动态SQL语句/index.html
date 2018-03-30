@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的MyB">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（四）：动态SQL语句">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的MyB">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-02.jpg">
@@ -26,10 +26,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-08.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-09.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-10.jpg">
-<meta property="og:updated_time" content="2018-03-29T12:12:40.797Z">
+<meta property="og:updated_time" content="2018-03-29T12:21:55.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（四）：动态SQL语句">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法：1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的My">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.if的用法1)动态SQL语句：  使用标签简化JDBC对字符串拼接的操作。MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后） 目前的MyB">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
@@ -161,7 +161,7 @@
 <li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
 </ol>
 <hr>
-<h2 id="1-if的用法："><a href="#1-if的用法：" class="headerlink" title="1.if的用法："></a>1.if的用法：</h2><p><strong>1)动态SQL语句：</strong></p>
+<h2 id="1-if的用法"><a href="#1-if的用法" class="headerlink" title="1.if的用法"></a>1.if的用法</h2><p><strong>1)动态SQL语句：</strong></p>
 <ol>
 <li>使用标签简化JDBC对字符串拼接的操作。<br>MyBatis3之前有很多的标签，现在的MyBatis采用和OGNL:Object Graphic Navigation Language(对象图导航语言)表达式消除了许多标签。（使用方法在最后）</li>
 <li>目前的MyBatis在XML中支持的标签：<ul>
@@ -341,7 +341,7 @@ public void testInsertByIf(){
 </code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00024MyBatis%E5%AD%A6%E4%B9%A04-03.jpg" alt=""></li>
 </ol>
 <hr>
-<h2 id="2-choose的用法（when-otherwise）："><a href="#2-choose的用法（when-otherwise）：" class="headerlink" title="2.choose的用法（when,otherwise）："></a>2.choose的用法（when,otherwise）：</h2><p><strong>1)if标签在insert中使用时的缺陷：</strong></p>
+<h2 id="2-choose的用法（when-otherwise）"><a href="#2-choose的用法（when-otherwise）" class="headerlink" title="2.choose的用法（when,otherwise）"></a>2.choose的用法（when,otherwise）</h2><p><strong>1)if标签在insert中使用时的缺陷：</strong></p>
 <ol>
 <li>无法实现if…else…这种结构。只有if…结构</li>
 <li>想要实现这样的逻辑就需要使用choose标签了.<br>choose标签中有<code>&lt;when&gt;</code>和<code>&lt;otherwise&gt;</code>两个子标签：<br><strong>一个choose中至少要有一个when，0个或一个otherwise</strong>。</li>
@@ -734,7 +734,7 @@ public void testUpdateByMap(){
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月29日 20:12</p>
+        <p>最后更新： 2018年03月29日 20:21</p>
         <p>原始链接： <a class="post-url" href="/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/" title="MyBatis学习笔记（四）：动态SQL语句">https://zjxkenshine.github.io/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -852,7 +852,7 @@ public void testUpdateByMap(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法："><span class="post-toc-text">1.if的用法：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-choose的用法（when-otherwise）："><span class="post-toc-text">2.choose的用法（when,otherwise）：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-where-set-trim的用法"><span class="post-toc-text">3.where,set,trim的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-foreach标签的用法"><span class="post-toc-text">4.foreach标签的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-bind的用法"><span class="post-toc-text">5.bind的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多数据库支持"><span class="post-toc-text">6.多数据库支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-OGNL的简单用法"><span class="post-toc-text">7.OGNL的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-动态SQL中的可插拔脚本语言"><span class="post-toc-text">8.动态SQL中的可插拔脚本语言</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-if的用法"><span class="post-toc-text">1.if的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-choose的用法（when-otherwise）"><span class="post-toc-text">2.choose的用法（when,otherwise）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-where-set-trim的用法"><span class="post-toc-text">3.where,set,trim的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-foreach标签的用法"><span class="post-toc-text">4.foreach标签的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-bind的用法"><span class="post-toc-text">5.bind的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-多数据库支持"><span class="post-toc-text">6.多数据库支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-OGNL的简单用法"><span class="post-toc-text">7.OGNL的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-动态SQL中的可插拔脚本语言"><span class="post-toc-text">8.动态SQL中的可插拔脚本语言</span></a></li></ol>
         </nav>
     </aside>
     
@@ -940,7 +940,7 @@ public void testUpdateByMap(){
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -973,7 +973,7 @@ public void testUpdateByMap(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
 </div>
