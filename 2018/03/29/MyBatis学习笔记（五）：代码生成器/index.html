@@ -8,18 +8,37 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（五）：代码生成器">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-29T12:21:29.403Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-08-0.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-14-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-17.jpg">
+<meta property="og:updated_time" content="2018-03-31T14:56:50.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（五）：代码生成器">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -150,10 +169,350 @@
 <li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
 </ol>
 <hr>
+<h2 id="1-代码生成器MBG简介"><a href="#1-代码生成器MBG简介" class="headerlink" title="1.代码生成器MBG简介"></a>1.代码生成器MBG简介</h2><ol>
+<li>MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。</li>
+<li>MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。</li>
+<li>MBG的版本和Mybatis的版本没有必然的关系。</li>
+</ol>
+<hr>
+<h2 id="2-简单的配置示例："><a href="#2-简单的配置示例：" class="headerlink" title="2.简单的配置示例："></a>2.简单的配置示例：</h2><p><strong>1)配置代码</strong></p>
+<ol>
+<li>在src/main/resources中创建一个generator目录，创建一个generatorConfig.xml文件。</li>
+<li><p>generatorConfig.xml中配置如下内容：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
+&lt;!-- 配置生成器 --&gt;
+&lt;generatorConfiguration&gt;
+    &lt;!-- 配置对象环境 --&gt;
+    &lt;context id=&quot;MySqlContext&quot; targetRuntime=&quot;MyBatis3Simple&quot; defaultModelType=&quot;flat&quot;&gt;
+
+        &lt;!-- 配置起始与结束标识符 --&gt;
+        &lt;property name=&quot;beginningDemiliter&quot; value=&quot;`&quot;/&gt;
+        &lt;property name=&quot;endingDemiliter&quot; value=&quot;`&quot;/&gt;
+
+        &lt;!-- 配置注释生成器 --&gt;
+        &lt;commentGenerator&gt;
+            &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;addRemarkComments&quot; value=&quot;true&quot;/&gt;
+        &lt;/commentGenerator&gt;
+
+        &lt;!-- 必须配置的项，连接数据库 --&gt;
+        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://localhost:3306/mybatis&quot;
+        userId=&quot;root&quot; password=&quot;zjx1754294529&quot;
+        &gt;
+        &lt;/jdbcConnection&gt;
+
+        &lt;!-- 配置生成的实体类位置 --&gt;
+        &lt;javaModelGenerator targetPackage=&quot;mbg.model&quot; targetProject=&quot;src\main\java&quot;&gt;
+            &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot;/&gt;
+        &lt;/javaModelGenerator&gt;
+
+        &lt;!-- 配置映射位置 --&gt;
+        &lt;sqlMapGenerator targetPackage=&quot;mbg.mapper&quot; targetProject=&quot;src\main\resources&quot;&gt;
+        &lt;/sqlMapGenerator&gt;
+
+        &lt;!-- 配置接口位置 --&gt;
+        &lt;javaClientGenerator targetPackage=&quot;mbg.dao&quot; type=&quot;XMLMAPPER&quot; targetProject=&quot;src\main\java&quot;&gt;
+        &lt;/javaClientGenerator&gt;
+
+        &lt;!-- 配置数据库表 --&gt;
+        &lt;table tableName=&quot;%&quot;&gt;
+            &lt;generatedKey column=&quot;id&quot; sqlStatement=&quot;Mysql&quot;/&gt;
+        &lt;/table&gt;
+    &lt;/context&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)上述配置的简单介绍：</strong></p>
+<ol>
+<li><code>&lt;context id=&quot;MySqlContext&quot; targetRuntime=&quot;MyBatis3Simple&quot; defaultModelType=&quot;flat&quot;&gt;</code><ul>
+<li><code>context</code>的<code>targetRuntime</code>属性设置为MyBatis3Simple是为了避免生成Example相关的代码和方法。如果需要则改为Mybatis3.</li>
+<li><code>defaultModelType=&quot;flat&quot;</code>目的是使每个表只生成一个实体类</li>
+</ul>
+</li>
+<li>数据库使用mysql,所以前后的分隔符都设为”`”</li>
+<li>注释生成器的配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;commentGenerator&gt;</span><br><span class="line">&lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">	&lt;property name=&quot;addRemarkComments&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/commentGenerator&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>配置了生成数据库的注释信息并且禁止在注释中生成日期。</p>
+<ol>
+<li><code>jdbcConnection</code>简单配置了要连接数据源的信息</li>
+<li><code>javaModelGenerator，sqlMapGenerator，javaClientGenerator</code>分别配置了实体类，XML映射文件与接口的位置。<br><code>javaClientGenerator</code>的type使用XMLMAPPER，会使接口和XML完全分离。</li>
+<li><code>table</code>标签使用<code>%</code>来匹配数据库中所有的表。所有表都有主键字段id。<br>sqlStatement则是配置当前的数据库类型（mysql）。</li>
+</ol>
+<hr>
+<h2 id="2-运行MyBatis-Generator"><a href="#2-运行MyBatis-Generator" class="headerlink" title="2.运行MyBatis Generator"></a>2.运行MyBatis Generator</h2><ol>
+<li>运行MyBatis有很多种方式，比较常用的有4种：<ul>
+<li>使用java编写代码运行</li>
+<li>从命令提示符运行</li>
+<li>使用Maven插件运行</li>
+<li>使用Eclipse插件运行</li>
+</ul>
+</li>
+<li>每种方式都有各自的优点和缺点</li>
+</ol>
+<h3 id="方式一：使用java编写代码运行-推荐"><a href="#方式一：使用java编写代码运行-推荐" class="headerlink" title="方式一：使用java编写代码运行(推荐)"></a>方式一：使用java编写代码运行(推荐)</h3><p><strong>1)首先需要添加jar包：</strong></p>
+<ol>
+<li>可以手动下载添加：<br><a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a></li>
+<li>也可以使用Maven引入依赖，在pom.xml中添加如下依赖：<pre><code>&lt;!-- MyBatis代码生成器 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-generator-core&lt;/artifactId&gt;
+    &lt;version&gt;1.3.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)编写Generator类代码：</strong></p>
+<ol>
+<li>在项目中添加Mybatis.generator包，并创建Generator类，如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-01.jpg" alt=""></li>
+<li><p>在Generator中添加如下代码：</p>
+<pre><code>package Mybatis.generator;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mybatis.generator.api.MyBatisGenerator;
+import org.mybatis.generator.config.Configuration;
+import org.mybatis.generator.config.xml.ConfigurationParser;
+import org.mybatis.generator.internal.DefaultShellCallback;
+
+//读取MBG配置并生成代码
+public class Generator {
+    public static void main(String[] args) throws Exception {
+        //MBG执行过程中的警告信息
+        List&lt;String&gt; warnings=new ArrayList&lt;String&gt;();
+        //生成的代码重复时覆盖原代码
+        boolean overwrite =true;
+        //读取MBG配置文件
+        InputStream is=Generator.class.getResourceAsStream(&quot;/generator/generatorConfig.xml&quot;);
+        ConfigurationParser cp=new ConfigurationParser(warnings);
+        Configuration config =cp.parseConfiguration(is);
+        is.close();
+
+        DefaultShellCallback callback=new DefaultShellCallback(overwrite);
+
+        //创建MBG
+        MyBatisGenerator myBatisGenerator =new MyBatisGenerator(config, callback, warnings);
+        //执行代码生成器
+        myBatisGenerator.generate(null);
+        //输出警告信息
+        for(String warning : warnings){
+            System.out.println(warning);
+        }
+    }
+}
+</code></pre></li>
+<li>运行测试：<br>没有什么过多的消息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-02.jpg" alt=""><br>再次运行会提示代码覆盖：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-03.jpg" alt=""></li>
+<li>查看生成效果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-04.jpg" alt=""></li>
+</ol>
+<p><strong>3)java编码方式的优缺点：</strong></p>
+<ol>
+<li>优点：<br>使用方便，generatorConfig.xml配置的一些特殊类，只要再当前项目或者当前项目的classPath中就可以直接使用。<br>其他方式则需要额外的配置才能使用。</li>
+<li>缺点：<br>和当前项目是绑定在一起的，如果有多个子模块则需要配置多个generatorConfig.xml和Generator.java,不太方便。</li>
+<li>综合评价：<br>虽然有缺陷，但是这种方式出现的问题最少，推荐使用。</li>
+</ol>
+<h3 id="方式二：使用命令提示符cmd运行"><a href="#方式二：使用命令提示符cmd运行" class="headerlink" title="方式二：使用命令提示符cmd运行"></a>方式二：使用命令提示符cmd运行</h3><p><strong>1)运行前准备：</strong></p>
+<ol>
+<li>只能使用手动导包的方式：<br>下载地址：<br><a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a></li>
+<li>需要将jar包和generatorConfig.xml文件放到一起<br>并且将jdbc连接驱动的jar包也放到一起（mysql-connector-java-5.1.35.jar）</li>
+<li>修改配置:在配置文件开头添加classPathEntry，代码如下：<pre><code>&lt;generatorConfiguration&gt;
+    &lt;!-- 数据库驱动包位置 --&gt;
+    &lt;classPathEntry location=&quot;D:/Test/mybatistest/mysql-connector-java-5.1.35.jar&quot; /&gt;
+    &lt;!-- 配置对象环境 --&gt;
+    &lt;context id=&quot;MySqlContext&quot; targetRuntime=&quot;MyBatis3Simple&quot; defaultModelType=&quot;flat&quot;&gt;
+    &lt;!--后面相同--&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre></li>
+<li>并且在generatorConfig.xml同级目录添加src文件夹，并在src目录下添加java与resources文件夹，添加完后的大致结果是这样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-05.jpg" alt=""></li>
+</ol>
+<p><strong>2)使用cmd自动生成代码：</strong><br>在当前目录下【shift】+右键，在此处打开命令窗口。</p>
+<ol>
+<li>输入以下命令就可以生成代码：<pre><code>java -jar mybatis-generator-core-1.3.3.jar -configfile generatorConfig.xml -overwrite
+</code></pre>运行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-06.jpg" alt=""><br>查看运行后的目录结构：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-07.jpg" alt=""><br>但是这样生成的代码是GBK编码的，一般需要修改为UTF-8编码。</li>
+<li>自动生成UTF-8编码代码的命令：<pre><code>java -Dfile.encoding=UTF-8 -jar mybatis-generator-core-1.3.3.jar -configfile generatorConfig.xml -overwrite
+</code></pre>只需要执行这一条就可以了，上一条不用执行。</li>
+</ol>
+<p><strong>3)参数：</strong></p>
+<ol>
+<li>MBG的参数：<ul>
+<li><code>-configfile filename</code>：指定配置文件的名称</li>
+<li><code>-overwriote（可选）</code>：指定了该参数后，如果生成的Java文件存在同名文件则覆盖。未指定是不会覆盖，会为生成的文件指定一个唯一的名字。</li>
+<li><code>-verbose（可选）</code>：指定该参数，MBG会使用java日志而不会使用Log4J。</li>
+<li><code>-contextids context1,context2,...(可选)</code>：指定该参数，后面的context会被执行，context1,context2需要与配置文件context标签的id一致。只有这样指定的context才会被激活。没有参数，所有的context都激活。</li>
+<li><code>-tables table1,table2,...（可选）</code>：指定该参数，逗号隔开的表会被运行，需与数据库的表名一致，不指定该参数则所有的表都被执行。</li>
+</ul>
+</li>
+<li>使用到的java参数：<ul>
+<li><code>-jar xxx.jar</code>：执行jar包</li>
+<li><code>--Dfile.encoding=xxx</code>:修改编码</li>
+<li><code>-cp</code>：需要使用其他jar包时可以将其他jar包添加到classpath下，使用该参数时不能使用<code>-jar</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>4)命令行方式的优缺点：</strong></p>
+<ol>
+<li>优点(特点)：<br>完全独立与项目，针对不同的项目配置不同的generatorConfig.xml文件。<br>命令虽然写起来麻烦，但是可以创建批处理文件，.bat/.sh，只要点击就可以运行了。</li>
+<li>缺点：<br>如果想要和自己实现的gererator类合起来使用的话会比较麻烦。</li>
+</ol>
+<h3 id="方式三：使用maven插件运行"><a href="#方式三：使用maven插件运行" class="headerlink" title="方式三：使用maven插件运行"></a>方式三：使用maven插件运行</h3><ol>
+<li>先在项目(空项目)上【右键】–&gt;run as–&gt;maven build，在goals一栏输入install，或者直接在命令行输入<code>mvn install</code>将项目打包到本地仓库。</li>
+<li>在pom.xml中添加如下配置：<pre><code>&lt;plugin&gt;
+&lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+&lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;
+&lt;version&gt;1.3.3&lt;/version&gt;
+&lt;configuration&gt;
+    &lt;configurationFile&gt;
+        ${basedir}/src/main/resources/generator/generatorConfig.xml
+    &lt;/configurationFile&gt;
+    &lt;overwrite&gt;true&lt;/overwrite&gt;
+    &lt;verbose&gt;true&lt;/verbose&gt;
+&lt;/configuration&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.38&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;Mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;simple&lt;/artifactId&gt;
+        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;/plugin&gt;
+</code></pre></li>
+<li>标签说明：<br>插件中配置<code>&lt;/dependencies&gt;</code>比较特殊。将JDBC驱动和当前项目的依赖添加到该插件下，就不用在配置文件中使用classPathEntry来配置了。<br>添加当前项目的依赖后当前项目中定制了MBG某个实现后就可以直接找到了，不过需要将该项目使用install打包到本地仓库。</li>
+</ol>
+<p><strong>2)运行测试：</strong></p>
+<ol>
+<li>新建一个项目MyBatis/simple2，添加核心配置文件，generatorConfig.xml等。目录如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-08-0.jpg" alt=""></li>
+<li>执行install打包：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-08.jpg" alt=""></li>
+<li>在pom.xml中添加上述的插件依赖，注意<code>&lt;configurationFile&gt;</code>需要指定配置文件所在的路径。项目【右键】–&gt;run as–&gt;maven build，出现如下框框，输入如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>注意那个name是本次操作的名字，执行过一次可以在run的下拉工具栏选择直接运行。<br>点击运行:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>会有很长的一段。</li>
+<li>执行完毕后再查看目录：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-11.jpg" alt=""><br>已经自动生成了代码，但是要记得在mybatis核心配置文件中配置对应的映射。</li>
+<li>自动生成，不会生成测试类。</li>
+</ol>
+<p><strong>4)Maven插件方式的优缺点：</strong></p>
+<ol>
+<li>优点：<br>比较简单，使用方便</li>
+<li>缺点：<br>与第一种方式一样，和项目绑定在一起。<br>不支持代码合并（前两种也不支持）</li>
+</ol>
+<h3 id="方式四：使用Ecilpse插件自动生成"><a href="#方式四：使用Ecilpse插件自动生成" class="headerlink" title="方式四：使用Ecilpse插件自动生成"></a>方式四：使用Ecilpse插件自动生成</h3><p><strong>1)使用Eclipse插件运行的优点</strong></p>
+<ol>
+<li>上述三种方式的共同缺点：不支持代码合并</li>
+<li>自动生成代码注释中会有一个@mbggerated的标志：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-12.jpg" alt=""><br>这个标志的意思是这个字段或方法是自动生成的，重新生成时会被覆盖。若没有这个标签，则不会被覆盖。但是前三种方法不支持该标签。</li>
+<li>四种运行方式只有Eclipse插件的方式支持@mbggenerator注解。</li>
+</ol>
+<p><strong>2)安装Eclipse插件：</strong></p>
+<ol>
+<li>仍然是使用这个网址下载：<br><a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a><br>选择eclipse并下载：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-13.jpg" alt=""></li>
+<li>打开【help】–&gt;【Install New Software】–&gt;【add】,添加刚刚下载的文件，并指定名字，然后选中所有的MyBatis Generator（不要选带尾巴那个，否则会出错）,然后一路next，finish,会下载一些东西，然后让你重启。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-14-1.jpg" alt=""></li>
+<li>成功安装并重启后在xml文件点击右键会有这个功能：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-15.jpg" alt=""></li>
+</ol>
+<p><strong>3)使用Eclipese插件自动生成代码：</strong></p>
+<ol>
+<li>先将上面自动生成的代码全都删除：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-16.jpg" alt=""></li>
+<li><p>修改generatorConfig.xml：<br>JDBC驱动需要classPathEntry进行配置，还需要在context下添加一个javaFileEncoding的property标签配置为UTF-8：</p>
+<pre><code>....
+&lt;!-- 数据库驱动包位置 --&gt;
+&lt;classPathEntry location=&quot;D:/Test/mybatistest/mysql-connector-java-5.1.35.jar&quot; /&gt;
+
+&lt;!-- 配置对象环境 --&gt;
+&lt;context id=&quot;MySqlContext&quot; targetRuntime=&quot;MyBatis3Simple&quot; defaultModelType=&quot;flat&quot;&gt;
+
+    &lt;!-- 配置起始与结束标识符 --&gt;
+    &lt;property name=&quot;beginningDemiliter&quot; value=&quot;`&quot;/&gt;
+    &lt;property name=&quot;endingDemiliter&quot; value=&quot;`&quot;/&gt;
+    &lt;property name=&quot;javaFileEncoding&quot; value=&quot;UTF-8&quot;/&gt;
+....
+</code></pre><p>然后修改路径添加项目名：<br>将<code>src\main\java</code>,改为<code>simple2\src\main\java</code>,以此类推。</p>
+</li>
+<li>generatorConfig.xml，右键，选择Generator MyBatis/Ibatis Artifacts,运行，结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-17.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-xml配置详解"><a href="#3-xml配置详解" class="headerlink" title="3.xml配置详解"></a>3.xml配置详解</h2><p><strong>1)大体配置内容介绍</strong></p>
+<ol>
+<li>MBG的XML文件头：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
+</code></pre><code>mybatis-generator-config_1_0.dtd</code>定义了该配置文件中所有标签和属性的用法及限制。</li>
+<li>xml文件头之后需要加上XML文件的根节点：<br>generatorConfiguration:<pre><code>&lt;generatorConfiguration&gt;
+&lt;！--所有的配置内容--&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre>1,2的两部分是MBG配置文件的必须的部分。<br>后面是自定义配置，但是要按照严格的顺序进行配置。</li>
+<li>后面是generatorConfiguration的三个子标签，依次为：properties，classPathEntry和context。其中context最为重要，剩下的那些标签都是context的子标签。</li>
+<li><strong>properties标签：</strong><br>用来指定外部的属性元素，最多可以配置1个，也可以不配置。<br>可以指定一个需要在配置中解析使用的外部属性文件,可以在配置中使用${property}来引用属性文件中的属性值。在后面配置JDBC时很有用。<br>property标签包含了两个属性：url和resource,<strong>但是只能使用其中一个属性，同时使用会报错</strong><ul>
+<li>resource：指定classpath下的属性文件。</li>
+<li>url：指定文件系统上的特点位置。</li>
+</ul>
+</li>
+<li><strong>classPathEntry标签：</strong><br>可以配置多个也可以不配置。<br>最常用的用法是通过属性location指定JDBC驱动路径：<br><code>&lt;classPathEntry location=&quot;D:/Test/mybatistest/mysql-connector-java-5.1.35.jar&quot; /&gt;</code><br>还可以用来指定rootClass属性配置类所在的jar包。</li>
+<li><strong>context标签</strong><br>用于指定生成一组对象环境，如指定连接的数据库，要生成对象的类型和要生成的表。运行MBG时还可以指定要运行的context。</li>
+</ol>
+<p><strong>2)context属性和子标签：</strong></p>
+<ol>
+<li>属性：<ul>
+<li>id：必填属性，唯一确定context,可以在运行MBG时使用。</li>
+<li>defaultModelType:定义了MBG如何生成实体类，有以下可选值：<ul>
+<li>conditional：默认值，如果一个表主键只有一个字段，那么不会为该字段生成单独的实体类，会将该字段合并到基本实体类中。(先看后面的hierarchical属性再理解)</li>
+<li>flat：为每张表生成一个实体类，包含了表中的所有字段，容易使用。</li>
+<li>hierarchical：如果表有主键，该模型会产生一个单独的主键实体类，如果表还有BLOB字段，则会生成一个包含所有BLOB字段的单独实体类。然后其他剩下的字段生成一个单独的实体类。MBG会在所有生成的实体类之间维护一个继承关系。</li>
+</ul>
+</li>
+<li>targetRuntime：用于指定代码运行时的环境<ul>
+<li>MyBatis3：默认值，会生成与Example相关的方法</li>
+<li>MyBatis3Simle：不会生成与Example相关的方法</li>
+</ul>
+</li>
+<li>introspectedColumnImpl：该参数可以指定扩展org.mybatis.generator.api.Introspected Column类的实现。</li>
+</ul>
+</li>
+<li>一般情况下的context配置：<br><code>&lt;context id=&quot;Mysql&quot; defaultModelType=&quot;flat&quot;&gt;</code><br>如果不希望生成和Example查询有关的内容这样配置：<br><code>&lt;context id=&quot;Mysql&quot; targetRuntime=&quot;MyBatis3Simle&quot; defaultModelType=&quot;flat&quot;&gt;</code></li>
+<li>context的子标签：其它标签基本都是context的子标签。<br><strong>子标签的使用有严格的顺序</strong>：<ul>
+<li>property（0个或多个）</li>
+<li>plugin(0个或多个)</li>
+<li>commentGenerator（0个或1个）</li>
+<li>jdbcConnection（1个）</li>
+<li>javaTypeResolver(0或1个)</li>
+<li>javaModelGenerator(1个)</li>
+<li>sqlMapGenerator(0或1个)</li>
+<li>javaClientGenerator(0个或1个)</li>
+<li>table(1个或多个)</li>
+</ul>
+</li>
+</ol>
+<h3 id="property-plugin-commentGenerator标签"><a href="#property-plugin-commentGenerator标签" class="headerlink" title="property,plugin,commentGenerator标签"></a>property,plugin,commentGenerator标签</h3><p><strong>1)property标签：</strong><br>共6个name属性值，三个与分隔符有关，三个与分隔符无关。</p>
+<ol>
+<li>关于数据库分隔符：<br>如有一个表名为user info(中间有一个空格)，查询时直接使用这个表名会出错，这时就需要分隔符 ` 将表名括起来，Mysql中使用 `user info`，而在SQL Sever中则使用 [user info]。将内容作为一个整体进行处理。</li>
+<li>property标签与分隔符相关的属性值(name属性的值)：<ul>
+<li>autoDelimitKeyword:字动给关键字添加分隔符属性。字段名或表名和MBG中的关键字列表的某一关键字一样时，会自动加上 ` 做分隔符。</li>
+<li>beginningDelimiter：开始的分隔符</li>
+<li>endingDelimiter：结束分隔符</li>
+</ul>
+</li>
+<li>Mysql的配置：<pre><code>&lt;context...&gt;
+&lt;property name=&quot;autoDelimitKeyword&quot; value=&quot;true&quot;/&gt;
+&lt;property name=&quot;beginningDemiliter&quot; value=&quot;`&quot;/&gt;
+&lt;property name=&quot;endingDemiliter&quot; value=&quot;`&quot;/&gt;
+...
+&lt;/context&gt;
+</code></pre></li>
+<li>property的另外三个与分隔符无关的属性：<ul>
+<li>javaFileEncoding：java文件的编码，默认当前运行环境的编码。</li>
+<li>javaFormatter：不常用，格式化java代码</li>
+<li>xmlFormatter：不常用，格式化xml代码</li>
+</ul>
+</li>
+</ol>
+<hr>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月29日 20:21</p>
+        <p>最后更新： 2018年03月31日 22:56</p>
         <p>原始链接： <a class="post-url" href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/" title="MyBatis学习笔记（五）：代码生成器">https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -271,7 +630,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：使用java编写代码运行-推荐"><span class="post-toc-text">方式一：使用java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：使用命令提示符cmd运行"><span class="post-toc-text">方式二：使用命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：使用Ecilpse插件自动生成"><span class="post-toc-text">方式四：使用Ecilpse插件自动生成</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
