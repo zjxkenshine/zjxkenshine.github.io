@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档MBG官方文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MB">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（五）：代码生成器">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档MBG官方文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MB">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-02.jpg">
@@ -34,10 +34,17 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-15.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-16.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-17.jpg">
-<meta property="og:updated_time" content="2018-03-31T14:56:50.328Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-20-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-20-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-23.jpg">
+<meta property="og:updated_time" content="2018-04-01T13:08:55.257Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（五）：代码生成器">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MBG的版本和My">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档MBG官方文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MB">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-01.jpg">
   
   
@@ -166,7 +173,7 @@
       
             
             <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
-<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
+<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a><br><a href="http://www.mybatis.org/generator/" target="_blank" rel="noopener">MBG官方文档</a></li>
 </ol>
 <hr>
 <h2 id="1-代码生成器MBG简介"><a href="#1-代码生成器MBG简介" class="headerlink" title="1.代码生成器MBG简介"></a>1.代码生成器MBG简介</h2><ol>
@@ -200,7 +207,7 @@
 
         &lt;!-- 必须配置的项，连接数据库 --&gt;
         &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://localhost:3306/mybatis&quot;
-        userId=&quot;root&quot; password=&quot;zjx1754294529&quot;
+        userId=&quot;root&quot; password=&quot;&quot;
         &gt;
         &lt;/jdbcConnection&gt;
 
@@ -253,7 +260,7 @@
 </li>
 <li>每种方式都有各自的优点和缺点</li>
 </ol>
-<h3 id="方式一：使用java编写代码运行-推荐"><a href="#方式一：使用java编写代码运行-推荐" class="headerlink" title="方式一：使用java编写代码运行(推荐)"></a>方式一：使用java编写代码运行(推荐)</h3><p><strong>1)首先需要添加jar包：</strong></p>
+<h3 id="方式一：java编写代码运行-推荐"><a href="#方式一：java编写代码运行-推荐" class="headerlink" title="方式一：java编写代码运行(推荐)"></a>方式一：java编写代码运行(推荐)</h3><p><strong>1)首先需要添加jar包：</strong></p>
 <ol>
 <li>可以手动下载添加：<br><a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a></li>
 <li>也可以使用Maven引入依赖，在pom.xml中添加如下依赖：<pre><code>&lt;!-- MyBatis代码生成器 --&gt;
@@ -314,7 +321,7 @@ public class Generator {
 <li>缺点：<br>和当前项目是绑定在一起的，如果有多个子模块则需要配置多个generatorConfig.xml和Generator.java,不太方便。</li>
 <li>综合评价：<br>虽然有缺陷，但是这种方式出现的问题最少，推荐使用。</li>
 </ol>
-<h3 id="方式二：使用命令提示符cmd运行"><a href="#方式二：使用命令提示符cmd运行" class="headerlink" title="方式二：使用命令提示符cmd运行"></a>方式二：使用命令提示符cmd运行</h3><p><strong>1)运行前准备：</strong></p>
+<h3 id="方式二：命令提示符cmd运行"><a href="#方式二：命令提示符cmd运行" class="headerlink" title="方式二：命令提示符cmd运行"></a>方式二：命令提示符cmd运行</h3><p><strong>1)运行前准备：</strong></p>
 <ol>
 <li>只能使用手动导包的方式：<br>下载地址：<br><a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a></li>
 <li>需要将jar包和generatorConfig.xml文件放到一起<br>并且将jdbc连接驱动的jar包也放到一起（mysql-connector-java-5.1.35.jar）</li>
@@ -399,7 +406,7 @@ public class Generator {
 <li>优点：<br>比较简单，使用方便</li>
 <li>缺点：<br>与第一种方式一样，和项目绑定在一起。<br>不支持代码合并（前两种也不支持）</li>
 </ol>
-<h3 id="方式四：使用Ecilpse插件自动生成"><a href="#方式四：使用Ecilpse插件自动生成" class="headerlink" title="方式四：使用Ecilpse插件自动生成"></a>方式四：使用Ecilpse插件自动生成</h3><p><strong>1)使用Eclipse插件运行的优点</strong></p>
+<h3 id="方式四：用Ecilpse插件运行"><a href="#方式四：用Ecilpse插件运行" class="headerlink" title="方式四：用Ecilpse插件运行"></a>方式四：用Ecilpse插件运行</h3><p><strong>1)使用Eclipse插件运行的优点</strong></p>
 <ol>
 <li>上述三种方式的共同缺点：不支持代码合并</li>
 <li>自动生成代码注释中会有一个@mbggerated的标志：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-12.jpg" alt=""><br>这个标志的意思是这个字段或方法是自动生成的，重新生成时会被覆盖。若没有这个标签，则不会被覆盖。但是前三种方法不支持该标签。</li>
@@ -484,7 +491,7 @@ public class Generator {
 </ul>
 </li>
 </ol>
-<h3 id="property-plugin-commentGenerator标签"><a href="#property-plugin-commentGenerator标签" class="headerlink" title="property,plugin,commentGenerator标签"></a>property,plugin,commentGenerator标签</h3><p><strong>1)property标签：</strong><br>共6个name属性值，三个与分隔符有关，三个与分隔符无关。</p>
+<h3 id="property-plugin-commentGenerator标签"><a href="#property-plugin-commentGenerator标签" class="headerlink" title="property,plugin,commentGenerator标签"></a>property,plugin,commentGenerator标签</h3><p><strong>1)property标签：</strong><br>共6个属性，三个与分隔符有关，三个与分隔符无关。</p>
 <ol>
 <li>关于数据库分隔符：<br>如有一个表名为user info(中间有一个空格)，查询时直接使用这个表名会出错，这时就需要分隔符 ` 将表名括起来，Mysql中使用 `user info`，而在SQL Sever中则使用 [user info]。将内容作为一个整体进行处理。</li>
 <li>property标签与分隔符相关的属性值(name属性的值)：<ul>
@@ -507,12 +514,721 @@ public class Generator {
 </ul>
 </li>
 </ol>
+<p><strong>2)plugin标签：</strong></p>
+<ol>
+<li>用来定义一个插件，用于扩展或者修改MBG生成的代码，不常用，可以配置0个或者多个，个数不受限制。</li>
+<li>只有一个Type标签，其中填插件的全限定名。</li>
+<li>常用的有缓存插件，序列化插件，RowBounds插件，ToString插件等。</li>
+<li>详情可以查看官方文档：<br><a href="http://www.mybatis.org/generator/plugins.html" target="_blank" rel="noopener">http://www.mybatis.org/generator/plugins.html</a></li>
+</ol>
+<p><strong>3)commentGenenrator标签：</strong></p>
+<ol>
+<li>用来配置如何生成注释信息，最多可以配置一个，也可以不配置。</li>
+<li>该标签有一个可选属性：type,可以指定用户的实现类，该类需要实现org.mybatis.generator.api.CommentGenerator接口，且必须有一个默认的构造方法。<br>type属性，默认值为DEFAULT,默认实现org.mybatis.generator.internal.DefaultCommentGenerator。</li>
+<li>默认的实现类有三个属性，需要通过property属性进行配置：<ul>
+<li>suppressAllComments：阻止生成注释，默认值为false。</li>
+<li>suppressData：阻止生成的注释包含时间戳，默认false。</li>
+<li>addRemarComment：注释是否添加数据库表的备注信息，默认false。</li>
+</ul>
+</li>
+<li>一般情况下MBG生成的时间注释信息没有任何价值，所以一般情况下配置如下：<pre><code>&lt;commentGenerator&gt;
+    &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;addRemarkComments&quot; value=&quot;true&quot;/&gt;
+&lt;/commentGenerator&gt;
+</code></pre></li>
+<li>如果不满意默认实现，可以自定义实现默认的注释，需要实现CommentGenerator接口，如下。</li>
+</ol>
+<p><strong>4)自定义commentGenenrator标签：</strong></p>
+<ol>
+<li>在Simple的mybatis.generator包下创建MyCommentGenerator.java。</li>
+<li><p>MyCommentGenerator.java代码如下：</p>
+<pre><code>package Mybatis.generator;
+
+import java.util.Properties;
+import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.config.PropertyRegistry;
+import org.mybatis.generator.internal.DefaultCommentGenerator;
+import org.mybatis.generator.internal.util.StringUtility;
+
+public class MyCommentGenerator extends DefaultCommentGenerator{
+    //默认实现类的可配置参数没有提供给子类可以访问的方法,需要自己定义
+    private boolean suppressAllComments;  //阻止生成注释
+    private boolean addRemarkComments;        //是否生成数据库表的注释
+    //设置用户配置的参数
+    public void addConfigurationProperties(Properties properties){
+        //调用父类方法保证父类方法可以正常使用
+        super.addConfigurationProperties(properties);
+        //获取supressAllComment参数值
+        suppressAllComments = Boolean.parseBoolean(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS));
+        //获取addRemarkComments参数值
+        addRemarkComments = Boolean.parseBoolean(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS));
+    }
+
+    //给字段添加注释信息
+    public void addFieldComment(Field field,IntrospectedTable introspectedTable,IntrospectedColumn introspectedColumn){
+        //如果阻止生成注释则直接返回
+        if(suppressAllComments){
+            return;
+        }
+        //文档注释开始
+        field.addJavaDocLine(&quot;/**&quot;);  //开始
+        //获取数据库字段的备注信息
+        String remarks =introspectedColumn.getRemarks();
+        //根据参数和备注信息判断是否添加备注信息
+        if(addRemarkComments&amp;&amp;StringUtility.stringHasValue(remarks)){
+            String[] remarkLinesStrings=remarks.split(System.getProperty(&quot;line.separator&quot;));
+            for(String remarkLine:remarkLinesStrings){
+                field.addJavaDocLine(&quot; * &quot;+remarkLine);
+            }
+        }
+        //注释中保留数据库字段名
+        field.addJavaDocLine(&quot; * &quot;+introspectedColumn.getActualColumnName());
+        field.addJavaDocLine(&quot; */&quot;);
+    }
+}
+</code></pre></li>
+<li>在generatorConfig.xml中如下配置：<pre><code>&lt;commentGenerator type=&quot;Mybatis.generator.MyCommentGenerator&quot;&gt;
+    &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;
+    &lt;property name=&quot;addRemarkComments&quot; value=&quot;true&quot;/&gt;
+&lt;/commentGenerator&gt;
+</code></pre></li>
+<li>运行MBG，并查看生成的model类：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-18.jpg" alt=""></li>
+<li>注意：<br>MBG是通过JDBC的DatabaseMetaData方式来回去数据库表和字段的备注信息的。常用数据库只有MySqlZ完全支持，Oracal需要配置后才完全支持(配置方式在下一个标签)。</li>
+</ol>
+<h3 id="jdbcConnection-javaTypeResolver和javaModelGenerator标签"><a href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签" class="headerlink" title="jdbcConnection,javaTypeResolver和javaModelGenerator标签"></a>jdbcConnection,javaTypeResolver和javaModelGenerator标签</h3><p><strong>1)jdbcConnection标签</strong></p>
+<ol>
+<li>用于指定要连接的数据库信息，必选，并且只能一个。</li>
+<li>如果JDBC驱动不在classpath下，就要通过classPathEntry标签引入jar包。<br>所以最好将JDBC驱动放到classpath路径下。</li>
+<li>属性：<br>必选属性：<br>–<code>driverClass</code>：访问数据库的jdbc驱动程序的全限定名<br>–<code>connectionURL</code>：访问数据库的JDBC连接URL<br>可选属性：<br>–<code>userId</code>：访问数据库的用户ID。<br>–<code>password</code>：访问数据库密码。</li>
+<li>基本的配置：<pre><code>&lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://localhost:3306/mybatis&quot; userId=&quot;root&quot; password=&quot;&quot;&gt;
+&lt;/jdbcConnection&gt;
+</code></pre></li>
+<li>配置Oracal以获取注释信息(上一个标签)：<pre><code>&lt;jdbcConnection driverClass=&quot;&quot; connectionURL=&quot;&quot; userId=&quot;&quot; password=&quot;&quot;&gt;
+    &lt;property name=&quot;remarksReporting&quot; value=&quot;true&quot;&gt;
+&lt;/jdbcConnection&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)javaTypeResolver标签</strong></p>
+<ol>
+<li>该标签用来指定JDBC类型和Java类型时如何转换的，最多可以配置一个。</li>
+<li>和commentGenerator一样有一个type属性且默认实现为DEFAULT。可以修改，但是不建议修改。</li>
+<li>还有一个可配置的property标签，可以配置一个名为<code>forceBigDecimals</code>的属性，可以控制是否强制将DECIMAL和NUMERIC类型的JDBC字段转换为java类型的java.math.BigDecimal，默认为false,一般不需要配置。</li>
+<li>默认转换规则：<br>精度&gt;0且长度&gt;18，使用java.math.BigDecimal。<br>精度=0且长度在10~18,使用java.lang.Long。<br>精度=0且长度范围在5~9,使用java.lang.Integer。<br>精度=0且长度&lt;5,使用java.lang.Short。<br>如果配置了<code>forceBigDecimals</code>则在任何情况下都是由BigDecimal。</li>
+<li>常用配置如下(一般情况下就不用使用这标签配置)：<pre><code>&lt;javaTypeResolver&gt;
+    &lt;property name=&quot;forceBigDecimals&quot; values=&quot;false&quot; /&gt;
+&lt;/javaTypeResolver&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)javaModelGenerator标签</strong></p>
+<ol>
+<li>用来控制生成的属性值。最好是context标签中配置defaultModelType属性配置为flat,使一个表只生成一个实体类。这样比较好控制。该标签必须有且只能有一个。</li>
+<li>有两个必选属性：<ul>
+<li><code>targetPackage</code>：生成实体类存放的包名，可能会受到其他配置的影响。</li>
+<li><code>targetProject</code>：指定目标的项目路径，可以用相对路径或者绝对路径。</li>
+</ul>
+</li>
+<li>property子标签属性：<ul>
+<li><code>constructorBased</code>：该属性只对MyBatis3有效，设为true则会使用构造方法入参，false则是使用setter方法入参。</li>
+<li><code>enableSubPackages</code>：如果为true，MBG会根据<code>catalog</code>和<code>schema</code>来生成子包，默认为false，使用targetPackage属性值。</li>
+<li><code>imutable</code>：配置实体类属性是否为可变，默认为false，可以改变。改为true，那么constructorBased不管设置成什么，都会使用构造方法入参。</li>
+<li><code>rootClass</code>：设置所有实体类的基类。设置的话要使用类的全限定名称。(可以通过classPathEntry引入jar包，或者classpath方式)，引入jar包能加载rootClass则MBGb不会覆盖和父类中相同的属性。</li>
+<li><code>trimString</code>：去掉空格。默认为false，不去空格。</li>
+</ul>
+</li>
+<li>配置练习：<pre><code>&lt;javaModelGenerator targetPackage=&quot;mbg.model&quot; targetProject=&quot;src\main\java&quot;&gt;
+    &lt;property name=&quot;enableSubPackages&quot; value=&quot;false&quot;/&gt;
+    &lt;property name=&quot;trimStrings&quot; value=&quot;false&quot;/&gt;
+&lt;/javaModelGenerator&gt;
+</code></pre></li>
+</ol>
+<h3 id="sqlMapGenerator-javaClientGenerator和table标签"><a href="#sqlMapGenerator-javaClientGenerator和table标签" class="headerlink" title="sqlMapGenerator,javaClientGenerator和table标签"></a>sqlMapGenerator,javaClientGenerator和table标签</h3><p><strong>1)sqlMapGenerator标签</strong></p>
+<ol>
+<li>用于配置SQL映射生成器（Mapper.xml文件）的属性，可选且最多配置1个。</li>
+<li>targetRuntime设置为Mybatis3且javaClientGenerator配置需要XML时才必须配置一个。<br>如果没有配置javaClientGenerator时有以下规则：<ul>
+<li>指定了一个sqlMapGenerator，那么MBG只生成XML的sql映射文件和实体类。</li>
+<li>如果没有指定sqlMapGenerator，则只生成实体类。</li>
+</ul>
+</li>
+<li>只有两个必选属性(和实体类的差不多)：<ul>
+<li><code>targetPackage</code>：生成映射文件存放的包名，可能会受到其他配置的影响。</li>
+<li><code>targetProject</code>：指定目标<code>targetPackage</code>的项目路径，可以用相对路径或者绝对路径。</li>
+</ul>
+</li>
+<li>还有一个可选的prpoerty子标签属性<code>enableSubPackages</code>:<br>如果为true，MBG会根据<code>catalog</code>和<code>schema</code>来生成子包，默认为false，使用targetPackage属性值。</li>
+<li>基本配置示例：<pre><code>&lt;!-- 配置映射位置 --&gt;
+&lt;sqlMapGenerator targetPackage=&quot;mbg.mapper&quot; targetProject=&quot;src\main\resources&quot;&gt;
+    &lt;property name=&quot;enableSubPackages&quot; value=&quot;false&quot;/&gt;
+&lt;/sqlMapGenerator&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)javaClientGenerator标签</strong></p>
+<ol>
+<li>该标签用于配置java客户端生成器（Mapper接口）的属性，该标签可选且最多配置一项。不配置该标签则不会生成Mapper接口。</li>
+<li><p>必选属性(三个)：</p>
+<ul>
+<li><p><code>type</code>：用于选择客户端的代码(接口)生成器，可以自己实现，需要继承org.mybatis.generator.codegen.AbstractJavaClientGenerator类，且必须有一个默认为空的构造方法。<br>根据targetRuntime的设置分为两类：<br>Mybatis3：</p>
+<ul>
+<li><code>ANNOTATRFMAPPER</code>：基于注解的Mapper，不会有对应的xml文件生成</li>
+<li><code>MIXEDMAPPER</code>：xml和注解混合模式，SQL provider会被XML代替。</li>
+<li><code>XMLMAPPER</code>：所有方法都在XML中，接口用依赖Xml文件。</li>
+</ul>
+<p>Mybatis3Simple：</p>
+<ul>
+<li><code>ANNOTATRFMAPPER</code>：基于注解的Mapper，不会有对应的xml文件生成</li>
+<li><code>XMLMAPPER</code>：所有方法都在XML中，接口用依赖Xml文件。</li>
+</ul>
+</li>
+<li><code>targetPackage</code>：生成Mapper文件存放的包名，可能会受到其他配置的影响。</li>
+<li><code>targetProject</code>：指定目标<code>targetPackage</code>的项目路径，可以用相对路径</li>
+</ul>
+</li>
+<li>还支持几个peoperty子标签，但是不常用书上为介绍。</li>
+<li>在一般配置中的Type推荐使用<code>XMLMAPPER</code>,将接口和XML完全分离。<br>常用配置如下：<pre><code>&lt;javaClientGenerator targetPackage=&quot;mbg.dao&quot; type=&quot;XMLMAPPER&quot; targetProject=&quot;src\main\java&quot;&gt;
+&lt;/javaClientGenerator&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)table标签及属性介绍：</strong></p>
+<ol>
+<li>table标签非常重要，用于配置需要通过内省的数据库的表。<br>只有通过该标签配置过的表才能通过前面的配置生成相应的代码。至少要配置一个，也可以配置多个。</li>
+<li>必须配置的属性：tableName<br>填写需要生成的表名，可以使用通配符匹配多个表，也可以使用下列代码匹配所有表：<pre><code>&lt;table tableName=&quot;%&quot;&gt;&lt;/table&gt;
+</code></pre></li>
+<li>可选属性:<pre><code>1.schema： 数据库的schema,指定该标签表名会变为schema.tableName的形式,可使用通配符。
+2.catalog： 数据库的catalog，指定该标签表名会变为catalog.tableName的形式。
+3.alias： 为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName(别名_实际列名)
+4.domainObjectName： 生成的对象实体类的名字，如果不设置，直接使用表名作为对象类的名字；可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
+5.enableInsert（默认true）： 指定是否生成insert语句；
+6.enableSelectByPrimaryKey（默认true）： 指定是否生成按照主键查询对象的语句（就是getById或get）；
+7.enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
+8.enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+9.enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+10.enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；
+11.enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+12.enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
+13.modelType：参考context元素的defaultModelType，相当于覆盖；
+14.delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）
+15.delimitAllColumns：设置是否所有生成的SQL中的列名都使用标识符引起来。默认为false，delimitIdentifiers参考context的属性
+</code></pre></li>
+<li>table标签可用的property子标签属性：<pre><code>1.constructorBased： 该属性只对MyBatis3有效，设为true则会使用构造方法入参，false则是使用setter方法入参(和javaModelCenerator的该属性一样)
+2.ignoreQualifiersAtRuntime： 默认为false，如果设置为true，在生成的SQL中，table名字不会加上catalog或schema前缀
+3.immutable： 参考javaModelCenerator的该属性，一样
+4.modelOnly： 是否只生成实体类，会覆盖enablexxx方法，不会生成CRUD方法，如果设置为true，只生成实体类，如果还配置了sqlMapGenerator，那么在mapper XML文件中，只生成resultMap元素
+5.rootClass： 参考javaModelGenerator 的 rootClass 属性
+6.rootInterface： 参考javaClientGenerator 的  rootInterface 属性
+7.runtimeCatalog： 如果设置了运行时的Catalog，那么在生成的SQL中，使用该指定的catalog，而不是table元素上的catalog
+8.runtimeSchema： 如果设置了运行时的Schema，那么在生成的SQL中，使用该指定的schema，而不是table元素上的schema 
+9.runtimeTableName： 如果设置了运行时的TableName，那么在生成的SQL中，使用该指定的tablename，而不是table元素上的tablename 
+10.selectAllOrderByClause： 只针对MyBatis3Simple有用，如果选择的runtime是MyBatis3Simple，那么会生成一个SelectAll方法，如果指定了selectAllOrderByClause，那么会在该SQL中添加指定的这个order条件；
+11.useActualColumnNames： 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate
+12.useColumnIndexes： 设为true,MBG生成resultMap时会使用列的索引而不是结果中列的顺序。
+13.useCompounfPropertyNames： 如果为true，MBG生成属性名的时候将列名和备注名连接起来。
+</code></pre></li>
+<li>除了property子标签外还包括以下子标签：<ul>
+<li>generatedKey（0个或者1个）</li>
+<li>columnRnamingRule(0个或者1个)</li>
+<li>columnoverride(0个或者多个)</li>
+<li>ignoreColumn（0个或者多个）</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)table的generatedKey子标签详解</strong></p>
+<ol>
+<li>generateKey标签功能：<br>用来指定自动生成的主键的属性。（identity字段或者sequences序列），如果指定了该标签MGB将在生成的Insert的SQL映射文件中插入一个<code>&lt;selectKey&gt;</code>标签，这个标签非常重要且只能配置一个。</li>
+<li>包含两个必选属性：<br><code>column</code>：生成列的列名<br><code>sqlStatement</code>：返回值的SQL语句，如果这是一个identity列，则可以使用其中一个预定义的特殊值，预定义值如下：<ul>
+<li><code>Cloudscape</code>:相当于selectKey的SQL为： VALUES IDENTITY_VAL_LOCAL()</li>
+<li><code>DB2</code>:相当于selectKey的SQL为： VALUES IDENTITY_VAL_LOCAL()</li>
+<li><code>DB2_MF</code>:相当于selectKey的SQL为：SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1</li>
+<li><code>Derby</code>:相当于selectKey的SQL为：VALUES IDENTITY_VAL_LOCAL()</li>
+<li><code>HSQLDB</code>:相当于selectKey的SQL为：CALL IDENTITY()</li>
+<li><code>Informix</code>:相当于selectKey的SQL为：select dbinfo(‘sqlca.sqlerrd1’) from systables where tabid=1</li>
+<li><code>MySql</code>:相当于selectKey的SQL为：SELECT LAST_INSERT_ID()</li>
+<li><code>SqlServer</code>:相当于selectKey的SQL为：SELECT SCOPE_IDENTITY()</li>
+<li><code>SYBASE</code>:相当于selectKey的SQL为：SELECT @@IDENTITY</li>
+<li><code>JDBC</code>:相当于在生成的insert元素上添加useGeneratedKeys=”true”和keyProperty属性</li>
+</ul>
+</li>
+<li>包含两个可选属性：<ul>
+<li><code>indetity</code>：设置为true时会被标记为indentity列，并且selectKey标签会被插入在Insert标签（order=AFTER）。设置为false时selectKey会插入到Insert之前（oracal序列），默认为false.<br>即使Type属性指定为post,仍需要将该属性列设为true,这会作为MBG插入列表中删除该列的标识</li>
+<li><code>type</code>：type=post且indetity=true时生成的selectKey的order=AFTER;type=pre,indetity只能为false,生成的selectKey中order=BEFORE.</li>
+</ul>
+</li>
+<li>配置示例1（针对MySql,SQL Server等自增类型主键）：<pre><code>&lt;table tableName=&quot;user login info&quot; domainObjectName=&quot;UserLoginInfo&quot;&gt;
+    &lt;generatedKey column=&quot;id&quot; sqlStatement=&quot;Mysql&quot;/&gt;
+&lt;/table&gt;
+</code></pre></li>
+<li>配置示例2（针对Oracal序列）:<pre><code>&lt;table tableName=&quot;user login info&quot; domainObjectName=&quot;UserLoginInfo&quot;&gt;
+    &lt;generatedKey column=&quot;id&quot; sqlStatement=&quot;SELECT SEQ_ID.nextval from xxx&quot;/&gt;
+&lt;/table&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)table的其他三个子标签详解</strong></p>
+<ol>
+<li><strong>columnRenamingRole标签：</strong><br>可以在生成列之前对列进行重命名。对于那些由于存在同一个前缀字段而想在生成属性名时去除前缀的表非常有用。<br>有一个必选属性：<br><code>searchString</code>：用于定义将要被替换的字符串的正则表达式。<br>有一个可选属性：、<br><code>replaceString</code>：替换搜索到的每一个匹配项。没有指定则使用空字符串，代表删除。<br>简单示例：去掉每个字段开头的”stu_”<pre><code>&lt;columnRenamingRole searchString=&quot;^stu_&quot; replaceString=&quot;&quot;&gt;
+</code></pre></li>
+<li>其它标签会对columnRenamingRole标签产生影响：<br>columnOverride(下个标签)匹配一列时columnRenamingRole标签的配置会被忽略。<br>table的Property属性useActualColumnNames也会对此标签产生影响。（详情查看<a href="http://www.mybatis.org/generator/plugins.html" target="_blank" rel="noopener">官方文档</a>）</li>
+<li><strong>columnOverride标签：</strong><br>将某些默认计算的属性值更改为指定的值。可选且可以配置多个。<br>有一个必选属性：<br><code>column</code>：表示要重写的列名。<br>有多个可选属性（可通过property子标签配置）：<ul>
+<li><code>property</code>：要使用的java属性的名称。如果没有指定，MBG会根据列名生成。</li>
+<li><code>javaType</code>：列的属性值为完全限定的Java类型，可以覆盖javaTypeResolver设置的基本类型</li>
+<li><code>jdbcType</code>：列的JDBC类型，可以覆盖javaTypeResolver设置的类型。</li>
+<li><code>typerHandler</code>：类型处理器（不会判断是否可用，所以要正确指定）</li>
+<li><code>delimitrdColimnName</code>：是否给列名增加分隔符（是关键字时选true，其他情况如空格会自动处理）</li>
+</ul>
+</li>
+<li>columnOverride配置示例：<pre><code>&lt;columnOverride column=&quot;LONG_VARCHAR_FILED&quot; javaType=&quot;java.lang.String&quot; jdbcType=&quot;VARCHAR&quot;&gt;
+&lt;/columnOverride&gt;
+</code></pre></li>
+<li><strong>ignoreColumn标签：</strong><br>设置一个MGB忽略的列，如果设置了改列，那么在生成的domain中，生成的SQL中，都不会有该列出现。<br>有一个必选标签：<br><code>column</code>:指定要忽略的列的名字；<br>有一个可选标签：<br><code>delimitedColumnName</code>：参考table元素的delimitAllColumns配置,是否区分大小写，默认为false，不区分大小写。</li>
+</ol>
 <hr>
+<h2 id="4-Example介绍"><a href="#4-Example介绍" class="headerlink" title="4.Example介绍"></a>4.Example介绍</h2><p><strong>1)配置并生成含有Example的代码</strong></p>
+<ol>
+<li>在MBG的context中将targetRuntime配置为MyBatis3时MBG会生成和Example相关的对象方法。<br>下面是书上的使用Country表进行测试的代码。</li>
+<li><p>配置(Eclipse插件的配置)：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
+
+&lt;!-- 配置生成器 --&gt;
+&lt;generatorConfiguration&gt;
+    &lt;classPathEntry location=&quot;D:/Test/mybatistest/mysql-connector-java-5.1.35.jar&quot; /&gt;
+    &lt;!-- 配置对象环境,注意这里是 MyBatis3才能生成Example代码 --&gt;
+    &lt;context id=&quot;MySqlContext&quot; targetRuntime=&quot;MyBatis3&quot; defaultModelType=&quot;flat&quot;&gt;
+        &lt;property name=&quot;javaFileEncoding&quot; value=&quot;UTF-8&quot;/&gt;
+        &lt;!-- 配置注释生成器 --&gt;
+        &lt;commentGenerator  type=&quot;Mybatis.generator.MyCommentGenerator&quot;&gt;
+            &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;addRemarkComments&quot; value=&quot;true&quot;/&gt;
+        &lt;/commentGenerator&gt;
+        &lt;!-- 必须配置的项，连接数据库 --&gt;
+        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://localhost:3306/mybatis&quot;
+        userId=&quot;root&quot; password=&quot;zjx1754294529&quot;
+        &gt;
+        &lt;/jdbcConnection&gt;
+        &lt;!-- 配置生成的实体类位置 --&gt;
+        &lt;javaModelGenerator targetPackage=&quot;mbg.model&quot; targetProject=&quot;simple2\src\main\java&quot;&gt;
+            &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot;/&gt;
+        &lt;/javaModelGenerator&gt;
+        &lt;!-- 配置映射位置 --&gt;
+        &lt;sqlMapGenerator targetPackage=&quot;mbg.mapper&quot; targetProject=&quot;simple2\src\main\resources&quot;&gt;
+        &lt;/sqlMapGenerator&gt;
+        &lt;!-- 配置接口位置 --&gt;
+        &lt;javaClientGenerator targetPackage=&quot;mbg.dao&quot; type=&quot;XMLMAPPER&quot; targetProject=&quot;simple2\src\main\java&quot;&gt;
+        &lt;/javaClientGenerator&gt;
+        &lt;!-- 配置数据库表 --&gt;
+        &lt;table tableName=&quot;country&quot;&gt;
+            &lt;generatedKey column=&quot;id&quot; sqlStatement=&quot;Mysql&quot;/&gt;
+        &lt;/table&gt;
+    &lt;/context&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre></li>
+<li>使用插件生成代码,查看dao层的接口方法，发现多了很多方法(和Example相关的)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-19.jpg" alt=""><br>且Model中多了个CountyExample对象，里面有非常多方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-20-1.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-20-2.jpg" alt=""><br>除此之外还有超级多和字段相关的方法，用于代替SQL语句。</li>
+</ol>
+<p><strong>2)测试selectByExample方法（了解Example的基本用法）：</strong></p>
+<ol>
+<li>创建测试包mbg.mappr,并将Simple的BaseMapperTest.java及核心配置文件，log4j配置文件等复制到Simple2，并做相应的修改。</li>
+<li><p>在mbg.mappr包下创建CountryMapperTest.java并添加testExample方法，代码如下：</p>
+<pre><code>package mbg.mapper;
+
+import java.util.List;
+import mbg.dao.CountryMapper;
+import mbg.model.Country;
+import mbg.model.CountryExample;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
+import Mybatis.simple.base.BaseMapperTest;
+
+public class CountryMapperTest extends BaseMapperTest{
+    @Test
+    public void testExample(){
+        //获取sqlSession
+        SqlSession sqlSession=getSqlSession();
+        try{
+            //获取sqlSession
+            CountryMapper countryMapper =sqlSession.getMapper(CountryMapper.class);
+            //创建Example对象
+            CountryExample example=new CountryExample();
+            //设置排序规则
+            example.setOrderByClause(&quot;id desc,countryname asc&quot;);
+            //设置是否distinct去重
+            example.setDistinct(true);
+            //创建条件
+            CountryExample.Criteria criteria=example.createCriteria();
+            //id&gt;=1
+            criteria.andIdGreaterThanOrEqualTo((byte) 1);
+            //id&lt;4
+            criteria.andIdLessThan((byte) 4);
+            //countrycode like &apos;%u%&apos;
+            //注意此处必须自己写通配符
+            criteria.andCountrycodeLike(&quot;%U%&quot;);
+            //OR的情况
+            CountryExample.Criteria or=example.or();
+            //countryname=中国
+            or.andCountrynameEqualTo(&quot;中国&quot;);
+            //执行查询
+            List&lt;Country&gt; countList=countryMapper.selectByExample(example);
+            for(Country coun:countList){
+                System.out.println(coun);
+            }
+        }finally{
+            //关闭sqlSession
+            sqlSession.close();
+        }
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-21.jpg" alt=""><br>最后的那仨是因为未在model类添加toString方法。</li>
+<li>使用了Example就可以不用自己写简单的Java语句了。<br>要注意的是使用like和or时的情况。</li>
+</ol>
+<p><strong>3)测试更新的两个方法：</strong></p>
+<ol>
+<li>和UPDATE有关的有两个方法：<br>updateByExample和updateByExampleSelective,两个方法的区别是对象属性为空时，第一个方法会将值更新为null,而第二个方法不会。</li>
+<li>测试updateByExampleSelective：<br>添加测试方法：<pre><code>@Test
+public void testExampleUpdateByExampleSelective(){
+    //获取sqlSession
+    SqlSession sqlSession=getSqlSession();
+    try{
+        //获取sqlSession
+        CountryMapper countryMapper =sqlSession.getMapper(CountryMapper.class);
+        //创建Example对象
+        CountryExample example=new CountryExample();
+        //创建条件（只能有一个createCriteria）
+        CountryExample.Criteria criteria=example.createCriteria();
+        //条件为id&gt;2，更新id&gt;2的
+        criteria.andIdGreaterThan((byte) 2);
+        //创建一个要设置的对象
+        Country country=new Country();
+        //设置国家名字为China
+        country.setCountryname(&quot;China&quot;);
+        //执行更新
+    //    countryMapper.updateByExample(country, example);  //报错说id不能为空
+        countryMapper.updateByExampleSelective(country, example);
+        //执行查询
+        List&lt;Country&gt; countList=countryMapper.selectByExample(example);
+        //将符合条件的结果输出
+        for(Country coun:countList){
+            System.out.println(coun);
+        }
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }        
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-22.jpg" alt=""></li>
+</ol>
+<p><strong>4)测试删除和统计的方法：</strong></p>
+<ol>
+<li>删除方法：deleteByExample<br>统计方法：countyByExample</li>
+<li>测试代码：<pre><code>@Test
+public void testCountDeleteByExample(){
+    //获取sqlSession
+    SqlSession sqlSession=getSqlSession();
+    try{
+        //获取sqlSession
+        CountryMapper countryMapper =sqlSession.getMapper(CountryMapper.class);
+        //创建Example对象
+        CountryExample example=new CountryExample();
+        //创建条件（只能有一个createCriteria）
+        CountryExample.Criteria criteria=example.createCriteria();
+        //删除所有id&gt;2的国家
+        criteria.andIdGreaterThan((byte) 2);
+        //执行删除
+        countryMapper.deleteByExample(example);
+        //使用CountByExample方法查看删除后是否为0条
+        Assert.assertEquals(0, countryMapper.countByExample(example));
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-23.jpg" alt=""></li>
+</ol>
 <hr>
+<h2 id="5-MBG最全配置介绍"><a href="#5-MBG最全配置介绍" class="headerlink" title="5.MBG最全配置介绍"></a>5.MBG最全配置介绍</h2><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
+&lt;!-- 配置生成器 --&gt;
+&lt;generatorConfiguration&gt;
+&lt;!-- 可以用于加载配置项或者配置文件，在整个配置文件中就可以使用${propertyKey}的方式来引用配置项
+    resource：配置资源加载地址，使用resource，MBG从classpath开始找，比如com/myproject/generatorConfig.properties        
+    url：配置资源加载地质，使用URL的方式，比如file:///C:/myfolder/generatorConfig.properties.
+    注意，两个属性只能选址一个;
+
+    另外，如果使用了mybatis-generator-maven-plugin，那么在pom.xml中定义的properties都可以直接在generatorConfig.xml中使用
+&lt;properties resource=&quot;&quot; url=&quot;&quot; /&gt;
+ --&gt;
+
+ &lt;!-- 在MBG工作的时候，需要额外加载的依赖包
+    location属性指明加载jar/zip包的全路径
+&lt;classPathEntry location=&quot;/Program Files/IBM/SQLLIB/java/db2java.zip&quot; /&gt;
+  --&gt;
+
+&lt;!-- 
+    context:生成一组对象的环境 
+    id:必选，上下文id，用于在生成错误时提示
+    defaultModelType:指定生成对象的样式
+        1，conditional：类似hierarchical；
+        2，flat：所有内容（主键，blob）等全部生成在一个对象中；
+        3，hierarchical：主键生成一个XXKey对象(key class)，Blob等单独生成一个对象，其他简单属性在一个对象中(record class)
+    targetRuntime:
+        1，MyBatis3：默认的值，生成基于MyBatis3.x以上版本的内容，包括XXXBySample；
+        2，MyBatis3Simple：类似MyBatis3，只是不生成XXXBySample；
+    introspectedColumnImpl：类全限定名，用于扩展MBG
+--&gt;
+&lt;context id=&quot;mysql&quot; defaultModelType=&quot;hierarchical&quot; targetRuntime=&quot;MyBatis3Simple&quot; &gt;
+
+    &lt;!-- 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；
+        一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖
+     --&gt;
+    &lt;property name=&quot;autoDelimitKeywords&quot; value=&quot;false&quot;/&gt;
+    &lt;!-- 生成的Java文件的编码 --&gt;
+    &lt;property name=&quot;javaFileEncoding&quot; value=&quot;UTF-8&quot;/&gt;
+    &lt;!-- 格式化java代码 --&gt;
+    &lt;property name=&quot;javaFormatter&quot; value=&quot;org.mybatis.generator.api.dom.DefaultJavaFormatter&quot;/&gt;
+    &lt;!-- 格式化XML代码 --&gt;
+    &lt;property name=&quot;xmlFormatter&quot; value=&quot;org.mybatis.generator.api.dom.DefaultXmlFormatter&quot;/&gt;
+
+    &lt;!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； --&gt;
+    &lt;property name=&quot;beginningDelimiter&quot; value=&quot;`&quot;/&gt;
+    &lt;property name=&quot;endingDelimiter&quot; value=&quot;`&quot;/&gt;
+
+    &lt;!-- 必须要有的，使用这个配置链接数据库
+        @TODO:是否可以扩展
+     --&gt;
+    &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql:///pss&quot; userId=&quot;root&quot; password=&quot;admin&quot;&gt;
+        &lt;!-- 这里面可以设置property属性，每一个property属性都设置到配置的Driver上 --&gt;
+    &lt;/jdbcConnection&gt;
+
+    &lt;!-- java类型处理器 
+        用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；
+        注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型； 
+    --&gt;
+    &lt;javaTypeResolver type=&quot;org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl&quot;&gt;
+        &lt;!-- 
+            true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+            false：默认,
+                scale&gt;0;length&gt;18：使用BigDecimal;
+                scale=0;length[10,18]：使用Long；
+                scale=0;length[5,9]：使用Integer；
+                scale=0;length&lt;5：使用Short；
+         --&gt;
+        &lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot;/&gt;
+    &lt;/javaTypeResolver&gt;
+
+
+    &lt;!-- java模型创建器，是必须要的元素
+        负责：1，key类（见context的defaultModelType）；2，java类；3，查询类
+        targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；
+        targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
+     --&gt;
+    &lt;javaModelGenerator targetPackage=&quot;com._520it.mybatis.domain&quot; targetProject=&quot;src/main/java&quot;&gt;
+        &lt;!--  for MyBatis3/MyBatis3Simple
+            自动为每一个生成的类创建一个构造方法，构造方法包含了所有的field；而不是使用setter；
+         --&gt;
+        &lt;property name=&quot;constructorBased&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false --&gt;
+        &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+
+        &lt;!-- for MyBatis3 / MyBatis3Simple
+            是否创建一个不可变的类，如果为true，
+            那么MBG会创建一个没有setter方法的类，取而代之的是类似constructorBased的类
+         --&gt;
+        &lt;property name=&quot;immutable&quot; value=&quot;false&quot;/&gt; 
+
+        &lt;!-- 设置一个根对象，
+            如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中可以覆盖该选项
+            注意：如果在key class或者record class中有root class相同的属性，MBG就不会重新生成这些属性了，包括：
+                1，属性名相同，类型相同，有相同的getter/setter方法；
+         --&gt;
+        &lt;property name=&quot;rootClass&quot; value=&quot;com._520it.mybatis.domain.BaseDomain&quot;/&gt;
+
+        &lt;!-- 设置是否在getter方法中，对String类型字段调用trim()方法 --&gt;
+        &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot;/&gt;
+    &lt;/javaModelGenerator&gt;
+
+    &lt;!-- 生成SQL map的XML文件生成器，
+        注意，在Mybatis3之后，我们可以使用mapper.xml文件+Mapper接口（或者不用mapper接口），
+            或者只使用Mapper接口+Annotation，所以，如果 javaClientGenerator配置中配置了需要生成XML的话，这个元素就必须配置
+        targetPackage/targetProject:同javaModelGenerator
+     --&gt;
+    &lt;sqlMapGenerator targetPackage=&quot;com._520it.mybatis.mapper&quot; targetProject=&quot;src/main/resources&quot;&gt;
+        &lt;!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false --&gt;
+        &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+    &lt;/sqlMapGenerator&gt;
+
+    &lt;!-- 对于mybatis来说，即生成Mapper接口，注意，如果没有配置该元素，那么默认不会生成Mapper接口 
+        targetPackage/targetProject:同javaModelGenerator
+        type：选择怎么生成mapper接口（在MyBatis3/MyBatis3Simple下）：
+            1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；
+            2，MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；
+            3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
+        注意，如果context是MyBatis3Simple：只支持ANNOTATEDMAPPER和XMLMAPPER
+    --&gt;
+    &lt;javaClientGenerator targetPackage=&quot;com._520it.mybatis.mapper&quot; type=&quot;ANNOTATEDMAPPER&quot; targetProject=&quot;src/main/java&quot;&gt;
+        &lt;!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false --&gt;
+        &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+
+        &lt;!-- 可以为所有生成的接口添加一个父接口，但是MBG只负责生成，不负责检查
+        &lt;property name=&quot;rootInterface&quot; value=&quot;&quot;/&gt;
+         --&gt;
+    &lt;/javaClientGenerator&gt;
+
+    &lt;!-- 选择一个table来生成相关文件，可以有一个或多个table，必须要有table元素
+        选择的table会生成一下文件：
+        1，SQL map文件
+        2，生成一个主键类；
+        3，除了BLOB和主键的其他字段的类；
+        4，包含BLOB的类；
+        5，一个用户生成动态查询的条件类（selectByExample, deleteByExample），可选；
+        6，Mapper接口（可选）
+
+        tableName（必要）：要生成对象的表名；
+        注意：大小写敏感问题。正常情况下，MBG会自动的去识别数据库标识符的大小写敏感度，在一般情况下，MBG会
+            根据设置的schema，catalog或tablename去查询数据表，按照下面的流程：
+            1，如果schema，catalog或tablename中有空格，那么设置的是什么格式，就精确的使用指定的大小写格式去查询；
+            2，否则，如果数据库的标识符使用大写的，那么MBG自动把表名变成大写再查找；
+            3，否则，如果数据库的标识符使用小写的，那么MBG自动把表名变成小写再查找；
+            4，否则，使用指定的大小写格式查询；
+        另外的，如果在创建表的时候，使用的&quot;&quot;把数据库对象规定大小写，就算数据库标识符是使用的大写，在这种情况下也会使用给定的大小写来创建表名；
+        这个时候，请设置delimitIdentifiers=&quot;true&quot;即可保留大小写格式；
+
+        可选：
+        1，schema：数据库的schema；
+        2，catalog：数据库的catalog；
+        3，alias：为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName
+        4，domainObjectName：生成的domain类的名字，如果不设置，直接使用表名作为domain类的名字；可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
+        5，enableInsert（默认true）：指定是否生成insert语句；
+        6，enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
+        7，enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
+        8，enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+        9，enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+        10，enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；
+        11，enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+        12，enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
+        13，modelType：参考context元素的defaultModelType，相当于覆盖；
+        14，delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）
+        15，delimitAllColumns：设置是否所有生成的SQL中的列名都使用标识符引起来。默认为false，delimitIdentifiers参考context的属性
+
+        注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
+     --&gt;
+    &lt;table tableName=&quot;userinfo&quot; &gt;
+
+        &lt;!-- 参考 javaModelGenerator 的 constructorBased属性--&gt;
+        &lt;property name=&quot;constructorBased&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 默认为false，如果设置为true，在生成的SQL中，table名字不会加上catalog或schema； --&gt;
+        &lt;property name=&quot;ignoreQualifiersAtRuntime&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 参考 javaModelGenerator 的 immutable 属性 --&gt;
+        &lt;property name=&quot;immutable&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 指定是否只生成domain类，如果设置为true，只生成domain类，如果还配置了sqlMapGenerator，那么在mapper XML文件中，只生成resultMap元素 --&gt;
+        &lt;property name=&quot;modelOnly&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 参考 javaModelGenerator 的 rootClass 属性 
+        &lt;property name=&quot;rootClass&quot; value=&quot;&quot;/&gt;
+         --&gt;
+
+        &lt;!-- 参考javaClientGenerator 的  rootInterface 属性
+        &lt;property name=&quot;rootInterface&quot; value=&quot;&quot;/&gt;
+        --&gt;
+
+        &lt;!-- 如果设置了runtimeCatalog，那么在生成的SQL中，使用该指定的catalog，而不是table元素上的catalog 
+        &lt;property name=&quot;runtimeCatalog&quot; value=&quot;&quot;/&gt;
+        --&gt;
+
+        &lt;!-- 如果设置了runtimeSchema，那么在生成的SQL中，使用该指定的schema，而不是table元素上的schema 
+        &lt;property name=&quot;runtimeSchema&quot; value=&quot;&quot;/&gt;
+        --&gt;
+
+        &lt;!-- 如果设置了runtimeTableName，那么在生成的SQL中，使用该指定的tablename，而不是table元素上的tablename 
+        &lt;property name=&quot;runtimeTableName&quot; value=&quot;&quot;/&gt;
+        --&gt;
+
+        &lt;!-- 注意，该属性只针对MyBatis3Simple有用；
+            如果选择的runtime是MyBatis3Simple，那么会生成一个SelectAll方法，如果指定了selectAllOrderByClause，那么会在该SQL中添加指定的这个order条件；
+         --&gt;
+        &lt;property name=&quot;selectAllOrderByClause&quot; value=&quot;age desc,username asc&quot;/&gt;
+
+        &lt;!-- 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate --&gt;
+        &lt;property name=&quot;useActualColumnNames&quot; value=&quot;false&quot;/&gt;
+
+
+        &lt;!-- generatedKey用于生成生成主键的方法，
+            如果设置了该元素，MBG会在生成的&lt;insert&gt;元素中生成一条正确的&lt;selectKey&gt;元素，该元素可选
+            column:主键的列名；
+            sqlStatement：要生成的selectKey语句，有以下可选项：
+                Cloudscape:相当于selectKey的SQL为： VALUES IDENTITY_VAL_LOCAL()
+                DB2       :相当于selectKey的SQL为： VALUES IDENTITY_VAL_LOCAL()
+                DB2_MF    :相当于selectKey的SQL为：SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1
+                Derby     :相当于selectKey的SQL为：VALUES IDENTITY_VAL_LOCAL()
+                HSQLDB    :相当于selectKey的SQL为：CALL IDENTITY()
+                Informix  :相当于selectKey的SQL为：select dbinfo(&apos;sqlca.sqlerrd1&apos;) from systables where tabid=1
+                MySql     :相当于selectKey的SQL为：SELECT LAST_INSERT_ID()
+                SqlServer :相当于selectKey的SQL为：SELECT SCOPE_IDENTITY()
+                SYBASE    :相当于selectKey的SQL为：SELECT @@IDENTITY
+                JDBC      :相当于在生成的insert元素上添加useGeneratedKeys=&quot;true&quot;和keyProperty属性
+        &lt;generatedKey column=&quot;&quot; sqlStatement=&quot;&quot;/&gt;
+         --&gt;
+
+        &lt;!-- 
+            该元素会在根据表中列名计算对象属性名之前先重命名列名，非常适合用于表中的列都有公用的前缀字符串的时候，
+            比如列名为：CUST_ID,CUST_NAME,CUST_EMAIL,CUST_ADDRESS等；
+            那么就可以设置searchString为&quot;^CUST_&quot;，并使用空白替换，那么生成的Customer对象中的属性名称就不是
+            custId,custName等，而是先被替换为ID,NAME,EMAIL,然后变成属性：id，name，email；
+
+            注意，MBG是使用java.util.regex.Matcher.replaceAll来替换searchString和replaceString的，
+            如果使用了columnOverride元素，该属性无效；
+
+        &lt;columnRenamingRule searchString=&quot;&quot; replaceString=&quot;&quot;/&gt;
+         --&gt;
+
+         &lt;!-- 用来修改表中某个列的属性，MBG会使用修改后的列来生成domain的属性；
+            column:要重新设置的列名；
+            注意，一个table元素中可以有多个columnOverride元素哈~
+          --&gt;
+         &lt;columnOverride column=&quot;username&quot;&gt;
+            &lt;!-- 使用property属性来指定列要生成的属性名称 --&gt;
+            &lt;property name=&quot;property&quot; value=&quot;userName&quot;/&gt;
+
+            &lt;!-- javaType用于指定生成的domain的属性类型，使用类型的全限定名
+            &lt;property name=&quot;javaType&quot; value=&quot;&quot;/&gt;
+             --&gt;
+
+            &lt;!-- jdbcType用于指定该列的JDBC类型 
+            &lt;property name=&quot;jdbcType&quot; value=&quot;&quot;/&gt;
+             --&gt;
+
+            &lt;!-- typeHandler 用于指定该列使用到的TypeHandler，如果要指定，配置类型处理器的全限定名
+                注意，mybatis中，不会生成到mybatis-config.xml中的typeHandler
+                只会生成类似：where id = #{id,jdbcType=BIGINT,typeHandler=com._520it.mybatis.MyTypeHandler}的参数描述
+            &lt;property name=&quot;jdbcType&quot; value=&quot;&quot;/&gt;
+            --&gt;
+
+            &lt;!-- 参考table元素的delimitAllColumns配置，默认为false
+            &lt;property name=&quot;delimitedColumnName&quot; value=&quot;&quot;/&gt;
+             --&gt;
+         &lt;/columnOverride&gt;
+
+         &lt;!-- ignoreColumn设置一个MGB忽略的列，如果设置了改列，那么在生成的domain中，生成的SQL中，都不会有该列出现 
+            column:指定要忽略的列的名字；
+            delimitedColumnName：参考table元素的delimitAllColumns配置，默认为false
+
+            注意，一个table元素中可以有多个ignoreColumn元素
+         &lt;ignoreColumn column=&quot;deptId&quot; delimitedColumnName=&quot;&quot;/&gt;
+         --&gt;
+    &lt;/table&gt;
+&lt;/context&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月31日 22:56</p>
+        <p>最后更新： 2018年04月01日 21:08</p>
         <p>原始链接： <a class="post-url" href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/" title="MyBatis学习笔记（五）：代码生成器">https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -630,7 +1346,7 @@ public class Generator {
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：使用java编写代码运行-推荐"><span class="post-toc-text">方式一：使用java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：使用命令提示符cmd运行"><span class="post-toc-text">方式二：使用命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：使用Ecilpse插件自动生成"><span class="post-toc-text">方式四：使用Ecilpse插件自动生成</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：java编写代码运行-推荐"><span class="post-toc-text">方式一：java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：命令提示符cmd运行"><span class="post-toc-text">方式二：命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：用Ecilpse插件运行"><span class="post-toc-text">方式四：用Ecilpse插件运行</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签"><span class="post-toc-text">jdbcConnection,javaTypeResolver和javaModelGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sqlMapGenerator-javaClientGenerator和table标签"><span class="post-toc-text">sqlMapGenerator,javaClientGenerator和table标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Example介绍"><span class="post-toc-text">4.Example介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-MBG最全配置介绍"><span class="post-toc-text">5.MBG最全配置介绍</span></a></li></ol>
         </nav>
     </aside>
     
@@ -718,7 +1434,7 @@ public class Generator {
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -751,7 +1467,7 @@ public class Generator {
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 14.29px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>
