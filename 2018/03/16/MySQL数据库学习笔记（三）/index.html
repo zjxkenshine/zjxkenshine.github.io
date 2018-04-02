@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介，关系与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;n">
+  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;nbsp;&amp;nbsp;&amp;nbsp;a.提升查询数据的效率&amp;nbsp;&amp;nbsp;&amp;">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介，关系与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;n">
+<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;nbsp;&amp;nbsp;&amp;nbsp;a.提升查询数据的效率&amp;nbsp;&amp;nbsp;&amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-1.jpg.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-2.jpg.jpg">
@@ -30,10 +30,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-12.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-13.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-14.jpg">
-<meta property="og:updated_time" content="2018-03-17T14:16:54.842Z">
+<meta property="og:updated_time" content="2018-04-02T07:43:46.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎">
-<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》 索引简介，关系与范式为视频内容运算符以及存储引擎为书上视频中未涉及的部分知识点  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;n">
+<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;nbsp;&amp;nbsp;&amp;nbsp;a.提升查询数据的效率&amp;nbsp;&amp;nbsp;&amp;">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-1.jpg.jpg">
   
   
@@ -162,7 +162,6 @@
       
             
             <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
-<p>索引简介，关系与范式为视频内容<br>运算符以及存储引擎为书上视频中未涉及的部分知识点</p>
 <hr>
 <h2 id="1-索引简介："><a href="#1-索引简介：" class="headerlink" title="1.索引简介："></a>1.索引简介：</h2><p>几乎所有的索引都是建立在字段之上的。</p>
 <ol>
@@ -309,7 +308,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月17日 22:16</p>
+        <p>最后更新： 2018年04月02日 15:43</p>
         <p>原始链接： <a class="post-url" href="/2018/03/16/MySQL数据库学习笔记（三）/" title="MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎">https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -515,7 +514,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -548,7 +547,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

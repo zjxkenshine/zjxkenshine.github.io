@@ -3,23 +3,46 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则 | 程序人生</title>
+  <title>MySQL学习笔记（八）：存储过程，游标，事件和字符集等 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的基本用法">
+  <meta name="description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的简单用法1)存储过程简介及创建：  存储过程简称为过程，procedure,是一种用来处理数据的方式。存储过程是没有返回值的函数。各种操作都和函数类似（无返回值）。 创建存储过程：Create procedure 过程名称([参数列表]) Begin     -- 过程体 End">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则">
+<meta property="og:title" content="MySQL学习笔记（八）：存储过程，游标，事件和字符集等">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的基本用法">
+<meta property="og:description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的简单用法1)存储过程简介及创建：  存储过程简称为过程，procedure,是一种用来处理数据的方式。存储过程是没有返回值的函数。各种操作都和函数类似（无返回值）。 创建存储过程：Create procedure 过程名称([参数列表]) Begin     -- 过程体 End">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-27T10:33:32.281Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-08-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-09-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-19.jpg">
+<meta property="og:updated_time" content="2018-04-02T14:41:38.954Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则">
-<meta name="twitter:description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的基本用法">
+<meta name="twitter:title" content="MySQL学习笔记（八）：存储过程，游标，事件和字符集等">
+<meta name="twitter:description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的简单用法1)存储过程简介及创建：  存储过程简称为过程，procedure,是一种用来处理数据的方式。存储过程是没有返回值的函数。各种操作都和函数类似（无返回值）。 创建存储过程：Create procedure 过程名称([参数列表]) Begin     -- 过程体 End">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +140,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则
+      MySQL学习笔记（八）：存储过程，游标，事件和字符集等
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -148,12 +171,292 @@
             
             <h2 id="0-参考资料"><a href="#0-参考资料" class="headerlink" title="0.参考资料"></a>0.参考资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
 <hr>
-<h2 id="1-存储过程的基本用法"><a href="#1-存储过程的基本用法" class="headerlink" title="1.存储过程的基本用法"></a>1.存储过程的基本用法</h2><hr>
+<h2 id="1-存储过程的简单用法"><a href="#1-存储过程的简单用法" class="headerlink" title="1.存储过程的简单用法"></a>1.存储过程的简单用法</h2><p><strong>1)存储过程简介及创建：</strong></p>
+<ol>
+<li>存储过程简称为过程，procedure,是一种用来处理数据的方式。<br><strong>存储过程是没有返回值的函数。</strong>各种操作都和函数类似（无返回值）。</li>
+<li>创建存储过程：<pre><code>Create procedure 过程名称([参数列表])
+Begin
+    -- 过程体
+End
+</code></pre></li>
+<li>创建测试：<pre><code>delimiter $$
+CREATE PROCEDURE pro1()
+BEGIN
+    -- 过程中需要显式数据时需要用select
+    SELECT * FROM m_class1;
+END $$
+delimiter ;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-01.jpg" alt=""></li>
+</ol>
+<p><strong>2)存储过程的查看及调用：</strong></p>
+<ol>
+<li>函数的查看方式完全适用于过程，关键字改为perocedure。<br>查看过程：<pre><code>show procedure status [like &apos;...&apos;]\G
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-02.jpg" alt=""></li>
+<li>查看过程创建语句：<pre><code>show create procedure 过程名；
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-03.jpg" alt=""></li>
+<li>调用存储过程：<br>过程没有返回值，说明不能用select访问。select调用时只会访问函数。<br>存储过程的调用(使用专门的关键字call)：<pre><code>call 过程名（[参数列表]）；
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-04.jpg" alt=""></li>
+</ol>
+<p><strong>3)存储过程的删除：</strong></p>
+<ol>
+<li>存储过程一般不能修改内容，只能先删除后增加(可以修改特征值，属性)。</li>
+<li>删除语法：<pre><code>drop procedure 过程名；
+</code></pre>测试:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-05.jpg" alt=""></li>
+</ol>
+<p><strong>4)存储过程参数：</strong></p>
+<ol>
+<li>函数的参数需要指定数据类型，过程比函数更加严格。<br>过程还有自己的类型限定：三种类型<ul>
+<li>in：数据只是从外部传入到内部使用(值传递)，可以是数据也可以是变量</li>
+<li>Out：只允许过程内部使用（不用外部数据），给外部使用（引用传递：外部的数据会被清空后才进入到内部，存值后可在外部使用），只允许是变量。</li>
+<li>InOut：外部的可以在内部使用，内部修改也可以在外部使用：典型的引用传递，只能穿变量。</li>
+</ul>
+</li>
+<li>基本创建方法：<pre><code>create procedure 过程名（in 形参 数据类型,out 形参 数据类型,inout 形参 数据类型）;
+Begin
+    -- 过程内容
+END
+</code></pre>不代表in/out/inout三个都要，只是有的话必须这样写：<code>in 形参 数据类型</code><br>测试创建：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-06.jpg" alt=""></li>
+<li>调用含参数的存储过程：<pre><code>call 过程名(参数列表);
+</code></pre><strong>注意：out和inout传参时必须要传入一个变量，而不是数值</strong><br>使用如下代码测试：<pre><code>CALL pro2(1,2,3);        -- 未传变量
+set @int_1:=1;
+set @int_2:=2;
+set @int_3:=3;
+SELECT @int_1,@int_2,@int_3;
+CALL pro2(@int_1,@int_2,@int_3);
+SELECT @int_1,@int_2,@int_3;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-07.jpg" alt=""></li>
+<li>out和inout是一种引用传递，内部修改一定会影响外部。<br>out的值传入过程内部时会被置空。</li>
+</ol>
+<p><strong>5)存储过程对变量操作是滞后的：</strong></p>
+<ol>
+<li>滞后：<strong>在存储过程结束的时候才会重新将内部修改的值传入给全局变量。</strong></li>
+<li>测试代码：<br>创建存储过程：<pre><code>delimiter $$
+CREATE PROCEDURE pro3(in int_1 int,out int_2 int,inout int_3 int)
+BEGIN
+        -- 查看局部变量
+        SELECT int_1,int_2,int_3;
+        -- 修改局部变量
+        SET int_1=100;
+        SET int_2=1000;
+        SET int_3=10000;
+        -- 查看局部变量
+        SELECT int_1,int_2,int_3;
+        -- 查看全局变量
+        SELECT @int_1,@int_2,@int_3;
+        -- 修改全局变量(但是最后会被局部变量覆盖)
+        SET @int_1=&apos;a&apos;;
+        SET @int_2=&apos;b&apos;;
+        SET @int_3=&apos;c&apos;;
+        -- 再次查看全局变量
+        SELECT @int_1,@int_2,@int_3;
+END
+$$
+delimiter ;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-08-2.jpg" alt=""><br>测试代码：<pre><code>set @int_1=1;
+set @int_2=2;
+set @int_3=3;
+CALL pro3(@int_1,@int_2,@int_3);
+-- 存储过程结束后将out/inout的局部变量返回给全局变量
+SELECT @int_1,@int_2,@int_3; 
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-09-1.jpg" alt=""></li>
+<li>存储过程没有返回值但是同样可以将内部的结果返回给外部使用。</li>
+</ol>
+<hr>
+<h2 id="2-存储过程的补充"><a href="#2-存储过程的补充" class="headerlink" title="2.存储过程的补充"></a>2.存储过程的补充</h2><h3 id="存储过程及函数的基础补充"><a href="#存储过程及函数的基础补充" class="headerlink" title="存储过程及函数的基础补充"></a>存储过程及函数的基础补充</h3><p><strong>1)存储过程和函数基础知识补充(简单看一看就行)：</strong></p>
+<ol>
+<li>存储过程和函数是经过实现编译并存储在数据库中的SQL语句集合，调用存储过程可以简化应用开发人员的工作，减少数据在数据库和应用服务器之间的传输，有利于提高数据处理的效率。</li>
+<li>存储过程和函数的最大区别在于函数需要返回值而储存过程不需要，返回值。函数的参数类型只能为in类型，而存储过程的参数类型可以为in,out,inout三种类型。</li>
+<li>函数与存储过程中都允许包含DDL语句。<br>存储过程中能够执行啊事务的提交及回滚等。<br>存储过程和函数中决不允许执行LOAD DATA INFILE语句。<br>存储过程和函数中可以调用其他存储过程和函数。</li>
+<li><strong>各种操作所需要的权限：</strong><br>创建存储过程和函数：需要Create Routine权限<br>修改存储过程和函数（特征值）：需要Alter Routine权限<br>执行存储过程：需要EXECUTE权限</li>
+</ol>
+<p><strong>2)含特征值(属性)的函数/存储过程的创建及修改：</strong></p>
+<ol>
+<li>含特征值的函数/存储过程创建（以存储过程为例）：<pre><code>delimiter $$
+create procedure 过程名 （参数列表）
+[特征值列表]
+Begin
+    -- 过程体
+End $$
+delimiter ;
+</code></pre></li>
+<li>特征值列表的选项：<br>LANGUAGE SQL,[NOT] DETERMINISTIC,<br>{CONTAINS SQL|NO SQL|READS SQL DATA|MODIFILES SQL DATA}<br>|SQL SECURITY {DEFINER|INVOKER}|COMMENT ‘string’<br>如果要指定多个属性选项，不要用逗号也不要用丨，只需要加空格就可以：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-10.jpg" alt=""></li>
+<li>修改存储过程或函数的属性，特征值。<pre><code>Alter procedure/function 过程/函数名 [特征值列表]
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-11.jpg" alt=""></li>
+<li>各特征值（属性简介）：<ul>
+<li>LANGUAGE SQL：系统默认的，说明函数/过程体内的语句是用SQL编写的。是为Mysql支持非SQL语言而准备的。</li>
+<li>[NOT] DETERMINISTIC：<br><code>DETERMINISTIC</code>：确定的，每次输入一样输出也一样的程序。<br><code>NOT DETERMINISTIC</code>：默认，非确定的。</li>
+<li>{CONTAINS SQL|NO SQL|READS SQL DATA|MODIFILES SQL DATA}：<br>四个只能选择一个。提供子程序使用数据的内在信息，目前只是提供给服务器，没有根据这些值实际使用数据的情况：<ul>
+<li><code>CONTAINS SQL</code>：默认，表示子程序不包含读或者写数据的语句。</li>
+<li><code>NO SQL</code>：子程序不包含SQL语句</li>
+<li><code>BEAD SQL DATA</code>：表示子程序包含读数据的语句但是不包含写数据的语句。</li>
+<li><code>MODIFILES SQL DATA</code>：表示子程序包含写数据的语句。</li>
+</ul>
+</li>
+<li>SQL SECURITY {DEFINER|INVOKER}：<br>可以用来指定子程序用创建子程序者的权限来执行(difiner)，还是使用调用者的权限来执行（invoker）</li>
+<li>COMMENT：存储过程或者函数的注释信息。</li>
+</ul>
+</li>
+<li>特征值补充：<br>上述的子程序其实就是存储过程或者函数BEGIN~END包含的程序体。<br>DEFINER/INVOKER的权限表示存储过程内的语句权限与创建者/调用者的相同，如果创建者没有对表A的查询权限，而调用者有，则调用者调用SQL SECURITY DEFINER的存储过程时会报错说权限不够，而调用SQL SECURITY INVOKER的存储过程则不会报错。</li>
+</ol>
+<h3 id="定义条件和处理"><a href="#定义条件和处理" class="headerlink" title="定义条件和处理"></a>定义条件和处理</h3><p><strong>1)定义条件：</strong></p>
+<ol>
+<li>条件和处理可以用来定义在存储过程中遇到相应问题时的处理步骤。</li>
+<li>条件的定义语法：<pre><code>DECLARE 条件名 CONDITION FOR 条件值(condition_value);
+</code></pre></li>
+<li>关于condition_value（条件值)可以填的数：<br>如一条错误出现，都是这种形式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-12.jpg" alt=""><br>定义该错误的条件则condition_value处可以填：<br><code>SQLSTATE &#39;42000&#39;</code> （SQLSTATE[VALUE] sqlstate值）<br>或者<br><code>1064</code> (mysql错误值)</li>
+</ol>
+<p><strong>2)定义条件的处理：</strong></p>
+<ol>
+<li>语法：<pre><code>DECLARE 处理选项 HANDLER FOR condition_value[...] 处理语句;
+</code></pre></li>
+<li><em>处理选项</em>:<br>有三种可选值，但是只支持两种：undo不支持<br><code>CONTINUE</code>:表示继续执行下面的语句；<br><code>EXIT</code>:表示终止语句执行</li>
+<li>condition_value[…] (条件值列表)：<br>有六种值：<ul>
+<li><code>SQLSTATE[VALUE] sqlstate值</code>：和条件定义相同</li>
+<li>mysql错误码，和条件定义相同</li>
+<li>条件名，使用条件定义语句定义的条件名</li>
+<li><code>SQLWARNING</code>：对所有以01开头的代码SQLSTATE代码的速记</li>
+<li><code>NOT FOUND</code>：对所有以02开头的代码SQLSTATE代码的速记</li>
+<li><code>SQLEXCEPTION</code>：对所有没有被<code>SQLWARNING</code>和<code>NOT FOUND</code>捕获的（不以以01或02开头的）SQLSTATE代码的速记</li>
+</ul>
+</li>
+<li>处理语句：<br>出现指定错误时的处理语句。原本出错的那条语句不会生效改为指向这条处理语句。</li>
+</ol>
+<p><strong>3)条件处理的测试</strong></p>
+<ol>
+<li>未设置条件处理的情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-13.jpg" alt=""><br>发现报错，根据该错误设置条件处理。</li>
+<li>设置了条件处理的情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-14.jpg" alt=""><br>出错语句后的语句正常执行。</li>
+<li>将条件处理器改为以下三种情况和上述条件处理是等价的。<pre><code>-- 使用sql错误码
+DECLARE CONTINUE HANDLER FOR 1062 SET @x2=666;
+-- 使用条件名
+DECLARE DuplicateKey CONDITION FOR 1062 ;
+DECLARE CONTINUE HANDLER FOR DuplicateKey SET @x2=666;
+-- 使用速记
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET @x2=666;
+</code></pre></li>
+</ol>
+<h3 id="游标-光标-的使用"><a href="#游标-光标-的使用" class="headerlink" title="游标(光标)的使用"></a>游标(光标)的使用</h3><ol>
+<li>光标(游标)简介：<br>也叫游标，在存储过程和函数中能使用光标对结果集进行循环处理。<br>是一种用于轻松处理多行数据的机制。<br>数据量非常大，则需要使用光标来逐条读取查询结果集中的记录 。</li>
+<li>光标的基本操作：<br>声明光标：<pre><code>DECLARE 光标 CURSOR FOR select语句;
+</code></pre>打开光标：<pre><code>OPEN 光标名;
+</code></pre>获取光标：<pre><code>FETCH 光标名 Into 变量1[,变量2...];
+</code></pre>关闭光标：<pre><code>CLOSE 光标名;
+</code></pre>如果没有明确的关闭光标，它会在其声明的复合语句的末尾被关闭。</li>
+<li><p>游标使用测试：<br>设计一个存储过程统计m_stu1表年龄大于25岁的人的身高总和：</p>
+<pre><code>-- 光标测试
+delimiter $$
+CREATE PROCEDURE cur1()
+BEGIN
+    -- 定义相关的变量（一定要和结果集字段区分开）
+    DECLARE m_age TINYINT UNSIGNED;
+    DECLARE m_height TINYINT UNSIGNED;
+    -- 声明游标，加不加括号无所谓
+    DECLARE cur_m_stu1 CURSOR FOR (SELECT age,height FROM m_stu1);
+    -- 定义退出循环的条件处理
+    DECLARE EXIT HANDLER FOR NOT FOUND CLOSE cur_m_stu1;
+    -- 定义全局变量
+    SET @sum=0;
+    -- 打开光标
+    OPEN cur_m_stu1;
+    -- 死循环获取光标内的值
+    REPEAT
+        -- 获取光标内的一条数据并赋值给局部变量，并指向下一条，不重复取
+        FETCH cur_m_stu1 INTO m_age,m_height;
+        IF m_age &gt;= 25 THEN
+            SET @sum=@sum+m_height;
+        END IF;
+    -- 死循环条件，使用HANDLER条件处理来退出
+    UNTIL 0 
+    END REPEAT; 
+    CLOSE cur_m_stu1;
+END $$
+delimiter ;
+
+CALL cur1();
+SELECT @sum;
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-02.jpg" alt=""></p>
+</li>
+<li>测试中总结游标使用时的注意事项：<br>FETCH获取游标给变量赋值时变量的数量，顺序（以及数据类型）一定要和声明时的select语句查询的结果集字段相同，否则会报错。<br>这是上述代码使用<code>select * from m_stu1</code>时的错误:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15.jpg" alt=""><br>还有一个低级错误，变量名不能和字段名相同，否则不报错，但是变量一直取不到值，这是我卡了好长时间的代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-事件调度器-事件-的基本用法"><a href="#3-事件调度器-事件-的基本用法" class="headerlink" title="3.事件调度器(事件)的基本用法"></a>3.事件调度器(事件)的基本用法</h2><p><strong>1)事件简介，创建及查看：</strong></p>
+<ol>
+<li>事件调度器是MySQL5.1后新增的功能，可以让数据库按照自定义的时间周期触发某种操作，可以理解为时间触发器。</li>
+<li><p>简单的创建语法：</p>
+<pre><code>CREATE EVENT 事件名字
+ON SCHEDULE EVERY 时间间隔 STARTS 开始时间
+DO
+    要执行的SQL操作；
+</code></pre><p>详细的创建语法：</p>
+<pre><code>CREATE  
+    [DEFINER = { user | CURRENT_USER }]  
+    EVENT  
+    [IF NOT EXISTS]  
+    event_name  
+    ON SCHEDULE schedule  
+    [ON COMPLETION [NOT] PRESERVE]  
+    [ENABLE | DISABLE | DISABLE ON SLAVE]  
+    [COMMENT &apos;comment&apos;]  
+    DO event_body;  
+
+schedule:  
+    AT timestamp [+ INTERVAL interval] ...  
+  | EVERY interval  
+    [STARTS timestamp [+ INTERVAL interval] ...]  
+    [ENDS timestamp [+ INTERVAL interval] ...]  
+
+interval:  
+    quantity {YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |  
+              WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |  
+              DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}  
+</code></pre></li>
+<li>测试：<br>创建一个m_stu2表：<pre><code>CREATE TABLE `m_stu2` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;主键&apos;,
+  `name` varchar(20) DEFAULT NULL COMMENT &apos;学生姓名&apos;,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+</code></pre>创建事件调度器：<pre><code>-- 时间调度器
+CREATE EVENT add_stu 
+ON SCHEDULE EVERY 10 SECOND
+DO
+INSERT INTO m_stu2 VALUES(NULL,&apos;test&apos;,NOW());
+</code></pre>创建结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-16.jpg" alt=""></li>
+<li>如上图，查看事件创建语句：<pre><code>SHOW CREATE EVENT 事件名;
+</code></pre>查看事件：<pre><code>SHOW EVENTS;
+</code></pre>查看事件的全局设置（默认关闭）：<pre><code>SHOW VARIABLES LIKE &apos;%scheduler%&apos;;
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-17.jpg" alt=""></li>
+</ol>
+<p><strong>2)事件开启，关闭与删除：</strong></p>
+<ol>
+<li>事件环境：<br>事件全局环境是默认关闭的：<code>SHOW VARIABLES LIKE &#39;%scheduler%&#39;</code>查看，<br>所有的事件都是使用这一个变量。<br>可以使用如下代码开启环境：<pre><code>set global event_scheduler = on; -- 或者=1
+</code></pre>关闭全局环境：<pre><code>set global event_scheduler = OFF; -- 或者=0
+</code></pre></li>
+<li>事件开启以关闭<br>事件是默认开启的，上述的<code>status=ENABLED</code>。所以只要开启全局环境就可以运行事件了。如果发现是<code>disabled</code>关闭的可以这样开启：<pre><code>alter event 事件名 enable；
+</code></pre>关闭事件：<pre><code>alter event 事件名 disable；
+</code></pre></li>
+<li>事件开启后的进程：<br>事件不用主动使用，开启后就自动产生一个后台进程，可以使用：<pre><code>SHOW PROCESSLIST;
+</code></pre>查看。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-01.jpg" alt=""><br>使用<code>SHOW PROCESSLIST\G</code>查看：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-02.jpg" alt=""></li>
+<li>开启后隔几秒查看数据库，发现已经开始添加数据了，并且间隔为10秒：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-19.jpg" alt=""></li>
+<li>为了防止表变得很大，创建一个新的调度器，每隔一段清空一次表：<pre><code>CREATE EVENT tunc_stu
+ON SCHEDULE EVERY 10 MINUTE
+DO TRUNCATE TABLE m_stu2;
+</code></pre>非常适合定期清空临时表或者日志表。</li>
+<li>事件的删除：<pre><code>drop event 事件名;
+</code></pre>不想使用事件时可以禁用或者直接删除。</li>
+</ol>
+<p><strong>3)时间调度器的优势，使用场景及注意事项：</strong></p>
+<ol>
+<li>优势：<br>MySQL事件调度器部署在数据库内部由DBA或专人统一维护和管理，避免将一些数据库相关的定时任务部署在操作系统层，减少操作系统管理员产生误差操作的风险，对后续的管理和维护也非常有益。</li>
+<li>适用场景：<br>适用于定期收集统计信息，定期清理历史数据，定期数据库检查等</li>
+<li>注意事项：<br>在繁忙且要求性能的数据库服务器上要慎重部署和启用调度器。<br>过于复杂的处理更适合用程序实现。<br>开启和关闭事件调度器需要超级管理员权限。</li>
+</ol>
+<hr>
+<h2 id="4-字符集"><a href="#4-字符集" class="headerlink" title="4.字符集"></a>4.字符集</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月27日 18:33</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/27/MySQL数据库学习笔记（八）/" title="MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则">https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/</a></p>
+        <p>最后更新： 2018年04月02日 22:41</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/27/MySQL数据库学习笔记（八）/" title="MySQL学习笔记（八）：存储过程，游标，事件和字符集等">https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -210,7 +513,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&title=《MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&title=《MySQL学习笔记（八）：存储过程，游标，事件和字符集等》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -220,7 +523,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&title=《MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&title=《MySQL学习笔记（八）：存储过程，游标，事件和字符集等》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -230,7 +533,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（八）：存储过程，游标，事件和字符集等》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -270,7 +573,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料"><span class="post-toc-text">0.参考资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存储过程的基本用法"><span class="post-toc-text">1.存储过程的基本用法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料"><span class="post-toc-text">0.参考资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存储过程的简单用法"><span class="post-toc-text">1.存储过程的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-存储过程的补充"><span class="post-toc-text">2.存储过程的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储过程及函数的基础补充"><span class="post-toc-text">存储过程及函数的基础补充</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义条件和处理"><span class="post-toc-text">定义条件和处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#游标-光标-的使用"><span class="post-toc-text">游标(光标)的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-事件调度器-事件-的基本用法"><span class="post-toc-text">3.事件调度器(事件)的基本用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-字符集"><span class="post-toc-text">4.字符集</span></a></li></ol>
         </nav>
     </aside>
     
@@ -358,7 +661,7 @@
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -391,7 +694,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

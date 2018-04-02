@@ -47,7 +47,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-28-2.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-30.jpg">
-<meta property="og:updated_time" content="2018-03-27T10:17:44.394Z">
+<meta property="og:updated_time" content="2018-04-02T07:13:19.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（七）：变量、触发器、函数及流程控制">
 <meta name="twitter:description" content="0.学习准备 学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  系统函数部分及补充部分参考书本其余部分参考视频  建表准备：创建订单表与货物表并添加数据 -- 创建商品表 CREATE TABLE m_goods( id INT PRIMARY KEY auto_increment, name VARCHAR(20) NOT NULL, price">
@@ -241,7 +241,7 @@ SELECT @name;
 </code></pre>可以同时给多个变量赋值，但是只能在查询出一条的情况下赋值，否则会报错:<pre><code>SELECT name,classid FROM m_stu1 WHERE id = 4 INTO @name,@classid;
 SELECT @name,@classid;
 </code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00022mysql%E5%AD%A6%E4%B9%A07-05.jpg" alt=""></li>
-<li>注意：<br><strong>所有的自定义变量都是会话级别的。</strong><br>所有的自定义变量都不区分数据库。（用户级别）</li>
+<li>注意：<br><strong>所有的自定义变量都是会话级别的。</strong><br>所有的自定义变量都不区分数据库。（用户级别）<br>关于局部变量的声明赋值等查看后面的笔记：自定义函数及函数的操作</li>
 </ol>
 <hr>
 <h2 id="2-触发器"><a href="#2-触发器" class="headerlink" title="2.触发器"></a>2.触发器</h2><p>使用情景：<br>有两张表，一张订单表，一张商品表，每生成一笔订单，商品库存需要对应减少。<br><strong>1)触发器简介：</strong></p>
@@ -614,7 +614,7 @@ End REPEAT [循环名];
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月27日 18:17</p>
+        <p>最后更新： 2018年04月02日 15:13</p>
         <p>原始链接： <a class="post-url" href="/2018/03/25/MySQL数据库学习笔记（七）/" title="MySQL学习笔记（七）：变量、触发器、函数及流程控制">https://zjxkenshine.github.io/2018/03/25/MySQL数据库学习笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -820,7 +820,7 @@ End REPEAT [循环名];
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -853,7 +853,7 @@ End REPEAT [循环名];
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>

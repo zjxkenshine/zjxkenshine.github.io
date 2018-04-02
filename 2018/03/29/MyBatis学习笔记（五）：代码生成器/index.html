@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-21.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-22.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-23.jpg">
-<meta property="og:updated_time" content="2018-04-01T13:08:55.257Z">
+<meta property="og:updated_time" content="2018-04-01T13:16:19.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（五）：代码生成器">
 <meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档MBG官方文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MB">
@@ -406,7 +406,7 @@ public class Generator {
 <li>优点：<br>比较简单，使用方便</li>
 <li>缺点：<br>与第一种方式一样，和项目绑定在一起。<br>不支持代码合并（前两种也不支持）</li>
 </ol>
-<h3 id="方式四：用Ecilpse插件运行"><a href="#方式四：用Ecilpse插件运行" class="headerlink" title="方式四：用Ecilpse插件运行"></a>方式四：用Ecilpse插件运行</h3><p><strong>1)使用Eclipse插件运行的优点</strong></p>
+<h3 id="方式四：用Ecilpse插件运行（推荐）"><a href="#方式四：用Ecilpse插件运行（推荐）" class="headerlink" title="方式四：用Ecilpse插件运行（推荐）"></a>方式四：用Ecilpse插件运行（推荐）</h3><p><strong>1)使用Eclipse插件运行的优点</strong></p>
 <ol>
 <li>上述三种方式的共同缺点：不支持代码合并</li>
 <li>自动生成代码注释中会有一个@mbggerated的标志：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-12.jpg" alt=""><br>这个标志的意思是这个字段或方法是自动生成的，重新生成时会被覆盖。若没有这个标签，则不会被覆盖。但是前三种方法不支持该标签。</li>
@@ -1228,7 +1228,7 @@ public void testCountDeleteByExample(){
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月01日 21:08</p>
+        <p>最后更新： 2018年04月01日 21:16</p>
         <p>原始链接： <a class="post-url" href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/" title="MyBatis学习笔记（五）：代码生成器">https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -1346,7 +1346,7 @@ public void testCountDeleteByExample(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：java编写代码运行-推荐"><span class="post-toc-text">方式一：java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：命令提示符cmd运行"><span class="post-toc-text">方式二：命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：用Ecilpse插件运行"><span class="post-toc-text">方式四：用Ecilpse插件运行</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签"><span class="post-toc-text">jdbcConnection,javaTypeResolver和javaModelGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sqlMapGenerator-javaClientGenerator和table标签"><span class="post-toc-text">sqlMapGenerator,javaClientGenerator和table标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Example介绍"><span class="post-toc-text">4.Example介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-MBG最全配置介绍"><span class="post-toc-text">5.MBG最全配置介绍</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：java编写代码运行-推荐"><span class="post-toc-text">方式一：java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：命令提示符cmd运行"><span class="post-toc-text">方式二：命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：用Ecilpse插件运行（推荐）"><span class="post-toc-text">方式四：用Ecilpse插件运行（推荐）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签"><span class="post-toc-text">jdbcConnection,javaTypeResolver和javaModelGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sqlMapGenerator-javaClientGenerator和table标签"><span class="post-toc-text">sqlMapGenerator,javaClientGenerator和table标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Example介绍"><span class="post-toc-text">4.Example介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-MBG最全配置介绍"><span class="post-toc-text">5.MBG最全配置介绍</span></a></li></ol>
         </nav>
     </aside>
     
@@ -1365,7 +1365,7 @@ public void testCountDeleteByExample(){
   
   
     <a href="/2018/03/27/MySQL数据库学习笔记（八）/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">MySQL学习笔记（八）：存储过程，事务锁定，字符集和索引设计原则</span>
+      <span class="article-nav-title">MySQL学习笔记（八）：存储过程，游标，事件和字符集等</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -1434,7 +1434,7 @@ public void testCountDeleteByExample(){
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -1467,7 +1467,7 @@ public void testCountDeleteByExample(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
         </div>
     </div>
 </div>
