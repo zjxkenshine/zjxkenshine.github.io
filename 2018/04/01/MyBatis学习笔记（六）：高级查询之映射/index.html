@@ -8,18 +8,25 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（六）：MyBatis高级查询--映射">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询之映射/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-01T13:09:47.095Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-05.jpg">
+<meta property="og:updated_time" content="2018-04-03T14:53:19.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（六）：MyBatis高级查询--映射">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -150,10 +157,240 @@
 <li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
 </ol>
 <hr>
+<h2 id="1-高级结果映射简介："><a href="#1-高级结果映射简介：" class="headerlink" title="1.高级结果映射简介："></a>1.高级结果映射简介：</h2><ol>
+<li>前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。<br>但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。</li>
+<li>在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。</li>
+<li>通常的做法是分别查询数据然后再组合在一起。<br>在大型的系统上，由于分库分表，这种方式可以减少表之间的关联查询，方便对系统进行扩展。<br>但是在一般的企业级应用里，使用MyBatis的高级结果映射可以轻松地处理一对一以及一对多的关系。</li>
+</ol>
+<hr>
+<h2 id="2-一对一映射"><a href="#2-一对一映射" class="headerlink" title="2.一对一映射"></a>2.一对一映射</h2><ol>
+<li>首先假设一个用户只能拥有一个角色，并且修改数据表user_role。使用一对一映射实现查询用户时同时获取用户的角色信息。一对一映射不需要考虑是否存在重复的数据。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg" alt=""></li>
+<li>实现一对一映射有四种途径：<br>自动映射处理，resultMap配置一对一映射，resultMap中的association标签配置一对一映射，association标签嵌套查询（多条SQL语句）。</li>
+</ol>
+<h3 id="配置一对一映射的三种基本途径"><a href="#配置一对一映射的三种基本途径" class="headerlink" title="配置一对一映射的三种基本途径"></a>配置一对一映射的三种基本途径</h3><p><strong>1）使用自动映射处理一对一的关系：</strong></p>
+<ol>
+<li>准备，首先使用MBG自动生成相关代码。<br>在bgm.model包User类中添加一个Role对象属性及相关get,set方法：<pre><code>...
+// 角色信息
+private Role role;
+public Role getRole() {
+    return role;
+}
+public void setRole(Role role) {
+    this.role=role;
+}
+...
+</code></pre>并在Role类以及Model类添加toString方法。</li>
+<li>自动映射其实就是使用配置或者别名的方式将查询的结果自动匹配到对应的字段上。<br>简单的映射就是user_name映射userName，支持复杂映射(多层嵌套)，如role.role_name会映射到role.roleName。实现原理是MyBatis会在user中寻找Role类的属性，如果存在Role类属性就创建一个role对象并将值赋给role.roleName。</li>
+<li>创建接口方法：<pre><code>//一对一映射，根据id查询用户及相关角色信息
+User selectUserAndRoleByUserId(Long id);
+</code></pre>在UserMapper.xml中创建XML方法如下：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId&quot; resultType=&quot;User&quot;&gt;
+    SELECT
+        u.id,
+        user_name userName,
+        user_password userPassword,
+        user_email userEmail,
+        user_info userInfo,
+        head_img headImg,
+        u.create_time createTime,
+        r.id &quot;role.id&quot;,
+        role_name &quot;role.roleName&quot;,
+        enabled &quot;role.enabled&quot;,
+        create_by &quot;role.createBy&quot;,
+        r.create_time &quot;role.createTime&quot;
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}  
+&lt;/select&gt;
+</code></pre><ul>
+<li>查询时字段只要是在数据源中唯一就不需要加<code>别名.</code>的前缀来约束，但是为了更加严谨还是加上吧（这里没有加）。</li>
+<li>如果配置了核心配置文件的自动映射的话，将上述的别名都去掉也可以，会自动创建role并匹配赋值。</li>
+<li>使用左连接则左边部分全部保留，而未被匹配的部分会被置空，而右边未匹配上左边的则直接删除。<br>使用右连接则刚好相反，全连接则只保留能互相匹配的。</li>
+</ul>
+</li>
+<li>创建测试类UserMapperTest并添加如下方法：<pre><code>//测试一对一映射的别名实现
+@Test
+public void testSelectUserAndRoleByUserId(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserAndRoleByUserId(5L);  //查询user
+        //断言测试user与role是否为空
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getRole());
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-02.jpg" alt=""><br>BLOB类型的数据就会这样子显示，text类型的数据也会显示为blob，反正输出的数据是正确的。</li>
+<li>向上述这种将一此查询的结果映射到一个或者多个对象的方式称为<strong>关联的结果集映射</strong>。<br>这种方式的好处是减少数据库查询次数，减轻数据库压力。缺点是要写很复杂的结果集映射，且会给服务器带来压力。<br>当一定会使用到嵌套结果且嵌套SQL执行速度很快时可以使用关联结果集映射。</li>
+</ol>
+<p><strong>2）使用resultMap配置一对一的映射</strong></p>
+<ol>
+<li>添加接口方法：<pre><code>//一对一映射，resultMap实现
+User selectUserAndRoleByUserId2(Long id);
+</code></pre>在XML映射文件中添加resultMap配置：<pre><code>&lt;resultMap type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;id column=&quot;id&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;user_name&quot; property=&quot;userName&quot; /&gt;
+    &lt;result column=&quot;user_password&quot; property=&quot;userPassword&quot; /&gt;
+    &lt;result column=&quot;user_email&quot; property=&quot;userEmail&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+    &lt;result column=&quot;user_info&quot; jdbcType=&quot;LONGVARCHAR&quot; property=&quot;userInfo&quot; /&gt;
+    &lt;result column=&quot;head_img&quot; jdbcType=&quot;LONGVARBINARY&quot; property=&quot;headImg&quot; /&gt;
+    &lt;!-- role相关属性 --&gt;
+    &lt;result column=&quot;role_id&quot; property=&quot;role.id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; property=&quot;role.roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; property=&quot;role.enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; property=&quot;role.createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; property=&quot;role.createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+&lt;/resultMap&gt;
+</code></pre>添加XML映射文件方法：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId2&quot; resultMap=&quot;userRoleMap&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        r.id as role_id,
+        r.role_name,
+        r.enabled,
+        r.create_by,
+        r.create_time
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}
+&lt;/select&gt;
+</code></pre>注意和自动映射相比需要额外的配置，且需要将resultType改为resultMap,改完后别名就已经没有用了，所以去掉了。<br>重复的字段（如id）最好加上别名并在resutMap中使用别名来配置。</li>
+<li>测试方法自动映射的一模一样，只是将方法名换一下。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>resultMap的配置非常麻烦。但是如果是用MBG自动生成的代码会自动生成当前对象的resultMap(有BLOB或TEXT会分为两个):<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-04.jpg" alt=""><br>所以只要继承至上述的id为<code>ResultMapWithBLOBs</code>的resultMap，然后再加上Role的映射就可以了：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;!-- role相关属性 --&gt;
+    &lt;result column=&quot;role_id&quot; property=&quot;role.id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; property=&quot;role.roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; property=&quot;role.enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; property=&quot;role.createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; property=&quot;role.createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+&lt;/resultMap&gt;
+</code></pre>测试结果和上面的一样。</li>
+<li>虽然使用了继承，但是还是比较麻烦的。但是起码修改的时候比原来方便了，而且代码量也减少了。不过我还是比较喜欢自动映射。</li>
+</ol>
+<p><strong>3)association标签配置一对一：</strong></p>
+<ol>
+<li>association标签是resultMap的子标签<br>在resultMap的代码中进行修改，为了方便使用association的某些属性的使用，给查询出的role表的属性都取上别名:<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId2&quot; resultMap=&quot;userRoleMap&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        r.id as role_id,
+        r.role_name role_role_name,
+        r.enabled role_enabled,
+        r.create_by role_create_by,
+        r.create_time role_create_time
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}
+&lt;/select&gt;
+</code></pre>resultMap中这样写：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;association property=&quot;role&quot; columnPrefix=&quot;role_&quot; javaType=&quot;Role&quot;&gt;
+        &lt;result column=&quot;id&quot; property=&quot;id&quot; /&gt;
+        &lt;result column=&quot;role_name&quot; property=&quot;roleName&quot; /&gt;
+        &lt;result column=&quot;enabled&quot; property=&quot;enabled&quot; /&gt;
+        &lt;result column=&quot;create_by&quot; property=&quot;createBy&quot; /&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+    &lt;/association&gt;
+&lt;/resultMap&gt;
+</code></pre>对比上面的ResultMap,column的前缀都去掉了，property中也不用加role.了。执行的结果和只使用resultMap标签时是一样的。</li>
+<li>association标签的第二种使用方法：<br>可以配置一个已经存在的resultMap映射（有一个resultMap属性）。<br>在自动生成的RoleMapper.xml中有一个Role的基础映射：<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.Role&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; jdbcType=&quot;INTEGER&quot; property=&quot;enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; jdbcType=&quot;BIGINT&quot; property=&quot;createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>association引入外部的resultMap时，MyBatis会自动给这个resultMap加上当前命名空间的前缀，变为<code>mbg.mapper.UserMapper.BaseResultMap</code>，而UserMap中自动生成的resultMap的id也为BaseResultMap，但是并不产生冲突。<br>所以可以直接引入使用（要用全限定名称）：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;association property=&quot;role&quot; columnPrefix=&quot;role_&quot; resultMap=&quot;mbg.mapper.RoleMapper.BaseResultMap&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>也可以直接在UserMapper下新建一个Role的resultMap,然后将id写入resultMap属性即可（不用写全限定名）。<br>测试结果和前面也一样：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>association标签配置一对一时的属性：<ul>
+<li><code>property</code>：对应实体类中的属性名，必填</li>
+<li><code>javaType</code>：属性对应的Java类型</li>
+<li><code>resultMap</code>：使用现有的resultMap而不需要额外配置</li>
+<li><code>columnPrefix</code>：前缀，配置后子标签可以省略前缀</li>
+</ul>
+</li>
+</ol>
+<h3 id="association标签的嵌套查询"><a href="#association标签的嵌套查询" class="headerlink" title="association标签的嵌套查询"></a>association标签的嵌套查询</h3><p><strong>1)关联的嵌套查询：</strong></p>
+<ol>
+<li>上面的三种情况都是通过”关联的嵌套结果映射”来实现一对一查询。<strong>关联的嵌套结果映射</strong>就是通过一次SQL查询根据表或指定的属性映射到不同的对象中。</li>
+<li>关联的嵌套查询：<br>利用简单的SQL执行多次查询转换为我们需要的结果。<br>和根据业务逻辑手动执行多次SQL相似。</li>
+<li>association关于嵌套查询的常用属性：<ul>
+<li><code>select</code>：填写另一个映射查询的Id,Mybatis会额外执行这个查询获取嵌套对象的结果。</li>
+<li><code>column</code>：列名（或别名）,将朱主查询中列的结果作为嵌套查询的参数。<br>配置方式为<code>column={prop1=col1,prop2=col2...}</code>,prop1和prop2将作为嵌套查询的参数。</li>
+<li><code>fetchType</code>：数据加载的方式，可选值为lazy和eager,分别为延迟加载了积极加载。会覆盖全局配置：<code>lazyLoadingEnabled</code>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)使用关联的嵌套查询实现上面的user查询</strong></p>
+<ol>
+<li>创建接口方法：<pre><code>//一对一映射,association嵌套实现
+User selectUserAndRoleByUserId3(Long id);
+</code></pre>创建xml方法：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId3&quot; resultMap=&quot;userRoleMapSelect&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        ur.role_id
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    WHERE u.id=#{id}  
+&lt;/select&gt;
+</code></pre></li>
+<li>查看RoleMapper.xml自动生成的代码有一个按主键查询的方法：<pre><code>&lt;select id=&quot;selectByPrimaryKey&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from role
+    where id = #{id}
+&lt;/select&gt;
+</code></pre>然后使用这个方法的id在UserMapper.xml中创建resultMap：<pre><code>&lt;resultMap type=&quot;User&quot; extends=&quot;ResultMapWithBLOBs&quot; id=&quot;userRoleMapSelect&quot;&gt;
+    &lt;association property=&quot;role&quot; column=&quot;{id=role_id}&quot; select=&quot;mbg.mapper.RoleMapper.selectByPrimaryKey&quot;&gt;&lt;/association&gt;
+&lt;/resultMap&gt;
+</code></pre><code>selectByPrimaryKey</code>查询的参数id时通过<code>column=&quot;{id=role_id}&quot;</code>指定,如果想要指定多个参数，可以使用逗号隔开，如<code>column=&quot;{id=role_id,name=role_name}&quot;</code></li>
+<li>添加测试方法：<pre><code>//测试一对一映射的嵌套实现
+@Test
+public void testSelectUserAndRoleByUserId3(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserAndRoleByUserId3(1001L);  //查询user
+        //断言测试user与role是否为空
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getRole());
+        System.out.println(user);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-05.jpg" alt=""></li>
+<li>基本执行流程：<br>Test–&gt;接口方法–&gt;xml查询方法–&gt;resultMap–(传参)–&gt;Role子查询–&gt;其他配置</li>
+</ol>
+<p><strong>3)延迟加载的使用（未配置时）：</strong></p>
+<p><strong>4)正确配置后的延迟加载的使用：</strong></p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月01日 21:09</p>
+        <p>最后更新： 2018年04月03日 22:53</p>
         <p>原始链接： <a class="post-url" href="/2018/04/01/MyBatis学习笔记（六）：高级查询之映射/" title="MyBatis学习笔记（六）：MyBatis高级查询--映射">https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询之映射/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -271,7 +508,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-高级结果映射简介："><span class="post-toc-text">1.高级结果映射简介：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-一对一映射"><span class="post-toc-text">2.一对一映射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置一对一映射的三种基本途径"><span class="post-toc-text">配置一对一映射的三种基本途径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#association标签的嵌套查询"><span class="post-toc-text">association标签的嵌套查询</span></a></li></ol></li></ol>
         </nav>
     </aside>
     

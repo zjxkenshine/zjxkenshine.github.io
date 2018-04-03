@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-21.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-22.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00025MyBatis%E5%AD%A6%E4%B9%A05-23.jpg">
-<meta property="og:updated_time" content="2018-04-01T13:16:19.179Z">
+<meta property="og:updated_time" content="2018-04-03T13:54:22.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（五）：代码生成器">
 <meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档MBG官方文档   1.代码生成器MBG简介 MyBatis Generator,简称MBG，是MyBatis开发团队提供的一个强大的代码生成器。 MBG可以通过不同的配置生成不同类型的代码，包含了数据库表对应的实体类，Mapper接口类，Mapper xml文件和Example对象等。 MB">
@@ -781,7 +781,7 @@ public class MyCommentGenerator extends DefaultCommentGenerator{
 <li><strong>ignoreColumn标签：</strong><br>设置一个MGB忽略的列，如果设置了改列，那么在生成的domain中，生成的SQL中，都不会有该列出现。<br>有一个必选标签：<br><code>column</code>:指定要忽略的列的名字；<br>有一个可选标签：<br><code>delimitedColumnName</code>：参考table元素的delimitAllColumns配置,是否区分大小写，默认为false，不区分大小写。</li>
 </ol>
 <hr>
-<h2 id="4-Example介绍"><a href="#4-Example介绍" class="headerlink" title="4.Example介绍"></a>4.Example介绍</h2><p><strong>1)配置并生成含有Example的代码</strong></p>
+<h2 id="4-Example的使用"><a href="#4-Example的使用" class="headerlink" title="4.Example的使用"></a>4.Example的使用</h2><p><strong>1)配置并生成含有Example的代码</strong></p>
 <ol>
 <li>在MBG的context中将targetRuntime配置为MyBatis3时MBG会生成和Example相关的对象方法。<br>下面是书上的使用Country表进行测试的代码。</li>
 <li><p>配置(Eclipse插件的配置)：</p>
@@ -1228,7 +1228,7 @@ public void testCountDeleteByExample(){
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月01日 21:16</p>
+        <p>最后更新： 2018年04月03日 21:54</p>
         <p>原始链接： <a class="post-url" href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/" title="MyBatis学习笔记（五）：代码生成器">https://zjxkenshine.github.io/2018/03/29/MyBatis学习笔记（五）：代码生成器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -1346,7 +1346,7 @@ public void testCountDeleteByExample(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：java编写代码运行-推荐"><span class="post-toc-text">方式一：java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：命令提示符cmd运行"><span class="post-toc-text">方式二：命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：用Ecilpse插件运行（推荐）"><span class="post-toc-text">方式四：用Ecilpse插件运行（推荐）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签"><span class="post-toc-text">jdbcConnection,javaTypeResolver和javaModelGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sqlMapGenerator-javaClientGenerator和table标签"><span class="post-toc-text">sqlMapGenerator,javaClientGenerator和table标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Example介绍"><span class="post-toc-text">4.Example介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-MBG最全配置介绍"><span class="post-toc-text">5.MBG最全配置介绍</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-代码生成器MBG简介"><span class="post-toc-text">1.代码生成器MBG简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-简单的配置示例："><span class="post-toc-text">2.简单的配置示例：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-运行MyBatis-Generator"><span class="post-toc-text">2.运行MyBatis Generator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式一：java编写代码运行-推荐"><span class="post-toc-text">方式一：java编写代码运行(推荐)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式二：命令提示符cmd运行"><span class="post-toc-text">方式二：命令提示符cmd运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式三：使用maven插件运行"><span class="post-toc-text">方式三：使用maven插件运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式四：用Ecilpse插件运行（推荐）"><span class="post-toc-text">方式四：用Ecilpse插件运行（推荐）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-xml配置详解"><span class="post-toc-text">3.xml配置详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#property-plugin-commentGenerator标签"><span class="post-toc-text">property,plugin,commentGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdbcConnection-javaTypeResolver和javaModelGenerator标签"><span class="post-toc-text">jdbcConnection,javaTypeResolver和javaModelGenerator标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sqlMapGenerator-javaClientGenerator和table标签"><span class="post-toc-text">sqlMapGenerator,javaClientGenerator和table标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Example的使用"><span class="post-toc-text">4.Example的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-MBG最全配置介绍"><span class="post-toc-text">5.MBG最全配置介绍</span></a></li></ol>
         </nav>
     </aside>
     
