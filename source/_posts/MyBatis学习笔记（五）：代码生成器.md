@@ -664,7 +664,7 @@ table的Property属性useActualColumnNames也会对此标签产生影响。（�
 `delimitedColumnName`：参考table元素的delimitAllColumns配置,是否区分大小写，默认为false，不区分大小写。
 
 ---
-## 4.Example介绍
+## 4.Example的使用
 **1)配置并生成含有Example的代码**
 1. 在MBG的context中将targetRuntime配置为MyBatis3时MBG会生成和Example相关的对象方法。
 下面是书上的使用Country表进行测试的代码。

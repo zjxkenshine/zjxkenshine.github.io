@@ -109,14 +109,13 @@ right join..on：右连接，以右表为主。
 		te_stu3 s LEFT JOIN te_class1 c on s.classid=c.id;
 运行结果:
 ![](http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-05.jpg)
-记录数>=左表。class4因副表匹配不上主表而置空。
+记录数>=左表。两个学生无法匹配到班级，所以用null代替匹配的值。
 执行右连接:
 		SELECT s.*,c.cla_name as c_name FROM
 		te_stu3 s RIGHT JOIN te_class1 c on s.classid=c.id;
 运行结果:
 ![](http://p5ki4lhmo.bkt.clouddn.com/00016mysql%E5%AD%A6%E4%B9%A05-06.jpg)
-记录数>=右表，有两个学生没有匹配班级，都变为NULL后记录相同，只保留一条。
-如果将某一个classid置为NULL也仍然会全部置空。
+记录数>=右表，班级四没有人匹配，所以其他字段置空。
 5. 注意：
 左连接和右连接有主表差异，但是显示的结果永远是左表数据在左，右表数据在右。
 
