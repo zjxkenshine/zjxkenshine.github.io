@@ -38,7 +38,11 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-18-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-19.jpg">
-<meta property="og:updated_time" content="2018-04-02T14:41:38.954Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-23.jpg">
+<meta property="og:updated_time" content="2018-04-03T05:36:05.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（八）：存储过程，游标，事件和字符集等">
 <meta name="twitter:description" content="0.参考资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.存储过程的简单用法1)存储过程简介及创建：  存储过程简称为过程，procedure,是一种用来处理数据的方式。存储过程是没有返回值的函数。各种操作都和函数类似（无返回值）。 创建存储过程：Create procedure 过程名称([参数列表]) Begin     -- 过程体 End">
@@ -380,7 +384,7 @@ SELECT @sum;
 <hr>
 <h2 id="3-事件调度器-事件-的基本用法"><a href="#3-事件调度器-事件-的基本用法" class="headerlink" title="3.事件调度器(事件)的基本用法"></a>3.事件调度器(事件)的基本用法</h2><p><strong>1)事件简介，创建及查看：</strong></p>
 <ol>
-<li>事件调度器是MySQL5.1后新增的功能，可以让数据库按照自定义的时间周期触发某种操作，可以理解为时间触发器。</li>
+<li>事件调度器是MySQL5.1后新增的功能，可以让数据库按照自定义的时间周期触发某种操作，可以理解为时间触发器。（书上只有基本用法，更加高大上的用法以后再学）</li>
 <li><p>简单的创建语法：</p>
 <pre><code>CREATE EVENT 事件名字
 ON SCHEDULE EVERY 时间间隔 STARTS 开始时间
@@ -444,18 +448,67 @@ DO TRUNCATE TABLE m_stu2;
 <li>事件的删除：<pre><code>drop event 事件名;
 </code></pre>不想使用事件时可以禁用或者直接删除。</li>
 </ol>
-<p><strong>3)时间调度器的优势，使用场景及注意事项：</strong></p>
+<p><strong>3)事件调度器的优势，使用场景及注意事项：</strong></p>
 <ol>
 <li>优势：<br>MySQL事件调度器部署在数据库内部由DBA或专人统一维护和管理，避免将一些数据库相关的定时任务部署在操作系统层，减少操作系统管理员产生误差操作的风险，对后续的管理和维护也非常有益。</li>
 <li>适用场景：<br>适用于定期收集统计信息，定期清理历史数据，定期数据库检查等</li>
 <li>注意事项：<br>在繁忙且要求性能的数据库服务器上要慎重部署和启用调度器。<br>过于复杂的处理更适合用程序实现。<br>开启和关闭事件调度器需要超级管理员权限。</li>
 </ol>
 <hr>
-<h2 id="4-字符集"><a href="#4-字符集" class="headerlink" title="4.字符集"></a>4.字符集</h2><hr>
+<h2 id="4-字符集与校对集"><a href="#4-字符集与校对集" class="headerlink" title="4.字符集与校对集"></a>4.字符集与校对集</h2><p><strong>1)字符集/校对集概述：</strong></p>
+<ol>
+<li>简单的说字符集就是一套文字符号及其编码、比较规则的集合。</li>
+<li>各种字符集的比较：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-20.jpg" alt=""><br>UTF8的汉字占三个字节。</li>
+<li>Mysql支持多种字符集，一台服务器，一个数据库甚至同一个表不同字段都可以指定不同的字符集。</li>
+<li>查看所有可用的字符集：<pre><code>show character set;
+</code></pre>或者使用：<pre><code>select * from information_schema.character_sets;
+</code></pre>会显示出所有的字符集和改字符集默认的校对集。</li>
+</ol>
+<p><strong>2)校对集和字符集的选择</strong></p>
+<ol>
+<li>校对集：<br>字符集（CHARACTER）用来定义MySQL存储字符串的方式。<br>校对集（COLLATION）用来定义字符串的比较方式。<br>字符集和校对集是一对多的关系。<br>可以使用：<pre><code>show collation like &apos;%字符集%&apos;;
+</code></pre>的方式查看。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-21.jpg" alt=""></li>
+<li>校对集的比较：<br>通常由<code>字符集_语言名_结束标识</code>组成：<br>结尾是_cs：最常用，大小写不敏感<br>结尾是_ci：大小写敏感<br>结尾是_bin：大小写敏感，二元，比较的是编码，与语言无关</li>
+<li>关于utf8mb4字符集:<br>MySQL在5.5.3之后增加了这个utf8mb4的编码,是utf8的超集（GB18030是GBK的超集），mb4就是most bytes 4的意思，专门用来兼容四字节的unicode。常用于存储一些UTF8三个字节无法存储的数据：包括 Emoji 表情（Emoji 是一种特殊的 Unicode 编码，常见于 ios 和 android 手机上），和很多不常用的汉字，以及任何新增的 Unicode 字符等等。一般为了节省空间使用utf8编码就已经足够了。<br>更多的区别可以参考：<br><a href="http://www.jb51.net/article/90037.htm" target="_blank" rel="noopener">全面了解mysql中utf8和utf8mb4的区别</a></li>
+<li>如何选取合适的字符集：<ul>
+<li>满足地区语言的需求，建议使用utf8;</li>
+<li>如果涉及到已有数据的导入，要充分考虑对已有数据的兼容;</li>
+<li>数据库只需要支持一般中文，数据量大，性能要求也高，那么久应该选取双字节编码的GBK，而不是三字节编码的utf8;</li>
+<li>如果数据库需要大量的字符运算，如排序比较等，那么选择定长字符集可能更好。</li>
+<li>如果所有的客户端程序都支持相同的字符集，那么最好使用该字符集。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)字符集、校对集的设置及修改：</strong><br>MySQL的字符集和校对集有4个级别的默认设置：服务器级，数据库级，表级和字段级。</p>
+<ol>
+<li>服务器字符集和校对集：<br>可以在my.conf中设置：<pre><code>[mysqld]
+character-set-server=gbk;
+</code></pre>或者在启动选项中指定(推荐)：<pre><code>mysql --character-set-sever=gbk;
+</code></pre>或者在编译时指定：<pre><code>shell&gt;cmake . -DDEFAULT_CHARSET=gbk;
+</code></pre>校对集则会使用字符集默认的校对集。也可以手动指定。<br>查看当前字符集：<pre><code>show variables like &apos;character_set_server&apos;;
+</code></pre>查看当前校对集：<pre><code>show variables like &apos;collation_server&apos;;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-22.jpg" alt=""></li>
+<li>数据库字符集和校对规则：<br>可以在创建数据库时创建：<pre><code>CREATE DATABASE test
+CHARACTER SET &apos;utf8&apos; COLLATE &apos;utf8_general_ci&apos;;
+</code></pre>也可以在创建后修改：<pre><code>Alter database dbname [库选项]；
+ Charset/character set [=] 字符集
+ Collate [=] 校对集
+</code></pre>如果创建时未指定字符集和校对集，则使用服务器的字符集和校对集。<br>如果只指定了字符集或者校对集其中之一，则会自动使用默认的字符集或校对集。<br>查看数据库的字符集（在数据库环境下使用）：<pre><code>show variables like &apos;character_set_database&apos;;
+</code></pre>查看数据库的校对集：<pre><code>show variables like &apos;collation_database&apos;;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-23.jpg" alt=""></li>
+<li>数据表的字符集和校对集：<br>可以在创建表的时候指定：<pre><code>Create table [if not exists] 表名（字段名称 数据类型，字段名称 数据类型...）ENGINE=.. CHARSET=.. COLLATE=..;
+</code></pre>也可以通过修改表设置：<pre><code>Alter table 表名 表选项 [=] 值；
+</code></pre>如果创建时未指定字符集和校对集，则使用数据库的字符集和校对集。<br>如果只指定了字符集或者校对集其中之一，则会自动使用默认的字符集或校对集。<br>显示表的字符集与校对集可以查看建表语句得知：<pre><code>show create table 表名；
+</code></pre></li>
+<li>字段字符集和校对规则：<br>一般不太使用，在建表时设置字段的字符集，修改字段时也可以设置，只是为了更加灵活，一般情况下不会用到。</li>
+<li>连接字符集和校对集：<br>服务器和客户端之间交互的字符集和校对集的设置：<pre><code>set names 字符集;
+</code></pre>详情见:<br><a href="https://zjxkenshine.github.io/2018/03/10/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/#11-web乱码问题">MySQL学习笔记一中关于web乱码的部分</a></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月02日 22:41</p>
+        <p>最后更新： 2018年04月03日 13:36</p>
         <p>原始链接： <a class="post-url" href="/2018/03/27/MySQL数据库学习笔记（八）/" title="MySQL学习笔记（八）：存储过程，游标，事件和字符集等">https://zjxkenshine.github.io/2018/03/27/MySQL数据库学习笔记（八）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -573,7 +626,7 @@ DO TRUNCATE TABLE m_stu2;
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料"><span class="post-toc-text">0.参考资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存储过程的简单用法"><span class="post-toc-text">1.存储过程的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-存储过程的补充"><span class="post-toc-text">2.存储过程的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储过程及函数的基础补充"><span class="post-toc-text">存储过程及函数的基础补充</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义条件和处理"><span class="post-toc-text">定义条件和处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#游标-光标-的使用"><span class="post-toc-text">游标(光标)的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-事件调度器-事件-的基本用法"><span class="post-toc-text">3.事件调度器(事件)的基本用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-字符集"><span class="post-toc-text">4.字符集</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料"><span class="post-toc-text">0.参考资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存储过程的简单用法"><span class="post-toc-text">1.存储过程的简单用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-存储过程的补充"><span class="post-toc-text">2.存储过程的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储过程及函数的基础补充"><span class="post-toc-text">存储过程及函数的基础补充</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义条件和处理"><span class="post-toc-text">定义条件和处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#游标-光标-的使用"><span class="post-toc-text">游标(光标)的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-事件调度器-事件-的基本用法"><span class="post-toc-text">3.事件调度器(事件)的基本用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-字符集与校对集"><span class="post-toc-text">4.字符集与校对集</span></a></li></ol>
         </nav>
     </aside>
     
@@ -661,7 +714,7 @@ DO TRUNCATE TABLE m_stu2;
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -694,7 +747,7 @@ DO TRUNCATE TABLE m_stu2;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 16px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 14px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 18px;">多线程</a> <a href="/tags/类/" style="font-size: 12px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>
