@@ -357,13 +357,4 @@ java服务端--->数据库服务器端:`set character_set_client = utf8;`,
 		BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(fileName),"UTF-8"));
 
 ---
-## 12.知识点补充
-[MySQL的安装与配置，占位，待写](https://jingyan.baidu.com/article/cd4c2979033a17756f6e6047.html)
-
-
----
-
-
-
-
 
