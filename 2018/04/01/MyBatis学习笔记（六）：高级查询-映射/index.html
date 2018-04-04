@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MyBatis学习笔记（六）：一对一，一对多及鉴别器映射 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
+<meta name="keywords" content="MyBatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis学习笔记（六）：一对一，一对多及鉴别器映射">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:updated_time" content="2018-04-04T14:25:26.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis学习笔记（六）：一对一，一对多及鉴别器映射">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.高级结果映射简介： 前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。 在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。 通常的">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MyBatis学习笔记（六）：高级查询-映射" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MyBatis学习笔记（六）：一对一，一对多及鉴别器映射
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java框架/">Java框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
+</ol>
+<hr>
+<h2 id="1-高级结果映射简介："><a href="#1-高级结果映射简介：" class="headerlink" title="1.高级结果映射简介："></a>1.高级结果映射简介：</h2><ol>
+<li>前面章节的基本的增删改查及动态SQL语句已经可以满足绝大部分的需求了。<br>但是MyBatis还有一些更高级的操作，可以提高性能或者简化操作。</li>
+<li>在MyBatis中经常要处理一对一或者一对多的关系。如前面的rbac表中的用户与角色，角色与权限之间都是一对多的关系。</li>
+<li>通常的做法是分别查询数据然后再组合在一起。<br>在大型的系统上，由于分库分表，这种方式可以减少表之间的关联查询，方便对系统进行扩展。<br>但是在一般的企业级应用里，使用MyBatis的高级结果映射可以轻松地处理一对一以及一对多的关系。</li>
+<li>主要有一对一，一对多和鉴别器映射。</li>
+</ol>
+<hr>
+<h2 id="2-一对一映射"><a href="#2-一对一映射" class="headerlink" title="2.一对一映射"></a>2.一对一映射</h2><ol>
+<li>首先假设一个用户只能拥有一个角色，并且修改数据表user_role。使用一对一映射实现查询用户时同时获取用户的角色信息。一对一映射不需要考虑是否存在重复的数据。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-01.jpg" alt=""></li>
+<li>实现一对一映射有四种途径：<br>自动映射处理，resultMap配置一对一映射，resultMap中的association标签配置一对一映射，association标签嵌套查询（多条SQL语句）。</li>
+</ol>
+<h3 id="配置一对一映射的三种基本途径"><a href="#配置一对一映射的三种基本途径" class="headerlink" title="配置一对一映射的三种基本途径"></a>配置一对一映射的三种基本途径</h3><p><strong>1）使用自动映射处理一对一的关系：</strong></p>
+<ol>
+<li>准备，首先使用MBG自动生成相关代码。<br>在bgm.model包User类中添加一个Role对象属性及相关get,set方法：<pre><code>...
+// 角色信息
+private Role role;
+public Role getRole() {
+    return role;
+}
+public void setRole(Role role) {
+    this.role=role;
+}
+...
+</code></pre>并在Role类以及Model类添加toString方法。</li>
+<li>自动映射其实就是使用配置或者别名的方式将查询的结果自动匹配到对应的字段上。<br>简单的映射就是user_name映射userName，支持复杂映射(多层嵌套)，如role.role_name会映射到role.roleName。实现原理是MyBatis会在user中寻找Role类的属性，如果存在Role类属性就创建一个role对象并将值赋给role.roleName。</li>
+<li>创建接口方法：<pre><code>//一对一映射，根据id查询用户及相关角色信息
+User selectUserAndRoleByUserId(Long id);
+</code></pre>在UserMapper.xml中创建XML方法如下：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId&quot; resultType=&quot;User&quot;&gt;
+    SELECT
+        u.id,
+        user_name userName,
+        user_password userPassword,
+        user_email userEmail,
+        user_info userInfo,
+        head_img headImg,
+        u.create_time createTime,
+        r.id &quot;role.id&quot;,
+        role_name &quot;role.roleName&quot;,
+        enabled &quot;role.enabled&quot;,
+        create_by &quot;role.createBy&quot;,
+        r.create_time &quot;role.createTime&quot;
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}  
+&lt;/select&gt;
+</code></pre><ul>
+<li>查询时字段只要是在数据源中唯一就不需要加<code>别名.</code>的前缀来约束，但是为了更加严谨还是加上吧（这里没有加）。</li>
+<li>如果配置了核心配置文件的自动映射的话，将上述的别名都去掉也可以，会自动创建role并匹配赋值。</li>
+<li>使用左连接则左边部分全部保留，而未被匹配的部分会被置空，而右边未匹配上左边的则直接删除。<br>使用右连接则刚好相反，全连接则只保留能互相匹配的。</li>
+</ul>
+</li>
+<li>创建测试类UserMapperTest并添加如下方法：<pre><code>//测试一对一映射的别名实现
+@Test
+public void testSelectUserAndRoleByUserId(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserAndRoleByUserId(5L);  //查询user
+        //断言测试user与role是否为空
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getRole());
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-02.jpg" alt=""><br>BLOB类型的数据就会这样子显示，text类型的数据也会显示为blob，反正输出的数据是正确的。</li>
+<li>向上述这种将一此查询的结果映射到一个或者多个对象的方式称为<strong>关联的结果集映射</strong>。<br>这种方式的好处是减少数据库查询次数，减轻数据库压力。缺点是要写很复杂的结果集映射，且会给服务器带来压力。<br>当一定会使用到嵌套结果且嵌套SQL执行速度很快时可以使用关联结果集映射。</li>
+</ol>
+<p><strong>2）使用resultMap配置一对一的映射</strong></p>
+<ol>
+<li>添加接口方法：<pre><code>//一对一映射，resultMap实现
+User selectUserAndRoleByUserId2(Long id);
+</code></pre>在XML映射文件中添加resultMap配置：<pre><code>&lt;resultMap type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;id column=&quot;id&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;user_name&quot; property=&quot;userName&quot; /&gt;
+    &lt;result column=&quot;user_password&quot; property=&quot;userPassword&quot; /&gt;
+    &lt;result column=&quot;user_email&quot; property=&quot;userEmail&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+    &lt;result column=&quot;user_info&quot; jdbcType=&quot;LONGVARCHAR&quot; property=&quot;userInfo&quot; /&gt;
+    &lt;result column=&quot;head_img&quot; jdbcType=&quot;LONGVARBINARY&quot; property=&quot;headImg&quot; /&gt;
+    &lt;!-- role相关属性 --&gt;
+    &lt;result column=&quot;role_id&quot; property=&quot;role.id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; property=&quot;role.roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; property=&quot;role.enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; property=&quot;role.createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; property=&quot;role.createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+&lt;/resultMap&gt;
+</code></pre>添加XML映射文件方法：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId2&quot; resultMap=&quot;userRoleMap&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        r.id as role_id,
+        r.role_name,
+        r.enabled,
+        r.create_by,
+        r.create_time
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}
+&lt;/select&gt;
+</code></pre>注意和自动映射相比需要额外的配置，且需要将resultType改为resultMap,改完后别名就已经没有用了，所以去掉了。<br>重复的字段（如id）最好加上别名并在resutMap中使用别名来配置。</li>
+<li>测试方法自动映射的一模一样，只是将方法名换一下。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>resultMap的配置非常麻烦。但是如果是用MBG自动生成的代码会自动生成当前对象的resultMap(有BLOB或TEXT会分为两个):<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-04.jpg" alt=""><br>所以只要继承至上述的id为<code>ResultMapWithBLOBs</code>的resultMap，然后再加上Role的映射就可以了：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;!-- role相关属性 --&gt;
+    &lt;result column=&quot;role_id&quot; property=&quot;role.id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; property=&quot;role.roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; property=&quot;role.enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; property=&quot;role.createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; property=&quot;role.createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+&lt;/resultMap&gt;
+</code></pre>测试结果和上面的一样。</li>
+<li>虽然使用了继承，但是还是比较麻烦的。但是起码修改的时候比原来方便了，而且代码量也减少了。不过我还是比较喜欢自动映射。</li>
+</ol>
+<p><strong>3)association标签配置一对一：</strong></p>
+<ol>
+<li>association标签是resultMap的子标签<br>在resultMap的代码中进行修改，为了方便使用association的某些属性的使用，给查询出的role表的属性都取上别名:<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId2&quot; resultMap=&quot;userRoleMap&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        r.id as role_id,
+        r.role_name role_role_name,
+        r.enabled role_enabled,
+        r.create_by role_create_by,
+        r.create_time role_create_time
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    left join role r on ur.role_id=r.id
+    WHERE u.id=#{id}
+&lt;/select&gt;
+</code></pre>resultMap中这样写：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;association property=&quot;role&quot; columnPrefix=&quot;role_&quot; javaType=&quot;Role&quot;&gt;
+        &lt;result column=&quot;id&quot; property=&quot;id&quot; /&gt;
+        &lt;result column=&quot;role_name&quot; property=&quot;roleName&quot; /&gt;
+        &lt;result column=&quot;enabled&quot; property=&quot;enabled&quot; /&gt;
+        &lt;result column=&quot;create_by&quot; property=&quot;createBy&quot; /&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+    &lt;/association&gt;
+&lt;/resultMap&gt;
+</code></pre>对比上面的ResultMap,column的前缀都去掉了，property中也不用加role.了。执行的结果和只使用resultMap标签时是一样的。</li>
+<li>association标签的第二种使用方法：<br>可以配置一个已经存在的resultMap映射（有一个resultMap属性）。<br>在自动生成的RoleMapper.xml中有一个Role的基础映射：<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.Role&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; jdbcType=&quot;INTEGER&quot; property=&quot;enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; jdbcType=&quot;BIGINT&quot; property=&quot;createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>association引入外部的resultMap时，MyBatis会自动给这个resultMap加上当前命名空间的前缀，变为<code>mbg.mapper.UserMapper.BaseResultMap</code>，而UserMap中自动生成的resultMap的id也为BaseResultMap，但是并不产生冲突。<br>所以可以直接引入使用（要用全限定名称）：<pre><code>&lt;resultMap extends=&quot;ResultMapWithBLOBs&quot; type=&quot;User&quot; id=&quot;userRoleMap&quot;&gt;
+    &lt;association property=&quot;role&quot; columnPrefix=&quot;role_&quot; resultMap=&quot;mbg.mapper.RoleMapper.BaseResultMap&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>也可以直接在UserMapper下新建一个Role的resultMap,然后将id写入resultMap属性即可（不用写全限定名）。<br>测试结果和前面也一样：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>association标签配置一对一时的属性：<ul>
+<li><code>property</code>：对应实体类中的属性名，必填</li>
+<li><code>javaType</code>：属性对应的Java类型</li>
+<li><code>resultMap</code>：使用现有的resultMap而不需要额外配置</li>
+<li><code>columnPrefix</code>：前缀，配置后子标签可以省略前缀</li>
+</ul>
+</li>
+</ol>
+<h3 id="association标签的嵌套查询"><a href="#association标签的嵌套查询" class="headerlink" title="association标签的嵌套查询"></a>association标签的嵌套查询</h3><p><strong>1)关联的嵌套查询：</strong></p>
+<ol>
+<li>上面的三种情况都是通过”关联的嵌套结果映射”来实现一对一查询。<strong>关联的嵌套结果映射</strong>就是通过一次SQL查询根据表或指定的属性映射到不同的对象中。</li>
+<li>关联的嵌套查询：<br>利用简单的SQL执行多次查询转换为我们需要的结果。<br>和根据业务逻辑手动执行多次SQL相似。</li>
+<li>association关于嵌套查询的常用属性：<ul>
+<li><code>select</code>：填写另一个映射查询的Id,Mybatis会额外执行这个查询获取嵌套对象的结果。</li>
+<li><code>column</code>：列名（或别名）,将朱主查询中列的结果作为嵌套查询的参数。<br>配置方式为<code>column={prop1=col1,prop2=col2...}</code>,prop1和prop2将作为嵌套查询的参数。</li>
+<li><code>fetchType</code>：数据加载的方式，可选值为lazy和eager,分别为延迟加载和积极加载。会覆盖全局配置：<code>lazyLoadingEnabled</code>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)使用关联的嵌套查询实现上面的user查询</strong></p>
+<ol>
+<li>创建接口方法：<pre><code>//一对一映射,association嵌套实现
+User selectUserAndRoleByUserId3(Long id);
+</code></pre>创建xml方法：<pre><code>&lt;select id=&quot;selectUserAndRoleByUserId3&quot; resultMap=&quot;userRoleMapSelect&quot;&gt;
+    SELECT
+        u.id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time,
+        ur.role_id
+    FROM user u
+    left join user_role ur on u.id=ur.user_id
+    WHERE u.id=#{id}  
+&lt;/select&gt;
+</code></pre></li>
+<li>查看RoleMapper.xml自动生成的代码有一个按主键查询的方法：<pre><code>&lt;select id=&quot;selectByPrimaryKey&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from role
+    where id = #{id}
+&lt;/select&gt;
+</code></pre>然后使用这个方法的id在UserMapper.xml中创建resultMap：<pre><code>&lt;resultMap type=&quot;User&quot; extends=&quot;ResultMapWithBLOBs&quot; id=&quot;userRoleMapSelect&quot;&gt;
+    &lt;association property=&quot;role&quot; column=&quot;{id=role_id}&quot; select=&quot;mbg.mapper.RoleMapper.selectByPrimaryKey&quot;&gt;&lt;/association&gt;
+&lt;/resultMap&gt;
+</code></pre><code>selectByPrimaryKey</code>查询的参数id时通过<code>column=&quot;{id=role_id}&quot;</code>指定,如果想要指定多个参数，可以使用逗号隔开，如<code>column=&quot;{id=role_id,name=role_name}&quot;</code><br>一个参数时column也可以写成这样：<code>column=&quot;role_id&quot;</code>此时不需要使用id统一也可以。</li>
+<li>添加测试方法：<pre><code>//测试一对一映射的嵌套实现
+@Test
+public void testSelectUserAndRoleByUserId3(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserAndRoleByUserId3(1001L);  //查询user
+        //断言测试user与role是否为空
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getRole());
+        System.out.println(user);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-05.jpg" alt=""></li>
+<li>基本执行流程：<br>Test–&gt;接口方法–&gt;xml查询方法–&gt;resultMap–(传参)–&gt;Role子查询–&gt;其他配置</li>
+</ol>
+<p><strong>3)延迟加载的使用：</strong></p>
+<ol>
+<li>普通方式带来的效率问题：<br>普通方式是先查询嵌套查询的子查询：<pre><code>select 
+&lt;include refid=&quot;Base_Column_List&quot; /&gt;
+from role
+where id = #{id}
+</code></pre>查到结果后再赋值给User对象中的Role对象，但是如果一直不使用这个role对象的话，那么这部分的资源就会白白浪费，也会增加额外的查询。如果嵌套查询中有N条语句(或者有N个需要嵌套查询的结果)，就会增加N条额外的查询。非常影响效率。</li>
+<li>延迟加载的解决方案：<br>将fetchType属性设置为lazy之后，不会立即执行嵌套的语句，只有当执行getRole()方法使用role对象时才会执行嵌套的语句。</li>
+<li>但是<strong>实现这样的延迟加载效果需要配置核心配置文件</strong>:<pre><code>&lt;settings&gt;
+    ...
+    &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;/settings&gt;
+</code></pre><code>aggressiveLazyLoading</code>属性默认为true,当属性时true时对任意延迟属性的调用都会使延迟加载的对象加载（如调用setter方法时）。设为false则是按需加载，只有在getter时才会加载。</li>
+<li>修改上述测试的代码：<br>resultMap:<pre><code>&lt;resultMap type=&quot;User&quot; extends=&quot;ResultMapWithBLOBs&quot; id=&quot;userRoleMapSelect&quot;&gt;
+    &lt;association property=&quot;role&quot; column=&quot;{id=role_id}&quot; fetchType=&quot;lazy&quot; select=&quot;mbg.mapper.RoleMapper.selectByPrimaryKey&quot;&gt;&lt;/association&gt;
+&lt;/resultMap&gt;
+</code></pre>测试类添加这条语句：<pre><code>System.out.println(&quot;调用user.getRole()&quot;);
+Assert.assertNotNull(user.getRole());
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-06.jpg" alt=""></li>
+<li>关于延迟加载的一个问题：<br>有时候延迟加载会得到数据，有是有延迟加载会报错的原因。<br>MyBatis的延迟加载是通过动态代理调用Sqlsession去执行嵌套的SQL语句的，MyBatis与其它框架集成时SqlSession交给了框架来管理，因此当对象调用超出SqlSession的生命周期时就会出错。</li>
+</ol>
+<p><strong>4)延迟加载用法完善：</strong></p>
+<ol>
+<li>上述延迟加载已经满足我们的基本需求。但是有时候会有特殊情况：<br>在触发某些方法时将所有的数据都加载进来。</li>
+<li>不用修改任何配置就可以实现：<strong>lazyLoadTriggerMethods</strong><br>这个参数的含义是调用配置中的方法时就会加载全部的数据。默认值为”equals,clone,hashCode,toString”<br>所以要调用其中一个方法（包括getRole）就可以加载全部数据了。</li>
+<li>以toString方法为例,在测试类testSelectUserAndRoleByUserId3中添加如下代码：<pre><code>System.out.println(&quot;调用toString方法&quot;);
+System.out.println(user);
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-07.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-一对多映射"><a href="#3-一对多映射" class="headerlink" title="3.一对多映射"></a>3.一对多映射</h2><p><strong>一对多映射介绍和测试准备：</strong></p>
+<ol>
+<li>一对多本质和一对一没什么区别，只是映射的结果集（同一类的）变成了多个。<br>一对一映射使用的是association而一对多映射使用的是collection标签。<br>一对多的嵌套查询，延迟加载等都和一对一相同。</li>
+<li>在一对多的关系中，主表的一条记录会对应关联表中的多条记录。rbac中用户与角色，角色与权限都是一对多的关系，这里使用角色–权限来测试。</li>
+<li>修改角色表添加如下属性与方法：<pre><code>//权限集合
+private List&lt;Privilege&gt; privilegeList;
+public List&lt;Privilege&gt; getPrivilegeList(){
+    return privilegeList;
+}
+public void setPrivilegeList(List&lt;Privilege&gt; privilegeList){
+    this.privilegeList=privilegeList;
+}
+</code></pre>角色—权限表(role_privilege)数据如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-08.jpg" alt=""></li>
+<li>实现一对多映射的两种方式：<br>collection的嵌套结果映射<br>collection集合的嵌套查询</li>
+</ol>
+<h3 id="collection的嵌套结果映射"><a href="#collection的嵌套结果映射" class="headerlink" title="collection的嵌套结果映射"></a>collection的嵌套结果映射</h3><p><strong>1).获取所有的角色以及对应角色所拥有的权限的实现</strong></p>
+<ol>
+<li>在RoleMapper.java新建接口方法：<pre><code>//查询所有的角色（带权限列表）
+List&lt;Role&gt; selectAllRoleWithPrivilege();
+</code></pre>创建XML方法主体(select标签)：<pre><code>&lt;select id=&quot;selectAllRoleWithPrivilege&quot; resultMap=&quot;roleListPrivilege&quot;&gt;
+    SELECT 
+        r.id,r.role_name,r.enabled,r.create_by,r.create_time,.
+        p.id pri_id,p.privilege_name pri_privilege_name,p.privilege_url pri_privilege_url
+    FROM
+        role r
+    LEFT JOIN role_privilege rp ON r.id=rp.role_id
+    LEFT JOIN privilege p ON rp.privilege_id=p.id
+&lt;/select&gt;
+</code></pre></li>
+<li>ResultMap标签的写法和一对一的类似。<br>基本的写法非常复杂，就是将所有字段都一一配置。<br>使用MGB自动生成的RoleMapper.xml代码中有一个基本的resultMap配置：<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.Role&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; jdbcType=&quot;INTEGER&quot; property=&quot;enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; jdbcType=&quot;BIGINT&quot; property=&quot;createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>所以resultMap可以这样简写：<pre><code>&lt;resultMap extends=&quot;BaseResultMap&quot; type=&quot;Role&quot; id=&quot;roleListPrivilege&quot;&gt;
+    &lt;collection property=&quot;privilegeList&quot; columnPrefix=&quot;pri_&quot; javaType=&quot;Privilege&quot;&gt;
+        &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
+        &lt;result column=&quot;privilege_name&quot; property=&quot;privilegeName&quot;/&gt;
+        &lt;result column=&quot;privilege_url&quot; property=&quot;privilegeUrl&quot; /&gt;
+    &lt;/collection&gt;
+&lt;/resultMap&gt;
+</code></pre>继续查看自动生成的PrivilegeMapper.xml方法，里面有一个BaseResultMap：<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.Privilege&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;privilege_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;privilegeName&quot; /&gt;
+    &lt;result column=&quot;privilege_url&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;privilegeUrl&quot; /&gt;
+&lt;/resultMap&gt;
+</code></pre>所以最后的resultMap可以简化成这样:<pre><code>&lt;resultMap extends=&quot;BaseResultMap&quot; type=&quot;Role&quot; id=&quot;roleListPrivilege&quot;&gt;
+    &lt;collection property=&quot;privilegeList&quot; columnPrefix=&quot;pri_&quot; resultMap=&quot;mbg.mapper.PrivilegeMapper.BaseResultMap&quot;&gt;
+    &lt;/collection&gt;
+&lt;/resultMap&gt;
+</code></pre></li>
+<li>新建测试类RoleMapperTest.java，并添加测试方法：<pre><code>public class RoleMapperTest extends BaseMapperTest{
+    @Test
+    public void testSelectAllRoleWithPrivilege(){
+        SqlSession sqlSession =getSqlSession();
+        try{
+            RoleMapper roleMapper=sqlSession.getMapper(RoleMapper.class);
+            //查询
+            List&lt;Role&gt; roleList=roleMapper.selectAllRoleWithPrivilege();
+            System.out.println(&quot;共有角色数量：&quot;+roleList.size());
+            for(Role role:roleList){
+                System.out.println(&quot;角色名：&quot;+role.getRoleName());
+                System.out.print(&quot;拥有权限:&quot;);
+                for(Privilege privilege:role.getPrivilegeList()){
+                    System.out.print(&quot; &quot;+privilege.getPrivilegeName()+&quot;,&quot;);
+                }
+                System.out.println();
+            }
+        }finally{
+            sqlSession.close();
+        }
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-09.jpg" alt=""></li>
+</ol>
+<p><strong>2)实现根据UserId查询该用户的权限：</strong></p>
+<ol>
+<li>将user-role修改为一对多：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-10.jpg" alt=""><br>修改User类将Role改为ListRole：<pre><code>...
+// 角色信息
+private List&lt;Role&gt; roleList;
+public List&lt;Role&gt; getRoleList() {
+    return roleList;
+}
+public void setRole(List&lt;Role&gt; roleList) {
+    this.roleList=roleList;
+}
+...
+</code></pre>添加UserMapper接口方法：<pre><code>//一对多映射,collection实现
+User selectUserWithRoleListByUserId(Long id);
+</code></pre>添加UserMapper.xml方法：<pre><code>&lt;select id=&quot;selectUserWithRoleListByUserId&quot; resultMap=&quot;userListRole&quot;&gt;
+      SELECT
+        u.id,
+        u.id,
+        u.user_name,
+        u.user_password,
+        u.user_email,
+        u.user_info,
+        u.head_img,
+        u.create_time,
+        r.id as role_id, 
+        r.role_name role_role_name,
+        r.enabled role_enabled,
+        r.create_by role_create_by,
+        r.create_time role_create_time,
+        p.id role_pri_id,
+        p.privilege_name role_pri_privilege_name,
+        p.privilege_url role_pri_privilege_url
+    FROM user u
+    LEFT JOIN user_role ur ON u.id=ur.user_id
+    LEFT JOIN role r ON ur.role_id=r.id
+    LEFT JOIN role_privilege rp ON r.id=rp.role_id
+    LEFT JOIN privilege p ON rp.privilege_id=p.id
+    WHERE u.id=#{id}  
+&lt;/select&gt;
+</code></pre>注意privilege的字段的别名，<strong>需要在原来的别名前加上role_前缀</strong>。<br>添加ResultMap:<br>因为已经配置了Role的resultMap，只要直接引用roleListPrivilege就可以了：<pre><code>&lt;resultMap type=&quot;User&quot; extends=&quot;BaseResultMap&quot; id=&quot;userListRole&quot;&gt;
+    &lt;collection property=&quot;roleList&quot; columnPrefix=&quot;role_&quot; resultMap=&quot;mbg.mapper.RoleMapper.roleListPrivilege&quot;&gt;&lt;/collection&gt;
+&lt;/resultMap&gt;
+</code></pre></li>
+<li>创建测试类：<pre><code>//测试一对多映射的collection非嵌套实现
+@Test
+public void testSelectUserWithRoleListByUserId(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserWithRoleListByUserId(1L);  //查询user
+        //断言测试user是否为空
+        Assert.assertNotNull(user);
+        //角色数是否&gt;0
+        Assert.assertTrue(user.getRoleList().size()&gt;0);
+        //输出角色及权限
+    //    System.out.println(user);
+        for(Role role:user.getRoleList()){
+            System.out.println(&quot;角色名：&quot;+role.getRoleName());
+            System.out.print(&quot;拥有权限:&quot;);
+            for(Privilege privilege:role.getPrivilegeList()){
+                System.out.print(&quot; &quot;+privilege.getPrivilegeName()+&quot;,&quot;);
+            }
+            System.out.println();
+        }
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-11.jpg" alt=""></li>
+<li>一个映射的配置不仅可以被嵌套的配置引用，其自身也可以使用。复杂的映射都是由这种简单的映射配置组成的。<br>要配置一个复杂的映射，一定要从最基础（最内层）开始配置，每增加一些配置就进行相应的测试，这样容易发现和解决问题。</li>
+<li>association标签可以和collection标签互相组合或者嵌套从而得到任何想要的数据。</li>
+</ol>
+<p><strong>3)MyBatis的处理规则及注意事项：</strong></p>
+<ol>
+<li>MyBatis在处理结果的时候，会判断结果是否<em>相同</em>，如果相同则只保留第一个结果。</li>
+<li>相同的含义（相同的判断）：<br>如果配置了id标签，则id相同的结果会被合并（不相同的部分为一对多的多合并成列表）；<br>如果没有配置id标签则会将所有字段一一比较，若每个字段都相同则只保留第一个，如果有一个字段不相同则不按相同处理（不相同）。</li>
+<li>注意：<br>如果在嵌套结果中配置了id标签,但是查询语句中并没有查询id属性配置的列,那么所有的id都为null,这时最后查出来的嵌套结果集就只有一条数据。<br>所以在配置id的时候，一定要查询相对的列。</li>
+<li>id属性：<br><code>&lt;id column=&quot;&quot; property=&quot;&quot; /&gt;</code><br>中不止可以配置id字段，也可以配置其他任何字段，但是如果不是唯一的字段会使一些不同的字段莫名其妙的合并。<br>如果未配置id属性则要比较所有的字段，这是一个平方级别的比较，比配置id属性的效率要低得多。</li>
+</ol>
+<h3 id="collection集合的嵌套查询"><a href="#collection集合的嵌套查询" class="headerlink" title="collection集合的嵌套查询"></a>collection集合的嵌套查询</h3><p>collection集合的嵌套查询和association的集合嵌套查询一模一样，延迟加载的方式也相同。<br>虽然看似相同，但是实际测试的时候踩了很多坑，一定要注意。</p>
+<p><strong>1)使用集合嵌套查询实现上面的例子：分析</strong></p>
+<ol>
+<li>首先这是一个两层的嵌套，一定要自下而上实现，并且每一层的方法都可以单独使用。最后的结果都是以前一个方法为基础的。</li>
+<li>一定要自下而上的连接关联表，而不是自上而下连接关联表。<br><code>privilege left/inner/right JOIN role_privilege</code><br><code>role r LEFT JOIN user_role ur ON r.id=ur.role_id</code><br>而一对一时的那种情况就是自上而下。一对多千万不能自上而下，否则会出现很多意外的合并与错误（亲测）。</li>
+</ol>
+<p><strong>2)实现上面的例子：</strong></p>
+<ol>
+<li><p>PriviligeMapper.xml的代码：</p>
+<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;Privilege&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;privilege_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;privilegeName&quot; /&gt;
+    &lt;result column=&quot;privilege_url&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;privilegeUrl&quot; /&gt;
+&lt;/resultMap&gt;
+
+&lt;sql id=&quot;Base_Column_List&quot;&gt;
+    id, privilege_name, privilege_url
+&lt;/sql&gt;
+
+&lt;select id=&quot;selectByPrimaryKey2&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from privilege
+    INNER JOIN role_privilege rp ON rp.privilege_id=id
+    where rp.role_id = #{id}
+&lt;/select&gt;
+</code></pre></li>
+<li><p>RoleMapper.xml的代码：</p>
+<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.Role&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;BIGINT&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;role_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;roleName&quot; /&gt;
+    &lt;result column=&quot;enabled&quot; jdbcType=&quot;INTEGER&quot; property=&quot;enabled&quot; /&gt;
+    &lt;result column=&quot;create_by&quot; jdbcType=&quot;BIGINT&quot; property=&quot;createBy&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+&lt;/resultMap&gt;
+
+&lt;resultMap extends=&quot;BaseResultMap&quot; type=&quot;Role&quot; id=&quot;roleListPrivilegeMap&quot;&gt;
+    &lt;collection property=&quot;privilegeList&quot; column=&quot;id&quot; fetchType=&quot;lazy&quot; select=&quot;mbg.mapper.PrivilegeMapper.selectByPrimaryKey2&quot;&gt;
+    &lt;/collection&gt;
+&lt;/resultMap&gt;
+
+&lt;select id=&quot;selectRoleWithPrivilegeByPrimaryKey&quot; resultMap=&quot;roleListPrivilegeMap&quot;&gt;
+    select 
+             r.id,r.role_name,r.enabled,r.create_by,r.create_time
+    from role r
+    LEFT JOIN user_role ur ON r.id=ur.role_id
+    where ur.user_id = #{id}
+&lt;/select&gt;
+</code></pre></li>
+<li><p>UserMapper.xml代码：</p>
+<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;mbg.model.User&quot;&gt;
+    &lt;id column=&quot;id&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;user_name&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;userName&quot; /&gt;
+    &lt;result column=&quot;user_password&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;userPassword&quot; /&gt;
+    &lt;result column=&quot;user_email&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;userEmail&quot; /&gt;
+    &lt;result column=&quot;create_time&quot; jdbcType=&quot;TIMESTAMP&quot; property=&quot;createTime&quot; /&gt;
+&lt;/resultMap&gt;
+&lt;resultMap extends=&quot;BaseResultMap&quot; id=&quot;ResultMapWithBLOBs&quot; type=&quot;mbg.model.User&quot;&gt;
+    &lt;result column=&quot;user_info&quot; jdbcType=&quot;LONGVARCHAR&quot; property=&quot;userInfo&quot; /&gt;
+    &lt;result column=&quot;head_img&quot; jdbcType=&quot;LONGVARBINARY&quot; property=&quot;headImg&quot; /&gt;
+&lt;/resultMap&gt;
+
+&lt;resultMap type=&quot;User&quot; extends=&quot;ResultMapWithBLOBs&quot; id=&quot;userListRoleMap&quot;&gt;
+    &lt;collection property=&quot;roleList&quot; column=&quot;id&quot; select=&quot;mbg.mapper.RoleMapper.selectRoleWithPrivilegeByPrimaryKey&quot;&gt;&lt;/collection&gt;
+&lt;/resultMap&gt;
+
+&lt;select id=&quot;selectUserWithRoleListByUserId2&quot; resultMap=&quot;userListRoleMap&quot;&gt;
+    SELECT
+        id,
+        user_name,
+        user_password,
+        user_email,
+        user_info,
+        head_img,
+        u.create_time
+    FROM user u
+    WHERE u.id=#{id} 
+&lt;/select&gt;
+</code></pre><p>注意这里的顶层查询没有任何的子查询。</p>
+</li>
+<li>添加接口方法：<pre><code>//一对多映射,collection嵌套实现
+User selectUserWithRoleListByUserId2(Long id);
+</code></pre>添加测试类方法：<pre><code>//测试一对多映射的collection嵌套实现
+@Test
+public void testSelectUserWithRoleListByUserId2(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper =sqlSession.getMapper(UserMapper.class);        //获取UserMapper接口
+        User user=userMapper.selectUserWithRoleListByUserId2(1L);  //查询user
+        //断言测试user是否为空
+        Assert.assertNotNull(user);
+        //角色数是否&gt;0
+        Assert.assertTrue(user.getRoleList().size()&gt;0);
+        //输出角色及权限
+        System.out.println(user);
+        for(Role role:user.getRoleList()){
+            System.out.println(&quot;角色名：&quot;+role.getRoleName());
+            System.out.print(&quot;拥有权限:&quot;);
+            for(Privilege privilege:role.getPrivilegeList()){
+                System.out.print(&quot; &quot;+privilege.getPrivilegeName()+&quot;,&quot;);
+            }
+            System.out.println();
+        }
+        }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-12.jpg" alt=""></li>
+<li>MyBtis的处理规则（合并规则）以后还是得更深入的了解才行。</li>
+</ol>
+<hr>
+<h2 id="4-鉴别器映射"><a href="#4-鉴别器映射" class="headerlink" title="4.鉴别器映射"></a>4.鉴别器映射</h2><p><strong>1)鉴别器映射的简介及标签介绍：</strong></p>
+<ol>
+<li>有时候一个单独的数据库查询会返回很多不同数据类型的结果集。<br>discriminator（鉴别器）标签就是来处理这种情况的。<br>相当于Java中的switch…case…选择语句</li>
+<li>discriminator标签的两个常用属性：<ul>
+<li><code>column</code>：设置要进行鉴别比较的列（字段）。</li>
+<li><code>javaType</code>：用于指定列的类型，保证使用相同的数据类型进行比较。</li>
+</ul>
+</li>
+<li>discriminator标签可以包含一个或者多个case标签，case标签有三个属性：<ul>
+<li><code>value</code>：与column列比较的值。</li>
+<li><code>resultMap</code>：当column值等于case的value值时用于指定可以配置使用resultMap指定的映射，优先级高于resultType。</li>
+<li><code>resultType</code>：当column值等于case的value值时用于指定可以配置使用resultType指定的映射</li>
+</ul>
+</li>
+<li>case标签下可以使用所有resultMap标签可以使用的子标签及属性，用法也一样。<br>但是有一点很重要的区别：<br>resultMap标签配置了部分属性，剩余的属性会自动进行映射。<br>case标签配置了部分属性，剩余的属性不会自动映射，设为空。</li>
+<li><strong>鉴别器是一种很少使用的方式</strong>，使用之前一定要完全掌握。未完全掌握前要避免使用。</li>
+</ol>
+<p><strong>2)鉴别器映射的测试：</strong></p>
+<ol>
+<li>需求：<br>按照用户Id查询，当角色的enable属性为1，可用时，查询该角色的权限；角色不可用时，只显示角色的基本信息，不显示权限信息。</li>
+<li>在RoleMapper.xml添加配置：<pre><code>&lt;resultMap type=&quot;Role&quot; id=&quot;roleListPrivilegeMapChoose&quot;&gt;
+    &lt;discriminator javaType=&quot;int&quot; column=&quot;enabled&quot;&gt;
+        &lt;case value=&quot;1&quot; resultMap=&quot;roleListPrivilegeMap&quot;&gt;&lt;/case&gt;
+        &lt;case value=&quot;0&quot; resultMap=&quot;BaseResultMap&quot;&gt;&lt;/case&gt;
+    &lt;/discriminator&gt;
+&lt;/resultMap&gt;
+</code></pre>并修改方法如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-13.jpg" alt=""></li>
+<li>其余方法都不变，修改数据库，将Role表的普通用户的enabled改为0。<br>运行测试方法testSelectUserWithRoleListByUserId2(),测试结果为：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00027MyBatis%E5%AD%A6%E4%B9%A06-14.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-SQL语句的封装"><a href="#5-SQL语句的封装" class="headerlink" title="5.SQL语句的封装"></a>5.SQL语句的封装</h2><ol>
+<li>查看MBG自动生成的代码时，会发现有一个SQL标签，于封装SQL语句，和动态标签Bind的使用差不多。</li>
+<li><p>例子：</p>
+<pre><code>&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;Privilege&quot;&gt;
+    &lt;!--略--&gt;
+&lt;/resultMap&gt;
+
+&lt;sql id=&quot;Base_Column_List&quot;&gt;
+    id, privilege_name, privilege_url
+&lt;/sql&gt;
+
+&lt;select id=&quot;selectByPrimaryKey2&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from privilege
+    ...
+&lt;/select&gt;
+</code></pre></li>
+<li>sql标签可以通过如下标签来调用：<br><code>&lt;include refid=&quot;SQL标签的ID&quot; /&gt;</code></li>
+<li>熟练使用sql标签可以复用很多代码，节省代码量。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月04日 22:25</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/" title="MyBatis学习笔记（六）：一对一，一对多及鉴别器映射">https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/&title=《MyBatis学习笔记（六）：一对一，一对多及鉴别器映射》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/&title=《MyBatis学习笔记（六）：一对一，一对多及鉴别器映射》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MyBatis学习笔记（六）：一对一，一对多及鉴别器映射》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-高级结果映射简介："><span class="post-toc-text">1.高级结果映射简介：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-一对一映射"><span class="post-toc-text">2.一对一映射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置一对一映射的三种基本途径"><span class="post-toc-text">配置一对一映射的三种基本途径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#association标签的嵌套查询"><span class="post-toc-text">association标签的嵌套查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-一对多映射"><span class="post-toc-text">3.一对多映射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#collection的嵌套结果映射"><span class="post-toc-text">collection的嵌套结果映射</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#collection集合的嵌套查询"><span class="post-toc-text">collection集合的嵌套查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-鉴别器映射"><span class="post-toc-text">4.鉴别器映射</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-SQL语句的封装"><span class="post-toc-text">5.SQL语句的封装</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/02/MySQL遇到的问题总结/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MySQL遇到的问题总结
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/30/《鸟哥的Linux私房菜》笔记（八）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
