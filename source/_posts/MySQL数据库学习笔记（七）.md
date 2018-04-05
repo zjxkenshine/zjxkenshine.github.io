@@ -278,6 +278,7 @@ Leave：离开，类似break，整个循环结束
 	- strcmp(a,b)：比较字符串a和b。
 	- substring(str,x,y)：返回从x位置起y个字符长度的字符串。
 	- char_length/length(str)：返回字符串长度。
+	- INSTR(STR,SUBSTR) 在一个字符串(STR)中搜索指定的字符(SUBSTR),返回第一个发现指定的字符的位置(INDEX); 
 2. 测试第一组方法：
 		SELECT CONCAT('aaa','bbb'),CONCAT('aaa',NULL),INSERT('shabi',4,2,'diao');
 		SELECT LOWER('HAHA'),UPPER('haha'),UPPER(NULL);
