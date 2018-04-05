@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档: 2018/3 | 程序人生</title>
+  <title>MyBatis学习笔记（八）：Mybatis缓存配置 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序人生">
-<meta property="og:url" content="https://zjxkenshine.github.io/archives/2018/03/index.html">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta name="keywords" content="MyBatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis学习笔记（八）：Mybatis缓存配置">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-05T13:47:21.967Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序人生">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:title" content="MyBatis学习笔记（八）：Mybatis缓存配置">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -108,259 +110,150 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap">
-  
-  
+        <section id="main" class="body-wrap"><article id="post-MyBatis学习笔记（八）：缓存配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/30/《鸟哥的Linux私房菜》笔记（八）/" class="archive-article-date">
-  <time datetime="2018-03-30T14:27:59.000Z" itemprop="datePublished">03-30</time>
-</a>
-      
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/30/《鸟哥的Linux私房菜》笔记（八）/"  >《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置</a>
+    <h1 class="post-title" itemprop="name">
+      MyBatis学习笔记（八）：Mybatis缓存配置
     </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java框架/">Java框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
   
 
-    </header>
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
-        <div class="archive-post-footer">
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
+</ol>
+<hr>
 
-        </div>
-      
-  </div>
-</article>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月05日 21:47</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/05/MyBatis学习笔记（八）：缓存配置/" title="MyBatis学习笔记（八）：Mybatis缓存配置">https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
 
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/" class="archive-article-date">
-  <time datetime="2018-03-29T12:15:28.000Z" itemprop="datePublished">03-29</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/29/MyBatis学习笔记（五）：代码生成器/"  >MyBatis学习笔记（五）：代码生成器</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
+        
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
-      
-  </li>
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
 
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
         </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/27/MySQL数据库学习笔记（八）/" class="archive-article-date">
-  <time datetime="2018-03-27T10:19:57.000Z" itemprop="datePublished">03-27</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/27/MySQL数据库学习笔记（八）/"  >MySQL学习笔记（八）：存储过程，游标，事件和字符集等</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
+        <div class="reward-select">
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/" class="archive-article-date">
-  <time datetime="2018-03-26T07:46:47.000Z" itemprop="datePublished">03-26</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/26/MyBatis学习笔记（四）：动态SQL语句/"  >MyBatis学习笔记（四）：动态SQL语句</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/" class="archive-article-date">
-  <time datetime="2018-03-25T13:11:01.000Z" itemprop="datePublished">03-25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/"  >《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/25/MySQL数据库学习笔记（七）/" class="archive-article-date">
-  <time datetime="2018-03-25T10:51:00.000Z" itemprop="datePublished">03-25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/25/MySQL数据库学习笔记（七）/"  >MySQL学习笔记（七）：变量、触发器、函数及流程控制</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
         </div>
-      
-  </div>
-</article>
+    </div>
+</div>
 
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/24/MySQL数据库学习笔记（六）/" class="archive-article-date">
-  <time datetime="2018-03-24T12:59:47.000Z" itemprop="datePublished">03-24</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/24/MySQL数据库学习笔记（六）/"  >MySQL学习笔记（六）：视图，备份还原与事务</a>
-    </h1>
-  
 
-    </header>
-      
-        <div class="archive-post-footer">
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/&title=《MyBatis学习笔记（八）：Mybatis缓存配置》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/&title=《MyBatis学习笔记（八）：Mybatis缓存配置》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MyBatis学习笔记（八）：Mybatis缓存配置》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/05/MyBatis学习笔记（八）：缓存配置/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/" class="archive-article-date">
-  <time datetime="2018-03-24T12:55:32.000Z" itemprop="datePublished">03-24</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/24/MyBatis学习笔记（三）：注解基本用法/"  >MyBatis学习笔记（三）：注解方式的基本用法</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
             
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
@@ -369,84 +262,47 @@
       
   </li>
 
-        </div>
-      
+        </ul>
+        
+    </footer>
   </div>
 </article>
 
-  
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li></ol>
+        </nav>
+    </aside>
     
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/05/Redis学习笔记（一）：简介与入门使用/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Redis学习笔记（一）：简介，下载安装及客户端使用
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MyBatis学习笔记（七）:使用存储过程与枚举类等</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/" class="archive-article-date">
-  <time datetime="2018-03-23T07:59:35.000Z" itemprop="datePublished">03-23</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/23/MyBatis学习笔记（二）：xml的基本用法/"  >MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作</a>
-    </h1>
-  
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
 
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/" class="archive-article-date">
-  <time datetime="2018-03-22T02:11:01.000Z" itemprop="datePublished">03-22</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/22/《鸟哥的Linux私房菜》笔记（六）/"  >《鸟哥的Linux私房菜》笔记（六）：认识与学习bash</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2018/03/page/2/">2</a><a class="page-number" href="/archives/2018/03/page/3/">3</a><a class="page-number" href="/archives/2018/03/page/4/">4</a><a class="extend next" rel="next" href="/archives/2018/03/page/2/">Next >></a>
-  </nav>
 </section>
         
       </div>

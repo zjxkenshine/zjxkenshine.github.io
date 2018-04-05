@@ -8,18 +8,33 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+  <meta name="description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.存储过程简介及创建 存储过程在数据库中很常见，MyBatis中的存储过程调用方法与MySQL中的差不多。一般的存储过程调用都比较复杂。创建几个不同类型的存储过程用于测试。具体的存储过程使用方法在M 创建第一个存储过程：根据用户id查询用户信息：-- 第一个存储过程，根据用户id查询其">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis学习笔记（七）:使用存储过程与枚举类等">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta property="og:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.存储过程简介及创建 存储过程在数据库中很常见，MyBatis中的存储过程调用方法与MySQL中的差不多。一般的存储过程调用都比较复杂。创建几个不同类型的存储过程用于测试。具体的存储过程使用方法在M 创建第一个存储过程：根据用户id查询用户信息：-- 第一个存储过程，根据用户id查询其">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-04T14:27:36.816Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-10-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-14.jpg">
+<meta property="og:updated_time" content="2018-04-05T13:38:59.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（七）:使用存储过程与枚举类等">
-<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档">
+<meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.存储过程简介及创建 存储过程在数据库中很常见，MyBatis中的存储过程调用方法与MySQL中的差不多。一般的存储过程调用都比较复杂。创建几个不同类型的存储过程用于测试。具体的存储过程使用方法在M 创建第一个存储过程：根据用户id查询用户信息：-- 第一个存储过程，根据用户id查询其">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -150,10 +165,470 @@
 <li>学习资料：<br>书本：《MyBatis从入门到精通》<br>视频：某培训班视频<br>资料：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a></li>
 </ol>
 <hr>
+<h2 id="1-存储过程简介及创建"><a href="#1-存储过程简介及创建" class="headerlink" title="1.存储过程简介及创建"></a>1.存储过程简介及创建</h2><ol>
+<li>存储过程在数据库中很常见，MyBatis中的存储过程调用方法与MySQL中的差不多。一般的存储过程调用都比较复杂。<br>创建几个不同类型的存储过程用于测试。<br>具体的存储过程使用方法在M</li>
+<li>创建第一个存储过程：<br>根据用户id查询用户信息：<pre><code>-- 第一个存储过程，根据用户id查询其他用户信息
+DROP PROCEDURE IF EXISTS select_user_by_id;
+delimiter $$
+CREATE PROCEDURE select_user_by_id(
+    IN userId BIGINT,
+    OUT userName VARCHAR(50),
+    OUT userPassword VARCHAR(50),
+    OUT userEmail VARCHAR(50),
+    OUT userInfo TEXT,
+    OUT headImg BLOB,
+    OUT createTime DATETIME
+)
+BEGIN
+    -- 查询
+    SELECT user_name,user_password,user_email,user_info,head_img,create_time
+    INTO userName,userPassword,userEmail,userInfo,headImg,createTime
+    FROM user
+    WHERE id=userId;
+END
+$$
+delimiter ;
+</code></pre>添加结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-01.jpg" alt=""></li>
+<li>创建第二个存储过程：<br>实现分页查找。<br>根据用户名和分页参数查询数据总数和分页查询的结果集。<pre><code>-- 第二个存储过程，使用用户名分页查询
+DROP PROCEDURE IF EXISTS select_user_page;
+delimiter $$
+CREATE PROCEDURE select_user_page(
+    IN userName VARCHAR(50),
+    IN _offset BIGINT,
+    IN _limit BIGINT,
+    OUT total BIGINT
+)
+BEGIN
+    -- 查询数据总数
+    SELECT COUNT(*) INTO total
+    FROM user
+    WHERE user_name LIKE CONCAT(&apos;%&apos;,userName,&apos;%&apos;);
+    -- 分页查询
+    SELECT * FROM user
+    WHERE user_name LIKE CONCAT(&apos;%&apos;,userName,&apos;%&apos;)
+    LIMIT _offset,_limit;
+END $$
+delimiter ;
+</code></pre>添加结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-02.jpg" alt=""></li>
+<li><p>创建第三个存储过程：<br>保存用户信息和角色关联信息。</p>
+<pre><code>-- 第三个存储过程,保存用户信息和角色关联信息
+DROP PROCEDURE IF EXISTS `insert_user_and_roles`;
+delimiter $$
+CREATE PROCEDURE `insert_user_and_roles`(
+    OUT userId BIGINT,
+    IN userName VARCHAR(50),
+    IN userPassword VARCHAR(50),
+    IN userEmail VARCHAR(50),
+    IN userInfo TEXT,
+    IN headImg BLOB,
+    OUT createTime DATETIME,
+    IN roleIds VARCHAR(200)
+)
+BEGIN
+    -- 设置当前时间
+    SET createTime=NOW();
+    -- 插入用户数据
+    INSERT INTO `user`(user_name,user_password,user_email,user_info,head_img,create_time)
+    VALUES(userName,userPassword,userEmail,userInfo,headImg,createTime);
+    -- 返回自增主键
+    SELECT LAST_INSERT_ID() INTO userId;
+    -- 插入用户和角色的关系表
+    -- 在前后插入，方便使用instr正确匹配
+    SET roleIds=CONCAT(&apos;,&apos;,roleIds,&apos;,&apos;);
+    -- 执行插入(使用select子查询)
+    INSERT INTO user_role(user_id,role_id)
+    SELECT userId,id FROM role
+    WHERE INSTR(roleIds,CONCAT(&apos;,&apos;,id,&apos;,&apos;)) &gt;0;
+END
+$$
+delimiter ;
+</code></pre><p>这里的<code>select...from role WHERE INSTR(roleIds,CONCAT(&#39;,&#39;,id,&#39;,&#39;)) &gt;0;</code>的<code>&gt;0</code>加不加效果都一样。这句话相当于：</p>
+<pre><code>SELECT...FROM role WHERE id IN(roleIds);
+</code></pre><p>也相当于：</p>
+<pre><code>SELECT...FROM WHERE roleIds LIKE concat(&apos;%,&apos;,id,&apos;,%&apos;);
+</code></pre><p>执行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-03.jpg" alt=""></p>
+</li>
+<li><p>创建第四个存储过程：<br>删除用户信息。</p>
+<pre><code>-- 第四个存储过程，删除用户信息及角色关联信息
+DROP PROCEDURE IF EXISTS `delete_user_by_id`;
+delimiter $$
+CREATE PROCEDURE `delete_user_by_id`(IN userId BIGINT)
+BEGIN
+    DELETE FROM `user` WHERE id =userId;
+    DELETE FROM user_role WHERE user_id=userId;
+END $$
+delimiter ;
+</code></pre><p>添加结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-04.jpg" alt=""></p>
+</li>
+<li><p>无聊的一个小测试，原来Like可以用来实现in的效果：</p>
+<pre><code>SET @usenames=&apos;测试用户1,测试用户,测试用户2&apos;;
+SELECT * FROM `user` WHERE @usenames LIKE CONCAT(&apos;%&apos;,user_name,&apos;%&apos;);
+</code></pre><p>测试结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-05.jpg" alt=""></p>
+</li>
+</ol>
+<hr>
+<h2 id="2-存储过程的具体使用"><a href="#2-存储过程的具体使用" class="headerlink" title="2.存储过程的具体使用"></a>2.存储过程的具体使用</h2><h3 id="第一，二个存储过程使用测试"><a href="#第一，二个存储过程使用测试" class="headerlink" title="第一，二个存储过程使用测试"></a>第一，二个存储过程使用测试</h3><p><strong>1)第一个存储过程：</strong></p>
+<ol>
+<li>第一个存储过程：根据用户id查询用户信息<br>创建接口方法：<pre><code>//第一个存储过程：使用id查询用户数据
+void selectUserById(User user);
+</code></pre><strong>注意：</strong><ul>
+<li>存储过程的出参并不是返回值，而是修改传入的参数</li>
+<li>这个存储过程没有返回值，所以使用的是void</li>
+</ul>
+</li>
+<li>创建xml映射方法：<pre><code>&lt;select id=&quot;selectUserById&quot; statementType=&quot;CALLABLE&quot; useCache=&quot;false&quot;&gt;
+    {call select_user_by_id(
+        #{id,mode=IN},
+        #{userName,mode=OUT,jdbcType=VARCHAR},
+        #{userPassword,mode=OUT,jdbcType=VARCHAR},
+        #{userEmail,mode=OUT,jdbcType=VARCHAR},
+        #{userInfo,mode=OUT,jdbcType=VARCHAR},
+        #{headImg,mode=OUT,jdbcType=BLOB,javaType=_byte[]},
+        #{createTime,mode=OUT,jdbcType=TIMESTAMP}
+    )}
+&lt;/select&gt;
+</code></pre><strong>注意：</strong><ul>
+<li>在调用存储过程的方法时，需要把<code>statementType</code>属性的值改为CALLABLE。</li>
+<li>存储过程不支持MyBatis的二级缓存，为了避免出错，将<code>useCache</code>改为false。</li>
+<li>在使用参数过程中，除了必须的属性名外，还要指定参数的mode(模式)：<br>有IN,OUT,和INOUT三种选项。MySQL使用IN入参时内置了jdbcType，不用指定，但是OUT,INOUT时需要指定jdbcType</li>
+<li>注意headImg字段的配置。<br>MyBatis映射的类中不推荐使用基本类型，BLOB默认对应的是Byte类型，但是一般都是用byte[]数组存值，所以javaType设为’_byte[]’</li>
+<li>javaType中，基本类型需要使用_设置，如javaType=byte代表的是Byte封装类，而_byte才代表byte基本类型。</li>
+</ul>
+</li>
+<li>创建测试方法：<pre><code>//第一个存储过程的测试
+@Test
+public void testSelectUserById(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User user =new User();
+        user.setId(1L);
+        //调用存储过程并出参
+        userMapper.selectUserById(user);
+        Assert.assertEquals(&quot;admin&quot;, user.getUserName());
+        System.out.println(user);
+    }finally{
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-06.jpg" alt=""></li>
+<li>使用这种类型（没有返回，使用出参获取信息）的存储过程时需要注意的问题。<ul>
+<li>使用出参方式有两种方式接收出参的值：<strong>javaBean和Map方式。</strong><ul>
+<li>javaBean方式接收出参时必须保证所有的出参参数在JavaBean中都有对应的属性存在，否则会报异常提示没有该属性的setter方法</li>
+<li>使用Map方式则不需要保证所有的出参都有对应的属性。</li>
+</ul>
+</li>
+<li>MyBatis中写的出参要与数据库存储过程中的出参类型相符合，否则也会出错。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)第二个存储过程：</strong></p>
+<ol>
+<li>根据用户名和分页参数查询数据总数和分页查询的结果集。<br>创建接口方法：<pre><code>//第二个存储过程：实现分页查询
+/**
+ * @param:
+ * userName
+ * pageNum
+ * pageSize
+ * total
+ * @return
+ */
+List&lt;User&gt; selectUserPage(Map&lt;String,Object&gt; params);
+</code></pre>因为参数不只是一个对象内的，所以使用Map做参数，就不用给user对象添加额外的属性了。<br>而且这个存储过程中有了返回值（输出值，并非函数的那种返回值），所以接口方法返回值设为<code>List&lt;User&gt;</code>;</li>
+<li>创建XML方法:<pre><code>&lt;select id=&quot;selectUserPage&quot; statementType=&quot;CALLABLE&quot; useCache=&quot;false&quot; resultMap=&quot;ResultMapWithBLOBs&quot;&gt;
+    {call select_user_page(
+        #{userName,mode=IN},
+        #{offset,mode=IN},
+        #{limit,mode=IN},
+        #{total,mode=OUT,jdbcType=BIGINT}
+    )}
+&lt;/select&gt;
+</code></pre>和第一个存储过程的最大区别就是有返回值，所以需要配置resultMap标签。<br>使用Map作为出参对象时，如果map中没有这个key，则会自动添加一对的键值对。<br>同样需要设置<code>statementType=&quot;CALLABLE&quot; useCache=&quot;false&quot;</code>。</li>
+<li>创建测试方法：<pre><code>//第二个存储过程测试
+@Test
+public void testSelectUserPage(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);  //获取userMapper
+        Map&lt;String,Object&gt; params=new HashMap&lt;String,Object&gt;();  //创建参数map
+        params.put(&quot;userName&quot;,&quot;测试&quot; );
+        params.put(&quot;offset&quot;, 2);
+        params.put(&quot;limit&quot;, 2);
+        //注意并没有键total的对象
+        List&lt;User&gt; userList =userMapper.selectUserPage(params);
+        System.out.println(&quot;总数为&quot;+params.get(&quot;total&quot;));
+        System.out.println(&quot;本页用户为:&quot;);
+        for (User user : userList) {
+            System.out.println(user);
+        }
+    }finally{
+            sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-07.jpg" alt=""></li>
+</ol>
+<h3 id="第三，四个存储过程使用测试"><a href="#第三，四个存储过程使用测试" class="headerlink" title="第三，四个存储过程使用测试"></a>第三，四个存储过程使用测试</h3><p>因为这两个存储过程实现的效果刚好相反，所以书上将两个方法放到一起测试：<br>第三个存储过程：添加用户信息和角色关联信息<br>第四个存储过程：删除用户信息和角色关联信息</p>
+<ol>
+<li>添加两个接口方法：<pre><code>//第三个存储过程：添加角色和角色关联信息
+int insertUserAndRoles(@Param(&quot;user&quot;)User user,@Param(&quot;roleIds&quot;)String roleIds);
+//第四个存储过程:删除角色和角色关联信息
+int deleteUserById(Long id);
+</code></pre>使用了Param传递了多个参数，在xml中配置user中的属性就得使用user.属性名来获取。</li>
+<li>添加两个XML方法:<pre><code>&lt;insert id=&quot;insertUserAndRoles&quot; statementType=&quot;CALLABLE&quot;&gt; 
+    {call insert_user_and_roles(
+        #{user.id,mode=OUT,jdbcType=BIGINT},
+        #{user.userName,mode=IN},
+        #{user.userPassword,mode=IN},
+        #{user.userEmail,mode=IN},
+        #{user.userInfo,mode=IN},
+        #{user.headImg,mode=IN},
+        #{user.createTime,mode=OUT,jdbcType=TIMESTAMP},
+        #{roleIds,mode=IN}
+    )}
+&lt;/insert&gt;
+&lt;delete id=&quot;deleteUserById&quot; statementType=&quot;CALLABLE&quot;&gt;
+    {call delete_user_by_id(#{id,mode=IN})}
+&lt;/delete&gt;
+</code></pre>MyBtis的缓存配置是针对查询的，所以其他方法就不用配置useCache属性了（也没有这个属性）。</li>
+<li>第三存储过程测试：<br>测试方法：<pre><code>//第三个存储过程测试
+@Test
+public void testInsertUserAndRoles(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);  //获取userMapper
+        //创建需要添加的对象
+        User user = new User();
+        user.setUserName(&quot;测试用户007&quot;);
+        user.setUserInfo(&quot;这是一个特工&quot;);
+        user.setUserEmail(&quot;007@uk.com&quot;);
+        user.setUserPassword(&quot;6666&quot;);
+        user.setHeadImg(null);
+        //插入用户信息
+        userMapper.insertUserAndRoles(user, &quot;1,2,5&quot;);
+        Assert.assertNotNull(user.getId());      //测试回传的参数
+        Assert.assertNotNull(user.getCreateTime());
+        //使用上一节的映射查询所有用户及角色权限的信息
+        User user1=userMapper.selectUserWithRoleListByUserId(user.getId());  //查询user
+        //断言测试user1是否为空
+        Assert.assertNotNull(user1);
+        //输出user1
+        System.out.println(user1);
+        //输出所有角色及权限
+        for(Role role:user1.getRoleList()){
+            System.out.println(&quot;角色名：&quot;+role.getRoleName());
+            System.out.print(&quot;拥有权限:&quot;);
+            for(Privilege privilege:role.getPrivilegeList()){
+                System.out.print(&quot; &quot;+privilege.getPrivilegeName()+&quot;,&quot;);
+            }
+            System.out.println();
+        }
+    }finally{
+            sqlSession.rollback();  //回滚
+            sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-08.jpg" alt=""></li>
+<li>第四个存储过程测试：<br>测试方法：<pre><code>//第四个存储过程测试
+@Test
+public void testDeleteUserById(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);  //获取userMapper
+        int result=userMapper.deleteUserById(1014L);
+        Assert.assertEquals(1, result);  //是否删除一条数据
+        //再次查询
+        User user=userMapper.selectUserWithRoleListByUserId(1014L);  //查询user
+        //查询结果应该为空
+        Assert.assertNull(user);
+    }finally{
+        sqlSession.rollback();  //回滚
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-09.jpg" alt=""></li>
+</ol>
+<h3 id="游标参数的简单介绍"><a href="#游标参数的简单介绍" class="headerlink" title="游标参数的简单介绍"></a>游标参数的简单介绍</h3><ol>
+<li>MySQL不支持MyBatis的游标参数，但是MySQL是支持游标的（详见Mysql学习笔记八），mysql的游标没有参数。</li>
+<li>由于我多oracle不太了解，所以这部分以后再深入学习</li>
+<li>游标参数的简单使用就是在存储过程内创建游标，给该游标传入参数（一般是一个集合）时，jdbcType指定为CURSOR,而javaType指定为ResultSet就可以了。</li>
+</ol>
+<hr>
+<h2 id="3-使用枚举类或者自定义的类处理器"><a href="#3-使用枚举类或者自定义的类处理器" class="headerlink" title="3. 使用枚举类或者自定义的类处理器"></a>3. 使用枚举类或者自定义的类处理器</h2><h3 id="使用MyBatis提供的枚举类处理器"><a href="#使用MyBatis提供的枚举类处理器" class="headerlink" title="使用MyBatis提供的枚举类处理器"></a>使用MyBatis提供的枚举类处理器</h3><p><strong>1)测试准备：</strong></p>
+<ol>
+<li>为role表的enabled属性创建枚举类<br>因为这个字段字段只有两个可选值0和1，如果像这种字段的可选值多了之后，对值的校验就变的复杂了，所以需要使用枚举类来解决。</li>
+<li><p>创建枚举类：</p>
+<pre><code>package mbg.type;
+
+public enum Enabled {
+    disabled, //禁用，索引为0
+    enabled; //启用，索引为1
+}
+</code></pre><p>枚举类除了本身的字面外，还可以通过枚举的ordinal()方法获取枚举值的索引。<br>修改role类的enabled属性如下：</p>
+<pre><code>private Enabled enabled;
+public Enabled getEnabled() {
+    return enabled;
+}
+public void setEnabled(Enabled enabled) {
+    this.enabled = enabled;
+}
+</code></pre></li>
+</ol>
+<p><strong>2)当数据库为对应字段为Enum类或者VARCHAR时：</strong></p>
+<ol>
+<li>首先修改Role的enabled字段：<pre><code>ALTER TABLE role MODIFY enabled enum(&apos;disabled&apos;,&apos;enabled&apos;) AFTER role_name;
+</code></pre>但是需要注意，数据库字段的枚举的索引是从1开始的，而java的枚举类的索引是从0开始的。</li>
+<li>修改自动生成的xml方法：将jdbcType改为VARCHAR<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-11.jpg" alt=""></li>
+<li>添加测试类方法：<br>在RoleMapper.xml中添加如下方法：<pre><code>//测试枚举类1,数据库字段也使用ENUM
+@Test
+public void testRoleEnabledEnum(){
+    SqlSession sqlSession =getSqlSession();
+    try{
+        RoleMapper roleMapper=sqlSession.getMapper(RoleMapper.class);
+        //按Id查询
+        Role role=roleMapper.selectByPrimaryKey(1L);
+        System.out.println(role);
+        //按Id更新
+        role.setEnabled(Enabled.disabled);
+        int result=roleMapper.updateByPrimaryKey(role);
+        Assert.assertEquals(1, result);
+        Role role1=roleMapper.selectByPrimaryKey(1L); //再次查询
+        System.out.println(role1);
+    }finally{
+        sqlSession.rollback();
+        sqlSession.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-10-1.jpg" alt=""></li>
+<li>此时java或者数据库的索引都是用表面值进行操作。<br>当然也可以向数据库的字段传入索引值，但是这需要配置核心配置文件（下面会介绍），或者修改Role类的索引使其存的是索引，并且要修改java索引与数据库字段的Enum类索引相匹配。这里就不介绍了。<br>数据库字段使用VARCHAR时效果和使用ENUM相同，只是比较浪费时间。</li>
+<li>java枚举类使用的默认：<br>这个处理器默认使用的类处理器是<code>org.apache.ibatis.type.EnumTypeHandler</code>,这时在使用java的枚举类的时候，使用的就是字面值，对应Enabled而言便是”enabled”及”disabled”字符串。</li>
+</ol>
+<p><strong>3)当数据库为对应字段为Int类时：</strong></p>
+<ol>
+<li>将数据库的字段修改回INT:<pre><code>ALTER TABLE role MODIFY enabled INT AFTER role_name;
+</code></pre>但是还需要手动修改值，因为转过来的是1和2，而不是0和1。<br>将RoleMapper.xml自动生成的代码也修改过来：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-12.jpg" alt=""><br>测试代码不变。</li>
+<li>这时如果要实现和上述一样的效果时，就需要注意一点了：<br>在查询时，将数据库的int值转换为Java的枚举类值；<br>在保存，更新或者作为查询条件时将java枚举类值转换为数据库中的int值。</li>
+<li>由于默认的类处理器使用的是枚举类的自面值进行匹配，所以一定会出错，这时就需要另一个类处理器了：<code>org.apache.ibatis.type.EnumOrdinalTypeHandler</code>处理器。它的效果时使用枚举类的索引进行处理。</li>
+<li>需要在核心配置文件中配置如下代码：<pre><code>&lt;typeHandlers&gt;
+    &lt;typeHandler javaType=&quot;mbg.type.Enabled&quot; handler=&quot;org.apache.ibatis.type.EnumOrdinalTypeHandler&quot;/&gt;
+&lt;/typeHandlers&gt;
+</code></pre>在typeHandlers标签中通过javaType属性指定需要处理的java类，使用handler指定需要使用的类型处理器。更多的类型处理器可以查看<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">MyBatis中文文档</a>。</li>
+<li>运行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-13.jpg" alt=""></li>
+</ol>
+<h3 id="使用自定义的类处理器"><a href="#使用自定义的类处理器" class="headerlink" title="使用自定义的类处理器"></a>使用自定义的类处理器</h3><p><strong>1)为什么要使用自定义的类处理器：</strong></p>
+<ol>
+<li>有很多时候，枚举类的值既不是枚举的字面值，也不是枚举的索引值，而是自己额外指定的值。这时就需要使用自定义的类处理器了。</li>
+<li><p>修改枚举类如下：</p>
+<pre><code>package mbg.type;
+
+public enum Enabled {
+    enabled(1), //启用，值为1
+    disabled(0); //禁用，值为0
+
+    private final int value;
+    private Enabled(int value){
+        this.value=value;
+    }
+    public int getValue(){
+        return value;
+    }
+}
+</code></pre><p>此时使用的value,既不是索引值也不是字面值，而是（）内指定的值，这种用法也很多。</p>
+</li>
+</ol>
+<p><strong>2)简单的实现自定义类处理器：</strong></p>
+<ol>
+<li><p>在mbg.type类下新建EnabledTypeHandler类，代码如下：</p>
+<pre><code>package mbg.type;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
+public class EnabledTypeHandler implements TypeHandler&lt;Enabled&gt; {
+
+    private final Map&lt;Integer, Enabled&gt; enabledMap=new HashMap&lt;Integer, Enabled&gt;();
+    //默认无参构造方法
+    public EnabledTypeHandler(){
+        // TODO Auto-generated constructor stub
+        for(Enabled enabled:Enabled.values()){
+            enabledMap.put(enabled.getValue(), enabled);
+        }
+    }
+
+    @Override
+    public void setParameter(PreparedStatement ps, int i, Enabled parameter,
+            JdbcType jdbcType) throws SQLException {
+        // TODO Auto-generated method stub
+        ps.setInt(i, parameter.getValue());
+    }
+
+    @Override
+    public Enabled getResult(ResultSet rs, String columnName)
+            throws SQLException {
+        // TODO Auto-generated method stub
+        Integer value=rs.getInt(columnName);
+        return enabledMap.get(value);
+    }
+
+    @Override
+    public Enabled getResult(ResultSet rs, int columnIndex) throws SQLException {
+        // TODO Auto-generated method stub
+        Integer value=rs.getInt(columnIndex);
+        return enabledMap.get(value);
+    }
+
+    @Override
+    public Enabled getResult(CallableStatement cs, int columnIndex)
+            throws SQLException {
+        // TODO Auto-generated method stub
+        Integer value=cs.getInt(columnIndex);
+        return enabledMap.get(value);
+    }
+}
+</code></pre></li>
+<li>这个方法实现了TypeHandler接口，并且针对四个接口方法对Enabled类型进行转换。</li>
+<li>TypeHandler实现类除了默认的无参构造方法还有一个隐含的带有一个Class参数的构造方法：<pre><code>public EnabledTypeHandler(Class&lt;?&gt; type){
+    this();
+}
+</code></pre>针对特定的接口处理类型时，这个构造方法可以写出通用的类型处理器，就像前面的两个枚举类型的处理器一样。</li>
+<li>还需要配置mybatis-config.xml核心配置文件，修改如下：<pre><code>&lt;typeHandlers&gt;
+    &lt;typeHandler javaType=&quot;mbg.type.Enabled&quot; handler=&quot;mbg.type.EnabledTypeHandler&quot;/&gt;
+&lt;/typeHandlers&gt;
+</code></pre>再次运行测试类进行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00028MyBatis%E5%AD%A6%E4%B9%A07-14.jpg" alt=""></li>
+<li>这只是简单的类处理器实现，复杂的类处理器可以查件<code>org.apache.ibatis.type</code>包下的源码。</li>
+</ol>
+<hr>
+<h2 id="4-对java8日期-JSR-310-的支持"><a href="#4-对java8日期-JSR-310-的支持" class="headerlink" title="4. 对java8日期(JSR-310)的支持"></a>4. 对java8日期(JSR-310)的支持</h2><ol>
+<li>MyBatis从3.4.0版本开始增加了对java8日期(JSR-310)的支持。<br>详情可以查看:<br><a href="https://github.com/mybatis/typehandlers-jsr310" target="_blank" rel="noopener">https://github.com/mybatis/typehandlers-jsr310</a></li>
+<li>MyBatis3.4.0及以上版本只需要在Maven的pom.xml添加以下依赖即可：<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-typehandlers-jsr310&lt;/artifactId&gt;
+    &lt;version&gt;1.0.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li>My3.4.0以前的版本需要在此基础上添加类处理器的配置：<pre><code>&lt;typeHandlers&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.InstantTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.LocalDateTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.LocalTimeTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.LocalDateTimeTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.OffsetTimeTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.ZonedDateTimeTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.YearTypeHandler&quot;/&gt;
+    &lt;typeHandler handler=&quot;org.apache.ibatis.type.MonthTypeHandler&quot;/&gt;
+&lt;/typeHandlers&gt;
+</code></pre></li>
+<li>上面的typeHandler都没有指定javaType，因为这些类处理器继承了BaseTypeHandler<t>类,而BaseTypeHandler<t>继承了TypeReference<t>类，MyBatis会对继承了TypeReference<t>的类进行处理，获取泛型T作为javaType的值。</t></t></t></t></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月04日 22:27</p>
+        <p>最后更新： 2018年04月05日 21:38</p>
         <p>原始链接： <a class="post-url" href="/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/" title="MyBatis学习笔记（七）:使用存储过程与枚举类等">https://zjxkenshine.github.io/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -271,12 +746,22 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存储过程简介及创建"><span class="post-toc-text">1.存储过程简介及创建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-存储过程的具体使用"><span class="post-toc-text">2.存储过程的具体使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第一，二个存储过程使用测试"><span class="post-toc-text">第一，二个存储过程使用测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第三，四个存储过程使用测试"><span class="post-toc-text">第三，四个存储过程使用测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#游标参数的简单介绍"><span class="post-toc-text">游标参数的简单介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-使用枚举类或者自定义的类处理器"><span class="post-toc-text">3. 使用枚举类或者自定义的类处理器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用MyBatis提供的枚举类处理器"><span class="post-toc-text">使用MyBatis提供的枚举类处理器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用自定义的类处理器"><span class="post-toc-text">使用自定义的类处理器</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-对java8日期-JSR-310-的支持"><span class="post-toc-text">4. 对java8日期(JSR-310)的支持</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/04/05/MyBatis学习笔记（八）：缓存配置/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MyBatis学习笔记（八）：Mybatis缓存配置
+        
+      </span>
+    </a>
   
   
     <a href="/2018/04/03/MySQL数据库学习笔记（九）/" id="article-nav-older" class="article-nav-link-wrap">
@@ -346,10 +831,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -382,7 +867,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.33px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
         </div>
     </div>
 </div>
