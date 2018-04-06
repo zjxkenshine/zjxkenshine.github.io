@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-09.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg">
-<meta property="og:updated_time" content="2018-03-27T14:38:20.841Z">
+<meta property="og:updated_time" content="2018-04-06T10:17:42.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7几个常见问题和解决方案">
 <meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办? 虚拟机装的Centos7怎么联网?   1.问题1~5解决方案1)Centos7忘记密码怎么解决?太久没使用Linux（Centos7）了，忘记root密码了怎么办？  在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程">
@@ -213,13 +213,13 @@ Ctrl+ww——依次向后切换到下一个窗格中
 <li>跳转到配置目录：<br><code># cd /etc/sysconfig/network-scripts/</code><br>使用<code># ls</code>查看列表，使用vi或者nano打开这个文件（<code>ifcfg-enoxxxx</code>）：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-08.jpg" alt=""></li>
 <li>文件打开后如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-09.jpg" alt=""><br>将ONBOOT改为yes,BOOTPROTO为dhcp</li>
 <li>输入<code># shoutdown -r</code>重启。<br>重启后右上角出现这样的画面说明已经成连接网络了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-10.jpg" alt=""></li>
-<li>打开火狐浏览器测试一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg" alt=""><br>注意：centos新版本（7以上）只需要这样简单配置就可以了，不用再用什么ifconfig,也不需要手动配置ip。</li>
+<li>打开火狐浏览器测试一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg" alt=""><br>注意：centos新版本（7以上）只需要这样简单配置就可以了，不用再用什么ifconfig,也不需要手动配置ip。<br><strong>这只是简单的能实现NAT联网而已，更多的模式的联网等以后熟悉了Linux再设置吧（学校里用不了桥接）</strong></li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月27日 22:38</p>
+        <p>最后更新： 2018年04月06日 18:17</p>
         <p>原始链接： <a class="post-url" href="/2018/03/10/Centos7几个常见问题解决方案/" title="Centos7几个常见问题和解决方案">https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
