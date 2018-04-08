@@ -34,18 +34,25 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux15.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux16.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux17-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux18.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19-2.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux20.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux21-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22-01.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux23-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux32.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux25.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux26.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux27.jpg">
-<meta property="og:updated_time" content="2018-04-07T13:02:28.957Z">
+<meta property="og:updated_time" content="2018-04-08T03:36:56.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在VMwaver以及VirtualBox安装Linux">
 <meta name="twitter:description" content="0.前言本来是一直都在用VMwaver装的Centos7.0,但是最近学Redis需要用Xftp传文件，又需要用桥接，校园网的桥接无法联网。NAT模式下虽然可以用端口转发连接，但是不知道是什么问题总会断开连接。(对于一个新手而言弄了一天没弄好已经快奔溃了)所以换个虚拟机试试，顺便把VMwaver的磁盘内存改小一点，原来分配了30G感觉太大了，设置小一点。  1.下载Centos镜像 下载地址下载地">
@@ -200,30 +207,40 @@
 <li>进去之后选择语言就可以了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux12-01.jpg" alt=""></li>
 </ol>
 <hr>
-<h2 id="3-在VirtualBox安装及配置Linux"><a href="#3-在VirtualBox安装及配置Linux" class="headerlink" title="3.在VirtualBox安装及配置Linux"></a>3.在VirtualBox安装及配置Linux</h2><p>软件：VirtualBox5.28<br><strong>1)新建虚拟机</strong></p>
-<ol>
+<h2 id="3-在VirtualBox安装及配置Linux"><a href="#3-在VirtualBox安装及配置Linux" class="headerlink" title="3.在VirtualBox安装及配置Linux"></a>3.在VirtualBox安装及配置Linux</h2><p>软件：VirtualBox5.28</p>
+<h3 id="新建虚拟机"><a href="#新建虚拟机" class="headerlink" title="新建虚拟机"></a>新建虚拟机</h3><ol>
 <li>打开软件，新建–&gt;新建虚拟机<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux13.jpg" alt=""><br>选择Linux,Red Hat或者Other Linux.点击下一步。</li>
 <li>设置内存大小为默认值：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux14.jpg" alt=""><br>下一步。</li>
-<li>创建虚拟硬盘：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux15.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux16.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux17.jpg" alt=""><br>然后就创建完毕了。</li>
-<li>点击设置：<br>系统设置如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux18.jpg" alt=""></li>
-<li>在存储中点击分配光驱的右侧光盘，选择下载的iso文件导入。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19.jpg" alt=""></li>
+<li>创建虚拟硬盘：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux15.jpg" alt=""></li>
+<li>选择动态分配：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux16.jpg" alt=""></li>
+<li>设置虚拟硬盘大小：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux17.jpg" alt=""></li>
+<li>选择要保存的文件夹：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux17-01.jpg" alt=""><br>最后点击创建就创建完毕了。</li>
+</ol>
+<h3 id="设置虚拟机："><a href="#设置虚拟机：" class="headerlink" title="设置虚拟机："></a>设置虚拟机：</h3><ol>
+<li>点击VirtualBox最上方的设置(齿轮)进行配置：</li>
+<li>系统设置如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux18.jpg" alt=""></li>
+<li>在存储中点击分配光驱的右侧光盘，选择下载的iso文件导入。<br>注意选择第一控制器主通道。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19-1.jpg" alt=""><br>选择完毕是这个样子的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux19-2.jpg" alt=""></li>
 <li>网络设置为NAT:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux20.jpg" alt=""></li>
 </ol>
-<p><strong>2)安装Linux</strong></p>
-<ol>
-<li>点击启动虚拟机，选择第一项(Install Centos7)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux21.jpg" alt=""></li>
-<li>选择中文：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22.jpg" alt=""></li>
-<li>进去之后的界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22-01.jpg" alt=""></li>
-<li>选择安装软件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux23.jpg" alt=""></li>
-<li>选择安装位置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux24.jpg" alt=""><br>然后点击安装。</li>
-<li>设置root密码和创建用户<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux25.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux26.jpg" alt=""><br>等待安装完毕后重启。</li>
-<li>重启后同意许可协议。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux27.jpg" alt=""><br>然后就可以开始使用了。</li>
+<h3 id="安装Linux"><a href="#安装Linux" class="headerlink" title="安装Linux"></a>安装Linux</h3><ol>
+<li>点击启动虚拟机，选择第一项(Install Centos7)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux21-1.jpg" alt=""><br>按Enter回车键继续。</li>
+<li>安装环境选择中文：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22.jpg" alt=""><br>点击继续。</li>
+<li>进去之后的界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux22-02.jpg" alt=""><br>注意有叹号的必须全部修改，否则无法继续。</li>
+<li>点击语言支持，默认是中文，选择额外一项英文：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux28.jpg" alt=""><br>点击左上角完成退出。</li>
+<li>点击键盘，选择额外的英文键盘支持：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux29.jpg" alt=""><br>点击左上角完成退出</li>
+<li>点击软件选择：<br>选择KDE界面，并勾选右侧的软件。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux23-1.jpg" alt=""><br>兼容性程序因为只有一个版本所以没有选。</li>
+<li>选择安装位置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux24.jpg" alt=""></li>
+<li>点击网络和主机名<br>配置以太网连接<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux30.jpg" alt=""></li>
+<li>然后返回来点击日期和时间，查看是否有左上角的网络时间，以及是否为自己所在的时区。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux31.jpg" alt=""></li>
+<li>全部设置完毕是这个样子的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux32.jpg" alt=""><br>然后点击开始安装。</li>
+<li>需要设置root密码和创建用户<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux25.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux26.jpg" alt=""><br>设置完毕就等待它安装。<br>安装完毕后重启。</li>
+<li>重启后同意许可协议。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00030%E5%AE%89%E8%A3%85Linux27.jpg" alt=""><br>然后就可以开始使用了。<br>但是可能是DVD版本的问题，键盘是不能输中文的。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月07日 21:02</p>
+        <p>最后更新： 2018年04月08日 11:36</p>
         <p>原始链接： <a class="post-url" href="/2018/04/07/在VMwaver以及virtualBox安装Linux/" title="在VMwaver以及VirtualBox安装Linux">https://zjxkenshine.github.io/2018/04/07/在VMwaver以及virtualBox安装Linux/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -341,7 +358,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-前言"><span class="post-toc-text">0.前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-下载Centos镜像"><span class="post-toc-text">1.下载Centos镜像</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-在VMwaver安装及配置Linux"><span class="post-toc-text">2.在VMwaver安装及配置Linux</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#导入iso镜像文件"><span class="post-toc-text">导入iso镜像文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置Centos7"><span class="post-toc-text">配置Centos7</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-在VirtualBox安装及配置Linux"><span class="post-toc-text">3.在VirtualBox安装及配置Linux</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-前言"><span class="post-toc-text">0.前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-下载Centos镜像"><span class="post-toc-text">1.下载Centos镜像</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-在VMwaver安装及配置Linux"><span class="post-toc-text">2.在VMwaver安装及配置Linux</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#导入iso镜像文件"><span class="post-toc-text">导入iso镜像文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置Centos7"><span class="post-toc-text">配置Centos7</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-在VirtualBox安装及配置Linux"><span class="post-toc-text">3.在VirtualBox安装及配置Linux</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建虚拟机"><span class="post-toc-text">新建虚拟机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设置虚拟机："><span class="post-toc-text">设置虚拟机：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装Linux"><span class="post-toc-text">安装Linux</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
