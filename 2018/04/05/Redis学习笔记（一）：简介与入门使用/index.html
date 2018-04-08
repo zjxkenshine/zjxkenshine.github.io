@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Redis学习笔记（一）：简介，下载安装，启动及客户端使用 | 程序人生</title>
+  <title>Redis学习笔记（一）：简介，下载安装，启动及客户端连接 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,15 +11,44 @@
   <meta name="description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.html  1.Redis介绍1)Redis及NoSQL简介   Redis简介：  Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。 Remote Dic">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis学习笔记（一）：简介，下载安装，启动及客户端使用">
+<meta property="og:title" content="Redis学习笔记（一）：简介，下载安装，启动及客户端连接">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.html  1.Redis介绍1)Redis及NoSQL简介   Redis简介：  Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。 Remote Dic">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-06T05:31:57.422Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-27.jpg">
+<meta property="og:updated_time" content="2018-04-08T10:32:09.399Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis学习笔记（一）：简介，下载安装，启动及客户端使用">
+<meta name="twitter:title" content="Redis学习笔记（一）：简介，下载安装，启动及客户端连接">
 <meta name="twitter:description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.html  1.Redis介绍1)Redis及NoSQL简介   Redis简介：  Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。 Remote Dic">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-01-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +146,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      Redis学习笔记（一）：简介，下载安装，启动及客户端使用
+      Redis学习笔记（一）：简介，下载安装，启动及客户端连接
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -201,19 +230,112 @@
 </li>
 </ol>
 <hr>
-<h2 id="2-Redis的下载安装及配置"><a href="#2-Redis的下载安装及配置" class="headerlink" title="2.Redis的下载安装及配置"></a>2.Redis的下载安装及配置</h2><ol>
-<li><p>下载：<br>官网：<br><a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a><br>中文网：<br><a href="http://www.redis.net.cn/" target="_blank" rel="noopener">http://www.redis.net.cn/</a><br>github地址：<br><a href="https://github.com/antirez/redis" target="_blank" rel="noopener">https://github.com/antirez/redis</a><br>或：<br><a href="https://github.com/dmajkic/redis/downloads" target="_blank" rel="noopener">https://github.com/dmajkic/redis/downloads</a></p>
-</li>
-<li><p>一般的Redis使用都是在Linux下的，官方版本也是Linux的。<br>Windows版本的是非官方的，由微软开发的，仅供学习使用,不能在正式项目中使用。</p>
-</li>
-<li>先学Linux的Xmanager去了。</li>
+<h2 id="2-Redis的下载及编译安装"><a href="#2-Redis的下载及编译安装" class="headerlink" title="2.Redis的下载及编译安装"></a>2.Redis的下载及编译安装</h2><p><strong>1)下载到Linux</strong></p>
+<ol>
+<li>下载：<br>官网：<br><a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a><br>中文网：<br><a href="http://www.redis.net.cn/" target="_blank" rel="noopener">http://www.redis.net.cn/</a><br>github地址：<br><a href="https://github.com/antirez/redis" target="_blank" rel="noopener">https://github.com/antirez/redis</a><br>或：<br><a href="https://github.com/dmajkic/redis/downloads" target="_blank" rel="noopener">https://github.com/dmajkic/redis/downloads</a></li>
+<li>一般的Redis使用都是在Linux下的，官方版本也是Linux的。<br>Windows版本的是非官方的，由微软开发的，仅供学习使用,不能在正式项目中使用。</li>
+<li>将文件使用Xftp传送到用户主目录下：<br>因为可能会涉及到权限问题，所以使用root用户登录。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-01-1.jpg" alt=""></li>
+<li>使用Xshell查看Redis是否传到了Linux<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-02.jpg" alt=""><br>下面就可以开始安装了</li>
+</ol>
+<p><strong>2)安装Redis</strong></p>
+<ol>
+<li>解压：<br>使用如下命令：<pre><code># tar -zxvf redis-4.0.9.tar.gz -C /usr/local/
+</code></pre>运行测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-03.jpg" alt=""><br>东西很多，但是很快就解压好了。<br>然后跳转到/usr/local/,查看是否有redis：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-04.jpg" alt=""></li>
+<li>进入到redis目录进行编译：<br>cd到redis目录内，<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg" alt=""><br>可以看到有个makefile文件，代表时C语言开发，需要编译。<br>使用make命令进行编译：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-06.jpg" alt=""></li>
+<li>常见编译问题一：找不到gcc<br><code>error：gcc/cc not found</code><br>由于是C语言，所以编译需要C语言的编译器：gcc,没有gcc编译器就会报错。<br>gcc是GUN complier collection的缩写，是Linux下的一个编译器集合，主要用于编译C和C++程序。<br>执行如下命令安装gcc：<pre><code># yum -y install gcc
+-y：表示自动确认安装过程中的确认步骤。
+</code></pre>由于我的Linux已经装了gcc，就不测试了，安装完毕后使用which命令查看到：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-07.jpg" alt=""><br>就说明安装成功了。</li>
+<li>注意，再次make之前最好使用以下命令清理一下上次错误编译遗留下来的文件：<pre><code>make distclean
+</code></pre></li>
+<li>常见编译问题二：<pre><code>error:jemalloc/jemalloc.h No such file or dictionary
+</code></pre>出错原因，没有找到.h文件，解决：<br>使用内存分配器libc替代,将编译代码改为：<pre><code>make MALLOC=libc
+</code></pre></li>
+<li>编译过后的redis一般就可以使用了。<br>不过有时候还会执行<code>make install</code>命令。</li>
+</ol>
+<p><strong>3)关于make install</strong></p>
+<ol>
+<li>编译完毕后的可执行文件默认放在<code>/usr/local/redis-4.0.9/src</code>目录下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-08.jpg" alt=""><br>绿色的为可执行文件。</li>
+<li>执行<code>make install</code>命令后相当于将可执行文件复制放到PATH目录(usr/local/bin)中，执行起来可以方便一点。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-09.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-Redis的几种启动方式"><a href="#3-Redis的几种启动方式" class="headerlink" title="3.Redis的几种启动方式"></a>3.Redis的几种启动方式</h2><p><strong>1)前台启动:</strong></p>
+<ol>
+<li>前台启动:<br>退出命令行后Redis服务就自动关闭了。</li>
+<li>执行了<code>make install</code>可以在任何地方使用下列命令启动：<pre><code># redis-server
+</code></pre>未执行<code>make install</code>则需要在src目录下使用：<pre><code># ./redis-server
+</code></pre>后面的介绍都是执行了<code>make install</code>的。</li>
+<li>启动测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-10.jpg" alt=""><br>使用Ctrl+C退出。<br>使用ps配合grep查看进程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-11.jpg" alt=""><br>发现并没有redis-server的进程。<br>说明服务已经被关闭了。</li>
+</ol>
+<p><strong>2)后台启动:</strong></p>
+<ol>
+<li>只要在启动时加&amp;就可以了：<pre><code># redis-server &amp;
+</code></pre>启动测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-12.jpg" alt=""></li>
+<li>退出并查看进程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-13.jpg" alt=""><br>发现redis的进程依旧在。</li>
+</ol>
+<p><strong>3)后台启动时输出日志到nohup.out文件:</strong></p>
+<ol>
+<li>只要在启动前加上nohup就可以了：<pre><code># nohup redis-server &amp;
+</code></pre>nohup命令在执行其他程序时也经常使用。<br>执行时按Enter进行操作。</li>
+<li>执行完nohup后当前目录会出现一个nohup.out文件，可以使用cat查看。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-15.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-Redis的两种关闭方式"><a href="#4-Redis的两种关闭方式" class="headerlink" title="4.Redis的两种关闭方式"></a>4.Redis的两种关闭方式</h2><p>主要针对的是后台启动的redis。</p>
+<ol>
+<li>强制关闭：<br>任何软件都可以这样关闭：<pre><code>kill 进程号
+</code></pre>或者<pre><code>kill -9 进程号
+</code></pre>直接关，不多bb，很粗暴，会导致数据错误</li>
+<li>使用redis自带的关闭方式：<pre><code># redis-cli shutdown
+cli是redis的一个客户端
+</code></pre>这种方式会等待当前正在执行的请求执行完毕再关闭。比较温和，推荐使用。<br>关闭测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-14.jpg" alt=""></li>
+<li>注意，想要再次后台启动redis服务时一定要先将原来的redis服务关闭。</li>
+</ol>
+<hr>
+<h2 id="5-Redis的三种客户端的连接"><a href="#5-Redis的三种客户端的连接" class="headerlink" title="5.Redis的三种客户端的连接"></a>5.Redis的三种客户端的连接</h2><h3 id="a-命令行客户端redis-cli"><a href="#a-命令行客户端redis-cli" class="headerlink" title="a.命令行客户端redis-cli"></a>a.命令行客户端redis-cli</h3><ol>
+<li>介绍<br>redis-cli（Redis Command Line Interface）是redis自带的基于命令行的客户端，用于与服务器的交互。可以使用该客户端来执行各种redis的命令。</li>
+<li>连接方式一：直接连接<pre><code># redis-cli
+</code></pre>默认ip为127.0.0.1，端口为6379<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-16.jpg" alt=""><br>只装了一个redis默认的就是127.0.0.1和6379.</li>
+<li>连接方式二：指定ip和端口<pre><code># redis-cli -h ip -p 端口
+</code></pre>默认的就是这样连接<pre><code># redis-cli -127.0.0.1 ip -p 6379
+</code></pre></li>
+<li>退出客户端/关闭连接：<br>使用【Ctrl】+C或者输入exit/quit就可以退出了。</li>
+</ol>
+<h3 id="b-远程客户端"><a href="#b-远程客户端" class="headerlink" title="b.远程客户端"></a>b.远程客户端</h3><p>用于在远程图形界面连接redis。<br>如xshell,xftp就是远程连接Linux的一种客户端。<br>常用的redis远程客户端是Redis DeskTop Manager。<br><strong>1)Redis DeskTop Manager下载安装</strong></p>
+<ol>
+<li>常见的客户端，但是功能不是很强。<br>下载地址：<br><a href="https://redisdesktop.com/download" target="_blank" rel="noopener">https://redisdesktop.com/download</a><br>我下载的是windows版本的客户端。<br>下载完之后直接按提示安装就行了，很简单的。</li>
+<li>可能会安装VC++环境，不用管等它安装完毕就可以了，安装完毕后打开是这样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-17.jpg" alt=""></li>
+</ol>
+<p><strong>2)配置Redis：</strong></p>
+<ol>
+<li>远程连接前需要配置（授权）：是修改Redis主目录配置文件<br>在Xshell中cd到Redis主目录，可以看到有个名为redis.conf的配置文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg" alt=""></li>
+<li>使用vim打开redis.conf文件：<pre><code># vim redis.conf
+</code></pre>可以看到有很多蓝色注释的地方。<br>首先将69行左右的<code>bind 127.0.0.1</code>使用<code>#</code>注释掉,它指定了只能本地连接：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg" alt=""></li>
+<li>重启redis并指定修改过后的config配置文件启动：<br>先关闭，然后启动的命令如下（在Redis目录下）：<pre><code># nohup redis-server redis.conf &amp;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-20.jpg" alt=""></li>
+<li>设置密码：<br>使用<code># redis-cli</code>进入命令行客户端后使用<code>config set requirepass 密码</code>设置密码，再次登录并使用<code>auth 密码</code>登录<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg" alt=""></li>
+<li>在Windows的cmd中使用telnet测试端口：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg" alt=""><br>能连通的话就可以了。<br>不能连通的话在xsehll下执行如下命令：<pre><code>firewall-cmd --query-port=6379/tcp
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-22.jpg" alt=""><br>如果是no则使用以下命令开启：<pre><code>firewall-cmd --add-port=6379/tcp
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-23.jpg" alt=""></li>
+<li>再次连接<code>telnet 10.186.151.205 6379</code>，发现能进入环境：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-24.jpg" alt=""></li>
+</ol>
+<p><strong>3)连接Redis</strong></p>
+<ol>
+<li>点击连接到服务器新建连接并配置如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-25.jpg" alt=""></li>
+<li>点击左下角测试连接，如图，测试成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-26.jpg" alt=""></li>
+<li>然后点击OK连接成功，如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-27.jpg" alt=""></li>
+</ol>
+<p><strong>4)phpRedisAdmin</strong><br>一个php的客户端，需要php的运行环境：<br>下载建站继承软件包：xampp<br>具体使用过程以后遇到再百度吧。</p>
+<h3 id="c-编程客户端"><a href="#c-编程客户端" class="headerlink" title="c.编程客户端"></a>c.编程客户端</h3><p>与开发密切相关，主要输Java的客户端。<br><strong>1)编程客户端简介：</strong><br>redis是以键值对存储数据在服务器上，为了使java能够读取键值对内的数据，有大佬就编写了专门的api，就像驱动程序一样，使用这个Api就可以访问服务器上的各种数据并对数据进行操作。<br><strong>2)Redis的Java客户端：</strong></p>
+<ol>
+<li>Jedis:<br>Redis官方推荐的java客户端，很小但是很全面。<br>Jedis兼容Redis的各种版本。<br>github地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a><br>API文档：<a href="http://tool.oschina.net/uploads/apidocs/" target="_blank" rel="noopener">http://tool.oschina.net/uploads/apidocs/</a><br>具体的使用以后会重点介绍。</li>
+<li>Lettuce:<br>国外用的比较多，是一个可伸缩线程安全的Redis客户端，多个线程可以共用一个RedisConnection,利用优秀的netty nio来高效地管理多个连接。<br>源码：<a href="https://github.com/lettuce-io/lettuce-core" target="_blank" rel="noopener">https://github.com/lettuce-io/lettuce-core</a></li>
+<li>其余还支持40余种各种语言的Redis客户端。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月06日 13:31</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/05/Redis学习笔记（一）：简介与入门使用/" title="Redis学习笔记（一）：简介，下载安装，启动及客户端使用">https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/</a></p>
+        <p>最后更新： 2018年04月08日 18:32</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/05/Redis学习笔记（一）：简介与入门使用/" title="Redis学习笔记（一）：简介，下载安装，启动及客户端连接">https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -270,7 +392,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&title=《Redis学习笔记（一）：简介，下载安装，启动及客户端使用》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&title=《Redis学习笔记（一）：简介，下载安装，启动及客户端连接》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -280,7 +402,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&title=《Redis学习笔记（一）：简介，下载安装，启动及客户端使用》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&title=《Redis学习笔记（一）：简介，下载安装，启动及客户端连接》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -290,7 +412,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（一）：简介，下载安装，启动及客户端使用》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（一）：简介，下载安装，启动及客户端连接》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -330,26 +452,26 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis介绍"><span class="post-toc-text">1.Redis介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis的下载安装及配置"><span class="post-toc-text">2.Redis的下载安装及配置</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis介绍"><span class="post-toc-text">1.Redis介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis的下载及编译安装"><span class="post-toc-text">2.Redis的下载及编译安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Redis的几种启动方式"><span class="post-toc-text">3.Redis的几种启动方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis的两种关闭方式"><span class="post-toc-text">4.Redis的两种关闭方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Redis的三种客户端的连接"><span class="post-toc-text">5.Redis的三种客户端的连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-命令行客户端redis-cli"><span class="post-toc-text">a.命令行客户端redis-cli</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-远程客户端"><span class="post-toc-text">b.远程客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-编程客户端"><span class="post-toc-text">c.编程客户端</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/04/07/在VMwaver以及virtualBox安装Linux/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/06/Xshell,Xftp的下载安装及使用/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          在VMwaver以及VirtualBox安装Linux
+          Xshell,Xftp的下载安装使用及使用过程中的问题
         
       </span>
     </a>
   
   
-    <a href="/2018/04/05/MyBatis学习笔记（八）：缓存配置/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">MyBatis学习笔记（八）：Mybatis缓存配置</span>
+    <a href="/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MyBatis学习笔记（七）:使用存储过程与枚举类等</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -418,7 +540,7 @@
             <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -451,7 +573,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>
