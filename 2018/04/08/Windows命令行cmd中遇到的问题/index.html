@@ -3,22 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>程序人生</title>
+  <title>Windows命令行cmd中遇到的问题及解决 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 学习城市：济南 学历：某不知名大学就读中 学习吧，为了更好的自己! 当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。 近期学习方向：Mysql，Linux准备面试 座右铭 Today is the first da">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序人生">
-<meta property="og:url" content="https://zjxkenshine.github.io/about/index.html">
+  <meta name="description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
+<meta name="keywords" content="Windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows命令行cmd中遇到的问题及解决">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 学习城市：济南 学历：某不知名大学就读中 学习吧，为了更好的自己! 当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。 近期学习方向：Mysql，Linux准备面试 座右铭 Today is the first da">
+<meta property="og:description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-16T09:10:47.307Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg">
+<meta property="og:updated_time" content="2018-04-08T13:10:16.033Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序人生">
-<meta name="twitter:description" content="关于我周建新，英文名 kenshine 一个终将成为大佬的小菜鸟 一个暂时是小菜鸟的未来大佬 学习城市：济南 学历：某不知名大学就读中 学习吧，为了更好的自己! 当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。 近期学习方向：Mysql，Linux准备面试 座右铭 Today is the first da">
+<meta name="twitter:title" content="Windows命令行cmd中遇到的问题及解决">
+<meta name="twitter:description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -109,36 +117,59 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Windows命令行cmd中遇到的问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
-    <div class="article-entry " itemprop="articleBody">
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Windows命令行cmd中遇到的问题及解决
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/操作系统/">操作系统</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-08
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>周建新，英文名 kenshine</p>
-<p>一个终将成为大佬的小菜鸟</p>
-<p>一个暂时是小菜鸟的未来大佬</p>
-<h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><p>城市：<code>济南</code></p>
-<p>学历：<code>某不知名大学就读中</code></p>
-<p>学习吧，为了更好的自己!</p>
-<p>当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。<br>当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。</p>
-<p>近期学习方向：Mysql，Linux准备面试</p>
-<h3 id="座右铭"><a href="#座右铭" class="headerlink" title="座右铭"></a>座右铭</h3><blockquote>
-<p>Today is the first day in your rest life.(今天是你余生的第一天)</p>
-</blockquote>
-<h3 id="爱好"><a href="#爱好" class="headerlink" title="爱好"></a>爱好</h3><p>喜欢<code>打游戏</code>，<code>敲代码</code>，<code>看动漫</code>，<code>看电影</code>。</p>
-<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><ul>
-<li>Blog: <a href="https://zjxkenshine.github.io" title="程序人生">kenshine’s blog</a></li>
-<li>Email: 1754294529@qq.com</li>
-<li>GitHub: <a href="https://github.com/zjxkenshine" target="_blank" rel="noopener">zjxkenshine</a></li>
-<li>WeiBo: <a href="http://weibo.com/3807155334" target="_blank" rel="noopener">哈哈哈</a></li>
-<li>码云: <a href="https://gitee.com/zjxkenshine" target="_blank" rel="noopener">kenshine</a></li>
-</ul>
+            <h2 id="0-遇到的问题"><a href="#0-遇到的问题" class="headerlink" title="0. 遇到的问题"></a>0. 遇到的问题</h2><ol>
+<li><code>ping</code>不是内部或者外部命令</li>
+<li><code>telnet</code>不是内部或者外部命令</li>
+</ol>
+<hr>
+<h2 id="1-问题1-5的解决"><a href="#1-问题1-5的解决" class="headerlink" title="1.问题1-5的解决"></a>1.问题1-5的解决</h2><p><strong>1)ping不是内部或者外部命令</strong><br>很多时候需要用ping来测试windows与Linux是否连接成功。<br>出现<code>ping</code>不是内部或者外部命令这种情况只需要：<br>打开我的电脑–&gt;系统属性–&gt;高级系统设置–&gt;环境变量–&gt;系统变量–&gt;PATH<br>查看是否有<code>C:\windows\system32</code>的配置，没有则加上;然后添加该配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""><br>再ping一下虚拟机<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg" alt=""><br>0%丢失就说明连接成功了。</p>
+<p><strong>2)<code>telnet</code>不是内部或者外部命令</strong></p>
+<ol>
+<li>在使用Redis时会用telnet测试redis的端口是否开启<br>然后报telnet`不是内部或者外部命令错误。</li>
+<li>点击【计算机】–&gt;【控制面板】–&gt;【程序】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg" alt=""><br>然后点击【程序和功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg" alt=""><br>点击左侧【启动或关闭Windows功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg" alt=""><br>勾选Telnet客户端：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg" alt=""><br>点击确定，等待几分钟安装完毕就可以了。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月16日 17:10</p>
-        <p>原始链接： <a class="post-url" href="/about/index.html" title="">https://zjxkenshine.github.io/about/index.html</a></p>
+        <p>最后更新： 2018年04月08日 21:10</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/08/Windows命令行cmd中遇到的问题/" title="Windows命令行cmd中遇到的问题及解决">https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -195,7 +226,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/about/&title=程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&title=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -205,22 +236,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/about/&title=程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&title=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/about/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=程序人生&url=https://zjxkenshine.github.io/about/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/about/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -230,7 +261,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/about/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -239,6 +270,13 @@
         <ul class="article-footer-menu">
             
             
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Windows/" class="color3">Windows</a>
+      
+  </li>
+
         </ul>
         
     </footer>
@@ -248,10 +286,20 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于我"><span class="post-toc-text">关于我</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习"><span class="post-toc-text">学习</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#座右铭"><span class="post-toc-text">座右铭</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#爱好"><span class="post-toc-text">爱好</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#联系我"><span class="post-toc-text">联系我</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-遇到的问题"><span class="post-toc-text">0. 遇到的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5的解决"><span class="post-toc-text">1.问题1-5的解决</span></a></li></ol>
         </nav>
     </aside>
     
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/07/在VMwaver以及virtualBox安装Linux/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">在VMwaver以及VirtualBox安装Linux</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
 
 
 
