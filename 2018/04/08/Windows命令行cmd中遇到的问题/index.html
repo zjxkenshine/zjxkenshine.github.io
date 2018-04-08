@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg">
-<meta property="og:updated_time" content="2018-04-08T13:10:16.033Z">
+<meta property="og:updated_time" content="2018-04-08T13:21:21.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows命令行cmd中遇到的问题及解决">
 <meta name="twitter:description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
@@ -159,7 +159,7 @@
 </ol>
 <hr>
 <h2 id="1-问题1-5的解决"><a href="#1-问题1-5的解决" class="headerlink" title="1.问题1-5的解决"></a>1.问题1-5的解决</h2><p><strong>1)ping不是内部或者外部命令</strong><br>很多时候需要用ping来测试windows与Linux是否连接成功。<br>出现<code>ping</code>不是内部或者外部命令这种情况只需要：<br>打开我的电脑–&gt;系统属性–&gt;高级系统设置–&gt;环境变量–&gt;系统变量–&gt;PATH<br>查看是否有<code>C:\windows\system32</code>的配置，没有则加上;然后添加该配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""><br>再ping一下虚拟机<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg" alt=""><br>0%丢失就说明连接成功了。</p>
-<p><strong>2)<code>telnet</code>不是内部或者外部命令</strong></p>
+<p><strong>2)telnet不是内部或者外部命令</strong></p>
 <ol>
 <li>在使用Redis时会用telnet测试redis的端口是否开启<br>然后报telnet`不是内部或者外部命令错误。</li>
 <li>点击【计算机】–&gt;【控制面板】–&gt;【程序】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg" alt=""><br>然后点击【程序和功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg" alt=""><br>点击左侧【启动或关闭Windows功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg" alt=""><br>勾选Telnet客户端：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg" alt=""><br>点击确定，等待几分钟安装完毕就可以了。</li>
@@ -168,7 +168,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月08日 21:10</p>
+        <p>最后更新： 2018年04月08日 21:21</p>
         <p>原始链接： <a class="post-url" href="/2018/04/08/Windows命令行cmd中遇到的问题/" title="Windows命令行cmd中遇到的问题及解决">https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -361,7 +361,7 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a><a class="category-link" href="/categories/编程基础/">编程基础</a>
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
             <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
