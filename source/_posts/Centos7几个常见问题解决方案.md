@@ -10,6 +10,14 @@ categories: 操作系统
 2. 没有dump和restore命令怎么办?
 3. vim打开了一个文件后还想打开另一个文件怎么办?
 4. 虚拟机装的Centos7怎么联网?
+5. 连接Xshell时出现的一个错误：
+		Connecting to 127.0.0.1:22...
+		Connection established.
+		To escape to local shell, press 'Ctrl+Alt+]'.
+		Connection closing...Socket close.
+		Connection closed by foreign host.
+		Disconnected from remote host(新建会话) at 22:13:58.
+
 
 
 ---
@@ -99,6 +107,18 @@ login shell（黑窗口）直接登录，non-login shell(白窗口)下`su - root
 7. 打开火狐浏览器测试一下：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg)
 注意：centos新版本（7以上）只需要这样简单配置就可以了，不用再用什么ifconfig,也不需要手动配置ip。
+**这只是简单的能实现NAT联网而已，更多的模式的联网等以后熟悉了Linux再设置吧（学校里用不了桥接）**
+
+**5)连接Xshell出现的一个错误：**
+1. 出现错误信息，并且一直重连。
+		Connecting to 127.0.0.1:22...
+		Connection established.
+		To escape to local shell, press 'Ctrl+Alt+]'.
+		Connection closing...Socket close.
+		Connection closed by foreign host.
+		Disconnected from remote host(新建会话) at 22:13:58.
+2. 解决方法：
+待解决，找不到方法。可能是校园网的问题。
 
 
 ---
