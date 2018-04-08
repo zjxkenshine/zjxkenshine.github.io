@@ -251,5 +251,6 @@ API文档：http://tool.oschina.net/uploads/apidocs/
 2. Lettuce:
 国外用的比较多，是一个可伸缩线程安全的Redis客户端，多个线程可以共用一个RedisConnection,利用优秀的netty nio来高效地管理多个连接。
 源码：<https://github.com/lettuce-io/lettuce-core>
+3. 其余还支持40余种各种语言的Redis客户端。
 
 ---
