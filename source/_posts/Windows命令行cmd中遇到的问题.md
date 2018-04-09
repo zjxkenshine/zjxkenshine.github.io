@@ -21,7 +21,7 @@ categories: 操作系统
 ![](http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg)
 0%丢失就说明连接成功了。
 
-**2)`telnet`不是内部或者外部命令**
+**2)telnet不是内部或者外部命令**
 1. 在使用Redis时会用telnet测试redis的端口是否开启
 然后报telnet`不是内部或者外部命令错误。
 2. 点击【计算机】-->【控制面板】-->【程序】

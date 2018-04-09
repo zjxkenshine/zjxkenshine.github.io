@@ -4,7 +4,7 @@ date: 2018-03-05 11:04:27
 tags:
 - Java
 - 类
-categories: 编程基础
+categories: Java基础
 
 ---
 ## 1.关于Object类
