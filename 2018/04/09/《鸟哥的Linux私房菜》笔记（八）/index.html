@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主机时，输入的是账号，但是Linux系统是通过GID(组id)和UID">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  账号管理 权限规划及ACL 用户身份的切换 用户之间的信息传递   注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/09/《鸟哥的Linux私房菜》笔记（八）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主机时，输入的是账号，但是Linux系统是通过GID(组id)和UID">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  账号管理 权限规划及ACL 用户身份的切换 用户之间的信息传递   注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-02.jpg">
@@ -32,10 +32,29 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-14.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-15.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-16.jpg">
-<meta property="og:updated_time" content="2018-04-09T15:09:06.310Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-34.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-35.jpg">
+<meta property="og:updated_time" content="2018-04-10T06:44:44.367Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主机时，输入的是账号，但是Linux系统是通过GID(组id)和UID">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第14章：Linux账号管理与ACL权限设置  学习重点  账号管理 权限规划及ACL 用户身份的切换 用户之间的信息传递   注意：这章都需要root权限    1.Linux的账号与用户组1)用户标识符：UID和GID  我们登录Linux主">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-01.jpg">
   
   
@@ -167,6 +186,12 @@
 <li><p>包含章节<br>《鸟哥Linux习私房菜-基础学习篇》（第三版）<br>对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）<br>第14章：Linux账号管理与ACL权限设置</p>
 </li>
 <li><p>学习重点</p>
+<ul>
+<li>账号管理</li>
+<li>权限规划及ACL</li>
+<li>用户身份的切换</li>
+<li>用户之间的信息传递</li>
+</ul>
 </li>
 <li><p>注意：<br>这章都需要root权限</p>
 </li>
@@ -353,7 +378,7 @@ ENCRYPT_METHOD SHA512     --密码是否经过加密处理
 -g：修改GID
 -n：修改组名
 </code></pre>但是最好不要随意改动，避免出错。</li>
-<li>groupdel删除用户组<pre><code>groupdel 用户组名
+<li>groupdel删除用户组<pre><code># groupdel 用户组名
 </code></pre>如果有账号以该用户组为初始用户组则不能删除，所以删除之前得先确认。<br>可以删除该用户或者修改用户的GID，然后再进行删除。</li>
 <li>gpasswd:用户组管理员功能<br>系统管理员太过繁忙，可以设置用户组管理员来协助管理该用户组。<br>用户组管理员可以管理那些账号可以加入或者移除该用户组。<br>系统管理员使用gpasswd创建用户组管理员：<pre><code># gpasswd groupname
 # gpasswd [-A user1,user2...] [-M user3,user4...] 组名
@@ -434,11 +459,95 @@ ENCRYPT_METHOD SHA512     --密码是否经过加密处理
 <li><code>sudo</code>搭配<code>su</code>使用：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-16.jpg" alt=""><br>这样这几个用户就可以直接使用<code>$ sudo su-</code>来切换到root用户，而且只需要输入自己的密码就可以了。</li>
 </ol>
 <hr>
-<h2 id="5-用户特殊shell和PAM模块"><a href="#5-用户特殊shell和PAM模块" class="headerlink" title="5.用户特殊shell和PAM模块"></a>5.用户特殊shell和PAM模块</h2><hr>
+<h2 id="5-用户特殊shell和PAM模块"><a href="#5-用户特殊shell和PAM模块" class="headerlink" title="5.用户特殊shell和PAM模块"></a>5.用户特殊shell和PAM模块</h2><p><strong>1)使用者的特殊shell,/sbin/nologin</strong></p>
+<ol>
+<li>系统账号的shell就是使用的/sbin/nologin。系统账号是不需要登录的所以给它这个不要登录的合法shell，而且这个shell也不能够登录。<br>如果使用su等方式切换到这个系统账号则会报错(如mail)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-17.jpg" alt=""></li>
+<li>这个报错信息时可以设置的，使用vi编辑/etc/nologin.txt文件即可。<pre><code># vi /etc/nologin.txt
+</code></pre>这样下一次用户想要登录该系统账号时就会显示这里面编辑的信息。</li>
+</ol>
+<p><strong>2)PAM模块简介</strong></p>
+<ol>
+<li>过去的Linux想要对一个用户进行认证需要输入账号密码，然后自行编写程序来判断密码是否正确，会导致一台Linux主机上有多个认证程序。PAM模块就是为了解决这个问题的。</li>
+<li>PAM模块可以说是一套应用程序接口，它提供了一连串的验证机制，只要用户将验证阶段的需求告知PAM后，PAM就能够回报用户验证结果（成功或者失败）</li>
+<li>PAM用来验证的数据称为模块，有很多个模块，每个模块的作用都不相同。<br>模块可以自己设置。</li>
+</ol>
+<p><strong>3)PAM模块的设置</strong></p>
+<ol>
+<li>调用passwd命令后PAM的执行流程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-18.jpg" alt=""><br>重点就是那个/etc/pam.d内的配置文件</li>
+<li>使用cat查看/etc/pam.d/passwd文件的内容：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-19.jpg" alt=""><br>可以看到分为了三个字段：<strong>验证类型，控制标准以及PAM模块-参数</strong>。</li>
+<li>第一个字段，验证类别，主要分为四种：<br><code>auth</code>：使用密码验证用户身份<br><code>account</code>：验证是否有用户的使用权限<br><code>session</code>：用于记录用户登录与注销时的信息<br><code>passwd</code>：密码的意思，提供验证的修订工作<br>这4个通常是有顺序的，但也有例外</li>
+<li>第二个字段，验证的控制标志：<br>主要也分为四种：<br><code>required</code>：成功则带有success标志，失败则带有fail标志，但是成功或者失败都会继续后面的验证流程。有利于登录日志，最常用。<br><code>requisite</code>：失败则回报原程序failure标志并且终止后面的程序继续执行，成功则带有success标志继续执行。<br><code>sufficient</code>：成功则回报success终止执行，失败则带failure标志继续执行，和requisite相反。<br><code>optional</code>：大多用在显示信息，非验证。<br>要注意的是上图的include:<br>调用后面的文件（/etc/pam.d/system-auth）来进行类别的验证。</li>
+<li>pam的验证流程如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-20.jpg" alt=""></li>
+</ol>
+<p><strong>4)常用的模块：</strong></p>
+<ol>
+<li>使用cat查看/ect/pam.d/login以及/ect/pam.d/system-auth<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-21.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-22.jpg" alt=""></li>
+<li>可以看到使用了很多的pam模块，详细的情报可以在以下文件获得：<br>/ect/pam.d/*：每个文件的各别pam的配置文件<br>/lib/security/*：pam文件的实际放置目录。<br>/ect/security/*：其他pam的配置目录<br>/usr/share/doc/pam-*：详细的pam说明文档</li>
+<li>常见的几个模块：<br><code>pam_securrtty.so</code>：限制系统管理员只能从安全的终端机登录<br><code>pam_nologin.so</code>：限制一般用户是否能够登录主机，如果存储在该文件则不能登录<br><code>pam_selinux.so</code>：先将SELinux关闭，等到验证通过后再开启<br><code>pam_console.so</code>：当系统出现问题时使用该模块处理一些权限问题，使用户能通过特殊的终端接口顺利登录系统。<br><code>pam_loginuid.so</code>：验证uid<br><code>pam_env.so</code>：设置环境变量<br><code>pam_UNIC.so</code>：功能非常多，可用于验证阶段的认证，可用于账号许可证管理，可以管理日志等等<br><code>pam_cracklib.so</code>：验证密码强度。</li>
+<li>login的pam处理流程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-23.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-Linux主机上用户信息的传递"><a href="#6-Linux主机上用户信息的传递" class="headerlink" title="6.Linux主机上用户信息的传递"></a>6.Linux主机上用户信息的传递</h2><p><strong>1)查询用户：w,who,last,lastlog</strong></p>
+<ol>
+<li>查询目前已经登录在系统的用户，通过w,who来操作。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-24.jpg" alt=""></li>
+<li>查询最近登录的用户：last,lastlog<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-25.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-26.jpg" alt=""></li>
+<li>上面所显示的pts/0等指的是终端接口。</li>
+</ol>
+<p><strong>2)用户对谈：write,mesg,wall</strong></p>
+<ol>
+<li>write：直接传递信息<pre><code># write 用户账号 [用户所在端口]
+</code></pre>以Ctrl+D来结束输入。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-27.jpg" alt=""><br>此时的接收账号的显示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-28.jpg" alt=""><br>不管该用户在干什么都会接受到这个消息。<br>直接按回车就可以退出消息接收。</li>
+<li>可以选择拒接一般用户的消息：<pre><code>$ mesg n
+</code></pre>会提示无法发送消息。<br>开启接收一般用户的消息：<pre><code>$ mesg y
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-29.jpg" alt=""><br>但是来自root的消息仍然会接收到。</li>
+<li>root用户群发消息，对所有用户广播：<pre><code># wall &quot;message&quot;
+</code></pre>如：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-30.jpg" alt=""></li>
+</ol>
+<p><strong>3)用户邮箱信件：mail</strong></p>
+<ol>
+<li>write,wall需要用户在线才能接收到，而使用邮箱mailbox则能在用户不在线时发送邮件。mailbox一般放在/var/spool/mail里面，一个账号有一个mailbox文件。<br>这里存放的都是未读的邮件。</li>
+<li>发送邮件：<pre><code># mail 用户名 -s &quot;邮件标题&quot; 
+//写文件内容
+.    -- 以小数点结束
+Cc：写副本，寄给别人，Enter结束
+</code></pre>可以使用数据流重定向来代替键盘的输入：<pre><code># mail 用户名 -s &quot;邮件标题&quot; &lt; 文件名
+</code></pre></li>
+<li>而接收用户可以直接使用mail进入邮箱环境进行各种操作：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-31.jpg" alt=""></li>
+<li>mail环境的各种操作：使用?就可以看到<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-32.jpg" alt=""><br>可以使用首字母来操作。</li>
+<li>常用的mail操作：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-33.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-批量创建账号"><a href="#7-批量创建账号" class="headerlink" title="7.批量创建账号"></a>7.批量创建账号</h2><p>一般不推荐手动批量新建账号。<br><strong>1)账号检查工具：</strong></p>
+<ol>
+<li>pwdck,grpck<br><code># pwdck</code>：所有用户的检查，检查/etc/passwd站好配置文件内的信息与实际主文件是否相等，passwd文件和shadow文件是否匹配等。<br><code># grpck</code>：所有用户组的检查。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-34.jpg" alt=""></li>
+<li>pwconv<br>只是将passwd文件第二列的密码移动到shadow上而已，如果是正常使用useradd添加的用户则使用该命令<code># pwconv</code>时不会进行任何操作。</li>
+<li>pwunconv<br>与上述相反切会将shadow文件删除，没有备份的时候使用后果非常严重，慎用。</li>
+<li>chapsswd<br>经常使用在批量创建账号的时候，会将未加密的密码读入，使用SHA512加密后写到shadow文件中。</li>
+</ol>
+<p><strong>2)书上的创建范例：</strong><br>因为不太重要且比较麻烦我就不测试了，书上的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-35.jpg" alt=""></p>
+<hr>
+<h2 id="8-重要命令总结"><a href="#8-重要命令总结" class="headerlink" title="8.重要命令总结"></a>8.重要命令总结</h2><p><code># newgrp 用户组名</code>： 切换有效用户组</p>
+<figure class="highlight plain"><figcaption><span>useradd [-u UID] [-g 初始用户组] [-G次要用户组] [-mM] [-c 说明栏] [-d 主文件夹绝对路径] [-s shell] 用户账号名```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`# useradd 用户名`： 添加新用户</span><br><span class="line">`# useradd -D`： 查看默认新建用户的配置</span><br><span class="line">`# passwd [--stdin]`： 所有人都可以用来修改自己的密码</span><br><span class="line">`# passwd [-l] [-u] [--stdin] [-S] [-n 天数] [-x 天数] [-w 天数] [-i 日期] 账号`</span><br><span class="line">--&gt;root用户用来给一般用户改密码，设置密码</span><br><span class="line">`# echo &quot;密码&quot; | passwd --stdin 账号`： 管道方式</span><br><span class="line">`# passwd -l/-u 账号`： 禁用与解封账号</span><br><span class="line">`# chage [-ldEImMW] 账号名`： 查看账号的详细信息</span><br><span class="line">`# usermod [-cdegGlsuLU] username`： 修改账号的信息</span><br><span class="line">`# userdel [-r] 用户名`： 删除用户(-r：连同用户主文件夹一起删除)</span><br><span class="line"></span><br><span class="line">`# finger [-s] username`： 查阅用户的相关信息</span><br><span class="line">`# yum -y install finger`： 安装finger工具</span><br><span class="line">`# chfn [-foph] [账号名]`： 个人信息的设置（办公室电话等）</span><br><span class="line">`$ chsh [-ls]`： 修改自己的shell</span><br><span class="line">`# id [username]`： 列出自己或与username相关的UID和GID</span><br><span class="line"></span><br><span class="line">`# groupadd [-g gid] [-r] 用户组名`： 新增用户组</span><br><span class="line">`# groupmod [-g gid] [-n group_name] 用户组名`： 修改用户组参数</span><br><span class="line">`# groupdel 用户组名`： 删除用户组</span><br></pre></td></tr></table></figure>
+<p>//root用户设置用户组管理员</p>
+<h1 id="gpasswd-groupname"><a href="#gpasswd-groupname" class="headerlink" title="gpasswd groupname"></a>gpasswd groupname</h1><h1 id="gpasswd-A-user1-user2…-M-user3-user4…-组名"><a href="#gpasswd-A-user1-user2…-M-user3-user4…-组名" class="headerlink" title="gpasswd [-A user1,user2…] [-M user3,user4…] 组名"></a>gpasswd [-A user1,user2…] [-M user3,user4…] 组名</h1><h1 id="gpasswd-rR-groupname"><a href="#gpasswd-rR-groupname" class="headerlink" title="gpasswd [-rR] groupname```"></a>gpasswd [-rR] groupname```</h1><p><code># gpasswd [-ad] user 组名</code>： 用户组管理员的功能</p>
+<pre><code>//设置acl
+# setfacl [-bkRd] [{m|x} acl参数] 目标文件|目录
+-m：设置后续的acl参数给文件使用，不能和-x合用
+-x：删除后续的acl参数，不能和-m合用
+-b：删除所有的ACL设置参数
+-k：删除ACL默认参数
+-R：递归设置ACL，子目录也会被设置
+-d：设置默认的acl参数，只对目录有效
+</code></pre><p><code># getfacl [-bkRd] [{m|x} acl参数] 目标文件|目录</code>： 查看acl</p>
+<p><code># su [-lm] [-c 命令] [username]</code>： 用户身份切换，使用对方密码<br><code>$ su - -C&#39;执行的命令&#39;</code>： 切换到root用户且只执行一次命令<br><code>sudo [-b] [-u 新用户账号] [命令]</code>： 用户身份切换，使用自己的密码</p>
+<p><code># w</code>,<code># who</code>： 查看哪些用户在线<br><code># last</code>,<code># lastlog</code>： 查看用户的上次登录时间</p>
+<p><code># write 用户账号 [用户所在端口]</code>： 发送交流信息<br><code>$ mesg y/n</code>： 开启，拒接消息<br><code># wall &quot;message&quot;</code>： 全体发送广播<br><code># mail 用户名 -s &quot;邮件标题&quot;</code>： 发送邮件<br><code># mail 用户名 -s &quot;邮件标题&quot; &lt; filename</code>： 数据流重定向发送邮件</p>
+<p><code># pwdck</code>：所有用户的检查，检查/etc/passwd站好配置文件内的信息与实际主文件是否相等，passwd文件和shadow文件是否匹配等。<br><code># grpck</code>：所有用户组的检查。</p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月09日 23:09</p>
+        <p>最后更新： 2018年04月10日 14:44</p>
         <p>原始链接： <a class="post-url" href="/2018/04/09/《鸟哥的Linux私房菜》笔记（八）/" title="《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置">https://zjxkenshine.github.io/2018/04/09/《鸟哥的Linux私房菜》笔记（八）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -556,7 +665,7 @@ ENCRYPT_METHOD SHA512     --密码是否经过加密处理
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Linux的账号与用户组"><span class="post-toc-text">1.Linux的账号与用户组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-账号管理"><span class="post-toc-text">2.账号管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-主机的具体权限规划：ACL的使用"><span class="post-toc-text">3. 主机的具体权限规划：ACL的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-用户身份的切换"><span class="post-toc-text">4.用户身份的切换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-用户特殊shell和PAM模块"><span class="post-toc-text">5.用户特殊shell和PAM模块</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习之前"><span class="post-toc-text">0.学习之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Linux的账号与用户组"><span class="post-toc-text">1.Linux的账号与用户组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-账号管理"><span class="post-toc-text">2.账号管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-主机的具体权限规划：ACL的使用"><span class="post-toc-text">3. 主机的具体权限规划：ACL的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-用户身份的切换"><span class="post-toc-text">4.用户身份的切换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-用户特殊shell和PAM模块"><span class="post-toc-text">5.用户特殊shell和PAM模块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Linux主机上用户信息的传递"><span class="post-toc-text">6.Linux主机上用户信息的传递</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-批量创建账号"><span class="post-toc-text">7.批量创建账号</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-重要命令总结"><span class="post-toc-text">8.重要命令总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gpasswd-groupname"><span class="post-toc-text">gpasswd groupname</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gpasswd-A-user1-user2…-M-user3-user4…-组名"><span class="post-toc-text">gpasswd [-A user1,user2…] [-M user3,user4…] 组名</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gpasswd-rR-groupname"><span class="post-toc-text">gpasswd [-rR] groupname```</span></a>
         </nav>
     </aside>
     
