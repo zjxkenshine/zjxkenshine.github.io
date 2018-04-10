@@ -95,12 +95,12 @@ gcc是GUN complier collection的缩写，是Linux下的一个编译器集合，�
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-07.jpg)
 就说明安装成功了。
 4. 注意，再次make之前最好使用以下命令清理一下上次错误编译遗留下来的文件：
-		make distclean
+		# make distclean
 5. 常见编译问题二：
 		error:jemalloc/jemalloc.h No such file or dictionary
 出错原因，没有找到.h文件，解决：
 使用内存分配器libc替代,将编译代码改为：
-		make MALLOC=libc
+		# make MALLOC=libc
 6. 编译过后的redis一般就可以使用了。
 不过有时候还会执行`make install`命令。
 
@@ -205,24 +205,30 @@ redis-cli（Redis Command Line Interface）是redis自带的基于命令行的�
 可以看到有很多蓝色注释的地方。
 首先将69行左右的`bind 127.0.0.1`使用`#`注释掉,它指定了只能本地连接：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg)
+将保护模式关闭（可配置也可不配置），若不配置这一步需要在该文件配置密码，或者每次启动redis服务都设置密码，明显后者更麻烦：
+![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-28.jpg)
+可选，也可以不关闭保护模式选择配置密码（requirepass的注释打开）：
+![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-29.jpg)
+这里设置了密码或者关闭保护模式就可以跳过第4步。
 3. 重启redis并指定修改过后的config配置文件启动：
 先关闭，然后启动的命令如下（在Redis目录下）：
 		# nohup redis-server redis.conf &
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-20.jpg)
-4. 设置密码：
+4. 设置密码：（配置文件关闭保护模式或者配置密码则可以跳过）
 使用`# redis-cli`进入命令行客户端后使用`config set requirepass 密码`设置密码，再次登录并使用`auth 密码`登录
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg)
 5. 在Windows的cmd中使用telnet测试端口：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg)
 能连通的话就可以了。
 不能连通的话在xsehll下执行如下命令：
-		firewall-cmd --query-port=6379/tcp
+		# firewall-cmd --query-port=6379/tcp
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-22.jpg)
 如果是no则使用以下命令开启：
-		firewall-cmd --add-port=6379/tcp
+		# firewall-cmd --add-port=6379/tcp
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-23.jpg)
 6. 再次连接`telnet 10.186.151.205 6379`，发现能进入环境：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-24.jpg)
+7. 注意这样子打开端口以及设置
 
 **3)连接Redis**
 1. 点击连接到服务器新建连接并配置如下：
@@ -252,5 +258,37 @@ API文档：http://tool.oschina.net/uploads/apidocs/
 国外用的比较多，是一个可伸缩线程安全的Redis客户端，多个线程可以共用一个RedisConnection,利用优秀的netty nio来高效地管理多个连接。
 源码：<https://github.com/lettuce-io/lettuce-core>
 3. 其余还支持40余种各种语言的Redis客户端。
+
+---
+## 6.重要命令总结
+**1）Linux下的命令：**
+`# tar -zxvf redis-4.0.9.tar.gz -C /usr/local/`： 解压Redis
+`# yum -y install gcc`： 安装gcc(c语言支持)
+`# make`： 编译redis
+`# make distclean`： 再次编译前执行，清理上次编译的残留
+`# make MALLOC=libc`: 使用内存分配器编译
+`# make install`： 将可执行文件安装到PATH
+
+`# redis-server`，`# ./redis-server`： 启动redis服务（前台）
+`# redis-server &`： 后台启动redis服务
+`# nohup redis-server &`： 后台启动redis服务并打印日志
+`# nohup redis-server redis.conf &`： 指定配置文件的redis标准启动方式
+`# redis-cli shutdown`： 关闭redis服务
+`# kill id`： 关闭运行的程序
+
+`# redis-cli`： 进入本地的Redis客户端
+`# redis-cli -h ip -p 端口`： 连接到某一ip的某一端口
+`# redis-cli -127.0.0.1 ip -p 6379`：连接本地的Redis客户端
+
+`# firewall-cmd --query-port=6379/tcp`： 查看该端口防火墙是否可用
+`# firewall-cmd --add-port=6379/tcp`： 打开该端口，使其能够连接外部
+
+**2)Windows下的命令：**
+`telnet 10.186.151.205 6379`： 测试该ip的端口是否可用
+
+**3)Redis的命令：**
+`config set requirepass`：设置密码
+`auth passwd`：使用密码登录才能操作
+`quit/exit`：退出Redis客户端
 
 ---
