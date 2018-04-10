@@ -35,6 +35,8 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-17.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-20.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg">
@@ -44,7 +46,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-25.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-26.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-27.jpg">
-<meta property="og:updated_time" content="2018-04-08T10:32:09.399Z">
+<meta property="og:updated_time" content="2018-04-10T09:21:55.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（一）：简介，下载安装，启动及客户端连接">
 <meta name="twitter:description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.html  1.Redis介绍1)Redis及NoSQL简介   Redis简介：  Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。 Remote Dic">
@@ -245,10 +247,10 @@
 <li>常见编译问题一：找不到gcc<br><code>error：gcc/cc not found</code><br>由于是C语言，所以编译需要C语言的编译器：gcc,没有gcc编译器就会报错。<br>gcc是GUN complier collection的缩写，是Linux下的一个编译器集合，主要用于编译C和C++程序。<br>执行如下命令安装gcc：<pre><code># yum -y install gcc
 -y：表示自动确认安装过程中的确认步骤。
 </code></pre>由于我的Linux已经装了gcc，就不测试了，安装完毕后使用which命令查看到：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-07.jpg" alt=""><br>就说明安装成功了。</li>
-<li>注意，再次make之前最好使用以下命令清理一下上次错误编译遗留下来的文件：<pre><code>make distclean
+<li>注意，再次make之前最好使用以下命令清理一下上次错误编译遗留下来的文件：<pre><code># make distclean
 </code></pre></li>
 <li>常见编译问题二：<pre><code>error:jemalloc/jemalloc.h No such file or dictionary
-</code></pre>出错原因，没有找到.h文件，解决：<br>使用内存分配器libc替代,将编译代码改为：<pre><code>make MALLOC=libc
+</code></pre>出错原因，没有找到.h文件，解决：<br>使用内存分配器libc替代,将编译代码改为：<pre><code># make MALLOC=libc
 </code></pre></li>
 <li>编译过后的redis一般就可以使用了。<br>不过有时候还会执行<code>make install</code>命令。</li>
 </ol>
@@ -308,14 +310,15 @@ cli是redis的一个客户端
 <ol>
 <li>远程连接前需要配置（授权）：是修改Redis主目录配置文件<br>在Xshell中cd到Redis主目录，可以看到有个名为redis.conf的配置文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-05.jpg" alt=""></li>
 <li>使用vim打开redis.conf文件：<pre><code># vim redis.conf
-</code></pre>可以看到有很多蓝色注释的地方。<br>首先将69行左右的<code>bind 127.0.0.1</code>使用<code>#</code>注释掉,它指定了只能本地连接：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg" alt=""></li>
+</code></pre>可以看到有很多蓝色注释的地方。<br>首先将69行左右的<code>bind 127.0.0.1</code>使用<code>#</code>注释掉,它指定了只能本地连接：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-18.jpg" alt=""><br>将保护模式关闭（可配置也可不配置），若不配置这一步需要在该文件配置密码，或者每次启动redis服务都设置密码，明显后者更麻烦：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-28.jpg" alt=""><br>可选，也可以不关闭保护模式选择配置密码（requirepass的注释打开）：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-29.jpg" alt=""><br>这里设置了密码或者关闭保护模式就可以跳过第4步。</li>
 <li>重启redis并指定修改过后的config配置文件启动：<br>先关闭，然后启动的命令如下（在Redis目录下）：<pre><code># nohup redis-server redis.conf &amp;
 </code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-20.jpg" alt=""></li>
-<li>设置密码：<br>使用<code># redis-cli</code>进入命令行客户端后使用<code>config set requirepass 密码</code>设置密码，再次登录并使用<code>auth 密码</code>登录<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg" alt=""></li>
-<li>在Windows的cmd中使用telnet测试端口：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg" alt=""><br>能连通的话就可以了。<br>不能连通的话在xsehll下执行如下命令：<pre><code>firewall-cmd --query-port=6379/tcp
-</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-22.jpg" alt=""><br>如果是no则使用以下命令开启：<pre><code>firewall-cmd --add-port=6379/tcp
+<li>设置密码：（配置文件关闭保护模式或者配置密码则可以跳过）<br>使用<code># redis-cli</code>进入命令行客户端后使用<code>config set requirepass 密码</code>设置密码，再次登录并使用<code>auth 密码</code>登录<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-19-1.jpg" alt=""></li>
+<li>在Windows的cmd中使用telnet测试端口：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-21.jpg" alt=""><br>能连通的话就可以了。<br>不能连通的话在xsehll下执行如下命令：<pre><code># firewall-cmd --query-port=6379/tcp
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-22.jpg" alt=""><br>如果是no则使用以下命令开启：<pre><code># firewall-cmd --add-port=6379/tcp
 </code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-23.jpg" alt=""></li>
 <li>再次连接<code>telnet 10.186.151.205 6379</code>，发现能进入环境：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00031Redis%E5%AD%A6%E4%B9%A01-24.jpg" alt=""></li>
+<li>注意这样子打开端口以及设置</li>
 </ol>
 <p><strong>3)连接Redis</strong></p>
 <ol>
@@ -331,10 +334,17 @@ cli是redis的一个客户端
 <li>其余还支持40余种各种语言的Redis客户端。</li>
 </ol>
 <hr>
+<h2 id="6-重要命令总结"><a href="#6-重要命令总结" class="headerlink" title="6.重要命令总结"></a>6.重要命令总结</h2><p><strong>1）Linux下的命令：</strong><br><code># tar -zxvf redis-4.0.9.tar.gz -C /usr/local/</code>： 解压Redis<br><code># yum -y install gcc</code>： 安装gcc(c语言支持)<br><code># make</code>： 编译redis<br><code># make distclean</code>： 再次编译前执行，清理上次编译的残留<br><code># make MALLOC=libc</code>: 使用内存分配器编译<br><code># make install</code>： 将可执行文件安装到PATH</p>
+<p><code># redis-server</code>，<code># ./redis-server</code>： 启动redis服务（前台）<br><code># redis-server &amp;</code>： 后台启动redis服务<br><code># nohup redis-server &amp;</code>： 后台启动redis服务并打印日志<br><code># nohup redis-server redis.conf &amp;</code>： 指定配置文件的redis标准启动方式<br><code># redis-cli shutdown</code>： 关闭redis服务<br><code># kill id</code>： 关闭运行的程序</p>
+<p><code># redis-cli</code>： 进入本地的Redis客户端<br><code># redis-cli -h ip -p 端口</code>： 连接到某一ip的某一端口<br><code># redis-cli -127.0.0.1 ip -p 6379</code>：连接本地的Redis客户端</p>
+<p><code># firewall-cmd --query-port=6379/tcp</code>： 查看该端口防火墙是否可用<br><code># firewall-cmd --add-port=6379/tcp</code>： 打开该端口，使其能够连接外部</p>
+<p><strong>2)Windows下的命令：</strong><br><code>telnet 10.186.151.205 6379</code>： 测试该ip的端口是否可用</p>
+<p><strong>3)Redis的命令：</strong><br><code>config set requirepass</code>：设置密码<br><code>auth passwd</code>：使用密码登录才能操作<br><code>quit/exit</code>：退出Redis客户端</p>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月08日 18:32</p>
+        <p>最后更新： 2018年04月10日 17:21</p>
         <p>原始链接： <a class="post-url" href="/2018/04/05/Redis学习笔记（一）：简介与入门使用/" title="Redis学习笔记（一）：简介，下载安装，启动及客户端连接">https://zjxkenshine.github.io/2018/04/05/Redis学习笔记（一）：简介与入门使用/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -452,7 +462,7 @@ cli是redis的一个客户端
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis介绍"><span class="post-toc-text">1.Redis介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis的下载及编译安装"><span class="post-toc-text">2.Redis的下载及编译安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Redis的几种启动方式"><span class="post-toc-text">3.Redis的几种启动方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis的两种关闭方式"><span class="post-toc-text">4.Redis的两种关闭方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Redis的三种客户端的连接"><span class="post-toc-text">5.Redis的三种客户端的连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-命令行客户端redis-cli"><span class="post-toc-text">a.命令行客户端redis-cli</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-远程客户端"><span class="post-toc-text">b.远程客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-编程客户端"><span class="post-toc-text">c.编程客户端</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis介绍"><span class="post-toc-text">1.Redis介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis的下载及编译安装"><span class="post-toc-text">2.Redis的下载及编译安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Redis的几种启动方式"><span class="post-toc-text">3.Redis的几种启动方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis的两种关闭方式"><span class="post-toc-text">4.Redis的两种关闭方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Redis的三种客户端的连接"><span class="post-toc-text">5.Redis的三种客户端的连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#a-命令行客户端redis-cli"><span class="post-toc-text">a.命令行客户端redis-cli</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#b-远程客户端"><span class="post-toc-text">b.远程客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#c-编程客户端"><span class="post-toc-text">c.编程客户端</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-重要命令总结"><span class="post-toc-text">6.重要命令总结</span></a></li></ol>
         </nav>
     </aside>
     
@@ -540,7 +550,7 @@ cli是redis的一个客户端
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -573,7 +583,7 @@ cli是redis的一个客户端
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
         </div>
     </div>
 </div>

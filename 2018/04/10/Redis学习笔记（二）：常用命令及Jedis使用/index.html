@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/  1.Redis的简单使用1)准备工作：  首先需要开启redis服务：指定配置文件，后台启动# nohup redis-server redis.config &amp;amp;  登录到命令行">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/  1.Redis的简单使用1)准备工作：  首先需要开启redis服务：指定配置文件，后台启动# nohup redis-server redis.config &amp;amp;  登录到命令行">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-15-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-18-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-24.jpg">
+<meta property="og:updated_time" content="2018-04-10T15:38:03.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作">
+<meta name="twitter:description" content="0.学习资料参考视频：《动力节点Redis视频教程》参考网址：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/  1.Redis的简单使用1)准备工作：  首先需要开启redis服务：指定配置文件，后台启动# nohup redis-server redis.config &amp;amp;  登录到命令行">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-03.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（二）：常用命令及Jedis使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考视频：《动力节点Redis视频教程》<br>参考网址：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<br><a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a></p>
+<hr>
+<h2 id="1-Redis的简单使用"><a href="#1-Redis的简单使用" class="headerlink" title="1.Redis的简单使用"></a>1.Redis的简单使用</h2><p><strong>1)准备工作：</strong></p>
+<ol>
+<li>首先需要开启redis服务：指定配置文件，后台启动<pre><code># nohup redis-server redis.config &amp;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-03.jpg" alt=""></li>
+<li>登录到命令行客户端：<pre><code># redis-cli
+</code></pre>如果配置了密码需要先使用auth输入密码才能进入客户端操作。</li>
+<li>关于redis的库：<br><strong>Redis默认有16个库</strong>,默认使用的是0号库。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-02.jpg" alt=""><br>这个在redis的配置文件redis.conf中可以找到：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-04.jpg" alt=""><br>可以自行修改，但是最好不要修改。</li>
+</ol>
+<p><strong>2)常用的Redis命令：(需要在cli等客户端中使用)</strong><br>所有的Redis命令有自动补齐功能，按TAB键就可以了。</p>
+<ol>
+<li><code>ping</code>： 测试服务是否可用，如果返回pong则说明服务器正常<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-01-1.jpg" alt=""></li>
+<li><code>select</code>：切换库，如果要切换到5号库就是用<code>select 5</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></li>
+<li>删除数据:<br>删除所有库的数据：<code>flashall</code><br>删除当前数据库内的数据：<code>flashdb</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-06.jpg" alt=""></li>
+<li><code>config get *</code>：获得redis的所有配置值<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-07.jpg" alt=""><br>我的配置有178行，其余的就不截图了。<br>这些配置项很重要，后面也会多次设置。</li>
+<li>退出客户端cli:<br><code>exit</code>或者<code>quit</code></li>
+<li>查看当前数据库中有多少个key：<code>dbsize</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-08.jpg" alt=""></li>
+<li>查看Redis服务器的统计信息：<code>info</code><br>在后面主从集群时会涉及。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-09.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-Redis的key命令"><a href="#2-Redis的key命令" class="headerlink" title="2.Redis的key命令"></a>2.Redis的key命令</h2><p><strong>1)关于redis的命令简介及命令手册：</strong></p>
+<ol>
+<li>redis的常用数据操作命令为1+5：<br>1+5：一种key的操作，5种不同数据类型的操作<br>5种数据类型：<br>String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）</li>
+<li>这里主要介绍的是key的操作，5种数据类型的命令操作后面会分别介绍。</li>
+<li>命令手册：<br>英文版：<br><a href="https://redis.io/commands" target="_blank" rel="noopener">https://redis.io/commands</a><br>中文版：<br><a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a></li>
+</ol>
+<p><strong>2)Redis的常用Key命令</strong></p>
+<ol>
+<li>keys命令：后面加匹配模型<br><code>keys *</code>：列出该数据库中的所有键<br><code>keys h?llo</code>： 匹配 hello ， hallo 和 hxllo 等。<br><code>keys h*llo</code>： 匹配 hllo 和 heeeeello 等。<br><code>keys h[ae]llo</code>： 匹配 hello 和 hallo ，但不匹配 hillo 。<br>注意如果键太多可能会影响Redis的性能，所有最好使用精确查找，而不是使用*来进行查找。数据量庞大建议使用set集合代替。<br>当然我现在的数据库并没有任何的key:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-10.jpg" alt=""></li>
+<li>exists命令：<em>检查是否存在某个键</em><br><code>exists 键名</code>：若 key 存在，返回 1 ，否则返回 0 。</li>
+<li><code>move key db</code>：<em>移动key到db数据库</em><br>如<code>move k1 5</code>：将k1移到5号库。<br>exists和move的测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-11.jpg" alt=""></li>
+<li><code>expire key seconds</code>：<em>设置key的过期时间</em><br>key为键名，seconds为秒数，填写数字。</li>
+<li><code>ttl key</code>：<em>查看key还有多少秒过期。</em><br>一般数字如50：表示还有50秒过期<br>-1表示永不过期，-2表示已过期或者key不存在。<br>tt1是time to live 的缩写。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-12.jpg" alt=""><br>过期则直接将该key删除。</li>
+<li><code>type key</code>：<em>查看key所存储的数据类型</em></li>
+<li><code>del key</code>：<em>删除key</em><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-13.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-使用Jdis连接Redis并操作key命令"><a href="#3-使用Jdis连接Redis并操作key命令" class="headerlink" title="3.使用Jdis连接Redis并操作key命令"></a>3.使用Jdis连接Redis并操作key命令</h2><p><strong>1)新建Maven项目并配置pom.xml</strong></p>
+<ol>
+<li>新建maven项目。<br>使用一般模式创建，使用quick那个模板。<br>创建好的是没有src/main/resource目录和src/test/resource的，手动添加这两个目录。</li>
+<li><p>配置pom.xml，引入jedis的jar包。<br>可以在阿里的仓库中查找：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-14.jpg" alt=""><br>依赖为：</p>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+  &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+  &lt;version&gt;2.9.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>将该依赖添加到maven的pom.xml文件中。<br>配置好的pom文件（很多都是自动创建好的）：</p>
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;Redis&lt;/groupId&gt;
+  &lt;artifactId&gt;redistest&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;jar&lt;/packaging&gt;
+
+  &lt;name&gt;redistest&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+      &lt;dependency&gt;
+      &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+      &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+      &lt;version&gt;2.9.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;4.12&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)使用jedis操作相关的数据：</strong></p>
+<ol>
+<li>创建相关的代码包以及测试包，在下面创建两个class文件,并创建一个基础操作类用于连接Redis服务，其他的代码继承至这个类：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-15-2.jpg" alt=""></li>
+<li><p>BaseOperation的代码如下（如何使用jedis连接redis）：</p>
+<pre><code>package Base;
+
+import redis.clients.jedis.Jedis;
+
+public class BaseOperation {
+    public Jedis getRedis(){
+        //连接Jedis服务器
+        Jedis jed =new Jedis(&quot;10.186.151.205&quot;, 6379);
+        //输入密码，否则只能登陆而不能获取数据
+        jed.auth(&quot;123456&quot;);
+        return jed;
+    }
+}
+</code></pre><p>返回了一个Jedis的对象jed,而这个对象里有非常多的操作Redis的API方法。</p>
+</li>
+<li>简单测试使用ping测试是否可用，在KeyOperation.java中添加测试方法：<pre><code>public String PingCmd(){
+    Jedis jd=getJedis();
+    try{
+        return jd.ping();
+    }finally{
+        //一定要关闭
+        jd.close();
+    }
+}
+</code></pre>在测试方法中添加：<pre><code>@Test
+public void testPingCmd(){
+    String p=kop.PingCmd();
+    Assert.assertEquals(&quot;PONG&quot;, p);
+    System.out.println(p);
+}
+</code></pre>测试通过，结果就不截图了。</li>
+</ol>
+<p><strong>3)使用jedis操作其他命令：</strong></p>
+<ol>
+<li>keys命令及flushALll（DB）命令：<br>KeyOperation.java中添加以下方法：<pre><code>public void systoutSet(Set&lt;String&gt; ss){
+    //遍历输出key
+    Iterator&lt;String&gt; it=ss.iterator();
+    while(it.hasNext()){
+        System.out.println(it.next());
+    }
+}
+public void KeysCmd(){
+    Jedis jd=getJedis();
+    try{
+        //相当于keys命令，返回值为Set&lt;String&gt;
+        Set&lt;String&gt; ss=jd.keys(&quot;k*&quot;);
+        System.out.println(&quot;开始时&quot;);
+        //遍历输出key
+        systoutSet(ss);
+        jd.set(&quot;k1&quot;, &quot;v1&quot;);
+        jd.set(&quot;k2&quot;, &quot;v2&quot;);
+        Set&lt;String&gt; ss1=jd.keys(&quot;k*&quot;);
+        System.out.println(&quot;set后&quot;);
+        systoutSet(ss1);
+        jd.flushAll();
+    //  jd.flishDB();
+        Set&lt;String&gt; ss2=jd.keys(&quot;k*&quot;);
+        System.out.println(&quot;flush后&quot;);
+        systoutSet(ss2);
+    }finally{
+        //一定要关闭
+        jd.close();
+    }
+}
+</code></pre>添加测试方法：<pre><code>@Test
+public void testKeysCmd(){
+    kop.KeysCmd();
+    Assert.assertTrue(true);
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-16.jpg" alt=""></li>
+<li>测试move,exists等方法：<br>Jedis使用getDB()方法就可以查看当前在几号库中。<br>main中的代码：<pre><code>public void MoveCmd(){
+    Jedis jd=getJedis();
+    try{
+        System.out.println(jd.getDB()+&quot;号数据库是否存在k1?&quot;+jd.exists(&quot;K1&quot;));
+        jd.set(&quot;K1&quot;,&quot;V1&quot;);
+        System.out.println(&quot;添加后&quot;+jd.getDB()+&quot;号数据库是否存在k1?&quot;+jd.exists(&quot;K1&quot;));
+        jd.move(&quot;k1&quot;, 5);
+        System.out.println(&quot;移动后&quot;+jd.getDB()+&quot;号数据库是否存在k1?&quot;+jd.exists(&quot;K1&quot;));
+        jd.select(5);
+        System.out.println(&quot;移动后&quot;+jd.getDB()+&quot;号数据库是否存在k1?&quot;+jd.exists(&quot;K1&quot;));
+        jd.del(&quot;K1&quot;);
+        System.out.println(&quot;删除后&quot;+jd.getDB()+&quot;号数据库是否存在k1?&quot;+jd.exists(&quot;K1&quot;));
+        jd.select(0);
+    }finally{
+        //一定要关闭
+        jd.close();
+    }
+}
+</code></pre>测试类中的代码：<pre><code>@Test
+public void testMoveCmd(){
+    kop.MoveCmd();
+    Assert.assertTrue(true);
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-17.jpg" alt=""></li>
+<li>expire，ttl,type等的Jedis方法名和命令一模一样。<br>使用方式也一模一样。就不多测试了。</li>
+</ol>
+<hr>
+<h2 id="4-Redis五种基本数据类型之String字符串"><a href="#4-Redis五种基本数据类型之String字符串" class="headerlink" title="4.Redis五种基本数据类型之String字符串"></a>4.Redis五种基本数据类型之String字符串</h2><p><strong>1)关于Redis的5种基本类型</strong></p>
+<ol>
+<li>redis是以键值对来存储数据的，键都是String类型(也可以存二进制byte)<br>值则主要有五种类型：<br>String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）</li>
+<li>String类型：<br>Redis中最基本的数据类型，可以存储任何形式的字符串，包括二进制数据，序列化之后的数据，Jsoh化后的数据甚至是一张图片。</li>
+<li>其余数据类型后面介绍。</li>
+</ol>
+<p><strong>2)字符串类型的重要常用命令（重要）：</strong></p>
+<ol>
+<li>设置值:<code>set</code><br>添加字符串值：<code>set key value</code><br>如果 key 已经持有其他值， SET 就覆写旧值，无视类型。<br>对于某个原本带有生存时间（TTL）的键来说， 当 SET 命令成功在这个键上执行时， 这个键原有的 TTL 将被清除。<br>参数（2.6.12 版本以上）：<pre><code>EX second ：设置键的过期时间为 second 秒。 SET key value EX second 效果等同于 SETEX key second value 。
+PX millisecond ：设置键的过期时间为 millisecond 毫秒。 SET key value PX millisecond 效果等同于 PSETEX key millisecond value 。
+NX ：只在键不存在时，才对键进行设置操作。 SET key value NX 效果等同于 SETNX key value 。
+XX ：只在键已经存在时，才对键进行设置操作。
+</code></pre></li>
+<li>取值：<code>get</code><br>获取对应key的字符串值：<code>get key</code><br>如果key不存在那么返回特殊值 nil 。<br>假如key储存的值不是字符串类型，返回一个错误，因为 GET 只能用于处理字符串值。</li>
+<li><code>incr</code>:加1<br><code>incr key</code><br>将 key 中储存的数字值增一。<br>如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 INCR 操作。<br>如果值包含错误的类型，或字符串类型的值不能表示为数字，那么返回一个错误。</li>
+<li><code>decr</code>:减1，和上面的相反<br><code>decr key</code><br>将 key 中储存的数字值减一。注意事项和上面相同。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-18-1.jpg" alt=""></li>
+<li><code>setex</code>：set expire的简写，设置值并设置key的过期时间<br><code>setex key second value</code><br>将值 value 关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)。<br>如果 key 已经存在， SETEX 命令将覆写旧值。<br>这个操作是一个原子操作，不可分割。<br>该命令在 Redis 用作缓存时，非常实用。</li>
+<li><code>setnx</code>:set if not exist<br><code>setnx key value</code><br>只有在key中没有值时才可以存入，否则不进行任何操作。</li>
+<li><code>getset</code>：替换并返回旧值<br><code>getset key value</code><br>将给定 key 的值设为 value ，并返回 key 的旧值(old value)。<br>当 key 存在但不是字符串类型时，返回一个错误。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-19.jpg" alt=""></li>
+</ol>
+<p><strong>3)一些其他常用命令（更多命令查看手册）：</strong></p>
+<ol>
+<li><code>strlen</code>：返回所存储的字符串长度<br><code>strlen key</code><br>返回 key 所储存的字符串值的长度。<br>key不存在时返回0</li>
+<li><code>append</code>：加值<br><code>append key value</code><br>如果key已经存在并且是一个字符串，APPEND命令将value追加到key原来的值的末尾。<br>如果key不存在， APPEND 就简单地将给key设为value，就像执行 <code>SET key value</code>一样。</li>
+<li><code>incrby</code>：指定步长的增长<br><code>incrby key n</code>:以每次加n来增加，只能对数值操作<br>如果key不存在，那么key的值会先被初始化为0，然后再执行INCRBY操作。</li>
+<li><code>decrby</code>：指定步长的减少<br><code>decrby key n</code>:以每次加n来减少，只能对数值操作<br>其余和increby一样。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-20.jpg" alt=""></li>
+<li><code>getrange</code>：截取字符串<br><code>getrange key start end</code>:截取key的值从start到end<br>负数偏移量表示从字符串最后开始计数，-1表示最后一个字符，-2表示倒数第二个，以此类推。<br>getrange通过保证子字符串的值域(range)不超过实际字符串的值域来处理超出范围的值域请求。<br>字符串的下标从0开始。</li>
+<li><code>setrange</code>：替换指定的字符串<br><code>setrange key start value</code><br>将从start开始的和value一样长度字符串替换为value。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-21.jpg" alt=""></li>
+<li><code>mset</code>：同时设置一个或者多个键值对<br><code>mset k1 v1 k2 v2 k3 v3...</code><br>如果某个给定 key 已经存在，那么 MSET 会用新值覆盖原来的旧值，如果这不是你所希望的效果，请考虑使用<code>MSETNX</code>命令：它只会在所有给定key都不存在的情况下进行设置操作。<br>MSET是一个原子性(atomic)操作，所有给定 key 都会在同一时间内被设置，某些给定 key 被更新而另一些给定 key 没有改变的情况，不可能发生。</li>
+<li><code>mget</code>：同时获取一个或多个给定key的value<br><code>mget k1 k2 k3...</code><br>和上述<code>mset</code>注意事项相同</li>
+<li><code>msetnx</code>：同时设置一个或者多个键值对，不覆盖<br><code>msetnx k1 v1 k2 v2 k3 v3...</code><br>只要有一个键的值存在，则所有的key设置都会失败。<br>当所有key都成功设置，返回 1 。<br>如果所有给定key都设置失败(至少有一个key已经存在)，那么返回 0 。<br>测试后面三个方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-22.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-使用Jedis操作字符串"><a href="#5-使用Jedis操作字符串" class="headerlink" title="5.使用Jedis操作字符串"></a>5.使用Jedis操作字符串</h2><p><strong>1)准备工作：</strong></p>
+<ol>
+<li>创建操作类继承至BaseOperation：<pre><code>package Operate;
+import Base.BaseOperation;
+public class StringOperation extends BaseOperation{
+}
+</code></pre></li>
+<li>创建测试类：<pre><code>package Test;    
+public class RedisStringTest {
+    StringOperation sop=new StringOperation();
+}
+</code></pre></li>
+</ol>
+<p><strong>2)创建操作方法及测试类：</strong></p>
+<ol>
+<li><p>测试一：<br>操作方法：</p>
+<pre><code>public void Test01(){
+    Jedis jd=getJedis();
+    try{
+        jd.set(&quot;k1&quot;, &quot;1&quot;);
+        System.out.println(&quot;get(key)=&quot;+jd.get(&quot;k1&quot;));
+        jd.append(&quot;k1&quot;, &quot;23&quot;);
+        System.out.println(&quot;append后get(key)=&quot;+jd.get(&quot;k1&quot;));
+        jd.incr(&quot;k1&quot;);
+        System.out.println(&quot;incr后get(key)=&quot;+jd.get(&quot;k1&quot;));
+        jd.decrBy(&quot;k1&quot;, 100);
+        System.out.println(&quot;减一百后get(key)=&quot;+jd.get(&quot;k1&quot;));
+        jd.flushAll();
+    }finally{
+        //一定要关闭
+        jd.close();
+    }
+}
+</code></pre><p>测试方法：</p>
+<pre><code>@Test
+public void testTest01(){
+    sop.Test01();
+    Assert.assertTrue(true);
+}
+</code></pre><p>结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-23.jpg" alt=""></p>
+</li>
+<li><p>测试二：<br>操作方法：</p>
+<pre><code>public void sysoutList(List&lt;String&gt; ls){
+    for (String s : ls) {
+        System.out.print(s+&quot; &quot;);
+    }
+    System.out.println();
+}
+public void Test02(){
+    Jedis jd=getJedis();
+    try{
+        jd.mset(&quot;k1&quot;,&quot;v1&quot;,&quot;k2&quot;,&quot;v2&quot;,&quot;k3&quot;,&quot;v3&quot;);
+        System.out.print(&quot;初始时获取的k1,k2,k3值为：  &quot;);
+        List&lt;String&gt; lsList=jd.mget(&quot;k1&quot;,&quot;k2&quot;,&quot;k3&quot;);
+        sysoutList(lsList);
+        jd.mset(&quot;k1&quot;,&quot;111&quot;,&quot;k2&quot;,&quot;222&quot;,&quot;k3&quot;,&quot;333&quot;);
+        System.out.print(&quot;mset覆盖，获取的k1,k2,k3值为：  &quot;);
+        sysoutList(jd.mget(&quot;k1&quot;,&quot;k2&quot;,&quot;k3&quot;));
+        jd.msetnx(&quot;k1&quot;,&quot;aaa&quot;,&quot;k2&quot;,&quot;bbb&quot;,&quot;k3&quot;,&quot;ccc&quot;);
+        System.out.print(&quot;msetnx加值不覆盖,获取的k1,k2,k3值为：    &quot;);
+        sysoutList(jd.mget(&quot;k1&quot;,&quot;k2&quot;,&quot;k3&quot;));
+        jd.setex(&quot;k1&quot;, 5, &quot;6666666&quot;);
+        System.out.println(&quot;setex5秒内的取值&quot;+jd.get(&quot;k1&quot;));
+        Thread.sleep(5100);
+        System.out.println(&quot;setex5秒后的取值&quot;+jd.get(&quot;k1&quot;));
+        jd.flushAll();
+    }catch(InterruptedException e){
+        e.printStackTrace();
+    }finally{
+        //一定要关闭
+        jd.close();
+    }
+}
+</code></pre><p>测试方法：</p>
+<pre><code>@Test
+public void testTest02(){
+    sop.Test02();
+    Assert.assertTrue(true);
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00034Redis%E5%AD%A6%E4%B9%A02-24.jpg" alt=""></p>
+</li>
+<li>其余方法不测试了，使用方式和命令时一样的。</li>
+</ol>
+<hr>
+<h2 id="6-命令总结"><a href="#6-命令总结" class="headerlink" title="6.命令总结"></a>6.命令总结</h2><p><strong>1)客户端常用命令：</strong><br><code>ping</code>： 测试服务是否可用，如果返回pong则说明服务器正常<br><code>select</code>： 切换库，如果要切换到n号库就是用<code>select n</code><br><code>flashall</code>： 删除所有库的数据<br><code>flashdb</code>： 删除当前数据库内的数据<br><code>config get *</code>： 获得redis的所有配置值<br><code>exit</code>或者<code>quit</code>： 退出客户端cli<br><code>dbsize</code>： 查看当前数据库中有多少个key<br><code>info</code>： 查看Redis服务器的统计信息</p>
+<p><strong>2)Key常用命令：</strong><br><code>keys *</code>：列出该数据库中的所有键<br><code>keys h?llo</code>： 匹配 hello ， hallo 和 hxllo 等。<br><code>keys h*llo</code>： 匹配 hllo 和 heeeeello 等。<br><code>keys h[ae]llo</code>： 匹配 hello 和 hallo ，但不匹配 hillo 。<br><code>exists key</code>：若 key 存在，返回 1 ，否则返回 0 。<br><code>move key db</code>： 移动key到db数据库<br><code>move k1 5</code>： 将k1移到5号库。<br><code>expire key seconds</code>： 设置key的过期时间<br><code>ttl key</code>： 查看key还有多少秒过期。<br><code>type key</code>： 查看key所存储的数据类型<br><code>del key</code>： 删除key</p>
+<p><strong>3)String类型常用命令：</strong><br><code>set key value</code>： 添加(设置)字符串值<br><code>get key</code>：获取key键对应的值<br><code>incr key</code>： key的值加1<br><code>decr key</code>： key的值减1<br><code>setex key second value</code>： 添加一个second秒过期的值<br><code>setnx key value</code>： 只有在key中没有值时才可以存入，否则不进行任何操作。<br><code>getset key value</code>： 替换并返回旧值</p>
+<p><code>strlen key</code>： 返回key所存储的字符串的长度<br><code>append key value</code>： 加值，新的值=旧值+value<br><code>incrby key n</code>： 以每次加n来增加，只能对数值操作<br><code>decrby key n</code>： 以每次加n来减少，只能对数值操作<br><code>getrange key start end</code>： 截取key的值从start到end<br><code>setrange</code>： 替换指定的字符串<br><code>setrange key start value</code>： 将从start开始的和value一样长度字符串替换为value。<br><code>mset k1 v1 k2 v2 k3 v3...</code>： 同时设置一个或者多个键值对<br><code>mget k1 k2 k3...</code>：同时获取一个或多个给定key的value<br><code>msetnx k1 v1 k2 v2 k3 v3...</code>：同时设置一个或者多个键值对，不覆盖</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月10日 23:38</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/" title="Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作">https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/&title=《Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/&title=《Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis的简单使用"><span class="post-toc-text">1.Redis的简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis的key命令"><span class="post-toc-text">2.Redis的key命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-使用Jdis连接Redis并操作key命令"><span class="post-toc-text">3.使用Jdis连接Redis并操作key命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis五种基本数据类型之String字符串"><span class="post-toc-text">4.Redis五种基本数据类型之String字符串</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用Jedis操作字符串"><span class="post-toc-text">5.使用Jedis操作字符串</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-命令总结"><span class="post-toc-text">6.命令总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/09/《鸟哥的Linux私房菜》笔记（八）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
