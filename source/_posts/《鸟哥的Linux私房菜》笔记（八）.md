@@ -1,6 +1,6 @@
 ---
 title: 《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置
-date: 2018-03-30 22:27:59
+date: 2018-04-09 10:27:59
 tags: Linux
 categories: 操作系统
 
@@ -12,6 +12,10 @@ categories: 操作系统
 第14章：Linux账号管理与ACL权限设置
 
 2. 学习重点
+	- 账号管理
+	- 权限规划及ACL
+	- 用户身份的切换
+	- 用户之间的信息传递
 
 3. 注意：
 这章都需要root权限
@@ -252,7 +256,7 @@ root用户可以使用`# passwd 账号`逐步修改该用户账号的密码。
 		-n：修改组名
 但是最好不要随意改动，避免出错。
 3. groupdel删除用户组
-		groupdel 用户组名
+		# groupdel 用户组名
 如果有账号以该用户组为初始用户组则不能删除，所以删除之前得先确认。
 可以删除该用户或者修改用户的GID，然后再进行删除。
 4. gpasswd:用户组管理员功能
@@ -372,7 +376,189 @@ ALL：可执行的命令，**必须是使用绝对路径编写的**
 
 ---
 ## 5.用户特殊shell和PAM模块
+**1)使用者的特殊shell,/sbin/nologin**
+1. 系统账号的shell就是使用的/sbin/nologin。系统账号是不需要登录的所以给它这个不要登录的合法shell，而且这个shell也不能够登录。
+如果使用su等方式切换到这个系统账号则会报错(如mail)
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-17.jpg)
+2. 这个报错信息时可以设置的，使用vi编辑/etc/nologin.txt文件即可。
+		# vi /etc/nologin.txt
+这样下一次用户想要登录该系统账号时就会显示这里面编辑的信息。
 
+**2)PAM模块简介**
+1. 过去的Linux想要对一个用户进行认证需要输入账号密码，然后自行编写程序来判断密码是否正确，会导致一台Linux主机上有多个认证程序。PAM模块就是为了解决这个问题的。
+2. PAM模块可以说是一套应用程序接口，它提供了一连串的验证机制，只要用户将验证阶段的需求告知PAM后，PAM就能够回报用户验证结果（成功或者失败）
+3. PAM用来验证的数据称为模块，有很多个模块，每个模块的作用都不相同。
+模块可以自己设置。
+
+**3)PAM模块的设置**
+1. 调用passwd命令后PAM的执行流程：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-18.jpg)
+重点就是那个/etc/pam.d内的配置文件
+2. 使用cat查看/etc/pam.d/passwd文件的内容：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-19.jpg)
+可以看到分为了三个字段：**验证类型，控制标准以及PAM模块-参数**。
+3. 第一个字段，验证类别，主要分为四种：
+`auth`：使用密码验证用户身份
+`account`：验证是否有用户的使用权限
+`session`：用于记录用户登录与注销时的信息
+`passwd`：密码的意思，提供验证的修订工作
+这4个通常是有顺序的，但也有例外
+4. 第二个字段，验证的控制标志：
+主要也分为四种：
+`required`：成功则带有success标志，失败则带有fail标志，但是成功或者失败都会继续后面的验证流程。有利于登录日志，最常用。
+`requisite`：失败则回报原程序failure标志并且终止后面的程序继续执行，成功则带有success标志继续执行。
+`sufficient`：成功则回报success终止执行，失败则带failure标志继续执行，和requisite相反。
+`optional`：大多用在显示信息，非验证。
+要注意的是上图的include:
+调用后面的文件（/etc/pam.d/system-auth）来进行类别的验证。
+5. pam的验证流程如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-20.jpg)
+
+**4)常用的模块：**
+1. 使用cat查看/ect/pam.d/login以及/ect/pam.d/system-auth
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-21.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-22.jpg)
+2. 可以看到使用了很多的pam模块，详细的情报可以在以下文件获得：
+/ect/pam.d/\*：每个文件的各别pam的配置文件
+/lib/security/\*：pam文件的实际放置目录。
+/ect/security/\*：其他pam的配置目录
+/usr/share/doc/pam-\*：详细的pam说明文档
+3. 常见的几个模块：
+`pam_securrtty.so`：限制系统管理员只能从安全的终端机登录
+`pam_nologin.so`：限制一般用户是否能够登录主机，如果存储在该文件则不能登录
+`pam_selinux.so`：先将SELinux关闭，等到验证通过后再开启
+`pam_console.so`：当系统出现问题时使用该模块处理一些权限问题，使用户能通过特殊的终端接口顺利登录系统。
+`pam_loginuid.so`：验证uid
+`pam_env.so`：设置环境变量
+`pam_UNIC.so`：功能非常多，可用于验证阶段的认证，可用于账号许可证管理，可以管理日志等等
+`pam_cracklib.so`：验证密码强度。
+4. login的pam处理流程：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-23.jpg)
 
 ---
+## 6.Linux主机上用户信息的传递
+**1)查询用户：w,who,last,lastlog**
+1. 查询目前已经登录在系统的用户，通过w,who来操作。
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-24.jpg)
+2. 查询最近登录的用户：last,lastlog
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-25.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-26.jpg)
+3. 上面所显示的pts/0等指的是终端接口。
 
+**2)用户对谈：write,mesg,wall**
+1. write：直接传递信息
+		# write 用户账号 [用户所在端口]
+以Ctrl+D来结束输入。
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-27.jpg)
+此时的接收账号的显示：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-28.jpg)
+不管该用户在干什么都会接受到这个消息。
+直接按回车就可以退出消息接收。
+2. 可以选择拒接一般用户的消息：
+		$ mesg n
+会提示无法发送消息。
+开启接收一般用户的消息：
+		$ mesg y
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-29.jpg)
+但是来自root的消息仍然会接收到。
+3. root用户群发消息，对所有用户广播：
+		# wall "message"
+如：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-30.jpg)
+
+**3)用户邮箱信件：mail**
+1. write,wall需要用户在线才能接收到，而使用邮箱mailbox则能在用户不在线时发送邮件。mailbox一般放在/var/spool/mail里面，一个账号有一个mailbox文件。
+这里存放的都是未读的邮件。
+2. 发送邮件：
+		# mail 用户名 -s "邮件标题" 
+		//写文件内容
+		.    -- 以小数点结束
+		Cc：写副本，寄给别人，Enter结束
+可以使用数据流重定向来代替键盘的输入：
+		# mail 用户名 -s "邮件标题" < 文件名
+3. 而接收用户可以直接使用mail进入邮箱环境进行各种操作：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-31.jpg)
+4. mail环境的各种操作：使用?就可以看到
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-32.jpg)
+可以使用首字母来操作。
+5. 常用的mail操作：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-33.jpg)
+
+---
+## 7.批量创建账号
+一般不推荐手动批量新建账号。
+**1)账号检查工具：**
+1. pwdck,grpck
+`# pwdck`：所有用户的检查，检查/etc/passwd站好配置文件内的信息与实际主文件是否相等，passwd文件和shadow文件是否匹配等。
+`# grpck`：所有用户组的检查。
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-34.jpg)
+2. pwconv
+只是将passwd文件第二列的密码移动到shadow上而已，如果是正常使用useradd添加的用户则使用该命令`# pwconv`时不会进行任何操作。
+3. pwunconv
+与上述相反切会将shadow文件删除，没有备份的时候使用后果非常严重，慎用。
+4. chapsswd
+经常使用在批量创建账号的时候，会将未加密的密码读入，使用SHA512加密后写到shadow文件中。
+
+**2)书上的创建范例：**
+因为不太重要且比较麻烦我就不测试了，书上的例子：
+![](http://p5ki4lhmo.bkt.clouddn.com/00033%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A08-35.jpg)
+
+---
+## 8.重要命令总结
+`# newgrp 用户组名`： 切换有效用户组
+
+```# useradd [-u UID] [-g 初始用户组] [-G次要用户组] [-mM] [-c 说明栏] [-d 主文件夹绝对路径] [-s shell] 用户账号名```
+`# useradd 用户名`： 添加新用户
+`# useradd -D`： 查看默认新建用户的配置
+`# passwd [--stdin]`： 所有人都可以用来修改自己的密码
+`# passwd [-l] [-u] [--stdin] [-S] [-n 天数] [-x 天数] [-w 天数] [-i 日期] 账号`
+-->root用户用来给一般用户改密码，设置密码
+`# echo "密码" | passwd --stdin 账号`： 管道方式
+`# passwd -l/-u 账号`： 禁用与解封账号
+`# chage [-ldEImMW] 账号名`： 查看账号的详细信息
+`# usermod [-cdegGlsuLU] username`： 修改账号的信息
+`# userdel [-r] 用户名`： 删除用户(-r：连同用户主文件夹一起删除)
+
+`# finger [-s] username`： 查阅用户的相关信息
+`# yum -y install finger`： 安装finger工具
+`# chfn [-foph] [账号名]`： 个人信息的设置（办公室电话等）
+`$ chsh [-ls]`： 修改自己的shell
+`# id [username]`： 列出自己或与username相关的UID和GID
+
+`# groupadd [-g gid] [-r] 用户组名`： 新增用户组
+`# groupmod [-g gid] [-n group_name] 用户组名`： 修改用户组参数
+`# groupdel 用户组名`： 删除用户组
+```
+//root用户设置用户组管理员
+# gpasswd groupname
+# gpasswd [-A user1,user2...] [-M user3,user4...] 组名
+# gpasswd [-rR] groupname```
+`# gpasswd [-ad] user 组名`： 用户组管理员的功能
+
+	//设置acl
+	# setfacl [-bkRd] [{m|x} acl参数] 目标文件|目录
+	-m：设置后续的acl参数给文件使用，不能和-x合用
+	-x：删除后续的acl参数，不能和-m合用
+	-b：删除所有的ACL设置参数
+	-k：删除ACL默认参数
+	-R：递归设置ACL，子目录也会被设置
+	-d：设置默认的acl参数，只对目录有效
+`# getfacl [-bkRd] [{m|x} acl参数] 目标文件|目录`： 查看acl
+
+`# su [-lm] [-c 命令] [username]`： 用户身份切换，使用对方密码
+`$ su - -C'执行的命令'`： 切换到root用户且只执行一次命令
+`sudo [-b] [-u 新用户账号] [命令]`： 用户身份切换，使用自己的密码
+
+`# w`,`# who`： 查看哪些用户在线
+`# last`,`# lastlog`： 查看用户的上次登录时间
+
+`# write 用户账号 [用户所在端口]`： 发送交流信息
+`$ mesg y/n`： 开启，拒接消息
+`# wall "message"`： 全体发送广播
+`# mail 用户名 -s "邮件标题" `： 发送邮件
+`# mail 用户名 -s "邮件标题" < filename`： 数据流重定向发送邮件
+
+`# pwdck`：所有用户的检查，检查/etc/passwd站好配置文件内的信息与实际主文件是否相等，passwd文件和shadow文件是否匹配等。
+`# grpck`：所有用户组的检查。
+
+---
