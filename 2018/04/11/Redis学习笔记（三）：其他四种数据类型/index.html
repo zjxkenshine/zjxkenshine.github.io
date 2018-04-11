@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（三）：其他四种数据类型的命令操作 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 准备：开启Redis服务并连接Redis客户端String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）String的">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（三）：其他四种数据类型的命令操作">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 准备：开启Redis服务并连接Redis客户端String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）String的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-18.jpg">
+<meta property="og:updated_time" content="2018-04-11T10:59:18.887Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（三）：其他四种数据类型的命令操作">
+<meta name="twitter:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 准备：开启Redis服务并连接Redis客户端String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）String的">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（三）：其他四种数据类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（三）：其他四种数据类型的命令操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-11
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>参考资料：<br> 参考视频：《动力节点Redis视频教程》<br> 参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br> Redis命令参考手册：<br> <a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a></li>
+<li>准备：<br>开启Redis服务并连接Redis客户端<br>String（字符串），Hash(哈希表)，List(列表)，Set(集合)，SortedSet（有序集合）<br>String的操作已经学习过了。</li>
+</ol>
+<hr>
+<h2 id="1-哈希hash类型的命令操作"><a href="#1-哈希hash类型的命令操作" class="headerlink" title="1.哈希hash类型的命令操作"></a>1.哈希hash类型的命令操作</h2><p><strong>1)hash简介：</strong></p>
+<ol>
+<li>hash结构<br>是一个String类型的file和value的映射表，特别适合用于存储对象。<br>存储结构示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-01.jpg" alt=""></li>
+<li>相当于是Java中的一个Map，里面存的是键值对的集合。</li>
+</ol>
+<p><strong>2)常用的重要命令：</strong></p>
+<ol>
+<li><code>hset</code>：哈希表设置值的方式（一次只能存储一个字段field）<br><code>hset key field value</code><br>将哈希表key中的域field的值设为value。<br>如果key不存在，一个新的哈希表被创建并进行HSET操作。<br>如果域field已经存在于哈希表中，旧值将被覆盖。<br>返回值：<br>如果field是哈希表中的一个新建域，并且值设置成功，返回 1 。<br>如果哈希表中域field已经存在且旧值已被新值覆盖，返回 0 。</li>
+<li><code>hget</code>：获取hash表中的一个字段field的值<br><code>hget key field</code><br>返回哈希表key中给定域field的值。<br>不存在则返回nil。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-02.jpg" alt=""></li>
+<li><code>hmset</code>：同时设置多个域-值(field-value)到key中<br><code>hmset key field1 value1 field2 value2...</code><br>会覆盖哈希表中已存在的域。<br>如果key不存在，一个空哈希表被创建并执行 HMSET 操作。<br>返回值：<br>如果命令执行成功，返回 OK 。<br>当 key 不是哈希表(hash)类型时，返回一个错误。</li>
+<li><code>hmget</code>：获取hash表中的一个或者多个field的值。<br><code>hmget key field1 field2...</code><br>返回哈希表key中，一个或多个给定域的值。<br>如果给定的域不存在于哈希表，那么返回一个nil值。<br>因为不存在的key被当作一个空哈希表来处理，所以对一个不存在的key进行hmget操作将返回一个只带有nil值的表。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-03.jpg" alt=""></li>
+<li><code>hgetall key</code>：<br>返回哈希表key中，所有的域和值。<br>在返回值里，紧跟每个域(field)之后是域的值(value)，所以返回值的长度是哈希表大小的两倍。</li>
+<li><code>hdel</code>：删除一个或多个指定域<br><code>hdel key field1 field2...</code><br>删除哈希表key中的一个或多个指定域，不存在的域将被忽略。<br>返回值：<br>被成功移除的域的数量，不包括被忽略的域。</li>
+<li><code>hkeys</code>：返回哈希表key中的所有的域<br><code>hkeys key</code>，注意只会有fields,不会显示域中的值<br>当key不存在时，返回一个空表。</li>
+<li><code>hvals</code>：返回哈希表key中的所有域的值<br><code>hvals key</code>，不会返回域名。<br>返回值：<br>一个包含哈希表中所有值的表。<br>当key不存在时，返回一个空表。<br>测试后面几个命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-04.jpg" alt=""></li>
+</ol>
+<p><strong>3)其他的常用命令：</strong></p>
+<ol>
+<li><code>hlen key</code>：获取hash表key中域field的个数<br>当key不存在时，返回 0</li>
+<li><code>hexists</code>：查看域filed是否存在<br><code>hexists key field</code><br>查看哈希表key中，给定域field是否存在。</li>
+<li><code>hsetnx</code>：设置值，不覆盖<br><code>hsetnx key field value</code><br>将哈希表key中的域field的值设置为value，当且仅当域field不存在。<br>若域field已经存在，该操作无效。<br>如果key不存在，一个新哈希表被创建并执行 HSETNX 命令。<br>注意，没有<code>hmsetnx</code>命令。<br>测试以上三个命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-05.jpg" alt=""></li>
+<li><code>hincrby</code>:增加步长<br><code>hincrby key field increment</code><br>为哈希表key中的域field的值加上增量increment。<br>增量也可以为负数，相当于对给定域进行减法操作。<br>如果域field不存在，那么在执行命令前，域的值被初始化为 0 。<br>对一个储存字符串值的域field执行 HINCRBY 命令将造成一个错误。<br>本操作的值被限制在64位(bit)有符号数字表示之内。</li>
+<li><code>hincrbyfloat</code>：增加浮点数增量<br><code>hincrbyfloat key field increment</code><br>为哈希表key中的域field加上浮点数增量increment。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-06.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-列表List类型的命令操作"><a href="#2-列表List类型的命令操作" class="headerlink" title="2.列表List类型的命令操作"></a>2.列表List类型的命令操作</h2><p><strong>1)List类型简介：</strong></p>
+<ol>
+<li>list结构：<br>key是string类型，value是简单的<strong>字符串</strong>列表，根据插入的顺序排序，可以插入一个数据到列表的头部(左)或者列表的尾部(右)。</li>
+<li>存储示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-07.jpg" alt=""></li>
+</ol>
+<p><strong>2)常用的重要命令：</strong></p>
+<ol>
+<li><code>lpush</code>:插入到表头(左边)，可多个<br><code>lpush key value1 value2 value3...</code><br>将一个或多个值value插入到列表key的表头<br>如果有多个value值，那么各个value值按从左到右的顺序依次插入到表头<br>如有列表456，执行lpush key 123后的值是：321456，<br>相当于依次执行<code>lpush key 1</code>,<code>lpush key 2</code>和<code>lpush key 3</code>。</li>
+<li><code>rpush</code>:插入到表尾(右边)，可多个<br><code>rpush key value1 value2 value3...</code><br>将一个或多个值value插入到列表key的表尾<br>如果有多个value值，那么各个value值按从左到右的顺序依次插入到表尾</li>
+<li><code>lrange</code>：取列表中的元素<br><code>lrange key start stop</code><br>a. 返回列表key中指定区间内的元素，区间以偏移量start和stop指定。<br> 下标(index)参数start和stop都以0为底，也就是说以0表示列表的第一个元素，以1表示列表的第二个元素，以此类推。包括stop为下标的那个值。<br> 你也可以使用负数下标，以-1表示列表的最后一个元素，-2表示列表的倒数第二个元素，以此类推。<br>b. 超出范围的下标值不会引起错误。<br> 如果start下标比列表的最大下标end(LLEN list减去1)还要大，那么LRANGE返回一个空列表。<br> 如果stop下标比end下标还要大，Redis将stop的值设置为end。</li>
+<li>测上面的三个方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-08.jpg" alt=""><br>取所有元素：<code>lrange key 0 -1</code>就可以了</li>
+<li><code>lpop key</code>移除并返回列表key的列表头元素。<br>删除并返回最左边的元素，不存在时返回nil</li>
+<li><code>rpop key</code>:移除并返回列表 key 的尾元素。<br>删除并返回最右边的元素，不存在时返回nil</li>
+<li><code>lindex</code>：取某一下标的值<br><code>lindex key index</code><br>返回列表key中,下标为index的元素。<br>下标(index)参数start和stop都以0为底。<br>你也可以使用负数下标，以-1表示列表的最后一个元素，-2表示列表的倒数第二个元素，以此类推。<br>如果key不是列表类型，返回一个错误。<br>相当于使用<code>lrange key index index</code>。</li>
+<li><code>llen</code>：返回长度<br><code>LLEN key</code><br>返回列表key的长度。<br>如果key不存在，则key被解释为一个空列表，返回0.<br>如果key不是列表类型，返回一个错误。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-09.jpg" alt=""></li>
+</ol>
+<p><strong>3)其它常用的操作命令：</strong></p>
+<ol>
+<li><code>lrem</code>：删除某一数量的特定值<br><code>lrem key count val</code><br>根据参数 count 的值，移除列表中与参数 value 相等的元素。<br>count 的值可以是以下几种：<br>count&gt;0:从表头开始向表尾搜索，移除与value相等的元素，数量为count 。<br>count&lt;0:从表尾开始向表头搜索，移除与value相等的元素，数量为count的绝对值。<br>count=0:移除表中所有与value相等的值。<br>删除成功则返回被删除的元素数量，删除失败则返回0。</li>
+<li><code>ltrim</code>：删除指定区域外的元素<br><code>ltrim key start stop</code><br>对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除。<br>举个例子，执行命令<code>LTRIM list 0 2</code>，表示只保留列表 list 的前三个元素，其余元素全部删除。下标(index)参数start和stop都以0为底。<br>也可以使用负数下标，以-1表示列表的最后一个元素，-2表示列表的倒数第二个元素，以此类推。<br>测试前两个方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-10.jpg" alt=""></li>
+<li><code>rpoplpush</code>：rpop+lpush<br><code>rpoplpush source destination</code><br>将列表source中的最后一个元素(尾元素)弹出，并返回给客户端。<br>将source弹出的元素插入到列表destination，作为destination列表的的头元素。<br>如果source不存在，值nil被返回，并且不执行其他动作。<br>如果source和destination相同，则列表中的表尾元素被移动到表头，并返回该元素，可以把这种特殊情况视作列表的旋转(rotation)操作。</li>
+<li><code>lset</code>：替换<br><code>lset key index value</code><br>将列表key下标为index的元素的值设置为value。<br>当index参数超出范围，或对一个空列表(key不存在)进行LSET时，返回一个错误。</li>
+<li><code>linsert</code><br><code>linsert key BEFORE|AFTER pivot value</code><br>将值value插入到列表key当中，位于值pivot之前(before)或之后(after)。<br>当pivot不存在于列表key时，不执行任何操作。<br>当key不存在时，key被视为空列表，不执行任何操作。<br>如果key不是列表类型，返回一个错误。<br>注意pivot和value的值需要用双引号连接。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-11.jpg" alt=""></li>
+</ol>
+<p><strong>4)三个阻塞式命令：</strong></p>
+<ol>
+<li><code>blpop</code>：列表的阻塞式(blocking)左弹出原语<br><code>blpop key [key ...] timeout</code><ul>
+<li>它是LPOP命令的阻塞版本，当给定列表内没有任何元素可供弹出的时候，连接将被BLPOP命令阻塞，直到等待超时或发现可弹出元素为止。</li>
+<li>当给定多个key参数时，按参数key的先后顺序依次检查各个列表，弹出第一个非空列表的头元素。</li>
+<li>如果所有给定key都不存在或包含空列表，那么 BLPOP 命令将阻塞连接，直到等待超时，或有另一个客户端对给定key的任意一个执行LPUSH或RPUSH命令为止。</li>
+<li>超时参数 timeout 接受一个以秒为单位的数字作为值。超时参数设为0表示阻塞时间可以无限期延长(block indefinitely) 。</li>
+</ul>
+</li>
+<li><code>brpop</code>：列表的阻塞式右弹出原语<br><code>brpop key [key ...] timeout</code><br>和blpop相同。</li>
+<li><code>brpoplpush</code>：<br><code>brpoplpush source destination timeout</code><br>BRPOPLPUSH是RPOPLPUSH的阻塞版本，当给定列表source不为空时，BRPOPLPUSH的表现和RPOPLPUSH一样。<br>当列表source为空时，BRPOPLPUSH命令将阻塞连接，直到等待超时，或有另一个客户端对source执行 LPUSH 或 RPUSH 命令为止。<br>超时参数timeout接受一个以秒为单位的数字作为值。超时参数设为0表示阻塞时间可以无限期延长。</li>
+</ol>
+<hr>
+<h2 id="3-集合set类型的命令操作"><a href="#3-集合set类型的命令操作" class="headerlink" title="3.集合set类型的命令操作"></a>3.集合set类型的命令操作</h2><p><strong>1)Set类型简介：</strong></p>
+<ol>
+<li>set和list相似，set是String类型的<strong>无序集合</strong>，里面的值不能被重复，相同的值只存储一个。</li>
+<li>和Java中的集合差不多。<br>结构示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-12.jpg" alt=""></li>
+</ol>
+<p><strong>2)常用的重要命令：</strong></p>
+<ol>
+<li><code>sadd</code>：添加数据（元素）<br><code>sadd key member1 member2...</code><br>将一个或多个member元素加入到集合key当中，已经存在于集合的member元素将被忽略。假如key不存在，则创建一个只包含member元素作成员的集合。<br>当key不是集合类型时，返回一个错误。</li>
+<li><code>smembers key</code>：返回集合key中的所有成员。<br>不存在的key被视为空集合。</li>
+<li><code>sismember</code>：判断是否在集合内。<br><code>sismember key member</code><br>判断member元素是否集合key的成员。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-13.jpg" alt=""></li>
+<li><code>scard key</code>：返回集合key中的元素个数</li>
+<li><code>srem</code>：删除元素<br><code>srem key member1 member2...</code><br>移除集合key中的一个或多个member元素，不存在的member元素会被忽略。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-14.jpg" alt=""></li>
+<li><code>srandmember</code>：随机返回一个元素<br><code>srandmember key [count]</code><br>如果命令执行时，只提供了key参数，那么返回集合中的一个随机元素。不会改变集合内的元素。<br>支持一个count参数：<ul>
+<li>如果count为正数，且小于集合基数，那么命令返回一个包含count个元素的数组，数组中的元素各不相同。如果count大于等于集合基数，那么返回整个集合。</li>
+<li>如果count为负数，那么命令返回一个数组，数组中的元素可能会重复出现多次，而数组的长度为count的绝对值。</li>
+</ul>
+</li>
+<li><code>spop key</code>：移除并返回key中随机一个元素<br>如果只想获取一个随机元素，但不想该元素从集合中被移除的话，可以使用SRANDMEMBER命令。</li>
+<li><code>smove</code>：移动元素<br><code>smove source destination member</code><br>将member元素从source集合移动到destination集合。<br>smove是原子性操作。<br>如果source集合不存在或不包含指定的member元素，则SMOVE命令不执行任何操作，仅返回0。否则，member元素从source集合中被移除，并添加到destination集合中去。<br>当destination集合已经包含member元素时，SMOVE命令只是简单地将source集合中的member元素删除。<br>当source或destination不是集合类型时，返回一个错误。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-15.jpg" alt=""><br>更多命令查看命令参考手册。</li>
+</ol>
+<hr>
+<h2 id="4-有序集合SortedSet-ZSet-类型的命令操作"><a href="#4-有序集合SortedSet-ZSet-类型的命令操作" class="headerlink" title="4.有序集合SortedSet(ZSet)类型的命令操作"></a>4.有序集合SortedSet(ZSet)类型的命令操作</h2><p><strong>1)ZSet简介</strong></p>
+<ol>
+<li>有序集合ZSet：<br>和集合set一样是String类型的集合，且不允许重复的成员。<br>不同的是有序集合的每一个元素都会关联一个分数(分数可以重复)，redis通过分数来为集合进行从小到大的排序。<br>所以很多的操作都和Set的操作类似。</li>
+<li>结构示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-16.jpg" alt=""></li>
+</ol>
+<p><strong>2)常用的重要命令：</strong></p>
+<ol>
+<li><code>zadd</code>：添加成员及分数<br><code>zadd key score member [[score member] [score member] ...]</code><br>将一个或多个member元素及其score值加入到有序集key当中。<br>如果某个member已经是有序集的成员，那么更新这个member的score值，并通过重新插入这个member元素，来保证该member在正确的位置上。<br>score值可以是整数值或双精度浮点数。<br>如果key不存在，则创建一个空的有序集并执行<code>ZADD</code>操作。<br>当key存在但不是有序集类型时，返回一个错误。</li>
+<li><code>zrem</code>：删除有序集合中一个或者多个成员及其分数<br><code>zrem key member1 member2...</code><br>当key存在但不是有序集类型时，返回一个错误。</li>
+<li><code>zrange</code>：获取指定区间的元素<br><code>zrange key start stop [WITHSCORES]</code><ul>
+<li>返回有序集 key 中，指定区间内的成员。<br>其中成员的位置按score值递增(从小到大)来排序。<br>具有相同score值的成员按字典序(lexicographical order)来排列。</li>
+<li>如果你需要成员按score值递减(从大到小)来排列，请使用 <code>ZREVRANGE</code>命令。</li>
+<li>下标参数start和stop都以 0 为底。<br>也可以使用负数下标，以-1表示最后一个成员，-2表示倒数第二个成员，以此类推。<br>超出范围的下标并不会引起错误。</li>
+<li>可以通过使用WITHSCORES选项，来让成员和它的score值一并返回，返回列表以 <code>value1,score1, ..., valueN,scoreN</code>的格式表示。客户端库可能会返回一些更复杂的数据类型，比如数组、元组等。</li>
+</ul>
+</li>
+<li><code>zrevrange</code>：和上面差不多，只不过是从大到小排的。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-17.jpg" alt=""></li>
+<li><code>zcard key</code>：返回key中元素的个数</li>
+<li><code>zrank</code>：查找某一成员所在排名，递增<br><code>zrank key member</code><br>返回有序集key中成员member的排名。其中有序集成员按score值递增(从小到大)顺序排列。<br>排名以0为底，也就是说，score值最小的成员排名为0。<br>使用<code>ZREVRANK</code>命令可以获得成员按score值递减(从大到小)排列的排名。</li>
+<li><code>zrevrank</code>：查找某一成员所在排名，递减<br><code>zrevrank key member</code>，其他注意事项同上。</li>
+<li><code>zscore</code>：获取某一成员的分数值<br><code>zscore key member</code><br>如果member元素不是有序集key的成员，或key不存在，返回nil。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00035Redis%E5%AD%A6%E4%B9%A03-18.jpg" alt=""></li>
+</ol>
+<p><strong>3)其他常用命令：</strong></p>
+<ol>
+<li><code>ZRANGEBYSCORE</code>：score定区间查找（顺序）<br><code>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</code><ul>
+<li>返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列。</li>
+<li>可选的 LIMIT 参数指定返回结果的数量及区间(就像SQL中的 SELECT LIMIT offset, count )，注意当 offset 很大时，定位 offset 的操作可能需要遍历整个有序集，此过程最坏复杂度为 O(N) 时间。</li>
+<li>可选的 WITHSCORES 参数决定结果集是单单返回有序集的成员，还是将有序集成员及其 score 值一起返回。</li>
+<li>区间及无限:<br>min 和 max 可以是 -inf 和 +inf ，这样一来，你就可以在不知道有序集的最低和最高 score 值的情况下，使用 ZRANGEBYSCORE 这类命令。<br>默认情况下，区间的取值使用闭区间 (小于等于或大于等于)，你也可以通过给参数前增加 ( 符号来使用可选的开区间 (小于或大于)。</li>
+</ul>
+</li>
+<li><code>ZREVRANGEBYSCORE</code>：score定区间查找（逆序）<br>语法及注意事项和上一个命令一样。</li>
+<li><code>zcount</code>：返回区间中的成员数量<br><code>ZCOUNT key min max</code><br>返回有序集key中，score值在min和max之间(默认包括score值等于min或max)的成员的数量。<br>min与max的使用方法参照<code>ZRANGEBYSCORE</code>函数。</li>
+<li>还有其他一些不太常用的命令可以参考命令手册：<br><a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a></li>
+</ol>
+<hr>
+<h2 id="5-重要命令总结-更多查看命令手册"><a href="#5-重要命令总结-更多查看命令手册" class="headerlink" title="5.重要命令总结(更多查看命令手册)"></a>5.重要命令总结(更多查看命令手册)</h2><p><strong>1)关于Hash的命令：</strong><br><code>hset key field value</code>： 将哈希表key中的域field的值设为value（仅能存一个）<br><code>hget key field</code>： 返回哈希表key中给定域field的值。<br><code>hmset key field1 value1 field2 value2...</code>： 同时设置多个域-值(field-value)到key中<br><code>hmget key field1 field2...</code>： 返回哈希表key中，一个或多个给定域的值。<br><code>hgetall key</code>： 返回哈希表key中，所有的域和值。<br><code>hdel key field1 field2...</code>： 删除哈希表key中的一个或多个指定域，不存在的域将被忽略。<br><code>hkeys key</code>： 返回哈希表key中的所有的域<br><code>hvals key</code>： 返回哈希表key中的所有域的值</p>
+<p><code>hlen key</code>： 获取hash表key中域field的个数<br><code>hexists key field</code>： 查看哈希表key中，给定域field是否存在。<br><code>hsetnx key field value</code>： 将哈希表key中的域field的值设置为value，不重复时才成功。<br><code>hincrby key field increment</code>： 为哈希表key中的域field的值加上增量increment。increment为负则是减少。<br><code>hincrbyfloat key field increment</code>： 为哈希表key中的域field加上浮点数增量increment。</p>
+<p><strong>2)关于List的命令：</strong><br><code>lpush key value1 value2 value3...</code>： 将一个或多个值value插入到列表key的表头（左边）<br><code>rpush key value1 value2 value3...</code>： 将一个或多个值value插入到列表key的表尾(右边)<br><code>lrange key start stop</code>： 返回列表key中指定区间内的元素，区间以偏移量start和stop指定。<br>获取所有元素： <code>lrange key 0 -1</code><br><code>lpop key</code>： 移除并返回列表key的表头（最左边）元素。<br><code>rpop key</code>： 移除并返回列表key的尾元素（最右边）。<br><code>lindex key index</code>： 返回列表key中,下标为index的元素。<br><code>llen key</code>： 返回列表key的长度。</p>
+<p><code>lrem key count val</code>： 根据参数count的值，移除列表中与参数value相等的元素。count为0则移除全部。<br><code>ltrim key start stop</code>： 对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除。<br><code>rpoplpush</code>：rpop+lpush<br><code>rpoplpush source destination</code>： 将列表source中的最后一个元素(尾元素)弹出，并作为destination列表的的头元素插入。<br><code>lset key index value</code>： 将列表key下标为index的元素的值设置为value。<br><code>linsert key BEFORE|AFTER pivot value</code>： 将值value插入到列表key当中，位于值pivot之前(before)或之后(after)。</p>
+<p><code>blpop key [key ...] timeout</code>： 列表的阻塞式(blocking)左弹出原语<br><code>brpop key [key ...] timeout</code>： 列表的阻塞式右弹出原语</p>
+<p><code>brpoplpush source destination timeout</code>：BRPOPLPUSH是RPOPLPUSH的阻塞版本，当给定列表source不为空时，BRPOPLPUSH的表现和RPOPLPUSH一样。<br>当列表source为空时，BRPOPLPUSH命令将阻塞连接，直到等待超时，或有另一个客户端对source执行LPUSH或RPUSH命令为止。</p>
+<p><strong>3)关于Set的命令：</strong><br><code>sadd key member1 member2...</code>： 将一个或多个member元素加入到集合key当中<br><code>smembers key</code>： 返回集合key中的所有成员。<br><code>sismember key member</code>： 判断member元素是否集合key的成员。<br><code>scard key</code>： 返回集合key中的元素个数<br><code>srem key member1 member2...</code>： 移除集合key中的一个或多个member元素，不存在的member元素会被忽略。<br><code>srandmember key [count]</code>： 随机返回一个(或count个)元素，不删除集合内容<br><code>spop key</code>：移除并返回key中随机一个元素<br><code>smove source destination member</code>： 将member元素从source集合移动到destination集合。</p>
+<p><strong>4)关于ZSet的操作：</strong><br><code>zadd key score member [[score member] [score member] ...]</code>： 将一个或多个member元素及其score值加入到有序集key当中。<br><code>zrem key member1 member2...</code>： 删除有序集合中一个或者多个成员及其分数<br><code>zrange key start stop [WITHSCORES]</code>： 返回有序集key中，指定区间内的成员。分数从小到大排。<br><code>zrevrange key start stop [WITHSCORES]</code>： 返回有序集key中，指定区间内的成员。分数从大到小排。<br><code>zcard key</code>：返回key中元素的个数<br><code>zrank key member</code>： 返回有序集key中成员member的排名。其中有序集成员按score值递增(从小到大)顺序<br><code>zrevrank key member</code>： 查找某一成员所在排名，递减。<br><code>zscore key member</code>： 获取某一成员的分数值，如果member元素不是有序集key的成员，或key不存在，返回nil。</p>
+<p><code>ZRANGEBYSCORE</code>： score定区间查找（顺序）<br><code>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</code>： 返回有序集key中，所有score值介于min和max之间(包括等于min或max)的成员。有序集成员按score值递增(从小到大)次序排列。<br><code>ZREVRANGEBYSCORE</code>： score定区间查找（逆序）<br><code>ZCOUNT key min max</code>： 返回有序集key中，score值在min和max之间(默认包括score值等于min或max)的成员的数量。</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月11日 18:59</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/11/Redis学习笔记（三）：其他四种数据类型/" title="Redis学习笔记（三）：其他四种数据类型的命令操作">https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/&title=《Redis学习笔记（三）：其他四种数据类型的命令操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/&title=《Redis学习笔记（三）：其他四种数据类型的命令操作》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（三）：其他四种数据类型的命令操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/11/Redis学习笔记（三）：其他四种数据类型/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-哈希hash类型的命令操作"><span class="post-toc-text">1.哈希hash类型的命令操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-列表List类型的命令操作"><span class="post-toc-text">2.列表List类型的命令操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集合set类型的命令操作"><span class="post-toc-text">3.集合set类型的命令操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-有序集合SortedSet-ZSet-类型的命令操作"><span class="post-toc-text">4.有序集合SortedSet(ZSet)类型的命令操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-重要命令总结-更多查看命令手册"><span class="post-toc-text">5.重要命令总结(更多查看命令手册)</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/10/Redis学习笔记（二）：常用命令及Jedis使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（二）：key命令，Jedis使用以及String字符串类型操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.33px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
