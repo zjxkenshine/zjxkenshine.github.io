@@ -17,7 +17,7 @@
 当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。
 当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。
 
-近期学习方向：Mysql，Linux准备面试
+近期学习方向：Redis，MyBatis，Spring系框架
 
 ### 座右铭
 > Today is the first day in your rest life.(今天是你余生的第一天)
