@@ -18,7 +18,15 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-02.jpg">
-<meta property="og:updated_time" content="2018-04-11T14:35:05.516Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-10.jpg">
+<meta property="og:updated_time" content="2018-04-12T11:02:56.810Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis学习笔记（八）：Mybatis缓存配置">
 <meta name="twitter:description" content="0.学习准备 学习资料：书本：《MyBatis从入门到精通》视频：某培训班视频资料：MyBatis中文文档   1.缓存简介 使用缓存可以使应用更快地获取数据，避免频繁的数据库交互，尤其是在查询越多，缓存命中率越高的情况下，使用缓存的作用就更加明显。 一般提到MyBatis缓存时，指的都是二级缓存。一级缓存，也叫本地缓存，系统会默认启用而且是不能控制的。一级缓存也要了解，了解一级缓存可以避免产生一">
@@ -218,12 +226,289 @@ public void testL1Cache(){
 <li>MyBatis的二级缓存不同于一级缓存，它存在与整个SqlSessionFactory的生命周期中。当存在多个SqlSessionFactory时,缓存都是绑定在各自的对象中的。只有在使用Redis这样的缓存数据库时，才可以共享数据库。</li>
 <li>MyBatis的二级缓存可以使用默认的最贱但的配置，也可以集成Java自带的EhChache缓存，也可以集成Redis,memcached,scache,caffeine等缓存。</li>
 </ol>
-<p><strong>2)</strong></p>
+<h3 id="配置二级缓存"><a href="#配置二级缓存" class="headerlink" title="配置二级缓存"></a>配置二级缓存</h3><p><strong>1)默认开启的二级缓存：</strong></p>
+<ol>
+<li>MyBatis全局配置settings中有一个参数cacheEnabled,这个参数是二级缓存的全局开关，默认值是true。不必过多配置，如果设置为false则后面的二级缓存就都不可用了。默认配置如下：<pre><code>&lt;settings&gt;
+    &lt;!--其他配置--&gt;
+    &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;/settings&gt;
+</code></pre></li>
+<li>MyBatis的二级缓存是和命名空间绑定的，即二级缓存需要配置在Mapper.xml文件中或者配置在Mapper.java接口中。<br>映射文件中，命名空间就是xml根节点mapper的namespace属性。<br>在Mapper接口中，映射文件就是接口的全限定名称。</li>
+</ol>
+<p><strong>2)Mapper.xml配置二级缓存：</strong></p>
+<ol>
+<li>最简单的配置方式，核心配置文件缓存开启的情况下，配置一个cache标签就可以了：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot;&gt;
+  &lt;cache&gt;&lt;/cache&gt;
+  &lt;!--其他配置--&gt;
+&lt;/mapper&gt;
+</code></pre></li>
+<li>上述配置的二级缓存默认相当于：<pre><code>&lt;cache
+    eviction=&quot;LRU&quot;
+    &lt;！--no flushInterval--&gt;
+    size=&quot;1024&quot;
+    readOnly=&quot;false&quot;&gt;&lt;/cache&gt;
+</code></pre>有以下属性：<blockquote>
+<p>映射语句中所有的Select语句会被缓存。<br> 映射语句文件中的Insert,Update,Delete语句会刷新缓存。<br> 缓存会使用LRU算法(最近最少未使用)来回收。<br> 根据时间表来自动刷新默认为no flushInterval，则不会以任何时间顺序刷新。<br> 缓存会存储集合或者对象的1024个引用。<br> 缓存时可读写的（read/write）,意味着对象检索不是共享的，安全，不存在其他程序的潜在修改。</p>
+</blockquote>
+</li>
+<li>cache标签各属性详解：</li>
+</ol>
+<ul>
+<li><code>eviction</code>：回收策略，有下列选项：<ul>
+<li><code>LRU</code>（最近最少使用）：移除最久未使用的对象，默认值。</li>
+<li><code>FIFO</code>（先进先出）：按对象进入缓存的顺序来移除他们。</li>
+<li><code>SOFT</code>（软引用）：移除基于垃圾回收器状态和软引用规则的对象。</li>
+<li><code>WEAK</code>(弱引用)：更积极移除基于垃圾回收器状态和弱引用规则的对象。</li>
+</ul>
+</li>
+<li><code>flushInterval</code>：刷新间隔。<br>可被设置为任意的正整数，代表一个合理的毫秒形式的时间段进行刷新缓存。<br>默认不设置，没有刷新时间间隔，缓存仅仅在调用SQL语句时刷新。</li>
+<li><code>size</code>：引用数目。<br>可以被设置为任意正整数，默认为1024,要记住缓存的对象数目和运行环境可调用内存资源的数目。</li>
+<li><code>readonly</code>：只读，可选值true/false<br>默认为false,可读可写。<br>只读方式返回的是缓存中的对象本身，速度更快，但是不允许修改对象，也不安全。<br>读写方式则是以序列化的形式返回了一个对象的拷贝，可修改，而且很安全，就是速度没有那么快。</li>
+</ul>
+<p><strong>3)只使用注解方式时配置二级缓存：</strong></p>
+<ol>
+<li>在使用注解方式时，如果想对注解方式启用二级缓存，还需要在Mapper接口中进行配置。如果Mapper接口也存在对应的XML映射文件，两者同时开启缓存，则还需要另外的配置。</li>
+<li>只使用注解方式时只需要在接口上简单的添加注解即可：<pre><code>@CacheNamespace
+public interface RoleMapper {
+    //各注解方式的接口方法，不含xml方式的方法。
+}
+</code></pre>默认的配置和xml相同，但是配置的方式（属性）不同。</li>
+<li>也可以使用属性来具体配置：<pre><code>@CacheNamespace(
+    eviction=FifoCache.class,
+    flushInterval=60000,
+    size=1024,
+    readWrite=true
+)
+public interface RoleMapper {
+    //各注解方式的接口方法，不含xml方式的方法。
+}
+</code></pre>注意eviction需要使用.class方式，而且配置的是readWrite，不是readonly。</li>
+</ol>
+<p><strong>4)同时使用xml和注解方式，需要使用CacheNamespaceRef</strong></p>
+<ol>
+<li>如果同时配置了注解及Xml:<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot;&gt;
+&lt;cache
+    eviction=&quot;LRU&quot;
+    flushInterval=&quot;60000&quot;
+    size=&quot;512&quot;
+    readOnly=&quot;false&quot;&gt;
+&lt;/cache&gt;
+&lt;/mapper&gt;
+</code></pre>注解配置如上，则会报错。<br>两者应该同时配置，而且配置应当相同。</li>
+<li>此时需要如下配置：（使用参照缓存）<br>有两种方式：<ul>
+<li>在接口中使用参照缓存：<br>RoleMapper.xml的配置不变，修改接口的配置：<pre><code>@CacheNamespaceRef(RoleMapper.class)
+public interface RoleMapper {
+    //各注解方式的接口方法，不含xml方式的方法。
+}
+</code></pre>这样配置接口引用xml的缓存配置。</li>
+<li>在xml中配置参照缓存：<br>接口的配置不变，将xml的配置修改如下：<pre><code>&lt;cache-ref namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot; /&gt;
+</code></pre>这样配置xml引用接口的缓存配置。</li>
+</ul>
+</li>
+<li>参照缓存的主要作用：<br>主要作用是为了解决脏读的问题，因为一般情况下很少出现xml和注解一同出现的情况。</li>
+</ol>
+<h3 id="使用默认的二级缓存"><a href="#使用默认的二级缓存" class="headerlink" title="使用默认的二级缓存"></a>使用默认的二级缓存</h3><ol>
+<li>使用前提：<br>因为可读可写的二级缓存是通过序列化来返回一个拷贝对象的，所以会使用到SerializedCache序列化缓存，这个这个缓存要求所有的被序列化的对象都要实现Serializable接口，否则会报错：<pre><code>org.apache.ibatis.cache.CacheException: Error serializing object.  Cause: java.io.NotSerializableException: Mybatis.simple.model.Role**
+</code></pre>修改User类如下：<pre><code>public class User implements Serializable{
+    private static final long serialVersionID=498465168L;  //值随便写
+    //其他属性和getter,setter方法
+}
+</code></pre></li>
+<li>编写测试类：<pre><code>@Test
+public void testL2Cache(){
+    //获取sqlsession
+    SqlSession sqlSession =getSqlSession();
+    User user1 =null;
+    try{
+        //获取userMapper接口
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        //调用seleceById方法，查询id=1014的user
+        user1=userMapper.selectByPrimaryKey(1014L);
+        //对当前对象重新赋值
+        user1.setUserName(&quot;哈哈哈&quot;);
+        //再次查询该用户
+        User user2=userMapper.selectByPrimaryKey(1014L);
+        //查看着两者的名字
+        System.out.println(&quot;user1name=  &quot;+user1.getUserName());
+        System.out.println(&quot;user2name=  &quot;+user2.getUserName());
+        //user1，user2是同一个对象，因为在使用一级缓存
+        Assert.assertEquals(user1, user2);
+    }finally{
+        sqlSession.close();  //此时才会将数据存到二级缓存中
+    }
+    System.out.println(&quot;开启新的session，后面开始使用二级缓存&quot;);
+    SqlSession sqlSession2 =getSqlSession();
+    try{
+        //获取userMapper接口
+        UserMapper userMapper=sqlSession2.getMapper(UserMapper.class);
+        //再次查询id=1014的user
+        User user3=userMapper.selectByPrimaryKey(1014L);
+        System.out.println(&quot;user3name=  &quot;+user3.getUserName());
+        //user3和user1不是同一个对象
+        Assert.assertNotEquals(user1, user3);
+        //再次查询
+        User user4=userMapper.selectByPrimaryKey(1014L);
+        System.out.println(&quot;user4name=  &quot;+user4.getUserName());
+        //user3和user4不是同一个对象，但是值是相同的
+        Assert.assertNotEquals(user4, user3);
+    }finally{
+        sqlSession2.close();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-03.jpg" alt=""></li>
+<li>结果分析：<br>只有调用close方法关闭SqlSession时，SqlSession才会保存查询数据到二级缓存中。所以一开始的二级缓存命中率都是0。<br>使用时应该是有二级缓存先查找二级缓存，没有二级缓存就使用一级缓存，再没有就去数据库查询。可以看到sqlSession2中二级缓存命中率分别为1/3,2/4。<br>如果查询完user3后修改对象值，user4的值不和user3相同。</li>
+<li>脏数据的问题：<br>二级缓存也并没有解决脏数据的问题。只是因为加了一句没什么卵用的<code>user1.setUserName(&quot;哈哈哈&quot;);</code>,就导致一级缓存的值改变从而影响二级缓存。所以要尽量避免这种无意义的修改。</li>
+<li>MyBatis提供的二级缓存时基于Map实现的内存缓存，以及可以满足基本的应用了。但是需要缓存大量数据时，不能仅仅通过提高内存来使用MyBatis的二级缓存，还可以集成EhCache，Redis等缓存架构来实现。</li>
+</ol>
+<hr>
+<h2 id="4-集成EhCache缓存"><a href="#4-集成EhCache缓存" class="headerlink" title="4.集成EhCache缓存"></a>4.集成EhCache缓存</h2><p><strong>1)EhCache简介：</strong></p>
+<ol>
+<li>EhCache是一个纯粹的Java进程内的缓存框架，具有快速，精干等特点。</li>
+<li>主要特点如下：<ul>
+<li>快速</li>
+<li>简单</li>
+<li>有多种缓存策略</li>
+<li>缓存数据有内存和磁盘两级，无需担心容量的问题</li>
+<li>缓存的数据会在虚拟机重启的过程中写入磁盘</li>
+<li>可以通过RMI,可插入API等方式进行分布式缓存</li>
+<li>具有缓存和缓存管理器的侦听接口</li>
+<li>支持多缓存管理器实例以及一个实例的多个缓存区域</li>
+</ul>
+</li>
+<li>MyBatis官方提供了ehcache的缓存插件，可以在以下地址找到：<br><a href="https://github.com/mybatis/ehcache-cache" target="_blank" rel="noopener">https://github.com/mybatis/ehcache-cache</a></li>
+</ol>
+<p><strong>2)配置EhCache.xml：</strong></p>
+<ol>
+<li>添加Ehcache的pom.xml依赖：<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.caches&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-ehcache&lt;/artifactId&gt;
+    &lt;version&gt;1.0.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>简单配置EhCache:<br>详细的配置例子：<a href="http://www.ehcache.org/ehcache.xml" target="_blank" rel="noopener">http://www.ehcache.org/ehcache.xml</a><br>在src/main/resources目录下新增ehcache.xml文件，内容如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;  
+   xsi:noNamespaceSchemaLocation=&quot;http://ehcache.org/ehcache.xsd&quot;
+   updateCheck=&quot;false&quot; monitoring=&quot;autodetect&quot; dynamicConfig=&quot;true&quot;&gt;
+
+   &lt;diskStore path=&quot;D:/cache&quot;/&gt;  
+   &lt;defaultCache
+           maxElementsInMemory=&quot;3000&quot;
+           eternal=&quot;false&quot;
+           copyOnRead=&quot;true&quot;
+           copyOnWrite=&quot;true&quot;
+           timeToIdleSeconds=&quot;3600&quot;
+           timeToLiveSeconds=&quot;3600&quot;
+           overflowToDisk=&quot;true&quot;
+           diskPersistent=&quot;true&quot;&gt;
+   &lt;/defaultCache&gt;
+&lt;/ehcache&gt; 
+</code></pre><p>详细的配置介绍可以查看博客：<br><a href="https://blog.csdn.net/perfecttech/article/details/39081897" target="_blank" rel="noopener">ehcache.xml简介</a></p>
+</li>
+<li>书上只介绍了copyOnRead和copyOnWrite这两个重要属性。<br><code>copyOnRead</code>：从缓存中读取数据时是返回对象的引用还是复制一个对象返回。默认情况下是false,指返回数据的引用。true则是返回一个复制的对象，可读可写缓存。<br><code>copyOnWrite</code>：写入缓存是直接缓存对象的引用还是复制一个对象然后缓存。默认为false。<br>如果想使用可读可写的缓存，则将这两个属性都设置为true。</li>
+</ol>
+<p><strong>3)修改映射文件的缓存配置：</strong></p>
+<ol>
+<li>ehcache-cache提供了两个可选的缓存实现：<br><code>org.mybatis.cache.ehcache.EhcacheCache</code>和<code>.../LoggingEhcache</code><br>但是这两者在使用时没啥区别，都会输出命中率日志（前者会使用装饰模式添加输出日志的功能）</li>
+<li>默认的缓存是使用defaultCache的，一般使用的时候都会有一个以映射文件的命名空间命名的缓存来对应。在ehcache.xml中添加配置(比如UserMapper要使用缓存)：<pre><code>&lt;cache
+    name=&quot;mbg.model.User&quot;
+    maxElementsInMemory=&quot;3000&quot;
+    eternal=&quot;false&quot;
+    copyOnRead=&quot;true&quot;
+    copyOnWrite=&quot;true&quot;
+    timeToIdleSeconds=&quot;3600&quot;
+    timeToLiveSeconds=&quot;3600&quot;
+    overflowToDisk=&quot;true&quot;
+    diskPersistent=&quot;true&quot; /&gt;
+</code></pre>如果未配置则使用默认的缓存。</li>
+<li>修改配置xml映射文件：只需要一句话，将cache修改如下<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;mbg.mapper.UserMapper&quot;&gt;
+    &lt;cache type=&quot;org.mybatis.caches.ehcache.EhcacheCache&quot;&gt;&lt;/cache&gt;
+    &lt;!--其他配置--&gt;
+&lt;/mapper&gt;
+</code></pre></li>
+<li>这样就配置完毕了。<br>运行上面的默认二级缓存的测试代码，结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-04.jpg" alt=""><br>查看设置的控件D:/cache,发现多出了几个缓存文件。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-05.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-集成Redis缓存"><a href="#5-集成Redis缓存" class="headerlink" title="5.集成Redis缓存"></a>5.集成Redis缓存</h2><p><strong>1)Redis的简介和Windows下的安装：</strong></p>
+<ol>
+<li>Redis是一个高性能的key-value数据库。<br>因为学习Redis时所安装的是Linux版本，为了方便学习还是在在Windows下也安装一个吧。使用Redis缓存首先得需要开启Redis服务。</li>
+<li>在windows下安装Redis<br>下载：<br><a href="http://pan.baidu.com/s/1dEMCa9z" target="_blank" rel="noopener">http://pan.baidu.com/s/1dEMCa9z</a><br>或者：<br><a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">https://github.com/MicrosoftArchive/redis/releases</a><br>选择合适的版本下载并解压到合适的目录，解压后的文件如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-06.jpg" alt=""><br>这样就安装完毕了。</li>
+<li>打开Redis服务：<br>在解压目录下shift+右键–&gt;在此处打开命令行，输入如下命令将Redis安装到本地服务：<pre><code>redis-server.exe --service-install redis.windows.conf --loglevel verbose 
+</code></pre>启动服务：<pre><code>redis-server.exe  --service-start
+</code></pre>停止服务：<pre><code>redis-server.exe  --service-stop
+</code></pre>卸载服务：<pre><code>redis-server.exe  --service-uninstall
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-07.jpg" alt=""><br>使用两种客户端连接一下，测试是否打开服务：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-08.jpg" alt=""><br>成功打开服务，这样就可以开始配置Redis缓存了。</li>
+</ol>
+<p><strong>2)配置Redis缓存（以User为例）：</strong></p>
+<ol>
+<li>添加pom.xml依赖：<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.caches&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-redis&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-beta2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li>在src/main/resources目录下新增redis.properties文件，内容如下：<pre><code>host=localhost
+port=6379
+connectionTimeout=5000
+soTimeout=5000
+password=
+database=0
+clientName=
+</code></pre>配置了IP,端口，超时时间等。</li>
+<li>修改UserMapper.xml中的缓存配置：<br>redis-cache值提供了一个Mybatis的缓存实现：<code>org.mybatis.caches.redis.RedisCache</code>,只要配置这个type就可以了：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;mbg.mapper.UserMapper&quot;&gt;
+    &lt;cache type=&quot;org.mybatis.caches.redis.RedisCache&quot;&gt;&lt;/cache&gt;
+    &lt;!--其他方法--&gt;
+&lt;/mapper&gt;
+</code></pre></li>
+<li>还需要配置实体类继承至srializable接口(默认的已经配置好了)：<pre><code>public class User implements Serializable{
+    private static final long serialVersionID=498465168L;  //值随便写
+    //其他属性和getter,setter方法
+}
+</code></pre></li>
+</ol>
+<p><strong>3)测试Redis二级缓存的特点：</strong></p>
+<ol>
+<li>使用和上面测试相同的代码：<br>第一次运行：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-09.jpg" alt=""><br>第二次运行：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00036MyBatis%E5%AD%A6%E4%B9%A08-10.jpg" alt=""></li>
+<li>出现上述情况的原因：<br>Redis的缓存时全局共享的。第一次运行先使用一级缓存，再使用二级缓存。所得到的user1和user2是同一个对象。第二次运行，命中率都为1.0，说明两次都是使用的二级缓存的拷贝对象，因为是可读可写，这两个对象不相同所以报错。</li>
+<li>需要部署分布式应用时，需要使用Redis这种共享缓存，将分布式应用连接到同一个服务器，</li>
+</ol>
+<hr>
+<h2 id="6-脏数据的产生和避免"><a href="#6-脏数据的产生和避免" class="headerlink" title="6.脏数据的产生和避免"></a>6.脏数据的产生和避免</h2><ol>
+<li>二级缓存虽然能提高应用的效率，减轻数据库服务器的压力，但是如果使用不当，很容易产生脏读。<br>我们需要知道脏数据是怎么产生的，也需要知道如何去避免脏数据。</li>
+<li>一般情况下，每个二级缓存都对应了一个命名空间，不同的Mapper的二级缓存不会互相影响。而在一般的项目中往往会出现多表查询的情况，这个多表查询的方法会放在某一个映射文件中，而对这些表的增删改则是在其他的映射文件中。<br>这样当其他表更新时不会刷新这个Mapper的缓存，就会产生脏读。</li>
+<li>解决这种脏读的方法就是使用<strong>参照缓存</strong>，将几个关联的ER表使用同一个二级缓存：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;mbg.mapper.UserMapper&quot;&gt;
+    &lt;cache-ref namespace=&quot;Mybatis.simple.mapper.RoleMapper&quot; /&gt;
+    &lt;!--其他方法--&gt;
+&lt;/mapper&gt;
+</code></pre></li>
+<li>即使使用Redis,只是在同一个Mapper的不同SessionFactory之间共享，不会再Mapper之间共享。</li>
+<li>但是在关联表非常多的情况下，参照缓存就没有任何意义了。</li>
+</ol>
+<hr>
+<h2 id="7-二级缓存的适用场景"><a href="#7-二级缓存的适用场景" class="headerlink" title="7.二级缓存的适用场景"></a>7.二级缓存的适用场景</h2><ol>
+<li>并不是什么情况下都能使用二级缓存，推荐在以下场景使用：<ul>
+<li>以查询为主的应用中，只有少量的增，删，改操作</li>
+<li>绝大多数以单表操作存在，很少存在互相关联的情况</li>
+<li>按业务划分对表进行分组时，关联的表较少时。</li>
+</ul>
+</li>
+<li>建议在业务层使用可控制的缓存来代替二级缓存。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月11日 22:35</p>
+        <p>最后更新： 2018年04月12日 19:02</p>
         <p>原始链接： <a class="post-url" href="/2018/04/11/MyBatis学习笔记（八）：缓存配置/" title="MyBatis学习笔记（八）：Mybatis缓存配置">https://zjxkenshine.github.io/2018/04/11/MyBatis学习笔记（八）：缓存配置/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -341,12 +626,22 @@ public void testL1Cache(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-缓存简介"><span class="post-toc-text">1.缓存简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-一级缓存测试"><span class="post-toc-text">2.一级缓存测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-二级缓存的简介，配置及使用"><span class="post-toc-text">3.二级缓存的简介，配置及使用</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-缓存简介"><span class="post-toc-text">1.缓存简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-一级缓存测试"><span class="post-toc-text">2.一级缓存测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-二级缓存的简介，配置及使用"><span class="post-toc-text">3.二级缓存的简介，配置及使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置二级缓存"><span class="post-toc-text">配置二级缓存</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用默认的二级缓存"><span class="post-toc-text">使用默认的二级缓存</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-集成EhCache缓存"><span class="post-toc-text">4.集成EhCache缓存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-集成Redis缓存"><span class="post-toc-text">5.集成Redis缓存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-脏数据的产生和避免"><span class="post-toc-text">6.脏数据的产生和避免</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-二级缓存的适用场景"><span class="post-toc-text">7.二级缓存的适用场景</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/04/12/Redis学习笔记（四）：Redis订阅发布，事务及锁/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Redis学习笔记（四）：Redis消息订阅发布，事务及锁
+        
+      </span>
+    </a>
   
   
     <a href="/2018/04/11/Redis学习笔记（三）：其他四种数据类型/" id="article-nav-older" class="article-nav-link-wrap">
@@ -419,7 +714,7 @@ public void testL1Cache(){
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -452,7 +747,7 @@ public void testL1Cache(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
 </div>
