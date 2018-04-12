@@ -8,18 +8,24 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/">
+  <meta name="description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 学习准备开启redis服务   1.发布订阅及消息队列的理论知识 Redis的发布订阅是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接收消息。发布订阅消">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis学习笔记（四）：Redis消息订阅发布，事务及锁">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/12/Redis学习笔记（四）：Redis订阅发布，事务及锁/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/">
+<meta property="og:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 学习准备开启redis服务   1.发布订阅及消息队列的理论知识 Redis的发布订阅是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接收消息。发布订阅消">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-12T11:07:29.233Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-05.jpg">
+<meta property="og:updated_time" content="2018-04-12T14:47:18.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（四）：Redis消息订阅发布，事务及锁">
-<meta name="twitter:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/">
+<meta name="twitter:description" content="0.学习准备 参考资料： 参考视频：《动力节点Redis视频教程》 参考教程：http://www.redis.net.cn/tutorial/3501.html Redis命令参考手册： http://redisdoc.com/ 学习准备开启redis服务   1.发布订阅及消息队列的理论知识 Redis的发布订阅是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接收消息。发布订阅消">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -148,12 +154,27 @@
             
             <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
 <li>参考资料：<br> 参考视频：《动力节点Redis视频教程》<br> 参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br> Redis命令参考手册：<br> <a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a></li>
+<li>学习准备<br>开启redis服务</li>
 </ol>
 <hr>
+<h2 id="1-发布订阅及消息队列的理论知识"><a href="#1-发布订阅及消息队列的理论知识" class="headerlink" title="1.发布订阅及消息队列的理论知识"></a>1.发布订阅及消息队列的理论知识</h2><ol>
+<li>Redis的发布订阅是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接收消息。<br>发布订阅消息也叫生产者消费者模式，是实现消息队列的一种方式。</li>
+<li>示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-01.jpg" alt=""><br>三要素：生产者(producer)，消费者(consumer)，消息服务(broker)</li>
+<li>关系图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-02.jpg" alt=""><br>可以很好的实现系统的解耦。</li>
+<li>对于Redis来说,Redis充当的就是这个消息服务器的作用。<br>但是主流的还是中间件：activeMQ，rabbitMQ</li>
+</ol>
+<hr>
+<h2 id="2-Redis消息订阅发布的实现"><a href="#2-Redis消息订阅发布的实现" class="headerlink" title="2.Redis消息订阅发布的实现"></a>2.Redis消息订阅发布的实现</h2><h3 id="命令行实现"><a href="#命令行实现" class="headerlink" title="命令行实现"></a>命令行实现</h3><ol>
+<li>开启四个客户端，一个用于发送消息，三个用于发送消息。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-03.jpg" alt=""><br>第一个用于发送消息，后面三个用于接收消息。</li>
+<li>让三个客户端订阅某个消息主题：<code>subscribe channel</code><br>channel是主题名字，可以任意指定。（这里指定的是chan1）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-04.jpg" alt=""></li>
+<li>让那个客户端往发送消息：<code>publish channel message</code><br>这个channe需要和刚刚订阅的channel完全一致，否则无法接受消息（chan1）。<br>message需要用引号括起来。<br>返回值：<br>接收到信息message的订阅者数量。<br>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00037Redis%E5%AD%A6%E4%B9%A04-05.jpg" alt=""><br>其他三个客户端几乎是同时接受到消息的。<br>需要先订阅，才能接收到消息，先发布不能接收到消息。</li>
+<li>如果订阅的是匹配的主题，可以使用<code>psubscribe chan*</code><br>表示可以得到以chan开头的所有频道的消息。</li>
+</ol>
+<h3 id="Jedis实现"><a href="#Jedis实现" class="headerlink" title="Jedis实现"></a>Jedis实现</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月12日 19:07</p>
+        <p>最后更新： 2018年04月12日 22:47</p>
         <p>原始链接： <a class="post-url" href="/2018/04/12/Redis学习笔记（四）：Redis订阅发布，事务及锁/" title="Redis学习笔记（四）：Redis消息订阅发布，事务及锁">https://zjxkenshine.github.io/2018/04/12/Redis学习笔记（四）：Redis订阅发布，事务及锁/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -271,7 +292,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-发布订阅及消息队列的理论知识"><span class="post-toc-text">1.发布订阅及消息队列的理论知识</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis消息订阅发布的实现"><span class="post-toc-text">2.Redis消息订阅发布的实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#命令行实现"><span class="post-toc-text">命令行实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Jedis实现"><span class="post-toc-text">Jedis实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
