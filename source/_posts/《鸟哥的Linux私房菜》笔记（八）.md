@@ -528,11 +528,12 @@ ALL：可执行的命令，**必须是使用绝对路径编写的**
 `# groupadd [-g gid] [-r] 用户组名`： 新增用户组
 `# groupmod [-g gid] [-n group_name] 用户组名`： 修改用户组参数
 `# groupdel 用户组名`： 删除用户组
-```
-//root用户设置用户组管理员
-# gpasswd groupname
-# gpasswd [-A user1,user2...] [-M user3,user4...] 组名
-# gpasswd [-rR] groupname```
+
+	//root用户设置用户组管理员
+	# gpasswd groupname
+	# gpasswd [-A user1,user2...] [-M user3,user4...] 组名
+	# gpasswd [-rR] groupname
+
 `# gpasswd [-ad] user 组名`： 用户组管理员的功能
 
 	//设置acl
@@ -543,6 +544,7 @@ ALL：可执行的命令，**必须是使用绝对路径编写的**
 	-k：删除ACL默认参数
 	-R：递归设置ACL，子目录也会被设置
 	-d：设置默认的acl参数，只对目录有效
+
 `# getfacl [-bkRd] [{m|x} acl参数] 目标文件|目录`： 查看acl
 
 `# su [-lm] [-c 命令] [username]`： 用户身份切换，使用对方密码

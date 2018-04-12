@@ -103,6 +103,13 @@ gcc是GUN complier collection的缩写，是Linux下的一个编译器集合，�
 		# make MALLOC=libc
 6. 编译过后的redis一般就可以使用了。
 不过有时候还会执行`make install`命令。
+7. 可执行文件简单介绍
+	>./redis-benchmark //用于进行redis性能测试的工具
+	./redis-check-dump //用于修复出问题的dump.rdb文件
+	./redis-cli //redis的客户端
+	./redis-server //redis的服务端
+	./redis-check-aof //用于修复出问题的AOF文件
+	./redis-sentinel //用于集群管理
 
 **3)关于make install**
 1. 编译完毕后的可执行文件默认放在`/usr/local/redis-4.0.9/src`目录下：

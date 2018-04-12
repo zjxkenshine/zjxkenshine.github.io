@@ -507,7 +507,7 @@ MyBtis的缓存配置是针对查询的，所以其他方法就不用配置useCa
 			<artifactId>mybatis-typehandlers-jsr310</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-3. My3.4.0以前的版本需要在此基础上添加类处理器的配置：
+3. MyBatis3.4.0以前的版本需要在此基础上添加类处理器的配置：
 		<typeHandlers>
 			<typeHandler handler="org.apache.ibatis.type.InstantTypeHandler"/>
 			<typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
@@ -519,6 +519,7 @@ MyBtis的缓存配置是针对查询的，所以其他方法就不用配置useCa
 			<typeHandler handler="org.apache.ibatis.type.MonthTypeHandler"/>
 		</typeHandlers>
 4. 上面的typeHandler都没有指定javaType，因为这些类处理器继承了BaseTypeHandler<T>类,而BaseTypeHandler<T>继承了TypeReference<T>类，MyBatis会对继承了TypeReference<T>的类进行处理，获取泛型T作为javaType的值。
+5. 但是不知道为什么我的MyBatis配置完typeHandler之后就显示unsupportedVersionError,可能MyBatis3.3.0也支持吧。这种问题以后熟了再解决吧。
 
 ---
 
