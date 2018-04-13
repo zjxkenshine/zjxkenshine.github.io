@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-02T03:05:21.758Z">
+<meta property="og:updated_time" content="2018-04-13T05:21:46.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
@@ -374,7 +374,7 @@ A
 //测试类中实例化
 public class test{
     public static void main(String args[]){
-        InClass inclass=OutClass.new InClass();  //普通内部类的实例化
+        InClass inclass=new OutClass().new InClass();  //普通内部类的实例化
     }
 }
 </code></pre>若OutClass与test不在同一个包内，则需要将InClass内置声明成public的。</li>
@@ -385,7 +385,7 @@ public class test{
 //测试类中实例化
 public class test{
     public static void main(String args[]){
-        InClass inclass=new InClass();  //静态内部类的实例化
+        InClass inclass=OutClass.new InClass();  //静态内部类的实例化
     }
 }
 </code></pre></li>
@@ -608,7 +608,7 @@ public class Test2_34 {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月02日 11:05</p>
+        <p>最后更新： 2018年04月13日 13:21</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《Java多线程编程核心技术》笔记（二）/" title="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
