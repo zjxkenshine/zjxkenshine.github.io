@@ -280,7 +280,7 @@ A与B线程持有的是相同的锁("AAA")。
 		//测试类中实例化
 		public class test{
 			public static void main(String args[]){
-				InClass inclass=OutClass.new InClass();  //普通内部类的实例化
+				InClass inclass=new OutClass().new InClass();  //普通内部类的实例化
 			}
 		}
 若OutClass与test不在同一个包内，则需要将InClass内置声明成public的。
@@ -292,7 +292,7 @@ A与B线程持有的是相同的锁("AAA")。
 		//测试类中实例化
 		public class test{
 			public static void main(String args[]){
-				InClass inclass=new InClass();  //静态内部类的实例化
+				InClass inclass=OutClass.new InClass();  //静态内部类的实例化
 			}
 		}
 3. 内置类的同步:
