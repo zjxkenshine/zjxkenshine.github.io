@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.参考资料：参考视频：《动力节点Redis视频教程》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html  1.Redis持久化及两种实现方式持久化简介  持久化可以理解">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.参考资料：参考视频：《动力节点Redis视频教程》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html  1.Redis持久化及两种实现方式持久化简介  持久化可以理解">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:updated_time" content="2018-04-13T14:13:13.690Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全">
+<meta name="twitter:description" content="0.参考资料：参考视频：《动力节点Redis视频教程》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html  1.Redis持久化及两种实现方式持久化简介  持久化可以理解">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（五）：持久化主从复制哨兵及安全" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-参考资料："><a href="#0-参考资料：" class="headerlink" title="0.参考资料："></a>0.参考资料：</h2><p>参考视频：《动力节点Redis视频教程》<br>参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a><br>w3cschoolRedis教程：<a href="https://www.w3cschool.cn/redis/nma27f21.html" target="_blank" rel="noopener">https://www.w3cschool.cn/redis/nma27f21.html</a></p>
+<hr>
+<h2 id="1-Redis持久化及两种实现方式"><a href="#1-Redis持久化及两种实现方式" class="headerlink" title="1.Redis持久化及两种实现方式"></a>1.Redis持久化及两种实现方式</h2><p><strong>持久化简介</strong></p>
+<ol>
+<li>持久化可以理解为存储，就是将数据存储到一个不会丢失的地方。<br>Redis把数据放在内存中，电脑关闭或者重启数据就会消失。所以不是一种持久化，而把Redis的数据放到磁盘里就是一种持久化。</li>
+<li>Redis的数据存储在内存中，如果Linux宕机或者重启，或者Redis自己崩溃重启，那么数据就会消失。为了解决这个问题，Redis提供了两种机制对数据进行持久化存储–RDB方式和AOF方式。便于发生故障后迅速恢复数据。</li>
+<li>AOF方式相当于时RDB方式的升级版。</li>
+</ol>
+<h3 id="RDB方式实现持久化"><a href="#RDB方式实现持久化" class="headerlink" title="RDB方式实现持久化"></a>RDB方式实现持久化</h3><p><strong>1)RDB方式简介：</strong><br>Redis Database的缩写，就是在指定的时间间隔内将数据集快照写入磁盘。<br>数据恢复时再将快照文件直接读入到内存中。<strong>默认是开启的</strong>，如果有特殊需求只要修改配置文件就可以了。</p>
+<p><strong>2)RDB方式的实现：</strong></p>
+<ol>
+<li>只需要配置redis.conf文件即可。</li>
+<li>使用vim打开redis.conf文件，找到SNAPSHOTING快照：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-01.jpg" alt=""></li>
+<li>SNAPSHOTING常用配置项简介：<pre><code>save 900 1
+save 300 10
+save 60 10000
+</code></pre><code>save second changes</code>表示在多少秒内有多少次变化则会自动备份。<br>默认900秒内若有一次改变就保存一次，300秒内有10次改变就保存一次，60秒内有10000次改变就保存一次。这些是可以自动保存的。<pre><code>dbfilename dump.rdb
+</code></pre>RDB的文件名，默认文件名为dump.rdb。<pre><code>dir ./
+</code></pre>RDB和AOF文件存储的路径。<br>查看dump.rdb:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-02.jpg" alt=""></li>
+</ol>
+<h3 id="AOF方式实现持久化"><a href="#AOF方式实现持久化" class="headerlink" title="AOF方式实现持久化"></a>AOF方式实现持久化</h3><p><strong>1)AOF简介：</strong><br>Append-only File(AOF)：Redis每次接收到一个改变数据的命令时，就将该命令写入到AOF文件中。如果是读取数据的命令则不会写入。在Redis重启时，只要执行AOF中的所有命令就可以恢复数据了。</p>
+<p><strong>2)AOF的实现方式：</strong></p>
+<ol>
+<li>也是只需要配置redis.conf文件就可以了。</li>
+<li>找到APPEND ONLY MODE这一项：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-03.jpg" alt=""><br>这就是AOF的配置项。默认是关闭的。<br>将appendonly改为yes就是开启aof。</li>
+<li>常用的配置项介绍：<pre><code>appendonly no
+</code></pre>AOF方式的总开关。<pre><code>appendfilename &quot;appendonly.aof&quot;
+</code></pre>AOF文件的文件名。<br>保存路径和RDB共用dir。</li>
+</ol>
+<p><strong>3）其它常用配置项介绍：</strong><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-09.jpg" alt=""></p>
+<ol>
+<li>关于保存策略：<pre><code># appendfsync always
+appendfsync everysec
+# appendfsync no
+</code></pre>配置向aof文件写命令数据的策略：<br>有三种策略：<br><code>no</code>：不主动进行持久化同步，由操作系统进行同步，比较快但是不是很安全。<br><code>always</code>：每次执行写命令都执行同步，安全但是很慢。<br><code>everysec</code>：没秒执行一次，介于安全和速度之间，默认值。</li>
+<li>关于重写策略的两个配置（重要）：<pre><code>auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+</code></pre>(重写：去除一些无用的数据，冗余，对命令进行优化，减少文件的体积)<br>上面的配置表示当目前的aof文件超过上一次重写aof文件的大小的百分之多少是进行重写。如果之前未重写则以启动时的aof大小为依据<br>下面表示允许重写的最小aof文件的大小：达到64mb才开始整理。一般线上的时候是配置为好几GB。</li>
+</ol>
+<p><strong>4)测试：</strong><br>先重启Redis并指定使用redis.conf文件开服务:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-04.jpg" alt=""><br>打开客户端，进行多个数据修改命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-05.jpg" alt=""><br>重启Redis并打开查看：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-06.jpg" alt=""><br>数据并未丢失。查看文件列表，发现多了个aof文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-07.jpg" alt=""><br>可以看内部的文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-08.jpg" alt=""></p>
+<p><strong>5)AOF方式总结：</strong></p>
+<ol>
+<li>aof方式是一种可以完整实现数据保存的解决方案。</li>
+<li>aof文件会在操作过程中变的越来越大，但是Redis支持在不影响服务的情况下对aof文件中进行重写。</li>
+<li>可以同时使用aof方式和rdb方式，Redis优先加载aof方式的文件。</li>
+</ol>
+<hr>
+<h2 id="2-Redis集群之主从复制"><a href="#2-Redis集群之主从复制" class="headerlink" title="2.Redis集群之主从复制"></a>2.Redis集群之主从复制</h2><p><strong>1)主从(master/slave)复制简介：</strong></p>
+<ol>
+<li>通过持久化功能，Redis保证了在服务器重启的情况下数据也不会丢失（或少量丢失），但是由于数据时存储在一台服务器上的，那么这台服务器出现故障，比如硬盘坏了，那么也会导致数据丢失。</li>
+<li>为了避免单点故障，就需要将数据复制多份部署到不同的服务器上，即使有一台服务器出现故障，其他服务器也能继续提供服务。</li>
+<li>要求当一台服务器数据更新以后，自动将更新的数据同步备份到其他服务器上，者就需要用主从复制实现了。</li>
+</ol>
+<p><strong>2)主从复制的实现：</strong></p>
+<ol>
+<li>Redis提供了复制（replication）功能来自动实现多台Redis服务器的数据同步。<br>主从架构示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-10.jpg" alt=""></li>
+<li>实现原理：<br>可以通过部署多台Redis,并在配置文件中指定这几台Redis之间的主从关系，主负责写入数据，同时把写入的数据同步到从Redis,这种模式就叫做主从复制（master/slave）。<br>Redis默认的master用于写，slave用于读，向slave写数据会导致错误。</li>
+<li>有两种方式可以实现：<ul>
+<li>方式一：修改配置文件，启动时，服务器读取配置文件，并自动成为指定服务器的从Redis,从而构成主从服务架构。</li>
+<li>方式二：<code>redis-server --slaveof &lt;master -ip&gt; &lt;master -port&gt;</code>,在启动Redis时指定当前服务器成为某一主服务器的slave,从而实现主从复制。</li>
+</ul>
+</li>
+<li>方式一，修改配置文件：<br>简单的配置(就看看)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-11.jpg" alt=""></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月13日 22:13</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" title="Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全">https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/&title=《Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/&title=《Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料："><span class="post-toc-text">0.参考资料：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis持久化及两种实现方式"><span class="post-toc-text">1.Redis持久化及两种实现方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB方式实现持久化"><span class="post-toc-text">RDB方式实现持久化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF方式实现持久化"><span class="post-toc-text">AOF方式实现持久化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis集群之主从复制"><span class="post-toc-text">2.Redis集群之主从复制</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/12/Redis学习笔记（四）：订阅发布事务锁统计及客户端/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（四）：订阅发布,事务,锁,基数统计及客户端命令</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
