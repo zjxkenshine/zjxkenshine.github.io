@@ -1,5 +1,5 @@
 ---
-title: Redis学习笔记（四）：消息订阅发布,事务,锁,基数统计及客户端命令
+title: Redis学习笔记（四）：订阅发布,事务,锁,基数统计及客户端命令
 date: 2018-04-12 19:05:30
 tags: Redis
 categories: NoSQL
