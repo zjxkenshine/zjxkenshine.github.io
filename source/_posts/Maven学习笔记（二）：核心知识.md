@@ -506,7 +506,7 @@ A<--D<--X(2jar)
 就不用在子类里写版本号及依赖范围了。
 
 ---
-## 8.maven新建一个web项目并发布到Netty
+## 8.maven新建一个web项目并发布到Jetty
 **1)创建web项目：**
 1. File-->New -->Project-->Maven Project然后一路next到达这个界面：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-19.jpg)
@@ -525,7 +525,7 @@ A<--D<--X(2jar)
 项目右键-->Build Path-->configure bulid path,看到如下界面的resoures,检查所有的outputFile是不是target目录:
 ![](http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-22.jpg)
 5. 选择动态web模块：
-右键-->属性-->Project Facets-->勾上Dinamic web与JS
+右键-->属性-->Project Facets-->勾上Dinamic web与JS(JS可以不选)
 ![](http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-23.jpg)
 这时我发现我原来没报错的index.jsp页面报错了。
 
