@@ -47,7 +47,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-30.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-31.jpg">
-<meta property="og:updated_time" content="2018-03-21T07:26:47.033Z">
+<meta property="og:updated_time" content="2018-04-15T11:53:27.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven学习笔记（二）：Maven核心知识及在eclipese中使用">
 <meta name="twitter:description" content="0.学习要点 学习视频慕课网《项目管理利器——maven》  学习重点  如何在eclipse中安装插件 eclipse中使用maven创建项目 Maven的生命周期 pom.xml 关于依赖     1.eclipse中使用maven创建项目1)在eclipse中安装M2E插件：  首先最重要的一点，是看看你的eclipse中是否已经安装了maven插件了:打开你的Eclipse–&amp;gt;Win">
@@ -594,13 +594,13 @@
   &lt;/dependencies&gt;
 </code></pre><p>就不用在子类里写版本号及依赖范围了。</p>
 <hr>
-<h2 id="8-maven新建一个web项目并发布到Netty"><a href="#8-maven新建一个web项目并发布到Netty" class="headerlink" title="8.maven新建一个web项目并发布到Netty"></a>8.maven新建一个web项目并发布到Netty</h2><p><strong>1)创建web项目：</strong></p>
+<h2 id="8-maven新建一个web项目并发布到Jetty"><a href="#8-maven新建一个web项目并发布到Jetty" class="headerlink" title="8.maven新建一个web项目并发布到Jetty"></a>8.maven新建一个web项目并发布到Jetty</h2><p><strong>1)创建web项目：</strong></p>
 <ol>
 <li>File–&gt;New –&gt;Project–&gt;Maven Project然后一路next到达这个界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-19.jpg" alt=""><br>选择webapp模板，然后设置组名为MVNWEB,项目名为mvnweb,finish。记得将eclipse模式切换为javaEE哦。</li>
 <li>打开之后是这样的:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-20.jpg" alt=""><br>若index.jsp出现错误，直接跳到配置部分先。</li>
 <li>发现系统没有帮我们创建main与test目录，需要我们自己添加。<br>添加<strong>resource folder</strong>，使目录变为Maven标准结构：<br>从上图可知，需要创建src/main/java/;src/test/java;src/test/resourse的source folder,注意不是package，是source folder。<br>如果无法创建source folder:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-21.jpg" alt=""><br>可以先创建个src/test/jav再重命名为java。<br>或者可以Windows–&gt;Show View–&gt;Navigator,在这个视图内就可以创建了,创建完Folder后返回工程视图Project Explore，右键–&gt;Maven–&gt;Update Project即可。</li>
 <li>检验ClassPath路径：<br>项目右键–&gt;Build Path–&gt;configure bulid path,看到如下界面的resoures,检查所有的outputFile是不是target目录:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-22.jpg" alt=""></li>
-<li>选择动态web模块：<br>右键–&gt;属性–&gt;Project Facets–&gt;勾上Dinamic web与JS<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-23.jpg" alt=""><br>这时我发现我原来没报错的index.jsp页面报错了。</li>
+<li>选择动态web模块：<br>右键–&gt;属性–&gt;Project Facets–&gt;勾上Dinamic web与JS(JS可以不选)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-23.jpg" alt=""><br>这时我发现我原来没报错的index.jsp页面报错了。</li>
 </ol>
 <p><strong>2)更多配置：</strong></p>
 <ol>
@@ -768,7 +768,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月21日 15:26</p>
+        <p>最后更新： 2018年04月15日 19:53</p>
         <p>原始链接： <a class="post-url" href="/2018/03/18/Maven学习笔记（二）：核心知识/" title="Maven学习笔记（二）：Maven核心知识及在eclipese中使用">https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -886,7 +886,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-eclipse中使用maven创建项目"><span class="post-toc-text">1.eclipse中使用maven创建项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Maven的生命周期与插件："><span class="post-toc-text">2.Maven的生命周期与插件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-pom-xml解析"><span class="post-toc-text">3.pom.xml解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-依赖范围："><span class="post-toc-text">4.依赖范围：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-依赖传递"><span class="post-toc-text">5.依赖传递</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-依赖冲突："><span class="post-toc-text">6.依赖冲突：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-聚合与继承"><span class="post-toc-text">7.聚合与继承</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-maven新建一个web项目并发布到Netty"><span class="post-toc-text">8.maven新建一个web项目并发布到Netty</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-将项目打包发布到Tomcat"><span class="post-toc-text">9.将项目打包发布到Tomcat</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-eclipse中使用maven创建项目"><span class="post-toc-text">1.eclipse中使用maven创建项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Maven的生命周期与插件："><span class="post-toc-text">2.Maven的生命周期与插件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-pom-xml解析"><span class="post-toc-text">3.pom.xml解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-依赖范围："><span class="post-toc-text">4.依赖范围：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-依赖传递"><span class="post-toc-text">5.依赖传递</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-依赖冲突："><span class="post-toc-text">6.依赖冲突：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-聚合与继承"><span class="post-toc-text">7.聚合与继承</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-maven新建一个web项目并发布到Jetty"><span class="post-toc-text">8.maven新建一个web项目并发布到Jetty</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-将项目打包发布到Tomcat"><span class="post-toc-text">9.将项目打包发布到Tomcat</span></a></li></ol>
         </nav>
     </aside>
     
@@ -971,10 +971,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 10px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -1007,7 +1007,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 10px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
 </div>

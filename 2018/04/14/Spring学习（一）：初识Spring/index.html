@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring核心框架学习（一）：初识Spring及其生态圈 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)参考视频：某培训班视频  内容概述：  Spring简介 Spring的Bean容器 Spring核心模块 Spring生态系统     1.一些名词的解释后面会涉及到的名词的介绍：  Java EE：java的企业级应用，又称为J2EE。Java EE的核心是EJB3.0, 其提供了更兼便捷的企业级的应用框架。 EJB：是sun的JavaEE">
+<meta name="keywords" content="Spring核心框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring核心框架学习（一）：初识Spring及其生态圈">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)参考视频：某培训班视频  内容概述：  Spring简介 Spring的Bean容器 Spring核心模块 Spring生态系统     1.一些名词的解释后面会涉及到的名词的介绍：  Java EE：java的企业级应用，又称为J2EE。Java EE的核心是EJB3.0, 其提供了更兼便捷的企业级的应用框架。 EJB：是sun的JavaEE">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-03.jpg">
+<meta property="og:updated_time" content="2018-04-15T14:58:31.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring核心框架学习（一）：初识Spring及其生态圈">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)参考视频：某培训班视频  内容概述：  Spring简介 Spring的Bean容器 Spring核心模块 Spring生态系统     1.一些名词的解释后面会涉及到的名词的介绍：  Java EE：java的企业级应用，又称为J2EE。Java EE的核心是EJB3.0, 其提供了更兼便捷的企业级的应用框架。 EJB：是sun的JavaEE">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（一）：初识Spring" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring核心框架学习（一）：初识Spring及其生态圈
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Spring/">Spring</a>
+                  
+                      <a href="/categories/Java框架/">Java框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考书籍：《Spring实战》(第四版)<br>参考视频：某培训班视频</p>
+</li>
+<li><p>内容概述：</p>
+<ul>
+<li>Spring简介</li>
+<li>Spring的Bean容器</li>
+<li>Spring核心模块</li>
+<li>Spring生态系统</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-一些名词的解释"><a href="#1-一些名词的解释" class="headerlink" title="1.一些名词的解释"></a>1.一些名词的解释</h2><p>后面会涉及到的名词的介绍：</p>
+<ul>
+<li><code>Java EE</code>：java的企业级应用，又称为J2EE。<br>Java EE的核心是EJB3.0, 其提供了更兼便捷的企业级的应用框架。</li>
+<li><code>EJB</code>：是sun的JavaEE服务器端组件模型，设计目标与核心应用是部署分布式应用程序。简单来说就是把已经编写好的程序打包放在服务器上执行。<br>在J2EE里，Enterprise Java Beans(EJB)称为Java 企业Bean，是Java的核心代码，分别是会话Bean（Session Bean），实体Bean（Entity Bean）和消息驱动Bean（MessageDriven Bean）。在EJB3.0推出以后，实体Bean被单独分了出来，形成了新的规范JPA。<br>EJB 从技术上而言不是一种”产品，而是一种描述了构建应用组件要解决的标准/规范。</li>
+<li><code>JPA</code>：Java Persistence API的简称，Java持久层API</li>
+<li><code>POJO</code>：Plain Ordinary Java Objec简单的Java对象，实际就是普通JavaBeans，是为了避免和EJB混淆所创造的简称。</li>
+<li><code>IOC</code>：控制反转（Inversion of Control，英文缩写为IoC）把创建对象的权利交给框架,是框架的重要特征，并非面向对象编程的专用术语。它包括依赖注入（Dependency Injection，简称DI）和依赖查找（Dependency Lookup）。</li>
+<li><code>DI</code>：依赖注入。</li>
+</ul>
+<hr>
+<h2 id="2-Spring简介"><a href="#2-Spring简介" class="headerlink" title="2.Spring简介"></a>2.Spring简介</h2><ol>
+<li>Spring是一个开源框架，最早是为了解决企业级应用开发的复杂性而创建的。使用Spring可以让简单的JavaBean实现之前只有EJB才能完成的事情。<br>EJB主要被用来做分布式企业级应用开发，但是Spring不具备分布式能力。<br>但是Spring不仅仅局限于服务器端的开发，它是一个很庞大的生态体系。涵盖软件开发的各个方面。</li>
+<li>Spring降低Java开发复杂性的4个关键策略：<ul>
+<li>基于POJO的轻量级和最小侵入式编程。</li>
+<li>通过依赖注入(DI)和面向接口实现松耦合。</li>
+<li>基于切面和惯例进行声明式编程。</li>
+<li>通过切面和模板减少样板式代码。</li>
+</ul>
+</li>
+<li>下面简单介绍这四个策略。</li>
+<li>介绍之前，需要创建一个Maven项目用于理解和测试：<br>创建一个Maven项目，并且引入spring的依赖，pom.xml配置如下：<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;SpringTest&lt;/groupId&gt;
+  &lt;artifactId&gt;spring1&lt;/artifactId&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;name&gt;spring1 Maven Webapp&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+&lt;properties&gt;  
+    &lt;junit.version&gt;4.12&lt;/junit.version&gt;  
+    &lt;spring.version&gt;4.3.10.RELEASE&lt;/spring.version&gt;  
+    &lt;commons-logging.version&gt;1.2&lt;/commons-logging.version&gt;
+&lt;/properties&gt; 
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;${junit.version}&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+        &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+        &lt;version&gt;4.0.0&lt;/version&gt;
+        &lt;!-- 只在编译和测试时运行 --&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- 添加Spring依赖的jar包--&gt;  
+    &lt;!--依赖注入包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--切片包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-aspects&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!-- Beans包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!-- 容器包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-context&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!-- 容器依赖包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-context-support&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!-- 核心包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-core&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!-- 表达式包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-expression&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--spring-framework-bom包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-framework-bom&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt; 
+        &lt;type&gt;pom&lt;/type&gt; 
+    &lt;/dependency&gt;  
+    &lt;!--spring-instrument包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-instrument&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--连接数据库包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring消息包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-jms&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring信息包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-messaging&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring对象映射包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-orm&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--spring-oxm包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-oxm&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring测试包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-test&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring事物管理包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring文本项目包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-web&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--SpringMVC包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--spring-websocket包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;  
+        &lt;artifactId&gt;spring-websocket&lt;/artifactId&gt;  
+        &lt;version&gt;${spring.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+    &lt;!--Spring 依赖commons-logging包--&gt;  
+    &lt;dependency&gt;  
+        &lt;groupId&gt;commons-logging&lt;/groupId&gt;  
+        &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;  
+        &lt;version&gt;${commons-logging.version}&lt;/version&gt;  
+    &lt;/dependency&gt;  
+&lt;/dependencies&gt;
+&lt;build&gt;
+    &lt;finalName&gt;spring1&lt;/finalName&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+        &lt;!--
+            &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;
+            &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;8.1.16.v20140903&lt;/version&gt;  --&gt;
+        &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+        &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.2&lt;/version&gt;
+            &lt;executions&gt;
+                &lt;execution&gt;
+                    &lt;phase&gt;package&lt;/phase&gt;
+                    &lt;goals&gt;
+                        &lt;goal&gt;run&lt;/goal&gt;
+                    &lt;/goals&gt;
+                &lt;/execution&gt;
+            &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+&lt;/project&gt;
+</code></pre>之后在属性中选择动态的web项目，Maven update一下，就行了。<br>创建好之后如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-01.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-Spring-Framwork的4个策略介绍"><a href="#3-Spring-Framwork的4个策略介绍" class="headerlink" title="3.Spring Framwork的4个策略介绍"></a>3.Spring Framwork的4个策略介绍</h2><p><strong>1)基于POJO的轻量级和最小侵入式编程</strong></p>
+<ol>
+<li>侵入式编程：<br>强迫应用继承他们的类或者实现他们的接口从而导致应用与框架绑死。</li>
+<li>Spring的非侵入式编程模型意味着这个类在Spring应用和非Spring应用中都可以发挥同样的作用。</li>
+<li>尽管看起来很简单，但是POJO依旧是可以实现很多功能的，实现的方式之一就是通过依赖注入DI来装配他们。</li>
+<li>就像一个简单的POJO一样：<pre><code>package chap1;
+public class HelloWorldBean {
+    public String sayHello(){
+        return &quot;Hello World&quot;;
+    }
+}
+</code></pre>这就是一个普通的javaBean,看不出和Spring有任何的关联，这就是Spring想要做的。</li>
+</ol>
+<h3 id="依赖注入简介"><a href="#依赖注入简介" class="headerlink" title="依赖注入简介"></a>依赖注入简介</h3><ol>
+<li>依赖注入一键演变成为一项复杂的编程技巧或者设计模式理念。<br>在项目中使用DI，代码会异常简单且易于理解和测试。</li>
+<li>传统的做法(反正我是没有这么做过)：<br>每个对象负责管理与自己相互协作的对象的引用，会导致高度耦合且难以写测试代码。如下面这个学生需要执行打字任务：(紧耦合的写法)<pre><code>package chap1;
+public class Student1 {
+    private TypeTask task;
+    public Student1(){
+        this.task=new TypeTask(); //紧耦合
+    }
+    public void doTask(){
+        task.execute();
+    }
+}
+</code></pre>打字工作类如下：<pre><code>package chap1;
+public class TypeTask implements Task{
+    @Override
+    public void execute(){
+        System.out.println(&quot;执行了一个任务&quot;);
+    }
+}
+</code></pre>工作接口：<pre><code>package chap1;
+public interface Task {
+    public void execute();
+}
+</code></pre>这样子这个学生只能完成一种固定的任务typetask，很不灵活。<br>这种紧密耦合的代码难以测试，难以复用，难以理解。<br>但是有不能玩没有耦合，否则代码将毫无作用。</li>
+<li>通过DI，对象的依赖关系将由系统中负责协调各对象的第三方组件在创建对象时进行设定。依赖关系将被自动注入到需要他们的对象中去：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-02.jpg" alt=""></li>
+<li>创建Student2，代码如下：<pre><code>package chap1;
+public class Student2 {
+    private Task task;
+    public Student2(Task task){        //构造器注入
+        this.task=task;
+    }
+    public void doTask(){
+        task.execute();
+    }
+}
+</code></pre>这是依赖注入的方式之一，构造器注入(constructor injection)。<br>注意，这里使用的是接口，而不是具体的实现类。<br>在测试时也非常的简单，更本不用考虑是否有实现类或者是什么具体工作实现，只要使用mock进行依赖替换就可以了。</li>
+<li>首先添加Mockito的pom.xml依赖：<pre><code>package chap1;
+import org.junit.Test;
+import static org.mockito.Mockito.*;
+public class Test01 {
+    @Test
+    public void testStudent02(){
+        Task MockTask=mock(Task.class);        //创建mockTask
+        Student2 student2=new Student2(MockTask);        //注入mockTask
+        student2.doTask();
+        verify(MockTask,times(1)).execute();    //使用Mockito框架验证MockTask的execute方法只被执行一次。
+    }
+}
+</code></pre>测试结果：（绿了就是最好的结果）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-03.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-Spring容器及Bean的生命周期"><a href="#4-Spring容器及Bean的生命周期" class="headerlink" title="4. Spring容器及Bean的生命周期"></a>4. Spring容器及Bean的生命周期</h2><hr>
+<h2 id="5-Spring生态系统简介-各种有用的工具模块"><a href="#5-Spring生态系统简介-各种有用的工具模块" class="headerlink" title="5. Spring生态系统简介(各种有用的工具模块)"></a>5. Spring生态系统简介(各种有用的工具模块)</h2><hr>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月15日 22:58</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/14/Spring学习（一）：初识Spring/" title="Spring核心框架学习（一）：初识Spring及其生态圈">https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/&title=《Spring核心框架学习（一）：初识Spring及其生态圈》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/&title=《Spring核心框架学习（一）：初识Spring及其生态圈》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring核心框架学习（一）：初识Spring及其生态圈》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-一些名词的解释"><span class="post-toc-text">1.一些名词的解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring简介"><span class="post-toc-text">2.Spring简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Spring-Framwork的4个策略介绍"><span class="post-toc-text">3.Spring Framwork的4个策略介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#依赖注入简介"><span class="post-toc-text">依赖注入简介</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Spring容器及Bean的生命周期"><span class="post-toc-text">4. Spring容器及Bean的生命周期</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Spring生态系统简介-各种有用的工具模块"><span class="post-toc-text">5. Spring生态系统简介(各种有用的工具模块)</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring/Java框架/">Java框架</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 10px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 10px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
