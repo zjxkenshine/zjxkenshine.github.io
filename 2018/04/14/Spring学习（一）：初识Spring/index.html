@@ -19,7 +19,16 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-03.jpg">
-<meta property="og:updated_time" content="2018-04-15T14:58:31.406Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-12.jpg">
+<meta property="og:updated_time" content="2018-04-16T10:54:22.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring核心框架学习（一）：初识Spring及其生态圈">
 <meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)参考视频：某培训班视频  内容概述：  Spring简介 Spring的Bean容器 Spring核心模块 Spring生态系统     1.一些名词的解释后面会涉及到的名词的介绍：  Java EE：java的企业级应用，又称为J2EE。Java EE的核心是EJB3.0, 其提供了更兼便捷的企业级的应用框架。 EJB：是sun的JavaEE">
@@ -172,7 +181,11 @@
 <li><code>JPA</code>：Java Persistence API的简称，Java持久层API</li>
 <li><code>POJO</code>：Plain Ordinary Java Objec简单的Java对象，实际就是普通JavaBeans，是为了避免和EJB混淆所创造的简称。</li>
 <li><code>IOC</code>：控制反转（Inversion of Control，英文缩写为IoC）把创建对象的权利交给框架,是框架的重要特征，并非面向对象编程的专用术语。它包括依赖注入（Dependency Injection，简称DI）和依赖查找（Dependency Lookup）。</li>
-<li><code>DI</code>：依赖注入。</li>
+<li><code>DI</code>：Dependency Injection，依赖注入。</li>
+<li><code>DL</code>：Dependency Lookup，依赖查找</li>
+<li><code>AOP</code>:aspect-oriented programing,面向切面的编程</li>
+<li><code>JMS</code>：JMS即Java消息服务（Java Message Service）应用程序接口，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。</li>
+<li><code>JNDI</code>：JNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司提供的一种标准的Java命名系统接口，JNDI提供统一的客户端API，通过不同的访问提供者接口JNDI服务供应接口(SPI)的实现，由管理者将JNDI API映射为特定的命名服务和目录系统，使得Java应用程序可以和这些命名服务和目录服务之间进行交互.</li>
 </ul>
 <hr>
 <h2 id="2-Spring简介"><a href="#2-Spring简介" class="headerlink" title="2.Spring简介"></a>2.Spring简介</h2><ol>
@@ -375,7 +388,8 @@ public class HelloWorldBean {
 }
 </code></pre>这就是一个普通的javaBean,看不出和Spring有任何的关联，这就是Spring想要做的。</li>
 </ol>
-<h3 id="依赖注入简介"><a href="#依赖注入简介" class="headerlink" title="依赖注入简介"></a>依赖注入简介</h3><ol>
+<h3 id="依赖注入简介"><a href="#依赖注入简介" class="headerlink" title="依赖注入简介"></a>依赖注入简介</h3><p><strong>1)简介及传统做法</strong></p>
+<ol>
 <li>依赖注入一键演变成为一项复杂的编程技巧或者设计模式理念。<br>在项目中使用DI，代码会异常简单且易于理解和测试。</li>
 <li>传统的做法(反正我是没有这么做过)：<br>每个对象负责管理与自己相互协作的对象的引用，会导致高度耦合且难以写测试代码。如下面这个学生需要执行打字任务：(紧耦合的写法)<pre><code>package chap1;
 public class Student1 {
@@ -399,6 +413,9 @@ public interface Task {
     public void execute();
 }
 </code></pre>这样子这个学生只能完成一种固定的任务typetask，很不灵活。<br>这种紧密耦合的代码难以测试，难以复用，难以理解。<br>但是有不能玩没有耦合，否则代码将毫无作用。</li>
+</ol>
+<p><strong>2)构造器注入：</strong></p>
+<ol>
 <li>通过DI，对象的依赖关系将由系统中负责协调各对象的第三方组件在创建对象时进行设定。依赖关系将被自动注入到需要他们的对象中去：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-02.jpg" alt=""></li>
 <li>创建Student2，代码如下：<pre><code>package chap1;
 public class Student2 {
@@ -425,14 +442,222 @@ public class Test01 {
 }
 </code></pre>测试结果：（绿了就是最好的结果）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-03.jpg" alt=""></li>
 </ol>
+<p><strong>3)装配Bean：</strong></p>
+<ol>
+<li>这样就实现注入了，现在Student2可以传入任何Task的实现类对象。<br>假设新建了一个写字任务（WriteTask）,如何将这个任务传递给Student2呢。<br>这种创建应用组件之间协作的行为称为装配Bean。<br>Spring有多种装配Bean的方式，如xml,java代码装配等。</li>
+<li>创建WriteTask类：<pre><code>package chap1;
+import java.io.PrintStream;
+public class WriteTask implements Task{
+    private PrintStream printStream;
+    public WriteTask(PrintStream printStream){
+        this.printStream=printStream;
+    }
+    @Override
+    public void execute() {
+        printStream.println(&quot;do write task&quot;);
+    }
+}
+</code></pre>这里的printStream.println()就是基于io流的输出语句。</li>
+<li>使用xml方式将Student2，writeTask以及PrintStream装配到一起。<br>创建student2.xml(在test/resources目录),内容如下：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;  
+&lt;beans
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;&gt;
+    &lt;!--进行装配Bean--&gt; 
+    &lt;bean id=&quot;student2&quot; class=&quot;chap1.Student2&quot;&gt;
+        &lt;constructor-arg ref=&quot;task1&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;/bean&gt;  
+    &lt;bean id=&quot;task1&quot; class=&quot;chap1.WriteTask&quot;&gt;
+        &lt;constructor-arg value=&quot;#{T(System).out}&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;/bean&gt; 
+&lt;/beans&gt;
+</code></pre>关于提示插件的配置可以参考博客：<br><a href="https://blog.csdn.net/hh775313602/article/details/70176531" target="_blank" rel="noopener">Eclipse编辑Spring配置文件xml时自动提示类class包名</a><br>这里的Student2和WriteTask被声明为Spring的bean,使用了constructor-arg标签的ref属性进行依赖注入。<br>而task1的声明使用了Spring的表达式语言SPEL(Spring Express Language)，将System.out传入到SlayDragonQues的构造器中。</li>
+<li>java语言描述的装配方式：<pre><code>@Configuration
+public class Student2Config {
+    @Bean
+    public Student2 student2(){
+        return new Student2(task());
+    }
+    @Bean
+    public Task task(){
+        return new WriteTask(System.out);
+    }
+}
+</code></pre>可以将前面的学生类都实现一个Student接口，那么这里的student bean就可以这样写：<pre><code>@Bean
+public Student Student(){
+    return new Student2(task());
+}
+</code></pre>这样子student只知道自己依赖于Task，但是并不知道这个task来自哪里。<br>只有通过他的配置才能了解这些部分是如何装配的。</li>
+</ol>
+<p><strong>4)应用上下文(Application Context)的使用：</strong></p>
+<ol>
+<li>Spring通过应用上下文装载bean的定义并将他们组装起来。<strong>应用上下文全权负责对象的创建和组装</strong>。Spring自带了多种应用上下文的实现，他们的区别仅仅是如何加载配置。</li>
+<li>以xml为例，选择ClassPathXmlApplicationContext加载xml,并获得student2对象。测试代码如下：<pre><code>@Test
+public void testStudent2Context(){
+    //加载Spring上下文
+    ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;chap1/student2.xml&quot;);
+    //获取id为student2的Bean
+    Student2 student2=context.getBean(Student2.class);
+    //测试方法
+    student2.doTask();
+    //关闭上下文
+    context.close();
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-04.jpg" alt=""><br>而这个student2则完全不知道自己执行了那种类型的工作。除非去看xml配置文件。</li>
+<li>根据我的理解所画的实现图(xml方式)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-05.jpg" alt=""></li>
+</ol>
+<h3 id="AOP面向切面编程简介"><a href="#AOP面向切面编程简介" class="headerlink" title="AOP面向切面编程简介"></a>AOP面向切面编程简介</h3><p><strong>1)简介：</strong></p>
+<ol>
+<li>DI能够让相互协作的软件组件保持松耦合，而面向切面编程AOP则可以将遍布应用各处的组件分离出来形成可重用的组件。</li>
+<li>在系统中经常会有一些功能贯穿各个组件，如日志，事务管理及系统安全等系统服务，这些系统服务被称为<strong>横切关注点</strong>，会跨越系统的多个组件。</li>
+<li>如果将关注点分散到各个组件中，那么每个组件都要考虑这些，组件会因为与自身核心业务无关的代码导致混乱，也会给代码带来双重的复杂性，变的难以维护与测试。如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-06.jpg" alt=""></li>
+<li>而AOP则能使这些服务模块化，并<strong>以声明的方式</strong>将它们应用到需要使用这些服务的组件中去。能够确保POJO的简单性。<br>可以将切面想象成覆盖在很多组件之上的外壳，如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-07.jpg" alt=""></li>
+</ol>
+<p><strong>2)没有使用Aop的情况：</strong></p>
+<ol>
+<li>假设有一个老师来监督每个学生的任务，在每次学生任务开始之前与任务结束都有相关的操作，创建教师类如下：<pre><code>package chap1;
+import java.io.PrintStream;
+public class Teacher {
+    private PrintStream printStream;
+    public Teacher(PrintStream printStream){
+        this.printStream=printStream;
+    }
+    public void doBeforeTask(){
+        printStream.println(&quot;now studend begin the task&quot;);
+    }
+    public void doAfterTask(){
+        printStream.println(&quot;now studend finish the task&quot;);
+    }
+}
+</code></pre></li>
+<li>创建student3如下：<pre><code>package chap1;
+public class Student3 {
+    private Task task;
+    private Teacher teacher;
+    public Student3(Task task,Teacher teacher){
+        this.teacher=teacher;
+        this.task=task;
+    }
+    public void doTask(){
+        teacher.doBeforeTask();
+        task.execute();
+        teacher.doAfterTask();
+    }
+}
+</code></pre>这样可以实现效果，但是发现老师的对象竟然交给学生对象去管理，这就很不和逻辑了。而且有时也不一定有老师监督，所以是否还需要一个没老师的Student3?这样就会使代码变得非常复杂。</li>
+<li>而使用AOP，则可以解决这类问题。</li>
+</ol>
+<p><strong>3)AOP的使用：</strong></p>
+<ol>
+<li>修改Student2.xml文件，给Teacher配置一个Bean并声明为切面类型：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;  
+&lt;beans ...&gt;
+    &lt;!-- 其他bean配置 --&gt;
+    &lt;!-- 声明teacher bean --&gt;
+    &lt;bean id=&quot;teacher&quot; class=&quot;chap1.Teacher&quot;&gt;
+        &lt;constructor-arg value=&quot;#{T(System).out}&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;/bean&gt; 
+    &lt;aop:config&gt;
+        &lt;aop:aspect ref=&quot;teacher&quot;&gt;
+        &lt;!-- 声明切点：doTask方法 --&gt;
+        &lt;aop:pointcut expression=&quot;execution(* *.doTask(..))&quot; id=&quot;dotask&quot;/&gt;
+        &lt;!-- 声明前置通知(切点前) --&gt;
+        &lt;aop:before pointcut-ref=&quot;dotask&quot; method=&quot;doBeforeTask&quot;/&gt;
+        &lt;!-- 声明后置通知(切点后) --&gt;
+        &lt;aop:after pointcut-ref=&quot;dotask&quot; method=&quot;doAfterTask&quot;/&gt;
+        &lt;/aop:aspect&gt;
+    &lt;/aop:config&gt;
+&lt;/beans&gt; 
+</code></pre></li>
+<li>测试代码和上面的项同，测试结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-08.jpg" alt=""></li>
+<li>可以看到这样的写法和未使用切面的效果是一样的。<br>上述配置中使用aop系列标签将teacher声明为一个切面，并定义了一个切点及在这个切点附近的方法。<br>切点定义时的expression属性使用的是AspectJ的切点表达式语句。<br>这样配置之后有以下优点：<ul>
+<li>首先Teacher类代码仍是一个简单的POJO，没有任何地方表名它与AOP有关，但实际上在上下文中它就已经变成一个切面了。</li>
+<li>尽管Teacher变成了一个切面，但是其他spring bean能做的事它也同样能做。</li>
+</ul>
+</li>
+<li>我理解的Aop的实现过程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-09.jpg" alt=""></li>
+</ol>
+<h3 id="模板消除样板式代码"><a href="#模板消除样板式代码" class="headerlink" title="模板消除样板式代码"></a>模板消除样板式代码</h3><ol>
+<li>有时候写一些代码，为了实现简单的或者通用的业务，不得不一遍又一遍编写简单的代码。如JDBC,JMS,JNDI和使用REST服务时。</li>
+<li>Spring旨在通过模板封装来消除样板式代码。</li>
+<li>如下列查询方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-10.jpg" alt=""><br>就使用了JDBC模板jdbcTemplate模板，从而不用再编写那些重复的JDBC语句了。</li>
+<li>上述的方法的queryForObject是一个接收三个参数的方法：SQL语句，查询对象以及查询条件。</li>
+</ol>
 <hr>
-<h2 id="4-Spring容器及Bean的生命周期"><a href="#4-Spring容器及Bean的生命周期" class="headerlink" title="4. Spring容器及Bean的生命周期"></a>4. Spring容器及Bean的生命周期</h2><hr>
-<h2 id="5-Spring生态系统简介-各种有用的工具模块"><a href="#5-Spring生态系统简介-各种有用的工具模块" class="headerlink" title="5. Spring生态系统简介(各种有用的工具模块)"></a>5. Spring生态系统简介(各种有用的工具模块)</h2><hr>
+<h2 id="4-Spring容器及Bean的生命周期"><a href="#4-Spring容器及Bean的生命周期" class="headerlink" title="4. Spring容器及Bean的生命周期"></a>4. Spring容器及Bean的生命周期</h2><p><strong>1)Bean容器</strong></p>
+<ol>
+<li>在基于Spring的应用中，应用对象生存在Spring的容器中。Spring容器负责创建，装配，配置并并管理它们的整个生命周期。</li>
+<li>容器是Spring的核心。Spring容器使用DI管理构成应用的组件，会创建相互协作的组件之间的关联。这些对象简单干净，更有易于理解，更易于重用。而且更方便单元测试。</li>
+<li>SprIng的容器有两种不同类型，一种是最最简单的Bean工厂，另一种则是基于Bean工厂创建的应用上下文。<br>Bean工厂提供最基本的DI支持，但是对于应用来说往往太过低级了。而应用上下文则提供了架构级别的服务，所以一般都是使用应用上下文的。</li>
+</ol>
+<p><strong>2）应用上下文：</strong></p>
+<ol>
+<li>Spring自带了很多种应用上下文，常见的有这5种：<br><code>AnnotationConfigApplicationContext</code>：从一个或多个基于java的配置类中加载Spring上下文。<br><code>AnnotationConfigWebApplicationContext</code>：从一个或多个基于java的配置类中加载Spring Web上下文。<br><code>ClassPathXmlApplicationcontext</code>：从类路径下的一个或者多个XML配置文件中加载上下文。<br><code>FileSystemXmlapplicationcontext</code>：从文件系统下的一个或者多个xml配置文件中加载上下文。<br><code>XmlWebApplicationContext</code>：从Web文件下的一个或者多个XML配置文件中加载上下文定义。</li>
+<li>其他的后面都会涉及，暂时只介绍<code>FileSystemXmlapplicationcontext</code>，<code>ClassPathXmlApplicationcontext</code>以及<code>AnnotationConfigApplicationContext</code></li>
+<li><code>FileSystemXmlapplicationcontext</code>使用方式：<pre><code>ApplicationContext context=new FileSystemXmlApplicationContext(&quot;c:/student2.xml&quot;);
+</code></pre><code>ClassPathXmlApplicationcontext</code>使用方式：<pre><code>ApplicationContext context=new FileSystemXmlApplicationContext(&quot;student2.xml&quot;);
+</code></pre>这两者的区别是前者会在指定的文件系统路径下去寻找这个文件，而后者则是在所有的类路径下去寻找（包括jar文件）</li>
+<li>从java配置中加载上下文：<pre><code>ApplicationContext context=new AnnotationConfigApplicationContext(&quot;c:/student2.xml&quot;);
+</code></pre></li>
+</ol>
+<h3 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h3><p><strong>1)简单示意图：</strong><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-11.jpg" alt=""><br><strong>2)生命周期简介：</strong></p>
+<ol>
+<li>Spring对bean实例化</li>
+<li>Spring将值和bean引用注入到bean对应的属性中</li>
+<li>（如果bean实现了BeanNameWare接口），则将Bean的ID传给setBeanName方法</li>
+<li>（如果bean实现了BeanFactoryAware接口），则会调用setBeanFactory方法，将BeanFactory容器实例传入</li>
+<li>（如果bean实现了ApplicationContextAware接口），则会调用setApplicationContext()方法，将bean所在的应用上下文传进来</li>
+<li>（如果Bean实现了BeanPostProcessor接口），则调用postPeocessBeforeInitializACTION()方法</li>
+<li>（如果Bean实现了InitializingBean接口），则调用afterProperitiesSet（）方法，若使用init-method声明了初始化方法，则该方法也会被调用。</li>
+<li>（如果Bean实现了BeanPostProcessor接口），则调用则调用postPeocessAfterInitializACTION()方法</li>
+<li>此时Bean已经可以开始使用了，它们会停留在应用上下文中直到应用上下文被销毁。</li>
+<li>（如果Bean实现了DisposableBean接口），则会调用destory()接口方法来销毁，如果bean使用了destory-method来声明销毁方法，该方法也会被调用。</li>
+</ol>
+<hr>
+<h2 id="5-Spring生态系统简介-各种有用的工具模块"><a href="#5-Spring生态系统简介-各种有用的工具模块" class="headerlink" title="5. Spring生态系统简介(各种有用的工具模块)"></a>5. Spring生态系统简介(各种有用的工具模块)</h2><p><strong>1)关于Spring系列工具：</strong></p>
+<ol>
+<li>Spring为开发者提供了一个一站式的轻量级应用开发平台,提供给开发者多种的技术选择。当然Spring还有许多值得注意的子项目,了解这些子项目,可以更好地使用Spirng或理解其设计架构和思想。</li>
+<li>Spring核心框架简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00039Spring%E5%AD%A6%E4%B9%A01-12.jpg" alt=""></li>
+<li>核心框架的介绍：<ul>
+<li><strong>Spring核心容器</strong>：管理Bean的创建配置和管理，包含了bea工厂(提供DI功能)和应用上下文的实现，还提供了很多企业级服务如Email等。所有的Spring模块都是构建在核心容器之上的。</li>
+<li><strong>Spring AOP模块</strong>：提供了面向切面的支持，可以将遍布系统的服务解耦。</li>
+<li><strong>数据访问与集成</strong>：提供了JDBC数据访问的支持，提供了JMS消息处理的支持，而且会调用aop模块为Spring中的对象提供事务支持。</li>
+<li><strong>Web与远程连接</strong>：Spring MVC框架，还提供了多种与其他应用交互的远程调用方案。自带有远程调用框架：HTTP invoker。还提供可暴露和REST API的支持。</li>
+<li><strong>Instrumentation</strong>：提供了为JVM添加代理的功能，使用场景非常有限。</li>
+<li><strong>Test测试</strong>:Spring为使用JNDI,Servlet和Portlet编写单元测试提供了单元测试，还有继承测试的支持。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2）常用的功能，框架：</strong></p>
+<blockquote>
+<p>Spring Framework(Core)： Spring的核心项目,其中包含了一系列的IOC容器的设计，提供了依赖注入的实现；同时,还集成了AOP,提供了面向切面编程的实现;当然还有MVC、JDBC、事务处理模块的实现。目前官网最高版本4.3.0</p>
+<p>Spring Boot :提供了快速构建Spring应用,提供开发效率,达到 开箱即用—- 快速开始需求开发而不被其他方面影响 “即时运行”。</p>
+<p>Spring Batch:提供构建批处理应用和自动化操作的框架，专门用于离线分析程序,数据批处理等场景。</p>
+<p>Spring Data:提供使用非关系型数据的能力,比如当基础数据并非存储在关系数据库中,或MapReduce中的分布式存储、云计算存储环境等 </p>
+<p>Spring Security:用户认证、授权、安全服务等工具,最先前在Spring社区中的名字是Acegi框架。</p>
+<p>Spring Security OAuth:OAuth是一个第三方的模块,提供一个开放的协议的实现,通过这个协议前端桌面应用可以对web应用进行简单而标准的安全调用</p>
+<p>Spring Web Flow:Web工作流引擎,定义了一种特定的语言来描述工作流,同时高级的工作流控制器引擎可以管理会话状态。</p>
+<p>Spring BlazeDS Integration :提供Spring与Adobe Flex技术集成的模块。</p>
+<p>Spring Dynamic Modules:提供Spring 应用运行在OSGi平台上 OSGi面向java的动态模型系统,Eclipse就是构建在OSGi平台上的。</p>
+<p>Spring Intergration:为企业的数据集成提供了解决方案,</p>
+<p>Spring AMQP:高级消息队列协议,支持java 和.NET两个版本。SpringSoruce旗下的Rabbit MQ就是一个开源的AMQP的消息服务器,Rabbit MQ 是用Erlang语言开发的。</p>
+<p>Spring .NET：为.NET提供Spring相关的技术支持,如IOC容器、AOP等。</p>
+<p>Spring Android:为Android终端开发应用提供Sring支持。</p>
+<p>Spring Mobile:为移动终端的服务器应用开发提供支持。</p>
+<p>Spring Social：Spring框架的扩展,提供了SNS服务,如FaceBook和Twitter服务。</p>
+</blockquote>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月15日 22:58</p>
+        <p>最后更新： 2018年04月16日 18:54</p>
         <p>原始链接： <a class="post-url" href="/2018/04/14/Spring学习（一）：初识Spring/" title="Spring核心框架学习（一）：初识Spring及其生态圈">https://zjxkenshine.github.io/2018/04/14/Spring学习（一）：初识Spring/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -550,7 +775,7 @@ public class Test01 {
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-一些名词的解释"><span class="post-toc-text">1.一些名词的解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring简介"><span class="post-toc-text">2.Spring简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Spring-Framwork的4个策略介绍"><span class="post-toc-text">3.Spring Framwork的4个策略介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#依赖注入简介"><span class="post-toc-text">依赖注入简介</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Spring容器及Bean的生命周期"><span class="post-toc-text">4. Spring容器及Bean的生命周期</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Spring生态系统简介-各种有用的工具模块"><span class="post-toc-text">5. Spring生态系统简介(各种有用的工具模块)</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-一些名词的解释"><span class="post-toc-text">1.一些名词的解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring简介"><span class="post-toc-text">2.Spring简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Spring-Framwork的4个策略介绍"><span class="post-toc-text">3.Spring Framwork的4个策略介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#依赖注入简介"><span class="post-toc-text">依赖注入简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOP面向切面编程简介"><span class="post-toc-text">AOP面向切面编程简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模板消除样板式代码"><span class="post-toc-text">模板消除样板式代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Spring容器及Bean的生命周期"><span class="post-toc-text">4. Spring容器及Bean的生命周期</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Bean的生命周期"><span class="post-toc-text">Bean的生命周期</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Spring生态系统简介-各种有用的工具模块"><span class="post-toc-text">5. Spring生态系统简介(各种有用的工具模块)</span></a></li></ol>
         </nav>
     </aside>
     
