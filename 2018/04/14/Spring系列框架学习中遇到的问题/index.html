@@ -8,18 +8,20 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0    1.问题1-5解决1)使用mock进行单元测试时报错：  错误：Unsupported major.minor version 52.0  搜了一大堆网上的资料，没">
-<meta name="keywords" content="Spring核心框架">
+  <meta name="description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
+<meta name="keywords" content="Spring,Spring核心框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring系列框架学习中遇到的问题及解决方案">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0    1.问题1-5解决1)使用mock进行单元测试时报错：  错误：Unsupported major.minor version 52.0  搜了一大堆网上的资料，没">
+<meta property="og:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T11:04:24.640Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
+<meta property="og:updated_time" content="2018-04-17T05:42:33.951Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring系列框架学习中遇到的问题及解决方案">
-<meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0    1.问题1-5解决1)使用mock进行单元测试时报错：  错误：Unsupported major.minor version 52.0  搜了一大堆网上的资料，没">
+<meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -125,7 +127,7 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/Spring/">Spring</a>
+                      <a href="/categories/J2EE框架/">J2EE框架</a>
                   
               </li>
           
@@ -149,11 +151,15 @@
             <h2 id="0-问题列表"><a href="#0-问题列表" class="headerlink" title="0.问题列表"></a>0.问题列表</h2><ol>
 <li>使用mock进行单元测试时报错：<pre><code>java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0
 </code></pre></li>
+<li>Spring+Junit4单元测试时遇到的错误：<pre><code>Java.lang.ExceptionInInitializerError
+....
+</code></pre></li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决"><a href="#1-问题1-5解决" class="headerlink" title="1.问题1-5解决"></a>1.问题1-5解决</h2><p><strong>1)使用mock进行单元测试时报错：</strong></p>
 <ol>
 <li>错误：<pre><code>Unsupported major.minor version 52.0
+...一堆没用的信息
 </code></pre></li>
 <li>搜了一大堆网上的资料，没一个对的上的。<br>最后发现是maven的jdk版本问题。将maven的版本修改为jdk1.8就可以了。<br>52.0对应的jdk就是1.8，说明低版本不支持高版本。为了以后不报错，修改maven本地setting.xml文件配置如下：<pre><code>&lt;profile&gt;
 &lt;id&gt;jdk-1.8&lt;/id&gt;
@@ -169,11 +175,25 @@
 &lt;/profile&gt;
 </code></pre>详情参考<a href="">maven学习笔记2</a>。</li>
 </ol>
+<p><strong>2)Spring+Junit4测试时出错：</strong></p>
+<ol>
+<li>更多错误：<pre><code>java.lang.ExceptionInInitializerError
+at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+...省略n行
+at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+Caused by: java.lang.IllegalStateException: SpringJUnit4ClassRunner requires JUnit 4.12 or higher.
+at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.&lt;clinit&gt;(SpringJUnit4ClassRunner.java:102)
+... 19 more
+</code></pre></li>
+<li>解决方案：<br>主要看那个course by：<pre><code>java.lang.IllegalStateException: SpringJUnit4ClassRunner requires JUnit 4.12 or higher
+</code></pre>将pom.xml中的Junit版本改为更高的即可：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月16日 19:04</p>
+        <p>最后更新： 2018年04月17日 13:42</p>
         <p>原始链接： <a class="post-url" href="/2018/04/14/Spring系列框架学习中遇到的问题/" title="Spring系列框架学习中遇到的问题及解决方案">https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -278,6 +298,8 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
     <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
       
   </li>
@@ -297,6 +319,16 @@
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/04/16/Spring学习（二）：装配Bean的三种方式/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring学习（二）：装配Bean的三种方式
+        
+      </span>
+    </a>
   
   
     <a href="/2018/04/14/Spring学习（一）：初识Spring/" id="article-nav-older" class="article-nav-link-wrap">
@@ -366,10 +398,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 11.25px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.5px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -402,7 +434,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 11.25px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.5px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
 </div>

@@ -8,20 +8,20 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?详细创建语法： CREATE">
+  <meta name="description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL遇到的问题总结">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?详细创建语法： CREATE">
+<meta property="og:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-02.jpg">
-<meta property="og:updated_time" content="2018-04-02T14:22:24.006Z">
+<meta property="og:updated_time" content="2018-04-17T11:35:35.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL遇到的问题总结">
-<meta name="twitter:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?详细创建语法： CREATE">
+<meta name="twitter:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg">
   
   
@@ -152,6 +152,7 @@
             <h2 id="0-问题列表"><a href="#0-问题列表" class="headerlink" title="0.问题列表"></a>0.问题列表</h2><ol>
 <li>游标使用时遇到的一个问题：变量与字段重名?</li>
 <li>Mysql事件中如何同时指定开始时间和执行周期?</li>
+<li>查询每个月倒数第二天入职的员工?</li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决方法"><a href="#1-问题1-5解决方法" class="headerlink" title="1.问题1-5解决方法"></a>1.问题1-5解决方法</h2><p><strong>1)游标使用时遇到的一个问题：</strong></p>
@@ -182,12 +183,12 @@ interval:
               WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |  
               DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}  
 </code></pre><p>AT和EVERY同时只能有一个。</p>
-<p><strong>3）</strong></p>
+<p><strong>3）查询每个月倒数第二天入职的员工?</strong><br>使用last_day()函数：表示当月的最后一天<br><code>SELECT * FROM hire WHERE hiredate=last_day(hiredate)-1;</code></p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月02日 22:22</p>
+        <p>最后更新： 2018年04月17日 19:35</p>
         <p>原始链接： <a class="post-url" href="/2018/04/02/MySQL遇到的问题总结/" title="MySQL遇到的问题总结">https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -390,10 +391,10 @@ interval:
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 11.25px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.5px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -426,7 +427,7 @@ interval:
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring核心框架/" style="font-size: 11.25px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
+            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.5px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a>
         </div>
     </div>
 </div>
