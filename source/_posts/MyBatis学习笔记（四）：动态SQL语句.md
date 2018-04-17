@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（四）：动态SQL语句
 date: 2018-03-26 15:46:47
 tags: MyBatis
-categories: Java框架
+categories: J2EE框架
 
 ---
 ## 0.学习准备

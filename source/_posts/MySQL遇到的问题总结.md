@@ -8,6 +8,7 @@ categories: 数据库
 ## 0.问题列表
 1. 游标使用时遇到的一个问题：变量与字段重名?
 2. Mysql事件中如何同时指定开始时间和执行周期?
+3. 查询每个月倒数第二天入职的员工?
 
 ---
 ## 1.问题1-5解决方法
@@ -44,6 +45,8 @@ age和height一直取不到值，还以为是没加主键，最后发现是局�
 	                  DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}  
 AT和EVERY同时只能有一个。
 
-**3）**
+**3）查询每个月倒数第二天入职的员工?**
+使用last_day()函数：表示当月的最后一天
+`SELECT * FROM hire WHERE hiredate=last_day(hiredate)-1;`
 
 ---

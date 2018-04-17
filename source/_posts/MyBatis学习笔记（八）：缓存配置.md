@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（八）：Mybatis缓存配置
 date: 2018-4-11 19:02:26
 tags: MyBatis
-categories: Java框架
+categories: J2EE框架
 
 ---
 ## 0.学习准备

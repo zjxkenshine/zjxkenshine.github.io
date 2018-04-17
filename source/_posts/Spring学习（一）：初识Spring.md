@@ -1,10 +1,10 @@
 ---
 title: Spring核心框架学习（一）：初识Spring及其生态圈
 date: 2018-4-14 19:15:31 
-tags: Spring核心框架
-categories: 
+tags: 
 - Spring
-- Java框架
+- Spring核心框架
+categories: J2EE框架
 
 ---
 ## 0.学习准备
@@ -531,7 +531,7 @@ Bean工厂提供最基本的DI支持，但是对于应用来说往往太过低�
 	- **Test测试**:Spring为使用JNDI,Servlet和Portlet编写单元测试提供了单元测试，还有继承测试的支持。
 
 **2）常用的功能，框架：**
->Spring Framework(Core)： Spring的核心项目,其中包含了一系列的IOC容器的设计，提供了依赖注入的实现；同时,还集成了AOP,提供了面向切面编程的实现;当然还有MVC、JDBC、事务处理模块的实现。目前官网最高版本4.3.0
+>Spring Framework(Core)： Spring的核心项目,其中包含了一系列的IOC容器的设计，提供了依赖注入的实现；同时,还集成了AOP,提供了面向切面编程的实现;当然还有MVC、JDBC、事务处理模块的实现。详见上述介绍。
 
 >Spring Boot :提供了快速构建Spring应用,提供开发效率,达到 开箱即用---- 快速开始需求开发而不被其他方面影响 “即时运行”。
 

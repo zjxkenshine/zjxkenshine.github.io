@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（六）：一对一，一对多及鉴别器映射
 date: 2018-04-01 21:08:08
 tags: MyBatis
-categories: Java框架
+categories: J2EE框架
 
 ---
 ## 0.学习准备
