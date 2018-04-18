@@ -13,6 +13,10 @@ categories: J2EE框架
 2. Spring+Junit4单元测试时遇到的错误：
 		Java.lang.ExceptionInInitializerError
 		....
+3. 学习XML装配Bean时单元测试又报错了：
+>Caused by: java.lang.IllegalStateException: Neither GenericXmlContextLoader nor AnnotationConfigContextLoader was able to load an ApplicationContext from [MergedContextConfiguration@69379752 testClass = HppyMusicTest, locations = '{}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]].
+4. Spring xmlsetting方式注入测试时又出错了：
+>org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'normalMusic' defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()
 
 ---
 ## 1.问题1-5解决
@@ -53,7 +57,28 @@ categories: J2EE框架
 将pom.xml中的Junit版本改为更高的即可：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg)
 
+**3）学习XML装配Bean时单元测试又报错了：**
+1. 错误日志(只截取了course by那段)：
+Caused by: java.lang.IllegalStateException: Neither GenericXmlContextLoader nor AnnotationConfigContextLoader was able to load an ApplicationContext from [MergedContextConfiguration@69379752 testClass = HppyMusicTest, locations = '{}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]].
+2. 错误原因：
+在测试类中使用了
+`@RunWith(SpringJUnit4ClassRunner.class)`注解而未使用`@ContextConfiguration()注解`,而使用手动加载上下文，这样子就会出错。
+3. 解决方法：
+将@RunWith(SpringJUnit4ClassRunner.class)去除，不使用Spring提供的测试，手动加载xml配置文件的上下文：
+		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MusicPlayer2Config.class);
+或者将手动加载的去除，使用注解的locations属性自动加载上下文。
 
+**4) Spring xml setting方式注入测试时又出错了：**
+1. 错误代码(核心部分)：
+>org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'normalMusic' defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()
+2. 错误原因：
+NormalMusic没有默认的构造方法。
+说明Setting注入配置的bean都需要有默认为空的构造方法。
+3. 解决，添加默认的构造方法就行：
+		...
+		public NormalMusic(){
+		}
+		...
 
 ---
 

@@ -115,7 +115,7 @@ categories: 学习笔记
 			}
 			public static Object6_08 getInstance() {
 				try{
-					if(obj!=null){
+					if(obj!=null){		//一重检查
 						
 					}else{
 						Thread.sleep(3000);
@@ -131,6 +131,7 @@ categories: 学习笔记
 				return obj;
 			}
 		}
+注意一定要使用volatile关键字，否则会出现各种各样的问题。
 
 ---
 ## 4.使用其他方法实现安全的单例模式
