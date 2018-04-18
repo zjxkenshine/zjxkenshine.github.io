@@ -8,19 +8,19 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
+  <meta name="description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
 <meta name="keywords" content="Spring,Spring核心框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring系列框架学习中遇到的问题及解决方案">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
+<meta property="og:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
-<meta property="og:updated_time" content="2018-04-17T05:42:33.951Z">
+<meta property="og:updated_time" content="2018-04-18T12:18:15.305Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring系列框架学习中遇到的问题及解决方案">
-<meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....    1.问题1-5解决1)使用m">
+<meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
   
   
@@ -154,6 +154,14 @@
 <li>Spring+Junit4单元测试时遇到的错误：<pre><code>Java.lang.ExceptionInInitializerError
 ....
 </code></pre></li>
+<li>学习XML装配Bean时单元测试又报错了：<blockquote>
+<p>Caused by: java.lang.IllegalStateException: Neither GenericXmlContextLoader nor AnnotationConfigContextLoader was able to load an ApplicationContext from [MergedContextConfiguration@69379752 testClass = HppyMusicTest, locations = ‘{}’, classes = ‘{}’, contextInitializerClasses = ‘[]’, activeProfiles = ‘{}’, propertySourceLocations = ‘{}’, propertySourceProperties = ‘{}’, contextCustomizers = set[[empty]], contextLoader = ‘org.springframework.test.context.support.DelegatingSmartContextLoader’, parent = [null]].</p>
+</blockquote>
+</li>
+<li>Spring xmlsetting方式注入测试时又出错了：<blockquote>
+<p>org.springframework.beans.factory.BeanCreationException: Error creating bean with name ‘normalMusic’ defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()</init></p>
+</blockquote>
+</li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决"><a href="#1-问题1-5解决" class="headerlink" title="1.问题1-5解决"></a>1.问题1-5解决</h2><p><strong>1)使用mock进行单元测试时报错：</strong></p>
@@ -189,11 +197,31 @@ at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.&lt;clinit&gt
 <li>解决方案：<br>主要看那个course by：<pre><code>java.lang.IllegalStateException: SpringJUnit4ClassRunner requires JUnit 4.12 or higher
 </code></pre>将pom.xml中的Junit版本改为更高的即可：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""></li>
 </ol>
+<p><strong>3）学习XML装配Bean时单元测试又报错了：</strong></p>
+<ol>
+<li>错误日志(只截取了course by那段)：<br>Caused by: java.lang.IllegalStateException: Neither GenericXmlContextLoader nor AnnotationConfigContextLoader was able to load an ApplicationContext from [MergedContextConfiguration@69379752 testClass = HppyMusicTest, locations = ‘{}’, classes = ‘{}’, contextInitializerClasses = ‘[]’, activeProfiles = ‘{}’, propertySourceLocations = ‘{}’, propertySourceProperties = ‘{}’, contextCustomizers = set[[empty]], contextLoader = ‘org.springframework.test.context.support.DelegatingSmartContextLoader’, parent = [null]].</li>
+<li>错误原因：<br>在测试类中使用了<br><code>@RunWith(SpringJUnit4ClassRunner.class)</code>注解而未使用<code>@ContextConfiguration()注解</code>,而使用手动加载上下文，这样子就会出错。</li>
+<li>解决方法：<br>将@RunWith(SpringJUnit4ClassRunner.class)去除，不使用Spring提供的测试，手动加载xml配置文件的上下文：<pre><code>AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MusicPlayer2Config.class);
+</code></pre>或者将手动加载的去除，使用注解的locations属性自动加载上下文。</li>
+</ol>
+<p><strong>4) Spring xml setting方式注入测试时又出错了：</strong></p>
+<ol>
+<li>错误代码(核心部分)：<blockquote>
+<p>org.springframework.beans.factory.BeanCreationException: Error creating bean with name ‘normalMusic’ defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()</init></p>
+</blockquote>
+</li>
+<li>错误原因：<br>NormalMusic没有默认的构造方法。<br>说明Setting注入配置的bean都需要有默认为空的构造方法。</li>
+<li>解决，添加默认的构造方法就行：<pre><code>...
+public NormalMusic(){
+}
+...
+</code></pre></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月17日 13:42</p>
+        <p>最后更新： 2018年04月18日 20:18</p>
         <p>原始链接： <a class="post-url" href="/2018/04/14/Spring系列框架学习中遇到的问题/" title="Spring系列框架学习中遇到的问题及解决方案">https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">

@@ -22,7 +22,18 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-04-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-06.jpg">
-<meta property="og:updated_time" content="2018-04-17T14:56:26.295Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-16-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-17.jpg">
+<meta property="og:updated_time" content="2018-04-18T15:05:52.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring学习（二）：装配Bean的三种方式">
 <meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  声明Bean 构造器注入和Setter注入 装配Bean 控制Bean的创建和销毁     1.装配Bean的三种方式简介1)装配简介：  任何一个成功的应用都是由多个为了实现某一个业务二相互协作的组件构成。这些组件必须彼此了解，相互协作来完成工作。 创建对象之间的协作关系的行为通常称为装配(wiring),这也是依赖注入的本">
@@ -428,9 +439,7 @@ public MusicPlayer musicPlayer(Music music){
 }
 </code></pre>这是引用其他bean的最好写法，不用将Music声明在同一个配置类中。甚至可以不是JavaConfig配置的(组件扫描或者XML配置的)。</li>
 <li>带有@Bean注解的方法会采用任何必要的Java功能来产生Bean实例。</li>
-<li>测试代码：<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=MusicPlayer2Config.class)
-public class MusicPlayerTest2 {
+<li>测试代码：<pre><code>public class MusicPlayerTest2 {
     //SystemRule库的一个Junit规则，可以将输出作为断言条件
     @Rule
     public final StandardOutputStreamLog log=new StandardOutputStreamLog();
@@ -454,7 +463,7 @@ public class MusicPlayerTest2 {
         Assert.assertEquals(&quot;playing song sad,singer : kenshine&quot;,log.getLog());
     }
 }
-</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-05.jpg" alt=""><br>可以看到有多种方式可以从上下文中取值。</li>
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-05.jpg" alt=""><br>注意这里的@RunWith以及@ContextConfiguration注解都没有使用。<br>可以看到有多种方式可以从上下文中取值。</li>
 <li>我的JavaConfig配置思路图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-06.jpg" alt=""></li>
 </ol>
 <hr>
@@ -487,11 +496,410 @@ public class MusicPlayerTest2 {
 <li>此时的XML文件没有任何作用。因为还没有声明Bean。</li>
 </ol>
 <p><strong>2)声明一个简单的Bean：</strong></p>
+<ol>
+<li>xml的<code>&lt;Beans&gt;</code>元素相当于Java的@Configuration配置，而<code>&lt;Bean&gt;</code>元素则是相当于@Bean注解，用于声明简单的Bean。</li>
+<li>简单的声明方式如下：<pre><code>&lt;bean class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt; 
+</code></pre>class属性用于指定要创建的是哪个类的Bean，默认的ID是类的全限定名<code>chap2.SoftMusic#0</code>,这个#0是计数器，如果再次声明一个相同的Bean,默认的ID就是<code>....#1</code>。当然很多时候需要手动去指定ID（或name，使用id属性即可）：<pre><code>&lt;bean id=&quot;softMusic&quot; class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt;
+</code></pre>因为将该Bean注入到另一个Bean中时指定ID更加方便而且不容易出错。</li>
+<li>Xml声明Bean的注意事项：<br>Xml方式当有bean注解时调用构造器来创建bean的，而JavaConfig则会想尽一切办法来获取Bean。<br>Bean的类型以字符串的形式传给class属性，无法保证这个类存在或者不会修改，最好使用能够感知Spring功能的IDE(如STS)。</li>
+</ol>
+<p><strong>3)构造注入初始化Bean简介：</strong></p>
+<ol>
+<li>在XML构造器注入初始化的Bean时，有很多种配置方案和风格选择。具体到构造器注入(还有一种Setter注入)，就有两种常用的方式：<ul>
+<li><code>&lt;constructor-arg&gt;</code>元素</li>
+<li>使用Spring3.0所引入的c-命名空间</li>
+</ul>
+</li>
+<li>前者<code>&lt;constructor-arg&gt;</code>比后者(c-命名空间)更麻烦但是功能更加完善。</li>
+</ol>
+<p><strong>4)构造注入其他Bean：</strong></p>
+<ol>
+<li>需要装配的Bean的类的构造参数是引用了其他类型的对象的：注入bean对象。</li>
+<li>方式一：<code>&lt;constructor-arg&gt;</code><pre><code>&lt;bean id=&quot;softMusic&quot; class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt;   
+&lt;bean id=&quot;musicplayer&quot; class=&quot;chap2.MusicPlayer&quot;&gt;
+    &lt;constructor-arg ref=&quot;softMusic&quot;&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>没什么可说的，constructor-arg标签会告诉Spring要将一个id为softMusic的Bean引用传递到MusicPlayer的构造器中。</li>
+<li>方式二：使用一般的c-命名空间方式：<br>注意要修改上面的配置：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    &lt;!--注意这里加了一行c--&gt;
+    xmlns:c=&quot;http://www.springframework.org/schema/c&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd  
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;&gt;
+    &lt;bean id=&quot;softMusic&quot; class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt;
+    &lt;!--注入这样写--&gt;
+    &lt;bean id=&quot;musicplayer&quot; class=&quot;chap2.MusicPlayer&quot; c:music-ref=&quot;softMusic&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>重点在<code>c:music-ref=&quot;softMusic&quot;</code>这个属性的写法，解释如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-07.jpg" alt=""><br>这是书上的图，我的beanID是softMusic。<br>由此看来使用c-命名空间的方式要比使用标签的方式简便的多。</li>
+<li>c-命名空间的两种改进方式：(可能目前的新版本不支持这种写法了)<br><code>c:music-ref=&quot;softMusic&quot;</code>,但是这样也有一些问题，若果构造参数名字改变了(不再是music)，这样就行不通了，所以可以使用索引的方式标明这是该构造方法的第几个参数：<pre><code>&lt;bean id=&quot;musicplayer&quot; class=&quot;chap2.MusicPlayer&quot; c:_0-ref=&quot;softMusic&quot;&gt;&lt;/bean&gt;
+</code></pre>使用_0是因为不能以数字开头。<br>因为该构造方法只有一个参数，所以直接连数字都可以不用加：<pre><code>&lt;bean id=&quot;musicplayer&quot; class=&quot;chap2.MusicPlayer&quot; c:_-ref=&quot;softMusic&quot;&gt;&lt;/bean&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)将字面量注入到构造器中：</strong></p>
+<ol>
+<li>上面是注入Bean，这里是直接注入值。有时候就是直接使用值来注入来配置对象。<br>首先新建一个名为happyMusic的新实现类：<pre><code>package chap2;
+public class HappyMusic implements Music{
+    private String song;
+    private String singer;
+    public HappyMusic(String song,String singer){
+        this.song=song;
+        this.singer=singer;
+    }
+    @Override
+    public void play() {
+        System.out.print(&quot;playing song &quot;+song+&quot; by singer &quot;+singer);
+    }
+}
+</code></pre>Bean中这样写(c-命名空间的一般方式)：<pre><code>&lt;bean id=&quot;happyMusic&quot; class=&quot;chap2.HappyMusic&quot; c:song=&quot;happy&quot; c:singer=&quot;kenshine&quot;&gt;&lt;/bean&gt;
+</code></pre>就不用在属性哪里加-ref参数了，因为不是引入其他bean。<br>然后再修改注入：<pre><code>&lt;bean id=&quot;musicplayer&quot; class=&quot;chap2.MusicPlayer&quot; c:_-ref=&quot;happyMusic&quot;&gt;
+</code></pre></li>
+<li>c-命名空间的改进方法(使用索引_n)：<pre><code>&lt;bean id=&quot;happyMusic&quot; class=&quot;chap2.HappyMusic&quot; c:_0=&quot;happy&quot; c:_1=&quot;kenshine&quot;&gt;&lt;/bean&gt;
+</code></pre>但是此时就不能使用<code>c:_=&quot;&quot;</code>的方式了，因为有两个参数而无法分辨。</li>
+<li>标签的方式：<pre><code>&lt;bean id=&quot;happyMusic&quot; class=&quot;chap2.happyMusic&quot;&gt;
+    &lt;constructor-arg value=&quot;happy&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg value=&quot;kenshine&quot;&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>测试类：<pre><code>public class MusicPlayerTest2 {
+    //SystemRule库的一个Junit规则，可以将输出作为断言条件
+    @Rule
+    public final StandardOutputStreamLog log=new StandardOutputStreamLog();
+    AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(MusicPlayer2Config.class);
+    //使用返回值类型匹配
+    private MediaPlayer player=context.getBean(MusicPlayer.class);
+    //使用设置的name匹配
+    private Music music=(Music)context.getBean(&quot;softMusic&quot;);
+    @Test
+    public void close(){
+        context.close();
+    }
+    @Test
+    public void musicNotBeNull(){
+        Assert.assertNotNull(music);
+    }
+    @Test
+    public void play(){
+        player.play();
+        //通过log.getLog()得到上面输出的值并进行断言测试
+        Assert.assertEquals(&quot;playing song sad,singer : kenshine&quot;,log.getLog());
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-08.jpg" alt=""></li>
+</ol>
+<p><strong>4）装配集合：-c命名空间的方式无法实现</strong></p>
+<ol>
+<li>创建normalMusic类：<pre><code>public class NormalMusic implements Music{
+    private String song;
+    private String singer;
+    private List&lt;String&gt; tags;
+    public NormalMusic(String song,String singer,List&lt;String&gt; tags){
+        this.song=song;
+        this.singer=singer;
+        this.tags=tags;
+    }
+    @Override
+    public void play() {
+        System.out.println(&quot;playing song &quot;+song+&quot; by singer &quot;+singer);
+        for (String tag : tags) {
+            System.out.print(tag+&quot; &quot;);
+        }
+    }
+}
+</code></pre>最简单的配置(头尾略)：设为空<code>&lt;null/&gt;</code>标签<pre><code>&lt;bean id=&quot;normanMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+        &lt;constructor-arg value=&quot;normal&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg value=&quot;kenshine&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg&gt;&lt;null&gt;&lt;/null&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer&quot; class=&quot;chap2.MusicPlayer&quot;&gt;
+    &lt;constructor-arg ref=&quot;normanMusic&quot;&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>这样子可行但是在调用play()方法时会报空指针异常。</li>
+<li>可选方案一：使用list标签搭配value子标签<pre><code>&lt;bean id=&quot;normanMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+    &lt;constructor-arg value=&quot;normal&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg value=&quot;kenshine&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg&gt;
+        &lt;list&gt;
+            &lt;value&gt;happy&lt;/value&gt;
+            &lt;value&gt;china&lt;/value&gt;
+            &lt;value&gt;popular&lt;/value&gt;
+            ...
+        &lt;/list&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>可选方案二：使用list标签搭配ref导入tag类bean（假设有tag类）<pre><code>&lt;bean id=&quot;normanMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+    &lt;constructor-arg value=&quot;normal&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg value=&quot;kenshine&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg&gt;
+        &lt;list&gt;
+            &lt;ref bean=&quot;tag1&quot;/&gt;
+            &lt;ref bean=&quot;tag2&quot;/&gt;
+            &lt;ref bean=&quot;tag3&quot;/&gt;
+            ...
+        &lt;/list&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>可选方案三：使用set标签搭配value或者ref标签：<pre><code>&lt;bean id=&quot;normanMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+    &lt;constructor-arg value=&quot;normal&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg value=&quot;kenshine&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg&gt;
+        &lt;set&gt;
+            &lt;value&gt;happy&lt;/value&gt;
+            &lt;value&gt;china&lt;/value&gt;
+            &lt;value&gt;popular&lt;/value&gt;
+            ...
+        &lt;/set&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre><code>&lt;set&gt;</code>标签与<code>&lt;list&gt;</code>标签的作用差不多，只不过前者去重而后者不去重。两者都可以用来装配list或者set类型的数据。</li>
+<li>map类型：<pre><code>&lt;bean id=&quot;normalMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+    &lt;constructor-arg&gt;
+        &lt;map&gt;
+            &lt;entry key=&quot;k1&quot; value=&quot;v1&quot;/&gt;
+            &lt;entry key=&quot;k2&quot; value=&quot;v2&quot;/&gt;
+            &lt;entry key=&quot;k3&quot; value=&quot;v3&quot;/&gt;
+            ...
+        &lt;/map&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>更多详细的配置可以参考博客：<br><a href="https://www.cnblogs.com/chyu/p/5207994.html" target="_blank" rel="noopener">Spring中常用类型的bean配置(Map,List,Set,基本类型)</a></li>
+</ol>
+<h3 id="Setter注入Bean（Setter方法）"><a href="#Setter注入Bean（Setter方法）" class="headerlink" title="Setter注入Bean（Setter方法）"></a>Setter注入Bean（Setter方法）</h3><p><strong>1)Setter注入简介及选择：</strong></p>
+<ol>
+<li>创建MusicPlayer2类如下：<pre><code>public class MusicPlayer2 implements MediaPlayer{
+    private Music music;
+    //一定要有一个空的默认方法
+    public MusicPlayer2(){
+    }
+    //构造器注入
+    public MusicPlayer2(Music music){
+        this.music=music;
+    }
+    //set方法注入
+    public void setMusic(Music music) {
+        this.music = music;
+    }
+    @Override
+    public void play() {
+        music.play();
+    }
+}
+</code></pre></li>
+<li>如何选择构造器注入或者Setter注入呢？(常用但不强制)<br>强依赖选择构造器：如音乐的曲目，歌手等，必须要存在的属性。<br>弱依赖选择Setter：如音乐播放器的音乐，即使没有但也影响不大。</li>
+</ol>
+<p><strong>2)简单Bean注入的配置：</strong></p>
+<ol>
+<li>最简单的配置(头尾略)：<pre><code>&lt;bean id=&quot;softMusic&quot; class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer2&quot; class=&quot;chap2.MusicPlayer2&quot;&gt;
+    &lt;property name=&quot;music&quot; ref=&quot;softMusic&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><code>&lt;property&gt;</code>属性为Setter方法提供的功能和<code>&lt;constructor-arg&gt;</code>属性为构造器所提供的功能一样。<br>而构造器有c-命名空间的方法简化配置，相应的，属性注入也有p-命名空间的方法简化配置。</li>
+<li>使用p-命名空间：<br>需要先导入配置：在Beans标签内加上这个配置<pre><code>xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+</code></pre>xml的配置可以写成这样：<pre><code>&lt;bean id=&quot;softMusic&quot; class=&quot;chap2.SoftMusic&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer2&quot; class=&quot;chap2.MusicPlayer2&quot; p:music-ref=&quot;softMusic&quot;&gt;
+&lt;/bean&gt;
+</code></pre>其它p-命名空间所遵循的规范和c-命名空间相同。(包括索引或者只写<code>_</code>等)</li>
+<li>书上对p-命名空间各部分的介绍图：(和c-命名空间不一样)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-09.jpg" alt=""></li>
+</ol>
+<p><strong>3)Setter注入字面量及集合类：</strong></p>
+<ol>
+<li>首先修改normalMusic类如下：<pre><code>public class NormalMusic implements Music{
+    private String song;
+    private String singer;
+    private List&lt;String&gt; tags;
+    //切记一定要有一个空的构造方法
+    public NormalMusic(){
+    }
+    public NormalMusic(String song,String singer,List&lt;String&gt; tags){
+        this.song=song;
+        this.singer=singer;
+        this.tags=tags;
+    }
+    public void setSong(String song) {
+        this.song = song;
+    }
+    public void setSinger(String singer) {
+        this.singer = singer;
+    }
+    public void setTags(List&lt;String&gt; tags) {
+        this.tags = tags;
+    }
+    @Override
+    public void play() {
+        System.out.println(&quot;playing song &quot;+song+&quot; by singer &quot;+singer);
+        for (String tag : tags) {
+            System.out.print(tag+&quot; &quot;);
+        }
+    }
+}
+</code></pre></li>
+<li>配置类代码如下：<pre><code>&lt;bean id=&quot;normalMusic&quot; class=&quot;chap2.NormalMusic&quot;&gt;
+    &lt;property name=&quot;song&quot; value=&quot;good&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;singer&quot; value=&quot;kenshine&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;tags&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;china&lt;/value&gt;
+            &lt;value&gt;popular&lt;/value&gt;
+            &lt;value&gt;666&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer2&quot; class=&quot;chap2.MusicPlayer2&quot; p:music-ref=&quot;normalMusic&quot;&gt;
+&lt;/bean&gt;
+</code></pre>这些配置和构造器的配置非常相似，集合类的注意事项也相似。就不多写了。</li>
+<li>也可以使用p-命名空间，但是集合类的无法配置：<pre><code>&lt;bean id=&quot;normalMusic&quot; class=&quot;chap2.NormalMusic&quot;
+p:song=&quot;good&quot; p:singer=&quot;kenshine&quot;&gt;
+    &lt;!--集合类不能使用p-命名空间装配--&gt;
+    &lt;property name=&quot;tags&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;china&lt;/value&gt;
+            &lt;value&gt;popular&lt;/value&gt;
+            &lt;value&gt;666&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer2&quot; class=&quot;chap2.MusicPlayer2&quot; p:music-ref=&quot;normalMusic&quot;&gt;
+&lt;/bean&gt;
+</code></pre>p-命名空间和c-命名空间一样，有-ref是装配Bean,没有则是装配字面量。</li>
+</ol>
+<p><strong>4)使用Spring util-命名空间简化集合类配置：</strong></p>
+<ol>
+<li>需要在配置文件顶部添加如下配置：<pre><code>xmlns:util=&quot;http://www.springframework.org/schema/util&quot; 
+</code></pre>如果要添加有注释则需要额外的配置，如下：<pre><code>&lt;beans  
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;  
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;  
+    xmlns:c=&quot;http://www.springframework.org/schema/c&quot;
+     xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util.xsd&quot;&gt; 
+</code></pre></li>
+<li>util-命名空间可以将集合类单独封装成一个bean,然后在装配时只要导入这个util的id就可以了，简单使用如下：<pre><code>&lt;util:list id=&quot;taglist&quot;&gt;
+    &lt;value&gt;china&lt;/value&gt;
+    &lt;value&gt;popular&lt;/value&gt;
+    &lt;value&gt;666&lt;/value&gt;
+&lt;/util:list&gt;
+&lt;bean id=&quot;normalMusic&quot; class=&quot;chap2.NormalMusic&quot;
+ p:song=&quot;good&quot; p:singer=&quot;kenshine&quot; p:tags-ref=&quot;taglist&quot;&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;musicPlayer2&quot; class=&quot;chap2.MusicPlayer2&quot; p:music-ref=&quot;normalMusic&quot;&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>list只是util的一种命名空间，用于生成java.util.List类型的Bean。<br>util还有以下几种类型的命名空间：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-10.jpg" alt=""></li>
+<li>创建测试代码：<pre><code>public class MusicPlayerTest3 {
+    //SystemRule库的一个Junit规则，可以将输出作为断言条件
+    @Rule
+    public final StandardOutputStreamLog log=new StandardOutputStreamLog();
+    ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;/chap2/musicplayer3.xml&quot;);
+    //使用返回值类型匹配
+    private MediaPlayer player=context.getBean(MusicPlayer2.class);
+    //使用设置的name匹配
+    private Music music=context.getBean(Music.class);
+    @Test
+    public void close(){
+        context.close();
+    }
+    @Test
+    public void musicNotBeNull(){
+        Assert.assertNotNull(music);
+    }
+    @Test
+    public void play(){
+        player.play();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-11.jpg" alt=""></li>
+</ol>
+<p><strong>5)根据我的理解画的图</strong></p>
+<ol>
+<li>看图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-12.jpg" alt=""></li>
+<li>其中Music的实现类到MusicPlayer的注入是通过id来配置的。<br>util-命名空间产生的bean也是通过配置id来实现注入的。</li>
+</ol>
+<hr>
+<h2 id="5-导入和混合配置"><a href="#5-导入和混合配置" class="headerlink" title="5.导入和混合配置"></a>5.导入和混合配置</h2><p><strong>1)简单理论：</strong></p>
+<ol>
+<li>混合配置，就是混合自动，JavaConfig和XML的配置。</li>
+<li>自动装配时，并不在意要装配的bean来自哪里，自动装配的时会考虑到Spring容器中的所有bean,不管它是从何种配置得到的。</li>
+</ol>
+<p><strong>2)在JavaConfig中引用XML配置：</strong></p>
+<ol>
+<li>假设有两个音乐类需要配置：(oldMusic和newMusic)<pre><code>public class OldMusic implements Music{
+    @Override
+    public void play() {
+        System.out.println(&quot;this is oldmusic&quot;);
+    }
+} 
+public class NewMusic implements Music{
+    @Override
+    public void play() {
+        System.out.println(&quot;this is newmusic&quot;);
+    }
+}
+</code></pre></li>
+<li>一起配置的Config：<pre><code>@Configuration
+public class NewOldConfig {
+    @Bean
+    public Music newmusic(){
+        return new NewMusic();
+    }
+    @Bean
+    public Music oldmusic(){
+        return new OldMusic();
+    }
+}
+</code></pre></li>
+<li>但是想让这俩实现类在不同的配置类，有两种方案(不全写代码了)：<br>方案一：只要将一个导入另一个即可<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-13.jpg" alt=""><pre><code>@Configuration
+@import(OldMusicConfig.class)
+public class NewMusicConfig {
+    @Bean
+    public Music newmusic(){
+        return new NewMusic();
+    }
+}
+</code></pre>方案二：更好的方案<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-14.jpg" alt=""><pre><code>@Configuration
+@Import({OldMusicConfig.class，NewMusicConfig.class})
+public class SystemConfig {
+}
+</code></pre>使用@import标签可以引入其他的java配置。</li>
+<li>如果有需求明确OldMusic需要用XML配置而NewMusic需要用Java配置，则SystemConfig配置如下：<pre><code>@Configuration
+@Import(NewMusicConfig.class)
+@ImportResource(&quot;classpath:oldconfig.xml&quot;)
+public class SystemConfig {
+}
+</code></pre>简单的示意图为：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-15.jpg" alt=""><br>在JavaConfig配置类中使用@ImportResource(“xml路径”)就可以引入xml的配置了。</li>
+</ol>
+<p><strong>3)XML配置中导入JavaConfig配置：</strong></p>
+<ol>
+<li>两个XML文件之间的相互导入：<code>&lt;import&gt;</code>标签的Resource属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-16-1.jpg" alt=""><br>两个小的XML配置如下:<br>NewMusicConfig.xml：<pre><code>&lt;bean id=&quot;oldMusic&quot; class=&quot;chap2.OldMusic&quot;&gt;&lt;/bean&gt; 
+</code></pre>OldMusicConfig.xml：<pre><code>&lt;bean id=&quot;newMusic&quot; class=&quot;chap2.NewMusic&quot;&gt;&lt;/bean&gt;
+</code></pre>MusicConfig.xml:<pre><code>&lt;import resource=&quot;OldMusicConfig.xml&quot;/&gt;
+&lt;import resource=&quot;NewMusicConfig.xml&quot;/&gt;
+</code></pre>使用<import>标签的resource属性能达到和@importResource注解的效果。</import></li>
+<li>如果其中一个是JavaConfig配置的(假设为NewMusic),则MusicConfig.xml中这样配置(不需要额外的标签)：<pre><code>&lt;import resource=&quot;OldMusicConfig.xml&quot;/&gt;
+&lt;import class=&quot;NewMusicConfig.class&quot;/&gt;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00040Spring%E5%AD%A6%E4%B9%A02-17.jpg" alt=""><br>使用<import>标签的class属性能达到和@import注解的效果。</import></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月17日 22:56</p>
+        <p>最后更新： 2018年04月18日 23:05</p>
         <p>原始链接： <a class="post-url" href="/2018/04/16/Spring学习（二）：装配Bean的三种方式/" title="Spring学习（二）：装配Bean的三种方式">https://zjxkenshine.github.io/2018/04/16/Spring学习（二）：装配Bean的三种方式/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -611,7 +1019,7 @@ public class MusicPlayerTest2 {
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-装配Bean的三种方式简介"><span class="post-toc-text">1.装配Bean的三种方式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-自动装配Bean"><span class="post-toc-text">2.自动装配Bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现自动组件扫描"><span class="post-toc-text">实现自动组件扫描</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现自动装配（注入）"><span class="post-toc-text">实现自动装配（注入）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-通过Java代码实现装配bean"><span class="post-toc-text">3.通过Java代码实现装配bean</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-通过XML装配Bean"><span class="post-toc-text">4.通过XML装配Bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建XML，声明Bean及构造器注入"><span class="post-toc-text">创建XML，声明Bean及构造器注入</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-装配Bean的三种方式简介"><span class="post-toc-text">1.装配Bean的三种方式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-自动装配Bean"><span class="post-toc-text">2.自动装配Bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现自动组件扫描"><span class="post-toc-text">实现自动组件扫描</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现自动装配（注入）"><span class="post-toc-text">实现自动装配（注入）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-通过Java代码实现装配bean"><span class="post-toc-text">3.通过Java代码实现装配bean</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-通过XML装配Bean"><span class="post-toc-text">4.通过XML装配Bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建XML，声明Bean及构造器注入"><span class="post-toc-text">创建XML，声明Bean及构造器注入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Setter注入Bean（Setter方法）"><span class="post-toc-text">Setter注入Bean（Setter方法）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-导入和混合配置"><span class="post-toc-text">5.导入和混合配置</span></a></li></ol>
         </nav>
     </aside>
     

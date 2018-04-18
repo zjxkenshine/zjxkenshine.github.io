@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-06T05:58:33.680Z">
+<meta property="og:updated_time" content="2018-04-18T05:24:13.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（六）：单例模式与多线程">
 <meta name="twitter:description" content="0.学习要点 简单了解单例模式 如何使单例模式遇到多线程是安全的、正确的。   1.立即加载/“饿汉模式” 单例模式:一个类只有一个对象实例。 关于立即加载/饿汉模式：立即加载就是使用类的时候已经将对象创建完毕了。在调用方法前，实例已经被创建了。 测试代码:单例类:public class Object6_02 {     //立即加载/饿汉模式     private static Object">
@@ -242,7 +242,7 @@
     }
     public static Object6_08 getInstance() {
         try{
-            if(obj!=null){
+            if(obj!=null){        //一重检查
 
             }else{
                 Thread.sleep(3000);
@@ -258,7 +258,8 @@
         return obj;
     }
 }
-</code></pre></li>
+</code></pre><p>注意一定要使用volatile关键字，否则会出现各种各样的问题。</p>
+</li>
 </ol>
 <hr>
 <h2 id="4-使用其他方法实现安全的单例模式"><a href="#4-使用其他方法实现安全的单例模式" class="headerlink" title="4.使用其他方法实现安全的单例模式"></a>4.使用其他方法实现安全的单例模式</h2><h3 id="4-1-使用静态内置类实现单例模式"><a href="#4-1-使用静态内置类实现单例模式" class="headerlink" title="4.1 使用静态内置类实现单例模式"></a>4.1 使用静态内置类实现单例模式</h3><pre><code>public class Object{
@@ -392,7 +393,7 @@ readResolve366712642
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月06日 13:58</p>
+        <p>最后更新： 2018年04月18日 13:24</p>
         <p>原始链接： <a class="post-url" href="/2018/03/05/《Java多线程编程核心技术》笔记（六）/" title="《Java多线程编程核心技术》笔记（六）：单例模式与多线程">https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（六）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
