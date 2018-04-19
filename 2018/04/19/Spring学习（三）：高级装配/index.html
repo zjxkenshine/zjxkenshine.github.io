@@ -3,26 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL遇到的问题总结 | 程序人生</title>
+  <title>Spring学习（三）：高级装配 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
-<meta name="keywords" content="MySQL">
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta name="keywords" content="Spring,Spring核心框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL遇到的问题总结">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/index.html">
+<meta property="og:title" content="Spring学习（三）：高级装配">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-02.jpg">
-<meta property="og:updated_time" content="2018-04-17T11:35:35.326Z">
+<meta property="og:updated_time" content="2018-04-19T12:47:52.047Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL遇到的问题总结">
-<meta name="twitter:description" content="0.问题列表 游标使用时遇到的一个问题：变量与字段重名? Mysql事件中如何同时指定开始时间和执行周期? 查询每个月倒数第二天入职的员工?   1.问题1-5解决方法1)游标使用时遇到的一个问题：  出错代码：age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。 正确代码：  2)Mysql事件中如何同时指定开始时间和执行周期?">
-<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg">
+<meta name="twitter:title" content="Spring学习（三）：高级装配">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -113,14 +110,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-MySQL遇到的问题总结" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（三）：高级装配" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL遇到的问题总结
+      Spring学习（三）：高级装配
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -128,12 +125,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/数据库/">数据库</a>
+                      <a href="/categories/J2EE框架/">J2EE框架</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-04-02
+          <i class="fa fa-calendar"></i>  2018-04-19
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -149,47 +146,68 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-问题列表"><a href="#0-问题列表" class="headerlink" title="0.问题列表"></a>0.问题列表</h2><ol>
-<li>游标使用时遇到的一个问题：变量与字段重名?</li>
-<li>Mysql事件中如何同时指定开始时间和执行周期?</li>
-<li>查询每个月倒数第二天入职的员工?</li>
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考书籍：《Spring实战》(第四版)</p>
+</li>
+<li><p>内容概述：</p>
+<ul>
+<li>Spring profile</li>
+<li>条件化的Bean声明</li>
+<li>自动化装配与歧义性</li>
+<li>bean的作用域</li>
+<li>SPEL(Spring Express Language)表达式语言</li>
+</ul>
+</li>
 </ol>
 <hr>
-<h2 id="1-问题1-5解决方法"><a href="#1-问题1-5解决方法" class="headerlink" title="1.问题1-5解决方法"></a>1.问题1-5解决方法</h2><p><strong>1)游标使用时遇到的一个问题：</strong></p>
-<ol>
-<li>出错代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-01.jpg" alt=""><br>age和height一直取不到值，还以为是没加主键，最后发现是局部变量和游标结果集重名了，后面取到的都是游标中的字段名。</li>
-<li>正确代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00026mysql%E5%AD%A6%E4%B9%A08-15-02.jpg" alt=""></li>
+<h2 id="1-学习中出现的一些新概念"><a href="#1-学习中出现的一些新概念" class="headerlink" title="1.学习中出现的一些新概念"></a>1.学习中出现的一些新概念</h2><ol>
+<li>嵌入式数据库：<br>这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果更理想。如SQLite，Empress,OpenBaseLite等。</li>
+<li><code>JNDI</code>:Java API命名与目录接口。<br>jdni是一种将对象和名字绑定的技术，容器产生对象并都和唯一的名字绑定，这样外部程序就用JNDI技术通过名字来获取对象，跟反射一样。(网上大佬)<br>jdbc是java去找数据库驱动，jndi是通过你的服务器配置（如Tomcat）的配置文件context来找数据库驱动~</li>
+<li><code>QA</code>：质量检测。</li>
+<li><code>javax</code>：java extension,java扩展api接口。而java.XXX则是标准的API接口。</li>
 </ol>
-<p><strong>2)Mysql事件中如何同时指定开始时间和执行周期?</strong><br>详细创建语法：</p>
-<pre><code>CREATE  
-    [DEFINER = { user | CURRENT_USER }]  
-    EVENT  
-    [IF NOT EXISTS]  
-    event_name  
-    ON SCHEDULE schedule  
-    [ON COMPLETION [NOT] PRESERVE]  
-    [ENABLE | DISABLE | DISABLE ON SLAVE]  
-    [COMMENT &apos;comment&apos;]  
-    DO event_body;  
-
-schedule:  
-    AT timestamp [+ INTERVAL interval] ...  
-  | EVERY interval  
-    [STARTS timestamp [+ INTERVAL interval] ...]  
-    [ENDS timestamp [+ INTERVAL interval] ...]  
-
-interval:  
-    quantity {YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |  
-              WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |  
-              DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}  
-</code></pre><p>AT和EVERY同时只能有一个。</p>
-<p><strong>3）查询每个月倒数第二天入职的员工?</strong><br>使用last_day()函数：表示当月的最后一天<br><code>SELECT * FROM hire WHERE hiredate=last_day(hiredate)-1;</code></p>
+<hr>
+<h2 id="2-环境迁移时的问题（嵌入式数据库）"><a href="#2-环境迁移时的问题（嵌入式数据库）" class="headerlink" title="2.环境迁移时的问题（嵌入式数据库）"></a>2.环境迁移时的问题（嵌入式数据库）</h2><p><strong>1)环境迁移的场景</strong></p>
+<ol>
+<li>将应用程序从一个环境迁移到另一个环境，很多时候即便是迁移成功了也无法正常工作，因为数据库配置，加密算法以及与外部系统集成都是会改变的因素。</li>
+<li>假设需要使用的是Hypersonic嵌入式数据库：<br>需要使用到javax.sql.DataSource这个接口，但是我用的java(8)已经自带了，所以就不用导jar包了。其实作用和驱动包相同。<br>需要使用到Spring框架中的EmbeddedDatabaseBuilder方法，该方法用于搭建一个Hypersonic数据库，使用该类的build()方法会返回一个连接实例。(具体使用见后面)</li>
+<li>关于Javax.sql.DataSource的用法可以参考以下博客：<br><a href="https://blog.csdn.net/guohuiJI/article/details/72458016" target="_blank" rel="noopener">https://blog.csdn.net/guohuiJI/article/details/72458016</a></li>
+</ol>
+<p><strong>2)简单使用嵌入式数据库：</strong></p>
+<ol>
+<li>JavaConfig配置类代码如下：<pre><code>package chap3;
+import javax.sql.DataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+@Configuration
+public class SqlConfig {
+    @Bean
+    private DataSource dataSource(){
+        return new EmbeddedDatabaseBuilder()
+        .addScript(&quot;classpath:schema.sql&quot;)
+        .addScript(&quot;classpath:test-data.sql&quot;)
+        .build();
+    }
+}
+</code></pre>Hypersonic数据库创建的数据库的模式定义在schema.sql中，测试数据则是通过test-data.sql加载的。<br>在开发环境中运行集成测试或者启动应用进行手动测试的时候，这样创建DataSource是非常有用的。每次启动它的时候都能让数据库处于一个给定(开启服务)的状态。</li>
+<li>尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSoutce，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：<pre><code>@Bean
+private DataSource dataSource2(){
+    //使用jndi从容器获取
+    JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
+    jndiObjectFactoryBean.setJndiName(&quot;jdbc/kenshine&quot;);
+    jndiObjectFactoryBean.setResourceRef(true);
+    jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
+    return (DataSource) jndiObjectFactoryBean.getObject();
+}
+</code></pre>JndiObjectFactoryBean用于配置数据源，至于这个JndiName我是乱编的，需要配置的话要到Tomcat服务器的Context.xml中配置数据库的连接属性。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月17日 19:35</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/02/MySQL遇到的问题总结/" title="MySQL遇到的问题总结">https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/</a></p>
+        <p>最后更新： 2018年04月19日 20:47</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/19/Spring学习（三）：高级装配/" title="Spring学习（三）：高级装配">https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -246,7 +264,7 @@ interval:
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/&title=《MySQL遇到的问题总结》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -256,22 +274,22 @@ interval:
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/&title=《MySQL遇到的问题总结》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL遇到的问题总结》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（三）：高级装配》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -281,7 +299,7 @@ interval:
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/02/MySQL遇到的问题总结/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -293,7 +311,9 @@ interval:
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
+    <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
       
   </li>
 
@@ -306,26 +326,16 @@ interval:
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-问题列表"><span class="post-toc-text">0.问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决方法"><span class="post-toc-text">1.问题1-5解决方法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/04/04/MyBatis学习笔记（七）：存储过程与枚举类/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          MyBatis学习笔记（七）:使用存储过程与枚举类等
-        
-      </span>
-    </a>
   
-  
-    <a href="/2018/04/01/MyBatis学习笔记（六）：高级查询-映射/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">MyBatis学习笔记（六）：一对一，一对多及鉴别器映射</span>
+    <a href="/2018/04/16/Spring学习（二）：装配Bean的三种方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring学习（二）：装配Bean的三种方式</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
