@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JNDI学习（一）：JNDI入门及数据源配置 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
+<meta name="keywords" content="Java,JNDI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNDI学习（一）：JNDI入门及数据源配置">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-09.jpg">
+<meta property="og:updated_time" content="2018-04-19T12:43:39.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNDI学习（一）：JNDI入门及数据源配置">
+<meta name="twitter:description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JNDI学习（一）：JNDI入门及数据源配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JNDI学习（一）：JNDI入门及数据源配置
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据源/">数据源</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-02
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习原因"><a href="#0-学习原因" class="headerlink" title="0.学习原因"></a>0.学习原因</h2><p>因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。<br>参考博客：<br><a href="http://www.cnblogs.com/xdp-gacl/p/3951952.html" target="_blank" rel="noopener">JNDI学习总结(一)——JNDI数据源的配置</a></p>
+<hr>
+<h2 id="1-JNDI的诞生及简介简介"><a href="#1-JNDI的诞生及简介简介" class="headerlink" title="1.JNDI的诞生及简介简介"></a>1.JNDI的诞生及简介简介</h2><p><strong>1)服务器数据源配置的诞生</strong></p>
+<ol>
+<li>JDBC阶段：<br>一开始是使用JDBC来连接操作数据库的：<br>在Java开发中，使用JDBC操作数据库的四个步骤如下：<blockquote>
+<p>①加载数据库驱动程序(Class.forName(“数据库驱动类”);)<br> ②连接数据库(Connection con  = DriverManager.getConnection();)<br> ③操作数据库(PreparedStatement stat = con.prepareStatement(sql);stat.executeQuery();)<br> ④关闭数据库，释放连接(con.close();)</p>
+</blockquote>
+</li>
+<li>所有的用户都需要经过此四步进行操作，但是这四步之中有三步(①加载数据库驱动程序、②连接数据库、④关闭数据库，释放连接)对所有人都是一样的，而所有人只有在操作数据库上是不一样，那么这就造成了性能的损耗。<br>那么最好的做法是，准备出一个空间，此空间里专门保存着全部的数据库连接，以后用户用数据库操作的时候不用再重新加载驱动、连接数据库之类的，而直接从此空间中取走连接，关闭的时候直接把连接放回到此空间之中。<br>而这个空间就是<strong>连接池</strong>。</li>
+<li>但是连接池的是有会有以下疑虑：<blockquote>
+<p>1、 如果没有任何一个用户使用连接，那么那么应该维持一定数量的连接，等待用户使用。<br> 2、 如果连接已经满了，则必须打开新的连接，供更多用户使用。<br> 3、 如果一个服务器就只能有100个连接，那么如果有第101个人过来呢？应该等待其他用户释放连接<br> 4、 如果一个用户等待时间太长了，则应该告诉用户，操作是失败的。</p>
+</blockquote>
+</li>
+<li>如果直接用程序实现以上功能，则会比较麻烦。<br>所以在Tomcat 4.1.27之后，在服务器上就直接增加了数据源的配置选项，<strong>直接在服务器上配置好数据源连接池即可</strong>。在J2EE服务器上保存着一个数据库的多个连接。每一个连接通过DataSource可以找到。DataSource被绑定在了JNDI树上（为每一个DataSource提供一个名字）客户端通过名称找到在JNDI树上绑定的DataSource，再由DataSource找到一个连接。</li>
+<li>示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-01.jpg" alt=""></li>
+<li>网上流传的图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-02.jpg" alt=""></li>
+<li>那么在以后的操作中，除了数据库的连接方式不一样之外，其他的所有操作都一样，只是关闭的时候不是彻底地关闭数据库，而是把数据库的连接放回到连接池中去。</li>
+</ol>
+<p><strong>2)JNDI的简介及优点：</strong></p>
+<ol>
+<li>JNDI的定义：<br>上面知道了JNDI的作用，JNDI的定义也就很容易理解了：<br>JNDI是Java命名与文件夹接口（Java Naming and Directory Interface），在J2EE规范中是重要的规范之中的一个。<br>简单的理解，区别于JDBC,就是：<br>jdbc是java去找数据库驱动，jndi是通过你的服务器配置（如Tomcat）的配置文件context来找数据库驱动~</li>
+<li>现在JNDI已经成为J2EE的标准之一，所有的J2EE容器都必须提供一个JNDI的服务。(web容器就是Tomcat等服务器充当的)</li>
+<li>为什么使用了连接池还要用JNDI：<blockquote>
+<p>为了数据库资源的管理，在容器中配置一个数据库连接池，使用JNDI 来管理<br> 这样容器中运行多个服务的时候，每个服务只需添加一个jndi的名称就可以连接到数据库了<br> 如果不使用jndi的方式，直接在项目中配置数据库连接池，那么每个项目需要配置一次，如果更改数据库地址时，<br> 每个项目的数据库连接方式都要更改，比较麻烦，使用jndi的话，直接更改一下jndi里面的数据库连接池的配置就可以了，方便一些。</p>
+</blockquote>
+</li>
+<li>一般来说如果目标客户有专业的应用服务器，比如 WebSphere，WebLogic，我们就不需要在代码中配置使用特定的 dbcp 或其它的连接池了。只使用JNDI就可以了。</li>
+</ol>
+<hr>
+<h2 id="2-JNDI-Tomcat配置数据源-全局配置"><a href="#2-JNDI-Tomcat配置数据源-全局配置" class="headerlink" title="2.JNDI+Tomcat配置数据源(全局配置)"></a>2.JNDI+Tomcat配置数据源(全局配置)</h2><p><strong>1)Tomcat全局配置：</strong></p>
+<ol>
+<li>需要在tomcat中的server.xml中配置数据源：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-03.jpg" alt=""></li>
+<li>在Tomcat的lib目录下添加驱动包：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-04.jpg" alt=""></li>
+<li>打开server.xml，一般都有一个默认的全局配置(Resource)标签：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-05.jpg" alt=""><br>代码如下：<pre><code>&lt;GlobalNamingResources&gt;
+    &lt;Resource auth=&quot;Container&quot; description=&quot;User databasethat can be updated and saved&quot; 
+    factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot; 
+    name=&quot;UserDatabase&quot; 
+    pathname=&quot;conf/tomcat-users.xml&quot; 
+    type=&quot;org.apache.catalina.UserDatabase&quot;/&gt;
+&lt;/GlobalNamingResources&gt;
+</code></pre></li>
+<li>在默认的Resource下添加配置如下：<pre><code>&lt;Resource 
+    name=&quot;jdbc/mysql&quot;
+    auth=&quot;Container&quot; 
+    type=&quot;javax.sql.DataSource&quot;
+    maxActive=&quot;100&quot; 
+    maxIdle=&quot;30&quot; 
+    maxWait=&quot;10000&quot;
+    username=&quot;root&quot; 
+    password=&quot;root&quot;
+    driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+    url=&quot;jdbc:mysql://127.0.0.1:3306/springtest?useUnicode=true&amp;amp;characterEncoding=utf-8&quot;/&gt;
+</code></pre>各项配置的含义后面介绍。</li>
+<li>以上两步(导包+配置server.xml)全局配置就已经配置好了。<br><strong>这一步并非必须的，可以不写，亲测没有失败</strong><br>在需要使用的JNDI的项目中的web.xml中引用该配置：<pre><code>&lt;resource-ref&gt;
+    &lt;res-ref-name&gt;jdbc/mysql&lt;/res-ref-name&gt;
+    &lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+    &lt;res-auth&gt;Container&lt;/res-auth&gt;
+&lt;/resource-ref&gt;
+</code></pre>属于可选配置，如果在web.xml中加入了上面的配置，则需要在Tomcat中一定要配置对应的Resource，否则会报错。</li>
+<li>查看Service的最下面，可以看到有当前工程的上下文：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-06.jpg" alt=""><br>在该上下文中增加对全局配置的引用：<pre><code>&lt;Context docBase=&quot;JNDITest&quot; path=&quot;/JNDITest&quot; reloadable=&quot;true&quot; source=&quot;org.eclipse.jst.jee.server:JNDITest&quot;&gt;
+        &lt;ResourceLink global=&quot;mysqlData&quot; name=&quot;jdbc/mysql&quot; type=&quot;javax.sql.DataSource&quot; /&gt;
+&lt;/Context&gt;
+</code></pre>配置模板：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--
+jndi配置方法（tomcat）：
+ --&gt;
+&lt;!--映射JNDITest项目的虚拟目录--&gt;
+&lt;Context docBase=&quot;D:/MyEclipse8.5/workspace/JNDITest/WebRoot&quot; debug=&quot;0&quot; reloadable=&quot;false&quot;&gt;
+    &lt;!--global指的是全局配置的name,
+        name指的是这个DataSourse的名字--&gt;
+    &lt;!--引用全局配置--&gt;
+    &lt;ResourceLink name=&quot;mysqlData&quot; global=&quot;jdbc/mysql&quot; type=&quot;javax.sql.DataSource&quot;/&gt;
+&lt;/Context&gt;
+</code></pre></li>
+<li>这一步可以替换第6步（写了这个则不用配置第六步）：<br>在项目的META-INF下面建立context.xml文件，在里面写上：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; 
+&lt;Context&gt; 
+    &lt;ResourceLink name=&quot;mysqlData&quot; global=&quot;jdbc/mysql type=&quot;javax.sql.DataSource&quot;/&gt; 
+&lt;/Context&gt;
+</code></pre></li>
+<li>第6步替换策略二（自认为最简单的方式）：<br>找到Tomcat下的conf/context.xml文件：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-08.jpg" alt=""><br>配置上：<pre><code>&lt;Context&gt;
+    &lt;WatchedResource&gt;WEB-INF/web.xml&lt;/WatchedResource&gt;
+    &lt;WatchedResource&gt;${catalina.base}/conf/web.xml&lt;/WatchedResource&gt;
+    &lt;ResourceLink name=&quot;mysqlData&quot; global=&quot;jdbc/mysql&quot; type=&quot;javax.sql.DataSource&quot;/&gt;
+&lt;/Context&gt;
+</code></pre>这句话就可以了。<br>所以第六步可以有三种策略(我只测试了一种)。</li>
+</ol>
+<p><strong>2)创建测试类代码：</strong></p>
+<ol>
+<li>创建测试类：(最简单的jsp测试)<pre><code>&lt;%@page import=&quot;javax.naming.InitialContext&quot;%&gt;  
+&lt;%@page import=&quot;javax.naming.Context&quot;%&gt;  
+&lt;%@page import=&quot;javax.sql.DataSource&quot;%&gt;  
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=utf-8&quot;  
+    pageEncoding=&quot;utf-8&quot;%&gt;  
+&lt;%  
+    Context initContext = new InitialContext();        //上转型，也可以不用上转型 
+    DataSource ds = (DataSource)initContext.lookup(&quot;java:/comp/env/mysqlData&quot;);  
+    out.print(ds); 
+%&gt; 
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-07.jpg" alt=""><br>成功获取到数据源(javax.sql.datasource对象)。</li>
+<li>注意事项：<br><code>java:/comp/env/</code>，这是j2ee的命名空间，其他地方可能会变<br><code>context.lookup(“XXX”)</code>，在任何时候都是有效的，只要XXX确实是一个存在的JNDI名。<br>Tomcat的全局JNDI资源不能直接访问，必须有java:comp/env/前缀。<br>这样子配置好的工程默认使用的是Tomcat自带的dbcp连接池。</li>
+</ol>
+<p><strong>3)JNDI的配置模板：</strong></p>
+<pre><code>&lt;GlobalNamingResources&gt;
+    &lt;!--默认的这个配置不要删除--&gt;
+    &lt;Resource name=&quot;UserDatabase&quot; auth=&quot;Container&quot;
+            type=&quot;org.apache.catalina.UserDatabase&quot;
+            description=&quot;User database that can be updated and saved&quot;
+            factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot;
+            pathname=&quot;conf/tomcat-users.xml&quot; /&gt;
+
+    &lt;!--
+    |- name：表示以后要查找的名称。通过此名称可以找到DataSource，此名称任意更换，但是程序中最终要查找的就是此名称，
+    为了不与其他的名称混淆，所以使用jdbc/oracle，现在配置的是一个jdbc的关于oracle的命名服务。
+    |- auth：由容器进行授权及管理，指的用户名和密码是否可以在容器上生效
+    |- type：此名称所代表的类型，现在为javax.sql.DataSource
+    |- maxActive：表示一个数据库在此服务器上所能打开的最大连接数
+    |- maxIdle：表示一个数据库在此服务器上维持的最小连接数
+    |- maxWait：最大等待时间。10000毫秒
+    |- username：数据库连接的用户名
+    |- password：数据库连接的密码
+    |- driverClassName：数据库连接的驱动程序
+    |- url：数据库连接的地址
+    --&gt;
+
+    &lt;!--配置Oracle数据库的JNDI数据源--&gt;
+    &lt;Resource 
+            name=&quot;jdbc/oracle&quot;
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot;
+            maxActive=&quot;100&quot; 
+            maxIdle=&quot;30&quot; 
+            maxWait=&quot;10000&quot;
+            username=&quot;lead_oams&quot; 
+            password=&quot;p&quot;
+            driverClassName=&quot;oracle.jdbc.driver.OracleDriver&quot;
+            url=&quot;jdbc:oracle:thin:@127.0.0.1:1521:lead&quot;/&gt;
+
+    &lt;!--配置MySQL数据库的JNDI数据源--&gt;
+    &lt;Resource 
+            name=&quot;jdbc/mysql&quot;
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot;
+            maxActive=&quot;100&quot; 
+            maxIdle=&quot;30&quot; 
+            maxWait=&quot;10000&quot;
+            username=&quot;root&quot; 
+            password=&quot;root&quot;
+            driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+            url=&quot;jdbc:mysql://127.0.0.1:3306/leadtest?useUnicode=true&amp;amp;characterEncoding=utf-8&quot;/&gt;
+
+    &lt;!--配置SQLServer数据库的JNDI数据源--&gt;
+    &lt;Resource 
+            name=&quot;jdbc/sqlserver&quot;
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot;
+            maxActive=&quot;100&quot; 
+            maxIdle=&quot;30&quot; 
+            maxWait=&quot;10000&quot;
+            username=&quot;sa&quot; 
+            password=&quot;p@ssw0rd&quot;
+            driverClassName=&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;
+            url=&quot;jdbc:sqlserver://127.0.0.1:1433;DatabaseName=demo&quot;/&gt;
+
+&lt;/GlobalNamingResources&gt;
+</code></pre><hr>
+<h2 id="3-JNDI-Tomcat配置数据源-局部配置"><a href="#3-JNDI-Tomcat配置数据源-局部配置" class="headerlink" title="3.JNDI+Tomcat配置数据源(局部配置)"></a>3.JNDI+Tomcat配置数据源(局部配置)</h2><p><strong>1)简单思路</strong></p>
+<ol>
+<li>非全局JNDI数据源是针对某一个Web项目配置的数据源，具体的配置步骤如下：<br>1、在tomcat服务器的lib目录下加入数据库连接的驱动jar包<br>2、针对具体的web项目映射虚拟目录，然后在虚拟目录映射的配置文件中配置JNDI数据源</li>
+<li>还有一个更简单的思路：<br>就是将上述引用全局配置的地方改为和全局配置相同的那样的配置,并将全局配置删除。<br>所以共有三种方法(conf/context.xml中配置的可能是全局的)</li>
+<li>正常使用的话还是用全局配置吧。</li>
+</ol>
+<p><strong>2)配置过程及几种方法：</strong><br>配置模板和全局配置的相同。</p>
+<ol>
+<li>方法一：修改server.xml中的context(对应全局配置步骤6)<pre><code>&lt;Context docBase=&quot;JNDITest&quot; path=&quot;/JNDITest&quot; reloadable=&quot;true&quot; source=&quot;org.eclipse.jst.jee.server:JNDITest&quot;&gt;
+    &lt;Resource name=&quot;jdbc/test&quot; 
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot; 
+            driverClassName=&quot;com.mysql.jdbc.Driver&quot; 
+            url=&quot;jdbc:mysql://127.0.0.1/test&quot; 
+            username=&quot;root&quot; 
+            password=&quot;root&quot; 
+            maxActive=&quot;20&quot; 
+            maxIdle=&quot;10&quot; 
+            maxWait=&quot;-1&quot;/&gt; 
+&lt;/Context&gt;
+</code></pre></li>
+<li>方法二：在项目的META-INF下面建立context.xml文件（对应全局配置步骤7)，在里面配置上：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; 
+&lt;Context&gt; 
+    &lt;Resource name=&quot;jdbc/test&quot; 
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot; 
+            driverClassName=&quot;com.mysql.jdbc.Driver&quot; 
+            url=&quot;jdbc:mysql://127.0.0.1/test&quot; 
+            username=&quot;root&quot; 
+            password=&quot;root&quot; 
+            maxActive=&quot;20&quot; 
+            maxIdle=&quot;10&quot; 
+            maxWait=&quot;-1&quot;/&gt; 
+&lt;/Context&gt; 
+</code></pre></li>
+<li>方法三：配置conf/context.xml（对应步骤8）<br>(这步极有可能是全局的配置)：<pre><code>&lt;Context&gt;
+    &lt;WatchedResource&gt;WEB-INF/web.xml&lt;/WatchedResource&gt;
+    &lt;WatchedResource&gt;${catalina.base}/conf/web.xml&lt;/WatchedResource&gt;
+    &lt;Resource name=&quot;jdbc/test&quot; 
+            auth=&quot;Container&quot; 
+            type=&quot;javax.sql.DataSource&quot; 
+            driverClassName=&quot;com.mysql.jdbc.Driver&quot; 
+            url=&quot;jdbc:mysql://127.0.0.1/test&quot; 
+            username=&quot;root&quot; 
+            password=&quot;root&quot; 
+            maxActive=&quot;20&quot; 
+            maxIdle=&quot;10&quot; 
+            maxWait=&quot;-1&quot;/&gt; 
+&lt;\Context&gt;
+</code></pre>将上述WatchedResource标签中的路径改为项目路径就是局部配置了。</li>
+<li>测试类和全局配置的相同，我也不测试了。</li>
+</ol>
+<hr>
+<h2 id="4-关于配置JNDI的总结"><a href="#4-关于配置JNDI的总结" class="headerlink" title="4.关于配置JNDI的总结"></a>4.关于配置JNDI的总结</h2><ol>
+<li>全局配置的思路图(虚线为非必须)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-09.jpg" alt=""></li>
+<li>局部配置就不画了，差不多。</li>
+<li>以上步骤就能配置数据源了，至于获取了DataSource怎么操作数据，那就是javax.sql.DataSource的事情了,以后再学。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月19日 20:43</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" title="JNDI学习（一）：JNDI入门及数据源配置">https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&title=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&title=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/JNDI/" class="color5">JNDI</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习原因"><span class="post-toc-text">0.学习原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JNDI的诞生及简介简介"><span class="post-toc-text">1.JNDI的诞生及简介简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JNDI-Tomcat配置数据源-全局配置"><span class="post-toc-text">2.JNDI+Tomcat配置数据源(全局配置)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JNDI-Tomcat配置数据源-局部配置"><span class="post-toc-text">3.JNDI+Tomcat配置数据源(局部配置)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-关于配置JNDI的总结"><span class="post-toc-text">4.关于配置JNDI的总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/02/Java学习(1)：Math类的基本用法/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java学习(1)：Math类的基本用法
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/01/《Java多线程编程核心技术》笔记（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《Java多线程编程核心技术》笔记（三）：线程间的通信</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据源/">数据源</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 18.89px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.22px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.22px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 18.89px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Spring/" style="font-size: 12.22px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 12.22px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
