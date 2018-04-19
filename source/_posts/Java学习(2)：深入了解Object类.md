@@ -1,5 +1,5 @@
 ---
-title: Java中的Object类
+title: Java学习(2)：深入了解Object类
 date: 2018-03-05 11:04:27
 tags:
 - Java

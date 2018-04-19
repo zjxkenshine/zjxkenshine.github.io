@@ -1,5 +1,5 @@
 ---
-title: Java中Math类的基本用法
+title: Java学习(1)：Math类的基本用法
 date: 2018-03-02 11:06:55
 tags:
 - Java
