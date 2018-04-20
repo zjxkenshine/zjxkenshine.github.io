@@ -1,8 +1,10 @@
 ---
 title: Spring学习（三）：高级装配
 date: 2018-04-19 10:15:52
+tags:
 - Spring
 - Spring核心框架
+- Spring pro
 categories: J2EE框架
 
 ---
@@ -36,8 +38,9 @@ jdbc是java去找数据库驱动，jndi是通过你的服务器配置（如Tomca
 3. 关于Javax.sql.DataSource的用法可以参考以下博客：
 <https://blog.csdn.net/guohuiJI/article/details/72458016>
 
-**2)简单使用嵌入式数据库：**
-1. JavaConfig配置类代码如下：
+**2)三种不同的DataSource类：**
+1. 获取嵌入式数据库的DataSource。
+JavaConfig配置类代码如下：
 		package chap3;
 		import javax.sql.DataSource;
 		import org.springframework.context.annotation.Bean;
@@ -55,17 +58,40 @@ jdbc是java去找数据库驱动，jndi是通过你的服务器配置（如Tomca
 		}
 Hypersonic数据库创建的数据库的模式定义在schema.sql中，测试数据则是通过test-data.sql加载的。
 在开发环境中运行集成测试或者启动应用进行手动测试的时候，这样创建DataSource是非常有用的。每次启动它的时候都能让数据库处于一个给定(开启服务)的状态。
-2. 尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSoutce，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：
+2. 创建JNDI管理的DataSource。
+尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSource，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：
 		@Bean
-		private DataSource dataSource2(){
+		private DataSource dataSource(){
 			//使用jndi从容器获取
 			JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
 			jndiObjectFactoryBean.setJndiName("jdbc/kenshine");
 			jndiObjectFactoryBean.setResourceRef(true);
 			jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
 			return (DataSource) jndiObjectFactoryBean.getObject();
+通过JNDI来获取DataSource能让容器(context)决定通过什么方式获取DataSource。(详细的JNDI配置数据源参考另一篇博客)
+这里的JndiObjectFactoryBean仅仅只是通过JNDI名来产生一个DataSource的对象而已。
+3. 创建自配置DBCP连接池的DataSource。
+在QA环境中可以将DataSource配置为Commons DBCP连接池：
+		@Bean
+		private DataSource dataSource(){
+			BasicDataSource dataSource=new BasicDataSource();
+			dataSource.setUrl("jdbc:h2:tcp://dbserver/~/test");
+			dataSource.setDriverClassName("org.h2.Driver");
+			dataSource.setUsername("sa");
+			dataSource.setPassword("password");
+			dataSource.setInitialSize(20);
+			dataSource.setMaxActive(30);
+			return dataSource;
 		}
-JndiObjectFactoryBean用于配置数据源，至于这个JndiName我是乱编的，需要配置的话要到Tomcat服务器的Context.xml中配置数据库的连接属性。
+4. 这三个方法分别使用了三种不同的方式来创建DataSource对象。
+在不同的环境下所要求的Bean是不同的，所以必须要有一种方式来配置DataSource,来为每一种环境选择合适的配置。
+5. 可以在单独的配置类或者xml文件中配置每个bean,然后在**构建阶段**确定要将哪个配置编译到可部署的应用中。但是有一个很大的缺点，就是要为每种环境重新构建应用。(一般是通过Maven Profile确定的)
+6. Spring提供的解决方案不需要重新构建--Spring profile。
+
+---
+## 2.Spring profile的配置激活及使用
+
+
 
 
 ---

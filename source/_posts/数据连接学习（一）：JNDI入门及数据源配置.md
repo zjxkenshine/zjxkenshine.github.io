@@ -1,10 +1,10 @@
 ---
-title: JNDI学习（一）：JNDI入门及数据源配置
-date: 2018-03-02 11:06:55
+title: 数据连接学习（一）：JNDI入门及数据源配置
+date: 2018-4-19 21:10:26 
 tags:
 - Java
 - JNDI
-categories: 数据源
+categories: 数据库
 
 ---
 ## 0.学习原因
