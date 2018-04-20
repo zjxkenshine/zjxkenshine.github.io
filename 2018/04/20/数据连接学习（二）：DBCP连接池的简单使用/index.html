@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据连接学习（二）：DBCP连接池的简单使用 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习原因学习Spring时涉及到了这方面的知识，就来学一下。以前学过，但是忘的差不多了。 学习博客：http://blog.csdn.net/shuaihj/article/details/14223015https://www.cnblogs.com/sunseine/p/5947448.htmlhttp://happyqing.iteye.com/blog/2304131  1.连接池简介">
+<meta name="keywords" content="Java,连接池,Commons">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据连接学习（二）：DBCP连接池的简单使用">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习原因学习Spring时涉及到了这方面的知识，就来学一下。以前学过，但是忘的差不多了。 学习博客：http://blog.csdn.net/shuaihj/article/details/14223015https://www.cnblogs.com/sunseine/p/5947448.htmlhttp://happyqing.iteye.com/blog/2304131  1.连接池简介">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-03-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:updated_time" content="2018-04-20T11:08:39.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据连接学习（二）：DBCP连接池的简单使用">
+<meta name="twitter:description" content="0.学习原因学习Spring时涉及到了这方面的知识，就来学一下。以前学过，但是忘的差不多了。 学习博客：http://blog.csdn.net/shuaihj/article/details/14223015https://www.cnblogs.com/sunseine/p/5947448.htmlhttp://happyqing.iteye.com/blog/2304131  1.连接池简介">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-数据连接学习（二）：DBCP连接池的简单使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      数据连接学习（二）：DBCP连接池的简单使用
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习原因"><a href="#0-学习原因" class="headerlink" title="0.学习原因"></a>0.学习原因</h2><p>学习Spring时涉及到了这方面的知识，就来学一下。<br>以前学过，但是忘的差不多了。</p>
+<p>学习博客：<br><a href="http://blog.csdn.net/shuaihj/article/details/14223015" target="_blank" rel="noopener">http://blog.csdn.net/shuaihj/article/details/14223015</a><br><a href="https://www.cnblogs.com/sunseine/p/5947448.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunseine/p/5947448.html</a><br><a href="http://happyqing.iteye.com/blog/2304131" target="_blank" rel="noopener">http://happyqing.iteye.com/blog/2304131</a></p>
+<hr>
+<h2 id="1-连接池简介"><a href="#1-连接池简介" class="headerlink" title="1.连接池简介"></a>1.连接池简介</h2><ol>
+<li>简单来说：<br>就是一个创建和管理数据库连接的缓冲池。类似缓存，已经存好了多个连接，使用时直接取出使用，使用完毕再放回连接池，不用关闭连接。</li>
+<li>对于大多数应用程序，当它们正在处理通常需要数毫秒完成的事务时，仅需要能够访问JDBC连接的 1 个线程。当不处理事务时，这个连接就会闲置。相反，连接池允许闲置的连接被其它需要的线程使用。</li>
+<li>一般的JDBC连接的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-01.jpg" alt=""><br>如果有多个人请求，则需要多个连接的开启与关闭。</li>
+<li>使用连接池的操作：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-02.jpg" alt=""><br>连接可以共用，不用为每个请求额外创建一个JDBC连接。</li>
+<li>常用的Java连接池有两个：DBCP和C3P0。<br>而DBCP又分为了dbcp与dbcp2。</li>
+</ol>
+<hr>
+<h2 id="2-连接池的简单实现"><a href="#2-连接池的简单实现" class="headerlink" title="2.连接池的简单实现"></a>2.连接池的简单实现</h2><p><strong>1）原理与简单实现：</strong></p>
+<ol>
+<li>一个最简单的实现：<pre><code>public class MyDataSource implements DataSource {
+    //链表 --- 实现栈结构
+    private LinkedList&lt;Connection&gt; dataSources = new LinkedList&lt;Connection&gt;();
+    //初始化连接数量
+    public MyDataSource() {
+        //一次性创建10个连接
+        for(int i = 0; i &lt; 10; i++) {
+            try {
+                //1、装载sqlserver驱动对象
+                DriverManager.registerDriver(new SQLServerDriver());
+                //2、通过JDBC建立MySql数据库连接
+                Connection con =DriverManager.getConnection(&quot;jdbc:mysql://127.0.0.1:3306/sqltest?useUnicode=true&amp;characterEncoding=UTF-8&quot;, &quot;root&quot;, &quot;root&quot;);
+                //3、将连接加入连接池中
+                dataSources.add(con);
+             } catch (Exception e) {
+                e.printStackTrace();
+             }
+        }
+    }
+    @Override
+    public Connection getConnection() throws SQLException {
+        //取出连接池中一个连接
+        finalConnection conn = dataSources.removeFirst(); // 删除第一个连接返回
+        return conn;
+    }
+    //将连接放回连接池
+    public void releaseConnection(Connection conn) {
+        dataSources.add(conn);
+    }
+}
+</code></pre></li>
+<li>连接池大大提供了数据库连接的利用率，减小了内存吞吐的开销。<br>但是连接池还需要考虑许多问题。</li>
+</ol>
+<p><strong>2)连接池还需要考虑的问题：</strong></p>
+<ol>
+<li>并发问题：<br>为了使连接管理服务具有最大的通用性，必须考虑多线程环境，即并发问题。<br>可以使用Synchronized关键字解决(更多解决方案参考多线程及并发的博客)。</li>
+<li>多数据库服务器：<br>对于大型的企业级应用，常常需要同时连接不同的数据库（如连接oracle和sybase）。如何连接不同的数据库呢？<br>解决方案：<blockquote>
+<p>设计一个符合单例模式的连接池管理类，在连接池管理类的唯一实例被创建时读取一个资源文件，其中资源文件中存放着多个数据库的url地址等信息。根据资源文件提供的信息，创建多个连接池类的实例，每一个实例都是一个特定数据库的连接池。连接池管理类实例为每个连接池实例取一个名字，通过不同的名字来管理不同的连接池。</p>
+</blockquote>
+</li>
+<li>多用户环境：<br>对于同一个数据库有多个用户使用不同的名称和密码访问的情况，也可以通过资源文件处理。</li>
+<li>事务处理：<br>在java语言中，connection类本身提供了对事务的支持，可以通过设置connection的autocommit属性为false 然后显式的调用commit或rollback方法来实现。但要高效的进行connection复用，就必须提供相应的事务支持机制。可采用每一个事务独占一个连接来实现，这种方法可以大大降低事务管理的复杂性。</li>
+<li>连接池的分配与释放<br>连接池的分配与释放，对系统的性能有很大的影响。合理的分配与释放，可以提高连接的复用度，从而降低建立新连接的开销，同时还可以加快用户的访问速度。<br>解决方案示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-03-1.jpg" alt=""><br>解决方案描述：<blockquote>
+<p>对于连接的管理可使用空闲池。即把已经创建但尚未分配出去的连接按创建时间存放到一个空闲池中。每当用户请求一个连接时，系统首先检查空闲池内有没有空闲连接。如果有就把建立时间最长（通过容器的顺序存放实现）的那个连接分配给他（实际是先做连接是否有效的判断，如果可用就分配给用户，如不可用就把这个连接从空闲池删掉，重新检测空闲池是否还有连接）；如果没有则检查当前所开连接池是否达到连接池所允许的最大连接数（maxconn）如果没有达到，就新建一个连接，如果已经达到，就等待一定的时间（timeout）。如果在等待的时间内有连接被释放出来就可以把这个连接分配给等待的用户，如果等待时间超过预定时间timeout 则返回空值（null）。系统对已经分配出去正在使用的连接只做计数，当使用完后再返还给空闲池。对于空闲连接的状态，可开辟专门的线程定时检测，这样会花费一定的系统开销，但可以保证较快的响应速度。也可采取不开辟专门线程，只是在分配前检测的方法。</p>
+</blockquote>
+</li>
+<li>连接池的配置与维护：<br>最大连接数是连接池中允许连接的最大数目，具体设置多少，要看系统的访问量，可通过反复测试，找到最佳点。<br>如何确保连接池中的最小连接数呢？有动态和静态两种策略。动态即每隔一定时间就对连接池进行检测，如果发现连接数量小于最小连接数，则补充相应数量的新连接以保证连接池的正常运转。静态是发现空闲连接不够时再去检查。</li>
+</ol>
+<p><strong>3)开发中最好使用成熟的连接池：</strong></p>
+<ol>
+<li>已经存在很多流行的性能优良的第三方数据库连接池jar包供我们使用</li>
+<li>DBCP:<br><a href="http://commons.apache.org/proper/commons-dbcp/" target="_blank" rel="noopener">http://commons.apache.org/proper/commons-dbcp/</a></li>
+<li>C3P0:<br><a href="http://mvnrepository.com/artifact/com.mchange/c3p0" target="_blank" rel="noopener">http://mvnrepository.com/artifact/com.mchange/c3p0</a></li>
+</ol>
+<hr>
+<h2 id="3-DBCP的简介及环境搭建"><a href="#3-DBCP的简介及环境搭建" class="headerlink" title="3.DBCP的简介及环境搭建"></a>3.DBCP的简介及环境搭建</h2><p><strong>1)DBCP简介：</strong></p>
+<ol>
+<li>DBCP(DataBase connection pool)数据库连接池是 apache 上的一个Java连接池项目。DBCP通过连接池预先同数据库建立一些连接放在内存中(即连接池中)，应用程序需要建立数据库连接时直接到从接池中申请一个连接使用，用完后由连接池回收该连接，从而达到连接复用，减少资源消耗的目的。</li>
+<li>目前的DBCP已经出到1.4版本。<br>而dbcp2与dbcp并不是完全相同的，用法也不同。<br>dbcp2已经出到2.2.0版本。<br>dbcp2需要jdk1.7版本的支持，否则会报错。</li>
+</ol>
+<p><strong>2)测试环境搭建（dbcp2）：</strong></p>
+<ol>
+<li>非Maven环境下只需要创建项目并且导入jar包就可以了。<br>要导入的jar包(dbcp2）：<br>commons-dbcp2.jar<br>commons-pool2.jar<br>dbcp则导入：<br>commons-dbcp.jar<br>commons-pool.jar<br>还看见有博客说要导入：<br>commons-logging.jar<br>commons-collections.jar<br>那就都加上呗，反正多了无害,等以后有空了再来细细研究这些jar包的作用。</li>
+<li>Maven环境下，我就只创建简单的java工程来测试了，pom.xml依赖如下：<pre><code>...
+&lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;4.12&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;  
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;  
+    &lt;artifactId&gt;commons-dbcp2&lt;/artifactId&gt;  
+    &lt;version&gt;2.2.0&lt;/version&gt;  
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-collections&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-collections&lt;/artifactId&gt;
+    &lt;version&gt;3.2.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+    &lt;version&gt;2.5.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;5.1.38&lt;/version&gt;
+&lt;/dependency&gt;
+...
+</code></pre>这样就搭建完毕了。</li>
+</ol>
+<hr>
+<h2 id="4-简单使用dbcp2"><a href="#4-简单使用dbcp2" class="headerlink" title="4.简单使用dbcp2"></a>4.简单使用dbcp2</h2><ol>
+<li>在src/main/resources下创建dbcp.properties文件</li>
+<li>dbcp.properties文件配置如下：<pre><code>######## DBCP配置文件 ##########
+# 驱动名
+driverClassName=com.mysql.jdbc.Driver
+# url
+url=jdbc:mysql://127.0.0.1:3306/springtest01?useUnicode=true&amp;characterEncoding=utf-8
+# 用户名
+username=root
+# 密码
+password=root
+# 初始连接数
+initialSize=30
+# 最大活跃数
+maxTotal=30
+# 最大空闲数
+maxIdle=10
+# 最小空闲数
+minIdle=5
+# 最长等待时间(毫秒)
+maxWaitMillis=1000
+# 程序中的连接不使用后是否被连接池回收(该版本要使用removeAbandonedOnMaintenance和removeAbandonedOnBorrow)
+# removeAbandoned=true
+removeAbandonedOnMaintenance=true
+removeAbandonedOnBorrow=true
+# 连接在所指定的秒数内未使用才会被删除(秒)
+removeAbandonedTimeout=100
+</code></pre></li>
+<li>创建工具类DBCPUtil：<pre><code>package DBCP2;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSourceFactory;
+public class DBCPUtil {
+    private static Properties properties = new Properties();
+    private static DataSource dataSource;
+    //加载DBCP配置文件
+    static{
+       try{
+          //注意这里需要使用绝对路径
+          FileInputStream is = new FileInputStream(&quot;src/main/resources/dbcp.properties&quot;);  
+          properties.load(is);
+       }catch(IOException e){
+          e.printStackTrace();
+       }
+       //获取数据源对象
+       try{
+           dataSource = BasicDataSourceFactory.createDataSource(properties);
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+    }
+    //从连接池中获取一个连接
+    public static Connection getConnection(){
+       Connection connection = null;
+       try{
+            connection = dataSource.getConnection();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+}
+</code></pre></li>
+<li><p>测试类：</p>
+<pre><code>package DBCP2;
+
+import java.sql.Connection;
+import org.junit.Assert;
+import org.junit.Test;
+import DBCP2.DBCPUtil;
+public class DBCPTest {
+    @Test
+    public void testConn(){
+        Connection conn=DBCPUtil.getConnection();
+        Assert.assertNotNull(conn);
+    }
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></p>
+</li>
+</ol>
+<hr>
+<h2 id="5-dbcp2的另一种使用方式"><a href="#5-dbcp2的另一种使用方式" class="headerlink" title="5.dbcp2的另一种使用方式"></a>5.dbcp2的另一种使用方式</h2><ol>
+<li>其实还有很多种方式，只要能够加载配置就可以了。</li>
+<li>创建DBCPUtil2如下：<pre><code>package DBCP2;
+import java.sql.Connection;
+import java.sql.SQLException;
+import org.apache.commons.dbcp2.BasicDataSource;
+public class DBCPUtil2{
+    private static BasicDataSource dataSource=new BasicDataSource();
+    //加载DBCP配置文件
+    static{
+       //获取数据源对象
+       try{
+           dataSource.setUrl(&quot;jdbc:mysql://127.0.0.1:3306/springtest?useUnicode=true&amp;characterEncoding=utf-8&quot;);
+           dataSource.setUsername(&quot;root&quot;);
+           dataSource.setPassword(&quot;root&quot;);
+           dataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);
+           //初始连接数
+           dataSource.setMaxTotal(30);
+           //最大空闲数
+           dataSource.setMaxIdle(10);
+           //最小空闲数
+           dataSource.setMinIdle(5);
+           //最长等待时间(ms)
+           dataSource.setMaxWaitMillis(10000);
+           //指定时间内未使用连接则关闭(s)
+           dataSource.setRemoveAbandonedTimeout(100);
+           //程序中的连接不使用后是否被连接池回收
+           dataSource.setRemoveAbandonedOnBorrow(true);
+           dataSource.setRemoveAbandonedOnMaintenance(true);
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+    }
+    //从连接池中获取一个连接
+    public static Connection getConnection(){
+       Connection connection = null;
+       try{
+            connection = dataSource.getConnection();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+}
+</code></pre></li>
+<li>测试代码：<pre><code>package DBCP2;
+import java.sql.Connection;
+import org.junit.Assert;
+import org.junit.Test;
+public class DBCPTest2 {
+    @Test
+    public void testConn(){
+        Connection conn=DBCPUtil2.getConnection();
+        System.out.println(conn);
+        Assert.assertNotNull(conn);
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></li>
+<li>其他使用方式自行探索<br>其实JNDI也算一种，因为在Tomcat中内置了DBCP2连接池。</li>
+<li>获取连接之后的事情，就是和JDBC的实现方式相同了。</li>
+<li>总结这两种种方式的思维图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-07.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-DBCP连接池在Spring中的基本配置"><a href="#6-DBCP连接池在Spring中的基本配置" class="headerlink" title="6.DBCP连接池在Spring中的基本配置"></a>6.DBCP连接池在Spring中的基本配置</h2><p>参考博客：<br><a href="http://happyqing.iteye.com/blog/2304131" target="_blank" rel="noopener">http://happyqing.iteye.com/blog/2304131</a></p>
+<h3 id="Spring使用dbcp"><a href="#Spring使用dbcp" class="headerlink" title="Spring使用dbcp"></a>Spring使用dbcp</h3><ol>
+<li>首先需要导包：<pre><code>&lt;dependency&gt;  
+    &lt;groupId&gt;commons-dbcp&lt;/groupId&gt;  
+    &lt;artifactId&gt;commons-dbcp&lt;/artifactId&gt;  
+    &lt;version&gt;1.4&lt;/version&gt;  
+&lt;/dependency&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+    &lt;version&gt;2.5.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;5.1.38&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>xml文件：</p>
+<pre><code>&lt;!-- 属性文件配置 --&gt;  
+&lt;bean id=&quot;propertyConfigurer&quot; class=&quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;&gt;  
+    &lt;property name=&quot;locations&quot;&gt;  
+        &lt;list&gt;  
+            &lt;value&gt;classpath:jdbc.properties&lt;/value&gt;  
+        &lt;/list&gt;  
+    &lt;/property&gt;  
+&lt;/bean&gt;  
+
+&lt;!-- dbcp --&gt;  
+&lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;  
+    destroy-method=&quot;close&quot;&gt;  
+    &lt;property name=&quot;driverClassName&quot; value=&quot;${driverClassName}&quot; /&gt;  
+    &lt;property name=&quot;url&quot; value=&quot;${url}&quot; /&gt;  
+    &lt;property name=&quot;username&quot; value=&quot;${username}&quot; /&gt;  
+    &lt;property name=&quot;password&quot; value=&quot;${password}&quot; /&gt;  
+    &lt;!-- 连接初始值，连接池启动时创建的连接数量的初始值  默认值是0 --&gt;  
+    &lt;property name=&quot;initialSize&quot; value=&quot;3&quot; /&gt;  
+    &lt;!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请  默认值是0 --&gt;  
+    &lt;property name=&quot;minIdle&quot; value=&quot;3&quot; /&gt;  
+    &lt;!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 ，0时无限制  默认值是8 --&gt;  
+    &lt;property name=&quot;maxIdle&quot; value=&quot;5&quot; /&gt;  
+    &lt;!-- 连接池的最大值，同一时间可以从池分配的最多连接数量，0时无限制   默认值是8 --&gt;  
+    &lt;property name=&quot;maxActive&quot; value=&quot;15&quot; /&gt;  
+&lt;/bean&gt;
+</code></pre></li>
+<li>jdbc.properties:<pre><code># dbcp  
+driverClassName=com.mysql.jdbc.Driver  
+url=jdbc:mysql://localhost:3306/springtest01?useUnicode=true&amp;characterEncoding=utf-8  
+username=root  
+password=password  
+</code></pre></li>
+</ol>
+<h3 id="Spring使用dbcp2"><a href="#Spring使用dbcp2" class="headerlink" title="Spring使用dbcp2"></a>Spring使用dbcp2</h3><p><strong>1)xml配置方式：</strong></p>
+<ol>
+<li>导包</li>
+<li>xml配置:<pre><code>&lt;!-- dbcp2 --&gt;  
+&lt;bean id=&quot;dataSource2&quot; class=&quot;org.apache.commons.dbcp2.BasicDataSource&quot;  
+    destroy-method=&quot;close&quot;&gt;  
+    &lt;property name=&quot;driverClassName&quot; value=&quot;${driverClassName}&quot; /&gt;  
+    &lt;property name=&quot;url&quot; value=&quot;${url}&quot; /&gt;  
+    &lt;property name=&quot;username&quot; value=&quot;${username}&quot; /&gt;  
+    &lt;property name=&quot;password&quot; value=&quot;${password}&quot; /&gt;  
+    &lt;!-- 连接初始值，连接池启动时创建的连接数量的初始值  默认值是0 --&gt;  
+    &lt;property name=&quot;initialSize&quot; value=&quot;3&quot; /&gt;  
+    &lt;!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请  默认值是0 --&gt;  
+    &lt;property name=&quot;minIdle&quot; value=&quot;3&quot; /&gt;  
+    &lt;!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 ，0时无限制  默认值是8 --&gt;  
+    &lt;property name=&quot;maxIdle&quot; value=&quot;5&quot; /&gt;  
+    &lt;!-- 连接池的最大值，同一时间可以从池分配的最多连接数量，0时无限制   默认值是8 --&gt;  
+    &lt;property name=&quot;maxTotal&quot; value=&quot;15&quot; /&gt;  
+&lt;/bean&gt; 
+</code></pre></li>
+<li>注意和dbcp的区别：maxActive改为了maxTotal</li>
+<li>jdbc.properties代码：<pre><code># dbcp  
+driverClassName=com.mysql.jdbc.Driver  
+url=jdbc:mysql://localhost:3306/springtest01?useUnicode=true&amp;characterEncoding=utf-8  
+username=root  
+password=password
+</code></pre></li>
+</ol>
+<p><strong>2)JavaConfig配置方式：</strong></p>
+<ol>
+<li>javaConfig的两种写法，其实和上面的DBCPUtil的那两种写法差不多。</li>
+<li>简单的写法(没用序列化的)：<pre><code>@Configuration
+public class SqlConfig {
+    @Bean
+    private DataSource dataSource(){
+        BasicDataSource dataSource=new BasicDataSource();
+        dataSource.setUrl(&quot;jdbc:mysql://127.0.0.1:3306/springtest?useUnicode=true&amp;characterEncoding=utf-8&quot;);
+        dataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);
+        dataSource.setUsername(&quot;root&quot;);
+        dataSource.setPassword(&quot;root&quot;);
+        dataSource.setInitialSize(20);
+        return dataSource;
+    }
+}
+</code></pre></li>
+<li>得到了DataSource对象就可以通过该对象Bean得到连接。<br>该对象一直存在，线程池就一直存在。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月20日 19:08</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" title="数据连接学习（二）：DBCP连接池的简单使用">https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/&title=《数据连接学习（二）：DBCP连接池的简单使用》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/&title=《数据连接学习（二）：DBCP连接池的简单使用》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据连接学习（二）：DBCP连接池的简单使用》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/连接池/" class="color4">连接池</a>
+      
+    <a href="/tags/Commons/" class="color3">Commons</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习原因"><span class="post-toc-text">0.学习原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-连接池简介"><span class="post-toc-text">1.连接池简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-连接池的简单实现"><span class="post-toc-text">2.连接池的简单实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-DBCP的简介及环境搭建"><span class="post-toc-text">3.DBCP的简介及环境搭建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-简单使用dbcp2"><span class="post-toc-text">4.简单使用dbcp2</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-dbcp2的另一种使用方式"><span class="post-toc-text">5.dbcp2的另一种使用方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-DBCP连接池在Spring中的基本配置"><span class="post-toc-text">6.DBCP连接池在Spring中的基本配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Spring使用dbcp"><span class="post-toc-text">Spring使用dbcp</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Spring使用dbcp2"><span class="post-toc-text">Spring使用dbcp2</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">数据连接学习（一）：JNDI入门及数据源配置</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

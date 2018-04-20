@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JNDI学习（一）：JNDI入门及数据源配置 | 程序人生</title>
+  <title>数据连接学习（一）：JNDI入门及数据源配置 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,8 +11,8 @@
   <meta name="description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
 <meta name="keywords" content="Java,JNDI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JNDI学习（一）：JNDI入门及数据源配置">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/index.html">
+<meta property="og:title" content="数据连接学习（一）：JNDI入门及数据源配置">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
 <meta property="og:locale" content="zh-CN">
@@ -25,9 +25,9 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-08.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-07.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-09.jpg">
-<meta property="og:updated_time" content="2018-04-19T12:43:39.480Z">
+<meta property="og:updated_time" content="2018-04-19T13:29:49.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JNDI学习（一）：JNDI入门及数据源配置">
+<meta name="twitter:title" content="数据连接学习（一）：JNDI入门及数据源配置">
 <meta name="twitter:description" content="0.学习原因因为学习Spring时涉及到了很多关于JNDI的知识，卧槽，压根没听说过呀，所以特地来学习一下。参考博客：JNDI学习总结(一)——JNDI数据源的配置  1.JNDI的诞生及简介简介1)服务器数据源配置的诞生  JDBC阶段：一开始是使用JDBC来连接操作数据库的：在Java开发中，使用JDBC操作数据库的四个步骤如下： ①加载数据库驱动程序(Class.forName(“数据库驱动">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00042JNDI%E5%AD%A6%E4%B9%A01-01.jpg">
   
@@ -120,14 +120,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-JNDI学习（一）：JNDI入门及数据源配置" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-数据连接学习（一）：JNDI入门及数据源配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      JNDI学习（一）：JNDI入门及数据源配置
+      数据连接学习（一）：JNDI入门及数据源配置
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -135,12 +135,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/数据源/">数据源</a>
+                      <a href="/categories/数据库/">数据库</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-03-02
+          <i class="fa fa-calendar"></i>  2018-04-19
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -384,8 +384,8 @@ jndi配置方法（tomcat）：
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月19日 20:43</p>
-        <p>原始链接： <a class="post-url" href="/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" title="JNDI学习（一）：JNDI入门及数据源配置">https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/</a></p>
+        <p>最后更新： 2018年04月19日 21:29</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" title="数据连接学习（一）：JNDI入门及数据源配置">https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -442,7 +442,7 @@ jndi配置方法（tomcat）：
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&title=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/&title=《数据连接学习（一）：JNDI入门及数据源配置》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -452,22 +452,22 @@ jndi配置方法（tomcat）：
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&title=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/&title=《数据连接学习（一）：JNDI入门及数据源配置》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JNDI学习（一）：JNDI入门及数据源配置》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据连接学习（一）：JNDI入门及数据源配置》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -477,7 +477,7 @@ jndi配置方法（tomcat）：
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/02/JNDI学习（一）：JNDI入门及数据源配置/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -511,19 +511,19 @@ jndi配置方法（tomcat）：
 
 <nav id="article-nav">
   
-    <a href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          《Java多线程编程核心技术》笔记（四）:Lock的使用
+          数据连接学习（二）：DBCP连接池的简单使用
         
       </span>
     </a>
   
   
-    <a href="/2018/03/02/Java学习(1)：Math类的基本用法/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Java学习(1)：Math类的基本用法</span>
+    <a href="/2018/04/19/Spring学习（三）：高级装配/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring学习（三）：高级装配</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -589,10 +589,10 @@ jndi配置方法（tomcat）：
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据源/">数据源</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 19px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16px;">多线程</a> <a href="/tags/类/" style="font-size: 11px;">类</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -625,7 +625,7 @@ jndi配置方法（tomcat）：
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 19px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16px;">多线程</a> <a href="/tags/类/" style="font-size: 11px;">类</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>

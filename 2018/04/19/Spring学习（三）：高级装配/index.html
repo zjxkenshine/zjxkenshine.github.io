@@ -9,14 +9,14 @@
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
   <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
-<meta name="keywords" content="Spring,Spring核心框架">
+<meta name="keywords" content="Spring,Spring核心框架,Spring pro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring学习（三）：高级装配">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-19T12:47:52.047Z">
+<meta property="og:updated_time" content="2018-04-20T03:20:28.889Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring学习（三）：高级装配">
 <meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
@@ -173,9 +173,9 @@
 <li>假设需要使用的是Hypersonic嵌入式数据库：<br>需要使用到javax.sql.DataSource这个接口，但是我用的java(8)已经自带了，所以就不用导jar包了。其实作用和驱动包相同。<br>需要使用到Spring框架中的EmbeddedDatabaseBuilder方法，该方法用于搭建一个Hypersonic数据库，使用该类的build()方法会返回一个连接实例。(具体使用见后面)</li>
 <li>关于Javax.sql.DataSource的用法可以参考以下博客：<br><a href="https://blog.csdn.net/guohuiJI/article/details/72458016" target="_blank" rel="noopener">https://blog.csdn.net/guohuiJI/article/details/72458016</a></li>
 </ol>
-<p><strong>2)简单使用嵌入式数据库：</strong></p>
+<p><strong>2)三种不同的DataSource类：</strong></p>
 <ol>
-<li>JavaConfig配置类代码如下：<pre><code>package chap3;
+<li>获取嵌入式数据库的DataSource。<br>JavaConfig配置类代码如下：<pre><code>package chap3;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -191,22 +191,37 @@ public class SqlConfig {
     }
 }
 </code></pre>Hypersonic数据库创建的数据库的模式定义在schema.sql中，测试数据则是通过test-data.sql加载的。<br>在开发环境中运行集成测试或者启动应用进行手动测试的时候，这样创建DataSource是非常有用的。每次启动它的时候都能让数据库处于一个给定(开启服务)的状态。</li>
-<li>尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSoutce，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：<pre><code>@Bean
-private DataSource dataSource2(){
+<li>创建JNDI管理的DataSource。<br>尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSource，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：<pre><code>@Bean
+private DataSource dataSource(){
     //使用jndi从容器获取
     JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
     jndiObjectFactoryBean.setJndiName(&quot;jdbc/kenshine&quot;);
     jndiObjectFactoryBean.setResourceRef(true);
     jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
     return (DataSource) jndiObjectFactoryBean.getObject();
+</code></pre>通过JNDI来获取DataSource能让容器(context)决定通过什么方式获取DataSource。(详细的JNDI配置数据源参考另一篇博客)<br>这里的JndiObjectFactoryBean仅仅只是通过JNDI名来产生一个DataSource的对象而已。</li>
+<li>创建自配置DBCP连接池的DataSource。<br>在QA环境中可以将DataSource配置为Commons DBCP连接池：<pre><code>@Bean
+private DataSource dataSource(){
+    BasicDataSource dataSource=new BasicDataSource();
+    dataSource.setUrl(&quot;jdbc:h2:tcp://dbserver/~/test&quot;);
+    dataSource.setDriverClassName(&quot;org.h2.Driver&quot;);
+    dataSource.setUsername(&quot;sa&quot;);
+    dataSource.setPassword(&quot;password&quot;);
+    dataSource.setInitialSize(20);
+    dataSource.setMaxActive(30);
+    return dataSource;
 }
-</code></pre>JndiObjectFactoryBean用于配置数据源，至于这个JndiName我是乱编的，需要配置的话要到Tomcat服务器的Context.xml中配置数据库的连接属性。</li>
+</code></pre></li>
+<li>这三个方法分别使用了三种不同的方式来创建DataSource对象。<br>在不同的环境下所要求的Bean是不同的，所以必须要有一种方式来配置DataSource,来为每一种环境选择合适的配置。</li>
+<li>可以在单独的配置类或者xml文件中配置每个bean,然后在<strong>构建阶段</strong>确定要将哪个配置编译到可部署的应用中。但是有一个很大的缺点，就是要为每种环境重新构建应用。(一般是通过Maven Profile确定的)</li>
+<li>Spring提供的解决方案不需要重新构建–Spring profile。</li>
 </ol>
 <hr>
+<h2 id="2-Spring-profile的配置激活及使用"><a href="#2-Spring-profile的配置激活及使用" class="headerlink" title="2.Spring profile的配置激活及使用"></a>2.Spring profile的配置激活及使用</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月19日 20:47</p>
+        <p>最后更新： 2018年04月20日 11:20</p>
         <p>原始链接： <a class="post-url" href="/2018/04/19/Spring学习（三）：高级装配/" title="Spring学习（三）：高级装配">https://zjxkenshine.github.io/2018/04/19/Spring学习（三）：高级装配/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -315,6 +330,8 @@ private DataSource dataSource2(){
       
     <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
       
+    <a href="/tags/Springpro/" class="color1">Spring pro</a>
+      
   </li>
 
         </ul>
@@ -326,12 +343,22 @@ private DataSource dataSource2(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring-profile的配置激活及使用"><span class="post-toc-text">2.Spring profile的配置激活及使用</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/04/19/数据连接学习（一）：JNDI入门及数据源配置/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          数据连接学习（一）：JNDI入门及数据源配置
+        
+      </span>
+    </a>
   
   
     <a href="/2018/04/16/Spring学习（二）：装配Bean的三种方式/" id="article-nav-older" class="article-nav-link-wrap">
@@ -401,10 +428,10 @@ private DataSource dataSource2(){
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据源/">数据源</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 19px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16px;">多线程</a> <a href="/tags/类/" style="font-size: 11px;">类</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -437,7 +464,7 @@ private DataSource dataSource2(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 19px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16px;">多线程</a> <a href="/tags/类/" style="font-size: 11px;">类</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring-pro/" style="font-size: 10px;">Spring pro</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
