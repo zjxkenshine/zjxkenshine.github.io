@@ -309,7 +309,7 @@ commons-collections.jar
 			}
 		}
 4. 测试结果：
-![](http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-05.jpg)
+![](http://p5ki4lhmo.bkt.clouddn.com/00043%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%B9%A02-06.jpg)
 5. 其他使用方式自行探索
 其实JNDI也算一种，因为在Tomcat中内置了DBCP2连接池。
 6. 获取连接之后的事情，就是和JDBC的实现方式相同了。

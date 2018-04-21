@@ -13,7 +13,7 @@ categories: 数据库
 [JNDI学习总结(一)——JNDI数据源的配置](http://www.cnblogs.com/xdp-gacl/p/3951952.html)
 
 ---
-## 1.JNDI的诞生及简介简介
+## 1.JNDI的诞生及简介
 **1)服务器数据源配置的诞生**
 1. JDBC阶段：
 一开始是使用JDBC来连接操作数据库的：
