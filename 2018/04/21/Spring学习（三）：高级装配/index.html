@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring学习（三）：高级装配 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta name="keywords" content="Spring,Spring核心框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习（三）：高级装配">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-03-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-04.jpg">
+<meta property="og:updated_time" content="2018-04-21T09:41:13.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习（三）：高级装配">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（三）：高级装配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring学习（三）：高级装配
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/J2EE框架/">J2EE框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考书籍：《Spring实战》(第四版)</p>
+</li>
+<li><p>内容概述：</p>
+<ul>
+<li>Spring profile</li>
+<li>条件化的Bean声明</li>
+<li>自动化装配与歧义性</li>
+<li>bean的作用域</li>
+<li>SPEL(Spring Express Language)表达式语言</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-学习中出现的一些新概念"><a href="#1-学习中出现的一些新概念" class="headerlink" title="1.学习中出现的一些新概念"></a>1.学习中出现的一些新概念</h2><ol>
+<li>嵌入式数据库：<br>这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果更理想。如SQLite，Empress,OpenBaseLite等。</li>
+<li><code>JNDI</code>:Java API命名与目录接口。<br>jdni是一种将对象和名字绑定的技术，容器产生对象并都和唯一的名字绑定，这样外部程序就用JNDI技术通过名字来获取对象，跟反射一样。(网上大佬)<br>jdbc是java去找数据库驱动，jndi是通过你的服务器配置（如Tomcat）的配置文件context来找数据库驱动~</li>
+<li><code>QA</code>：质量检测。</li>
+<li><code>javax</code>：java extension,java扩展api接口。而java.XXX则是标准的API接口。</li>
+</ol>
+<hr>
+<h2 id="2-环境迁移时的问题（嵌入式数据库）"><a href="#2-环境迁移时的问题（嵌入式数据库）" class="headerlink" title="2.环境迁移时的问题（嵌入式数据库）"></a>2.环境迁移时的问题（嵌入式数据库）</h2><p><strong>1)环境迁移的场景</strong></p>
+<ol>
+<li>将应用程序从一个环境迁移到另一个环境，很多时候即便是迁移成功了也无法正常工作，因为数据库配置，加密算法以及与外部系统集成都是会改变的因素。</li>
+<li>假设需要使用的是Hypersonic嵌入式数据库：<br>需要使用到javax.sql.DataSource这个接口，但是我用的java(8)已经自带了，所以就不用导jar包了。其实作用和驱动包相同。<br>需要使用到Spring框架中的EmbeddedDatabaseBuilder方法，该方法用于搭建一个Hypersonic数据库，使用该类的build()方法会返回一个连接实例。(具体使用见后面)</li>
+<li>关于Javax.sql.DataSource的用法可以参考以下博客：<br><a href="https://blog.csdn.net/guohuiJI/article/details/72458016" target="_blank" rel="noopener">https://blog.csdn.net/guohuiJI/article/details/72458016</a></li>
+</ol>
+<p><strong>2)三种不同的DataSource类：</strong></p>
+<ol>
+<li>获取嵌入式数据库的DataSource。<br>JavaConfig配置类代码如下：<pre><code>package chap3;
+import javax.sql.DataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+@Configuration
+public class SqlConfig {
+    @Bean
+    public DataSource dataSource(){
+        return new EmbeddedDatabaseBuilder()
+        .addScript(&quot;classpath:schema.sql&quot;)
+        .addScript(&quot;classpath:test-data.sql&quot;)
+        .build();
+    }
+}
+</code></pre>Hypersonic数据库创建的数据库的模式定义在schema.sql中，测试数据则是通过test-data.sql加载的。<br>在开发环境中运行集成测试或者启动应用进行手动测试的时候，这样创建DataSource是非常有用的。每次启动它的时候都能让数据库处于一个给定(开启服务)的状态。</li>
+<li>创建JNDI管理的DataSource。<br>尽管只使用EmbeddedDatabaseBuilder创建的DataSource非常实用与开发环境，但是对于环境却并不是那么好用。所以一般使用JNDI容器获取的DataSource，但是对于简单的开发测试环境JNDI会带来不必要的复杂性：<pre><code>@Bean
+public DataSource dataSource(){
+    //使用jndi从容器获取
+    JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
+    jndiObjectFactoryBean.setJndiName(&quot;jdbc/kenshine&quot;);
+    jndiObjectFactoryBean.setResourceRef(true);
+    jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
+    return (DataSource) jndiObjectFactoryBean.getObject();
+</code></pre>通过JNDI来获取DataSource能让容器(context)决定通过什么方式获取DataSource。(详细的JNDI配置数据源参考另一篇博客)<br>这里的JndiObjectFactoryBean仅仅只是通过JNDI名来产生一个DataSource的对象而已。</li>
+<li>创建自配置DBCP连接池的DataSource。<br>在QA环境中可以将DataSource配置为Commons DBCP连接池：<pre><code>@Bean
+public DataSource dataSource(){
+    BasicDataSource dataSource=new BasicDataSource();
+    dataSource.setUrl(&quot;jdbc:h2:tcp://dbserver/~/test&quot;);
+    dataSource.setDriverClassName(&quot;org.h2.Driver&quot;);
+    dataSource.setUsername(&quot;sa&quot;);
+    dataSource.setPassword(&quot;password&quot;);
+    dataSource.setInitialSize(20);
+    dataSource.setMaxActive(30);
+    return dataSource;
+}
+</code></pre></li>
+<li>这三个方法分别使用了三种不同的方式来创建DataSource对象。<br>在不同的环境下所要求的Bean是不同的，所以必须要有一种方式来配置DataSource,来为每一种环境选择合适的配置。</li>
+<li>可以在单独的配置类或者xml文件中配置每个bean,然后在<strong>构建阶段</strong>确定要将哪个配置编译到可部署的应用中。但是有一个很大的缺点，就是要为每种环境重新构建应用。(一般是通过Maven Profile确定的)</li>
+<li>Spring提供的解决方案不需要重新构建–Spring profile。</li>
+</ol>
+<hr>
+<h2 id="2-Profile-Bean的配置"><a href="#2-Profile-Bean的配置" class="headerlink" title="2.Profile Bean的配置"></a>2.Profile Bean的配置</h2><p>其实和使用maven的profile确定环境差不多，只是不是在构建时确定，而是在运行时确定要加载哪一个bean。</p>
+<p><strong>1)JavaConf配置profileBean：</strong></p>
+<ol>
+<li>使用@profile注解：<pre><code>@Configuration
+public class SqlConfig {
+    @Bean(destroyMethod=&quot;shutdown&quot;)
+    @Profile(&quot;dev&quot;)
+    public DataSource dataSource(){
+        return new EmbeddedDatabaseBuilder()
+        .addScript(&quot;classpath:schema.sql&quot;)
+        .addScript(&quot;classpath:test-data.sql&quot;)
+        .build();
+    }
+    @Bean
+    @Profile(&quot;pro&quot;)
+    public DataSource dataSource2(){
+        //使用jndi从容器获取
+        JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
+        jndiObjectFactoryBean.setJndiName(&quot;jdbc/kenshine&quot;);
+        jndiObjectFactoryBean.setResourceRef(true);
+        jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
+        return (DataSource) jndiObjectFactoryBean.getObject();
+    }
+    @Bean
+    @Profile(&quot;qa&quot;)
+    public DataSource dataSource3(){
+        BasicDataSource dataSource=new BasicDataSource();
+        dataSource.setUrl(&quot;jdbc:mysql://127.0.0.1:3306/springtest?useUnicode=true&amp;characterEncoding=utf-8&quot;);
+        dataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);
+        dataSource.setUsername(&quot;root&quot;);
+        dataSource.setPassword(&quot;zjx1754294529&quot;);
+        dataSource.setInitialSize(20);
+        return dataSource;
+    }
+}
+</code></pre></li>
+<li><code>@Bean(destoryMethod=&quot;shutdown&quot;)</code>的含义：<br>在该bean销毁前去执行shutdown方法。<br>相应的initMethod就是初始化Bean之前执行的方法。</li>
+<li>@Profile()注解：<br>指定某个bean属于哪一个profile,只有当对应的环境激活(active)时才会加载这个bean。<br>而profile默认是关闭的(未激活的)。</li>
+<li>可以直接在方法上使用@profile注解，只有Spring3.2以后支持，Spring3.1及以前需要使用类级别的@profile注解，为每个方法单独配置一个配置类再引用到主配置类。如：<pre><code>@Configuration
+@Profile(&quot;dev&quot;)
+public class EmbeddedConfig {
+    @Bean(destroyMethod=&quot;shutdown&quot;)
+    private DataSource dataSource(){
+        return new EmbeddedDatabaseBuilder()
+        .addScript(&quot;classpath:schema.sql&quot;)
+        .addScript(&quot;classpath:test-data.sql&quot;)
+        .build();
+    }
+}
+</code></pre>其余两个环境也相同配置。不太方便。</li>
+<li>没有指定@profile的Bean始终都会被创建。</li>
+</ol>
+<p><strong>2)XML配置profileBean：</strong></p>
+<ol>
+<li>xml配置如下：<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;  
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot; 
+    xmlns:jdbc=&quot;http://www.springframework.org/schema/jdbc&quot;
+    xmlns:jee=&quot;http://www.springframework.org/schema/jee&quot;
+    xmlns:c=&quot;http://www.springframework.org/schema/c&quot;  
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;  
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;   
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans   
+                        http://www.springframework.org/schema/beans/spring-beans.xsd  
+                        http://www.springframework.org/schema/aop    
+                        http://www.springframework.org/schema/aop/spring-aop.xsd  
+                        http://www.springframework.org/schema/jdbc    
+                        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+                        http://www.springframework.org/schema/jee    
+                        http://www.springframework.org/schema/jee/spring-jee.xsd  
+                        http://www.springframework.org/schema/context       
+                        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+   &lt;beans profile=&quot;dev&quot;&gt;
+           &lt;jdbc:embedded-database id=&quot;dataSource&quot;&gt;
+               &lt;jdbc:script location=&quot;classpath:schema.sql&quot;/&gt;
+               &lt;jdbc:script location=&quot;classpath:test-data.sql&quot;/&gt;
+           &lt;/jdbc:embedded-database&gt;
+   &lt;/beans&gt;
+   &lt;beans profile=&quot;prod&quot;&gt;
+           &lt;jee:jndi-lookup id=&quot;dataSource&quot; 
+           jndi-name=&quot;jdbc/kenshine&quot; 
+           resource-ref=&quot;true&quot; 
+           proxy-interface=&quot;javax.sql.DataSource&quot;&gt;
+           &lt;/jee:jndi-lookup&gt;
+   &lt;/beans&gt;
+   &lt;beans profile=&quot;qa&quot;&gt;
+           &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp2.BasicDataSource&quot; destroy-method=&quot;close&quot;
+           p:url=&quot;jdbc:mysql://127.0.0.1:3306/springtest&quot;
+           p:driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+           p:username=&quot;root&quot;
+           p:password=&quot;zjx1754294529&quot;
+           p:initialSize=&quot;20&quot;
+           &gt;    
+           &lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre></li>
+<li>使用嵌套的Beans标签分别配置了三种不同profile下的bean。<br>这三个Bean的id都是相同的，在创建时会根据激活的profile来创建。<br>也可以不使用嵌套Beans标签，直接在xsi:schemaLocation属性后添加profile属性并配置，但是这样会产生非常多不必要的代码。</li>
+</ol>
+<p><strong>3)关于两种配置方式的总结：</strong></p>
+<ol>
+<li>javaConfig配置profile:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg" alt=""></li>
+<li>XML配置profile：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-02.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-激活Profile及使用"><a href="#3-激活Profile及使用" class="headerlink" title="3.激活Profile及使用"></a>3.激活Profile及使用</h2><p><strong>1)Spring激活Profile的原理：</strong></p>
+<ol>
+<li>Spring确定哪个profile处于激活状态，需要两个独立的属性：<br>spring.profiles.active属性和spring.profiles.default属性。</li>
+<li>如果active属性指定了激活的profile则激活active指定的profile，<br>如果active属性未指定激活的profile则激活default指定的profile，<br>都未指定则只加载那些没有指定profile的Bean。</li>
+<li>spring.profiles.active属性和spring.profiles.default属性都是复数的，意味着可以一次性激活多个(彼此不相关)的profile。</li>
+</ol>
+<p><strong>2)激活profile的方式：</strong><br>有很多种方式能够激活profile(设置那俩属性)。</p>
+<blockquote>
+<p>作为Spring MVC DispactcherServlet的初始化参数<br>作为Web应用上下文参数<br>作为JNDI条目<br>作为环境变量<br>作为JVM的系统属性<br>在集成测试类上，使用@ActiveProfiles注解设置</p>
+</blockquote>
+<ol>
+<li><p>Servlet2.5及以下在web.xml中配置：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web -app version=&quot;2.5&quot;
+...&gt;
+ &lt;!--为上下文设置默认的profile--&gt;
+ &lt;context-param&gt;
+ &lt;param-name&gt;spring.profile.default&lt;/param-name&gt;
+ &lt;param-value&gt;dev&lt;/param-value&gt;
+ &lt;/context-param&gt;
+
+...
+ &lt;servlet&gt;
+ ...
+ &lt;!--为Serlvet设置默认的profile--&gt;
+ &lt;init-param&gt;
+  &lt;param-name&gt;spring-profiles.default&lt;/param-name&gt;
+  &lt;param-value&gt;dev&lt;/param-value&gt;
+ &lt;/init-prama&gt;
+...
+&lt;web-app&gt;
+</code></pre><p>这样配置后默认的都是使用的dev开发环境，而实际使用时只需要设置相对应的spring.profile.active的代码就可以了。</p>
+</li>
+<li>Servlet3.0以上可以使用如下方式激活：<pre><code>package chap3;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import org.springframework.web.WebApplicationInitializer;
+public class WebInit implements WebApplicationInitializer{
+    @Override
+    public void onStartup(ServletContext container) throws ServletException {
+        container.setInitParameter(&quot;spring.profile.default&quot;,&quot;dev&quot;);
+    }
+}
+</code></pre></li>
+<li>JVM增加参数spring.profiles.active设置<br>在JVM中增加参数spring.profiles.active设置，如果我们想设置spring.profiles.active为dev，使用Dspring.profiles.active=”dev” 。<br>此种方式需要修改tomcat的JVM配置，通用性不高。</li>
+<li><p>在测试时激活：<code>@ActiveProfiles()</code>注解</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations=&quot;classpath:DataSourceConfig.xml&quot;)
+@ActiveProfiles(&quot;pro&quot;)
+public class TestActiveProfile {
+    @Autowired
+    private HelloService hs;
+
+    @Test
+    public void testProfile() throws Exception {
+        String value = hs.sayHello();
+        System.out.println(value);
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-Conditional条件化的Bean"><a href="#4-Conditional条件化的Bean" class="headerlink" title="4.@Conditional条件化的Bean"></a>4.@Conditional条件化的Bean</h2><p><strong>1)简单使用：</strong></p>
+<ol>
+<li>@Conditional的配置更加灵活，可以实现在某一个Bean创建之后才创建这个Bean这种效果。</li>
+<li>Java配置类的写法：<pre><code>@Configuration
+public class ConditionConfig {
+    @Bean
+    @Conditional(GoodMusicCondition.class)  //一个实现了Conditon接口的类
+    public GoodMusic goodMusic(){
+        return new GoodMusic();
+    }
+}
+</code></pre></li>
+<li>GoodMusicCondition类的写法：<pre><code>public class GoodMusicCondition implements Condition{
+    @Override
+    public boolean matches(ConditionContext context,
+            AnnotatedTypeMetadata metadata) {
+        //各项检测机制,返回true或false代表是否生成Bean
+        Environment env=context.getEnvironment();
+        return env.containsProperty(&quot;softMusic&quot;);
+    }
+}
+</code></pre>检测上下文中是否已经创建了名为softMusic的Bean，如果有则装配GoodMusic的Bean，没有则不装配。<br>还可以在这里面写更复杂的逻辑。</li>
+</ol>
+<p><strong>2)关于Condition接口的介绍：</strong></p>
+<ol>
+<li>Condition接口：<pre><code>public interface Condition {
+    boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);
+}
+</code></pre>可以看到matches方法是由ConditionContext对象与AnnotatedTypeMetadata对象来操作的，这俩其实都是接口</li>
+<li>ConditionContext接口：<pre><code>public interface ConditionContext {
+    BeanDefinitionRegistry getRegistry();    //检查bean的定义
+    ConfigurableListableBeanFactory getBeanFactory();    //检查bean是否存在并探查bean的属性
+    Environment getEnvironment();    //环境变量是否存在以及值是什么
+    ResourceLoader getResourceLoader();        //返回ResourceLoader加载的资源
+    ClassLoader getClassLoader();    //返回ClassLoader加载并检查类是否存在
+}
+</code></pre></li>
+<li><p>AnnotatedTypeMetadata接口：<br>可以检查带有@Bean的注解方法上还有什么其他注解。</p>
+<pre><code>import org.springframework.util.MultiValueMap;
+
+public interface AnnotatedTypeMetadata {
+
+    boolean isAnnotated(String annotationName);
+
+    Map&lt;String, Object&gt; getAnnotationAttributes(String annotationName);
+
+    Map&lt;String, Object&gt; getAnnotationAttributes(String annotationName, boolean classValuesAsString);
+
+    MultiValueMap&lt;String, Object&gt; getAllAnnotationAttributes(String annotationName);
+
+    MultiValueMap&lt;String, Object&gt; getAllAnnotationAttributes(String annotationName, boolean classValuesAsString);
+
+}
+</code></pre></li>
+</ol>
+<p><strong>3)@Profile的实现：</strong></p>
+<ol>
+<li>profile的代码：<pre><code>@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Conditional(ProfileCondition.class)
+public @interface Profile {
+    String[] value();
+}
+</code></pre></li>
+<li>其余注解以后研究源码再说，先看ProfileCondition类：<pre><code>class ProfileCondition implements Condition {
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        if (context.getEnvironment() != null) {
+            MultiValueMap&lt;String, Object&gt; attrs = metadata.getAllAnnotationAttributes(Profile.class.getName());
+            if (attrs != null) {
+                for (Object value : attrs.get(&quot;value&quot;)) {
+                    if (context.getEnvironment().acceptsProfiles(((String[]) value))) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>使用getAllAnnotationAttributes获取@profile注解的所有属性，检查value属性并获取profile名称，最后通过acceptsProfiles方法来判断该profile是否激活。</li>
+</ol>
+<hr>
+<h2 id="5-处理自动装配时的歧义性"><a href="#5-处理自动装配时的歧义性" class="headerlink" title="5.处理自动装配时的歧义性"></a>5.处理自动装配时的歧义性</h2><p><strong>1)歧义性产生情况及解决方法概述：</strong></p>
+<ol>
+<li>歧义产生的简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-03-2.jpg" alt=""></li>
+<li>产生歧义的代码示例：<br>Movie代码：<pre><code>@Component
+public class Movie1 implements Movie{
+    @Override
+    public void play() {
+        System.out.println(&quot;playing movie1&quot;);
+    }
+}
+@Component
+public class Movie1 implements Movie{
+    //和上面差不多
+}
+@Component
+public class Movie1 implements Movie{
+    //和上面差不多
+}
+</code></pre>MoviePlayer类代码：<pre><code>@Component
+public class MoviePlayer implements MediaPlayer{
+    @Autowired
+    private Movie movie;
+    @Override
+    public void play() {
+        movie.play();
+    }
+}
+</code></pre>MoviePlayerConfig配置类：<pre><code>@Configuration
+@ComponentScan(basePackageClasses=MoviePlayer.class)
+public class MoviePlayerConfig {
+}
+</code></pre></li>
+<li>测试类：<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=MoviePlayerConfig.class)
+public class MoviePlayerTest {
+    @Autowired
+    private MediaPlayer moviePlayer;
+    @Test
+    public void play(){
+        moviePlayer.play();
+    }
+}
+</code></pre>测试结果：<br>报错：<pre><code>No qualifying bean of type &apos;chap3.Movie&apos; available: expected single matching bean but found 3: movie1,movie2,movie3
+</code></pre></li>
+<li>有两种解决方案：<br>标识首选的bean。<br>使用限定符缩小范围。</li>
+</ol>
+<p><strong>2)使用primary注解或者属性标识首选的bean：</strong></p>
+<ol>
+<li>配置方式一：<br>在希望成为首选Bean的@Compnent下使用@primary注解:<pre><code>@Component
+@Primary
+public class Movie1 implements Movie{
+    @Override
+    public void play() {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;playing movie1&quot;);
+    }
+}
+</code></pre></li>
+<li>配置方式二：<br>显式配置javaConfig配置类并且在@Bean注解下使用@primary注解指定：<pre><code>@Configuration
+public class MovieConfig {
+    @Bean
+    @Primary
+    public Movie1 movie1(){
+        return new Movie1();
+    }
+    @Bean
+    public Movie2 movie2(){
+        return new Movie2();
+    }
+    @Bean
+    public Movie3 movie3(){
+        return new Movie3();
+    }
+}
+</code></pre></li>
+<li>配置方式三：显式的XML配置<pre><code>...省略配置头
+&lt;bean id=&quot;movie1&quot; class=&quot;chap3.Movie1&quot; primary=&quot;true&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;movie2&quot; class=&quot;chap3.Movie2&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;movie3&quot; class=&quot;chap3.Movie3&quot;&gt;&lt;/bean&gt;
+...省略配置尾
+</code></pre></li>
+<li>以上任意一种配置的测试结果都是这样：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-04.jpg" alt=""></li>
+<li>但是如果有两个以上的primary还是会错，所以推荐使用限定符修饰。</li>
+</ol>
+<p><strong>3)限定自动装配的Bean：</strong></p>
+<hr>
+<h2 id="6-Bean的作用性"><a href="#6-Bean的作用性" class="headerlink" title="6.Bean的作用性"></a>6.Bean的作用性</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月21日 17:41</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/21/Spring学习（三）：高级装配/" title="Spring学习（三）：高级装配">https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（三）：高级装配》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
+    <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Profile-Bean的配置"><span class="post-toc-text">2.Profile Bean的配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-激活Profile及使用"><span class="post-toc-text">3.激活Profile及使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Conditional条件化的Bean"><span class="post-toc-text">4.@Conditional条件化的Bean</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-处理自动装配时的歧义性"><span class="post-toc-text">5.处理自动装配时的歧义性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Bean的作用性"><span class="post-toc-text">6.Bean的作用性</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">数据连接学习（二）：DBCP连接池的简单使用</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
