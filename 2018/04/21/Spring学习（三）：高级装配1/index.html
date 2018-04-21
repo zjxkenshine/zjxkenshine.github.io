@@ -3,27 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Spring学习（三）：高级装配 | 程序人生</title>
+  <title>Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
 <meta name="keywords" content="Spring,Spring核心框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring学习（三）：高级装配">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/index.html">
+<meta property="og:title" content="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-03-2.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-04.jpg">
-<meta property="og:updated_time" content="2018-04-21T09:41:13.580Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-06.jpg">
+<meta property="og:updated_time" content="2018-04-21T14:08:02.716Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring学习（三）：高级装配">
-<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域 SPEL(Spring Express Language)表达式语言     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要">
+<meta name="twitter:title" content="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg">
   
   
@@ -115,14 +117,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Spring学习（三）：高级装配" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（三）：高级装配1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Spring学习（三）：高级装配
+      Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -160,7 +162,6 @@
 <li>条件化的Bean声明</li>
 <li>自动化装配与歧义性</li>
 <li>bean的作用域</li>
-<li>SPEL(Spring Express Language)表达式语言</li>
 </ul>
 </li>
 </ol>
@@ -512,7 +513,7 @@ public class MoviePlayerConfig {
 @ContextConfiguration(classes=MoviePlayerConfig.class)
 public class MoviePlayerTest {
     @Autowired
-    private MediaPlayer moviePlayer;
+    private MoviePlayer moviePlayer;
     @Test
     public void play(){
         moviePlayer.play();
@@ -561,13 +562,170 @@ public class MovieConfig {
 <li>但是如果有两个以上的primary还是会错，所以推荐使用限定符修饰。</li>
 </ol>
 <p><strong>3)限定自动装配的Bean：</strong></p>
+<ol>
+<li>使用自带的注解：<br>在MoviePlayer中使用@Qualifier注解：<pre><code>@Autowired
+@Qualifier(&quot;movie1&quot;)
+public Movie movie;
+</code></pre>就是按照上下文中的ID来获取,ID默认是@Bean方法名的第一个字母小写，所以这里使用movie1。<br>但是这样有个缺陷：<br>如果方法名字修改后如将Movie1修改为其他的，那么久无法获取到bean了。</li>
+<li>创建自定义的限定符(id)<br>可以在Movie1中这样修改(使用自定义的ID)：<pre><code>@Component
+@Qualifier(&quot;movie1&quot;)
+public class Movie1 implements Movie{
+    @Override
+    public void play() {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;playing movie1&quot;);
+    }
+}
+</code></pre>也可以在显示声明Bean时这样使用：<pre><code>@Bean
+@Qualifier(&quot;movie1&quot;)
+public Movie1 movie1(){
+    return new Movie1();
+}
+</code></pre>或者：<pre><code>@Bean(name=&quot;movie1&quot;)
+public Movie1 movie1(){
+    return new Movie1();
+}
+</code></pre>但是这种方式有时候还是有问题，比如不知道是否有重复的ID。<br>这是就得使用多个注解修饰了。</li>
+</ol>
+<p><strong>4)自定义限定注解的使用：</strong></p>
+<ol>
+<li>如果说有两个bean的@Qualifier修饰相同，那么取的时候仍然会报错，一般会想到再加一个@Qualifier注解进行修饰，然后取的时候也再加一个@Qualifier注解如：<pre><code>@Autowired
+@Qualifier(&quot;movie1&quot;)
+@Qualifier(&quot;comedy&quot;)
+public Movie movie;
+</code></pre>但是Java8规定只有使用了@Repeatable注解的注解才能重复，而很遗憾@Qualifier注解并没有：<pre><code>@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface Qualifier {
+    String value() default &quot;&quot;;
+}
+</code></pre>所以使用两个@Qualifier会出错。所以需要自定义一种注解（比如@Comedy）。</li>
+<li>自定义注解@comedy的创建：<br>代码如下：<pre><code>@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Qualifier
+public @interface Comedy {
+}
+</code></pre></li>
+<li>修改Movie2代码修改如下：<pre><code>@Component
+@Qualifier(&quot;movie2&quot;)
+@Comedy
+public class Movie2 implements Movie {
+    @Override
+    public void play() {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;playing movie2&quot;);
+    }
+}
+</code></pre>修改MoviePlayer代码如下：<pre><code>@Component
+public class MoviePlayer implements MediaPlayer{
+    @Autowired
+    @Qualifier(&quot;movie2&quot;)
+    @Comedy
+    public Movie movie;
+    @Override
+    public void play() {
+        movie.play();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-05.jpg" alt=""></li>
+<li>如果将某一个@Comedy标签去除，不管去掉啥标签，只要是不完全匹配就会报错说找不到对应的Bean。</li>
+</ol>
 <hr>
-<h2 id="6-Bean的作用性"><a href="#6-Bean的作用性" class="headerlink" title="6.Bean的作用性"></a>6.Bean的作用性</h2><hr>
+<h2 id="6-Bean的作用域"><a href="#6-Bean的作用域" class="headerlink" title="6.Bean的作用域"></a>6.Bean的作用域</h2><p><strong>1)作用域Bean简介及简单创建：</strong></p>
+<ol>
+<li>在默认情况下，Spring上下文中的所有Bean都是以单例的情况存在的（单例bean）,不管获取多少次上下文中的Bean,获取到的Bean都是同一个实例。<br>大多数情况下这种单例的方案很好，但是有时有特殊需求时就不那么好用了。</li>
+<li>Spring自定义了很多种作用域，可以基于这些作用域创建Bean:<ul>
+<li>单例（Singleton）：整个应用中只能创建一个Bean实例。</li>
+<li>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候都会创建一个新的Bean。</li>
+<li>会话(Session)：WEB应用中，为每个会话创建一个bean实例。</li>
+<li>请求(Request)：WEB应用中，为每个请求创建一个bean实例。</li>
+</ul>
+</li>
+<li>使用@Scope注解或者属性可以指定作用域生成相对的Bean。<br>方法一：自动装配置时生成原型Bean<pre><code>@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)    //也可以直接使用(&quot;prototype&quot;)
+public class Movie4 implements Movie{
+    @Override
+    public void play() {
+        System.out.println(&quot;playing movie4&quot;);
+    }
+}
+</code></pre>方法二：JavaConfig配置类配置@Scope<pre><code>...
+@Bean
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public Movie4 movie4(){
+    return new Movie4();
+}
+...
+</code></pre>方法三：config.xml文件中使用scope属性配置<pre><code>...
+&lt;bean id=&quot;movie4&quot; class=&quot;chap3.Movie4&quot; scope=&quot;prototype&quot;&gt;&lt;/bean&gt;
+...
+</code></pre></li>
+</ol>
+<p><strong>2)使用会话和请求作用域：</strong></p>
+<ol>
+<li>如果是一个购物车的Bean,单例Bean则所有用户都使用一个Bean,而原型Bean则在应用的其他地方就不可用了。用SessionBean就非常合适。<br>在WEB应用中，会话级和请求级的Bean非常实用。</li>
+<li>购物车类Cart如下：<pre><code>@Component
+@Scope(value=org.springframework.web.context.WebApplicationContext.SCOPE_SESSION,proxyMode=ScopedProxyMode.INTERFACES)
+public class Cart implements ShoppingCart{
+    public String name=&quot;Cart1&quot;;
+    @Override
+    public void getName() {
+        System.out.println(name);
+    }
+}
+</code></pre>接口如下：<pre><code>public interface ShoppingCart {
+    void getName();
+}
+</code></pre>@Scope注解还有个方法proxyMode，解决了将会话或请求作用域的bean注入到单例bean中所遇到的问题。</li>
+<li><p>创建一个单例Bean类StoreService：</p>
+<pre><code>@Component
+public class StoreService {
+    @Autowired
+    public ShoppingCart shoppingCart;
+
+    public void Service(){
+        shoppingCart.getName();
+    }
+}
+</code></pre><p>测试类如下：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ComponentScan
+public class CartTest {
+    @Autowired
+    private StoreService storeService;
+    @Test
+    public void testCart(){
+        storeService.Service();
+    }
+}
+</code></pre></li>
+<li>StoreService是一个单例类，会在Spring应用上下文加载的时候创建。<br>创建时会试图将ShoppingCartBean注入单例类中，但是会话级的bean此时不存在，只有用户进入了才会产生实例。</li>
+<li>多个用户会有多个ShoppingCart，但是我们只希望注入当前会话对应的哪一个。<br>Spring并不会将实际的ShoppingCart注入StoreService，而是注入一个ShoppingCart Bean的代理。</li>
+<li>关于proxyMode的值：<ul>
+<li>如果注入的是接口而不是类(最好的状态)，则使用ScopedProxyMode.INTERFACES。<br>表明该代理要实现这个接口并调用委托给实现类。</li>
+<li>如果注入的是具体类而非接口，则proxyMode值使用ScopedProxyMode.TARGET_CLASS。使用的是CGLib动态代理。</li>
+</ul>
+</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-06.jpg" alt=""></li>
+</ol>
+<p><strong>3)在XML中声明作用域代理：</strong></p>
+<ol>
+<li>使用aop命名空间的scoped-proxy元素(需要)：<pre><code>&lt;bean id=&quot;cart&quot; class=&quot;chap3.ShoppingCart&quot; scope=&quot;session&quot;&gt;
+    &lt;aop:scoped-proxy/&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>默认是基于具体类的代理，如果需要生成基于接口的代理可以这么写：<pre><code>&lt;bean id=&quot;cart&quot; class=&quot;chap3.ShoppingCart&quot; scope=&quot;session&quot;&gt;
+    &lt;aop:scoped-proxy proxy-target-class=&quot;false&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月21日 17:41</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/21/Spring学习（三）：高级装配/" title="Spring学习（三）：高级装配">https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/</a></p>
+        <p>最后更新： 2018年04月21日 22:08</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/21/Spring学习（三）：高级装配1/" title="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -624,7 +782,7 @@ public class MovieConfig {
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -634,22 +792,22 @@ public class MovieConfig {
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&title=《Spring学习（三）：高级装配》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（三）：高级装配》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -659,7 +817,7 @@ public class MovieConfig {
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -686,7 +844,7 @@ public class MovieConfig {
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Profile-Bean的配置"><span class="post-toc-text">2.Profile Bean的配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-激活Profile及使用"><span class="post-toc-text">3.激活Profile及使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Conditional条件化的Bean"><span class="post-toc-text">4.@Conditional条件化的Bean</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-处理自动装配时的歧义性"><span class="post-toc-text">5.处理自动装配时的歧义性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Bean的作用性"><span class="post-toc-text">6.Bean的作用性</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-学习中出现的一些新概念"><span class="post-toc-text">1.学习中出现的一些新概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-环境迁移时的问题（嵌入式数据库）"><span class="post-toc-text">2.环境迁移时的问题（嵌入式数据库）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Profile-Bean的配置"><span class="post-toc-text">2.Profile Bean的配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-激活Profile及使用"><span class="post-toc-text">3.激活Profile及使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Conditional条件化的Bean"><span class="post-toc-text">4.@Conditional条件化的Bean</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-处理自动装配时的歧义性"><span class="post-toc-text">5.处理自动装配时的歧义性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Bean的作用域"><span class="post-toc-text">6.Bean的作用域</span></a></li></ol>
         </nav>
     </aside>
     
