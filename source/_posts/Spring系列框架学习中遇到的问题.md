@@ -17,6 +17,9 @@ categories: J2EE框架
 >Caused by: java.lang.IllegalStateException: Neither GenericXmlContextLoader nor AnnotationConfigContextLoader was able to load an ApplicationContext from [MergedContextConfiguration@69379752 testClass = HppyMusicTest, locations = '{}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]].
 4. Spring xmlsetting方式注入测试时又出错了：
 >org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'normalMusic' defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()
+5. 创建自定义的properties文件时报错：
+		Contens is not allowed prolog
+
 
 ---
 ## 1.问题1-5解决
@@ -79,6 +82,13 @@ NormalMusic没有默认的构造方法。
 		public NormalMusic(){
 		}
 		...
+
+**5) 创建自定义的properties文件时报错：**
+1. 详细错误：
+		Contens is not allowed prolog
+2. 出错原因，一般是.xml文件强转为.properties时的格式问题。
+3. 解决方案
+将格式转换为UTF-8,等一段时间就好了。
 
 ---
 

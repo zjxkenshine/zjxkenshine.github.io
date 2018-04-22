@@ -263,7 +263,6 @@ Redis默认的master用于写，slave用于读，向slave写数据会导致错�
 ![](http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-31-2.jpg)
 清空并配置sentinel26381.conf如下：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-32-2.jpg)
-注意哨兵的名字要不同。
 sentinel26382.conf的配置和上面的相同：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-33-1.jpg)
 所有的哨兵的`sentinel monitor mymaster 127.0.0.1 6380 2`配置必须是监视主服务器的。
