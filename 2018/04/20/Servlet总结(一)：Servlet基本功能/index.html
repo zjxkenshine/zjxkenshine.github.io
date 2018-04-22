@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Servlet总结(一)：Servlet基本功能 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.参考资料各类博客，资料，课本等Servlet,Jsp这种东西已经用烂了，所以就不测试了。但是很多理论的东西还很薄弱，所以就只记载一些知识点。  1.Servlet简介 什么是Servlet:简单概念servlet是在服务器上运行的小程序。Servlet的主要功能在于交互式地浏览和修改数据，生成动态Web内容，是为web开发服务的。 Servlet的详细介绍：我们在网上浏览网页，需要一个web服">
+<meta name="keywords" content="Servlet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet总结(一)：Servlet基本功能">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.参考资料各类博客，资料，课本等Servlet,Jsp这种东西已经用烂了，所以就不测试了。但是很多理论的东西还很薄弱，所以就只记载一些知识点。  1.Servlet简介 什么是Servlet:简单概念servlet是在服务器上运行的小程序。Servlet的主要功能在于交互式地浏览和修改数据，生成动态Web内容，是为web开发服务的。 Servlet的详细介绍：我们在网上浏览网页，需要一个web服">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00045Servlet%E6%80%BB%E7%BB%931-01.jpg">
+<meta property="og:updated_time" content="2018-04-22T05:59:53.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Servlet总结(一)：Servlet基本功能">
+<meta name="twitter:description" content="0.参考资料各类博客，资料，课本等Servlet,Jsp这种东西已经用烂了，所以就不测试了。但是很多理论的东西还很薄弱，所以就只记载一些知识点。  1.Servlet简介 什么是Servlet:简单概念servlet是在服务器上运行的小程序。Servlet的主要功能在于交互式地浏览和修改数据，生成动态Web内容，是为web开发服务的。 Servlet的详细介绍：我们在网上浏览网页，需要一个web服">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00045Servlet%E6%80%BB%E7%BB%931-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Servlet总结(一)：Servlet基本功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Servlet总结(一)：Servlet基本功能
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/JavaWeb/">JavaWeb</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-参考资料"><a href="#0-参考资料" class="headerlink" title="0.参考资料"></a>0.参考资料</h2><p>各类博客，资料，课本等<br>Servlet,Jsp这种东西已经用烂了，所以就不测试了。<br>但是很多理论的东西还很薄弱，所以就只记载一些知识点。</p>
+<hr>
+<h2 id="1-Servlet简介"><a href="#1-Servlet简介" class="headerlink" title="1.Servlet简介"></a>1.Servlet简介</h2><ol>
+<li>什么是Servlet:简单概念<br>servlet是在服务器上运行的小程序。Servlet的主要功能在于交互式地浏览和修改数据，生成动态Web内容，是为web开发服务的。</li>
+<li>Servlet的详细介绍：<br>我们在网上浏览网页，需要一个web服务器，浏览网页的过程就是浏览器通过HTTP协议与WEB服务器 交互的过程。在过去，大多是静态网页，因此只须把资源放在WEB服务器上即可。如今随着应用的发展，客户与服务器需要动态的交互，为了实现这一目标，就需 要开发一个遵循HTTP协议的服务器端应用软件，来处理各种请求。那么servlet是一个基于java技术的WEB组件，运行在服务器端，我们利用 sevlet可以很轻松的扩展WEB服务器的功能，使它满足特定的应用需要。</li>
+<li>关于Servlet容器：<br>servlet由servlet容器管理，servlet容器也叫 servlet引擎，是servlet的运行环境，给发送的请求和响应之上提供网络服务。比如tomcat就是我们常用的一个servlet容器，其接受 客户端并做出响应的步骤如下：<blockquote>
+<p>1、客户端访问WEB服务器，发送HTTP求<br> 2、WEB服务器接收到请求后，传递给servlet容器<br> 3、servlet容器加载servlet，产生servlet实例，并向其传递表示请求和响应的对响<br> 4、servlet得到客户端的请求信息，并进行相应的处理<br> 5、servlet实例把处理结果发送回客户端，容器负责确保响应正确送出，同时将控制返回给WEB服务器</p>
+</blockquote>
+</li>
+<li>上述运行过程示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00045Servlet%E6%80%BB%E7%BB%931-01.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-Servlet类结构"><a href="#2-Servlet类结构" class="headerlink" title="2.Servlet类结构"></a>2.Servlet类结构</h2><hr>
+<h2 id="3-Servlet生命周期"><a href="#3-Servlet生命周期" class="headerlink" title="3.Servlet生命周期"></a>3.Servlet生命周期</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月22日 13:59</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/20/Servlet总结(一)：Servlet基本功能/" title="Servlet总结(一)：Servlet基本功能">https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/&title=《Servlet总结(一)：Servlet基本功能》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/&title=《Servlet总结(一)：Servlet基本功能》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Servlet总结(一)：Servlet基本功能》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/20/Servlet总结(一)：Servlet基本功能/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Servlet/" class="color3">Servlet</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料"><span class="post-toc-text">0.参考资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Servlet简介"><span class="post-toc-text">1.Servlet简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Servlet类结构"><span class="post-toc-text">2.Servlet类结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Servlet生命周期"><span class="post-toc-text">3.Servlet生命周期</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/21/Spring学习（三）：高级装配1/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/20/数据连接学习（二）：DBCP连接池的简单使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">数据连接学习（二）：DBCP连接池的简单使用</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -56,7 +56,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-38.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-39.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-40.jpg">
-<meta property="og:updated_time" content="2018-04-14T10:56:29.508Z">
+<meta property="og:updated_time" content="2018-04-22T04:31:04.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全">
 <meta name="twitter:description" content="0.参考资料：参考视频：《动力节点Redis视频教程》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html  1.Redis持久化及两种实现方式持久化简介  持久化可以理解">
@@ -332,7 +332,7 @@ sentinel parallel-syncs mymaster 1
 sentinel failover-timeout mymaster 18000
 #设置master和slaves验证密码
 sentinel auth-pass mymaster 123456
-</code></pre>清空并配置sentinel26380.conf如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-31-2.jpg" alt=""><br>清空并配置sentinel26381.conf如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-32-2.jpg" alt=""><br>注意哨兵的名字要不同。<br>sentinel26382.conf的配置和上面的相同：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-33-1.jpg" alt=""><br>所有的哨兵的<code>sentinel monitor mymaster 127.0.0.1 6380 2</code>配置必须是监视主服务器的。</li>
+</code></pre>清空并配置sentinel26380.conf如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-31-2.jpg" alt=""><br>清空并配置sentinel26381.conf如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-32-2.jpg" alt=""><br>sentinel26382.conf的配置和上面的相同：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-33-1.jpg" alt=""><br>所有的哨兵的<code>sentinel monitor mymaster 127.0.0.1 6380 2</code>配置必须是监视主服务器的。</li>
 <li>测试哨兵的故障转移：<br>首先开启三个Redis服务器对象及三个哨兵：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-34.jpg" alt=""><br>查看主从服务器是否异常：（up说明是正常的）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-35.jpg" alt=""><br>关闭6380的主服务器，隔几十秒再打开6381的客户端查看主从关系：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-36.jpg" alt=""><br>发现6381的服务器已经变成了主服务器,在/tmp中查看6380哨兵的日志如下(后半部分)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-37.jpg" alt=""><br>发现自动执行了转换，重新开启6380的客户端并且查看主从关系：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-38.jpg" alt=""><br>可能会有延时，刚打开时会出现依旧是主服务器但是没有从服务器的情况，等一会儿在次查看就好了。最后查看一下哨兵的配置文件，会发现有很多自动添加的配置，其实启动哨兵之后就添加了，不用管它：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00038Redis%E5%AD%A6%E4%B9%A05-39.jpg" alt=""><br>最后关闭的时候如果要保持目前的主从设置记得要先关闭哨兵，再关闭Redis服务。<br>不过也没啥关系，哨兵都会帮我们处理。</li>
 </ol>
 <p><strong>4)总结：</strong></p>
@@ -365,7 +365,7 @@ rename-command FLUSHDB &quot;&quot;     禁止FLUSHDB
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月14日 18:56</p>
+        <p>最后更新： 2018年04月22日 12:31</p>
         <p>原始链接： <a class="post-url" href="/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/" title="Redis学习笔记（五）：持久化，主从复制，高可用哨兵及安全">https://zjxkenshine.github.io/2018/04/13/Redis学习笔记（五）：持久化主从复制哨兵及安全/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -568,10 +568,10 @@ rename-command FLUSHDB &quot;&quot;     禁止FLUSHDB
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -604,7 +604,7 @@ rename-command FLUSHDB &quot;&quot;     禁止FLUSHDB
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.56px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.78px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 14.44px;">Redis</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>

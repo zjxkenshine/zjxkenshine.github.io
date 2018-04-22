@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring学习（四）：运行时值注入以及SpEL | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  运行时值注入的两种方式 属性占位符 Spring表达式语言：Spring Expression Language(SpEL)     1.运行时值注入简介 讨论依赖注入时更多的是只将一个Bean注入到另一个Bean的构造方法或者Setter方法中，通常指的是一个对象与另一个对象相关联。 依赖注入的另一个含义是将值注入到Bean">
+<meta name="keywords" content="Spring,Spring核心框架,SpEL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习（四）：运行时值注入以及SpEL">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  运行时值注入的两种方式 属性占位符 Spring表达式语言：Spring Expression Language(SpEL)     1.运行时值注入简介 讨论依赖注入时更多的是只将一个Bean注入到另一个Bean的构造方法或者Setter方法中，通常指的是一个对象与另一个对象相关联。 依赖注入的另一个含义是将值注入到Bean">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-03-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-05.jpg">
+<meta property="og:updated_time" content="2018-04-22T13:46:31.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习（四）：运行时值注入以及SpEL">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  运行时值注入的两种方式 属性占位符 Spring表达式语言：Spring Expression Language(SpEL)     1.运行时值注入简介 讨论依赖注入时更多的是只将一个Bean注入到另一个Bean的构造方法或者Setter方法中，通常指的是一个对象与另一个对象相关联。 依赖注入的另一个含义是将值注入到Bean">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（四）：高级装配2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring学习（四）：运行时值注入以及SpEL
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/J2EE框架/">J2EE框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考书籍：《Spring实战》(第四版)</p>
+</li>
+<li><p>内容概述：</p>
+<ul>
+<li>运行时值注入的两种方式</li>
+<li>属性占位符</li>
+<li>Spring表达式语言：<br>Spring Expression Language(SpEL)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-运行时值注入简介"><a href="#1-运行时值注入简介" class="headerlink" title="1.运行时值注入简介"></a>1.运行时值注入简介</h2><ol>
+<li>讨论依赖注入时更多的是只将一个Bean注入到另一个Bean的构造方法或者Setter方法中，通常指的是一个对象与另一个对象相关联。</li>
+<li>依赖注入的另一个含义是将值注入到Bean的属性或者构造函数的参数中。</li>
+<li>可以使用的方式(但是太不灵活，只是固定的)：<pre><code>@Bean
+public Music newmusic(){
+    return new NewMusic(&quot;happy&quot;,&quot;kenshine&quot;);
+}
+</code></pre>xml：<pre><code>&lt;bean id=&quot;happyMusic&quot; class=&quot;chap2.HappyMusic&quot; c:song=&quot;happy&quot; c:singer=&quot;kenshine&quot;&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>如果是一个变量值需要注入到Bean中该怎么做呢?<br>有两种方式：<ul>
+<li>属性占位符</li>
+<li>Spring表达式语句(SpEL)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-使用Environment注入外部值"><a href="#2-使用Environment注入外部值" class="headerlink" title="2.使用Environment注入外部值"></a>2.使用Environment注入外部值</h2><p><strong>1)使用Environment从外部属性源读取：</strong><br>处理外部值最简单的方式就是声明属性源并用Environment检索属性。</p>
+<ol>
+<li>创建Movie的实现类GoodMovie：<pre><code>public class GoodMovie implements Movie {
+    private String name;
+    public GoodMovie(String name) {
+        this.name = name;
+    }
+    @Override
+    public void play() {
+        System.out.println(&quot;Playing goodMovie &quot;+name);
+    }
+}
+</code></pre></li>
+<li>在src/main/resources创建mov.properties，内容如下:<pre><code>mov_name = 007
+</code></pre></li>
+<li>创建GoodMusicConfig.java内容如下：<pre><code>@Configuration
+@PropertySource(&quot;classpath:mov.properties&quot;)    //声明属性注入源
+public class GoodMovieConfig {
+    @Autowired
+    Environment env;
+    @Bean
+    @Qualifier(&quot;goodMovie&quot;)
+    public Movie GoodMovie(){
+        return new GoodMovie(env.getProperty(&quot;mov_name&quot;));  //evn检索并获取属性值
+    }
+}
+</code></pre>通过getProperty()方法来获取属性文件中的属性。</li>
+<li>修改MoviePlayer如下：<pre><code>@Component
+public class MoviePlayer implements MediaPlayer{
+    @Autowired
+    @Qualifier(&quot;goodMovie&quot;)
+    public Movie movie;
+    @Override
+    public void play() {
+        movie.play();
+    }
+}
+</code></pre>MoviePlayerConfig配置类代码：<pre><code>@Configuration
+@ComponentScan(basePackageClasses=MoviePlayer.class)
+public class MoviePlayerConfig {
+}
+</code></pre></li>
+<li>测试代码：<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=MoviePlayerConfig.class)
+public class MoviePlayerTest {
+    @Autowired
+    private MoviePlayer moviePlayer;
+    @Test
+    public void play(){
+        moviePlayer.play();
+    }
+}
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-01.jpg" alt=""></li>
+</ol>
+<p><strong>2)深入理解Environment：</strong></p>
+<ol>
+<li>打开Environment时会发现它是一个接口，并有以下关联的类，接口：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-02.jpg" alt=""></li>
+<li><p>上面使用的方法类中Environment的父接口PropertyResolver，代码如下：</p>
+<pre><code>public interface PropertyResolver {
+    //属性是否存在
+    boolean containsProperty(String key);
+    //获取属性(未定义不报错)
+    String getProperty(String key);
+
+    String getProperty(String key, String defaultValue);
+
+    &lt;T&gt; T getProperty(String key, Class&lt;T&gt; targetType);
+
+    &lt;T&gt; T getProperty(String key, Class&lt;T&gt; targetType, T defaultValue);
+
+    @Deprecated
+    &lt;T&gt; Class&lt;T&gt; getPropertyAsClass(String key, Class&lt;T&gt; targetType);
+    //获取属性(未定义报错)
+    String getRequiredProperty(String key) throws IllegalStateException;
+
+    &lt;T&gt; T getRequiredProperty(String key, Class&lt;T&gt; targetType) throws IllegalStateException;
+
+    String resolvePlaceholders(String text);
+
+    String resolveRequiredPlaceholders(String text) throws IllegalArgumentException;
+}
+</code></pre><p>可以发现有getProperty方法有四个重载形式，所以可以使用。</p>
+</li>
+<li>其余三个重载getProperties()方法的介绍<br><code>String getProperty(String key, String defaultValue)</code>：指定属性不存在时会使用后面指定的默认值,如：<pre><code>env.getProperty(&quot;mov_name&quot;，&quot;TaiTanic&quot;)；
+</code></pre>使用这两个方法获得的值都是String类型的，而后面两个重载方法返回的值时泛型，不再局限于String类型，有时比较方便:<pre><code>&lt;T&gt; T getProperty(String key, Class&lt;T&gt; targetType);
+&lt;T&gt; T getProperty(String key, Class&lt;T&gt; targetType, T defaultValue);
+</code></pre></li>
+<li>其余方法介绍：<ul>
+<li>如果在该例子中mov_name属性不存在(未定义)，不会报错，会返回null;<br><code>getRequiredProperty(...)</code>方法：要求属性一定存在，不存在则报错。</li>
+<li><code>containsProperty(String key);</code>：属性是否存在或已定义。</li>
+<li><code>getPropertyAsClass(...)</code>:将属性解析为类并返回</li>
+</ul>
+</li>
+<li>接口自带的方法：<pre><code>public interface Environment extends PropertyResolver {
+    //返回激活的Profiles名称的数组
+    String[] getActiveProfiles();
+    //返回默认的profile名称的数组
+    String[] getDefaultProfiles();
+    //给定的Enviroment支持profiles,则返回true
+    boolean acceptsProfiles(String... profiles);
+}
+</code></pre></li>
+<li>关于Environment的总结：<br>使用Environment的方法还是很有好处的。<br>在Java配置中装配Bean的时候直接从Environment中检索属性是非常方便的。</li>
+<li>简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-03-1.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-属性占位符实现值注入"><a href="#3-属性占位符实现值注入" class="headerlink" title="3.属性占位符实现值注入"></a>3.属性占位符实现值注入</h2><p><strong>1)使用属性占位符：xml方式</strong></p>
+<ol>
+<li>Spring一直支持将属性定义到外部的属性文件中，并使用占位符将值插入到SpringBean中。<br>在Spring装配中使用${..}的方式包装属性。</li>
+<li>在XML配置文件中可以这么写：<pre><code>&lt;context:property-placeholder location=&quot;classpath*:mov.properties&quot; /&gt;
+&lt;bean id=&quot;goodMovie&quot; class=&quot;chap3.GoodMovie&quot; c:name=&quot;${mov_name}&quot;&gt;&lt;/bean&gt;
+</code></pre><code>&lt;context:property-placeholder&gt;</code>标签生成了一个ProPertySourcePlaceholderConfigurer Bean。<br>该类能够基于Spring Enviroment及其属性源来解析占位符。<br>location属性指定属性源。</li>
+<li><code>&lt;context:property-placeholder location=&quot;classpath*:mov.properties&quot; /&gt;</code>是配置一个数据源，也可以使用以下方式：<pre><code>&lt;bean id=&quot;propertyConfigurer&quot;class=&quot;org.springframework.beans.factory.config.PropertySourcesPlaceholderConfigurer&quot;&gt;
+   &lt;property name=&quot;location&quot;&gt;
+     &lt;value&gt;mov.properties&lt;/value&gt;
+   &lt;/property&gt;
+    &lt;property name=&quot;fileEncoding&quot;&gt;
+      &lt;value&gt;UTF-8&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>配置多个数据源可以这么写：<pre><code>&lt;bean id=&quot;propertyConfigurer&quot;class=&quot;org.springframework.beans.factory.config.PropertySourcesPlaceholderConfigurer&quot;&gt;  
+    &lt;property name=&quot;locations&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;/WEB-INF/mail.properties&lt;/value&gt;  
+            &lt;value&gt;classpath: conf/sqlmap/jdbc.properties&lt;/value&gt;//注意这两种value值的写法
+         &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>Spring3.2之后推荐使用PropertySourcesPlaceholderConfigurer。</li>
+</ol>
+<p><strong>2)使用属性占位符：Java方式</strong></p>
+<ol>
+<li>使用@Value标签，用法与@Autowired类似：<br>在GoodMovie中使用。<br>用法一：<pre><code>@Component
+@Qualifier(&quot;goodMovie&quot;)
+public class GoodMovie implements Movie {
+    private String name;
+    public GoodMovie(@Value(&quot;${mov_name}&quot;) String name) {
+        this.name = name;
+    }
+    @Override
+    public void play() {
+        System.out.println(&quot;Playing goodMovie &quot;+name);
+    }
+}
+</code></pre>用法二：<pre><code>@Value(&quot;${mov_name}&quot;)
+private String name;
+</code></pre>还可以用在Setter方法上。</li>
+<li>将MoviePlayerConfig.java修改如下：<pre><code>@Configuration
+@ComponentScan(basePackageClasses=MoviePlayer.class)
+@PropertySource(&quot;classpath:mov2.properties&quot;)    //声明属性注入源
+public class MoviePlayerConfig {
+    @Bean
+    public PropertySourcesPlaceholderConfigurer configurer(){
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+}
+</code></pre>mov2.properties的mov_name是008。<br>也可以在GoodMovieConfig.Java中配置。</li>
+<li>测试类和上面的相同。<br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-04.jpg" alt=""></li>
+<li>为了使用占位符最好加上加上PropertySourcesPlaceholderConfigurer的Bean配置。(或PropertylaceholderConfigurer)<br>注意spring3.2以后推荐使用PropertySourcesPlaceholderConfigurer。<br>(3.1及以前使用PropertylaceholderConfigurer)</li>
+<li>简单的理解：<br>只要使用<code>${属性}</code>然后在任意一个地方声明数据源到Enviroment就可以了。<br>最好加上PropertySourcesPlaceholderConfigurer的Bean配置。<br>可能使用了@PropertySource注解就不需要PropertySourcesPlaceholderConfigurer的Bean配置了。</li>
+</ol>
+<p><strong>3)PropertySourcesPlaceholderConfigurer工作原理：</strong><br>暂时看不懂，可以参考大佬的博客：<br><a href="https://blog.csdn.net/xczzmn/article/details/77744627" target="_blank" rel="noopener">Spring PropertySourcesPlaceholderConfigurer工作原理</a></p>
+<hr>
+<h2 id="4-SpEL表达式的简单使用"><a href="#4-SpEL表达式的简单使用" class="headerlink" title="4.SpEL表达式的简单使用"></a>4.SpEL表达式的简单使用</h2><ol>
+<li>Spring3引入了Spring的表达式语言，能够以一种强大和简洁的方式将值装配到Bean属性和构造器参数中，在这个过程中使用的表达式会在计算是计算的到值。</li>
+<li>SpEL拥有很多特性：<ul>
+<li>使用bean的ID来引用bean;</li>
+<li>调用方法和访问对象的属性；</li>
+<li>对值进行算术，关系和逻辑运算；</li>
+<li>正则表达式匹配；</li>
+<li>操作集合。</li>
+</ul>
+</li>
+<li>除了这些基本用法外SpEL还可以用在依赖注入的其他地方。如Spring Scurity支持使用SpEL定义安全限制规则，在Spring MVC中可以引用Thymeleaf数据。</li>
+</ol>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><p><strong>1)SpEL基础知识,基本用法：</strong></p>
+<ol>
+<li>基本用法：<code>#{..}</code><br>和占位符的<code>${..}</code>类似<br>如最简单的常量值：<code>#{1}</code></li>
+<li>比较特别一点的：<br><code>#{T(System).currentTimeMillis}</code><br>T()表示里面是java的类，这句话相当于注入了System.currentTimeMillis的值。</li>
+<li>也可以引用其他bean或者属性：<br><code>#{goodMethod.name}</code><br>还可以通过systemProperties对象引用系统属性：<br><code>#{systemProperties[&#39;mov_name&#39;]}</code></li>
+<li>这只是一些简单的例子，后面还会涉及更多。</li>
+</ol>
+<p><strong>2)在Bean装配时使用这些表达式：</strong></p>
+<ol>
+<li>在Java类中，需要搭配@Value注解来使用：<pre><code>public GoodMovie(@Value(&quot;#{systemProperties[&apos;mov_name&apos;]}&quot;) String name) {
+    this.name = name;
+}
+</code></pre></li>
+<li>也可以在XML中配置Bean：<pre><code>&lt;bean id=&quot;goodMovie&quot; class=&quot;chap3.GoodMovie&quot; 
+c:name=&quot;#{systemProperties[&apos;mov_name&apos;]}&quot;&gt;
+&lt;/bean&gt;
+</code></pre>或者使用<code>&lt;constructor-arg&gt;</code>标签或者<code>&lt;properity&gt;</code>标签的value属性。</li>
+<li>以上的配置可以直接从系统属性中获得mov_name的值并注入到bean中。</li>
+<li>关于系统属性：<br>系统属性是以键值对的方式存储的。<br>可以使用System.getProperties()来查看，真的很多，我就不贴了。<br>也可以使用如下代码来格式化查看：<pre><code>Properties props=System.getProperties();
+ Iterator iter=props.keySet().iterator();
+ while(iter.hasNext())
+ {
+ String key=(String)iter.next();
+ System.out.println(key+&quot; = &quot;+ props.get(key));
+ }
+}
+</code></pre></li>
+<li>设置系统属性：<br>可以使用：<pre><code>System.setProperty(&quot;key&quot;,&quot;value&quot;);
+</code></pre></li>
+</ol>
+<h3 id="字面值-引用bean-属性及方法"><a href="#字面值-引用bean-属性及方法" class="headerlink" title="字面值,引用bean,属性及方法"></a>字面值,引用bean,属性及方法</h3><p><strong>1)字面值：</strong></p>
+<ol>
+<li>SpEL可以用来表示浮点数，String以及Boolean值。</li>
+<li>简单例子：<br>浮点：<pre><code>#{3.1415...}
+</code></pre>使用科学计数法：<pre><code>#{9.8E4}
+</code></pre>计算String类型的字面值：<pre><code>#{&apos;Hello&apos;}
+</code></pre>将true,false转换为对应的boolean类型：<pre><code>#{true}
+</code></pre></li>
+<li>SpEL在使用字面量时没有什么意义，一般是用在复杂的表达式中。</li>
+</ol>
+<p><strong>2)引用Bean，属性和方法：</strong></p>
+<ol>
+<li>通过ID来引用其他Bean：<pre><code>#{goodMovie}
+</code></pre>还可以使用bean的属性(如goodMovie的name)：<pre><code>#{goodMovie.name}
+</code></pre></li>
+<li>调用bean的方法：<pre><code>#{goodMovie.getName()}
+</code></pre>甚至可以调用方法返回值类的方法：<pre><code>#{goodMovie.getName().trim().toUpperCase()...}
+</code></pre></li>
+<li>如果上面的方法返回值时null就会出错，所以可以使用类型安全的运算符<code>?.</code>：<br>如：<pre><code>#{goodMovie.getName()?.trim()?.toUpperCase()...}
+</code></pre>这样如果返回值时null就不会执行后面的代码而是直接放回null。</li>
+</ol>
+<h3 id="使用类型及运算符"><a href="#使用类型及运算符" class="headerlink" title="使用类型及运算符"></a>使用类型及运算符</h3><p><strong>1)在表达式中使用类型：</strong></p>
+<ol>
+<li>使用<code>T()</code>方法，如：<pre><code>T(java.lang.Math)
+</code></pre>会返回一个class对象，可以将其注入到一个Bean中。<br>但是最主要的功能是可以使用该类中的静态方法以和常量。</li>
+<li>如将PI的值装配到Bean中：<pre><code>#{T(java.lang.Math).PI}
+</code></pre>随机数：<pre><code>#{T(java.util.Random).random}
+</code></pre></li>
+</ol>
+<p><strong>2）SpEL运算符：</strong></p>
+<ol>
+<li>简单图示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00046Spring%E5%AD%A6%E4%B9%A04-05.jpg" alt=""></li>
+<li>求圆周长：2πr<pre><code>#{2*T(java.lang.Math).PI*circle.radius}
+</code></pre>求圆面积：πr^2<pre><code>#{T(java.lang.Math).PI*circle.radius^2}
+</code></pre></li>
+<li>连接字符串：+<pre><code>#{&apos;name=&apos;+name}
+</code></pre>判断是否相等：<br><code>#{a==b}</code>或者<code>#{a eq b}</code></li>
+<li>三元运算符：<pre><code>#{a&gt;b?1:0}
+</code></pre>三元运算符经常会用于检测null，并使用默认值代替null：<pre><code>#{name?:default}
+</code></pre></li>
+</ol>
+<h3 id="处理正则表达式与集合"><a href="#处理正则表达式与集合" class="headerlink" title="处理正则表达式与集合"></a>处理正则表达式与集合</h3><p><strong>1）计算正则表达式：</strong></p>
+<ol>
+<li>需要使用matches运算符：<code>String matches 正则表达式</code></li>
+<li>如：<pre><code>#{name match [a-z]}
+</code></pre></li>
+<li>更多的正则表达式的语法有空在整理。</li>
+</ol>
+<p><strong>2)操作数组与集合：</strong></p>
+<ol>
+<li>引用数组中的一个元素：<pre><code>#{songs[4].play()}
+</code></pre>还可以加一些复杂的运算：<pre><code>#{songs[T(java.lang.Math).random()*songs.length()].singer}
+</code></pre></li>
+<li><code>[]</code>运算符从集合或者数组按照索引获取元素。还可以获取字符串的字符：<pre><code>#{&apos;hello world&apos;[4]} //0
+</code></pre></li>
+<li>SpEL甚至还能对集合进行过滤，通过查询运算符<code>.?[]</code>：<pre><code>#{songs.?[singer==&apos;kenshine&apos;]}
+</code></pre>上面的查询运算符是查询全部的。SpEL还有查询首个和查询最后一个的查询：<br><code>.^[]</code>(首)和<code>.$[]</code>(末)<br>如查询第一首歌手是kenshine的歌：<pre><code>#{songs.^[singer=&apos;kenshine&apos;]}
+</code></pre></li>
+<li>SpEL甚至还提供了一个我听都没听说过的投影运算符：<code>.![]</code><br>它会从集合中的每个成员中选择特定的属性放到另一个集合中。<br>如：获取kenshine的所有歌曲列表<pre><code>#{songs.?[singer==kenshine].![title]}
+</code></pre>而对上述得出的集合又可以进行上面的所有操作。</li>
+</ol>
+<p><strong>3)SpEL总结：</strong><br>这些只是SpEL的皮毛，更多的SpEL操作以后再深入学习了。</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月22日 21:46</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/22/Spring学习（四）：高级装配2/" title="Spring学习（四）：运行时值注入以及SpEL">https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/&title=《Spring学习（四）：运行时值注入以及SpEL》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/&title=《Spring学习（四）：运行时值注入以及SpEL》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（四）：运行时值注入以及SpEL》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/22/Spring学习（四）：高级装配2/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
+    <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
+      
+    <a href="/tags/SpEL/" class="color5">SpEL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-运行时值注入简介"><span class="post-toc-text">1.运行时值注入简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-使用Environment注入外部值"><span class="post-toc-text">2.使用Environment注入外部值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-属性占位符实现值注入"><span class="post-toc-text">3.属性占位符实现值注入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SpEL表达式的简单使用"><span class="post-toc-text">4.SpEL表达式的简单使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用示例"><span class="post-toc-text">使用示例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字面值-引用bean-属性及方法"><span class="post-toc-text">字面值,引用bean,属性及方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用类型及运算符"><span class="post-toc-text">使用类型及运算符</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#处理正则表达式与集合"><span class="post-toc-text">处理正则表达式与集合</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/22/Java工程师修炼之路/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java工程师修炼之路</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 13.75px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
