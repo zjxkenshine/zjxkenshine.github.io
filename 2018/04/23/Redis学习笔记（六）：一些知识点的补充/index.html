@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（六）：一些知识点的复习及补充 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.参考资料：参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html 记录一些动力节点的视频未涉及到的知识点。  1.Redi">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（六）：一些知识点的复习及补充">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.参考资料：参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html 记录一些动力节点的视频未涉及到的知识点。  1.Redi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-34.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-35.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-36.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-37.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-38.jpg">
+<meta property="og:updated_time" content="2018-04-23T15:31:01.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（六）：一些知识点的复习及补充">
+<meta name="twitter:description" content="0.参考资料：参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html 记录一些动力节点的视频未涉及到的知识点。  1.Redi">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（六）：一些知识点的补充" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（六）：一些知识点的复习及补充
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-参考资料："><a href="#0-参考资料：" class="headerlink" title="0.参考资料："></a>0.参考资料：</h2><p>参考视频：慕课网教程《Redis从入门到高可用》<br>参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a><br>w3cschoolRedis教程：<a href="https://www.w3cschool.cn/redis/nma27f21.html" target="_blank" rel="noopener">https://www.w3cschool.cn/redis/nma27f21.html</a></p>
+<p>记录一些动力节点的视频未涉及到的知识点。</p>
+<hr>
+<h2 id="1-Redis基础知识的补充"><a href="#1-Redis基础知识的补充" class="headerlink" title="1.Redis基础知识的补充"></a>1.Redis基础知识的补充</h2><p><strong>1)基础补充：</strong></p>
+<ol>
+<li>五种基本数据结构的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-01.jpg" alt=""></li>
+<li>Redis的特点：<ul>
+<li>速度快</li>
+<li>持久化</li>
+<li>多数据结构(5种基本+扩展)</li>
+<li>支持多种客户端</li>
+<li>功能丰富</li>
+<li>简单</li>
+<li>主从复制</li>
+<li>高可用(Sentinel哨兵)</li>
+<li>分布式(Redis Cluster)</li>
+</ul>
+</li>
+<li>典型应用场景：<ul>
+<li>缓存系统</li>
+<li>计数器</li>
+<li>消息队列系统</li>
+<li>排行榜(ZSET有序集合)</li>
+<li>社交网络(计数器的功能)</li>
+<li>实时系统(位图，过滤垃圾邮件等)</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)Redis特点补充：</strong></p>
+<ol>
+<li>Redis速度快的原因：<ul>
+<li>数据存储在内存中，读写非常快。(主要原因)</li>
+<li>使用C语言编写，离操作系统层近，而且代码水平高。</li>
+<li>使用单线程–&gt;内存模型中使用非常快。</li>
+</ul>
+</li>
+<li>计算机介质的速度图示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-02.jpg" alt=""><br>内存与硬盘的对比：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-03.jpg" alt=""></li>
+<li>Redis的扩展数据结构：<ul>
+<li>BitMap：位图，用很小的内存实现高效存储。</li>
+<li>HyperLogLog：使用非常小的内存(12k)来统计基数。</li>
+<li>GEO：Redis3.2，地理信息位置的定位。</li>
+</ul>
+</li>
+<li>Redis的多功能简介：<ul>
+<li>发布订阅</li>
+<li>事务</li>
+<li>Lua脚本</li>
+<li>pipeline</li>
+</ul>
+</li>
+<li>Redis的简单的体现：<ul>
+<li>单机Redis只有23000行代码(集群分布式50000行)</li>
+<li>不依赖外部库</li>
+<li>单线程模型(开发容易)</li>
+</ul>
+</li>
+<li>主从复制示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-04.jpg" alt=""></li>
+</ol>
+<p><strong>3)Redis的安装及启动的补充：</strong></p>
+<ol>
+<li>Linux下Redis的安装：<ul>
+<li>下载：<code># wget http://download.redis.io/releases/redis-4.0.9.tar.gz</code></li>
+<li>解压：<code># tar xzf redis-4.0.9.tar.gz</code></li>
+<li>设置软连接（方便升级）：<code># ln -s redis-4.0.9 redis</code></li>
+<li>进入软连接目录：<code># cd redis</code></li>
+<li>编译：<code># make</code></li>
+<li>安装：<code># make install</code></li>
+</ul>
+</li>
+<li>可执行文件的说明：<ul>
+<li>redis-server：redis服务器</li>
+<li>redis-cli：redis命令行客户端</li>
+<li>redis-benchmark：redis性能测试工具</li>
+<li>redis-check-aof：AOF文件检测修复工具</li>
+<li>redis-check-rdb：RDB文件检测修复工具</li>
+<li>redis-sentinel：高可用哨兵工具</li>
+</ul>
+</li>
+<li>redis的三种启动方式：<ul>
+<li>最简启动：<code># redis-server</code></li>
+<li>动态参数启动：<code># redis-server --port 端口</code></li>
+<li>配置文件启动：<code># redis-server 配置文件</code></li>
+</ul>
+</li>
+<li>验证是否启动：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-05.jpg" alt=""></li>
+<li>三种启动方式的区别：<ul>
+<li>生产环境选择配置文件启动</li>
+<li>单机多实例配置文件可以使用端口区分开</li>
+</ul>
+</li>
+<li>启动客户端：<ul>
+<li>本地Redis：<code># redis-cli</code></li>
+<li>指定ip及端口：<code># redis-cli -h ip -p port</code></li>
+<li>有密码：<code># redis-cli -h ip -p port -a &quot;密码&quot;</code></li>
+</ul>
+</li>
+<li>客户端返回值:<ul>
+<li>状态回复：PING–&gt;PONG</li>
+<li>错误回复：(error)….</li>
+<li>整数回复：(integer) 1</li>
+<li>字符串回复：”hello”</li>
+<li>多行字符串回复：执行mget的返回值等</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)Redis的常用配置：</strong></p>
+<ol>
+<li>Redis的常用配置:redis.conf中的配置<ul>
+<li>daemonize：是否以守护线程方式(后台方式)启动（默认是no,建议使用yes）</li>
+<li>port：端口，默认6379</li>
+<li>logfile：日志输出文件</li>
+<li>dir：redis的工作目录</li>
+</ul>
+</li>
+<li>可以在客户端使用<code>config get *</code>或者直接访问redis.conf文件来查看配置。</li>
+<li>还有很多的配置，后面章节会介绍：<ul>
+<li>AOF的配置</li>
+<li>RDB的配置</li>
+<li>慢查询的配置</li>
+<li>最大内存的配置<br>。。。</li>
+</ul>
+</li>
+<li>查看所有配置的方式：(去注释,去空格)<pre><code># cat redis.conf| grep -v &quot;#&quot; | grep -v &quot;^$&quot; 
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-06.jpg" alt=""></li>
+<li>将上述结果重定向到另一个配置文件则可以方便配置,如：<pre><code># cat redis.conf| grep -v &quot;#&quot; | grep -v &quot;^$&quot; &gt; redis6666.conf
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="2-Redis-API使用和理解"><a href="#2-Redis-API使用和理解" class="headerlink" title="2.Redis API使用和理解"></a>2.Redis API使用和理解</h2><p>通用命令以及五种基本数据结构的操作</p>
+<h3 id="通用命令，数据结构编码及单线程架构"><a href="#通用命令，数据结构编码及单线程架构" class="headerlink" title="通用命令，数据结构编码及单线程架构"></a>通用命令，数据结构编码及单线程架构</h3><p><strong>1)通用命令和内部编码：</strong></p>
+<ol>
+<li>通用命令：<ul>
+<li>keys：遍历该数据库的所有键</li>
+<li>dbsize：数据库大小(key的总数)</li>
+<li>exists key：key是否存在</li>
+<li>del key [key,key…]：删除key</li>
+<li>expire key：设置key的过期时间（second级）</li>
+<li>ttl key：查看key的过期时间(-1：永久存在；-2或0：不存在)</li>
+<li>persist key：去掉key的过期时间</li>
+<li>type key：key的类型(none:不存在)</li>
+</ul>
+</li>
+<li>注意事项：<ul>
+<li>keys命令一般不在生成环境中使用，会比较慢。时间复杂度为O(n)。</li>
+<li>生产环境一般使用scan命令。</li>
+<li>keys命令可以在从节点(slave)使用。</li>
+<li>dbsize，exists key的复杂度为O(1),可在生产环境使用。</li>
+</ul>
+</li>
+<li>各命令的时间复杂度：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-07.jpg" alt=""></li>
+<li>5种基本数据结构内部编码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-08.jpg" alt=""><br>redis内部数据结构：redisObject<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-09.jpg" alt=""><br>用户可以不知道编码方式的改变，只需要知道如何使用基本类型就可以了。</li>
+</ol>
+<p><strong>2)单线程架构：</strong></p>
+<ol>
+<li>单线程架构：<br>串行执行：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-10.jpg" alt=""><br>在一个瞬间只会执行一条命令。</li>
+<li>为什么Redis的单线程这么快：<ul>
+<li>纯内存(主要原因）</li>
+<li>非阻塞I/O:epoll实现IO多路复用，并且将epoll的读写，连接关闭转换为自身的事件来提高读写速度。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-11.jpg" alt=""></li>
+<li>避免线程切换和竞态消耗。</li>
+</ul>
+</li>
+<li>单线程的表现：<ul>
+<li>一次只执行一条命令。</li>
+<li>拒绝执行长(慢)的命令。</li>
+<li>执行某些操作时会额外产生一个线程来执行：<br><code>fysnc file dicriptor</code>,<code>close file dicriptor</code>等</li>
+</ul>
+</li>
+</ol>
+<h3 id="五种基本数据结构"><a href="#五种基本数据结构" class="headerlink" title="五种基本数据结构"></a>五种基本数据结构</h3><p><strong>1)字符串：</strong></p>
+<ol>
+<li>字符串的value不止可以存字符串，还可以是以下的类型，会自动转换：<ul>
+<li>整型</li>
+<li>二进制</li>
+<li>json</li>
+</ul>
+</li>
+<li>字符串value的最大限制：512MB<br>一般的键值对建议在100K以内。(需要考虑一些二级数据结构)</li>
+<li>使用场景：<ul>
+<li>缓存</li>
+<li>计数器</li>
+<li>分布式锁</li>
+</ul>
+</li>
+<li>常用命令及时间复杂度：<ul>
+<li>get,set：时间复杂度O(1)</li>
+<li>del：O(1)</li>
+<li>incr,decr：自增，自减一，O(1)</li>
+<li>incrby key k,decrby key k：自增自减k，O(1)</li>
+<li>setnx：不存在才设置，O(1)</li>
+<li>setxx：key存在才设置，O(1)</li>
+<li>mget，mset：批量的原子操作。O(n)</li>
+</ul>
+</li>
+<li>其他命令：<ul>
+<li>getset：设置新值并返回老值。O(1)</li>
+<li>append：追加值。O(1)</li>
+<li>strlen：返回字符串长度，注意中文。O(1)</li>
+<li>incrbyfloat：浮点型自增。O(1)</li>
+<li>getrange key start end：获取指定下标的值。O(1)</li>
+<li>setrange key index value：设置指定下标所对应的值。O(1)</li>
+</ul>
+</li>
+<li>incr id，计数器：<ul>
+<li>统计数量</li>
+<li>缓存信息</li>
+<li>分布式id生成的简单策略</li>
+</ul>
+</li>
+<li>重要命令的时间复杂度：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-12.jpg" alt=""></li>
+</ol>
+<p><strong>2)hash哈希键值结构：</strong></p>
+<ol>
+<li>基本结构：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-13.jpg" alt=""><br>key相当于一个表，而field则是一个String类型的字段，value是String类型的值。</li>
+<li>常用方法：<ul>
+<li>hget,hset,hdel filed value：获取，设置，删除field的值，O(1)。</li>
+<li>hexist key field：key中是否存在field,O(1)。</li>
+<li>hlen：key中的field数量，O(1)。</li>
+<li>hmget,hmset key field1 [value1]…：批量获取，添加，O(n)。</li>
+<li>hincr,hincrby：计数器，O(1)。</li>
+</ul>
+</li>
+<li>其他方法：<ul>
+<li>hgetall key：返回该key所有的field-value,O(n)。O(n)的都慎用。</li>
+<li>hvals：返回所有的值，values,O(n)。</li>
+<li>hkeys：返回所有的fields,O(n)。</li>
+<li>hsetnx：不覆盖设置，O(1)。</li>
+<li>hincreby,hincrebyfloat：O(1)。</li>
+</ul>
+</li>
+<li>hash的内部编码：<ul>
+<li>hashtable：默认的编码</li>
+<li>ziplist：达到某一个值时使用，会节省非常多的空间。</li>
+</ul>
+</li>
+<li>hash无法设置field的过期时间。</li>
+<li>重要命令的总结：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-14.jpg" alt=""></li>
+</ol>
+<p><strong>3)list列表：</strong></p>
+<ol>
+<li>基本结构：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-15.jpg" alt=""></li>
+<li>特点：<br>有序，可重复，可从左右进行插入弹出。</li>
+<li>重要命令：<ul>
+<li>lpush,rpush：从左边，右边添加,O(1~n)。</li>
+<li>lpop,rpop：从左边，右边删除并返回值，O(1~n)。</li>
+<li>linsert key before|after oldvalue newvalue：插入，O(n)。</li>
+<li>lrem key count value：删除特定数量的重复元素，O(n)。</li>
+<li>ltrim key begin end：保留索引范围的值，O(n)。</li>
+<li>lrange key begin end：查询索引范围中的列表，O(n)。</li>
+<li>lindex：按指定索引获取元素，O(n)。</li>
+<li>llen：获取列表长度，O(1)。</li>
+<li>lset key index newValue：将指定索引的值修改，O(n)。</li>
+</ul>
+</li>
+<li>不太常用的命令：<ul>
+<li>blpop,brpop：阻塞版的删除，O(1)</li>
+<li>rpoplpush,brpoplpush：rpop+lpush。</li>
+</ul>
+</li>
+<li>命令组合使用的口诀：<ul>
+<li>LPUSH+LPOP = Stack栈</li>
+<li>RPUSH+RPOP = Queue队列</li>
+<li>LPUSH+LTRIM = 固定数量的集合</li>
+<li>LPUSH+BRPOP = 消息队列</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)Set集合：</strong></p>
+<ol>
+<li>集合示意图(模型)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-16.jpg" alt=""></li>
+<li>集合的特点：<ul>
+<li>无序</li>
+<li>不重复</li>
+<li>支持集合间的操作：交，差，并集</li>
+</ul>
+</li>
+<li>集合内的API：<ul>
+<li>sadd,srem：添加与删除命令。</li>
+<li>scard：计算集合元素个数。</li>
+<li>sismember：是否是元素。</li>
+<li>srandmember：从集合中随机查出n个元素，不删除。</li>
+<li>spop：从集合中随机弹出一个元素。</li>
+<li>smembers：获取集合所有元素，无序，少用。</li>
+<li>sscan：在生成环境中遍历集合。</li>
+</ul>
+</li>
+<li>集合间的API:<ul>
+<li>sdiff key1 key2：差集</li>
+<li>sinter key1 key2：交集</li>
+<li>sunion key1 key2：并集</li>
+<li>sdiff|sinter|sunion store deskey：将交，差，并结果保存在deskey中。</li>
+</ul>
+</li>
+<li>使用场景：<ul>
+<li>SADD :标签，分类等</li>
+<li>SPOP/SMEMBER：随机生成的一些场景</li>
+<li>SADD+SINTER：社交功能</li>
+</ul>
+</li>
+</ol>
+<p><strong>5)ZSet有序集合：</strong></p>
+<ol>
+<li>使用比较少(暂时)<br>结构：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-17.jpg" alt=""></li>
+<li>常用API：<ul>
+<li>zadd key score element：添加，可批量，score可重复，element不能重复，O(logn)。</li>
+<li>zrem key element：删除，可以多个，O(1)。</li>
+<li>zincrby key n element：增加或减少元素的分数n,O(1)。</li>
+<li>zcard：返回元素的个数,O(1)。</li>
+<li>zrank：返回有序集key中成员member的排名（从小到大）</li>
+<li>zrange：获取一定范围的索引的数据(按排名（从小到大）)，O((logn)+m)。</li>
+<li>zrangebyscore：获取指定分数范围的数据（从小到大），O((logn)+m)。</li>
+<li>zcount：返回指定范围内有多少人，O(1)。</li>
+<li>zremrangebyrank:按排名范围删除元素。</li>
+</ul>
+</li>
+<li>使用场景：<br>  排行榜</li>
+<li>其他命令：<ul>
+<li>zrevrank：返回有序集key中成员member的排名(从大到小)，O(log(N))。</li>
+<li>zrevrange，zrevrangebyscore：和上面的差不多，只是从大到小排序。</li>
+<li>zinterstore：交集并存储</li>
+<li>zunionstore：并集并存储</li>
+</ul>
+</li>
+<li>总结:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-18.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-持久化的复习及补充"><a href="#3-持久化的复习及补充" class="headerlink" title="3.持久化的复习及补充"></a>3.持久化的复习及补充</h2><p><strong>1)持久化的作用</strong></p>
+<ol>
+<li>持久化：<br>redis所有数据保存在内存中，对数据的更新将会异步保存在磁盘上。</li>
+<li>持久化方式：<ul>
+<li>快照：将数据拷贝保存进行备份，redis的rdb。</li>
+<li>写日志：重新执行一遍操作，redis的aof。</li>
+</ul>
+</li>
+</ol>
+<h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p><strong>1)简介及前两种触发方式：</strong></p>
+<ol>
+<li>RDB简介：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-19.jpg" alt=""><br>备份的是完整的数据，快照。</li>
+<li>三种生成RDB文件的方式：<ul>
+<li>save命令：同步命令，会产生阻塞</li>
+<li>bgsave命令：异步命令</li>
+<li>自动触发：达到某些条件自动生成RDB文件</li>
+</ul>
+</li>
+<li>三种触发方式测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-20.jpg" alt=""><br>save返回的是ok,而bgsave则告诉你启动了</li>
+<li>save：<br>文件策略：存在老的RBD则用新的替换。<br>复杂的：O(n)</li>
+<li>bgsave：<br>会fork一个子进程来执行bgsave操作。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-21.jpg" alt=""><br>文件策略以及时间复杂度和save命令相同。</li>
+<li>save与bgsave对比:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-22.jpg" alt=""></li>
+</ol>
+<p><strong>2）自动生成RDB文件及RDB触发机制</strong></p>
+<ol>
+<li>自动生成RDB文件。<br>只需要修改配置文件即可(详细查看之前的Redis学习笔记5)<br>补充配置：<pre><code># bgsave出错是否暂停配置
+stop-write-on-bgsave-error yes
+# 是否使用压缩
+rdbcompression yes
+# 是否检测rdb
+rdbchecksum yes
+</code></pre></li>
+<li>最佳配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-23.jpg" alt=""><br>将配置的save都删掉。(会太频繁的生成)<br>通常不会使用自动配置的rdb。</li>
+<li>RDB触发机制：<ul>
+<li>全量复制：主从复制中会使用</li>
+<li>debug reload：进行debug级别的重启(不清空内存)</li>
+<li>shutdown：关机</li>
+</ul>
+</li>
+</ol>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><p><strong>1)RDB的问题及AOF简介：</strong></p>
+<ol>
+<li>rdb的问题:<ul>
+<li>容易丢失数据：未保存时死机就会丢失数据。</li>
+<li>耗时，性能不好：将redis的所有数据dump到硬盘。</li>
+</ul>
+</li>
+<li>AOF：<br>将改变数据的命令记录到日志中，然后恢复时执行这些目录。</li>
+</ol>
+<p><strong>2)AOF的三种策略：</strong></p>
+<ol>
+<li>对应了配置文件中的三种属性：<ul>
+<li>always：执行的每条命令都fsync到aof文件</li>
+<li>everysec：每秒更新一次aof文件的命令(通常使用)</li>
+<li>no：操作系统决定什么时候更新aof文件(一般不使用)</li>
+</ul>
+</li>
+<li>三种策略的比较：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-24.jpg" alt=""></li>
+</ol>
+<p><strong>3)AOF重写，优化：</strong></p>
+<ol>
+<li>将过期的，没有用的，重复的，抵消的命令都进行化简，以压缩aof文件。</li>
+<li>重写的目的:<ul>
+<li>减少磁盘的占用量</li>
+<li>加快备份恢复的速度</li>
+</ul>
+</li>
+<li>重写的两种实现方式：<ul>
+<li>bgwriteaof：类似gbsave,执行即可。</li>
+<li>AOF重写的配置</li>
+</ul>
+</li>
+<li>重写配置及统计：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-25.jpg" alt=""><br>触发机制：<br>当前尺寸&gt;重写需要的尺寸<br>当前尺寸-上次尺寸/上次尺寸&gt;AOF文件增长率</li>
+<li>重写流程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-26.jpg" alt=""></li>
+<li>AOF详细配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-27.jpg" alt=""></li>
+</ol>
+<h3 id="RBD与AOF的权衡"><a href="#RBD与AOF的权衡" class="headerlink" title="RBD与AOF的权衡"></a>RBD与AOF的权衡</h3><ol>
+<li>RDB与AOF的比较：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-28.jpg" alt=""></li>
+<li>RDB的最佳策略：<ul>
+<li>减少使用(主从复制全量复制还是得使用)</li>
+<li>集中管理：集中备份</li>
+<li>主从备份时需要在从节点开一个RDB</li>
+</ul>
+</li>
+<li>AOF的最佳策略：<ul>
+<li>开：缓存和存储</li>
+<li>AOF重写的集中处理</li>
+<li>使用everysrc的策略</li>
+</ul>
+</li>
+<li>通用策略：<ul>
+<li>小分片：使用maxmemory来管理</li>
+<li>根据存储与缓存的特性来使用那种策略</li>
+<li>需要监控(硬盘，内存，负载，网络)</li>
+<li>准备足够的内存</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-持久化常见的问题及处理优化"><a href="#4-持久化常见的问题及处理优化" class="headerlink" title="4.持久化常见的问题及处理优化"></a>4.持久化常见的问题及处理优化</h2><p><strong>1)fork操作及改善：</strong></p>
+<ol>
+<li>fork操作介绍：<ul>
+<li>同步操作：会产生阻塞</li>
+<li>与内存量有关，内存越大，耗时越长(与机器类型有关)</li>
+<li>info：last_fork_usec<br>可查看上一次fork操作所执行的微秒数。</li>
+</ul>
+</li>
+<li>改善fork:<ul>
+<li>优先使用虚拟机或者高效支持fork的虚拟技术</li>
+<li>控制redis实例化最大使用内存：maxmemory</li>
+<li>合理配置Linux的内存分配策略：vm.overcommit_memory=1</li>
+<li>降低fork频率：例如放宽AOF重写的自动触发时机，不必要的全量复制</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)子进程开销及优化</strong></p>
+<ol>
+<li>CPU：<ul>
+<li>开销：<br>RDB,AOF的文件生成，属于CPU密集型</li>
+<li>优化：<br>不做cpu绑定，不将cpu进程绑定到一个cpu上。<br>不和cpu密集型应用部署在一起。<br>单机多部署时不要出现大量的RDB生成，AOF重写等这些过程。</li>
+</ul>
+</li>
+<li>内存：<ul>
+<li>开销：<br>fork内存开销，copy-on-write,子进程会共享父进程的内存快照</li>
+<li>优化：<br>echo never &gt;/sys/kernel/mm/transparent_hugepage/enabled</li>
+</ul>
+</li>
+<li>硬盘：<ul>
+<li>开销：<br>AOF,RDB文件的写入，可以结合iostat,iostop等工具分析</li>
+<li>优化：<ul>
+<li>不要和高硬盘负载服务部署到一起：存储服务，消息队列等</li>
+<li>no-appendfsync-on-write=yes，重写期间不要执行aof的追加操作</li>
+<li>根据写入量决定磁盘类型：如SSD等</li>
+<li>单机多实例持久化文件目录可以考虑分盘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)AOF追加阻塞：</strong></p>
+<ol>
+<li>重写期间阻塞aof的追加操作，简单流程图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-29.jpg" alt=""><br>这是为了保证安全性，但是这种阻塞主线程的方式是很影响效率的，还有可能会丢失两秒的数据。</li>
+<li>问题定位：<ul>
+<li>错误日志：<br>Asynchronous AOF fsync is taking too long (disk is busy?). Writing the AOF buffer without waiting for fsync to complete, this may slow down Redis.</li>
+<li>也可以使用info persistence命令查看</li>
+<li>当然，还可以查看硬盘的状态来定位</li>
+</ul>
+</li>
+<li>解决方案：<br>看上面。</li>
+</ol>
+<hr>
+<h2 id="5-主从复制复习及补充"><a href="#5-主从复制复习及补充" class="headerlink" title="5.主从复制复习及补充"></a>5.主从复制复习及补充</h2><p><strong>1)单机的问题及主从复制简介：</strong></p>
+<ol>
+<li>单机：<br>单节点，单服务器。</li>
+<li>单机的问题：<ul>
+<li>机器故障</li>
+<li>容量不足</li>
+<li>QPS的瓶颈(每秒查询率)</li>
+</ul>
+</li>
+<li>分布式解决单机的各种不同问题，<br>而主从复制与哨兵则解决了高可用的问题。</li>
+<li>主从复制的功能(一主多从)：<ul>
+<li>保证高可用，提供数据副本</li>
+<li>分流，负载均衡，读写分离</li>
+<li>扩展了Redis读的性能</li>
+</ul>
+</li>
+<li>主从复制的规定：<ul>
+<li>一个master可以有多个slave</li>
+<li>一个slave也可以有slave</li>
+<li>一个slave只能有一个master</li>
+<li>数据流向：master–&gt;slave&lt;–&gt;slave</li>
+</ul>
+</li>
+<li>简单理解：<br>主有啥，从也有啥。</li>
+<li>生产环境中的主从节点是不允许在一台机器上的。</li>
+</ol>
+<p><strong>2）主从复制的两种实现方式：</strong></p>
+<ol>
+<li>两种实现方式：<ul>
+<li>slaveof命令操作</li>
+<li>配置实现</li>
+</ul>
+</li>
+<li>命令实现：<br>在某一端口的客户端下执行slaveof就可以了，Redis会自动进行复制，但是这个复制的过程很复杂(一般是全量复制)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-30.jpg" alt=""><br>如在6380端口执行：<pre><code>slaveof 127.0.0.1 6379
+</code></pre>如果要取消主从关系，执行：<pre><code>slaveof no one
+</code></pre>不会将6380的数据删除，而是6379新写入的值不再同步到6380</li>
+<li>配置方式：<pre><code>slaveof ip port
+slave-read-only yes
+</code></pre>还会有其他配置查看前面的学习笔记。</li>
+<li>两种方式的简单比较：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-31.jpg" alt=""></li>
+</ol>
+<h3 id="全量复制及部分复制"><a href="#全量复制及部分复制" class="headerlink" title="全量复制及部分复制"></a>全量复制及部分复制</h3><p><strong>1)run_id及偏移量：</strong></p>
+<ol>
+<li>run_id:<br>使用命令<br><code>redis-cli -p 6379 -a &quot;password&quot; info server | grep run</code><br>就可以查询到。<br>当主节点run_id发生变化时说明主节点发生了一些变化(或者从无到有)，就会将主节点的数据复制过来。</li>
+<li>偏移量<br>每个端口的会个字写入数据的大小(偏移量)<br>如果两个端口的偏移量大小相同，说明数据一致，不用复制。<br>如果偏移量不一致，则说明出现了主从不一致，需要使用部分复制。<br>查看偏移量：<br><code>redis-cli -p 6379 -a &quot;password&quot; info replication | grep master_repl_offset</code><br>注意：<br>主从节点的偏移量并不是完全一致的，如果有数据写入或者删除，他们都会处于一个同步更新的状态。<br>了解即可，一般情况下不会去关心这个值。</li>
+</ol>
+<p><strong>2)全量复制：</strong></p>
+<ol>
+<li>希望的效果：<br>一个节点设置为另一个节点的从节点时，能将主节点原有的值copy过来，还能将同步复制过程中的修改也复制过来。这样就可以实现数据的完全同步。</li>
+<li>全量复制的实现示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-32.jpg" alt=""></li>
+<li>全量复制的开销：<ul>
+<li>bgsave的时间</li>
+<li>RDB文件网络传输的时间</li>
+<li>从节点清空数据的时间</li>
+<li>从节点加载RDB的时间</li>
+<li>可能的AOF重写的时间</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)部分复制(redis2.8之后)：</strong></p>
+<ol>
+<li>部分复制的实现原理：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-33.jpg" alt=""></li>
+<li>不管是全量复制还是部分复制都不用自己操作。</li>
+</ol>
+<hr>
+<h2 id="6-主从复制的问题"><a href="#6-主从复制的问题" class="headerlink" title="6.主从复制的问题"></a>6.主从复制的问题</h2><p><strong>1)主从故障处理：</strong></p>
+<ol>
+<li>slave宕机处理：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-34.jpg" alt=""></li>
+<li>master宕机处理：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-35.jpg" alt=""></li>
+<li>自动转移：高可用哨兵</li>
+</ol>
+<h3 id="开发运维中的问题及优化"><a href="#开发运维中的问题及优化" class="headerlink" title="开发运维中的问题及优化"></a>开发运维中的问题及优化</h3><p><strong>1)读写分离：</strong></p>
+<ol>
+<li>读写分离示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-36.jpg" alt=""></li>
+<li>可能的遇到的问题：<ul>
+<li>复制数据的延迟：可以通过偏移量的监控来解决</li>
+<li>读到过期的数据：Redis3.2以后已经解决</li>
+<li>从节点发生故障：故障迁移(成本是很高的)</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)配置不一致：</strong></p>
+<ol>
+<li>主从节点的maxmemory不一致，会进行数据淘汰，丢失数据。<br>使用一些标准工具安装并且对其进行监控。</li>
+<li>数据结构优化参数：内存不一致。</li>
+</ol>
+<p><strong>3)规避全量复制：</strong></p>
+<ol>
+<li>第一次全量复制不可避免。<br>将第一次全量复制的消耗降低到最小：<ul>
+<li>小主节点：数据分片，maxmemory的设置不要过大。</li>
+<li>低峰时进行处理：夜间，服务器压力低的时候。</li>
+</ul>
+</li>
+<li>节点运行ID不匹配：<br>主节点重启，runID发生变化。<br>解决方案：<br>故障转移，哨兵或者集群。</li>
+<li>复制缓存区积压不足：<br>网络中断，部份复制无法完成，默认1M，偏移量在缓冲区范围内则可以进行部分复制，如果不在缓冲区范围内则需要再进行一次全量复制。<br>解决方案：<br>增大复制缓冲区，配置rel_backlog_size。<br>增强网络。</li>
+</ol>
+<p><strong>4)规避复制风暴：</strong></p>
+<ol>
+<li>复制风暴：<br>如果一次性挂了很多个从节点，那么所有的从节点都会进行复制。Redis进行了处理，只会产生一个RDB文件，但是会进行多次传输。</li>
+<li>单主节点复制风暴：<br>问题：主节点重启，多从节点复制。<br>解决方案：更换复制拓扑。但是这种架构还是有问题，读写分离，故障转移都会有问题。其实高可用一个节点就够了。<br>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-37.jpg" alt=""></li>
+<li>单机器的复制风暴：<br>如图所示，如果所有的主节点都在同一个机器，这台机器重启之后，那么就会出现复制灾难（大量全量复制）。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-38.jpg" alt=""><br>解决方案：<br>主从节点分散到多机器。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月23日 23:31</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" title="Redis学习笔记（六）：一些知识点的复习及补充">https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/&title=《Redis学习笔记（六）：一些知识点的复习及补充》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/&title=《Redis学习笔记（六）：一些知识点的复习及补充》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（六）：一些知识点的复习及补充》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料："><span class="post-toc-text">0.参考资料：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis基础知识的补充"><span class="post-toc-text">1.Redis基础知识的补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis-API使用和理解"><span class="post-toc-text">2.Redis API使用和理解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通用命令，数据结构编码及单线程架构"><span class="post-toc-text">通用命令，数据结构编码及单线程架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五种基本数据结构"><span class="post-toc-text">五种基本数据结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-持久化的复习及补充"><span class="post-toc-text">3.持久化的复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB"><span class="post-toc-text">RDB</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF"><span class="post-toc-text">AOF</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RBD与AOF的权衡"><span class="post-toc-text">RBD与AOF的权衡</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-持久化常见的问题及处理优化"><span class="post-toc-text">4.持久化常见的问题及处理优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-主从复制复习及补充"><span class="post-toc-text">5.主从复制复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全量复制及部分复制"><span class="post-toc-text">全量复制及部分复制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-主从复制的问题"><span class="post-toc-text">6.主从复制的问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开发运维中的问题及优化"><span class="post-toc-text">开发运维中的问题及优化</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/22/Spring学习（四）：高级装配2/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring学习（四）：运行时值注入以及SpEL</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
