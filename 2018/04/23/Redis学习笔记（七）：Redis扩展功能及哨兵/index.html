@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（七）：Redis扩展功能及哨兵的补充 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（七）：Redis扩展功能及哨兵的补充">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-21-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-34.jpg">
+<meta property="og:updated_time" content="2018-04-24T14:33:33.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（七）：Redis扩展功能及哨兵的补充">
+<meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（七）：Redis扩展功能及哨兵" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（七）：Redis扩展功能及哨兵的补充
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备："><a href="#0-学习准备：" class="headerlink" title="0.学习准备："></a>0.学习准备：</h2><ol>
+<li><p>参考资料<br>参考视频：慕课网教程《Redis从入门到高可用》<br>参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a><br>w3cschoolRedis教程：<a href="https://www.w3cschool.cn/redis/nma27f21.html" target="_blank" rel="noopener">https://www.w3cschool.cn/redis/nma27f21.html</a><br>参考博客：<br><a href="https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension" target="_blank" rel="noopener">https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension</a></p>
+</li>
+<li><p>记录一些动力节点的视频未涉及到的知识点。<br>包括：</p>
+<ul>
+<li>慢查询</li>
+<li>Pipeline提高客户端效率</li>
+<li>订阅发布补充</li>
+<li>Bitmap位图</li>
+<li>Hyperloglog基数统计</li>
+<li>Geo地理位置信息</li>
+<li>哨兵的补充</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-慢查询-日志"><a href="#1-慢查询-日志" class="headerlink" title="1.慢查询(日志)"></a>1.慢查询(日志)</h2><p>主要介绍四个方面：</p>
+<ul>
+<li>生命周期及慢查询简介</li>
+<li>两个配置</li>
+<li>常用命令(三个)</li>
+<li>运维优化</li>
+</ul>
+<p><strong>1)客户端请求的生命周期：</strong></p>
+<ol>
+<li>生命周期示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-01.jpg" alt=""></li>
+<li>示意图说明：<ul>
+<li>出现排队的原因是Redis单线程执行命令，阻塞。</li>
+<li>慢查询是出现在第三个阶段(执行命令)：<br>命令本身的执行非常慢，如keys *这种命令。</li>
+<li>客户端超时不一定慢查询，但是慢查询是客户端超时的一个可能因素。</li>
+</ul>
+</li>
+<li>关于慢查询日志：<br>慢查询日志帮助开发和运维人员定位系统存在的慢操作。慢查询日志就是系统在命令执行前后计算每条命令的执行时间，当超过预设阀值，就将这条命令的相关信息（慢查询ID，发生时间戳，耗时，命令的详细信息）记录下来</li>
+<li>慢查询日志的组成：<br>慢查询日志由以下四个属性组成：标识ID，发生时间戳，命令耗时，执行命令和参数</li>
+</ol>
+<p><strong>2)慢查询日志的两个配置：</strong></p>
+<ol>
+<li>Redis如何处理慢查询日志：<ul>
+<li>如果一个查询在第三阶段中被列入慢查询的范围，那么它就会被放入一个先进先出的队列–慢查询日志。默认是执行时间超过10000微秒，由slowlog-log-slower-than属性配置。注意，执行仍然是在单线程执行，慢查询日志仅用于记录和分析慢查询。</li>
+<li>慢查询日志是固定长度的，且是保存在内存中的，如果超过了这个长度，则最先进来的查询就会被踢出队列。这个长度由slowlog-max-len来记录。</li>
+</ul>
+</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-02.jpg" alt=""></li>
+<li>两个配置：<ul>
+<li>slowlog-max-len：慢查询日志的长度，单位条。默认128。</li>
+<li>slowlog-log-slower-than：慢查询日志的阈值，单位微秒，1毫秒=1000微秒。为0记录所有命令，小于0任何命令都不记录。默认值10000。</li>
+</ul>
+</li>
+<li>可以使用config get命令得到这俩属性值：<ul>
+<li>config get slowlog-max-len</li>
+<li>config get slowlog-log-slower-than</li>
+</ul>
+</li>
+<li>修改方法：<ul>
+<li>修改配置文件并重启(不建议)</li>
+<li>动态修改，无需重启Redis：config set<ul>
+<li>config set slowlog-max-len</li>
+<li>config set slowlog-log-slower-than</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)慢查询命令：</strong></p>
+<ol>
+<li>获取慢查询日志<code>slowlog get [n]</code><br>n代表要获取的日志条数：</li>
+<li>获取慢查询日志列表的当前长度<code>slowlog len</code></li>
+<li>慢查询日志重置<code>slowlog reset</code><br>慢查询日志重置实际是对列表做清理操作。</li>
+<li>测试这三个命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-03.jpg" alt=""></li>
+</ol>
+<p><strong>4)慢查询的最佳设置：</strong></p>
+<ol>
+<li><p>slowlog-log-lower-than的设置建议<br>需要根据redis的并发量调整该值。由于redis采用单线程响应名利，对于高流量的场景，如果执行命令的时间在1毫秒以上，那么redis最多可支撑OPS（每秒操作次数）不到1000，因此高OPS场景的REDIS建议设置为1毫秒。</p>
+</li>
+<li><p>slowlog-max-len的设置建议<br>线上环境建议调大慢查询日志的列表，记录慢查询日志时Redis会对长命令做截断操作，并不会占用大量内存。增大慢查询列表可以减缓慢查询被剔除出列表的可能性。例如线上可以设置为1000以上。</p>
+</li>
+<li><p>理解命令的生命周期。</p>
+</li>
+<li><p>慢查询只记录命令执行时间，并不包括命令排队时间和网络传输时间。因此客户端<br>命令的执行时间要大于redis服务器实际执行命令的时间。因为命令执行排队极致，慢查询会导致命令级联阻塞，因此当客户端出现请求超时，需要检查该时间点是否有对应的慢查询，从而分析是否因为慢查询导致的命令级联阻塞</p>
+</li>
+<li><p>定期持久化慢查询：<br>慢查询日志是一个先进先出队列，慢查询较多的情况下，可能会丢失部分慢查询命令，可以定期执行slow get命令将慢查询日志持久化到其他存储中。然后制作可视化界面查询。</p>
+</li>
+</ol>
+<hr>
+<h2 id="2-Pipeline流水线"><a href="#2-Pipeline流水线" class="headerlink" title="2.Pipeline流水线"></a>2.Pipeline流水线</h2><p>主要介绍：</p>
+<ul>
+<li>什么是流水线</li>
+<li>客户端实现</li>
+<li>与原生操作对比</li>
+<li>使用建议</li>
+</ul>
+<p><strong>1)什么是流水线：</strong></p>
+<ol>
+<li>一次网络命令时间：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-04.jpg" alt=""><br>按这种情况的n次命令时间：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-05.jpg" alt=""></li>
+<li>流水线模型的n次命令时间：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-06.jpg" alt=""><br>像mset,mget这种命令就是流水线模型。</li>
+<li>对比：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-07.jpg" alt=""><br>注意两点：<ul>
+<li>Redis的命令执行时非常快的(微秒级别)，而且也不可避免。</li>
+<li>pipeline的每次命令条数需要控制(网络环境复杂)</li>
+</ul>
+</li>
+<li>pipeline在Jedis中的实现：<br>未使用pipeline：<pre><code>Jedis jedis=new Jedis（&quot;127.0.0.1&quot;,6379）;
+for(int i=0;i&lt;10000;i++){
+    jedis.hset(i,i,i);  //key,field,value
+}
+</code></pre>这样子执行的速度会非常慢，而且主要是浪费在了网络时间上。由于key不相同所以无法使用hmset执行批量操作，所以需要使用如下流水线：<pre><code>Jedis jedis=new Jedis（&quot;127.0.0.1&quot;,6379）;
+for(int i=0;i&lt;100;i++){        //注意并没有将一万个操作放到一个流水线中，而是分为一百个流水线
+    Pipeline pipeline=jedis.pipelined;
+    for(int i=0;i&lt;100;i++){
+        jedis.hset(i,i,i);  //key,field,value
+    }
+    pipeline.syncAndReturnAll();
+}
+</code></pre>这样操作可以节省大量的时间。</li>
+</ol>
+<p><strong>2)Pipeline操作和M操作的对比：</strong></p>
+<ol>
+<li>M操作的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-08.jpg" alt=""><br>M操作是一个原子的实现。</li>
+<li>Pipeline的操作是非原子的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-09.jpg" alt=""><br>但是返回的结果是按顺序的。</li>
+</ol>
+<p><strong>3)Pipeline的使用建议：</strong></p>
+<ol>
+<li>注意每次携带的数据量。<br>不能无节制的往一个Pipeline中一次性添加所有的命令，注意分为多次Pipeline。</li>
+<li>Pipeline每次只能在一个Redis节点上执行。</li>
+<li>注意M操作与Pipeline的区别</li>
+</ol>
+<hr>
+<h2 id="3-发布订阅复习及补充"><a href="#3-发布订阅复习及补充" class="headerlink" title="3.发布订阅复习及补充"></a>3.发布订阅复习及补充</h2><p>主要介绍：</p>
+<ul>
+<li>角色</li>
+<li>模型</li>
+<li>API</li>
+<li>发布订阅与消息队列的简单对比</li>
+</ul>
+<p><strong>1)角色,模型及命令</strong></p>
+<ol>
+<li>角色：<ul>
+<li>发布者publisher</li>
+<li>订阅者subscriber</li>
+<li>频道channel</li>
+</ul>
+</li>
+<li>模型：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-10.jpg" alt=""></li>
+<li>常用命令：<ul>
+<li>publish channel message：发布消息到频道</li>
+<li>subscribe channel…：订阅一个或者多个频道</li>
+<li>unsubsc channel…：取消订阅一个或者多个频道</li>
+</ul>
+</li>
+<li>其他命令：<ul>
+<li>psubscribe [partten..]：订阅符合模式匹配的所有频道</li>
+<li>punsubscribe [partten..]：按照模式退订</li>
+<li>pubsub channel：列出至少有一个订阅者的客户端频道</li>
+<li>pubsub numsub [channel…]：列出给定一个或多个频道的订阅者总数</li>
+<li>pubsub numpat：列出被订阅模式的数量</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)消息队列和发布订阅的区别：</strong></p>
+<ol>
+<li>发布订阅是发布到某一频道后所有订阅者都会收到消息，<br>而消息队列则是一种抢占机制，只有一个订阅者会接收到消息。</li>
+<li>消息队列模型：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-11.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-BitMap位图"><a href="#4-BitMap位图" class="headerlink" title="4.BitMap位图"></a>4.BitMap位图</h2><p><strong>1)位图的简介</strong></p>
+<ol>
+<li>如字母big的位图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-12.jpg" alt=""><br>将每个字母转换为ASCII码的二进制表示。这就是位图。</li>
+<li>对应redis中的存储。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-13.jpg" alt=""><br>可以使用getbit来读取。</li>
+</ol>
+<p><strong>2)常用方法：</strong></p>
+<ol>
+<li><code>setbit key offset value</code>：<br>将key中位图表示的值的第几位(offset+1)的值设置为value，只能设置0或者1。<br>返回原本的值，如果之前没有值，返回0。<br>如：<code>setbit k1 2 0</code><br>如果超过范围，则会在中间补0,如在只有20位的位图设置第51位的值：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-14.jpg" alt=""></li>
+<li><code>getbit key offset</code>：<br>获取指位图第offset-1位的值。</li>
+<li><code>bitcount key [start end]</code>：<br>获取位图指定范围中值为1的个数。不指定start和end则是全部。</li>
+<li><code>bitop op destkey key[key...]</code>：<br>对一个或者多个key进行交集，并集，或，异或等操作并将操作结果保存在destkey中。</li>
+<li><code>bitpos key targetBit [start] [end]</code>：<br>计算位图指定位数间第一个值等于targetBit的位置。</li>
+<li>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-16.jpg" alt=""></li>
+</ol>
+<p><strong>3)位图的简单使用：</strong></p>
+<ol>
+<li>使用bitMap和使用set做统计的对比(一亿用户级，50万独立用户)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-15.jpg" alt=""><br>当然后面还有一个HypeLogLog结构更加节省内存。独立用户就是不重复的用户。</li>
+<li>而独立用户量很少的时候，则使用set更好。<br>因为BitMap需要将所有用户存入先，然后再用一个位图来将独立的用户id处置1。</li>
+<li>使用经验：<ul>
+<li>是一个String类型，最大512M，如果太大则需要手动进行拆分。</li>
+<li>setBit范围太大是可能耗费很多时间</li>
+<li>有时位图的效率并不一定比set好</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-HyperLogLog复习与补充"><a href="#5-HyperLogLog复习与补充" class="headerlink" title="5.HyperLogLog复习与补充"></a>5.HyperLogLog复习与补充</h2><p>简单介绍：</p>
+<ul>
+<li>HyperLogLog结构</li>
+<li>三个命令</li>
+<li>内存消耗分析</li>
+<li>使用经验</li>
+</ul>
+<p><strong>1)HyperLogLog的介绍及简单使用：</strong></p>
+<ol>
+<li>详情及测试可以查看Redis学习笔记四。</li>
+<li>就是使用HyperLogLog算法，用极小的空间来进行基数统计。</li>
+<li>本质上还是String。</li>
+<li>使用方法,三个API:<ul>
+<li>pfadd key [element]：向HyperLogLog添加元素。</li>
+<li>pfcount key [key]：计算HyperLogLoge的独立基数。</li>
+<li>pfmerge destkey key[key…]：对多个key(HyperLogLog)进行合并。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)内存消耗分析及使用经验：</strong></p>
+<ol>
+<li>内存消耗分析(百万级用户基数)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-17.jpg" alt=""><br>至于为什么一天15KB，有些博客说是12KB，如下：<br>在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基数。以后啃算法的时候再去深究吧。</li>
+<li>使用经验(HyperLogLog的注意事项)：<br>是否能够容忍错误：官方给出的错误率是0.81%<br>HyperLogLog无法取出条数据。</li>
+</ol>
+<hr>
+<h2 id="6-GEO地理位置信息"><a href="#6-GEO地理位置信息" class="headerlink" title="6.GEO地理位置信息"></a>6.GEO地理位置信息</h2><p><strong>1)GEO的简介：</strong></p>
+<ol>
+<li>GEO(地理信息定位)：存储经纬度，用于计算两地距离，范围计算等。</li>
+</ol>
+<p><strong>2)常用命令：</strong></p>
+<ol>
+<li>GEOADD：<br><code>GEOADD key longitude latitude member [longitude latitude member ...]</code><ul>
+<li>将给定的空间元素（纬度、经度、名字）添加到指定的键里面。<br>这些数据会以有序集合的形式被储存在键里面， 从而使得像 GEORADIUS 和 GEORADIUSBYMEMBER 这样的命令可以在之后通过位置查询取得这些元素。</li>
+<li>GEOADD 命令以标准的 x,y 格式接受参数， 所以用户必须先输入经度， 然后再输入纬度。 GEOADD 能够记录的坐标是有限的： 非常接近两极的区域是无法被索引的。</li>
+<li>GEOADD的经纬度是有范围的，超过这个范围将会报错：<ul>
+<li>有效的经度介于 -180 度至 180 度之间。</li>
+<li>有效的纬度介于 -85.05112878 度至 85.05112878 度之间。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>GEOPOS：<br><code>GEOPOS key member [member ...]</code><br>从键里面返回所有给定位置元素（一个或多个）的位置（经度和纬度）。</li>
+<li>GEODIST：<br><code>GEODIST key member1 member2 [unit]</code><br>计算两个位置之间的距离，默认以米做单位。<br>指定单位的参数 unit 必须是以下单位的其中一个：m 米，km 千米，mi 英里，ft 英尺。</li>
+<li>GEORADUIS:计算指定范围内的集合，中心点是经纬度决定的<br>GEORADUISBYMEMBER：计算指定范围内的集合，中心点是member决定的<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-18.jpg" alt=""></li>
+<li>GEOHASH:<br><code>GEOHASH key member [member ...]</code><br>返回一个或多个位置元素的 Geohash 表示。</li>
+<li>删除则使用<code>ZREM key member</code>。</li>
+<li>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-19.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-哨兵Sentinel的复习及补充"><a href="#7-哨兵Sentinel的复习及补充" class="headerlink" title="7.哨兵Sentinel的复习及补充"></a>7.哨兵Sentinel的复习及补充</h2><p>简要目录：</p>
+<ul>
+<li>Redis主从复制的问题</li>
+<li>Sentinel架构说明</li>
+<li>Sentinel安装配置</li>
+<li>客户端连接Sentinel</li>
+<li>Sentinel实现原理</li>
+<li>常见开发运维问题</li>
+</ul>
+<p><strong>1)主从复制缺陷及解决：</strong></p>
+<ol>
+<li>需要手动处理故障：<br>使用哨兵Sentinel来解决</li>
+<li>写能力和存储能力受限：只能在一个节点上进行写和存储。<br>使用分布式，集群来解决。</li>
+<li>Redis Sentinel的基本架构：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-20.jpg" alt=""><br>Sentinel是特殊的Redis</li>
+<li>Sentinel的故障转移(自动)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-21-1.jpg" alt=""><br>可以自动实现监控，故障转移及回报客户端。</li>
+<li>Sentinel是可以实现对多套主从的监控：使用master-name进行配置<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-22.jpg" alt=""></li>
+</ol>
+<p><strong>2)Redis Sentinel的安装及配置使用：</strong></p>
+<ol>
+<li>安装其实就是在Sentinel中声明监控的master-name</li>
+<li>具体的安装配置使用过程查看前面的Redis学习笔记(五)</li>
+<li>主配置文件配置完毕后可以使用如下方法来赋值从节点的配置文件：<pre><code># sed &quot;s/6379/6380/g&quot; redis-6379.conf &gt; redis6380.conf
+# sed &quot;s/6379/6381/g&quot; redis-6379.conf &gt; redis6381.conf
+</code></pre>这样直接就赋值并且修改好了。</li>
+<li>其余的Sentinel的文件的配置启动都和前面相同。</li>
+<li>对前面使用的补充：<br>客户端可以直接连到sentinel上(也应该这样连接，前面可能只是实验)：<pre><code># redis-sentinel -p 26379
+</code></pre>这种写法，并且能进行客户端操作。<br>使用info sentinel会显示一些该sentinel的信息,各个sentinel是可以互相感知的。</li>
+</ol>
+<p><strong>3)Java客户端如何连接到Redis Sentinel：</strong></p>
+<ol>
+<li>Redis Sentinel的客户端请求流程：<br>第一步：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-23.jpg" alt=""><br>第二步：客户端从Sentinel获取master节点<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-24.jpg" alt=""><br>第三步：客户端验证是否是master节点<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-25.jpg" alt=""><br>第四步：master发生变化通知并得到一个新的master<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-26.jpg" alt=""><br>通过订阅该master节点的频道实现。</li>
+<li>客户端的基本流程框架：和Sentinel的架构是一样的<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-20.jpg" alt=""></li>
+<li>客户端接通Sentiel的流程：<ul>
+<li>需要一个Sentiel地址的集合，选择一个能ping同的节点然后连接。</li>
+<li>需要使用masterName配置的值</li>
+<li>它不是一个代理模式</li>
+</ul>
+</li>
+<li>如何使用Jedis连接一个Sentinel（有些知识poolconfig等后面补充）：<pre><code>JedisSentinelPool jedisSentinelPool =new JedisSentinelPool(masterName, sentinels, 
+        poolConfig, connectionTimeout, soTimeout, password, database, clientName);
+</code></pre>这是使用Sentinel池最多参数的一个构造方法，一般只用前两个参数即可。</li>
+<li><p>网上的简单连接例子：</p>
+<pre><code>Set&lt;String&gt; IPS = new HashMap&lt;String&gt;();  
+IPS.add(&quot;192.168.0.1:26379&quot;);  
+JedisSentinelPool pool = new JedisSentinelPool(&quot;mymaster&quot;, IPS);  
+
+public synchronized String set(String key, String value) throws Exception{  
+    Jedis jedis = ;  
+    try {  
+        String hostIp = pool.getCurrentHostMaster().getHost();  
+        int hostPort = pool.getCurrentHostMaster().getPort();  
+        WifiLogUtil.wifiLogInfo(&quot;Jedis set&quot;, &quot;Server &gt;&gt; [&quot;+hostIp+&quot;:&quot;+hostPort+&quot;]&quot;);  
+        jedis =new Jedis(hostIp, hostPort);  
+    if(value == )  
+            return jedis.set(key, value);  
+        return jedis.set(key, new String(value.getBytes(), &quot;UTF-8&quot;));  
+    } catch (Exception e) {  
+        WifiLogUtil.wifiLogError(e, &quot;jedis set&quot;, &quot;set jedis error : &quot;+e);  
+        throw e;  
+    } finally {  
+        if(jedis != )
+            //池的环境解释为归还
+        jedis.close();  
+    }
+}
+</code></pre><p>故障转移时需要一段时间，之后就可以了。</p>
+</li>
+<li>后面如果涉及到分片的话就得自己实现ShardedJedisSentinelPool了，这都是后话了。</li>
+</ol>
+<h3 id="Sentinel的实现原理"><a href="#Sentinel的实现原理" class="headerlink" title="Sentinel的实现原理"></a>Sentinel的实现原理</h3><p><strong>1)三个定时任务：</strong><br>Sentinel对redis节点做失败判定和故障转移是通过三个定时任务来实现的：</p>
+<ol>
+<li>第一个定时任务：每10秒每个sentinel对master和slave执行info：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-27.jpg" alt=""><br>主要作用：<ul>
+<li>发现slave节点</li>
+<li>确认主从关系</li>
+</ul>
+</li>
+<li>第二个定时任务：每2秒每个sentinel通过master节点的channel交换信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-28.jpg" alt=""><br>主要作用：<ul>
+<li>通过<em>sentinel</em>：hello频道交互。</li>
+<li>交互对节点的看法和自身信息。</li>
+<li>(心跳检测，可以达成一个信息的交互感知)</li>
+</ul>
+</li>
+<li>第三个定时任务：每秒每个sentinel对其他sentinel和所有Redis执行一次PING。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-29.jpg" alt=""><br>主要作用：<ul>
+<li>检测故障，故障转移中最重要的一步。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)主观下线及客观下线：</strong></p>
+<ol>
+<li>在配置文件中有个这个选项：<br><code>sentinel monitor &lt;masterName&gt; &lt;ip&gt; &lt;masterPort&gt; &lt;法定人数&gt;</code><br>如有三个sentinel，可以配置如下：<pre><code>sentinel monitor mymaster 127.0.0.1 6380 2  //超过两个人则自动故障处理
+</code></pre></li>
+<li><code>sentinel down-after-milliseconds &lt;masterName&gt; &lt;timeout&gt;</code><br>master或slave多长时间（默认30秒）不能使用后标记为down状态</li>
+<li>主观判断与客观判断：<br>主观判断(下线)：每个Sentinel对Redis节点下线的判断。<br>客观判断(下线)：所有Sentinel对节点下线达成的共识(大于等于法定人数)<br>所以Sentinel的数量最好是3个以上的奇数。</li>
+<li>如果有master宕机了，感知到这个master下线的Sentinel会向其他Sentinel发送一个<code>sentinel is-master-down-by-address</code>，其他Sentinel会进行投票，通过后进行故障转移。</li>
+<li>slave节点下线不会有这些机制，因为Sentinel只监视master。</li>
+</ol>
+<p><strong>3)领导者选举：</strong></p>
+<ol>
+<li>进行投票的原因就是领导者选举。</li>
+<li>而领导者选举的原因是执行故障转移只需要一个领导者。</li>
+<li>选举：通过<code>sentinel is-master-down-by-address</code>命令说明希望成为领导者。</li>
+<li>选举的规则：<ul>
+<li>每个做主观下线的Sentinel节点向其他Sentinel发送命令，要求成为领导者。</li>
+<li>收到命令的节点如果没有同意通过其他节点的请求，那么会同意该请求，否则拒绝。</li>
+<li>当一个Sentinel发现自身的票数超过法定人数时，自动成为领导者，并进行故障处理。</li>
+<li>如果此过程中有多个节点成为领导者，那么将等待一段时间之后进行重新选举。</li>
+</ul>
+</li>
+<li>领导者选举使用的是一个Ruby的算法。</li>
+</ol>
+<p><strong>4)故障转移的实现，过程：</strong></p>
+<ol>
+<li>简单的过程：<ul>
+<li>1.从slave节点中选择一个“合适的”节点作为新的master节点</li>
+<li>2.对选择的slave节点执行<code>slaveof no one</code>使其成为master节点</li>
+<li>3.向剩余的slave节点发送命令，让他们成为新的master节点的slave节点。<br>复制规则和parallel-syncs参数有关。</li>
+<li>4.将原来的master节点设置为slave,并保持对其的关注,这个节点恢复开启之后让它去复制新的master节点。</li>
+</ul>
+</li>
+<li>合适的节点：<ul>
+<li>1.选择slave-priority(slave节点优先级)最高的节点，存在则返回，不存在则继续。(一般不配置)</li>
+<li>2.选择数据偏移量更大的节点(复制的最完整)，有则返回，没有则继续。</li>
+<li>3.选择run_id最小的节点，启动最早的。</li>
+</ul>
+</li>
+</ol>
+<h3 id="常见的运维方式"><a href="#常见的运维方式" class="headerlink" title="常见的运维方式"></a>常见的运维方式</h3><p>主要介绍两点：</p>
+<ul>
+<li>节点运维</li>
+<li>高可用分离</li>
+</ul>
+<p><strong>1)节点运维：</strong></p>
+<ol>
+<li>主要的任务：节点上线和下线</li>
+<li>主要针对目标：Sentinel节点，主节点，从节点</li>
+<li>节点运维的原因：<ul>
+<li>机器下线：例如过保的情况</li>
+<li>机器性能不足：如CPU、内存、硬盘、网络等</li>
+<li>节点自身故障：例如服务不稳定等</li>
+</ul>
+</li>
+<li>主节点下线操作：<ul>
+<li>1.执行命令：<code>sentinel failover &lt;mastername&gt;</code></li>
+<li>2.然后执行故障转移，不会执行其他过程如选举等。</li>
+<li>然后进行从节点下线</li>
+</ul>
+</li>
+<li>主节点执行<code>sentinel failover &lt;mastername&gt;</code>后内部运行过程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-30.jpg" alt=""></li>
+<li>从节点和Sentinel节点下线主要考虑的情况：<br>要确定是暂时下线还是永久下线，永久下线则要做一些清理工作，一些配置，日志，数据(AOF,RDB)等进行清理。<br>需要考虑读写分离的情况。</li>
+<li>节点上线：<ul>
+<li>主节点：<code>sentinel failover</code>命令进行替换</li>
+<li>从节点：<code>slaveof no one</code>可升为主节点，sentinel可以感知</li>
+<li>sentinel节点：参考其他sentinel启动即可。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)高可用读写分离：</strong></p>
+<ol>
+<li><p>先看一看JedisSentinelPool的实现:</p>
+<pre><code>public JedisSentinelPool(String masterName, Set&lt;String&gt; sentinels,final GenericObjectPoolConfig poolConfig, final int connectionTimeout, final int soTimeout,final String password, final int database, final String clientName) {
+        this.poolConfig = poolConfig;    //池配置
+        this.connectionTimeout = connectionTimeout;    //连接超时
+        this.soTimeout = soTimeout;        //读写超时
+        this.password = password;    //密码
+        this.database = database;    //数据库
+        this.clientName = clientName;    //客户端名字
+
+        HostAndPort master = initSentinels(sentinels, masterName);    //初始化
+        initPool(master);    //连接池的初始化
+}
+</code></pre></li>
+<li><p>initSentinels的源码：客户端实现的原理</p>
+<pre><code>private HostAndPort initSentinels(Set&lt;String&gt; sentinels, final String masterName) {
+    HostAndPort master = null; //ip和端口
+    boolean sentinelAvailable = false;    //sentinal可用性
+    log.info(&quot;Trying to find master from available Sentinels...&quot;);
+    //遍历所有的sentinel节点(主要是查看他们监控的master)
+    for (String sentinel : sentinels) {
+        final HostAndPort hap = HostAndPort.parseString(sentinel); //解析得到HostAndPort对象
+        log.fine(&quot;Connecting to Sentinel &quot; + hap);
+
+        Jedis jedis = null;
+        try {
+            jedis = new Jedis(hap.getHost(), hap.getPort());    //连接这个ip及host
+            List&lt;String&gt; masterAddr = jedis.sentinelGetMasterAddrByName(masterName);  //得到master地址
+            sentinelAvailable = true;
+
+            if (masterAddr == null || masterAddr.size() != 2) {
+                log.warning(&quot;Can not get master addr, master name: &quot; + masterName + &quot;. Sentinel: &quot; + hap + &quot;.&quot;);
+                continue;    //地址空说明遍历失败，遍历下一个节点
+            }
+
+            master = toHostAndPort(masterAddr);    //通过该方法得到master
+            log.fine(&quot;Found Redis master at &quot; + master);
+            break;
+        } catch (JedisException e) {
+            log.warning(&quot;Cannot get master address from sentinel running @ &quot; + hap + &quot;. Reason: &quot; + e + &quot;. Trying next one.&quot;); //警告信息
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    if (master == null) {
+        if (sentinelAvailable) {
+            throw new JedisException(&quot;Can connect to sentinel, but &quot; + masterName + &quot; seems to be not monitored...&quot;);    //如果遍历所有节点都没有master则报异常
+        } else {
+            throw new JedisConnectionException(&quot;All sentinels down, cannot determine where is &quot; + masterName + &quot; master is running...&quot;);
+        }
+    }
+
+    log.info(&quot;Redis master running at &quot; + master + &quot;, starting Sentinel listeners...&quot;);
+
+    for (String sentinel : sentinels) {    
+        final HostAndPort hap = HostAndPort.parseString(sentinel);
+        MasterListener masterListener = new MasterListener(masterName, hap.getHost(), hap.getPort());  //MasterListerner是一个订阅线程，订阅了一个switch-master 的频道
+        masterListener.setDaemon(true);
+        masterListeners.add(masterListener);
+        masterListener.start();
+    }
+    return master;
+}
+</code></pre></li>
+<li>从节点的作用：<ul>
+<li>副本</li>
+<li>高可用的基础</li>
+</ul>
+</li>
+<li>关心slave节点主要是三个消息：需要自定义客户端来实现<ul>
+<li>+switch-master：切换主从节点(从节点晋升主节点)。</li>
+<li>+convert-to-slave：主节点切换到从节点</li>
+<li>+sdown：主观下线</li>
+</ul>
+</li>
+<li>简单图示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-31.jpg" alt=""><br>具体的还是得自己实现。使它能检测那几个消息并且能进行相应的处理。(读客户端变成写客户端，写客户端变成读客户端)</li>
+<li>但是这样比较复杂，真正需要扩展的时候建议使用集群。</li>
+</ol>
+<hr>
+<h2 id="8-客户端连接的补充操作–Jedis连接池"><a href="#8-客户端连接的补充操作–Jedis连接池" class="headerlink" title="8.客户端连接的补充操作–Jedis连接池"></a>8.客户端连接的补充操作–Jedis连接池</h2><p><strong>1)Jedis简介：</strong></p>
+<ol>
+<li>获取Jedis:Maven依赖<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+    &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+    &lt;version&gt;2.9.0&lt;/version&gt;
+    &lt;type&gt;tar&lt;/type&gt;
+    &lt;scope&gt;complier&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li>Jedis直连：<br>生成一个Jedis对象，这个对象负责和指定的节点进行通信。(soket实现）<pre><code>Jedis jedis=new Jedis(&quot;127.0.0.1&quot;,&quot;6379&quot;);
+</code></pre>jedis执行set操作<pre><code>jedis.set(&quot;k1&quot;,&quot;v1&quot;);
+</code></pre>执行get操作：<pre><code>jedis.get(&quot;k1&quot;）;
+</code></pre>关闭Jedis连接：<pre><code>jedis.close;
+</code></pre></li>
+<li>方法介绍：<br>常用的构造方法是Jedis(host,port,connectionTime,soTime):<ul>
+<li>host：ip</li>
+<li>port：端口</li>
+<li>connectionTime：客户端连接超时</li>
+<li>soTime：客户端读写超时</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)Jedis连接池的使用：</strong></p>
+<ol>
+<li>直连的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-32.jpg" alt=""></li>
+<li>Jedis连接池示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-33.jpg" alt=""></li>
+<li>直连与池的对比：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00048Redis%E5%AD%A6%E4%B9%A07-34.jpg" alt=""></li>
+<li>关于Jedis连接池的实现：<pre><code>public Jedis getJedisBypool(){
+    GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+    //连接Jedis服务器
+    JedisPool jedpool =new JedisPool(poolConfig,&quot;10.186.151.205&quot;, 6379);
+    Jedis jed=null;
+    try{
+        jed=jedpool.getResource();
+        //输入密码，否则只能登陆而不能获取数据
+        jed.auth(&quot;123456&quot;);
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+    return jed;
+}
+</code></pre></li>
+<li><p>这个GenericObjectPoolConfig是org.apache.commons.pool2类中的一个子类。<br>其中的配置如下：</p>
+<pre><code>//默认最大连接数
+public static final int DEFAULT_MAX_TOTAL = 8;
+//最大空闲连接数
+public static final int DEFAULT_MAX_IDLE = 8;
+//最小空闲连接数
+public static final int DEFAULT_MIN_IDLE = 0;
+
+private int maxTotal = DEFAULT_MAX_TOTAL;
+private int maxIdle = DEFAULT_MAX_IDLE;
+private int minIdle = DEFAULT_MIN_IDLE;
+</code></pre></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月24日 22:33</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/" title="Redis学习笔记（七）：Redis扩展功能及哨兵的补充">https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/&title=《Redis学习笔记（七）：Redis扩展功能及哨兵的补充》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/&title=《Redis学习笔记（七）：Redis扩展功能及哨兵的补充》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（七）：Redis扩展功能及哨兵的补充》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-慢查询-日志"><span class="post-toc-text">1.慢查询(日志)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Pipeline流水线"><span class="post-toc-text">2.Pipeline流水线</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-发布订阅复习及补充"><span class="post-toc-text">3.发布订阅复习及补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-BitMap位图"><span class="post-toc-text">4.BitMap位图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-HyperLogLog复习与补充"><span class="post-toc-text">5.HyperLogLog复习与补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-GEO地理位置信息"><span class="post-toc-text">6.GEO地理位置信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-哨兵Sentinel的复习及补充"><span class="post-toc-text">7.哨兵Sentinel的复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sentinel的实现原理"><span class="post-toc-text">Sentinel的实现原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常见的运维方式"><span class="post-toc-text">常见的运维方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-客户端连接的补充操作–Jedis连接池"><span class="post-toc-text">8.客户端连接的补充操作–Jedis连接池</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（六）：一些知识点的复习及补充</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -54,7 +54,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-36.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-37.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-38.jpg">
-<meta property="og:updated_time" content="2018-04-23T15:31:01.084Z">
+<meta property="og:updated_time" content="2018-04-24T09:36:09.353Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（六）：一些知识点的复习及补充">
 <meta name="twitter:description" content="0.参考资料：参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html 记录一些动力节点的视频未涉及到的知识点。  1.Redi">
@@ -763,11 +763,16 @@ slave-read-only yes
 <li>单主节点复制风暴：<br>问题：主节点重启，多从节点复制。<br>解决方案：更换复制拓扑。但是这种架构还是有问题，读写分离，故障转移都会有问题。其实高可用一个节点就够了。<br>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-37.jpg" alt=""></li>
 <li>单机器的复制风暴：<br>如图所示，如果所有的主节点都在同一个机器，这台机器重启之后，那么就会出现复制灾难（大量全量复制）。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00047Redis%E5%AD%A6%E4%B9%A06-38.jpg" alt=""><br>解决方案：<br>主从节点分散到多机器。</li>
 </ol>
+<h3 id="无磁盘复制"><a href="#无磁盘复制" class="headerlink" title="无磁盘复制"></a>无磁盘复制</h3><ol>
+<li>通过前面的复制过程我们了解到,主库接收到SYNC的命令时会执行RDB过程,即使在配置文件中禁用RDB持久化也会生成,那么如果主库所<br>在的服务器磁盘IO性能较差,那么这个复制过程就会出现瓶颈,庆幸的是,Redis在2.8.18版本开始实现了无磁盘复制功能</li>
+<li>原理：Redis在与从数据库进行复制初始化时将不会将快照存储到磁盘,而是直接通过网络发送给从数据库,避免了IO性能差问题。</li>
+<li>开启无磁盘复制:repl-diskless-sync yes</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月23日 23:31</p>
+        <p>最后更新： 2018年04月24日 17:36</p>
         <p>原始链接： <a class="post-url" href="/2018/04/23/Redis学习笔记（六）：一些知识点的补充/" title="Redis学习笔记（六）：一些知识点的复习及补充">https://zjxkenshine.github.io/2018/04/23/Redis学习笔记（六）：一些知识点的补充/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -885,12 +890,22 @@ slave-read-only yes
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料："><span class="post-toc-text">0.参考资料：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis基础知识的补充"><span class="post-toc-text">1.Redis基础知识的补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis-API使用和理解"><span class="post-toc-text">2.Redis API使用和理解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通用命令，数据结构编码及单线程架构"><span class="post-toc-text">通用命令，数据结构编码及单线程架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五种基本数据结构"><span class="post-toc-text">五种基本数据结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-持久化的复习及补充"><span class="post-toc-text">3.持久化的复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB"><span class="post-toc-text">RDB</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF"><span class="post-toc-text">AOF</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RBD与AOF的权衡"><span class="post-toc-text">RBD与AOF的权衡</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-持久化常见的问题及处理优化"><span class="post-toc-text">4.持久化常见的问题及处理优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-主从复制复习及补充"><span class="post-toc-text">5.主从复制复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全量复制及部分复制"><span class="post-toc-text">全量复制及部分复制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-主从复制的问题"><span class="post-toc-text">6.主从复制的问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开发运维中的问题及优化"><span class="post-toc-text">开发运维中的问题及优化</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-参考资料："><span class="post-toc-text">0.参考资料：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Redis基础知识的补充"><span class="post-toc-text">1.Redis基础知识的补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Redis-API使用和理解"><span class="post-toc-text">2.Redis API使用和理解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通用命令，数据结构编码及单线程架构"><span class="post-toc-text">通用命令，数据结构编码及单线程架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五种基本数据结构"><span class="post-toc-text">五种基本数据结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-持久化的复习及补充"><span class="post-toc-text">3.持久化的复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB"><span class="post-toc-text">RDB</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF"><span class="post-toc-text">AOF</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RBD与AOF的权衡"><span class="post-toc-text">RBD与AOF的权衡</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-持久化常见的问题及处理优化"><span class="post-toc-text">4.持久化常见的问题及处理优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-主从复制复习及补充"><span class="post-toc-text">5.主从复制复习及补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全量复制及部分复制"><span class="post-toc-text">全量复制及部分复制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-主从复制的问题"><span class="post-toc-text">6.主从复制的问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开发运维中的问题及优化"><span class="post-toc-text">开发运维中的问题及优化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#无磁盘复制"><span class="post-toc-text">无磁盘复制</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2018/04/23/Redis学习笔记（七）：Redis扩展功能及哨兵/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Redis学习笔记（七）：Redis扩展功能及哨兵的补充
+        
+      </span>
+    </a>
   
   
     <a href="/2018/04/22/Spring学习（四）：高级装配2/" id="article-nav-older" class="article-nav-link-wrap">
@@ -963,7 +978,7 @@ slave-read-only yes
             <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -996,7 +1011,7 @@ slave-read-only yes
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
