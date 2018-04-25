@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
+  <meta name="description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的简单使用     1.认识正则表达式 正则表达式对于系统管理员来说">
 <meta name="keywords" content="Linux,正则表达式,Shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
+<meta property="og:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的简单使用     1.认识正则表达式 正则表达式对于系统管理员来说">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-02.jpg">
@@ -46,10 +46,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-28.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-29.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-30.jpg">
-<meta property="og:updated_time" content="2018-04-22T13:04:54.264Z">
+<meta property="og:updated_time" content="2018-04-25T11:22:40.626Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">
-<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的使用     1.认识正则表达式 正则表达式对于系统管理员来说很重">
+<meta name="twitter:description" content="0.学习之前 包含章节《鸟哥Linux习私房菜-基础学习篇》（第三版）对应着知识点照着网上的内容整理的关于Centos7的操作（书本是Centos5.x）第12章：正则表达式与文件格式化处理第13章：学习shell script  学习重点  正则表达式 基础的正则表达式 扩展的正则表达式 文件格式化处理 shell script的简单使用     1.认识正则表达式 正则表达式对于系统管理员来说">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00023%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A07-01.jpg">
   
   
@@ -186,7 +186,7 @@
 <li>基础的正则表达式</li>
 <li>扩展的正则表达式</li>
 <li>文件格式化处理</li>
-<li>shell script的使用</li>
+<li>shell script的简单使用</li>
 </ul>
 </li>
 </ol>
@@ -635,7 +635,7 @@ done
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月22日 21:04</p>
+        <p>最后更新： 2018年04月25日 19:22</p>
         <p>原始链接： <a class="post-url" href="/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/" title="《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script">https://zjxkenshine.github.io/2018/03/25/《鸟哥的Linux私房菜》笔记（七）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -845,7 +845,7 @@ done
             <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -878,7 +878,7 @@ done
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 16.25px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>

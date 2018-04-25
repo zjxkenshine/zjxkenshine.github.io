@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（八）：Redis Cluster集群简单搭建 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-13-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-24.jpg">
+<meta property="og:updated_time" content="2018-04-25T14:54:01.523Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
+<meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（八）：Redis Cluster集群" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（八）：Redis Cluster集群简单搭建
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-25
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备："><a href="#0-学习准备：" class="headerlink" title="0.学习准备："></a>0.学习准备：</h2><ol>
+<li><p>参考资料<br>参考视频：慕课网教程《Redis从入门到高可用》<br>参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a><br>w3cschoolRedis教程：<a href="https://www.w3cschool.cn/redis/nma27f21.html" target="_blank" rel="noopener">https://www.w3cschool.cn/redis/nma27f21.html</a><br>参考博客：<br><a href="https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension" target="_blank" rel="noopener">https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension</a></p>
+</li>
+<li><p>记录一些动力节点的视频未涉及到的知识点。<br>包括：</p>
+<ul>
+<li>呼唤集群</li>
+<li>数据分布</li>
+<li>集群原生搭建</li>
+<li>使用Ruby工具搭建</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-呼唤集群"><a href="#1-呼唤集群" class="headerlink" title="1.呼唤集群"></a>1.呼唤集群</h2><ol>
+<li>为什么要呼唤集群：<ul>
+<li>并发量不足：默认是10万QPS(没有太多慢查询的情况下),如果超过10万就需要集群。</li>
+<li>数据量不足：单台机器的存储容量不足。</li>
+<li>网络流量的需求过大。</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>早期的解决方案，配置更强大的机器。(很贵)</li>
+<li>正确的解决方案，分布式集群。简单解释就是加机器。</li>
+</ul>
+</li>
+<li>Redis在3.0的时候提供了分布式的支持。    </li>
+</ol>
+<hr>
+<h2 id="2-数据分布"><a href="#2-数据分布" class="headerlink" title="2.数据分布"></a>2.数据分布</h2><p><strong>1)数据分区：</strong></p>
+<ol>
+<li>数据分区示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-01.jpg" alt=""><br>但是如何去设计一个分区是非常重要的。</li>
+<li>主要的分布方式：<br>顺序分布，哈希分布(使用哈希函数将数据打散但是均匀分布)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-02.jpg" alt=""></li>
+<li>两种数据分布方式的区别：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-03.jpg" alt=""><br>注意上图有误的一个地方，顺序分布是不支持批量操作的。</li>
+<li>因为是Redis Cluster,所以主要介绍Hash分布，主要有三种分区方式：(前两种是客户端的分区)<ul>
+<li>节点取余分区</li>
+<li>一致性哈希分区</li>
+<li>虚拟槽分区(Redis Cluster的分区方式)</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)节点取余分区：</strong></p>
+<ol>
+<li>hash(key)%nodes<br>nodes是节点数量，将数据放到余数对应的节点中。<br>如：<br>三个节点：hash(key)%3<br>四个节点：hash(key)%4</li>
+<li>有一个问题，如果需要增加一个节点：<br>如从3个节点变成4个节点，那么几乎所有的数据都需要进行回写，数据迁移率达80%。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-04.jpg" alt=""><br>回写：访问某节点无数据，重新查询并写入缓存。</li>
+<li>所以这种节点取余分区建议使用多倍扩容的方式：<br>使用翻倍扩容，如2个变为4个，3个变6个，则数据回写会降低为50%：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-05.jpg" alt=""></li>
+<li>迁移数据之后是无法从缓存中读取到的，所以会从数据库查询之后再进行缓存的回写，大量的回写是很不正常的。</li>
+<li>总结：<ul>
+<li>客户端分片：哈希+取余</li>
+<li>缺点：节点伸缩导致数据大量回写</li>
+<li>最好使用翻倍扩容</li>
+<li>是一些很早的分布式缓存的使用方式</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)一致性哈希分区：</strong></p>
+<ol>
+<li>在memcache中使用广泛。</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-06.jpg" alt=""><br>key进行哈希计算后落在某一个位置，然后进行顺时针查找节点并存入。</li>
+<li>如果再添加一个节点，则示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-07.jpg" alt=""><br>仍然有数据回写，但是影响范围非常小，只影响了node1和node2之间的部分数据。<br>尤其是在节点非常多的情况下，效果非常好。</li>
+<li>这种方式也是一种数据回写的过程，原来在n2中的部分数据就变成垃圾了，客户端访问node5,没有数据，进行数据回写。不会将原有的数据迁移到新节点。</li>
+<li>一致性哈希总结：<ul>
+<li>客户端分片：哈希+顺时针(优化取余)</li>
+<li>节点伸缩：只影响临近节点，但还是有数据回写</li>
+<li>翻倍伸缩：可以保证最小迁移数据和负载均衡</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)虚拟槽分区：</strong></p>
+<ol>
+<li>Redis Cluster的方式</li>
+<li>特点：<ul>
+<li>预设虚拟槽，每一个槽映射一个数据子集，一般比节点大</li>
+<li>良好的哈希函数，如CRC16等</li>
+<li>服务端管理节点，槽，数据</li>
+</ul>
+</li>
+<li>虚拟槽方式示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-08.jpg" alt=""><br>说明：<br>如图将槽范围分为了5份分给5个节点，然后key进行CRC16哈希函数操作后算出一个值，然后按照该值去选择节点保存。<br>客户端查数据时key会访问一个节点，节点之间共享消息，如果选择节点不是对应节点，那个节点会返回对应的节点号。<br>Redis Cluster默认指定的槽的数量就是16384。</li>
+<li>增加新节点时从现有的节点分配，并且将数据也一起分配</li>
+<li>暂时不用了解那么清楚，因为后面Redis Cluster都是虚拟槽分区的运用</li>
+</ol>
+<hr>
+<h2 id="3-集群架构与安装架构"><a href="#3-集群架构与安装架构" class="headerlink" title="3.集群架构与安装架构"></a>3.集群架构与安装架构</h2><p><strong>1)集群架构简介：</strong></p>
+<ol>
+<li>单机架构示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-09.jpg" alt=""></li>
+<li>分布式架构示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-10.jpg" alt=""><br>每个节点之间是通过GOSSIP协议相互通信的。可以互相感知到对应节点所负责的槽，且每个节点都知道哪个槽是交给哪个节点负责的。而且客户端也需要知道。</li>
+</ol>
+<p><strong>2）Redis Cluster的安装架构：(不包括节点伸缩)</strong> </p>
+<ol>
+<li>主要元素：<ul>
+<li>节点：nodes</li>
+<li>meet操作：节点间相互通信的基础</li>
+<li>指派槽：优先访问该槽</li>
+<li>复制：保证高可用(每个主节点都有一个备节点)<br>但是这种时候的内部监控不是依赖Sentinel，而是通过他们节点之间的交互。</li>
+</ul>
+</li>
+<li>主要元素的实现：<br><em>节点</em>：通过配置<code>cluster-enabled：yes</code>,来配置是否是集群的模式。<br><em>meet</em>：AmeetB则AB可以进行通信，相当于PING<br>而如果AmeetB，BmeetC,AC也可以进行通信(gossip协议)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-11.jpg" alt=""><br><em>指派槽</em>：对应可以访问过来时有数据返回数据，无数据返回对应的槽的节点<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-12.jpg" alt=""></li>
+<li>RedisCluster的特定：<ul>
+<li>主从复制</li>
+<li>高可用</li>
+</ul>
+</li>
+<li>安装方式：<ul>
+<li>原生命令安装：节点，meet,分配槽，搭配主从</li>
+<li>官方工具安装：Ruby工具一键安装，只能实现简单配置</li>
+</ul>
+</li>
+<li>理解安装过程：<br> 其实就是上述安装框架的四个步骤</li>
+</ol>
+<hr>
+<h2 id="4-Redis-Cluster原生命令的安装方式"><a href="#4-Redis-Cluster原生命令的安装方式" class="headerlink" title="4.Redis Cluster原生命令的安装方式"></a>4.Redis Cluster原生命令的安装方式</h2><p><strong>1)RedisCluster源生命令安装：简单过程</strong></p>
+<ol>
+<li>配置开启节点：配置模板(集群需要的最简配置)<pre><code>port ${port}
+daemonize yes
+dir &quot;/opt/redis/redis/data&quot;  //目录，可以随意指定
+logfile &quot;${port}.log&quot;
+dbfilename &quot;dump-${port}.rdb&quot;
+//是否开启集群
+cluster-enabled yes
+//节点配置文件
+cluster-config-file nodes-${port}.conf
+</code></pre>最好配置六个，三对主从。</li>
+<li>Cluster节点的主要配置：<pre><code>cluster-enabled yes
+cluster-node-timeout 15000  //很多作业，可以简单认为是故障转移时间
+cluster-config-file &quot;node.file&quot; //节点配置文件(单机多部署则用端口号区分),用于记录集群信息
+cluster-require-full-coverage no //一个节点坏掉则对外不提供服务,默认yes,一般配置为no
+</code></pre></li>
+<li>开启节点：<pre><code># redis-server redis-port.conf
+</code></pre></li>
+<li>使用meet使各个节点产生通信：<pre><code>cluster meet ip port
+</code></pre>如有六个节点则最少要执行五次meet操作。</li>
+<li>分配槽：<pre><code>cluster addslots slot[slot]
+</code></pre>一共16384个节点，而有6个三组节点(7001~7006)，所以这样分：<br>0~5461一组分配给7001节点，<br>5462~10922一组分配给7002节点，<br>10923~16383一组分配给7003节点。</li>
+<li>判断集群是否设置成功，并可以对外提供服务。</li>
+<li>设置主从关系：<pre><code>cluster replicate node-id
+</code></pre>node-id指的是节点的id,在节点启动时会自动分配。<br>node-id和run-id是不同的，它不会因为节点重启而改变。</li>
+<li>原生安装了解过程就可以，不必精通</li>
+</ol>
+<p><strong>2)配置节点：</strong></p>
+<ol>
+<li>配置redis-7000.conf：集群的最低配置<pre><code>port 7000
+daemonize yes
+dir &quot;./&quot;
+logfile &quot;node7000.log&quot;
+dbfilename &quot;dump7000.rdb&quot;
+cluster-enabled yes
+cluster-node-timeout 15000
+cluster-config-file nodes-7000.conf
+cluster-require-full-coverage no
+//所有节点密码需要一致
+masterauth 123456
+requirepass 123456
+</code></pre>配置图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-13-1.jpg" alt=""></li>
+<li>快速生成其他5个节点的配置：<br><code># sed &#39;s/7000/7001/g&#39; redis-7000.conf &gt; redis-7001.conf</code><br>以此类推，生成7000~7005这六个节点<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-14.jpg" alt=""></li>
+<li>注意设置了密码的情况一定要设置<pre><code>masterauth password
+requirepass password
+</code></pre>这两项，而且每个节点的密码也最好相同。可以像这样直接在配置文件中配置的。但是这样需要重启Redis服务，这里我还没启动所以这样配置。<br>如果要动态配置则可以在该端口客户端使用如下命令配置：<pre><code>config set masterauth passwd123
+config set requirepass passwd123
+config rewrite 
+</code></pre>这样就可以不用重启进行配置了。</li>
+<li>启动这些节点的redis服务：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-15.jpg" alt=""><br>后面有个cluster说明是集群节点。</li>
+<li>注意如果节点很多的话可以写个脚本来完成。</li>
+<li>如果这时候使用客户端并执行某些操作(如get,set)，会抛出一个错误：<pre><code>(error)CLUSTERDOWN The cluster is down
+</code></pre>这表明当前集群时下线的，不可用的。因为现在仅仅开启了Redis服务，集群还没有搭建好。</li>
+<li>可以在客户端下执行以下命令查看一些信息：<br><code>cluster nodes</code>：查看配置信息，交互节点信息<br><code>cluster info</code>：查看集群信息(状态，是否分配槽等)<br>如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-16.jpg" alt=""></li>
+</ol>
+<p><strong>3)配置meet节点交互(节点握手)：</strong></p>
+<ol>
+<li>语法：在客户端下<pre><code>cluster meet ip port
+</code></pre>ip就是想握手的节点的ip,port就是端口。<br>最好从单一节点的客户端出发，这样到其他节点只需要执行n-1次握手。</li>
+<li>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-17.jpg" alt=""><br>重复握手并不报错。</li>
+<li>在客户端执行<code>cluster nodes</code>命令可以查看与该节点达成交互的节点：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-18.jpg" alt=""><br>说明整个集群已经达到了一种互通的效果。<br>还可以执行<code>cluster info</code>命令查看一些其他信息。</li>
+<li>但是此时，集群没有分配槽，依然不可以进行读写：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-19.jpg" alt=""></li>
+</ol>
+<p><strong>4)分配槽：</strong></p>
+<ol>
+<li>在需要分配槽的节点客户端下执行命令：<pre><code>cluster addslots 0
+</code></pre>这样就可以将0这个槽分配给这个端口的节点。<br>但是如果要分配0~5461个槽分配到这个端口，就需要一个一个进行分配，这时就需要使用shell脚本了。</li>
+<li>编写shell脚本addslots.sh如下：<pre><code># 起始终止slots
+start=$1
+end=$2
+# 端口
+port=$3
+for slot in `seq ${start} ${end}`
+do
+        redis-cli -p ${port} -a &quot;123456&quot; cluster addslots ${slot} 
+done
+</code></pre></li>
+<li>首先确定好主从关系再进行分配槽：<br>假设7000，7001，7002是主节点，<br>7003，7004，7005是对应的从节点。</li>
+<li>根据确定的主从关系来执行上述shell脚本:<pre><code>sh addslots.sh 0 5461 7000
+sh addslots.sh 5462 10922 7001
+sh addslots.sh 10923 16383 7002
+</code></pre>要执行好长好长好长时间(绝不夸张)。<br>仅了解这么做就行了，直到原理，实际生产过程中不会使用原生方式的，即容易出错，又耗费时间。</li>
+<li>若仅分配完一部分槽，集群的状态依然是失败的。<br>只有当所有的槽都分配完毕了才算成功。</li>
+<li>集群完毕后随便使用哪个客户端，使用<code>cluster info</code>以及<code>cluster nodes</code>命令查看节点状态：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-20.jpg" alt=""><br>已经OK了，说明这时就可以使用读写命令了。</li>
+<li>但是还需要一步：主从复制</li>
+<li>补充：还可以使用<code>cluster slots</code>查看槽的分配信息及主从关系。</li>
+</ol>
+<p><strong>5)配置主从关系：</strong></p>
+<ol>
+<li>命令：在从节点下(7003,7004,7005)客户端执行<pre><code>cluster replicate node-id
+</code></pre>这个node-id可以使用cluster nodes看到，就是ip前的那一大串。<br>也可以直接使用：<pre><code>redis-cli -p 从节点端口 -a &quot;密码&quot; cluster replicate nodeid
+</code></pre>来执行客户端命令。</li>
+<li>操作如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-21.jpg" alt=""><br>操作成功。</li>
+<li>使用<code>cluster slots</code>及<code>cluster info</code>查看槽及主从信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-22.jpg" alt=""></li>
+<li>这样子就大功告成啦。</li>
+</ol>
+<p><strong>6)如何使用：</strong></p>
+<ol>
+<li>客户端命令：<br><code>redis-cli -c -h ip -p port</code><br>在使用时会根据所在的槽口自动进行节点的跳转。<br>如果不加-c参数则跳转时会报错，如下：<br><code>(error) MOVED 12182 172.0.0.1:7002</code></li>
+<li>搭建好的集群，所有服务关闭后重启不需要重新搭建</li>
+<li>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-23.jpg" alt=""></li>
+<li>注意一个很重要的问题：<br>一定要在第一次连接客户端时使用参数-a来输密码，而不是进去之后再输，否则就会出现这种情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-24.jpg" alt=""><br>卡了我一晚上。。。而且查遍全网也查不出问题。。。</li>
+</ol>
+<hr>
+<h2 id="5-使用Ruby脚本安装"><a href="#5-使用Ruby脚本安装" class="headerlink" title="5.使用Ruby脚本安装"></a>5.使用Ruby脚本安装</h2><p><strong>1)Ruby环境的安装：</strong></p>
+<ol>
+<li>首先查看是否安装了Ruby:<br> rpm -qa | grep ruby<br> yum list | grep ruby<br>或者直接<code>man ruby</code>或者<code>ruby -v</code><br>很幸运，我的安了。</li>
+<li>Ruby安装简单分为三步：<ul>
+<li>下载，编译，安装Ruby</li>
+<li>安装rubygem redis</li>
+<li>安装redis-trib.rb</li>
+</ul>
+</li>
+<li>下载编译安装Ruby：<br>过程和Redis的非常相似<br>下载：<pre><code># wget https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz
+</code></pre>或者在Windows中下载后传过去。<br>也可以使用<code>yum install ruby</code>来安装。<br>如果没有用yum，则需要解压，编译(make)，安装(make install)。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月25日 22:54</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" title="Redis学习笔记（八）：Redis Cluster集群简单搭建">https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/&title=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/&title=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-呼唤集群"><span class="post-toc-text">1.呼唤集群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-数据分布"><span class="post-toc-text">2.数据分布</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集群架构与安装架构"><span class="post-toc-text">3.集群架构与安装架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis-Cluster原生命令的安装方式"><span class="post-toc-text">4.Redis Cluster原生命令的安装方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用Ruby脚本安装"><span class="post-toc-text">5.使用Ruby脚本安装</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/24/Redis学习笔记（七）：Redis扩展功能及哨兵/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（七）：Redis扩展功能及哨兵的补充</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
