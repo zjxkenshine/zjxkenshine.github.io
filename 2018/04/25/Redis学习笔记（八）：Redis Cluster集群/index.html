@@ -52,7 +52,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-34.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-35.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-36.jpg">
-<meta property="og:updated_time" content="2018-04-26T09:43:25.448Z">
+<meta property="og:updated_time" content="2018-04-26T12:16:34.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
 <meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
@@ -495,7 +495,7 @@ requirepass 123456
 # redis-server redis-8004.conf
 # redis-server redis-8005.conf
 </code></pre>查看进程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-31.jpg" alt=""></li>
-<li>如果像我一样配置了密码，你还需要以下几步进行配置：<br>使用<code>gem env</code>查看gem path:这是你的软件安装路径<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-32.jpg" alt=""><br>可以看到我的路径(第一个)是/opt/开头的，那么久修改它：<pre><code>vim ${你的地址}/gems/redis-4.0.0/lib/redis/client.rb
+<li>如果像我一样配置了密码，你还需要以下几步进行配置：<br>使用<code>gem env</code>查看gem path:这是你的软件安装路径<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-32.jpg" alt=""><br>可以看到我的路径(第一个)是/opt/开头的，那么久修改它：<pre><code># vim ${你的地址}/gems/redis-4.0.0/lib/redis/client.rb
 </code></pre>修改password：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-33.jpg" alt=""></li>
 </ol>
 <p><strong>3)第二步，一键搭建，完成了</strong></p>
@@ -510,7 +510,7 @@ requirepass 123456
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月26日 17:43</p>
+        <p>最后更新： 2018年04月26日 20:16</p>
         <p>原始链接： <a class="post-url" href="/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" title="Redis学习笔记（八）：Redis Cluster集群简单搭建">https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -642,7 +642,7 @@ requirepass 123456
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Redis学习笔记（九）：集群扩容缩容与常见运维问题
+          Redis学习笔记（九）：集群伸缩与常见运维问题
         
       </span>
     </a>

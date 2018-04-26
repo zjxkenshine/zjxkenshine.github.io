@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Redis学习笔记（九）：集群扩容缩容与常见运维问题 | 程序人生</title>
+  <title>Redis学习笔记（九）：集群伸缩与常见运维问题 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,15 +11,20 @@
   <meta name="description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis学习笔记（九）：集群扩容缩容与常见运维问题">
+<meta property="og:title" content="Redis学习笔记（九）：集群伸缩与常见运维问题">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-26T10:07:15.607Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-04.jpg">
+<meta property="og:updated_time" content="2018-04-26T14:44:34.998Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis学习笔记（九）：集群扩容缩容与常见运维问题">
+<meta name="twitter:title" content="Redis学习笔记（九）：集群伸缩与常见运维问题">
 <meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +122,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      Redis学习笔记（九）：集群扩容缩容与常见运维问题
+      Redis学习笔记（九）：集群伸缩与常见运维问题
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -164,12 +169,45 @@
 </li>
 </ol>
 <hr>
+<h2 id="1-伸缩原理"><a href="#1-伸缩原理" class="headerlink" title="1.伸缩原理"></a>1.伸缩原理</h2><ol>
+<li>集群伸缩的简单原理图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-01.jpg" alt=""></li>
+<li>集群扩展的简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-02.jpg" alt=""><br>添加节点后原有的节点会移动一些槽到新有的节点上。实际上移动的就是键值对。</li>
+<li>集群伸缩的原理：<br>槽，数据在节点之间的移动</li>
+</ol>
+<hr>
+<h2 id="2-集群扩容"><a href="#2-集群扩容" class="headerlink" title="2.集群扩容"></a>2.集群扩容</h2><p>简单来说就是增加节点<br><strong>1)简单流程：</strong></p>
+<ol>
+<li>简单分为三步：    <ul>
+<li>准备新节点(一对)</li>
+<li>加入集群</li>
+<li>分配槽和数据</li>
+<li>(设置主从?)</li>
+</ul>
+</li>
+<li>第一步准备节点比较简单：<br>配置<br><code># sed &#39;s/8000/8006/g&#39; redis-8000.conf &gt; redis-8006.conf</code><br>开启：<br><code># redis-server redis-8006.conf</code><br><code># redis-server redis-8007.conf</code></li>
+<li>此时这俩节点是这样的：(视频的图)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-03.jpg" alt=""><br>并未加入到这个集群中。他们被称为孤立节点。</li>
+</ol>
+<p><strong>2)将孤立节点加入集群：</strong></p>
+<ol>
+<li>加入集群的作用：<ul>
+<li>为它迁移槽和数据实现扩容</li>
+<li>作为从节点负责故障转移(某从节点需要下线)</li>
+</ul>
+</li>
+<li>原生命令方式：在某一集群中客户端中执行<pre><code>cluster meet 127.0.0.1 8006
+cluster meet 127.0.0.1 8007
+</code></pre>查看加入后的节点状态：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-04.jpg" alt=""><br>但是这种方式有一个问题：<br>如果新节点已经加入了某个集群，则会造成故障。<br>新加入的两个节点需要额外执行slaveof来设置主从关系。<br>–》所以建议是有后面Ruby工具的方式</li>
+<li>使用工具添加节点：<pre><code># redis-trib.rb add-node 新节点ip:新节点端口 已存在节点ip:已存在节点端口 
+</code></pre>这两个节点的操作是使他们做一个meet操作。还可以加参数，如下：<pre><code># redis-trib.rb add-node 127.0.0.1：8006 127.0.0.1：8000 --slave --master-id &lt;arg&gt;
+</code></pre>add-node有两个可选参数：<br>–slave：设置该参数，则新节点以slave的角色加入集群<br>–master-id：这个参数需要设置了–slave才能生效，–master-id用来指定新节点的master节点。如果不设置该参数，则会随机为节点选择master节点。</li>
+</ol>
+<p><strong>3)迁移槽和数据：</strong></p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月26日 18:07</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" title="Redis学习笔记（九）：集群扩容缩容与常见运维问题">https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/</a></p>
+        <p>最后更新： 2018年04月26日 22:44</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" title="Redis学习笔记（九）：集群伸缩与常见运维问题">https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -226,7 +264,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&title=《Redis学习笔记（九）：集群扩容缩容与常见运维问题》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&title=《Redis学习笔记（九）：集群伸缩与常见运维问题》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -236,7 +274,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&title=《Redis学习笔记（九）：集群扩容缩容与常见运维问题》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&title=《Redis学习笔记（九）：集群伸缩与常见运维问题》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -246,7 +284,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（九）：集群扩容缩容与常见运维问题》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（九）：集群伸缩与常见运维问题》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -286,7 +324,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-伸缩原理"><span class="post-toc-text">1.伸缩原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-集群扩容"><span class="post-toc-text">2.集群扩容</span></a></li></ol>
         </nav>
     </aside>
     
