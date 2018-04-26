@@ -9,7 +9,7 @@
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
   <meta name="description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
-<meta name="keywords" content="Redis">
+<meta name="keywords" content="Redis,Ruby">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/index.html">
@@ -40,7 +40,19 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-22.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-23.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-24.jpg">
-<meta property="og:updated_time" content="2018-04-25T14:54:01.523Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-26-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-34.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-35.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-36.jpg">
+<meta property="og:updated_time" content="2018-04-26T09:43:25.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
 <meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
@@ -385,23 +397,120 @@ sh addslots.sh 10923 16383 7002
 <li>注意一个很重要的问题：<br>一定要在第一次连接客户端时使用参数-a来输密码，而不是进去之后再输，否则就会出现这种情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-24.jpg" alt=""><br>卡了我一晚上。。。而且查遍全网也查不出问题。。。</li>
 </ol>
 <hr>
-<h2 id="5-使用Ruby脚本安装"><a href="#5-使用Ruby脚本安装" class="headerlink" title="5.使用Ruby脚本安装"></a>5.使用Ruby脚本安装</h2><p><strong>1)Ruby环境的安装：</strong></p>
+<h2 id="5-在Linux下安装Ruby环境"><a href="#5-在Linux下安装Ruby环境" class="headerlink" title="5.在Linux下安装Ruby环境"></a>5.在Linux下安装Ruby环境</h2><p><strong>1)查看是否安装Ruby</strong></p>
 <ol>
-<li>首先查看是否安装了Ruby:<br> rpm -qa | grep ruby<br> yum list | grep ruby<br>或者直接<code>man ruby</code>或者<code>ruby -v</code><br>很幸运，我的安了。</li>
-<li>Ruby安装简单分为三步：<ul>
+<li>使用Ruby工具搭建Redis集群需要使用redis-trib.rb</li>
+<li>redis-trib.rb安装(针对Redis集群的)简单分为三步：<ul>
 <li>下载，编译，安装Ruby</li>
-<li>安装rubygem redis</li>
+<li>安装rubygem redis(ruby对Redis的客户端)</li>
 <li>安装redis-trib.rb</li>
 </ul>
 </li>
-<li>下载编译安装Ruby：<br>过程和Redis的非常相似<br>下载：<pre><code># wget https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz
-</code></pre>或者在Windows中下载后传过去。<br>也可以使用<code>yum install ruby</code>来安装。<br>如果没有用yum，则需要解压，编译(make)，安装(make install)。</li>
+<li>首先查看是否安装了Ruby:<pre><code>rpm -qa | grep ruby
+yum list | grep ruby
+</code></pre>或者直接<code>man ruby</code>或者<code>ruby -v</code><br>很幸运，我的安了，但是默认都是安装的Ruby2.0.0,想要安装更高版本。</li>
+<li>下面介绍安装高版本Ruby的三种方式。</li>
+</ol>
+<p><strong>2)方式一：手动下载解压编译安装</strong></p>
+<ol>
+<li>下载并解压Ruby：<br>过程和Redis的非常相似<br>下载：<pre><code># wget https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz
+</code></pre>或者在Windows中下载后传过去。<br>如果没有用yum，则需要解压，编译(make)，安装(make install)。<br>解压：<pre><code># tar -zxvf ruby-2.5.1.tar.gz 
+</code></pre></li>
+<li>移动到Ruby目录：<br>跳转到ruby2.5.1<pre><code># cd ruby2.5.1
+</code></pre></li>
+<li>配置，编译，安装<br>源码安装一般有这三个步骤：配置(configure)、编译(make)、安装(make install)<br>配置：<pre><code># ./configure  --prefix=/opt/ruby
+</code></pre>编译：(时间可能有点长)<pre><code># make
+</code></pre>安装：<pre><code># make install
+</code></pre>这时Ruby就安装到了/opt/ruby目录下了。</li>
+<li>使用软连接或者cp复制将系统自带的Ruby相关命令覆盖：<br>为什么要覆盖呢：<br>跳转到/opt/ruby目录执行如下操作：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-25.jpg" alt=""><br>发现默认的ruby命令还是系统自带的。<br>(注意另个-f参数都是强制替换，如果不想替换掉原来的建议换名字)<br>可以使用软连接覆盖/usr/bin中的可执行文件：<pre><code># ln -sf /opt/ruby/bin/ruby /usr/bin/ruby
+# ln -sf /opt/ruby/bin/gem /usr/bin/gem
+</code></pre>也可以使用cp覆盖：<pre><code># cp -f /opt/ruby/bin/ruby /usr/bin/ruby
+# cp -f /opt/ruby/bin/gem /usr/bin/gem
+</code></pre>替换完毕再执行：ruby -v<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-26-1.jpg" alt=""></li>
+</ol>
+<p><strong>3)方式二：切换yum安装源安装</strong></p>
+<ol>
+<li>使用yum安装的Ruby默认也是2.0.0版本的</li>
+<li>具体安装步骤如下：<br>切换安装源：<pre><code># yum install centos-release-scl-rh　　　　//会在/etc/yum.repos.d/目录下多出一个CentOS-SCLo-scl-rh.repo源
+</code></pre>安装并配置：<pre><code># yum install rh-ruby23 -y
+# scl enable rh-ruby23 bash
+</code></pre></li>
+<li>这几步执行完毕就可以了。未测试。</li>
+</ol>
+<p><strong>4)方式三：RVM 安装(脚本安装)</strong></p>
+<ol>
+<li>先执行一条官方 <a href="https://rvm.io/" target="_blank" rel="noopener">https://rvm.io/</a> 复制来的长命令（…C0E3空格7D2B…）：<pre><code># gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+</code></pre></li>
+<li>然后执行命令(连接)：<pre><code># \curl -sSL https://get.rvm.io | bash -s stable
+</code></pre></li>
+<li>进行安装：<br>按提示执行：<pre><code># source  /etc/profile.d/rvm.sh
+</code></pre>查看哪些可安装版本：<pre><code># rvm list known
+</code></pre>安装某版本ruby,直接跟版本号即可：<pre><code># rvm install 2.5.1
+</code></pre></li>
+<li>使用<code>ruby-v</code>,<code>gem-v</code>查看是否安装成功。</li>
+<li>更加具体生动的(带图片的)过程可以访问大佬博客：<br><a href="https://www.cnblogs.com/ding2016/p/7903147.html" target="_blank" rel="noopener">https://www.cnblogs.com/ding2016/p/7903147.html</a></li>
+</ol>
+<hr>
+<h2 id="6-使用Ruby工具搭建集群"><a href="#6-使用Ruby工具搭建集群" class="headerlink" title="6.使用Ruby工具搭建集群"></a>6.使用Ruby工具搭建集群</h2><p><strong>1)安装redis-trib.rb：</strong></p>
+<ol>
+<li>redis-trib.rb安装简单分为三步：(上面已经安装了Ruby环境了)<ul>
+<li>下载，编译，安装Ruby</li>
+<li>安装rubygem redis(ruby对Redis的客户端)</li>
+<li>安装redis-trib.rb</li>
+</ul>
+</li>
+<li>安装rubygem redis客户端<pre><code># gem install  redis --version 4.0.0
+</code></pre>或者使用wget来下载安装：<pre><code># wget http://rubygems.org/downloads/redis-4.0.0.gem
+# gem install -l redis-4.0.0.gem
+</code></pre>如果gem install报错，可以查看Redis解决方案或者博客：<br><a href="https://blog.csdn.net/feinifi/article/details/78251486" target="_blank" rel="noopener">https://blog.csdn.net/feinifi/article/details/78251486</a><br>安装成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-27.jpg" alt=""><br>确认一下：<pre><code># gem list -- check redis gem
+</code></pre>可以查看本机所安装的包：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-28.jpg" alt=""></li>
+<li>查看是否有redis-trib.rb：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-29.jpg" alt=""></li>
+<li>查看是否能使用该命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-30.jpg" alt=""><br>create是搭建一个集群<br>reshard是集群扩展<br>rebalance是负载均衡</li>
+<li>设置软连接到/usr/bin：<pre><code># ln -sf /usr/local/redis/src/redis-trib.rb /usr/local/bin/redis-trib.rb
+</code></pre></li>
+<li>使用redis-trib.rb看看是否成功<br>能弹出和上面一样的用法提示说明成功了</li>
+<li>下面就可以使用该命令去自动化搭建集群了</li>
+</ol>
+<p><strong>2)第一步：配置开启几个Redis服务(8000-8005)</strong></p>
+<ol>
+<li>创建8000节点配置文件redis-8000.conf配置如下：<pre><code>port 8000  
+cluster-enabled yes  
+cluster-config-file &quot;nodes-8000.conf&quot;  
+cluster-node-timeout 15000  
+dir &quot;./&quot;  
+appendonly yes  
+appendfilename &quot;appendonly-8000.aof&quot;  
+logfile &quot;node-8000.log&quot;  
+daemonize yes  
+pidfile &quot;/var/run/redis-8000.pid&quot;  
+dbfilename &quot;dump-8000.rdb&quot;  
+cluster-require-full-coverage no
+masterauth 123456
+requirepass 123456
+</code></pre>其余节点相同：<br><code># sed &#39;s/8000/8001-5/g&#39; redis-7000.conf &gt; redis-8001-5.conf</code><br>具体的创建过程就不截图了。</li>
+<li>开启这些服务：<pre><code># redis-server redis-8000.conf
+# redis-server redis-8001.conf
+# redis-server redis-8002.conf
+# redis-server redis-8003.conf
+# redis-server redis-8004.conf
+# redis-server redis-8005.conf
+</code></pre>查看进程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-31.jpg" alt=""></li>
+<li>如果像我一样配置了密码，你还需要以下几步进行配置：<br>使用<code>gem env</code>查看gem path:这是你的软件安装路径<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-32.jpg" alt=""><br>可以看到我的路径(第一个)是/opt/开头的，那么久修改它：<pre><code>vim ${你的地址}/gems/redis-4.0.0/lib/redis/client.rb
+</code></pre>修改password：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-33.jpg" alt=""></li>
+</ol>
+<p><strong>3)第二步，一键搭建，完成了</strong></p>
+<ol>
+<li>一键搭建Redis集群：<pre><code># redis-trib.rb create --replicas 1 127.0.0.1:8000 127.0.0.1:8001 127.0.0.1:8002 127.0.0.1:8003 127.0.0.1:8004 127.0.0.1:8005
+</code></pre>–replicas后面的<code>1</code>代表每个主节点有一个从节点。<br>如果太多节点还是写个shell脚本吧。</li>
+<li>中间可能需要输入一个yes确认：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-34.jpg" alt=""><br>创建完成：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-35.jpg" alt=""></li>
+<li>测试是否搭建成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-36.jpg" alt=""><br>牛逼，大功告成。</li>
+<li>注意，如果节点非常多的话，这种方式也不是一个非常好的方式，最好搭建一个云平台，来对各种数据进行管理。我看《Redis运行与维护》那本书上有讲，有空买一本学习学习。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月25日 22:54</p>
+        <p>最后更新： 2018年04月26日 17:43</p>
         <p>原始链接： <a class="post-url" href="/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" title="Redis学习笔记（八）：Redis Cluster集群简单搭建">https://zjxkenshine.github.io/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -508,6 +617,8 @@ sh addslots.sh 10923 16383 7002
       
     <a href="/tags/Redis/" class="color1">Redis</a>
       
+    <a href="/tags/Ruby/" class="color5">Ruby</a>
+      
   </li>
 
         </ul>
@@ -519,16 +630,26 @@ sh addslots.sh 10923 16383 7002
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-呼唤集群"><span class="post-toc-text">1.呼唤集群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-数据分布"><span class="post-toc-text">2.数据分布</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集群架构与安装架构"><span class="post-toc-text">3.集群架构与安装架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis-Cluster原生命令的安装方式"><span class="post-toc-text">4.Redis Cluster原生命令的安装方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-使用Ruby脚本安装"><span class="post-toc-text">5.使用Ruby脚本安装</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-呼唤集群"><span class="post-toc-text">1.呼唤集群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-数据分布"><span class="post-toc-text">2.数据分布</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集群架构与安装架构"><span class="post-toc-text">3.集群架构与安装架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Redis-Cluster原生命令的安装方式"><span class="post-toc-text">4.Redis Cluster原生命令的安装方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-在Linux下安装Ruby环境"><span class="post-toc-text">5.在Linux下安装Ruby环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-使用Ruby工具搭建集群"><span class="post-toc-text">6.使用Ruby工具搭建集群</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
+    <a href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Redis学习笔记（八）：Redis Cluster集群简单搭建
+        
+      </span>
+    </a>
   
-    <a href="/2018/04/24/Redis学习笔记（七）：Redis扩展功能及哨兵/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Redis学习笔记（七）：Redis扩展功能及哨兵的补充</span>
+  
+    <a href="/2018/04/25/Redis使用过程中出现的问题总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（八）：Redis Cluster集群简单搭建</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -597,7 +718,7 @@ sh addslots.sh 10923 16383 7002
             <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.89px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -630,7 +751,7 @@ sh addslots.sh 10923 16383 7002
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.5px;">Redis</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.89px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>

@@ -3,30 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Windows命令行cmd中遇到的问题及解决 | 程序人生</title>
+  <title>Redis学习笔记（八）：Redis Cluster集群简单搭建 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
-<meta name="keywords" content="Windows">
+  <meta name="description" content="0.问题列表 安装ruby-redis接口时# gem install redis --version 4.0.0出现问题：ERROR:  Loading command: install (LoadError)       cannot load such file -- zlib   ERROR:  While executing gem ... (NoMethodError)   undef">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Windows命令行cmd中遇到的问题及解决">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/index.html">
+<meta property="og:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
+<meta property="og:description" content="0.问题列表 安装ruby-redis接口时# gem install redis --version 4.0.0出现问题：ERROR:  Loading command: install (LoadError)       cannot load such file -- zlib   ERROR:  While executing gem ... (NoMethodError)   undef">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg">
-<meta property="og:updated_time" content="2018-04-08T13:21:21.700Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
+<meta property="og:updated_time" content="2018-04-26T08:01:58.507Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows命令行cmd中遇到的问题及解决">
-<meta name="twitter:description" content="0. 遇到的问题 ping不是内部或者外部命令 telnet不是内部或者外部命令   1.问题1-5的解决1)ping不是内部或者外部命令很多时候需要用ping来测试windows与Linux是否连接成功。出现ping不是内部或者外部命令这种情况只需要：打开我的电脑–&amp;gt;系统属性–&amp;gt;高级系统设置–&amp;gt;环境变量–&amp;gt;系统变量–&amp;gt;PATH查看是否有C:\windows\syst">
-<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
+<meta name="twitter:title" content="Redis学习笔记（八）：Redis Cluster集群简单搭建">
+<meta name="twitter:description" content="0.问题列表 安装ruby-redis接口时# gem install redis --version 4.0.0出现问题：ERROR:  Loading command: install (LoadError)       cannot load such file -- zlib   ERROR:  While executing gem ... (NoMethodError)   undef">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,14 +112,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Windows命令行cmd中遇到的问题" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Redis使用过程中出现的问题总结" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Windows命令行cmd中遇到的问题及解决
+      Redis学习笔记（八）：Redis Cluster集群简单搭建
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -132,12 +127,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/操作系统/">操作系统</a>
+                      <a href="/categories/NoSQL/">NoSQL</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-04-08
+          <i class="fa fa-calendar"></i>  2018-04-25
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -153,23 +148,58 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-遇到的问题"><a href="#0-遇到的问题" class="headerlink" title="0. 遇到的问题"></a>0. 遇到的问题</h2><ol>
-<li><code>ping</code>不是内部或者外部命令</li>
-<li><code>telnet</code>不是内部或者外部命令</li>
+            <h2 id="0-问题列表"><a href="#0-问题列表" class="headerlink" title="0.问题列表"></a>0.问题列表</h2><ol>
+<li>安装ruby-redis接口时<br><code># gem install redis --version 4.0.0</code><br>出现问题：<pre><code>ERROR:  Loading command: install (LoadError)  
+    cannot load such file -- zlib  
+ERROR:  While executing gem ... (NoMethodError)  
+undefined method `invoke_with_build_args&apos; for nil:NilClass 
+</code></pre></li>
+<li>使用<code>gem sources -a https://ruby.taobao.org/</code>切换安装源时出错<pre><code>ERROR:  While executing gem ... (Gem::Exception)  
+Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources
+</code></pre></li>
 </ol>
 <hr>
-<h2 id="1-问题1-5的解决"><a href="#1-问题1-5的解决" class="headerlink" title="1.问题1-5的解决"></a>1.问题1-5的解决</h2><p><strong>1)ping不是内部或者外部命令</strong><br>很多时候需要用ping来测试windows与Linux是否连接成功。<br>出现<code>ping</code>不是内部或者外部命令这种情况只需要：<br>打开我的电脑–&gt;系统属性–&gt;高级系统设置–&gt;环境变量–&gt;系统变量–&gt;PATH<br>查看是否有<code>C:\windows\system32</code>的配置，没有则加上;然后添加该配置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""><br>再ping一下虚拟机<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg" alt=""><br>0%丢失就说明连接成功了。</p>
-<p><strong>2)telnet不是内部或者外部命令</strong></p>
+<h2 id="1-问题1-5解决方案"><a href="#1-问题1-5解决方案" class="headerlink" title="1.问题1-5解决方案"></a>1.问题1-5解决方案</h2><p><strong>1)安装ruby-redis接口时出错：</strong></p>
 <ol>
-<li>在使用Redis时会用telnet测试redis的端口是否开启<br>然后报telnet`不是内部或者外部命令错误。</li>
-<li>点击【计算机】–&gt;【控制面板】–&gt;【程序】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg" alt=""><br>然后点击【程序和功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-04.jpg" alt=""><br>点击左侧【启动或关闭Windows功能】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-05.jpg" alt=""><br>勾选Telnet客户端：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00032cmd%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-06.jpg" alt=""><br>点击确定，等待几分钟安装完毕就可以了。</li>
+<li>使用命令：<br><code># gem install redis --version 4.0.0</code><br>问题描述：<pre><code>ERROR:  Loading command: install (LoadError)  
+    cannot load such file -- zlib  
+ERROR:  While executing gem ... (NoMethodError)  
+undefined method `invoke_with_build_args&apos; for nil:NilClass
+</code></pre></li>
+<li>原因缺少zlib依赖，需要安装zlib库</li>
+<li>第一步：安装zlib库，如果已经安装，跳过：<br><code># yum install zlib-devel</code><br>第二步：集成zlib到ruby<pre><code>cd /usr/local/ruby-2.5.1/ext/zlib
+ruby extconf.rb
+vim Makefile
+//在操作下一步之前需要修改Makefile文件中的zlib.o: $(top_srcdir)/include/ruby.h,将$(top_srcdir)修改为../..如下
+//zlib.o: ../../include/ruby.h
+//这一步如果不修改，make时会爆出另外一个错误
+//make:*** No rule to make target `/include/ruby.h&apos;, needed by `zlib.o&apos;.  Stop
+make &amp;&amp; make install
+</code></pre></li>
+<li>修改的那里在Makefile文件的最底部，如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""></li>
+</ol>
+<p><strong>2）使用<code>gem sources -a</code>切换安装源时出错：</strong></p>
+<ol>
+<li>使用命令：<br><code>gem sources -a https://ruby.taobao.org/</code><br>错误描述：<pre><code>ERROR:  While executing gem ... (Gem::Exception)
+Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources
+</code></pre></li>
+<li>错误原因：<br>缺少openssl库</li>
+<li>安装openssl库：<pre><code># yum install openssl-devel
+</code></pre>不要只用yum install openssl来安装，否则会缺少pcre等相关库，执行ruby extconf.rb会提示找不到ssl.h文件。</li>
+<li>集成到ruby：<pre><code>cd /usr/local/ruby-2.5.1/ext/openssl
+ruby extconf.rb
+vim Makefile
+//同样修改Makefile中的$(top_srcdir)为../..
+make &amp;&amp; make install
+</code></pre></li>
+<li>大概是在Makefiles所有<code>$(top_srcdir)</code>修改为<code>../..</code><br>但是有点多，所以在最顶端加上一句<br><code>top_srcdir=../..</code><br>就可以了，不用去手动修改$(top_srcdir)。</li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月08日 21:21</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/08/Windows命令行cmd中遇到的问题/" title="Windows命令行cmd中遇到的问题及解决">https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/</a></p>
+        <p>最后更新： 2018年04月26日 16:01</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/25/Redis使用过程中出现的问题总结/" title="Redis学习笔记（八）：Redis Cluster集群简单搭建">https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -226,7 +256,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&title=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/&title=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -236,22 +266,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&title=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/&title=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows命令行cmd中遇到的问题及解决》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（八）：Redis Cluster集群简单搭建》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -261,7 +291,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/08/Windows命令行cmd中遇到的问题/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -273,7 +303,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/Windows/" class="color3">Windows</a>
+    <a href="/tags/Redis/" class="color1">Redis</a>
       
   </li>
 
@@ -286,26 +316,26 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-遇到的问题"><span class="post-toc-text">0. 遇到的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5的解决"><span class="post-toc-text">1.问题1-5的解决</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-问题列表"><span class="post-toc-text">0.问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决方案"><span class="post-toc-text">1.问题1-5解决方案</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/04/09/《鸟哥的Linux私房菜》笔记（八）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          《鸟哥的Linux私房菜》笔记（八）：Linux账号管理与ACL权限设置
+          Redis学习笔记（八）：Redis Cluster集群简单搭建
         
       </span>
     </a>
   
   
-    <a href="/2018/04/07/在VMwaver以及virtualBox安装Linux/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">在VMwaver以及VirtualBox安装Linux</span>
+    <a href="/2018/04/24/Redis学习笔记（七）：Redis扩展功能及哨兵/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（七）：Redis扩展功能及哨兵的补充</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
