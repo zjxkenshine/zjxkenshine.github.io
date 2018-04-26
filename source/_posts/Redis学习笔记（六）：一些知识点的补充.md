@@ -570,7 +570,6 @@ Asynchronous AOF fsync is taking too long (disk is busy?). Writing the AOF buffe
 1. 通过前面的复制过程我们了解到,主库接收到SYNC的命令时会执行RDB过程,即使在配置文件中禁用RDB持久化也会生成,那么如果主库所
 在的服务器磁盘IO性能较差,那么这个复制过程就会出现瓶颈,庆幸的是,Redis在2.8.18版本开始实现了无磁盘复制功能
 2. 原理：Redis在与从数据库进行复制初始化时将不会将快照存储到磁盘,而是直接通过网络发送给从数据库,避免了IO性能差问题。
-3. 开启无磁盘复制:repl-diskless-sync yes
-
+3. 开启无磁盘复制:`repl-diskless-sync yes`
 
 ---

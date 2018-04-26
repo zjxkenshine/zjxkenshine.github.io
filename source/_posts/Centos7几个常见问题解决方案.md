@@ -1,5 +1,5 @@
 ---
-title: Centos7几个常见问题和解决方案
+title: Centos7遇到的问题和解决方案
 date: 2018-03-10 10:24:58
 tags: Linux
 categories: 操作系统
@@ -17,6 +17,14 @@ categories: 操作系统
 		Connection closing...Socket close.
 		Connection closed by foreign host.
 		Disconnected from remote host(新建会话) at 22:13:58.
+6. VirtualBox无法打开虚拟机并报错：
+		The VM session was aborted.
+		返回 代码: 
+		E_FAIL (0x80004005)
+		组件: 
+		SessionMachine
+		界面: 
+		ISession {7844aa05-b02e-4cdd-a04f-ade4a762e6b7}
 
 
 
@@ -119,6 +127,24 @@ login shell（黑窗口）直接登录，non-login shell(白窗口)下`su - root
 		Disconnected from remote host(新建会话) at 22:13:58.
 2. 解决方法：
 待解决，找不到方法。可能是校园网的问题。
+3. 解决方案就是换了一个虚拟机。
+
+---
+## 2.问题6~10解决方案
+**6)使用VirtualBox打开Linux报错：**
+1. 报错信息：
+The VM session was aborted.
+返回 代码: 
+E_FAIL (0x80004005)
+组件: 
+SessionMachine
+界面: 
+ISession {7844aa05-b02e-4cdd-a04f-ade4a762e6b7}
+2. 如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-12.jpg)
+3. 网上有什么声音设备异常，什么清空磁盘，新建客户端什么的都试了，没用。
+然后重启一下就好了(当然我以前是能正常使用的，就今天报错了)。
+他们说可能是VBox的Bug,反正重启能解决的问题就别想那么多。
 
 
 ---

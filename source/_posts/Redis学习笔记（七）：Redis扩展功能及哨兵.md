@@ -1,6 +1,6 @@
 ---
 title: Redis学习笔记（七）：Redis扩展功能及哨兵的补充
-date: 2018-4-23 12:35:49 
+date: 2018-4-24 9:35:49 
 tags: Redis
 categories: NoSQL
 

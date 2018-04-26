@@ -124,3 +124,11 @@ VirtualBox5.2.8，Centos7.4，Xshell5
 ![](http://p5ki4lhmo.bkt.clouddn.com/00029XshellXftp14.jpg)
 
 ---
+## 5.Xshell及Xftp使用过程中的一些问题1~5
+**1)为啥Xshell老是卡死：**
+Ctrl+s在Xshell中是锁屏的意思，按Ctrl+q解锁。
+这操作是真的骚。
+
+
+
+---

@@ -20,7 +20,7 @@ categories: 操作系统
 	- 基础的正则表达式
 	- 扩展的正则表达式
 	- 文件格式化处理
-	- shell script的使用
+	- shell script的简单使用
 
 ---
 ## 1.认识正则表达式
