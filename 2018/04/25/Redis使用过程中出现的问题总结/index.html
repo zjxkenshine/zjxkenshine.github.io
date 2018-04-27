@@ -17,7 +17,8 @@
 <meta property="og:description" content="0.问题列表 安装ruby-redis接口时# gem install redis --version 4.0.0出现问题：ERROR:  Loading command: install (LoadError)       cannot load such file -- zlib   ERROR:  While executing gem ... (NoMethodError)   undef">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
-<meta property="og:updated_time" content="2018-04-26T10:14:48.415Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg">
+<meta property="og:updated_time" content="2018-04-27T08:28:43.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis使用过程中出现的问题及解决方案">
 <meta name="twitter:description" content="0.问题列表 安装ruby-redis接口时# gem install redis --version 4.0.0出现问题：ERROR:  Loading command: install (LoadError)       cannot load such file -- zlib   ERROR:  While executing gem ... (NoMethodError)   undef">
@@ -157,6 +158,11 @@ undefined method `invoke_with_build_args&apos; for nil:NilClass
 <li>使用<code>gem sources -a https://ruby.taobao.org/</code>切换安装源时出错<pre><code>ERROR:  While executing gem ... (Gem::Exception)  
 Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources
 </code></pre></li>
+<li>使用redis-trib.rb进行节点扩容(移动槽)时出现问题：(待解决)<pre><code>[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+</code></pre>再次启动出现如下问题：<pre><code>[WARNING] Node 127.0.0.1:8000 has slots in migrating state (206).
+[WARNING] Node 127.0.0.1:8006 has slots in importing state (206).
+[WARNING] The following slots are open: 206
+</code></pre></li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决方案"><a href="#1-问题1-5解决方案" class="headerlink" title="1.问题1-5解决方案"></a>1.问题1-5解决方案</h2><p><strong>1)安装ruby-redis接口时出错：</strong></p>
@@ -194,11 +200,41 @@ make &amp;&amp; make install
 </code></pre></li>
 <li>大概是在Makefiles所有<code>$(top_srcdir)</code>修改为<code>../..</code><br>但是有点多，所以在最顶端加上一句<br><code>top_srcdir=../..</code><br>就可以了，不用去手动修改$(top_srcdir)。</li>
 </ol>
+<p><strong>3)使用redis-trib.rb进行节点扩容(移动槽)时出现问题</strong></p>
+<ol>
+<li>出错问题：<pre><code>[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+*** Please fix your cluster problems before resharding
+</code></pre>再次启动出现如下问题：<pre><code>&gt;&gt;&gt; Check for open slots...
+[WARNING] Node 127.0.0.1:8000 has slots in migrating state (206).
+[WARNING] Node 127.0.0.1:8006 has slots in importing state (206).
+[WARNING] The following slots are open: 206
+&gt;&gt;&gt; Check slots coverage...
+</code></pre></li>
+<li>查阅资料发现可能是<br>某个很大的key堵塞了redis导致，但是并不是：<pre><code>127.0.0.1:8000&gt; cluster getkeysinslot 206 100
+1) &quot;jinan&quot;
+127.0.0.1:8000&gt; debug object jinan
+Value at:0x7efbf0821e20 refcount:1 encoding:embstr serializedlength:4 lru:14855605 lru_seconds_idle:7818
+</code></pre>参考地址：<br><a href="https://www.cnblogs.com/svan/p/6039942.html" target="_blank" rel="noopener">https://www.cnblogs.com/svan/p/6039942.html</a></li>
+<li>发现可以使用<code>redis-trib.rb fix</code>来修复节点：<pre><code># redis-trib.rb fix 127.0.0.1:8000
+</code></pre>但是无法修复：<pre><code>&gt;&gt;&gt; Fixing open slot 206
+Set as migrating in: 127.0.0.1:8000
+Set as importing in: 127.0.0.1:8006
+Moving slot 206 from 127.0.0.1:8000 to 127.0.0.1:8006: 
+[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+</code></pre>参考地址：<br><a href="http://xiaorui.cc/2015/05/19/%E4%BD%BF%E7%94%A8redis-trib-fix%E5%91%BD%E4%BB%A4%E4%BF%AE%E5%A4%8Dredis-cluster%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">http://xiaorui.cc/2015/05/19/%E4%BD%BF%E7%94%A8redis-trib-fix%E5%91%BD%E4%BB%A4%E4%BF%AE%E5%A4%8Dredis-cluster%E8%8A%82%E7%82%B9/</a></li>
+<li>仔细看了看那个错误的意思：<br>尝试在客户端杀掉这个卡住的客户端，进入8000客户端，使用client list查看客户端，并把时间最久的那个客户端kill掉：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg" alt=""><br>也没有用。杀不掉。</li>
+<li>尝试手动去迁移槽中的key(只有一个jinan啊，什么情况啊)<br>使用cluster migrate也失败了。。。放弃了。。。<br>这个问题等以后工作后遇到运维大佬再解决了。</li>
+<li>现在学习阶段的解决方法就是：<pre><code># FLUSHALL  //配置文件中未关闭
+# redis-trib.rb fix 127.0.0.1:8000
+</code></pre>然后再次进行分配，发现槽点不均匀的话，使用<pre><code># redis-trib.rb rebalance 127.0.0.1:8000
+</code></pre>就可以分配均匀了,可以使用下命令查看：<pre><code># redis-trib.rb check 127.0.0.1:8000
+</code></pre></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月26日 18:14</p>
+        <p>最后更新： 2018年04月27日 16:28</p>
         <p>原始链接： <a class="post-url" href="/2018/04/25/Redis使用过程中出现的问题总结/" title="Redis使用过程中出现的问题及解决方案">https://zjxkenshine.github.io/2018/04/25/Redis使用过程中出现的问题总结/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
