@@ -33,6 +33,7 @@ w3cschoolRedis教程：<https://www.w3cschool.cn/redis/nma27f21.html>
 	- 早期的解决方案，配置更强大的机器。(很贵)
 	- 正确的解决方案，分布式集群。简单解释就是加机器。
 3. Redis在3.0的时候提供了分布式的支持。	
+4. 在集群中只有db0,没有db1到db15这些数据库。
 
 ---
 ## 2.数据分布
@@ -430,7 +431,7 @@ rebalance是负载均衡
 使用`gem env`查看gem path:这是你的软件安装路径
 ![](http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-32.jpg)
 可以看到我的路径(第一个)是/opt/开头的，那么久修改它：
-		vim ${你的地址}/gems/redis-4.0.0/lib/redis/client.rb
+		# vim ${你的地址}/gems/redis-4.0.0/lib/redis/client.rb
 修改password：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00049Redis%E5%AD%A6%E4%B9%A08-33.jpg)
 

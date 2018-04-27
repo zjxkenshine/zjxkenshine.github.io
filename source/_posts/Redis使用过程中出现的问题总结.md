@@ -1,5 +1,5 @@
 ---
-title: Redis学习笔记（八）：Redis Cluster集群简单搭建
+title: Redis使用过程中出现的问题及解决方案
 date: 2018-4-25 11:51:56  
 tags: Redis
 categories: NoSQL
@@ -16,6 +16,13 @@ categories: NoSQL
 2. 使用`gem sources -a https://ruby.taobao.org/`切换安装源时出错
 		ERROR:  While executing gem ... (Gem::Exception)  
 		Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources
+3. 使用redis-trib.rb进行节点扩容(移动槽)时出现问题：(待解决)
+		[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+再次启动出现如下问题：
+		[WARNING] Node 127.0.0.1:8000 has slots in migrating state (206).
+		[WARNING] Node 127.0.0.1:8006 has slots in importing state (206).
+		[WARNING] The following slots are open: 206
+
 
 ---
 ## 1.问题1-5解决方案
@@ -64,5 +71,47 @@ categories: NoSQL
 `top_srcdir=../..`
 就可以了，不用去手动修改$(top_srcdir)。
 
+**3)使用redis-trib.rb进行节点扩容(移动槽)时出现问题**
+1. 出错问题：
+		[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+		*** Please fix your cluster problems before resharding
+再次启动出现如下问题：
+		>>> Check for open slots...
+		[WARNING] Node 127.0.0.1:8000 has slots in migrating state (206).
+		[WARNING] Node 127.0.0.1:8006 has slots in importing state (206).
+		[WARNING] The following slots are open: 206
+		>>> Check slots coverage...
+2. 查阅资料发现可能是
+某个很大的key堵塞了redis导致，但是并不是：
+		127.0.0.1:8000> cluster getkeysinslot 206 100
+		1) "jinan"
+		127.0.0.1:8000> debug object jinan
+		Value at:0x7efbf0821e20 refcount:1 encoding:embstr serializedlength:4 lru:14855605 lru_seconds_idle:7818
+参考地址：
+<https://www.cnblogs.com/svan/p/6039942.html>
+3. 发现可以使用`redis-trib.rb fix`来修复节点：
+		# redis-trib.rb fix 127.0.0.1:8000
+但是无法修复：
+		>>> Fixing open slot 206
+		Set as migrating in: 127.0.0.1:8000
+		Set as importing in: 127.0.0.1:8006
+		Moving slot 206 from 127.0.0.1:8000 to 127.0.0.1:8006: 
+		[ERR] Calling MIGRATE: ERR Syntax error, try CLIENT (LIST | KILL | GETNAME | SETNAME | PAUSE | REPLY)
+参考地址：
+<http://xiaorui.cc/2015/05/19/%E4%BD%BF%E7%94%A8redis-trib-fix%E5%91%BD%E4%BB%A4%E4%BF%AE%E5%A4%8Dredis-cluster%E8%8A%82%E7%82%B9/>
+4. 仔细看了看那个错误的意思：
+尝试在客户端杀掉这个卡住的客户端，进入8000客户端，使用client list查看客户端，并把时间最久的那个客户端kill掉：
+![](http://p5ki4lhmo.bkt.clouddn.com/00050Redis%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg)
+也没有用。杀不掉。
+5. 尝试手动去迁移槽中的key(只有一个jinan啊，什么情况啊)
+使用cluster migrate也失败了。。。放弃了。。。
+这个问题等以后工作后遇到运维大佬再解决了。
+6. 现在学习阶段的解决方法就是：
+		# FLUSHALL  //配置文件中未关闭
+		# redis-trib.rb fix 127.0.0.1:8000
+然后再次进行分配，发现槽点不均匀的话，使用
+		# redis-trib.rb rebalance 127.0.0.1:8000
+就可以分配均匀了,可以使用下命令查看：
+		# redis-trib.rb check 127.0.0.1:8000
 
 ---
