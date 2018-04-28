@@ -42,7 +42,15 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-24.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-25.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-26.jpg">
-<meta property="og:updated_time" content="2018-04-27T14:51:16.031Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-34.jpg">
+<meta property="og:updated_time" content="2018-04-28T11:56:03.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习笔记（九）：集群伸缩与常见运维问题">
 <meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
@@ -288,6 +296,7 @@ cluster meet 127.0.0.1 8007
 <li>这其中会出现很多的问题，具体见Redis的问题总结，有几个有用的方法在这里总结一下：<pre><code>redis-trib.rb rebalance ip:port        //使槽点分配均匀
 redis-trib.rb fix ip:port        //修复某些错误
 redis-trib.rb check ip:port        //查看该集群槽点的分配情况，检测槽点
+redis-trib.rb info ip:port        //查看节点，槽，键值的分布
 </code></pre></li>
 </ol>
 <p><strong>4)设置主从：</strong></p>
@@ -472,8 +481,8 @@ public void multiNodes(){
 <p><strong>3）批量操作怎么实现：</strong></p>
 <ol>
 <li>如hmset,hmget这些批量操作(hmset那些不算)，如何将批量操作的key都放到一个槽里呢?（Redis的要求）</li>
-<li>串行mget解决方案：能解决但是效率差<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-22.jpg" alt=""></li>
-<li>串行IO解决方案：节省网络时间(只需要n次网络时间)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-23.jpg" alt=""></li>
+<li>串行mget解决方案：能解决但是效率差(n次网络时间)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-22.jpg" alt=""></li>
+<li>串行IO解决方案：节省网络时间(只需要node次网络时间)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-23.jpg" alt=""></li>
 <li>并行IO：只需要1次网络时间，并行操作<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-24.jpg" alt=""></li>
 <li>hash_tag方式：一次网络时间，且所有key都落在一个节点<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-25.jpg" alt=""></li>
 <li>四种方式的优缺点：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-26.jpg" alt=""></li>
@@ -484,11 +493,185 @@ public void multiNodes(){
 <li>故障发现</li>
 <li>故障恢复</li>
 </ul>
+<p><strong>1)故障发现：</strong></p>
+<ol>
+<li>Redis集群中并没有提供Sentinel这种监控，但是仍然可以实现高可用，因为集群是通过其他节点进行监控的。</li>
+<li>通过节点之间的ping/pong消息，不需要依赖Sentinel。</li>
+<li>分为主观下线和客观下线。</li>
+<li>主观下线：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-27.jpg" alt=""></li>
+<li>客观下线：半数以上持有槽的主节点都标记某节点下线<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-28.jpg" alt=""><br>尝试客观下线的流程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-29.jpg" alt=""></li>
+</ol>
+<p><strong>2)故障恢复：</strong></p>
+<ol>
+<li>主要分为四步：<ul>
+<li>资格检查</li>
+<li>准备选举时间</li>
+<li>选举投票</li>
+<li>替换主节点</li>
+</ul>
+</li>
+<li>资格检查：<br>检查哪些从节点有替换该主节点的资格。<ul>
+<li>每个从节点检查与故障主节点的断线时间</li>
+<li>超过cluster-node-timeout*cluster-slave-validity-factory则取消资格。(默认是15*10=150秒)</li>
+</ul>
+</li>
+<li>准备选举时间：<br>为了保证偏移量最大的从节点有更小的延迟达到选举时间。(为了保证数据的一致性)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-30.jpg" alt=""></li>
+<li>发起选举投票：<br>由主节点进行投票，偏移量越大的从节点优先级越高。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-31.jpg" alt=""></li>
+<li>替换主节点：<ul>
+<li>当前从节点取消复制变为主节点(slaveof no one)</li>
+<li>执行ClusterDelSlot撤销故障主节点负责的槽，并执行ClusterAddSlot把这些槽分配给自己。</li>
+<li>向集群广播pong消息，表明自己已经替换故障的主节点。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-集群开发维护问题"><a href="#7-集群开发维护问题" class="headerlink" title="7.集群开发维护问题"></a>7.集群开发维护问题</h2><p>目录：</p>
+<ul>
+<li>集群完整性</li>
+<li>带宽消耗</li>
+<li>Pub/Sub广播</li>
+<li>数据倾斜</li>
+<li>读写分离(集群下的读写分离)</li>
+<li>数据迁移(单机迁移到集群)</li>
+<li>集群和单机的对比</li>
+</ul>
+<h3 id="完整性，带宽消耗以及Pub-Sub广播"><a href="#完整性，带宽消耗以及Pub-Sub广播" class="headerlink" title="完整性，带宽消耗以及Pub/Sub广播"></a>完整性，带宽消耗以及Pub/Sub广播</h3><p><strong>1)集群完整性：</strong></p>
+<ol>
+<li>cluster-require-full-coverage默认为yes<ul>
+<li>集群中所有的16384个槽都必须可用才能提供服务：保证集群完整性</li>
+<li>此时节点故障或者正在转移故障时,访问任意节点，就会报错：<br>(error)CLUSTERDOWN The cluster is down</li>
+</ul>
+</li>
+<li>但是绝大多数的业务都是难以容忍的，所以一般配置成no：<pre><code>cluster-require-full-coverage=no
+</code></pre></li>
+</ol>
+<p><strong>2)带宽消耗：</strong></p>
+<ol>
+<li>RedisCluster节点之间的信息交换，心跳检测示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-32.jpg" alt=""></li>
+<li>官方建议最好不要超过1000个节点。<br>节点过多进行ping/pong消息交换时会产生大量的带宽消耗</li>
+<li>带宽消耗的说明：三个方面<ul>
+<li><strong>消息发送频率</strong>：节点发现它与其他节点的最后通信时间超过cluster-node-timeout/2时就会直接发送Ping消息</li>
+<li><strong>消息数据量</strong>：slots槽数组(2k)和整个集群的状态数据的十分之一(10个节点状态数据约为1k)</li>
+<li><strong>节点部署的机器规模</strong>：集群内分布的机器数量越多且每台机器划分的节点数量约均匀则可用的带宽越高。</li>
+</ul>
+</li>
+<li>相关优化：<ul>
+<li>避免“大”集群：避免多业务使用同一个集群，大业务可以使用多个集群。</li>
+<li>cluster-node-timeout即影响带宽也影响故障转移的时间，需要在这两者之间进行均衡(越大则故障转移时间越长，产生带宽消耗越小)</li>
+<li>尽量将节点均匀分布到尽量多的机器上，可以保证高可用和带宽。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)Pub/Sub广播在集群环境下产生的问题：</strong></p>
+<ol>
+<li>集群下使用Pub/Sub广播时，消息会在各个节点之间传播，会严重消耗带宽（对每个节点进行广播）。<br>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-33.jpg" alt=""></li>
+<li>解决方案：<br>单独建立一套Sentinel的服务来处理Pub/Sub消息。(Pub/Sub不适合集群)</li>
+</ol>
+<h3 id="集群倾斜"><a href="#集群倾斜" class="headerlink" title="集群倾斜"></a>集群倾斜</h3><p>主要介绍两点：</p>
+<pre><code>- 数据倾斜：内存不均(某些节点内的数据非常多)
+- 请求倾斜：某个key请求量非常高
+</code></pre><p><strong>1)数据倾斜：</strong></p>
+<ol>
+<li>简单的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00051Redis%E5%AD%A6%E4%B9%A09-34.jpg" alt=""></li>
+<li>引起数据的倾斜的原因：<ul>
+<li>节点和槽的分配不均匀</li>
+<li>不同槽对应的键值数比较大</li>
+<li>包含bigkey(一个key中的数据非常多)</li>
+<li>内存相关的配置不一致(不常见)</li>
+<li>客户端缓冲区(不常见)</li>
+<li>哈希表扩容异常(不常见)</li>
+</ul>
+</li>
+<li>节点和槽分配不均匀：<br>查看节点，槽，键值对的分布：<br><code>redis-trib.rb info ip:port</code><br>均衡节点和槽(谨慎使用)：涉及到槽操作最好使用客户端<br><code>redis-trib.rb rebalance ip:port</code><br>对键的迁移时最好自己制定迁移计划而不是使用rebalance。</li>
+<li>不同槽对应的键值数比较大：<ul>
+<li>CRC16算法在一般情况下比较均匀</li>
+<li>可能存在hash_tag</li>
+<li>可以使用如下命令获取对应的key的数量：<br><code>cluster countkeysinslot {slot}</code></li>
+<li>获取槽中某些key:number是要获取多少个key<br><code>cluster keysinslot {slot} number</code></li>
+</ul>
+</li>
+<li>包含bigkey：<ul>
+<li>大的字符串，几百万元素的hash,list,set等</li>
+<li>从节点：<code>redis-cli --bigkeys</code>找到bigkey</li>
+<li>优化：<br>优化数据结构(拆分成很小的key)</li>
+</ul>
+</li>
+<li>内存相关的配置不一致：<ul>
+<li>hash-max-ziplist-value,set-max-intset-entris等<br>如果其他节点都配置了，有一个节点未配置，则会导致数据的倾斜</li>
+<li>优化：<br>定期检查集群的一致性</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)请求倾斜：</strong></p>
+<ol>
+<li>热点key：重要的key或者BigKey<br>重要的key：比如某个明星的消息成为热点保存在某一key中<br>BigKey：在很多业务上会使用</li>
+<li>优化：三方面<ul>
+<li>避免BigKey</li>
+<li>热键不要用hash_tag</li>
+<li>一致性不高时，建议使用本地缓存+MQ</li>
+</ul>
+</li>
+</ol>
+<h3 id="读写分离，数据迁移与和单机比较"><a href="#读写分离，数据迁移与和单机比较" class="headerlink" title="读写分离，数据迁移与和单机比较"></a>读写分离，数据迁移与和单机比较</h3><p><strong>1)读写分离：</strong></p>
+<ol>
+<li>只读连接：<br>在集群模式下从节点不接受任何读写请求(读也默认不接受)<ul>
+<li>默认会重定向到负责该槽的主节点</li>
+<li>有一个连接级别的命令readonly可以实现只读：<pre><code>redis-cli -c -p 8004 -a 123456
+127.0.0.1:8004&gt;readonly
+...
+</code></pre>每次连接都需要执行一个readonly</li>
+</ul>
+</li>
+<li>读写分离：比单机更加复杂<br>和单机有同样的问题：详见Redis学习笔记(七)<ul>
+<li>复制延迟</li>
+<li>读取过期数据</li>
+<li>从节点故障</li>
+</ul>
+</li>
+<li>但是不建议使用读写分离：<br>读写分离需要实现自己的客户端。<br>有一个命令<code>cluster slaves {nodeId}</code>来获取对应的从节点<br>还需要考虑节点和槽的关系，读写分离的成本非常高。</li>
+<li>建议扩大集群规模，而不要轻易选择读写分离。</li>
+</ol>
+<p><strong>2)数据迁移(离线/在线)</strong></p>
+<ol>
+<li>数据迁移就是将单机的数据迁移到集群中或者反过来。</li>
+<li>官方迁移工具：<code>redis-trib.rb import</code><ul>
+<li>只支持从单机迁移到集群，不支持集群到单机。</li>
+<li>不支持在线迁移，source需要停写</li>
+<li>不支持断点续传</li>
+<li>单线程迁移，影响速度</li>
+</ul>
+</li>
+<li>在线迁移工具(比较好用的)：支持在线迁移<ul>
+<li>唯品会：<code>redis-migrate-tool</code></li>
+<li>豌豆荚：<code>redis-port</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>3)集群与单机的比较：</strong></p>
+<ol>
+<li>集群的限制：<ul>
+<li>key批量操作支持有限：mget,mset必须保证在同一个槽(slot)</li>
+<li>key事务和Lua的支持有限：操作的key必须在一个节点上</li>
+<li>key是数据分区的最小粒度：不支持BigKey分区</li>
+<li>不支持多个数据库：在集群模式下只有一个数据库db0<br>单机状态下也不建议使用多数据库</li>
+<li>复制只支持一层：不支持树型的复制(slave复制slave)</li>
+</ul>
+</li>
+<li>Redis Cluster：满足容量和性能的扩展性，但是很多业务的QPS达不到这种需求<ul>
+<li>对于大多数客户端来说性能会降低</li>
+<li>无法跨节点使用一些命令：mget,keys,scan,flush,sinter等</li>
+<li>Lua和事务无法跨节点使用</li>
+<li>客户端维护复杂：SDK和客户端本身的消耗(例如更多的连接池)</li>
+</ul>
+</li>
+<li>很多场景下Redis Sentinel已经足够好了。</li>
+<li>选择的时候考虑到底是不是真的需要集群。(QPS)</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月27日 22:51</p>
+        <p>最后更新： 2018年04月28日 19:56</p>
         <p>原始链接： <a class="post-url" href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" title="Redis学习笔记（九）：集群伸缩与常见运维问题">https://zjxkenshine.github.io/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -606,7 +789,7 @@ public void multiNodes(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-伸缩原理"><span class="post-toc-text">1.伸缩原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-集群扩容"><span class="post-toc-text">2.集群扩容</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#迁移槽和数据"><span class="post-toc-text">迁移槽和数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集群收缩"><span class="post-toc-text">3.集群收缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-moved重定向与ask重定向"><span class="post-toc-text">4.moved重定向与ask重定向</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-smart客户端-JedisCluster"><span class="post-toc-text">5.smart客户端(JedisCluster)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JedisCluster的使用"><span class="post-toc-text">JedisCluster的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-故障转移"><span class="post-toc-text">6.故障转移</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-伸缩原理"><span class="post-toc-text">1.伸缩原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-集群扩容"><span class="post-toc-text">2.集群扩容</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#迁移槽和数据"><span class="post-toc-text">迁移槽和数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-集群收缩"><span class="post-toc-text">3.集群收缩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-moved重定向与ask重定向"><span class="post-toc-text">4.moved重定向与ask重定向</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-smart客户端-JedisCluster"><span class="post-toc-text">5.smart客户端(JedisCluster)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JedisCluster的使用"><span class="post-toc-text">JedisCluster的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-故障转移"><span class="post-toc-text">6.故障转移</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-集群开发维护问题"><span class="post-toc-text">7.集群开发维护问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#完整性，带宽消耗以及Pub-Sub广播"><span class="post-toc-text">完整性，带宽消耗以及Pub/Sub广播</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#集群倾斜"><span class="post-toc-text">集群倾斜</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读写分离，数据迁移与和单机比较"><span class="post-toc-text">读写分离，数据迁移与和单机比较</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
@@ -614,8 +797,8 @@ public void multiNodes(){
 <nav id="article-nav">
   
   
-    <a href="/2018/04/25/Redis学习笔记（八）：Redis Cluster集群/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Redis学习笔记（八）：Redis Cluster集群简单搭建</span>
+    <a href="/2018/04/25/Redis使用过程中出现的问题总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis使用过程中出现的问题及解决方案</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
