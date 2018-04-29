@@ -17,7 +17,7 @@
 当你觉得自己懂得很多的时候，不是你真的学的很多了，而是你接触东西的太少了。
 当你觉得自己已经很厉害时，不是你真的变厉害了，而是你的圈子太小了。
 
-近期学习方向：Redis，MyBatis，Spring系框架
+近期学习方向：Spring系列框架，深入JVM，Java基础巩固
 
 ### 座右铭
 > Today is the first day in your rest life.(今天是你余生的第一天)
@@ -28,7 +28,7 @@
 
 ### 联系我
 * Blog: [kenshine's blog](https://zjxkenshine.github.io "程序人生")
-* Email: 1754294529@qq.com
+* Email: <1754294529@qq.com>
 * GitHub: [zjxkenshine](https://github.com/zjxkenshine)
 * WeiBo: [哈哈哈](http://weibo.com/3807155334)
 * 码云: [kenshine](https://gitee.com/zjxkenshine)
