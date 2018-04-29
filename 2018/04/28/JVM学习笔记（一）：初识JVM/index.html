@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档: 2018/3 | 程序人生</title>
+  <title>JVM学习笔记（一）：初识JVM | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序人生">
-<meta property="og:url" content="https://zjxkenshine.github.io/archives/2018/03/page/2/index.html">
+  <meta name="description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
+<meta name="keywords" content="Java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记（一）：初识JVM">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-29T07:57:38.837Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序人生">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:title" content="JVM学习笔记（一）：初识JVM">
+<meta name="twitter:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -108,345 +110,229 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap">
-  
-  
+        <section id="main" class="body-wrap"><article id="post-JVM学习笔记（一）：初识JVM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/20/MyBatis学习笔记（一）：环境搭建/" class="archive-article-date">
-  <time datetime="2018-03-20T14:42:27.000Z" itemprop="datePublished">03-20</time>
-</a>
-      
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/20/MyBatis学习笔记（一）：环境搭建/"  >MyBatis学习笔记（一）：MyBatis入门</a>
+    <h1 class="post-title" itemprop="name">
+      JVM学习笔记（一）：初识JVM
     </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java基础/">Java基础</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
   
 
-    </header>
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
-        <div class="archive-post-footer">
+            
+            <h2 id="0-学习环境"><a href="#0-学习环境" class="headerlink" title="0.学习环境"></a>0.学习环境</h2><ol>
+<li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>参考视频《深入理解JVM》(主要学习)</li>
+<li>目录<ul>
+<li>JVM的概念</li>
+<li>JVM的发展史</li>
+<li>JVM的种类</li>
+<li>Java语言规范</li>
+<li>JVM规范</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-JVM的概念"><a href="#1-JVM的概念" class="headerlink" title="1.JVM的概念"></a>1.JVM的概念</h2><p><strong>1)虚拟机简介：</strong></p>
+<ol>
+<li>JVM：<br>Java Virtual Machine的简称。意为Java虚拟机。</li>
+<li>虚拟机：<br>指通过软件模拟的具有完整硬件功能的、运行在一个完全隔离的环境中的完整计算机系统。</li>
+<li>常见的虚拟机：<ul>
+<li>JVM</li>
+<li>VMwave</li>
+<li>Virtual Box</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)JVM和其他两个虚拟机的区别：</strong></p>
+<ol>
+<li>VMwave与VirtualBox是通过软件模拟物理CPU的指令集<br>物理系统中会有很多的寄存器</li>
+<li>JVM则是通过软件模拟Java字节码的指令集<br>JVM中只是主要保留了PC寄存器，其他的寄存器都进行了裁剪</li>
+<li>JVM是一台被定制过的现实当中不存在的计算机。</li>
+</ol>
+<hr>
+<h2 id="2-JVM的发展史"><a href="#2-JVM的发展史" class="headerlink" title="2.JVM的发展史"></a>2.JVM的发展史</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月29日 15:57</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/28/JVM学习笔记（一）：初识JVM/" title="JVM学习笔记（一）：初识JVM">https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：初识JVM》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：初识JVM》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（一）：初识JVM》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
             
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/MyBatis/" class="color3">MyBatis</a>
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
       
   </li>
 
-        </div>
-      
+        </ul>
+        
+    </footer>
   </div>
 </article>
 
-  
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM的发展史"><span class="post-toc-text">2.JVM的发展史</span></a></li></ol>
+        </nav>
+    </aside>
     
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（九）：集群伸缩与常见运维问题</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/20/Maven常见问题与解决方案/" class="archive-article-date">
-  <time datetime="2018-03-20T10:04:59.000Z" itemprop="datePublished">03-20</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/20/Maven常见问题与解决方案/"  >Maven常见问题与解决方案</a>
-    </h1>
-  
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
 
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Maven/" class="color1">Maven</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/18/Maven学习笔记（二）：核心知识/" class="archive-article-date">
-  <time datetime="2018-03-18T12:07:50.000Z" itemprop="datePublished">03-18</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/18/Maven学习笔记（二）：核心知识/"  >Maven学习笔记（二）：Maven核心知识及在eclipese中使用</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Maven/" class="color1">Maven</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/17/Maven学习笔记（一）：环境搭建/" class="archive-article-date">
-  <time datetime="2018-03-17T14:21:44.000Z" itemprop="datePublished">03-17</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/17/Maven学习笔记（一）：环境搭建/"  >Maven学习笔记（一）：环境搭建与常用命令</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Maven/" class="color1">Maven</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/17/MySQL数据库学习笔记（四）/" class="archive-article-date">
-  <time datetime="2018-03-17T14:18:50.000Z" itemprop="datePublished">03-17</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/17/MySQL数据库学习笔记（四）/"  >MySQL学习笔记（四）：高级数据操作</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/16/MySQL数据库学习笔记（三）/" class="archive-article-date">
-  <time datetime="2018-03-16T08:45:28.000Z" itemprop="datePublished">03-16</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/16/MySQL数据库学习笔记（三）/"  >MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/" class="archive-article-date">
-  <time datetime="2018-03-15T09:26:00.000Z" itemprop="datePublished">03-15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/15/《鸟哥的Linux私房菜》笔记（五）/"  >《鸟哥的Linux私房菜》笔记（五）:文件压缩备份与vim编辑器简介</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/12/《鸟哥的Linux私房菜》笔记（四）/" class="archive-article-date">
-  <time datetime="2018-03-12T11:28:45.000Z" itemprop="datePublished">03-12</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/12/《鸟哥的Linux私房菜》笔记（四）/"  >《鸟哥的Linux私房菜》笔记（四）:Linux磁盘与文件系统的管理</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/12/MySQL数据库学习笔记（二）/" class="archive-article-date">
-  <time datetime="2018-03-12T08:20:31.000Z" itemprop="datePublished">03-12</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/12/MySQL数据库学习笔记（二）/"  >MySQL学习笔记（二）:基本数据类型与列属性介绍</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/MySQL/" class="color1">MySQL</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" class="archive-article-date">
-  <time datetime="2018-03-10T14:28:12.000Z" itemprop="datePublished">03-10</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/"  >《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/tags/Linux/" class="color1">Linux</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/archives/2018/03/"><< Prev</a><a class="page-number" href="/archives/2018/03/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2018/03/page/3/">3</a><a class="page-number" href="/archives/2018/03/page/4/">4</a><a class="extend next" rel="next" href="/archives/2018/03/page/3/">Next >></a>
-  </nav>
 </section>
         
       </div>
