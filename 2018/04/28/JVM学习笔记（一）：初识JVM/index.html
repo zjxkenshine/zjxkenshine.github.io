@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JVM学习笔记（一）：初识JVM | 程序人生</title>
+  <title>JVM学习笔记（一）：JVM简介及JVM运行机制 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,15 +11,22 @@
   <meta name="description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
 <meta name="keywords" content="Java,JVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM学习笔记（一）：初识JVM">
+<meta property="og:title" content="JVM学习笔记（一）：JVM简介及JVM运行机制">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-29T07:57:38.837Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-06.jpg">
+<meta property="og:updated_time" content="2018-04-29T14:57:01.363Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM学习笔记（一）：初识JVM">
+<meta name="twitter:title" content="JVM学习笔记（一）：JVM简介及JVM运行机制">
 <meta name="twitter:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-01.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -117,7 +124,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      JVM学习笔记（一）：初识JVM
+      JVM学习笔记（一）：JVM简介及JVM运行机制
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -177,12 +184,244 @@
 <li>JVM是一台被定制过的现实当中不存在的计算机。</li>
 </ol>
 <hr>
-<h2 id="2-JVM的发展史"><a href="#2-JVM的发展史" class="headerlink" title="2.JVM的发展史"></a>2.JVM的发展史</h2><hr>
+<h2 id="2-JVM和Java的发展史"><a href="#2-JVM和Java的发展史" class="headerlink" title="2.JVM和Java的发展史"></a>2.JVM和Java的发展史</h2><p><strong>1)20世纪Java发展：</strong></p>
+<ol>
+<li>1996年SUN JDK 1.0时发布：Classic VM<ul>
+<li>纯解释运行，使用外挂进行JIT(编译器)</li>
+</ul>
+</li>
+<li>1997年JDK 1.1发布：<ul>
+<li>AWT、内部类、JDBC、RMI、反射(Java的核心)</li>
+<li>RMI:远程方法调用(Remote Method Invocation)。能够让在某个java虚拟机上的对象像调用本地对象一样调用另一个java 虚拟机中的对象上的方法。</li>
+</ul>
+</li>
+<li>1998年JDK 1.2发布：Solary Exact VM(仅存在了很短的时间)<ul>
+<li>JIT和解释器混合执行</li>
+<li>Accurate Memory Management 精确内存管理，数据类型敏感</li>
+<li>提升GC性能</li>
+</ul>
+</li>
+<li>JDK1.2开始成为Java2(J2SE,J2EE,J2ME出现)<br>并且加入了Swing Collection。</li>
+</ol>
+<p><strong>2)二零零几年：</strong></p>
+<ol>
+<li>2000年JDK1.3：Hotsport作为默认虚拟机发布<br>JDK1.3加入了JavaSound</li>
+<li>2002年JDK1.4：Classic VM退出历史舞台<br>1.4更新内容：Assert，正则表达式，NIO，IPV6，日志API，加密类库，异常链，XML解析器等。</li>
+<li>2004年JDK1.5即JDK5,Java5（很重要的一个版本）<br>Java5更新内容：泛型，注解，装箱，枚举，可变长参数，Foreach循环。<br>虚拟机层面：改进了Java内存模型(JMM)，提供了JUC并发包。</li>
+<li>JDK1.6 java6：<br>更新内容：脚本编程的支持(动态语言支持)，jdbc4.0，Java编译器API，微型Http服务器API等。<br>虚拟机层面：锁与同步，垃圾收集，类加载等算法的改动</li>
+<li>JDK1.6发布后由于一系列原因，JDK有好几年都没有大更新。JDK1.6一共有37个Update版本。</li>
+</ol>
+<p><strong>3)二零一几年：</strong></p>
+<ol>
+<li>2011年JDK1.7/Java7发布：<br>指定了十个里程碑但是始终无法完成，未完成的项目推到Java8(模块化则推到了Java9)。<ul>
+<li>G1收集器(Update4才正式发布)</li>
+<li>加强对非Java语言的调用支持</li>
+<li>升级类加载器架构</li>
+<li>64位系统压缩指针</li>
+<li>NIO2.0</li>
+</ul>
+</li>
+<li>2014年Java8发布：<ul>
+<li>Lamda表达式</li>
+<li>语法增强</li>
+<li>Java类型注释等</li>
+</ul>
+</li>
+<li>2016年Java9发布：<ul>
+<li>模块化</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)Java与JVM发展历史中的大事件：</strong></p>
+<ol>
+<li>使用最广泛的JVM为HotSpot</li>
+<li>HotSpot最早为Longview Technologies开发，被SUN收购</li>
+<li>2006年，Java开源，并建立OpenJDK<ul>
+<li>HotSpot成为SUN JDK和OpenJDK中所带的虚拟机</li>
+</ul>
+</li>
+<li>2008年，Oracle收购BEA<ul>
+<li>得到JRockit VM</li>
+</ul>
+</li>
+<li>2010年Oracle收购SUN<ul>
+<li>得到HotSpot</li>
+</ul>
+</li>
+<li>Orcale宣布在JDK8时整合HotSpot和JRockit VM，优势互补<ul>
+<li>在HotSpot的基础上移植JRockit的优秀特性</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-JVM的种类"><a href="#3-JVM的种类" class="headerlink" title="3.JVM的种类"></a>3.JVM的种类</h2><ol>
+<li>KVM:<ul>
+<li>SUN发布</li>
+<li>IOS和Android兴起之前，广泛应用与手机系统</li>
+</ul>
+</li>
+<li>CDC/CLDC HotSpot<ul>
+<li>手机、电子书、PDA等设备上的统一Java编程接口</li>
+<li>J2ME的重要组成部分</li>
+<li>同样在IOS和Android兴起之后受到了很大的挑战</li>
+</ul>
+</li>
+<li>JRockit:<ul>
+<li>BEA</li>
+</ul>
+</li>
+<li>IBM J9 VM：<ul>
+<li>仅在IBM内部使用</li>
+</ul>
+</li>
+<li>Apache Harmony<ul>
+<li>兼容JDK1.5和1.6的Java程序运行平台，开源</li>
+<li>与Orcale关系恶劣，退出JCP，Java社区分裂</li>
+<li>OpenJDK出现后受到挑战，于2011年退役</li>
+<li>没有大规模的商用经历</li>
+<li>对Android的发展又积极作用</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-Java及JVM规范"><a href="#4-Java及JVM规范" class="headerlink" title="4.Java及JVM规范"></a>4.Java及JVM规范</h2><p>Java语言规范：</p>
+<ul>
+<li>语法</li>
+<li>变量</li>
+<li>类型</li>
+<li>文法</li>
+</ul>
+<p>JVM规范：</p>
+<ul>
+<li>Class文件类型</li>
+<li>运行时数据</li>
+<li>帧栈</li>
+<li>虚拟机的启动</li>
+<li>虚拟机的指令集</li>
+</ul>
+<p><strong>1)Java语言规范：</strong></p>
+<ol>
+<li>语法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-01.jpg" alt=""></li>
+<li>词法结构：<ul>
+<li>\u+4个16进制数字，表示UTF-16</li>
+<li>行终结符：CR,or LF,or CR LF</li>
+<li>空白符的定义：<br>空格 tab \t(换页) \f(行终结符)</li>
+<li>注释</li>
+<li>标识符：就是变量名啊那种<br>不能是布尔型，关键字，Null</li>
+<li>关键字 </li>
+</ul>
+</li>
+<li>词法结构中的数值的表示：允许使用下划线<ul>
+<li>int：<br>如：0 2 0237 0xDada_cafe 0x00_FF__00_FF</li>
+<li>long：<br>如： 0l 2L 0x1000000l 2_17_483_648L 0xC0B0L</li>
+<li>float：<br>如：1e1f 2.f .3f 3.14f 6.66666e+23f</li>
+<li>double<br>如：1e1f 2. .3 3.14 1e-9d 1e137</li>
+<li>操作：<br>如：+= -= *= /= &amp;= |= ^= %= &lt; &lt;= &gt; &gt;= …</li>
+</ul>
+</li>
+<li>类型和变量：<ul>
+<li>元类型：<br>byte，short，int，long，float，char</li>
+<li>变量初始值：<ul>
+<li>boolean false</li>
+<li>char \u0000</li>
+</ul>
+</li>
+<li>泛型：</li>
+</ul>
+</li>
+<li>元数据类型和对象(封装类型)的差异：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-02.jpg" alt=""></li>
+<li>其他语言规范：<ul>
+<li>Java内存模型</li>
+<li>类加载链接的过程</li>
+<li>public final static abstract的定义</li>
+<li>异常</li>
+<li>数组的使用</li>
+<li>。。。</li>
+</ul>
+</li>
+<li>Java规范定义了什么是Java语言</li>
+</ol>
+<h3 id="JVM规范"><a href="#JVM规范" class="headerlink" title="JVM规范"></a>JVM规范</h3><p><strong>2)JVM规范：</strong></p>
+<ol>
+<li>Java语言和JVM是相对独立的：<br>运行在JVM上的语言还有：Groovy，Clojure，Scala<br>能在JVM上运行说明这些语言都是符合JVM规范的。</li>
+<li>JVM只要定义了二进制class文件和JVM指令集等。</li>
+<li>JVM规范主要定义的内容：<ul>
+<li>Class文件格式</li>
+<li>数字的内部表示和存储：(Java中没有无符号数)<br>如：Byte -128 to 127(-2^7到2^7-1)</li>
+<li>ReturnAddress数据类型定义：<br>指向操作码的指针。不对应Java的数据类型，不能在运行时修改。Finally实现需要。(在Java中找不到该数据类型)</li>
+<li>定义PC</li>
+<li>堆</li>
+<li>栈</li>
+<li>方法区</li>
+</ul>
+</li>
+<li>JVM当中整数的表达：<ul>
+<li>原码：第一位符号位（0为正数，1为负数）</li>
+<li>反码：符号位不动，原码取反</li>
+<li>负数补码：符号位不动，反码加一</li>
+<li>正数补码：与原码相同</li>
+</ul>
+</li>
+<li>打印出整数在二进制当中的表示：<pre><code>int a=-6;想要打印为二进制的整数
+for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
+    int t=(a&amp;0x800000000&gt;&gt;&gt;i)&gt;&gt;&gt;(31-i);
+    System.out.print(t);
+}
+</code></pre>0x800000000代表最高位为1的数字。</li>
+<li>为什么要使用补码：<ul>
+<li>0的表示：不管算正算负补码都是一样的(无歧义表示0)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-03.jpg" alt=""></li>
+<li>补码能很好的参与计算机之间的计算：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-04.jpg" alt=""></li>
+</ul>
+</li>
+<li>Float的表示与定义：支持IEEE754<ul>
+<li><code>s eeeeeeee (x)mmmmmmmmmmmmmmmmmmmmmmm</code><br>s:符号位；e:8位指数位；m:23尾数位;x:附加位(不写出，由JVM给出)</li>
+<li>尾数附加位的值由指数位确定：<ul>
+<li>指数位e全为0，则尾数附加位为0，否则尾数附加位为1</li>
+</ul>
+</li>
+<li>最后的数值：e要进行位移<br><code>s*m*2^(e-127)</code></li>
+<li>如-5的表示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-05.jpg" alt=""></li>
+</ul>
+</li>
+<li>一些特殊的方法：<ul>
+<li><code>&lt;init&gt;</code>:默认的构造函数(无参)</li>
+<li><code>&lt;clinit&gt;</code>:类的初始化方法</li>
+</ul>
+</li>
+<li>JVM指令集：<ul>
+<li>类型转换：l2i(长整型转整型)</li>
+<li>出栈入栈操作：(JVM中没有寄存器，数据传递依靠栈，所以又很多栈的指令)<br><code>aload</code>,<code>astore</code></li>
+<li>运算：<code>iadd</code>,<code>isub</code>等</li>
+<li>流程控制：<code>ifeq</code>相等，<code>ifne</code>不相等</li>
+<li>函数调用：<br><code>invokevirtual</code>、<code>invokeinterface</code>、<code>invokespecial</code>、<code>invokestatic</code>等</li>
+</ul>
+</li>
+<li>JVM对Java Library提供以下支持(Java无法实现)：<ul>
+<li>反射 java.lang.reflect</li>
+<li>类加载器 ClassLoader</li>
+<li>初始化class和interface</li>
+<li>安全相关 java.security</li>
+<li>多线程</li>
+<li>弱引用</li>
+</ul>
+</li>
+<li><p>JVM的编译与反编译：</p>
+<ul>
+<li>源码到JVM指令的对应格式</li>
+<li>javap</li>
+<li>JVM反汇编格式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;index&gt; &lt;opcode&gt; [&lt;operand1&gt;[&lt;operand2&gt;...]] [comment]</span><br><span class="line">操作码    操作 		操作数   				    注解</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>反编译的例子：一个for循环的执行过程<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-06.jpg" alt=""></p>
+</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月29日 15:57</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/28/JVM学习笔记（一）：初识JVM/" title="JVM学习笔记（一）：初识JVM">https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/</a></p>
+        <p>最后更新： 2018年04月29日 22:57</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/28/JVM学习笔记（一）：初识JVM/" title="JVM学习笔记（一）：JVM简介及JVM运行机制">https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -239,7 +478,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：初识JVM》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：JVM简介及JVM运行机制》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -249,7 +488,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：初识JVM》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&title=《JVM学习笔记（一）：JVM简介及JVM运行机制》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -259,7 +498,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（一）：初识JVM》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（一）：JVM简介及JVM运行机制》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -301,7 +540,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM的发展史"><span class="post-toc-text">2.JVM的发展史</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM和Java的发展史"><span class="post-toc-text">2.JVM和Java的发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JVM的种类"><span class="post-toc-text">3.JVM的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java及JVM规范"><span class="post-toc-text">4.Java及JVM规范</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JVM规范"><span class="post-toc-text">JVM规范</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
