@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-11.jpg">
+<meta property="og:updated_time" content="2018-04-29T07:51:14.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台">
+<meta name="twitter:description" content="0.学习准备： 参考资料参考视频：慕课网教程《Redis从入门到高可用》参考教程：http://www.redis.net.cn/tutorial/3501.htmlRedis命令参考手册：http://redisdoc.com/w3cschoolRedis教程：https://www.w3cschool.cn/redis/nma27f21.html参考博客：https://blog.csdn.n">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Redis学习笔记（十）：缓存的使用与优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/NoSQL/">NoSQL</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-29
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备："><a href="#0-学习准备：" class="headerlink" title="0.学习准备："></a>0.学习准备：</h2><ol>
+<li><p>参考资料<br>参考视频：慕课网教程《Redis从入门到高可用》<br>参考教程：<a href="http://www.redis.net.cn/tutorial/3501.html" target="_blank" rel="noopener">http://www.redis.net.cn/tutorial/3501.html</a><br>Redis命令参考手册：<a href="http://redisdoc.com/" target="_blank" rel="noopener">http://redisdoc.com/</a><br>w3cschoolRedis教程：<a href="https://www.w3cschool.cn/redis/nma27f21.html" target="_blank" rel="noopener">https://www.w3cschool.cn/redis/nma27f21.html</a><br>参考博客：<br><a href="https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension" target="_blank" rel="noopener">https://blog.csdn.net/sunhuiliang85/article/details/74800001?utm_source=gold_browser_extension</a></p>
+</li>
+<li><p>记录一些动力节点的视频未涉及到的知识点。</p>
+</li>
+<li>缓存的使用与设计：<ul>
+<li>缓存的受益与成本</li>
+<li>缓存更新策略</li>
+<li>缓存的粒度控制</li>
+</ul>
+</li>
+<li>使用过程中出现的一些问题及优化：<ul>
+<li>缓存穿透优化</li>
+<li>无底洞问题优化</li>
+<li>缓存雪崩优化(视频错乱，买书再补充)</li>
+<li>热点key重建优化</li>
+</ul>
+</li>
+<li>CacheCloud云平台<ul>
+<li>Redis规模化运维</li>
+<li>快速构建</li>
+<li>机器部署</li>
+<li>应用接入</li>
+<li>用户功能</li>
+<li>运维功能</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-缓存的受益与成本"><a href="#1-缓存的受益与成本" class="headerlink" title="1.缓存的受益与成本"></a>1.缓存的受益与成本</h2><p>主要介绍三个方面：</p>
+<ul>
+<li>收益</li>
+<li>成本</li>
+<li>使用场景</li>
+</ul>
+<p><strong>1)收益：</strong></p>
+<ol>
+<li>加速读写：<br>通过缓存加速读写速度：CPU L1/L2/L3Cache、Linux Page Cache加速硬盘读写、浏览器缓存、Ehcache缓存数据库结果。</li>
+<li>降低后端负载：<br>后端服务器通过前端降低负载：业务端使用Redis降低后端MySQL负载等</li>
+</ol>
+<p><strong>2)成本：</strong></p>
+<ol>
+<li>数据不一致：<br>缓存层和数据层有时间窗口的不一致，和缓存的更新策略有关。</li>
+<li>代码维护成本会变高：<br>多了一层缓存逻辑。</li>
+<li>运维成本：Redis Cluster需要额外的维护<br>经济成本，人力成本</li>
+</ol>
+<p><strong>3)使用场景：</strong></p>
+<ol>
+<li>降低后端负载：<br>对高消耗的SQL：join结果集，分组统计结果缓存。</li>
+<li>加速请求响应：<br>利用Redis/Memcache加速I/O响应时间。</li>
+<li>将大量的写合并为批量写：<br>如计数器累加再批量写入DB。</li>
+</ol>
+<hr>
+<h2 id="2-缓存的更新策略与粒度控制"><a href="#2-缓存的更新策略与粒度控制" class="headerlink" title="2.缓存的更新策略与粒度控制"></a>2.缓存的更新策略与粒度控制</h2><p>有时候缓存的数据和数据库的数据不一致(如上面的计数器)，而缓存需要进行定时的刷新来保证空间的可用性(删除某些key)。</p>
+<p><strong>1)缓存更新策略：</strong></p>
+<ol>
+<li>LRU/LFU/FIFO算法剔除：如maxmemory-policy<br>不需要关系实现细节，Redis会自动帮助我们删除。</li>
+<li>超时剔除：设置key的expire(过期时间)。<br>比如某些不重要的信息。</li>
+<li>主动更新：开发控制声明周期<br>数据库更新某些重要信息之后主动更新缓存的信息。</li>
+<li>三种缓存策略之间的比较：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-01.jpg" alt=""></li>
+</ol>
+<p><strong>2)关于更新策略的建议：</strong></p>
+<ol>
+<li>低一致性要求时：缓存中的数据的一致性要求不是那么高<br>最大内存淘汰策略：maxmemory-policy<br>但是一般应用都不会对一致性要求过低。</li>
+<li>高一致性要求：(建议使用这一种)<br>超时剔除和主动更新为主，最大内存和淘汰策略兜底。</li>
+</ol>
+<p><strong>3)缓存粒度简介：</strong></p>
+<ol>
+<li>Redis缓存的使用原理图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-02.jpg" alt=""></li>
+<li>模拟基本流程：<ul>
+<li>1.从MySQL中获取用户信息：<code>select * from user where id={id}</code></li>
+<li>2.设置用户缓存：<code>set user:id &#39;select * from user where id={id}&#39;</code></li>
+</ul>
+</li>
+<li>缓存的粒度：<br>如上，缓存的到底是<code>select *</code>还是仅仅是需要的一些属性。</li>
+<li>粒度控制从三个角度去考虑：<ul>
+<li>通用性：全量属性会更好</li>
+<li>占用空间：部分属性更好</li>
+<li>代码维护上：表面上看全量属性会更好</li>
+</ul>
+</li>
+<li>从大部分应用来看：<br>选择部分属性可能会更好，很多时候不用去考虑扩展性，而是缓存的优化。</li>
+<li>选择粒度需要综合去考虑。</li>
+</ol>
+<hr>
+<h2 id="3-缓存穿透问题与优化"><a href="#3-缓存穿透问题与优化" class="headerlink" title="3.缓存穿透问题与优化"></a>3.缓存穿透问题与优化</h2><p><strong>1)缓存穿透问题介绍、原因与发现：</strong></p>
+<ol>
+<li>缓存穿透：<br>大量请求不命中，数据直接从存储层读取，使缓存失去了保护存储层的意义。<br>简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-03.jpg" alt=""></li>
+<li>产生的原因：<ul>
+<li>业务代码自身的问题</li>
+<li>恶意攻击或者爬虫等(一个不存在的URL)</li>
+</ul>
+</li>
+<li>如何发现：<ul>
+<li>业务响应时间:监控系统()</li>
+<li>业务本身的一些问题：产品的代码出现一些问题</li>
+<li>相关指标：<br>总调用数，存储层调用数，缓存层命中数，存储命中数等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2）缓存穿透的优化：</strong></p>
+<ol>
+<li>解决方法一：缓存空对象<br>如果对象不存在,或者出于某些原因不可用，那么就把空对象作为结果保存到缓存中<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-04.jpg" alt=""></li>
+<li>解决方案一会出现的两个问题及解决：<ul>
+<li>需要更多的键来保存空对象：<br>解决：一般会设置key的过期时间</li>
+<li>缓存和存储层数据短暂的不一致：数据层(接口)短暂不停供服务<br>解决：订阅数据层或接口的消息，使其恢复服务时更新缓存</li>
+</ul>
+</li>
+<li>解决方法二：布隆过滤器拦截<br>在缓存之前再做一层布隆过滤器拦截，如果被过滤掉了则说明请求失败。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-05.jpg" alt=""><br>优点是可以使用一个很小的内存来是实现数据的过滤。</li>
+<li>布隆过滤器方式的注意事项：<br>对于数据比较固定的情况会比较好。<br>数据经常改变时可能不是一个很好的选择。</li>
+</ol>
+<hr>
+<h2 id="4-缓存无底洞问题的优化"><a href="#4-缓存无底洞问题的优化" class="headerlink" title="4.缓存无底洞问题的优化"></a>4.缓存无底洞问题的优化</h2><p><strong>1)无底洞问题介绍：</strong></p>
+<ol>
+<li>无底洞问题的发现：<br>2010年，FaceBook有3000个memcache节点，发现加机器后性能没有提升，反而下降了。机器越多，性能下降越多。</li>
+<li>产生该问题原因：批量操作的变化<br>一次mget的操作随着机器的增加，网络时间也会增加。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-06.jpg" alt=""><br>当然这只对节点非常多的情况下有很大影响。</li>
+<li>问题的关键点：<br>更多的机器!=更多的性能<br>批量接口需求(mget.mset等)<br>数据增长与水平扩展需求</li>
+</ol>
+<p><strong>2)无敌洞问题优化(优化I/O)：</strong></p>
+<ol>
+<li>命令本身的优化：减少使用慢查询及hgetall bigkey等这种命令</li>
+<li>优化网络时间：减少网络通信时间(Redis这种命令执行很快的主要优化这个)<br>具体一点可以查看前面的集群中的批量操作。<br>(在Mysql这种命令执行较慢的数据库中一般会去选择优化SQL语句本身)</li>
+<li>降低客户端连接成本：长连接，连接池，NIO(非阻塞IO)等。</li>
+</ol>
+<hr>
+<h2 id="5-热点key的重建优化"><a href="#5-热点key的重建优化" class="headerlink" title="5.热点key的重建优化"></a>5.热点key的重建优化</h2><p><strong>1)问题简介：</strong></p>
+<ol>
+<li>问题出现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-07.jpg" alt=""><br>在重建时有大量的数据访问缓存，大量的线程都进行查询数据与缓存重建，对数据库数据源有很大的压力，会减缓IO的时间。</li>
+<li>三个目标：<ul>
+<li>减少重建缓存的次数</li>
+<li>数据尽可能一致</li>
+<li>减少潜在的危险</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)两个解决方案：</strong></p>
+<ol>
+<li>两个解决方案：<ul>
+<li>互斥锁</li>
+<li>永不过期</li>
+</ul>
+</li>
+<li>互斥锁示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-08.jpg" alt=""><br>在进行查询及重建的过程中其他线程阻塞。</li>
+<li>互斥锁的简单代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-09.jpg" alt=""></li>
+<li>永远不过期方案：<br>缓存层面：不会设置key的expire过期时间<br>功能层面：为每个value添加一个逻辑过期时间，额外创建一个单独的线程来管理逻辑过期时间，如果超过了这个过期时间则进行重建。<br>(会出现数据不一致的情况，但是不会阻塞线程)</li>
+<li>永远不过期的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-10.jpg" alt=""></li>
+<li>两种方案的对比：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00052Redis%E5%AD%A6%E4%B9%A010-11.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-CacheCloud云平台"><a href="#6-CacheCloud云平台" class="headerlink" title="6.CacheCloud云平台"></a>6.CacheCloud云平台</h2><p>CacheCloud目录</p>
+<ul>
+<li>Redis规模化运维</li>
+<li>快速构建</li>
+<li>机器部署</li>
+<li>应用接入</li>
+<li>用户功能</li>
+<li>运维功能</li>
+</ul>
+<h3 id="规模化运维问题及快速构建"><a href="#规模化运维问题及快速构建" class="headerlink" title="规模化运维问题及快速构建"></a>规模化运维问题及快速构建</h3><p><strong>1)规模化运维的问题与CacheCloud简介：</strong></p>
+<ol>
+<li>大规模Redis运维会遇到的问题：<br>发布构建繁琐，私搭乱盖<br>节点，机器等的运维成本<br>监控报警比较低级</li>
+<li>CacheCloud的功能：<ul>
+<li>一键开启Redis(Standlong、Sentinel、Cluster)</li>
+<li>机器、应用、实例监控和报警。</li>
+<li>客户端：使用透明，性能上报。</li>
+<li>可视化运维：配置、扩容、Failover、机器/应用/实例上下线。</li>
+<li>已存在Redis直接迁入和数据迁移。</li>
+<li>地址：<a href="https://github.com/sohutv/cachecloud" target="_blank" rel="noopener">https://github.com/sohutv/cachecloud</a></li>
+</ul>
+</li>
+</ol>
+<p><strong>2)CacheCloud快速构建：</strong><br>构建比较麻烦，需要Liunx下的MySQL以及Tomcat的支持,而我的Linux下并没有装这些软件，所以先搁在这里。以后买书了再来学习。</p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月29日 15:51</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" title="Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台">https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/&title=《Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/&title=《Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Redis/" class="color1">Redis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备："><span class="post-toc-text">0.学习准备：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-缓存的受益与成本"><span class="post-toc-text">1.缓存的受益与成本</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-缓存的更新策略与粒度控制"><span class="post-toc-text">2.缓存的更新策略与粒度控制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-缓存穿透问题与优化"><span class="post-toc-text">3.缓存穿透问题与优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-缓存无底洞问题的优化"><span class="post-toc-text">4.缓存无底洞问题的优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-热点key的重建优化"><span class="post-toc-text">5.热点key的重建优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-CacheCloud云平台"><span class="post-toc-text">6.CacheCloud云平台</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#规模化运维问题及快速构建"><span class="post-toc-text">规模化运维问题及快速构建</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/26/Redis学习笔记（九）：Redis集群伸缩/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（九）：集群伸缩与常见运维问题</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
