@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring学习（五）：SpringAOP面向切面编程简介 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  AOP常用术语 面向切面编程的基本原理 通过POJO创建切面 使用@AspectJ注解 为AspectJ切面注入依赖     1.AOP术语1)AOP术语：  横切关注点：散布在应用中多处的功能称为横切关注点，这些横切关注点从概念上是与业务逻辑相分离的，但是往往又会直接嵌入到应用的业务逻辑之中。(如日志，事务，安全等功能)而切">
+<meta name="keywords" content="Spring,Spring核心框架,Spring AOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习（五）：SpringAOP面向切面编程简介">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  AOP常用术语 面向切面编程的基本原理 通过POJO创建切面 使用@AspectJ注解 为AspectJ切面注入依赖     1.AOP术语1)AOP术语：  横切关注点：散布在应用中多处的功能称为横切关注点，这些横切关注点从概念上是与业务逻辑相分离的，但是往往又会直接嵌入到应用的业务逻辑之中。(如日志，事务，安全等功能)而切">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-03-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:updated_time" content="2018-04-30T13:13:22.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习（五）：SpringAOP面向切面编程简介">
+<meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  AOP常用术语 面向切面编程的基本原理 通过POJO创建切面 使用@AspectJ注解 为AspectJ切面注入依赖     1.AOP术语1)AOP术语：  横切关注点：散布在应用中多处的功能称为横切关注点，这些横切关注点从概念上是与业务逻辑相分离的，但是往往又会直接嵌入到应用的业务逻辑之中。(如日志，事务，安全等功能)而切">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Spring学习（五）：SpringAOP面向切面编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Spring学习（五）：SpringAOP面向切面编程简介
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/J2EE框架/">J2EE框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-30
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考书籍：《Spring实战》(第四版)</p>
+</li>
+<li><p>内容概述：</p>
+<ul>
+<li>AOP常用术语</li>
+<li>面向切面编程的基本原理</li>
+<li>通过POJO创建切面</li>
+<li>使用@AspectJ注解</li>
+<li>为AspectJ切面注入依赖</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-AOP术语"><a href="#1-AOP术语" class="headerlink" title="1.AOP术语"></a>1.AOP术语</h2><p><strong>1)AOP术语：</strong></p>
+<ol>
+<li>横切关注点：<br>散布在应用中多处的功能称为横切关注点，这些横切关注点从概念上是与业务逻辑相分离的，但是往往又会直接嵌入到应用的业务逻辑之中。(如日志，事务，安全等功能)<br>而切面(Aspect)则实现了横切关注点的模块化：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-01.jpg" alt=""><br>这些横切关注点被模块化为特殊的类，称为切面。</li>
+<li>切面是代码重用的又一种可选方案：<br>以前都是通过继承(inheritance)和委托来实现的。<br>如果在一个应用中都继承一个基类，那么会导致一个脆弱的对象体系。<br>使用委托则需要对委托的对象进行复杂的调用。<br>面向切面的编程(AOP)在更多场景下代码更加清晰简洁。<br>使用切面的好处：<ul>
+<li>服务模块更加简洁</li>
+<li>每个关注点都集中在一个地方</li>
+</ul>
+</li>
+<li>通知(Advice)：<br>切面的工作被称为通知，通知定义了切面是什么以及何时使用。(如何执行，何时执行)<br>Spring切面可以应用5种类型的通知：<ul>
+<li>前置通知：在目标方法被调用之前调用通知的功能</li>
+<li>后置通知：在目标方法被调用之后调用通知的功能(不用管该方法的输出是什么)</li>
+<li>返回通知：在目标方法成功执行之后调用通知的功能</li>
+<li>异常通知：在目标方法抛出异常之后调用通知</li>
+<li>环绕通知：通知包裹了被通知的目标方法，在目标方法被执行之前和之后都执行自定义的行为</li>
+</ul>
+</li>
+<li>连接点(Join point)：<br>连接点是程序执行过程中能够插入(织入)切面的一个点。<br>(切点前和切点后，但远不止这两种)</li>
+<li>切点(Pointcut)：<br>切面定义了如何执行与何时执行，而切点则定义了在何处执行。<br>通常使用明确的类和方法或者利用这则表达式来匹配类和方法名来指定这些切点。<br>有些AOP框架允许创建动态切点。</li>
+<li>切面(Aspect)：<br>横切关注点被模块化后的特殊的类。<br>通知和切点定义了一个切面的所有要素：怎样执行，何时执行，何处执行。</li>
+<li>引入(Introduction)：<br>引入允许我们向现有的类添加新方法或者属性。<br>可以在不修改这些现有类的情况下，让他们具有新的行为和状态。</li>
+<li>织入(Weaving)：<br>切面在指定的连接点被织入到目标对象中。<br>织入是把切面应用到目标对象并创建新的代理对象的过程。<br>目标对象生命周期中有多个点可以进行织入：<ul>
+<li>编译期：需要特殊的编译器，如AspectJ的织入编译器</li>
+<li>类加载期：切面在目标被加载到JVM时被织入，需要特使的类加载器。<br>AspectJ5的加载时织入。</li>
+<li>运行期：切面在应用运行的某个时刻被织入。Spring AOP就是这种方式。</li>
+</ul>
+</li>
+<li>简单图示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-02.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-Spring对AOP的支持"><a href="#2-Spring对AOP的支持" class="headerlink" title="2.Spring对AOP的支持"></a>2.Spring对AOP的支持</h2><ol>
+<li>AOP框架的基本功能：<br>创建切点来定义切面所织入的连接点。</li>
+<li>Spring提供了4种类型的AOP支持：<ul>
+<li>基于代理的经典Spring AOP(非常笨重但是很经典)</li>
+<li>纯POJO切面(XML配置，使用aop命名空间)</li>
+<li>@AspectJ注解驱动的切面(可以不用XML配置)</li>
+<li>注入式AspectJ切面(适用于Spring的各版本)</li>
+</ul>
+</li>
+<li>Spring通知是Java编写的：<br>Spring所有的通知都是用标志的Java类编写的，有助于我们学习和开发。<br>AspectJ是通过Java语言扩展的方式来实现的，通过特有的AOP语言可以获得更强大和细粒度的控制，以及更加丰富的AOP工具。但是我们需要额外学习新的工具和语法。</li>
+<li>Spring在运行时通知对象(进行织入)。</li>
+<li>Spring是基于动态代理的，所以只支持方法级别的连接点。(无法创建细粒度的通知)<br>其他的AOP框架如AspectJ和JBoss则提供了字段和构造器的接入点。</li>
+</ol>
+<hr>
+<h2 id="3-通过切点来选择连接点"><a href="#3-通过切点来选择连接点" class="headerlink" title="3.通过切点来选择连接点"></a>3.通过切点来选择连接点</h2><p><strong>1)简介：</strong></p>
+<ol>
+<li>在Spring AOP中，要使用AspectJ切点表达式语言来定义切点。<br>AspectJ主要通过指示器来执行与限制匹配。</li>
+<li>Spring支持的AspectJ指示器：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-03-1.jpg" alt=""><br>使用其他的指示器时会抛异常。</li>
+<li>只有execution()指示器是用来执行匹配的，其他都是用来限制匹配的。</li>
+</ol>
+<p><strong>2)创建切点：</strong></p>
+<ol>
+<li>简单的创建示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-04.jpg" alt=""></li>
+<li>对应的接口如下：<pre><code>package concert;
+public interface Performance{
+    public void perform();
+}
+</code></pre></li>
+<li>如果需要在concert包下匹配，则需要使用within()指示器：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-05.jpg" alt=""><br>两个指示器之间的关系有：&amp;&amp;(and),||(or),!(not)</li>
+<li>因为&amp;在XML中有特殊的含义，所以建议使用英文(and,or,not)来代替符号。</li>
+</ol>
+<p><strong>3)在切点中选择特定的Bean：</strong></p>
+<ol>
+<li>Spring除了上述的AspectJ指示器外，还引入了一个新的Bean()指示器。<br>可以使用BeanID或者Bean名称作为参数来限制节点值匹配特定的Bean。</li>
+<li>如：<pre><code>excute(* concert.Performance.perform() and bean(&apos;goodMovie&apos;));
+</code></pre>只有ID和goodMovie相等的Bean才会编织对应的通知。</li>
+<li>或者可以让除某个ID以外的bean都进行编织：<pre><code>excute(* concert.Performance.perform() and bean(&apos;badMovie&apos;));
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-使用注解创建切面"><a href="#4-使用注解创建切面" class="headerlink" title="4.使用注解创建切面"></a>4.使用注解创建切面</h2><p>使用注解来创建切面是AspectJ5引入的新特性。<br>AspectJ面向注解的模型可以非常便捷地通过少量注解把任意类转变为切面。<br>在pom.xml中配置依赖导包：(除了Spring所有包之外还需要添加如下的包)</p>
+<pre><code>&lt;!-- Spring AOP需要的依赖包 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+    &lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;
+    &lt;version&gt;1.8.9&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+    &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+    &lt;version&gt;1.9.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;cglib&lt;/groupId&gt;
+    &lt;artifactId&gt;cglib&lt;/artifactId&gt;
+    &lt;version&gt;3.2.6&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="定义切面"><a href="#定义切面" class="headerlink" title="定义切面"></a>定义切面</h3><p><strong>1)一般方式定义切面：</strong></p>
+<ol>
+<li>创建表演接口如下：(纵向业务)<pre><code>package chap4;
+//表演接口
+public interface Performance {
+    public void perform();
+}
+</code></pre></li>
+<li>表演实现类如下：<pre><code>@Component
+public class MagicPerformance implements Performance {
+    @Override
+    public void perform() {
+        System.out.println(&quot;the magic performance is playing&quot;);
+    }
+}
+</code></pre></li>
+<li>创建监视类Monitor来监控这次表演：(横向切面)<pre><code>package chap4;
+import org.aspectj.lang.annotation.*
+//监控类
+@Component
+@Aspect
+public class Monitor {
+    //表演之前
+    @Before(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void performanceBegin(){
+        System.out.println(&quot;performance begin!&quot;);
+    }
+    //表演之后，无论成功与否
+    @After(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void performanceAfter(){
+        System.out.println(&quot;performance end!&quot;);
+    }
+    //表演之后(成功)
+    @AfterReturning(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void AfterSuccessPerformance(){
+        System.out.println(&quot;the performance is great!&quot;);
+    }
+    //表演之后(失败:报异常)
+    @AfterThrowing(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void AfterUnSuccessPerformance(){
+        System.out.println(&quot;the performance is awful!&quot;);
+    }
+}
+</code></pre></li>
+<li>各个注解的作用：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-06.jpg" alt=""></li>
+</ol>
+<p><strong>2)通过切点的方式定义切面：</strong></p>
+<ol>
+<li>可以发现上面的相同的AspectJ表达式语句重复了4次：<pre><code>execution(** chap4.Performance.perform(..))
+</code></pre></li>
+<li>可以通过@Pointcut方法来声明一个切点：上述代码可以修改如下<pre><code>@Component
+@Aspect
+public class Monitor {
+    @Pointcut(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void perform(){}
+    //表演之前
+    @Before(&quot;perform()&quot;)
+    public void performanceBegin(){
+        System.out.println(&quot;performance begin!&quot;);
+    }
+    //表演之后，无论成功与否
+    @After(&quot;perform()&quot;)
+    ...
+    //表演之后(成功)
+    @AfterReturning(&quot;perform()&quot;)
+    ...
+    //表演之后(失败:报异常)
+    @AfterThrowing(&quot;perform()&quot;)
+    ...
+}
+</code></pre></li>
+</ol>
+<p><strong>3)配置文件的写法及测试：</strong></p>
+<ol>
+<li>MagicPerformanceConfig代码如下：<pre><code>@Configuration
+@EnableAspectJAutoProxy        //启用AspectJ自动代理
+@ComponentScan(basePackageClasses=Performance.class)
+public class MagicPerformanceConfig {
+}
+</code></pre>注意要加上@EnableAspectJAutoProxy注解。<br>其实是需要声明Moniter切面的bean的：<pre><code>@Bean
+public Moniter moniter(){
+    return new Moniter();
+}
+</code></pre>因为Moniter使用了@Companent注解可以自动装配Bean。</li>
+<li>MagicPerformance.xml配置文件中代码如下：<pre><code>&lt;context:component-scan base-package=&quot;chap4&quot;&gt;&lt;/context:component-scan&gt;
+&lt;aop:aspectj-autoproxy&gt;&lt;/aop:aspectj-autoproxy&gt;
+&lt;bean class=&quot;chap4.Monitor&quot;&gt;&lt;/bean&gt;
+</code></pre>其中那个Bean配置了自动扫描也可以省略。</li>
+<li><p>测试类：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=MagicPerformanceConfig.class)
+public class MagicPerformanceTest {
+    @Autowired
+    @Qualifier(&quot;magicPerformance&quot;)
+    private Performance performance;
+
+    @Test
+    public void testAop(){
+        performance.perform();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-07.jpg" alt=""></li>
+</ol>
+<p><strong>4)总结以及一些补充：</strong></p>
+<ol>
+<li>Spring自动代理(无论是JavaConfig方式还是XML方式)仅仅是@Aspect作为创建切面的指导，切面依然是基于代理的。</li>
+<li>要想利用AsoectJ的所有功能，必须在运行时使用AspectJ并且不依赖Spring来创建基于代理的切面。</li>
+</ol>
+<h3 id="环绕通知与引入新功能"><a href="#环绕通知与引入新功能" class="headerlink" title="环绕通知与引入新功能"></a>环绕通知与引入新功能</h3><p><strong>1)环绕通知创建与使用：</strong></p>
+<ol>
+<li>环绕通知是最强大的通知类型，能够让你所编写的逻辑将被通知的目标方法完全包装起来。(可以用来实现其他几种通知)</li>
+<li><p>上面的Moniter可以修改如下：</p>
+<pre><code>@Component
+@Aspect
+public class Monitor {
+    @Pointcut(&quot;execution(** chap4.Performance.perform(..))&quot;)
+    public void perform(){}
+
+    @Around(&quot;perform()&quot;)
+    public void AroundPerform(ProceedingJoinPoint joinPoint){
+        try{
+            System.out.println(&quot;performance begin!&quot;);
+            //调用perform方法
+            joinPoint.proceed();
+            System.out.println(&quot;performance end!&quot;);
+            System.out.println(&quot;the performance is great!&quot;);
+        }catch(Throwable e){
+            System.out.println(&quot;the performance is awful!&quot;);
+        }
+    }
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-08.jpg" alt=""></p>
+</li>
+<li>这个通知方法必须接受一个ProceedingJoinPoint接口对象。<br>可以通过该对象的proceed()方法来调用目标对象的方法(将控制权交给被通知的方法)</li>
+<li>可以不使用proceed()来阻塞对被通知方法(切点)的访问。<br>也可以多次使用proceed()来实现被通知方法的多次调用。</li>
+</ol>
+<p><strong>2)通过注解引入新功能：</strong></p>
+<ol>
+<li>一些动态语言如Ruby等有开放类的概念，他们可以不直接修改地偶像或者类的定义就能够为对象或类添加新的方法。但是Java不是动态语言，一旦编译完成，就很难添加新的功能。但是可以通过被引入的AOP来为Spring Bean添加新的方法。</li>
+<li><p>如要为前面的MagicPerformance添加一个彩排的方法：<br>创建彩排(准备表演)接口如下：</p>
+<pre><code>public interface Prepare {
+    public void preparePeform();
+}
+</code></pre><p>彩排实现类：</p>
+<pre><code>public class PrepareMagic implements Prepare{
+    @Override
+    public void preparePeform() {
+        System.out.println(&quot;preparing Magic performance!&quot;);
+    }
+}
+</code></pre><p>引入通知类：(重点就是这个)</p>
+<pre><code>@Aspect
+@Component
+public class PrepareAddInMagic {
+    @DeclareParents(value=&quot;chap4.Performance+&quot;,defaultImpl=PrepareMagic.class)    //注意一定要带上包名
+    public Prepare prepare;        //可以加个static也可以不加
+}
+</code></pre><p>将javaConfig组件扫描的范围去除。<br>测试代码如下：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=MagicPerformanceConfig.class)
+public class MagicPerformanceTest {
+    @Autowired
+    @Qualifier(&quot;magicPerformance&quot;)
+    private Performance performance;
+
+    @Test
+    public void testAop(){
+        Prepare prepare=(Prepare)performance;
+        prepare.preparePeform();
+        performance.perform();
+    }
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-09.jpg" alt=""></p>
+</li>
+<li>需要注意的是performance使用引入对象时的用法。</li>
+<li>关于@DeclareParents的说明：<ul>
+<li><code>value</code>：指定那种类型的bean需要引入该接口。记得一定要带包名，最后的+代表该类的所有实现类都添加这个方法。</li>
+<li><code>defaultImpl</code>：指定为引用功能提供的实现类。(这里就是PrepareMagic类)</li>
+<li><code>@DeclareParents</code>标注的属性指明了要引入的接口。</li>
+</ul>
+</li>
+<li>更简单的例子:<br><a href="https://www.cnblogs.com/xxdsan/p/6496332.html" target="_blank" rel="noopener">https://www.cnblogs.com/xxdsan/p/6496332.html</a></li>
+<li>简单图示：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-10.jpg" alt=""></li>
+</ol>
+<h3 id="处理带参数的通知"><a href="#处理带参数的通知" class="headerlink" title="处理带参数的通知"></a>处理带参数的通知</h3><p><strong>1)简单的准备工作：</strong></p>
+<ol>
+<li>创建接口Performance2：<pre><code>public interface Performance2 {
+    public void perform(String name);
+}
+</code></pre></li>
+<li>创建DancePerformance实现类：<pre><code>@Component
+public class DancePerformance implements Performance2 {
+    @Override
+    public void perform(String name) {
+        System.out.println(&quot;dancer&quot;+name+&quot;is performing&quot;);
+    }
+}
+</code></pre></li>
+</ol>
+<p><strong>2)创建切面并测试：</strong></p>
+<ol>
+<li><p>创建监视类：</p>
+<pre><code>@Aspect
+@Component
+public class DanceMoniter {
+    @Pointcut(&quot;execution(** chap4.Performance2.perform(String)) &amp;&amp; args(name)&quot;)
+    public void perform(String name){}
+
+//    @Before(&quot;perform(name)&quot;)
+//    public void BeforePerform(String name){
+//        System.out.println(name+&quot; begin dance&quot;);
+//    }
+
+    @Around(&quot;perform(name)&quot;)
+    public void AroundPerform(ProceedingJoinPoint joinPoint,String name){
+        try{
+            System.out.println(&quot;performance begin!&quot;);
+            joinPoint.proceed(new Object[]{name});
+            System.out.println(&quot;performance end!&quot;);
+            System.out.println(&quot;the performance is great!&quot;);
+        }catch(Throwable e){
+            System.out.println(&quot;the performance is awful!&quot;);
+        }
+    }
+
+}
+</code></pre></li>
+<li>创建JavaConfig配置类DancePerformanceConfig：<pre><code>@Configuration
+@EnableAspectJAutoProxy
+@ComponentScan
+public class DancePerformanceConfig {
+}
+</code></pre></li>
+<li><p>测试类：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=DancePerformanceConfig.class)
+public class DancePerformanceTest{
+    @Autowired
+    @Qualifier(&quot;dancePerformance&quot;)
+    private Performance2 performance2;
+
+    @Test
+    public void testAop(){
+        performance2.perform(&quot;kenshine&quot;);
+    }
+}
+</code></pre><p>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-11.jpg" alt=""></p>
+</li>
+</ol>
+<p><strong>3)简单总结：</strong></p>
+<ol>
+<li>使用@Around注解时，在方法体内的joinPoint.proceed需要像上面那样写。<br><code>joinPoint.proceed(new Object[]{name});</code>,name则是使用args传进来的参数。</li>
+<li>使用args传入的参数可以在该通知类中的任意一个地方使用。</li>
+<li>使用其他注解如@Before等则没有像@Around的那种限制。</li>
+<li>这种方法配置切面很方便，但是唯一的缺点就是需要知道通知类的源码。如果不知道源码，那么我们就需要另外一种配置方式：XML声明切面</li>
+</ol>
+<hr>
+<h2 id="5-在XML中声明切面"><a href="#5-在XML中声明切面" class="headerlink" title="5.在XML中声明切面"></a>5.在XML中声明切面</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月30日 21:13</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" title="Spring学习（五）：SpringAOP面向切面编程简介">https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/&title=《Spring学习（五）：SpringAOP面向切面编程简介》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/&title=《Spring学习（五）：SpringAOP面向切面编程简介》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（五）：SpringAOP面向切面编程简介》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
+    <a href="/tags/Spring核心框架/" class="color1">Spring核心框架</a>
+      
+    <a href="/tags/SpringAOP/" class="color1">Spring AOP</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-AOP术语"><span class="post-toc-text">1.AOP术语</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring对AOP的支持"><span class="post-toc-text">2.Spring对AOP的支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-通过切点来选择连接点"><span class="post-toc-text">3.通过切点来选择连接点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用注解创建切面"><span class="post-toc-text">4.使用注解创建切面</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义切面"><span class="post-toc-text">定义切面</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#环绕通知与引入新功能"><span class="post-toc-text">环绕通知与引入新功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#处理带参数的通知"><span class="post-toc-text">处理带参数的通知</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-在XML中声明切面"><span class="post-toc-text">5.在XML中声明切面</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/29/Redis学习笔记（十）：缓存的使用与优化/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Redis学习笔记（十）：缓存的使用与优化与CacheCloud云平台</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
-<meta property="og:updated_time" content="2018-04-22T05:46:30.024Z">
+<meta property="og:updated_time" content="2018-04-30T13:05:18.201Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring系列框架学习中遇到的问题及解决方案">
 <meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
@@ -164,6 +164,8 @@
 </li>
 <li>创建自定义的properties文件时报错：<pre><code>Contens is not allowed prolog
 </code></pre></li>
+<li>学习Spring AOP时出错：<pre><code>warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
+</code></pre></li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决"><a href="#1-问题1-5解决" class="headerlink" title="1.问题1-5解决"></a>1.问题1-5解决</h2><p><strong>1)使用mock进行单元测试时报错：</strong></p>
@@ -227,10 +229,58 @@ public NormalMusic(){
 <li>解决方案<br>将格式转换为UTF-8,等一段时间就好了。</li>
 </ol>
 <hr>
+<h2 id="2-问题6-10的解决方案"><a href="#2-问题6-10的解决方案" class="headerlink" title="2.问题6~10的解决方案"></a>2.问题6~10的解决方案</h2><p><strong>6)学习Spring AOP时出错</strong></p>
+<ol>
+<li>错误简介：<pre><code>warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
+</code></pre></li>
+<li><p>出错代码定位：</p>
+<pre><code>@Aspect
+@Component
+public class DanceMoniter {
+    @Pointcut(&quot;execution(** chap4.Performance2.perform(String) and args(name)&quot;)
+    public void perform(String name){}
+
+    @Around(&quot;perform(name)&quot;)
+    public void AroundPerform(ProceedingJoinPoint joinPoint){
+        try{
+            System.out.println(&quot;performance begin!&quot;);
+            joinPoint.proceed();
+            System.out.println(&quot;performance end!&quot;);
+            System.out.println(&quot;the performance is great!&quot;);
+        }catch(Throwable e){
+            System.out.println(&quot;the performance is awful!&quot;);
+        }
+    }
+}
+</code></pre></li>
+<li>原因：<br>Pointcut中语法错误。<br>proceed没有参数。(参数不匹配)</li>
+<li><p>修改如下：</p>
+<pre><code>@Aspect
+@Component
+public class DanceMoniter {
+    @Pointcut(&quot;execution(** chap4.Performance2.perform(String)） and args(name)&quot;)
+    public void perform(String name){}
+
+    @Around(&quot;perform(name)&quot;)
+    public void AroundPerform(ProceedingJoinPoint joinPoint,String name){
+        try{
+            System.out.println(&quot;performance begin!&quot;);
+            joinPoint.proceed(new String[]{name});    //主要是这里
+            System.out.println(&quot;performance end!&quot;);
+            System.out.println(&quot;the performance is great!&quot;);
+        }catch(Throwable e){
+            System.out.println(&quot;the performance is awful!&quot;);
+        }
+    }
+}
+</code></pre><p>终于解决了。如果使用@Before等则不会出现这个问题。</p>
+</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月22日 13:46</p>
+        <p>最后更新： 2018年04月30日 21:05</p>
         <p>原始链接： <a class="post-url" href="/2018/04/14/Spring系列框架学习中遇到的问题/" title="Spring系列框架学习中遇到的问题及解决方案">https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -350,7 +400,7 @@ public NormalMusic(){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-问题列表"><span class="post-toc-text">0.问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决"><span class="post-toc-text">1.问题1-5解决</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-问题列表"><span class="post-toc-text">0.问题列表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决"><span class="post-toc-text">1.问题1-5解决</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-问题6-10的解决方案"><span class="post-toc-text">2.问题6~10的解决方案</span></a></li></ol>
         </nav>
     </aside>
     
@@ -438,7 +488,7 @@ public NormalMusic(){
             <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.89px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.89px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -471,7 +521,7 @@ public NormalMusic(){
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.44px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.89px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.67px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.78px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.89px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.56px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.11px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
