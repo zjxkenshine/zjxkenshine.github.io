@@ -19,6 +19,8 @@ categories: J2EE框架
 >org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'normalMusic' defined in class path resource [chap2/musicplayer3.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [chap2.NormalMusic]: No default constructor found; nested exception is java.lang.NoSuchMethodException: chap2.NormalMusic.<init>()
 5. 创建自定义的properties文件时报错：
 		Contens is not allowed prolog
+6. 学习Spring AOP时出错：
+		warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
 
 
 ---
@@ -91,4 +93,53 @@ NormalMusic没有默认的构造方法。
 将格式转换为UTF-8,等一段时间就好了。
 
 ---
+## 2.问题6~10的解决方案
+**6)学习Spring AOP时出错**
+1. 错误简介：
+		warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
+2. 出错代码定位：
+		@Aspect
+		@Component
+		public class DanceMoniter {
+			@Pointcut("execution(** chap4.Performance2.perform(String) and args(name)")
+			public void perform(String name){}
+			
+			@Around("perform(name)")
+			public void AroundPerform(ProceedingJoinPoint joinPoint){
+				try{
+					System.out.println("performance begin!");
+					joinPoint.proceed();
+					System.out.println("performance end!");
+					System.out.println("the performance is great!");
+				}catch(Throwable e){
+					System.out.println("the performance is awful!");
+				}
+			}
+		}
+3. 原因：
+Pointcut中语法错误。
+proceed没有参数。(参数不匹配)
+4. 修改如下：
+		@Aspect
+		@Component
+		public class DanceMoniter {
+			@Pointcut("execution(** chap4.Performance2.perform(String)） and args(name)")
+			public void perform(String name){}
+			
+			@Around("perform(name)")
+			public void AroundPerform(ProceedingJoinPoint joinPoint,String name){
+				try{
+					System.out.println("performance begin!");
+					joinPoint.proceed(new String[]{name});	//主要是这里
+					System.out.println("performance end!");
+					System.out.println("the performance is great!");
+				}catch(Throwable e){
+					System.out.println("the performance is awful!");
+				}
+			}
+		}
+终于解决了。如果使用@Before等则不会出现这个问题。
 
+
+
+---
