@@ -399,6 +399,242 @@ AspectJ面向注解的模型可以非常便捷地通过少量注解把任意类�
 
 ---
 ## 5.在XML中声明切面
+1. 能使用注解的方式就尽量使用注解，当无法修改通知类的源码时或者某些特定的情况下再去使用XML配置的方式。
+2. XML方式配置的xml配置文件整体框架如下：
+<?xml version="1.0" encoding="UTF-8"?>
+		<beans
+			xmlns="http://www.springframework.org/schema/beans"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xmlns:context="http://www.springframework.org/schema/context"
+			xmlns:aop="http://www.springframework.org/schema/aop"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans
+								http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+								http://www.springframework.org/schema/aop
+								http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+								http://www.springframework.org/schema/context
+								http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+		</beans>
+3. Spring使用AOP命名空间，能够以非侵入式的方式来声明切面。
+aop的配置元素及用处如下图：
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-12.jpg)
+4. aop命名空间的元素能让我们直接在Spring配置中声明切面，而不需要使用注解去修改通知类。
 
+### 定义切面
+**1)准备工作：**
+1. 创建Performance的实现SingingPerformance：
+		public class SingingPerformance implements Performance {
+			@Override
+			public void perform() {
+				System.out.println("the singer is singing");
+			}
+		}
+2. 创建通知类SingMoniter如下：
+		//监控类
+		public class SingingMoniter {
+				public void performanceBegin(){
+				System.out.println("singingperformance begin!");
+				}
+				//表演之后，无论成功与否
+				public void performanceAfter(){
+					System.out.println("singingperformance end!");
+				}
+				//表演之后(成功)
+				public void AfterSuccessPerformance(){
+					System.out.println("the singingperformance is great!");
+				}
+				//表演之后(失败:报异常)
+				public void AfterUnSuccessPerformance(){
+					System.out.println("the singingperformance is awful!");
+				}
+		}
+
+**2)配置切面XML的两种方式：**
+创建SingingPerformanceConfig.xml配置文件。
+1. 方式一：未声明切点，配置代码如下(开头就不写了)
+		<bean id="singingPerformance" class="chap4.SingingPerformance"></bean>
+		<bean id="singAspect" class="chap4.SingingMoniter"></bean>
+		<aop:config>
+			<aop:aspect ref="singAspect">
+				<aop:before pointcut="execution(** chap4.Performance.perform(..))" method="performanceBegin"/>
+				<aop:after pointcut="execution(** chap4.Performance.perform(..))" method="performanceAfter"/>
+				<aop:after-returning pointcut="execution(** chap4.Performance.perform(..))" method="AfterSuccessPerformance"/>
+				<aop:after-throwing pointcut="execution(** chap4.Performance.perform(..))" method="AfterUnSuccessPerformance"/>
+			</aop:aspect>
+		</aop:config>
+但是和注解第一种方式一样，需要写很多个AspectJ表达式语句。
+2. 方式二：
+		<bean id="singingPerformance" class="chap4.SingingPerformance"></bean>
+		<bean id="singAspect" class="chap4.SingingMoniter"></bean>
+		<aop:config>
+			<aop:pointcut expression="execution(** chap4.Performance.perform(..))" id="perform"/>
+			<aop:aspect ref="singAspect">
+				<aop:before pointcut-ref="perform" method="performanceBegin"/>
+				<aop:after pointcut-ref="perform" method="performanceAfter"/>
+				<aop:after-returning pointcut-ref="perform" method="AfterSuccessPerformance"/>
+				<aop:after-throwing pointcut-ref="perform" method="AfterUnSuccessPerformance"/>
+			</aop:aspect>
+		</aop:config>
+使用`<aop:pointcut>`定义注解,使用`pointcut-ref`来引用注解。
+也可以将`<aop:pointcut>`标签放到`<aop:aspect>`标签内。
+3. 无论用那种方式都不要使用`<aop:aspectj-autoproxy>`注解了。
+4. 书本上的图示，如何织入的(图片与代码不一样)
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-13.jpg)
+
+**3)测试与总结：**
+1. 测试类：
+		@RunWith(SpringJUnit4ClassRunner.class)
+		@ContextConfiguration(locations="SingingPerformanceConfig.xml")
+		public class SingingPerformanceTest {
+			@Autowired
+			@Qualifier("singingPerformance")
+			private Performance performance;
+			
+			@Test
+			public void testxmlAop(){
+				performance.perform();
+			}
+		}
+2. 测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-14.jpg)
+
+### 环绕通知与引入新功能
+**1)声明环绕通知：**
+1. 需要在通知类中添加如下方法(仍然需要修改通知类)
+		public void AroundPerformance(ProceedingJoinPoint joinPoint){
+			try{
+				System.out.println("singingperformance begin!");
+				joinPoint.proceed();
+				System.out.println("singingperformance end!");
+				System.out.println("the singingperformance is great!");
+			}catch(Throwable e){
+				System.out.println("the singingperformance is awful!");
+			}
+		}
+2. 配置声明环绕通知(SingingPerformanceConfig.xml中)：
+		<bean id="singingPerformance" class="chap4.SingingPerformance"></bean>
+		<bean id="singAspect" class="chap4.SingingMoniter"></bean>
+		<aop:config>
+			<aop:aspect ref="singAspect">
+				<aop:pointcut expression="execution(** chap4.Performance.perform(..))" id="perform"/>
+				<aop:around pointcut-ref="perform" method="AroundPerformance"/>
+			</aop:aspect>
+		</aop:config>
+3. 其他类不变，测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-15.jpg)
+
+**2)引入新功能：**
+1. 创建准备类：PrepareSinging.java
+		public class PrepareSinging implements Prepare{
+			@Override
+			public void preparePeform() {
+				System.out.println("preparing singing show!!");
+			}
+		}
+然后创建一个PrepareSinging.xml配置文件。有两种方式可以引入切面配置。
+2. 引入方式一：直接引入
+		<aop:config>
+			<aop:aspect>
+				<aop:declare-parents 
+				types-matching="chap4.Performance+" 
+				implement-interface="chap4.Prepare" 
+				default-impl="chap4.PrepareSinging"/>
+			</aop:aspect>
+		</aop:config>
+3. 引入方式二：使用委托(ref)
+		<bean id="prepareSinging" class="chap4.PrepareSinging"></bean> 
+		<aop:config>
+			<aop:aspect>
+				<aop:declare-parents types-matching="chap4.Performance+" implement-interface="chap4.Prepare" delegate-ref="prepareSinging"/>
+			</aop:aspect>
+		</aop:config>
+4. 测试类修改如下：
+		@RunWith(SpringJUnit4ClassRunner.class)
+		//@ContextConfiguration(locations="SingingPerformanceConfig.xml")
+		@ContextConfiguration(locations={"SingingPerformanceConfig.xml", "PrepareSingingConfig.xml"})
+		public class SingingPerformanceTest {
+			
+			@Autowired
+			@Qualifier("singingPerformance")
+			private Performance performance;
+			
+		//	@Test
+		//	public void testxmlAop(){
+		//		performance.perform();
+		//	}
+			
+			@Test
+			public void testxmlAop(){
+				Prepare prepare =(Prepare)performance;
+				prepare.preparePeform();
+				performance.perform();
+			}
+		}
+5. 测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-16.jpg)
+
+### 带参数的通知
+**1)准备：Java类的准备**
+1. 创建Performance2的实现类KongfuPerformance:
+		public class KongfuPerformance implements Performance2{
+			@Override
+			public void perform(String name) {
+				System.out.println(name+"is playing konfu now!!");
+			}
+		}
+2. 创建通知类：
+		public class KonfuMoniter {
+			public void AroundPerform(ProceedingJoinPoint joinPoint,String name){
+				try{
+					System.out.println(name+"'s kongfuperformance begin!");
+					joinPoint.proceed(new Object[]{name});
+					System.out.println(name+"'s kongfuperformance end!");
+					System.out.println("the kongfuperformance is great!");
+				}catch(Throwable e){
+					System.out.println("the kongfuperformance is awful!");
+				}
+			}
+		}
+主要考虑比较麻烦的Around的情况，其他的情况差不多。
+
+**2)配置：XML文件相关配置**
+1. 创建KongfuConfig.xml，内容如下：
+		<bean id="kongfuPerformance" class="chap4.KongfuPerformance"></bean>
+		<bean id="kongfuMoniter" class="chap4.KonfuMoniter"></bean>
+		<aop:config>
+			<aop:aspect ref="kongfuMoniter">
+				<aop:pointcut 
+				expression="execution(** chap4.Performance2.perform(String)) and args(name)" 
+				id="kongfuaop"/>
+				<aop:around 
+				pointcut-ref="kongfuaop" 
+				method="AroundPerform"/>
+			</aop:aspect>
+		</aop:config>
+2. 注意不能在xml文件中使用&&,所以使用and代替。
+在xml中的&代表实体类的开始。
+
+**3)测试：**
+1. 测试类如下：
+		@RunWith(SpringJUnit4ClassRunner.class)
+		@ContextConfiguration("KongfuConfig.xml")
+		public class KongfuPerformanceTest{
+			@Autowired
+			@Qualifier("kongfuPerformance")
+			private Performance2 performance2;
+			
+			@Test
+			public void testAop(){
+				performance2.perform("kenshine");
+			}
+		}
+2. 测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-17.jpg)
+
+---
+## 6.注入AspectJ切面
+1. 上面的Spring AOP已经可以满足很多的需求了。
+但是AspectJ可以更好的实现切面，也可以实现一些SpringAOP实现不了的功能。
+2. 暂时还没学习AspectJ语法，有空学习后再来补充。
+3. 一般情况只要使用SpringAOP就可以了。
 
 ---
