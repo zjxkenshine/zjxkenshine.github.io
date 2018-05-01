@@ -27,7 +27,13 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-09.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-11.jpg">
-<meta property="og:updated_time" content="2018-04-30T13:13:22.427Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-17.jpg">
+<meta property="og:updated_time" content="2018-05-01T07:31:21.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring学习（五）：SpringAOP面向切面编程简介">
 <meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  AOP常用术语 面向切面编程的基本原理 通过POJO创建切面 使用@AspectJ注解 为AspectJ切面注入依赖     1.AOP术语1)AOP术语：  横切关注点：散布在应用中多处的功能称为横切关注点，这些横切关注点从概念上是与业务逻辑相分离的，但是往往又会直接嵌入到应用的业务逻辑之中。(如日志，事务，安全等功能)而切">
@@ -516,11 +522,242 @@ public class DancePerformanceTest{
 <li>这种方法配置切面很方便，但是唯一的缺点就是需要知道通知类的源码。如果不知道源码，那么我们就需要另外一种配置方式：XML声明切面</li>
 </ol>
 <hr>
-<h2 id="5-在XML中声明切面"><a href="#5-在XML中声明切面" class="headerlink" title="5.在XML中声明切面"></a>5.在XML中声明切面</h2><hr>
+<h2 id="5-在XML中声明切面"><a href="#5-在XML中声明切面" class="headerlink" title="5.在XML中声明切面"></a>5.在XML中声明切面</h2><ol>
+<li>能使用注解的方式就尽量使用注解，当无法修改通知类的源码时或者某些特定的情况下再去使用XML配置的方式。</li>
+<li>XML方式配置的xml配置文件整体框架如下：<br>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;<pre><code>&lt;beans
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd&quot;&gt;
+&lt;/beans&gt;
+</code></pre></li>
+<li>Spring使用AOP命名空间，能够以非侵入式的方式来声明切面。<br>aop的配置元素及用处如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-12.jpg" alt=""></li>
+<li>aop命名空间的元素能让我们直接在Spring配置中声明切面，而不需要使用注解去修改通知类。</li>
+</ol>
+<h3 id="定义切面-1"><a href="#定义切面-1" class="headerlink" title="定义切面"></a>定义切面</h3><p><strong>1)准备工作：</strong></p>
+<ol>
+<li>创建Performance的实现SingingPerformance：<pre><code>public class SingingPerformance implements Performance {
+    @Override
+    public void perform() {
+        System.out.println(&quot;the singer is singing&quot;);
+    }
+}
+</code></pre></li>
+<li>创建通知类SingMoniter如下：<pre><code>//监控类
+public class SingingMoniter {
+        public void performanceBegin(){
+        System.out.println(&quot;singingperformance begin!&quot;);
+        }
+        //表演之后，无论成功与否
+        public void performanceAfter(){
+            System.out.println(&quot;singingperformance end!&quot;);
+        }
+        //表演之后(成功)
+        public void AfterSuccessPerformance(){
+            System.out.println(&quot;the singingperformance is great!&quot;);
+        }
+        //表演之后(失败:报异常)
+        public void AfterUnSuccessPerformance(){
+            System.out.println(&quot;the singingperformance is awful!&quot;);
+        }
+}
+</code></pre></li>
+</ol>
+<p><strong>2)配置切面XML的两种方式：</strong><br>创建SingingPerformanceConfig.xml配置文件。</p>
+<ol>
+<li>方式一：未声明切点，配置代码如下(开头就不写了)<pre><code>&lt;bean id=&quot;singingPerformance&quot; class=&quot;chap4.SingingPerformance&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;singAspect&quot; class=&quot;chap4.SingingMoniter&quot;&gt;&lt;/bean&gt;
+&lt;aop:config&gt;
+    &lt;aop:aspect ref=&quot;singAspect&quot;&gt;
+        &lt;aop:before pointcut=&quot;execution(** chap4.Performance.perform(..))&quot; method=&quot;performanceBegin&quot;/&gt;
+        &lt;aop:after pointcut=&quot;execution(** chap4.Performance.perform(..))&quot; method=&quot;performanceAfter&quot;/&gt;
+        &lt;aop:after-returning pointcut=&quot;execution(** chap4.Performance.perform(..))&quot; method=&quot;AfterSuccessPerformance&quot;/&gt;
+        &lt;aop:after-throwing pointcut=&quot;execution(** chap4.Performance.perform(..))&quot; method=&quot;AfterUnSuccessPerformance&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre>但是和注解第一种方式一样，需要写很多个AspectJ表达式语句。</li>
+<li>方式二：<pre><code>&lt;bean id=&quot;singingPerformance&quot; class=&quot;chap4.SingingPerformance&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;singAspect&quot; class=&quot;chap4.SingingMoniter&quot;&gt;&lt;/bean&gt;
+&lt;aop:config&gt;
+    &lt;aop:pointcut expression=&quot;execution(** chap4.Performance.perform(..))&quot; id=&quot;perform&quot;/&gt;
+    &lt;aop:aspect ref=&quot;singAspect&quot;&gt;
+        &lt;aop:before pointcut-ref=&quot;perform&quot; method=&quot;performanceBegin&quot;/&gt;
+        &lt;aop:after pointcut-ref=&quot;perform&quot; method=&quot;performanceAfter&quot;/&gt;
+        &lt;aop:after-returning pointcut-ref=&quot;perform&quot; method=&quot;AfterSuccessPerformance&quot;/&gt;
+        &lt;aop:after-throwing pointcut-ref=&quot;perform&quot; method=&quot;AfterUnSuccessPerformance&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre>使用<code>&lt;aop:pointcut&gt;</code>定义注解,使用<code>pointcut-ref</code>来引用注解。<br>也可以将<code>&lt;aop:pointcut&gt;</code>标签放到<code>&lt;aop:aspect&gt;</code>标签内。</li>
+<li>无论用那种方式都不要使用<code>&lt;aop:aspectj-autoproxy&gt;</code>注解了。</li>
+<li>书本上的图示，如何织入的(图片与代码不一样)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-13.jpg" alt=""></li>
+</ol>
+<p><strong>3)测试与总结：</strong></p>
+<ol>
+<li><p>测试类：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations=&quot;SingingPerformanceConfig.xml&quot;)
+public class SingingPerformanceTest {
+    @Autowired
+    @Qualifier(&quot;singingPerformance&quot;)
+    private Performance performance;
+
+    @Test
+    public void testxmlAop(){
+        performance.perform();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-14.jpg" alt=""></li>
+</ol>
+<h3 id="环绕通知与引入新功能-1"><a href="#环绕通知与引入新功能-1" class="headerlink" title="环绕通知与引入新功能"></a>环绕通知与引入新功能</h3><p><strong>1)声明环绕通知：</strong></p>
+<ol>
+<li>需要在通知类中添加如下方法(仍然需要修改通知类)<pre><code>public void AroundPerformance(ProceedingJoinPoint joinPoint){
+    try{
+        System.out.println(&quot;singingperformance begin!&quot;);
+        joinPoint.proceed();
+        System.out.println(&quot;singingperformance end!&quot;);
+        System.out.println(&quot;the singingperformance is great!&quot;);
+    }catch(Throwable e){
+        System.out.println(&quot;the singingperformance is awful!&quot;);
+    }
+}
+</code></pre></li>
+<li>配置声明环绕通知(SingingPerformanceConfig.xml中)：<pre><code>&lt;bean id=&quot;singingPerformance&quot; class=&quot;chap4.SingingPerformance&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;singAspect&quot; class=&quot;chap4.SingingMoniter&quot;&gt;&lt;/bean&gt;
+&lt;aop:config&gt;
+    &lt;aop:aspect ref=&quot;singAspect&quot;&gt;
+        &lt;aop:pointcut expression=&quot;execution(** chap4.Performance.perform(..))&quot; id=&quot;perform&quot;/&gt;
+        &lt;aop:around pointcut-ref=&quot;perform&quot; method=&quot;AroundPerformance&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+<li>其他类不变，测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-15.jpg" alt=""></li>
+</ol>
+<p><strong>2)引入新功能：</strong></p>
+<ol>
+<li>创建准备类：PrepareSinging.java<pre><code>public class PrepareSinging implements Prepare{
+    @Override
+    public void preparePeform() {
+        System.out.println(&quot;preparing singing show!!&quot;);
+    }
+}
+</code></pre>然后创建一个PrepareSinging.xml配置文件。有两种方式可以引入切面配置。</li>
+<li>引入方式一：直接引入<pre><code>&lt;aop:config&gt;
+    &lt;aop:aspect&gt;
+        &lt;aop:declare-parents 
+        types-matching=&quot;chap4.Performance+&quot; 
+        implement-interface=&quot;chap4.Prepare&quot; 
+        default-impl=&quot;chap4.PrepareSinging&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+<li>引入方式二：使用委托(ref)<pre><code>&lt;bean id=&quot;prepareSinging&quot; class=&quot;chap4.PrepareSinging&quot;&gt;&lt;/bean&gt; 
+&lt;aop:config&gt;
+    &lt;aop:aspect&gt;
+        &lt;aop:declare-parents types-matching=&quot;chap4.Performance+&quot; implement-interface=&quot;chap4.Prepare&quot; delegate-ref=&quot;prepareSinging&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+<li><p>测试类修改如下：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations=&quot;SingingPerformanceConfig.xml&quot;)
+@ContextConfiguration(locations={&quot;SingingPerformanceConfig.xml&quot;, &quot;PrepareSingingConfig.xml&quot;})
+public class SingingPerformanceTest {
+
+    @Autowired
+    @Qualifier(&quot;singingPerformance&quot;)
+    private Performance performance;
+
+//    @Test
+//    public void testxmlAop(){
+//        performance.perform();
+//    }
+
+    @Test
+    public void testxmlAop(){
+        Prepare prepare =(Prepare)performance;
+        prepare.preparePeform();
+        performance.perform();
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-16.jpg" alt=""></li>
+</ol>
+<h3 id="带参数的通知"><a href="#带参数的通知" class="headerlink" title="带参数的通知"></a>带参数的通知</h3><p><strong>1)准备：Java类的准备</strong></p>
+<ol>
+<li>创建Performance2的实现类KongfuPerformance:<pre><code>public class KongfuPerformance implements Performance2{
+    @Override
+    public void perform(String name) {
+        System.out.println(name+&quot;is playing konfu now!!&quot;);
+    }
+}
+</code></pre></li>
+<li>创建通知类：<pre><code>public class KonfuMoniter {
+    public void AroundPerform(ProceedingJoinPoint joinPoint,String name){
+        try{
+            System.out.println(name+&quot;&apos;s kongfuperformance begin!&quot;);
+            joinPoint.proceed(new Object[]{name});
+            System.out.println(name+&quot;&apos;s kongfuperformance end!&quot;);
+            System.out.println(&quot;the kongfuperformance is great!&quot;);
+        }catch(Throwable e){
+            System.out.println(&quot;the kongfuperformance is awful!&quot;);
+        }
+    }
+}
+</code></pre>主要考虑比较麻烦的Around的情况，其他的情况差不多。</li>
+</ol>
+<p><strong>2)配置：XML文件相关配置</strong></p>
+<ol>
+<li>创建KongfuConfig.xml，内容如下：<pre><code>&lt;bean id=&quot;kongfuPerformance&quot; class=&quot;chap4.KongfuPerformance&quot;&gt;&lt;/bean&gt;
+&lt;bean id=&quot;kongfuMoniter&quot; class=&quot;chap4.KonfuMoniter&quot;&gt;&lt;/bean&gt;
+&lt;aop:config&gt;
+    &lt;aop:aspect ref=&quot;kongfuMoniter&quot;&gt;
+        &lt;aop:pointcut 
+        expression=&quot;execution(** chap4.Performance2.perform(String)) and args(name)&quot; 
+        id=&quot;kongfuaop&quot;/&gt;
+        &lt;aop:around 
+        pointcut-ref=&quot;kongfuaop&quot; 
+        method=&quot;AroundPerform&quot;/&gt;
+    &lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+<li>注意不能在xml文件中使用&amp;&amp;,所以使用and代替。<br>在xml中的&amp;代表实体类的开始。</li>
+</ol>
+<p><strong>3)测试：</strong></p>
+<ol>
+<li><p>测试类如下：</p>
+<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(&quot;KongfuConfig.xml&quot;)
+public class KongfuPerformanceTest{
+    @Autowired
+    @Qualifier(&quot;kongfuPerformance&quot;)
+    private Performance2 performance2;
+
+    @Test
+    public void testAop(){
+        performance2.perform(&quot;kenshine&quot;);
+    }
+}
+</code></pre></li>
+<li>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00054Spring%E5%AD%A6%E4%B9%A05-17.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-注入AspectJ切面"><a href="#6-注入AspectJ切面" class="headerlink" title="6.注入AspectJ切面"></a>6.注入AspectJ切面</h2><ol>
+<li>上面的Spring AOP已经可以满足很多的需求了。<br>但是AspectJ可以更好的实现切面，也可以实现一些SpringAOP实现不了的功能。</li>
+<li>暂时还没学习AspectJ语法，有空学习后再来补充。</li>
+<li>一般情况只要使用SpringAOP就可以了。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月30日 21:13</p>
+        <p>最后更新： 2018年05月01日 15:31</p>
         <p>原始链接： <a class="post-url" href="/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" title="Spring学习（五）：SpringAOP面向切面编程简介">https://zjxkenshine.github.io/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -642,7 +879,7 @@ public class DancePerformanceTest{
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-AOP术语"><span class="post-toc-text">1.AOP术语</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring对AOP的支持"><span class="post-toc-text">2.Spring对AOP的支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-通过切点来选择连接点"><span class="post-toc-text">3.通过切点来选择连接点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用注解创建切面"><span class="post-toc-text">4.使用注解创建切面</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义切面"><span class="post-toc-text">定义切面</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#环绕通知与引入新功能"><span class="post-toc-text">环绕通知与引入新功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#处理带参数的通知"><span class="post-toc-text">处理带参数的通知</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-在XML中声明切面"><span class="post-toc-text">5.在XML中声明切面</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-AOP术语"><span class="post-toc-text">1.AOP术语</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring对AOP的支持"><span class="post-toc-text">2.Spring对AOP的支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-通过切点来选择连接点"><span class="post-toc-text">3.通过切点来选择连接点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-使用注解创建切面"><span class="post-toc-text">4.使用注解创建切面</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义切面"><span class="post-toc-text">定义切面</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#环绕通知与引入新功能"><span class="post-toc-text">环绕通知与引入新功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#处理带参数的通知"><span class="post-toc-text">处理带参数的通知</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-在XML中声明切面"><span class="post-toc-text">5.在XML中声明切面</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义切面-1"><span class="post-toc-text">定义切面</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#环绕通知与引入新功能-1"><span class="post-toc-text">环绕通知与引入新功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#带参数的通知"><span class="post-toc-text">带参数的通知</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-注入AspectJ切面"><span class="post-toc-text">6.注入AspectJ切面</span></a></li></ol>
         </nav>
     </aside>
     

@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
+  <meta name="description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) JVM原理 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范   JVM运行机制 JVM启动流程 JVM基本结构 内存模型 编译和解释运行的概念     1.JVM的概念1)虚拟机简介：  JVM">
 <meta name="keywords" content="Java,JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（一）：JVM简介及JVM运行机制">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
+<meta property="og:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) JVM原理 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范   JVM运行机制 JVM启动流程 JVM基本结构 内存模型 编译和解释运行的概念     1.JVM的概念1)虚拟机简介：  JVM">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-02.jpg">
@@ -22,10 +22,12 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-06.jpg">
-<meta property="og:updated_time" content="2018-04-29T14:57:01.363Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-07-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-08.jpg">
+<meta property="og:updated_time" content="2018-04-30T14:43:00.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（一）：JVM简介及JVM运行机制">
-<meta name="twitter:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) 目录 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范     1.JVM的概念1)虚拟机简介：  JVM：Java Virtual Machine的简称。意为Java虚拟机。 虚拟机：指通过软件">
+<meta name="twitter:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) JVM原理 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范   JVM运行机制 JVM启动流程 JVM基本结构 内存模型 编译和解释运行的概念     1.JVM的概念1)虚拟机简介：  JVM">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-01.jpg">
   
   
@@ -156,12 +158,19 @@
             <h2 id="0-学习环境"><a href="#0-学习环境" class="headerlink" title="0.学习环境"></a>0.学习环境</h2><ol>
 <li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
 <li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>参考视频《深入理解JVM》(主要学习)</li>
-<li>目录<ul>
+<li>JVM原理<ul>
 <li>JVM的概念</li>
 <li>JVM的发展史</li>
 <li>JVM的种类</li>
 <li>Java语言规范</li>
 <li>JVM规范</li>
+</ul>
+</li>
+<li>JVM运行机制<ul>
+<li>JVM启动流程</li>
+<li>JVM基本结构</li>
+<li>内存模型</li>
+<li>编译和解释运行的概念</li>
 </ul>
 </li>
 </ol>
@@ -417,10 +426,63 @@ for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
 </li>
 </ol>
 <hr>
+<h2 id="5-JVM的启动流程"><a href="#5-JVM的启动流程" class="headerlink" title="5.JVM的启动流程"></a>5.JVM的启动流程</h2><p>简单流程图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-07-1.jpg" alt=""></p>
+<ol>
+<li>第一步：启动JVM——Java或者Javaw命令后面跟一个启动类<br>JAVA XXX,启动类中一般都有一个main方法。</li>
+<li>第二步：装载配置<br>会根据当前路径和系统版本寻找jvm.conf文件，找到文件之后会去定位所需要的dll文件。</li>
+<li>第三步：根据配置寻找JVM.dll<br>需要寻找的是匹配当前系统版本的dll<br>JVM.dll为JVM的主要实现<br>使用JVM.dll初始化虚拟机，获得相关的一系列native调用接口。</li>
+<li>第四步：初始化JVM，获得JNIEnv接口。<br>JNIEnv为JVM接口，findClass等操作通过它实现。</li>
+<li>第五步：找到Main方法并允许</li>
+</ol>
+<hr>
+<h2 id="6-JVM基本结构简介"><a href="#6-JVM基本结构简介" class="headerlink" title="6.JVM基本结构简介"></a>6.JVM基本结构简介</h2><p>简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-08.jpg" alt=""></p>
+<ol>
+<li>类加载器子系统：ClassLoader<br>将Class文件加载到JVMz中</li>
+<li>本地方法栈的内容暂时不介绍</li>
+<li>PC寄存器：又称为程序计数器<br>虚拟机运行时需要有指针指向下一条指令的地址。</li>
+<li>执行引擎：执行类的字节码</li>
+<li>垃圾收集器：很重要的一个模块</li>
+</ol>
+<h3 id="pc寄存器，方法区与Java堆"><a href="#pc寄存器，方法区与Java堆" class="headerlink" title="pc寄存器，方法区与Java堆"></a>pc寄存器，方法区与Java堆</h3><p><strong>1)pc寄存器</strong> </p>
+<ul>
+<li>又称为程序计数器</li>
+<li>每个线程都有一个PC寄存器</li>
+<li>在线程创建时创建</li>
+<li>总是指向下一条指令的地址</li>
+<li>执行本地方法时，PC寄存器的值为空(undefined)</li>
+</ul>
+<p><strong>2)方法区：</strong></p>
+<ol>
+<li>保存装载的类的信息：<ul>
+<li>常量(除字符串常量)</li>
+<li>静态变量</li>
+<li>字段方法信息</li>
+<li>编译后的字节码</li>
+</ul>
+</li>
+<li>有一个别名叫Non-Heap(非堆)</li>
+<li>JDK6时String常量信息置于方法，JDK7时已经移动到了堆。</li>
+<li>方法区经常被称为”永久区”，仅仅是因为涉及团队将GC分代收集扩展至方法区(使用永久代实现的方法区)，保存一些相对稳定的信息。</li>
+<li>所有线程共享的内存区域，由虚拟机维护。</li>
+</ol>
+<p><strong>3)Java堆：</strong></p>
+<ol>
+<li>和程序开发最为密切的一个区间</li>
+<li>简介：<ul>
+<li>和程序开发密切相关</li>
+<li>应用系统对象都保存在Java堆中</li>
+<li>所有线程共享的Java堆</li>
+<li>对分代GC来说，堆也是分代的</li>
+<li>GC的主要工作区间</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-Java栈"><a href="#7-Java栈" class="headerlink" title="7.Java栈"></a>7.Java栈</h2><hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月29日 22:57</p>
+        <p>最后更新： 2018年04月30日 22:43</p>
         <p>原始链接： <a class="post-url" href="/2018/04/28/JVM学习笔记（一）：初识JVM/" title="JVM学习笔记（一）：JVM简介及JVM运行机制">https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -540,7 +602,7 @@ for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM和Java的发展史"><span class="post-toc-text">2.JVM和Java的发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JVM的种类"><span class="post-toc-text">3.JVM的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java及JVM规范"><span class="post-toc-text">4.Java及JVM规范</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JVM规范"><span class="post-toc-text">JVM规范</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM和Java的发展史"><span class="post-toc-text">2.JVM和Java的发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JVM的种类"><span class="post-toc-text">3.JVM的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java及JVM规范"><span class="post-toc-text">4.Java及JVM规范</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JVM规范"><span class="post-toc-text">JVM规范</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-JVM的启动流程"><span class="post-toc-text">5.JVM的启动流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-JVM基本结构简介"><span class="post-toc-text">6.JVM基本结构简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pc寄存器，方法区与Java堆"><span class="post-toc-text">pc寄存器，方法区与Java堆</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-Java栈"><span class="post-toc-text">7.Java栈</span></a></li></ol>
         </nav>
     </aside>
     
