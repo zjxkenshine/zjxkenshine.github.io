@@ -9,6 +9,8 @@ categories: 数据库
 1. 游标使用时遇到的一个问题：变量与字段重名?
 2. Mysql事件中如何同时指定开始时间和执行周期?
 3. 查询每个月倒数第二天入职的员工?
+4. 有一段时间没有用MySQL了，连接时报错：
+	Can't connect to MySQL server on 'localhost'
 
 ---
 ## 1.问题1-5解决方法
@@ -48,5 +50,14 @@ AT和EVERY同时只能有一个。
 **3）查询每个月倒数第二天入职的员工?**
 使用last_day()函数：表示当月的最后一天
 `SELECT * FROM hire WHERE hiredate=last_day(hiredate)-1;`
+
+**4）很久没有Mysql连接报错：**
+1. 命令行客户端连接报错：
+		Can't connect to MySQL server on localhost (10061)
+Navicat客户端连接报错：
+		Can't connect to MySQL server on localhost (10038)
+引起这俩的原因肯定是相同的。
+2. 原因：
+不知道为啥MySQ服务自动关闭了，打开就可以了。(尴尬)
 
 ---
