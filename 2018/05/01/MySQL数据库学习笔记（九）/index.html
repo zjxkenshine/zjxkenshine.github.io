@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-19.jpg">
+<meta property="og:updated_time" content="2018-05-01T15:04:49.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（九）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考资料：<br>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>传智播客的视频学完了</p>
+</li>
+<li><p>简单目录：</p>
+<ul>
+<li>SQL中的安全问题简介</li>
+<li>SQL Mode及相关问题简介</li>
+<li>锁机制简介及简单使用LOCK</li>
+<li>事务的复习及补充</li>
+<li>Linux下安装MySQL</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-SQL中的安全问题"><a href="#1-SQL中的安全问题" class="headerlink" title="1.SQL中的安全问题"></a>1.SQL中的安全问题</h2><p>SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。</p>
+<p><strong>1)SQL注入简介：</strong></p>
+<ol>
+<li>SQL：结构化查询语言，是一种和数据库交互的文本语言。</li>
+<li>SQL注入：<br>利用某些数据库的外部接口将用户数据插入到实际的数据库操作语言(SQL)中，从而到达入侵数据库乃至操作系统的目的。</li>
+<li>SQL注入的危害：<br>攻击者利用SQL注入读取，修改或者删除数据库内的数据。<br>获取数据库用户名和密码等敏感信息。甚至可以获得数据库管理员的权限干任何事情。<br>无法通过简单的配置进行自我保护，一般的防火墙无法拦截。</li>
+<li>所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。<br>通过WEB表单递交查询字符特别容易受到SQL注入攻击。</li>
+</ol>
+<p><strong>2)其他可能会出现的MySQL安全问题：</strong></p>
+<ol>
+<li>防止sql注入，对特殊字符进行转义(addslashes)，或者使用已经编译好的sql语句进行变量的绑定；</li>
+<li>当sql运行出现错误的时候，不要把数据库返回的错误信息全部显示给客户，以防止泄漏服务器和数据库的相关信息；</li>
+<li>最小权限原则，特别不要使用root用户，为不同的类型的动作或者组建不同的账户；</li>
+</ol>
+<hr>
+<h2 id="2-应对SQL注入的措施"><a href="#2-应对SQL注入的措施" class="headerlink" title="2.应对SQL注入的措施"></a>2.应对SQL注入的措施</h2><p>主要有三种方式：</p>
+<ul>
+<li>PreparedStatement绑定变量</li>
+<li>使用应用程序提供的转换函数</li>
+<li>自己定义函数进行校验</li>
+</ul>
+<p><strong>1)PreparedStatement绑定变量(推荐)：</strong></p>
+<ol>
+<li>MySQL服务端并不存在共享池的概念，所以在MySQL上使用绑定变量就可以避免SQL注入，增加安全性。</li>
+<li>如下JDBC简单代码：<pre><code>Class.forname(&quot;com.mysql.jdbc.Driver&quot;).newInstance();
+String url=&quot;jdbc:mysql://127.0.0.1:3306/test&quot;;
+String user=&quot;username&quot;;
+String password=&quot;password&quot;;
+Connection conn = DriverManager.getConnection(url,user,password);
+String sqlstmt=&quot;select * from user where username=? and password=?&quot;;
+PreparedStatement preStmt=conn.prepareStatement(sqlStmt);
+preStmt.setString(1,&quot;user1 &apos;or 1=1&apos;&quot;);    //这里的or 1=1就是注入攻击的内容
+preStmt.setString(2,&quot;password&quot;);
+Resultset rs=preStmt.executeQuery();
+while(rs.next()){
+    //对查询出的数据的操作
+}
+</code></pre></li>
+<li>常见的SQL攻击方式还有：<br><code>preStmt.setString(1,&quot;user1 &#39;/*&#39;&quot; );</code><br>和<br><code>preStmt.setString(1,&quot;user1 &#39;#&#39;&quot; );</code><br>or的那种方法时利用了SQL逻辑，而这两个攻击则是想要直接注释掉后面的SQL代码。</li>
+<li>无论那种SQL注入，PrepareStatement都能够很好的防御，使用绑定变量，可以正确解析单引号，里面的攻击字符串不会被解析为条件。从而达到了防止SQL注入的目的。</li>
+<li>切记不要用拼接字符串。</li>
+<li>原理：<br>sql注入只对sql语句的准备(编译)过程有破坏作用<br>而PreparedStatement已经准备好了,执行阶段只是把输入串作为数据处理,<br>而不再对sql语句进行解析,准备,因此也就避免了sql注入问题.</li>
+</ol>
+<p><strong>2)使用应用程序提供的转换函数：</strong><br>很多应用程序都提供了对特殊字符创进行转换的函数，但是似乎没有针对Java的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-01.jpg" alt=""></p>
+<p><strong>3)自己定义函数进行校验：</strong></p>
+<ol>
+<li>简单来说就是过滤非法字符。可以有以下几种方式：<ul>
+<li>整理数据使之变得有效</li>
+<li>拒绝已知的非法输入</li>
+<li>只接受已知的合法输入</li>
+</ul>
+</li>
+<li>最好的方式就是对可能出现攻击的数据进行简单分类(根据非法字符串)，然后分别用正则表达式对用户的输入数据进行严格的检测和验证，一定要严格。</li>
+<li>书上的方法示例(PHP版)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-02.jpg" alt=""></li>
+<li>更多的信息可以查看博客：<br><a href="https://blog.csdn.net/zhangyongqiang123/article/details/52768730" target="_blank" rel="noopener">https://blog.csdn.net/zhangyongqiang123/article/details/52768730</a></li>
+</ol>
+<hr>
+<h2 id="3-SQL-Mode简介"><a href="#3-SQL-Mode简介" class="headerlink" title="3.SQL Mode简介"></a>3.SQL Mode简介</h2><p><strong>1)SQL Mode(SQL模式)简介：</strong></p>
+<ol>
+<li>SQL Mode定义了MySQL应支持的SQL语法、数据校验等。<br>这样可以更容易地在不同环境中使用MySQL。<br>MySQL的一个特有的特性就是可以运行在不同的SQL Mode下。</li>
+<li>在MySQL中SQL Mode常用来解决下面几类问题：<ul>
+<li>通过设置SQL模式可以完成不同严格程度的数据校验，有效保障数据的有效性。</li>
+<li>通过设置SQL模式为ANSI模式，来保证大多数SQL符合标准的SQL语法，这样应用在不同的数据库之间进行迁移时就不需要对业务的SQL进行较大的修改。</li>
+<li>在不同的数据库之间进行迁移时可以设置SQL模式使MySQL上的数据更方便的迁移到目标数据库中。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)SQLMode的常见的值：</strong></p>
+<ol>
+<li>常用的模式组合(由多个原子模式组成)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-05.jpg" alt=""><ul>
+<li>ANSI：标准模式</li>
+<li>STRICT_TRANS_TABLES：严格模式</li>
+<li>TRADITIONAL：也是一种严格模式</li>
+</ul>
+</li>
+<li>部分原子模式(sql_mode值)的介绍：</li>
+</ol>
+<ul>
+<li>ONLY_FULL_GROUP_BY：<br>对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么将认为这个SQL是不合法的。</li>
+<li>STRICT_TRANS_TABLES：<br>在该模式下，如果一个值不能插入到一个事务表中，则中断当前的操作，对非事务表不做任何限制</li>
+<li>NO_ZERO_IN_DATE：<br>在严格模式，不接受月或日部分为0的日期。如果使用IGNORE选项，我们为类似的日期插入’0000-00-00’。在非严格模式，可以接受该日期，但会生成警告。</li>
+<li>NO_ZERO_DATE：<br>在严格模式，不将 ‘0000-00-00’做为合法日期。你仍然可以用IGNORE选项插入零日期。在非严格模式，可以接受该日期，但会生成警告</li>
+<li>ERROR_FOR_DIVISION_BY_ZERO：<br>在严格模式，在INSERT或UPDATE过程中，如果被零除(或MOD(X，0))，则产生错误(否则为警告)。如果未给出该模式，被零除时MySQL返回NULL。如果用到INSERT IGNORE或UPDATE IGNORE中，MySQL生成被零除警告，但操作结果为NULL。</li>
+<li>NO_AUTO_CREATE_USER：<br>防止GRANT自动创建新用户，除非指定了密码。</li>
+<li>NO_ENGINE_SUBSTITUTION：<br>如果需要的存储引擎被禁用或未编译，那么抛出错误。不设置此值时，用默认的存储引擎替代，并抛出一个异常</li>
+</ul>
+<p><strong>3)SQLMode设置与测试：</strong></p>
+<ol>
+<li>创建测试表m_people：<pre><code>CREATE TABLE `m_people` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+</code></pre>使用desc查看表的定义：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-03.jpg" alt=""></li>
+<li>使用<code>select @@sql_mode</code>查看当前数据库使用的SQL Mode：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-04.jpg" alt=""><br>当前的模式为STRICT_TRANS_TABLES，NO_ENGINE_SUBSTITUTION。</li>
+<li>在该模式下插入一个超过长度的值：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-06.jpg" alt=""><br>超过长度会出错。</li>
+<li>修改模式为ANSI标准模式:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-07.jpg" alt=""><br>这种修改方式只在本次连接有效。</li>
+<li>再次插入一个超过长度的数：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-08.jpg" alt=""><br>出现了警告，进行了截断后存储，但是不报错。</li>
+<li>修改SQL Mode的命令：<br><code>SET [SESSION|GLOABAL] sql_mode=&#39;模式&#39;;</code><br>SESSION表示只在当前连接有用，GLOABAL表示对全部新的连接有用(但是对当前连接没用)。<br>也可以在MySQL启动时通过<code>--sql-mode=&quot;模式&quot;</code>来设置。<br>也可以通过配置文件设置:vim /etc/my.cnf<br>在my.cnf（my.ini）添加如下配置:<br>[mysqld]<br>sql_mode=’你想要的模式’</li>
+</ol>
+<hr>
+<h2 id="4-SQL-Mode功能与迁移时的使用"><a href="#4-SQL-Mode功能与迁移时的使用" class="headerlink" title="4.SQL Mode功能与迁移时的使用"></a>4.SQL Mode功能与迁移时的使用</h2><p>创建表m_modetest用于测试：</p>
+<pre><code>CREATE TABLE `m_modetest` (
+  `context` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+</code></pre><p><strong>1)SQL Mode常见功能：</strong></p>
+<ol>
+<li>校验日期数据的合法性：常用的功能<br>插入一个正确但是不完整的值：补齐为0<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-09.jpg" alt=""><br>插入一个错误的值：(5月50号)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-10.jpg" alt=""><br>全部都变为0了，并且有一个警告。<br>设为严格模式：<code>SET SESSION sql_mode=&#39;TRODITIONAL&#39;</code><br>再次进行插入：报错<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-11.jpg" alt=""></li>
+<li>除数为0的情况的处理：<br>在数据库中添加一个int类型的字段：<pre><code>alter table m_modetest add column shang int;
+</code></pre>在标准模式ANSI下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-14.jpg" alt=""><br>设置为严格模式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-15.jpg" alt=""></li>
+<li>任何模式下直接查询时除数为0结果都是NULL。<br>在标准模式ANSI下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-12.jpg" alt=""><br>设置为严格模式，再进行查询：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-13.jpg" alt=""></li>
+<li>启用<code>NO_BACKSLASH_ESCAPES</code>模式，使反斜杠<code>\</code>变为普通字符。<br>如果数据中含有反斜杠字符，启用<code>NO_BACKSLASH_ESCAPES</code>保证数据的正确性。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-16.jpg" alt=""><br>修改模式：（前面的是ASNI组合模式的内容）<br><code>SET SESSION sql_mode=&#39;REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,NO_BACKSLASH_ESCAPES&#39;;</code><br>然后再次添加：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-17.jpg" alt=""><br>反斜杠已经被解析成字符了。</li>
+<li>启用<code>PIPES_AS_CONCAT</code>模式，将<code>||</code>解析为连接字符串操作：<br>在ANSI下默认启用了PIPES_AS_CONCAT模式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-18.jpg" alt=""><br>未启用时PIPES_AS_CONCAT模式的输出是这样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-19.jpg" alt=""><br>主要是因为在其他数据库(如Oracle)中||就是连接字符串的操作，所以为了统一MySQL也加入了对应的模式。(最好就是使用ANSI模式)</li>
+</ol>
+<p><strong>2)SQL Mode在迁移中的使用：</strong></p>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月01日 23:04</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/01/MySQL数据库学习笔记（九）/" title="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL中的安全问题"><span class="post-toc-text">1.SQL中的安全问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-应对SQL注入的措施"><span class="post-toc-text">2.应对SQL注入的措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL-Mode简介"><span class="post-toc-text">3.SQL Mode简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SQL-Mode功能与迁移时的使用"><span class="post-toc-text">4.SQL Mode功能与迁移时的使用</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/30/Spring学习（五）：SpringAOP面向切面编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Spring学习（五）：SpringAOP面向切面编程简介</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂谈/">杂谈</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Servlet/" style="font-size: 10px;">Servlet</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 13.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
