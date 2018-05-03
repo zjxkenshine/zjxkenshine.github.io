@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域 | 程序人生</title>
+  <title>Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
@@ -11,7 +11,7 @@
   <meta name="description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
 <meta name="keywords" content="Spring,Spring核心框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
+<meta property="og:title" content="Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/index.html">
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
@@ -22,9 +22,9 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-06.jpg">
-<meta property="og:updated_time" content="2018-04-21T14:08:02.716Z">
+<meta property="og:updated_time" content="2018-05-03T08:29:13.577Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
+<meta name="twitter:title" content="Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域">
 <meta name="twitter:description" content="0.学习准备 参考书籍：《Spring实战》(第四版)  内容概述：  Spring profile 条件化的Bean声明 自动化装配与歧义性 bean的作用域     1.学习中出现的一些新概念 嵌入式数据库：这种数据库嵌入到了应用程序进程中，消除了与客户机服务器配置相关的开销。嵌入式数据库实际上是轻量级的，在运行时，它们需要较少的内存。它们是使用精简代码编写的，对于嵌入式设备，其速度更快，效果">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00044Spring%E5%AD%A6%E4%B9%A03-01-1.jpg">
   
@@ -124,7 +124,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域
+      Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -724,8 +724,8 @@ public class CartTest {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月21日 22:08</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/21/Spring学习（三）：高级装配1/" title="Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域">https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/</a></p>
+        <p>最后更新： 2018年05月03日 16:29</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/21/Spring学习（三）：高级装配1/" title="Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域">https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -782,7 +782,7 @@ public class CartTest {
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -792,7 +792,7 @@ public class CartTest {
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&title=《Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -802,7 +802,7 @@ public class CartTest {
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域》 — 程序人生&url=https://zjxkenshine.github.io/2018/04/21/Spring学习（三）：高级装配1/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>

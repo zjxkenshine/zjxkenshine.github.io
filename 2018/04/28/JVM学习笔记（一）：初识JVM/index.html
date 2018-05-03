@@ -24,7 +24,24 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-06.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-07-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-08.jpg">
-<meta property="og:updated_time" content="2018-04-30T14:43:00.715Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-25.jpg">
+<meta property="og:updated_time" content="2018-05-03T14:01:26.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（一）：JVM简介及JVM运行机制">
 <meta name="twitter:description" content="0.学习环境 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(主要学习) JVM原理 JVM的概念 JVM的发展史 JVM的种类 Java语言规范 JVM规范   JVM运行机制 JVM启动流程 JVM基本结构 内存模型 编译和解释运行的概念     1.JVM的概念1)虚拟机简介：  JVM">
@@ -438,10 +455,10 @@ for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
 <h2 id="6-JVM基本结构简介"><a href="#6-JVM基本结构简介" class="headerlink" title="6.JVM基本结构简介"></a>6.JVM基本结构简介</h2><p>简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-08.jpg" alt=""></p>
 <ol>
 <li>类加载器子系统：ClassLoader<br>将Class文件加载到JVMz中</li>
-<li>本地方法栈的内容暂时不介绍</li>
 <li>PC寄存器：又称为程序计数器<br>虚拟机运行时需要有指针指向下一条指令的地址。</li>
 <li>执行引擎：执行类的字节码</li>
 <li>垃圾收集器：很重要的一个模块</li>
+<li>本地方法栈暂时不过多介绍。</li>
 </ol>
 <h3 id="pc寄存器，方法区与Java堆"><a href="#pc寄存器，方法区与Java堆" class="headerlink" title="pc寄存器，方法区与Java堆"></a>pc寄存器，方法区与Java堆</h3><p><strong>1)pc寄存器</strong> </p>
 <ul>
@@ -474,15 +491,149 @@ for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
 <li>所有线程共享的Java堆</li>
 <li>对分代GC来说，堆也是分代的</li>
 <li>GC的主要工作区间</li>
+<li>不同的GC算法也对应着不同的堆</li>
 </ul>
 </li>
 </ol>
 <hr>
-<h2 id="7-Java栈"><a href="#7-Java栈" class="headerlink" title="7.Java栈"></a>7.Java栈</h2><hr>
+<h2 id="7-Java栈"><a href="#7-Java栈" class="headerlink" title="7.Java栈"></a>7.Java栈</h2><p><strong>1)Java栈，局部变量表与帧</strong></p>
+<ol>
+<li>Java栈：又叫做Java虚拟机栈<ul>
+<li>线程私有</li>
+<li>栈由一系列帧组成，因此栈也叫帧栈</li>
+<li>帧保存一个方法的局部变量，操作数栈，动态链接，操作出口，常量池指针等</li>
+<li>每一次方法的调用创建一个帧，并且压栈。</li>
+<li>先进后出的数据结构</li>
+</ul>
+</li>
+<li>局部变量表：包括了函数的参数以及局部变量<br>如有两个方法如下：(一个静态方法，一个实例方法)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-09.jpg" alt=""><br>则这俩方法的局部变量表如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-10.jpg" alt=""></li>
+<li>上面的局部变量表的说明：<ul>
+<li>分为很多个槽，一个槽占32位。</li>
+<li>long，double类型占两个槽，对象类型则会变成引用(reference)。</li>
+<li>实例方法的第一个槽是对自身的引用。</li>
+</ul>
+</li>
+<li>函数的调用组成帧栈：<br>如一个递归方法：<pre><code>public static int runStatic(int i,long l,float f,Object o,byte b){
+    return runStatic(i,l,f,b);
+}
+</code></pre>则该方法的帧栈结构如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-11.jpg" alt=""><br>每一次调用就会往上面压一个栈，直到栈溢出。</li>
+</ol>
+<p><strong>2)操作数栈：</strong></p>
+<ol>
+<li>Java中没有寄存器，所有的参数传递依靠操作数栈。</li>
+<li>简单的例子:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-12.jpg" alt=""></li>
+<li>简单过程示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-13.jpg" alt=""></li>
+</ol>
+<p><strong>3)栈上分配：</strong></p>
+<ol>
+<li>堆上分配：(C++代码)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-14.jpg" alt=""><br>new一个对象后需要收动删除。(JVM则有GC回收)<br>分配了内存空间但是没有进行回收：<strong>内存泄露</strong><br>内存泄露很难察觉，难以全面修复。</li>
+<li>栈上分配：不需要手动删除<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-15.jpg" alt=""><br>这时是一个对象引用，这种情况的到的对象是分配在栈上的，调用完成后自动清理。<br>栈上分配不用担心内存泄露的问题。</li>
+<li>有一段分配代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-16.jpg" alt=""><br>分别使用栈上分配与堆上分配运行：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-17.jpg" alt=""><br>栈上分配只用了5ms,堆上分配会触发垃圾回收，时间也多达564ms。<br>(但是很明显不是所有对象都能分配到栈上的，否则还要GC啥用)</li>
+<li>栈上分配也不是完美的：<ul>
+<li>小对象(一般几十byte),没有逃逸的情况下可以分配到栈上。</li>
+<li>直接分配到栈上可以自动回收，减轻GC压力</li>
+<li>大对象，或者逃逸对象无法栈上分配。<br>（逃逸：对象在这个线程要用，在其他线程也要使用。栈是线程私有，不能分配到栈上)</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)堆，栈，方法区交互：</strong></p>
+<ol>
+<li>所运行的代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-19.jpg" alt=""></li>
+<li>交互示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-18.jpg" alt=""></li>
+<li>简单来说就是类的信息放在了方法区，运行后实例对象放在了堆中，对对象的引用放在栈中。(每个线程会单独分配一个栈空间)</li>
+</ol>
+<hr>
+<h2 id="8-Java内存模型"><a href="#8-Java内存模型" class="headerlink" title="8.Java内存模型"></a>8.Java内存模型</h2><p><strong>1)内存模型简介：</strong></p>
+<ol>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-20.jpg" alt=""></li>
+<li>内存模型：<ul>
+<li>每一个线程有一个和主存独立的工作内存。</li>
+<li>工作内存存放的是主存中的变量值的拷贝。</li>
+</ul>
+</li>
+<li>内存运行过程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-21.jpg" alt=""><ul>
+<li>原子操作不能被中断，但是原子操作之间可以被中断。</li>
+<li>简单来说就是主存执行读写，而工作内存复负责一些和线程交互的工作。</li>
+</ul>
+</li>
+<li>多线程下的内存模型：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-22.jpg" alt=""></li>
+</ol>
+<p><strong>2)Volatile：</strong></p>
+<ol>
+<li>详细的用法可以参考前面的学习笔记：<br><a href="https://zjxkenshine.github.io/2018/02/28/%E3%80%8AJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E3%80%8B%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/#6-volatile关键字">《Java多线程编程核心技术》笔记（二）</a></li>
+<li>Volatile的性能一般会比锁好(重量级锁)，但是不能代替锁。<br>是否选择Volatile的条件：语义是否满足应用。</li>
+<li>需要使用-server运行才有效果。</li>
+</ol>
+<hr>
+<h2 id="9-内存模型的相关概念："><a href="#9-内存模型的相关概念：" class="headerlink" title="9.内存模型的相关概念："></a>9.内存模型的相关概念：</h2><p>主要概念有：</p>
+<ul>
+<li>可见性<ul>
+<li>保证可见性方法</li>
+</ul>
+</li>
+<li>有序性</li>
+<li>指令重排序<ul>
+<li>保证线程有序性</li>
+<li>重排基本原则</li>
+</ul>
+</li>
+</ul>
+<p><strong>1)可见性与有序性：</strong></p>
+<ol>
+<li>可见性：<ul>
+<li>一个线程修改了变量，其他线程可以立刻知道。</li>
+</ul>
+</li>
+<li>保证数据可见性的方式：<ul>
+<li>Volatile</li>
+<li>Synchronized（上锁时是写回主存的）</li>
+<li>final（一旦初始化完成，其他线程可见）</li>
+</ul>
+</li>
+<li>有序性：<ul>
+<li>在线程内，所有的操作都是有序的。</li>
+<li>在线程外观察，操作都是无序的( 指令重排 或 主内存同步延时 )</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)指令重排：</strong><br>程序运行时编译系统会尽可能让性能更加好，就有可能对一些代码指令进行重排序。</p>
+<ol>
+<li>示意过程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-23.jpg" alt=""></li>
+<li>保证线程内的语义串行，线程间则无所谓。</li>
+<li>视频中的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-24.jpg" alt=""><br>a=1和flag=true没有语义冲突，所以本身就是无序的，这两者谁先执行都没有关系。</li>
+<li>同步：保证线程之间的有序性<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00053JVM%E5%AD%A6%E4%B9%A01-25.jpg" alt=""></li>
+</ol>
+<p><strong>3)指令重排原则：</strong></p>
+<ul>
+<li>程序顺序原则：一个线程内保证语义的串行性。</li>
+<li>Volatile规则：volatile变量的读一定要在写前面。</li>
+<li>锁规则：解锁必然发生在后面的加锁前。</li>
+<li>传递性：A先于B，B先于C，那么A必然先于C。</li>
+<li>线程的start方法先于它的每一个动作</li>
+<li>线程的所有操作先于线程的终极(join)</li>
+<li>线程的中断先于被中断线程的代码</li>
+<li>对象的构造函数执行结束先于finalize()方法</li>
+</ul>
+<hr>
+<h2 id="10-字节码运行的两种方式："><a href="#10-字节码运行的两种方式：" class="headerlink" title="10.字节码运行的两种方式："></a>10.字节码运行的两种方式：</h2><ol>
+<li>解释执行：<ul>
+<li>解释执行以解释的方式运行字节码</li>
+<li>读一句执行一句</li>
+</ul>
+</li>
+<li>编译运行：(JIT)<ul>
+<li>（运行时）将字节码编译成机器码</li>
+<li>直接执行机器码</li>
+<li>运行时编译</li>
+<li>编译后性能很大提升<br>（保守估计编译执行性能比解释执行快十倍以上）</li>
+</ul>
+</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月30日 22:43</p>
+        <p>最后更新： 2018年05月03日 22:01</p>
         <p>原始链接： <a class="post-url" href="/2018/04/28/JVM学习笔记（一）：初识JVM/" title="JVM学习笔记（一）：JVM简介及JVM运行机制">https://zjxkenshine.github.io/2018/04/28/JVM学习笔记（一）：初识JVM/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -602,7 +753,7 @@ for(int i=0;i&lt;32;i++){     //整数32位，每次取一位
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM和Java的发展史"><span class="post-toc-text">2.JVM和Java的发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JVM的种类"><span class="post-toc-text">3.JVM的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java及JVM规范"><span class="post-toc-text">4.Java及JVM规范</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JVM规范"><span class="post-toc-text">JVM规范</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-JVM的启动流程"><span class="post-toc-text">5.JVM的启动流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-JVM基本结构简介"><span class="post-toc-text">6.JVM基本结构简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pc寄存器，方法区与Java堆"><span class="post-toc-text">pc寄存器，方法区与Java堆</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-Java栈"><span class="post-toc-text">7.Java栈</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习环境"><span class="post-toc-text">0.学习环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM的概念"><span class="post-toc-text">1.JVM的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JVM和Java的发展史"><span class="post-toc-text">2.JVM和Java的发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JVM的种类"><span class="post-toc-text">3.JVM的种类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java及JVM规范"><span class="post-toc-text">4.Java及JVM规范</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JVM规范"><span class="post-toc-text">JVM规范</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-JVM的启动流程"><span class="post-toc-text">5.JVM的启动流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-JVM基本结构简介"><span class="post-toc-text">6.JVM基本结构简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pc寄存器，方法区与Java堆"><span class="post-toc-text">pc寄存器，方法区与Java堆</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-Java栈"><span class="post-toc-text">7.Java栈</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-Java内存模型"><span class="post-toc-text">8.Java内存模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-内存模型的相关概念："><span class="post-toc-text">9.内存模型的相关概念：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-字节码运行的两种方式："><span class="post-toc-text">10.字节码运行的两种方式：</span></a></li></ol>
         </nav>
     </aside>
     

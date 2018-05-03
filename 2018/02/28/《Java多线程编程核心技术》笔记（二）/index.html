@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-13T05:21:46.249Z">
+<meta property="og:updated_time" content="2018-05-03T12:22:14.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">
 <meta name="twitter:description" content="0.学习要点 synchronized对象监视器为Object时的使用。 synchronized对象监视器为Class时的使用。 非线程安全何时出现。 关键字volatile的主要作用。 关键字volatile与synchronized的区别及使用情况。   1.线程安全与非线程安全 “非线程安全“会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读“，也就是取到的数据实">
@@ -512,7 +512,7 @@ public class Test2_31 {
 }
 </code></pre><p>以上代码在JVM设置为-server时会出现死循环。原因是-server为了运行效率，一只获取的是私有堆栈中的isRunning值，而<code>thread.setRunning(false);</code>更新的是公有堆栈中的值。所以程序会一直死循环。<br>关于JVM-server的具体内容可以参考博客:<a href="http://www.importnew.com/20715.html" target="_blank" rel="noopener">关于JVM的类型和模式</a>。</p>
 </li>
-<li><strong>volatile与synchronized的区别</strong>:<br>(1).volatile是synchronized的轻量级实现，性能肯定比synchronized好，但是volatile只能修饰变量，synchronized可以修饰方法以及代码块。新版本的JDK发布使得synchronized的性能有了很大提升。<br>(2).多线程访问volatile不会阻塞，访问synchronized会发生阻塞。<br>(3).volatile能保证数据的可见性，<strong>不能保证原子性*</strong>;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。<br>(4).关键字volatile保证了数据的可见性;而synchronized保证了多个线程访问同步资源的可见性。</li>
+<li><strong>volatile与synchronized的区别</strong>:<br>(1).volatile是synchronized的轻量级实现，性能肯定比synchronized好，但是volatile只能修饰变量，synchronized可以修饰方法以及代码块。新版本的JDK发布使得synchronized的性能有了很大提升。<br>(2).多线程访问volatile不会阻塞，访问synchronized会发生阻塞。<br>(3).volatile能保证数据的可见性，<strong>不能保证原子性</strong>;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。<br>(4).关键字volatile保证了数据的可见性;而synchronized保证了多个线程访问同步资源的可见性。</li>
 <li><p>volatile的非原子性(致命缺陷):<br>对于volatile修饰的变量，JVM只是保证从内存加载到线程工作内存的值是最新的，但是多个线程同时访问同一个实例变量并修改时，无法保证同步修改(非原子操作时)，所以在多个线程访问同一个实例变量还是需要加锁。</p>
 <pre><code>public class Thread2_32_1 extends Thread{
     //volatile的非原子特性
@@ -608,7 +608,7 @@ public class Test2_34 {
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月13日 13:21</p>
+        <p>最后更新： 2018年05月03日 20:22</p>
         <p>原始链接： <a class="post-url" href="/2018/02/28/《Java多线程编程核心技术》笔记（二）/" title="《Java多线程编程核心技术》笔记（二）:对象及变量的并发访问">https://zjxkenshine.github.io/2018/02/28/《Java多线程编程核心技术》笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
