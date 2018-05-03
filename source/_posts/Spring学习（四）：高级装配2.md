@@ -1,5 +1,5 @@
 ---
-title: Spring学习（四）：运行时值注入以及SpEL
+title: Spring核心框架学习（四）：运行时值注入以及SpEL
 date: 2018-04-22 22:10:39 
 tags:
 - Spring

@@ -1,5 +1,5 @@
 ---
-title: Spring学习（三）：条件装配,自动装配歧义处理与Bean的作用域
+title: Spring核心框架学习（三）：条件装配,自动装配歧义处理与Bean的作用域
 date: 2018-04-21 10:15:52
 tags:
 - Spring

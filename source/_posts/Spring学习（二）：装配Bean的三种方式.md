@@ -1,5 +1,5 @@
 ---
-title: Spring学习（二）：装配Bean的三种方式
+title: Spring核心框架学习（二）：装配Bean的三种方式
 date: 2018-04-16 19:22:11
 tags:
 - Spring

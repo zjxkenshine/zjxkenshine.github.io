@@ -429,7 +429,7 @@ A与B线程持有的是相同的锁("AAA")。
 3. **volatile与synchronized的区别**:
 (1).volatile是synchronized的轻量级实现，性能肯定比synchronized好，但是volatile只能修饰变量，synchronized可以修饰方法以及代码块。新版本的JDK发布使得synchronized的性能有了很大提升。
 (2).多线程访问volatile不会阻塞，访问synchronized会发生阻塞。
-(3).volatile能保证数据的可见性，**不能保证原子性***;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。
+(3).volatile能保证数据的可见性，**不能保证原子性**;synchronized既可以保证原子性，也可以间接保证可见性，他会将私有内存和公共内存中的数据同步化。
 (4).关键字volatile保证了数据的可见性;而synchronized保证了多个线程访问同步资源的可见性。
 4. volatile的非原子性(致命缺陷):
 对于volatile修饰的变量，JVM只是保证从内存加载到线程工作内存的值是最新的，但是多个线程同时访问同一个实例变量并修改时，无法保证同步修改(非原子操作时)，所以在多个线程访问同一个实例变量还是需要加锁。

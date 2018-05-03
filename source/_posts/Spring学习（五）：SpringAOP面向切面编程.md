@@ -1,5 +1,5 @@
 ---
-title: Spring学习（五）：SpringAOP面向切面编程简介
+title: Spring核心框架学习（五）：SpringAOP的简单使用
 date: 2018-4-30 11:07:08  
 tags:
 - Spring
