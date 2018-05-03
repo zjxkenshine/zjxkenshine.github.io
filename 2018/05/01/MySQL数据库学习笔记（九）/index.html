@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充 | 程序人生</title>
+  <title>MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 简单使用LOCK 事务的复习及补充 分布式事务 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">
+<meta property="og:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 简单使用LOCK 事务的复习及补充 分布式事务 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-02.jpg">
@@ -35,10 +35,22 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-17.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-18.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-19.jpg">
-<meta property="og:updated_time" content="2018-05-01T15:04:49.645Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-26-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-27-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-28-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-29-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-31.jpg">
+<meta property="og:updated_time" content="2018-05-03T07:26:15.056Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">
-<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 锁机制简介及简单使用LOCK 事务的复习及补充 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
+<meta name="twitter:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 简单使用LOCK 事务的复习及补充 分布式事务 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-01.jpg">
   
   
@@ -137,7 +149,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充
+      MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -173,8 +185,9 @@
 <ul>
 <li>SQL中的安全问题简介</li>
 <li>SQL Mode及相关问题简介</li>
-<li>锁机制简介及简单使用LOCK</li>
+<li>简单使用LOCK</li>
 <li>事务的复习及补充</li>
+<li>分布式事务</li>
 <li>Linux下安装MySQL</li>
 </ul>
 </li>
@@ -296,12 +309,170 @@ while(rs.next()){
 <li>启用<code>PIPES_AS_CONCAT</code>模式，将<code>||</code>解析为连接字符串操作：<br>在ANSI下默认启用了PIPES_AS_CONCAT模式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-18.jpg" alt=""><br>未启用时PIPES_AS_CONCAT模式的输出是这样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-19.jpg" alt=""><br>主要是因为在其他数据库(如Oracle)中||就是连接字符串的操作，所以为了统一MySQL也加入了对应的模式。(最好就是使用ANSI模式)</li>
 </ol>
 <p><strong>2)SQL Mode在迁移中的使用：</strong></p>
+<ol>
+<li>MySQL提供了很多种数据库的组合模式来满足在不同数据库之间迁移数据的需求。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-20.jpg" alt=""><br>修改组合模式的方法和前面的相同。</li>
+<li>如NO_TABLE_OPTIONS就是可以去掉MySQL建表语句中的ENGINE关键字，使之成为标准的建表语句。</li>
+</ol>
+<hr>
+<h2 id="5-表锁的简单使用"><a href="#5-表锁的简单使用" class="headerlink" title="5.表锁的简单使用"></a>5.表锁的简单使用</h2><p><strong>1)简介：</strong></p>
+<ol>
+<li>MySQL支持对MyISAM和MEMORY的表使用表级锁定，对BDB的表使用页级锁定，对InnoDB存储引擎的表使用行级锁定。</li>
+<li>因为事务的完整性会涉及到锁，先简单学习一下。<br>具体的关于锁的知识以后再来学习。</li>
+</ol>
+<p><strong>2)简单使用：</strong></p>
+<ol>
+<li>简单语法：<pre><code>lock tables table_name1 {read|write}[table_name2...];
+unlock tables;
+</code></pre>lock tables可以给一个或者多个表上锁。读读不互斥，读写互斥，写写互斥。<br>unlock tables可以释放当前线程获得任何锁定<br>(当前线程获取其他锁或者连接关闭时锁也会自动释放)</li>
+<li>简单测试：<br>读读不互斥(两个客户端)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-21.jpg" alt=""><br>在另一个客户端执行写操作时，会等待该表的锁。只有在第一个客户端释放锁之后才会继续执行。<br>读写互斥：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-22.jpg" alt=""></li>
+<li>书上的例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-23.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-事务控制-复习与补充"><a href="#6-事务控制-复习与补充" class="headerlink" title="6.事务控制(复习与补充)"></a>6.事务控制(复习与补充)</h2><p>详细的普通事务用法可以查看前面的笔记：<br><a href="https://zjxkenshine.github.io/2018/03/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%85%AD%EF%BC%89/">https://zjxkenshine.github.io/2018/03/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%85%AD%EF%BC%89/</a><br><strong>1)事务简介：</strong></p>
+<ol>
+<li>基本语法：<br>设置是否自动提交(默认自动提交事务，最好使用默认)：<pre><code>SET AUTOCOMMIT={0|1};
+</code></pre>关闭自动提交事务之后要手动进行提交或者混回滚。</li>
+<li>在自动提交的情况下针对某些特定的操作需要使用事务控制，使用语法：<pre><code>START TRANSACTION|BEGIN;
+COMMIT [and [no] chain] [and [no] release];
+ROLLBACK [and [no] chain] [and [no] release];
+</code></pre></li>
+<li>上面语法中的元素介绍：<ul>
+<li><code>START TRANSACTION</code>或者<code>BEGIN</code>用于开启一个新的事务。</li>
+<li><code>COMMIT</code>/<code>ROLLBACK</code>：提交或者回滚事务。</li>
+<li><code>CHAIN</code>：默认未开启，提交或回滚后立即开启一个新事务，而且和刚才的事务有相同的隔离级别。</li>
+<li><code>RELEASE</code>：默认未开启，开启后提交或者回滚事务后会断开客户端连接。</li>
+<li>默认是在事务提交后回到自动提交的状态。</li>
+</ul>
+</li>
+<li>关于基本的事务测试可以查看前面的笔记。</li>
+<li>在同一个事务中最好不要使用不同存储引擎的表，否则使用COMMIT或者ROLLBACK进行提交或者回滚时要额外处理，因为提交和回滚只能处理事务类型的表。</li>
+<li>和Orace一样，所有的DDL(数据定义语言)都是不能回滚的，并且部分的DDL会导致隐性提交。</li>
+</ol>
+<p><strong>2)开启事务会造成表锁释放：</strong></p>
+<ol>
+<li>简单测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-24.jpg" alt=""></li>
+<li>可以看到右边的客户端等待了12秒。</li>
+<li>回滚事务或者提交事务不会释放锁。</li>
+</ol>
+<p><strong>3)关于回滚点：</strong></p>
+<ol>
+<li>在事务中通过SAVEPOINT指定回滚事务的一部分，但是不能提交事务的一部分。</li>
+<li>可以指定相同名字的回滚点，但是后面的会覆盖前面的。</li>
+<li>删除回滚点：<pre><code>RELEASE SAVEPOINT;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="7-分布式事务"><a href="#7-分布式事务" class="headerlink" title="7.分布式事务"></a>7.分布式事务</h2><p>MySQL从5.0.3开始支持分布式事务，但是分布式事务只支持InnoDB存储引擎(暂时)。</p>
+<p><strong>1)分布式事务原理：</strong></p>
+<ol>
+<li>一个分布式事务会涉及多个行动，这些行动本身也是事务性的。所有的行动要么一起成功完成，要么一起回滚。(分布执行，一起提交)</li>
+<li>在MySQL中，使用分布式事务的应用程序涉及到一个或者多个资源管理器和一个事务管理器。<ul>
+<li>资源管理器(RM)：用于提供通向事务资源的路径。如数据库服务器。<br>必须要可以提交或者回滚所管理的事务。</li>
+<li>事务管理器(TM)：用于协调作为一个分布式事务一部分的事务。<br>TM与管理每个事务的RMs进行通信。<br>在分布式事务中，各个单个事务均是分布式事务的分支事务。事务的各个分支由唯一命名进行标识。</li>
+</ul>
+</li>
+<li>mysql在执行分布式事务（外部XA）的时候，mysql服务器相当于xa事务资源管理器，与mysql链接的客户端相当于事务管理器。<br>(分布式嘛，服务器肯定要多台喽)</li>
+<li>分布式事务原理：分段式提交<br>分布式事务通常采用2PC协议，全称Two Phase Commitment Protocol。该协议主要为了解决在分布式数据库场景下，所有节点间数据一致性的问题。分布式事务通过2PC协议将提交分成两个阶段：<ul>
+<li>准备阶段：即所有的参与者准备执行事务并锁住需要的资源。参与者ready时，向transaction manager报告已准备就绪。</li>
+<li>提交阶段：当transaction manager确认所有参与者都ready后，向所有参与者发送commit命令或者rollback命令。 </li>
+</ul>
+</li>
+<li>简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-25.jpg" alt=""><br>当TM发现RM只有一个时（单分支），事务可以同时进行预备和提交。</li>
+</ol>
+<p><strong>2)分布式事务管理语法：</strong></p>
+<ol>
+<li>常用语法：<br><code>XA {START|BEGIN} xid [JOIN|RESUME]</code>：启动xid事务(xid必须是一个唯一值)<br><code>XA END xid [SUSPEND [FOR MIGRATE]]</code>：结束xid事务<br><code>XA PREPARE xid</code>：准备、预提交xid事务<br><code>XA COMMIT xid [ONE PHASE]</code>：提交xid事务<br><code>XA ROLLBACK xid</code>：回滚xid事务<br><code>XA RECOVER</code>：查看处于PREPARE阶段的所有事务</li>
+<li>xid是一个XA事务标识符。<br>Xid由客户端提供或者由服务端自动生成。<br>xid包含1~3个部分：<pre><code>xid:gtrid[,bqual[,formatID]]
+</code></pre>gtrid：分布式事务标识符，相同的分布式事务应该使用相同的gtrid。<br>bqual：分支限定符，默认为空字符串。一个分布式事务中的不同分支bqual需要是唯一的。<br>formatID：gtrid和bqual的使用情况，默认为1。</li>
+<li>简单过程：<br>启动事务–&gt;执行各种语句–&gt;准备事务–&gt;提交/回滚事务<br>（单分支时准备事务可以不执行）</li>
+</ol>
+<p><strong>3)存在的隐患：Mysql5.7修复</strong></p>
+<ol>
+<li>如果分支在准备阶段，服务器宕机会导致备份文件中的数据不全。(已修复)</li>
+<li>准备阶段客户端崩溃未准备的分支会回滚，准备的分支会提交，造成数据的不完整。(已修复)</li>
+<li>关于性能问题:(这个问题一直存在)<br>XA的性能很低。一个数据库的事务和多个数据库间的XA事务性能对比可发现，性能差10倍左右。因此要尽量避免XA事务，例如可以将数据写入本地，用高性能的消息系统分发数据。或使用数据库复制等技术。只有在这些都无法实现，且性能不是瓶颈时才应该使用XA。</li>
+</ol>
+<hr>
+<h2 id="8-centos7上安装Mysql8-0-11-初学版"><a href="#8-centos7上安装Mysql8-0-11-初学版" class="headerlink" title="8.centos7上安装Mysql8.0.11(初学版)"></a>8.centos7上安装Mysql8.0.11(初学版)</h2><p><strong>1)下载解压：</strong><br>我是从Windows下载后再使用xftp传给Linux的。<br>也可以使用：</p>
+<pre><code>wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.11-linux-glibc2.12-i686.tar.gz
+</code></pre><ol>
+<li>下载地址<br><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/mysql/</a><br>选择自己想要的版本，然后在下面选择：Compressed TAR Archive版本<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-26-1.jpg" alt=""><br>64位选择第二个，32位选择第一个</li>
+<li>点击下载：<br>可能需要填写一个调查表，填写好就可以了。</li>
+<li>下载完成后使用xftp将下载的压缩包(mysql-8.0.11-linux-glibc2.12-x86_64.tar.gz)传到Linux。</li>
+<li>解压：<pre><code># tar -zxvf mysql-8.0.11-linux-glibc2.12-x86_64.tar.gz -C /usr/local/
+</code></pre></li>
+<li>设置一个软连接：<pre><code># ln -s mysql-8.0.11-linux-glibc2.12-x86_64 mysql
+</code></pre></li>
+<li>进入该目录发现解压后的mysql就已经可以使用了,但是还未安装数据库：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-27-1.jpg" alt=""></li>
+<li>将主要使用的命令mysql软连接到/usr/bin/目录：<pre><code># ln -sf /usr/local/mysql/bin/* /usr/bin/
+</code></pre></li>
+</ol>
+<p><strong>2)修改用户用户组及初始化：</strong></p>
+<ol>
+<li>添加用户与用户组：<pre><code>#添加用户组
+groupadd mysql
+#添加用户mysql 到用户组mysql
+useradd -g mysql mysql
+</code></pre>我的everything版本这些都设置好了。。。</li>
+<li>创建data文件用于存放数据：<pre><code>mkdir /usr/local/mysql/data
+</code></pre></li>
+<li>修改文件夹所有者：<pre><code>cd /usr/local/mysql
+chown -R mysql:mysql ./
+</code></pre>或者：<pre><code>chown -R mysql.mysql /usr/local/mysql/
+</code></pre>改变用户组：<pre><code>chgrp -R mysql ./
+</code></pre>修改权限：<pre><code>chmod 755 /usr/local/mysql -R
+</code></pre></li>
+<li>初始化数据库：<pre><code>bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql/ --datadir=/usr/local/mysql/data/
+bin/mysql_ssl_rsa_setup
+</code></pre>这是候有一个默认密码得记下来。详情先看后面。</li>
+</ol>
+<p><strong>3)配置文件的创建及配置：</strong></p>
+<ol>
+<li>在mysql/support-files目录下新建文件my-default.cnf：<pre><code>vim my-default.cnf
+</code></pre>简单配置里面的内容如下：<pre><code>[mysqld]
+basedir = /usr/local/mysql
+datadir = /usr/local/mysql/data
+log-error=/usr/local/mysql/data/err.log
+prot = 3306
+socket = /tmp/mysql.sock
+character-set-srever=utf8
+</code></pre>详细的配置参数可以查看：<br><a href="https://www.cnblogs.com/langdashu/p/5889352.html" target="_blank" rel="noopener">https://www.cnblogs.com/langdashu/p/5889352.html</a></li>
+<li>复制配置文件到/etc/my.cnf<pre><code>cp -a ./support-files/my-default.cnf /etc/my.cnf
+</code></pre>如果原来该文件，则覆盖掉。</li>
+</ol>
+<p><strong>4)建立Mysql服务：</strong></p>
+<ol>
+<li>添加到系统服务<pre><code>cp -a ./support-files/mysql.server /etc/init.d/mysqld
+chmod +x /etc/rc.d/init.d/mysqld
+chkconfig  --add mysqld
+</code></pre></li>
+<li>检查服务是否生效：<pre><code>chkconfig  --list mysqld
+</code></pre></li>
+</ol>
+<p><strong>5)配置全局环境：</strong></p>
+<ol>
+<li>编辑/etc/profile文件：<br><code># vim /etc/profile</code><br>在 profile 文件底部添加如下两行配置，保存后退出<pre><code>PATH=/data/mysql/bin:/data/mysql/lib:$PATH
+export PATH
+</code></pre></li>
+<li>使配置立即生效：<br><code># source /etc/profile</code></li>
+</ol>
+<p><strong>6)启动服务与相关配置：</strong></p>
+<ol>
+<li>启动MySQL服务：(停止为stop)<pre><code># service mysqld start
+</code></pre>或者：<pre><code># /etc/init.d/mysqld start
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-28-1.jpg" alt=""></li>
+<li>但是这样是无法登录的，因为不知道密码。</li>
+<li>默认的error日志文件位置：<br>查了一天不知道日志文件在哪，然后发现将data文件删除后重新执行初始化操作就会看到默认密码了：jGqhoLL9w6+f<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-29-1.jpg" alt=""><br>然后发现日志文件在这里：(ps -ef | grep mysql也能看见只不过少了前缀)<br><code>/usr/local/mysql/data/localhost.localdomain.err</code><br>….(苦瓜脸)…</li>
+<li>登录：<br>使用<code>mysql -u root -p</code>登录:<br>输入刚刚的默认密码进入。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-30.jpg" alt=""><br>激动。。。<br>但是有提示需要重新设置密码才能正常使用。</li>
+<li>修改密码：<pre><code>`alter user &apos;root&apos;@&apos;localhost&apos; identified by &quot;123456&quot;;`
+</code></pre>将这个123456改为自己的密码就行了。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-31.jpg" alt=""><br>大功告成，可以开始正常使用了。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月01日 23:04</p>
-        <p>原始链接： <a class="post-url" href="/2018/05/01/MySQL数据库学习笔记（九）/" title="MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充">https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/</a></p>
+        <p>最后更新： 2018年05月03日 15:26</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/01/MySQL数据库学习笔记（九）/" title="MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务">https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -358,7 +529,7 @@ while(rs.next()){
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -368,7 +539,7 @@ while(rs.next()){
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&title=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -378,7 +549,7 @@ while(rs.next()){
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁及事务补充》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -418,7 +589,7 @@ while(rs.next()){
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL中的安全问题"><span class="post-toc-text">1.SQL中的安全问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-应对SQL注入的措施"><span class="post-toc-text">2.应对SQL注入的措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL-Mode简介"><span class="post-toc-text">3.SQL Mode简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SQL-Mode功能与迁移时的使用"><span class="post-toc-text">4.SQL Mode功能与迁移时的使用</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL中的安全问题"><span class="post-toc-text">1.SQL中的安全问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-应对SQL注入的措施"><span class="post-toc-text">2.应对SQL注入的措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL-Mode简介"><span class="post-toc-text">3.SQL Mode简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SQL-Mode功能与迁移时的使用"><span class="post-toc-text">4.SQL Mode功能与迁移时的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-表锁的简单使用"><span class="post-toc-text">5.表锁的简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-事务控制-复习与补充"><span class="post-toc-text">6.事务控制(复习与补充)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-分布式事务"><span class="post-toc-text">7.分布式事务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-centos7上安装Mysql8-0-11-初学版"><span class="post-toc-text">8.centos7上安装Mysql8.0.11(初学版)</span></a></li></ol>
         </nav>
     </aside>
     
