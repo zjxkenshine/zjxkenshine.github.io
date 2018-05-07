@@ -4,7 +4,7 @@ date: 2018-04-21 10:15:52
 tags:
 - Spring
 - Spring核心框架
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备

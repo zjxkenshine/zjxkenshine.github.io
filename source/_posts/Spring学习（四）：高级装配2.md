@@ -5,7 +5,7 @@ tags:
 - Spring
 - Spring核心框架
 - SpEL
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备

@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（二）：xml的基本用法--RBAC简单操作
 date: 2018-03-23 15:59:35
 tags: MyBatis
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备

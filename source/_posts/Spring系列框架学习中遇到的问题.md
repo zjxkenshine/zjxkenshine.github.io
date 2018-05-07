@@ -21,7 +21,8 @@ categories: J2EE框架
 		Contens is not allowed prolog
 6. 学习Spring AOP时出错：
 		warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
-
+7. SpringMVC配置web.xml后启动Tomcat报错：
+		java.lang.ClassNotFoundException: org.springframework.web.servlet.DispatcherServlet
 
 ---
 ## 1.问题1-5解决
@@ -140,6 +141,22 @@ proceed没有参数。(参数不匹配)
 		}
 终于解决了。如果使用@Before等则不会出现这个问题。
 
+**7)SpringMVC配置web.xml后启动报错：**
+1. 完整错误：
+		严重: Servlet [springDispatcherServlet] in web application [/SpringMVC-1] threw load() exception
+		java.lang.ClassNotFoundException: org.springframework.web.servlet.DispatcherServlet
+		at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1333)
+		at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1167)
+		at org.apache.catalina.core.DefaultInstanceManager.loadClass(DefaultInstanceManager.java:518)
+		at 
+		...
+		at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+		at java.lang.Thread.run(Unknown Source)
+2. 出错原因：
+/WEB-INF下无法访问外部的jar包
+3. 解决：
+项目右击-->properties-->Deployment Assembly-->add-->Java Build Path Entries-->导入所有依赖的Jar包，重新start tomcat即可。
+![](http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg)
 
 
 ---

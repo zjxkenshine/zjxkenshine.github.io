@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（一）：MyBatis入门
 date: 2018-3-20 22:42:27 
 tags: MyBatis
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备：

@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（三）：注解方式的基本用法
 date: 2018-03-24 20:55:32
 tags: MyBatis
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备

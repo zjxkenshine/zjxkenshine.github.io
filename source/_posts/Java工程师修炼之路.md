@@ -2,7 +2,7 @@
 title: Java工程师修炼之路
 date: 2018-4-22 21:50:03 
 tags: 学习路线
-categories: 杂谈
+categories: 杂记
 
 ---
 # 一、基础篇

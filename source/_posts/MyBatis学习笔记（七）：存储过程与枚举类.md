@@ -2,7 +2,7 @@
 title: MyBatis学习笔记（七）:使用存储过程与枚举类等
 date: 2018-04-04 22:25:24
 tags: MyBatis
-categories: J2EE框架
+categories: Java框架
 
 ---
 ## 0.学习准备
