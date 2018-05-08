@@ -8,18 +8,24 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="程序人生">
+  <meta name="description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
 <meta name="keywords" content="Java,JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（二）：常用参数配置及类加载器">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="程序人生">
+<meta property="og:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-07T14:42:21.460Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:updated_time" content="2018-05-08T15:19:22.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（二）：常用参数配置及类加载器">
-<meta name="twitter:description" content="程序人生">
+<meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-01-1.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,10 +152,118 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>JVM常用配置参数<ul>
+<li>跟踪参数(Trace)</li>
+<li>堆的分配参数</li>
+<li>栈的分配参数</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-跟踪参数"><a href="#1-跟踪参数" class="headerlink" title="1.跟踪参数"></a>1.跟踪参数</h2><p><strong>1)测试准备：</strong></p>
+<ol>
+<li>跟踪参数的使用：<br>项目目录如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-01-1.jpg" alt=""><br>创建项目之后会针对测试类进行配置。<br>Eclipse下RUN–&gt;RUN configuration/DEBUG configuration<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-02.jpg" alt=""></li>
+<li>TestGCArgs.java类代码如下：<pre><code>public class TestGCArgs {
+    public static void main(String[] args) {
+        String sum=&quot;&quot;;
+        for(int i=0;i&lt;5000;i++){
+            String a=&quot;123&quot;;
+            sum=sum+a;
+        }
+        System.out.println(&quot;finish&quot;);
+    }
+}
+</code></pre></li>
+</ol>
+<p><strong>2)对GC的跟踪：</strong><br>-verbose:gc：打开gc日志</p>
+<ol>
+<li>打印简要GC信息：<code>-XX:+PrintGC</code><br>测试参数：-verbose:gc -XX:+PrintGC<br>测试结果：<pre><code>[GC (Allocation Failure)  45568K-&gt;704K(173056K), 0.0026189 secs]
+[GC (Allocation Failure)  46272K-&gt;686K(173056K), 0.0021835 secs]
+..省略数行..
+[GC (Allocation Failure)  182923K-&gt;760K(303616K), 0.0030116 secs]
+finish
+</code></pre>结果分析：<pre><code>[GC (Allocation Failure)  45568K-&gt;704K(173056K), 0.0026189 secs]
+[GC （gc原因) GC前大小-&gt;GC后大小(堆大小)，所用时间]
+</code></pre>Allocation Failure：<br>引起垃圾回收的原因. 本次GC是因为年轻代中没有任何合适的区域能够存放需要分配的数据结构而触发的。</li>
+<li>打印GC详细信息：<code>-XX:+PrintGCDetails</code><br>测试参数：-verbose:gc -XX:+PrintGCDetails<br>测试结果：<pre><code>[GC (Allocation Failure) [PSYoungGen: 45568K-&gt;648K(52736K)] 45568K-&gt;656K(173056K), 0.0149955 secs] [Times: user=0.02 sys=0.00, real=0.01 secs] 
+[GC (Allocation Failure) [PSYoungGen: 46216K-&gt;672K(98304K)] 46224K-&gt;680K(218624K), 0.0088765 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+finish
+</code></pre>PSYoungGen：代表时新生代代的GC<br>程序运行结束后还有一大段：堆的基本状况<pre><code>Heap
+//新生代信息
+ PSYoungGen      total 98304K, used 62667K [0x0000000785b80000, 0x000000078c280000, 0x00000007c0000000)
+//对象产生的空间
+  eden space 91136K, 68% used [0x0000000785b80000,0x000000078980ae70,0x000000078b480000)
+//from,to幸存代，大小一定相等
+  from space 7168K, 9% used [0x000000078bb80000,0x000000078bc28030,0x000000078c280000)
+  to   space 7168K, 0% used [0x000000078b480000,0x000000078b480000,0x000000078bb80000)
+//老年代的总信息
+ ParOldGen       total 120320K, used 8K [0x0000000711200000, 0x0000000718780000, 0x0000000785b80000)
+  object space 120320K, 0% used [0x0000000711200000,0x0000000711202000,0x0000000718780000)
+ Metaspace       used 2665K, capacity 4486K, committed 4864K, reserved 1056768K
+  class space    used 288K, capacity 386K, committed 512K, reserved 1048576K
+</code></pre>可能还会有永久代，共享区间等信息。<br>最后的那串数字：<pre><code>[0x0000000785b80000,0x000000078980ae70,0x000000078b480000)
+[低边界，当前边界，最大边界)
+</code></pre>会发现分配的空间((最大边界-低边界)/1024/1024)比描述的空间要大。(学习GC算法时详细介绍)</li>
+<li>打印GC发生的时间戳：<code>-XX:+PrintGCTimeStamps</code><br>测试参数：-verbose:gc -XX:+PrintGCTimeStamps<br>测试结果：<pre><code>0.570: [GC (Allocation Failure)  45568K-&gt;688K(173056K), 0.0038101 secs]
+0.620: [GC (Allocation Failure)  46256K-&gt;600K(173056K), 0.0106405 secs]
+0.673: [GC (Allocation Failure)  46168K-&gt;628K(173056K), 0.0017099 secs]
+finish
+</code></pre></li>
+<li>重定向GC日志：<code>-Xloggc:位置</code><br>以文件多的格式，可以帮助开发人员分析问题</li>
+<li>每次GC前后都输出堆信息(那一大段)：<code>-XX:+PrintHeapAtGC</code><br>测试参数：-verbose:gc -XX:PrintHeapAtGC<br>每次GC前后都输出信息，而不是到最后再输出：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-03.jpg" alt=""></li>
+</ol>
+<p><strong>3)对类的监控：</strong></p>
+<ol>
+<li>创建类TraceClassArgs:<pre><code>public class TraceClassArgs {
+    public static void main(String[] args) {
+        Math.abs(-123);
+        String a=new String();
+        Random random=new Random();
+        Date date=new Date();
+        System.out.println(&quot;finish&quot;);
+    }
+}
+</code></pre></li>
+<li>监控类的加载：<code>-XX:+TraceClassLoading</code><br>测试参数：-XX:+TraceClassLoading<br>每次运行都要导入N多个jdk的jar包：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-04.jpg" alt=""></li>
+<li><code>-XX:+PrintClassHistogram</code>打印类的信息(表)<br>开始不会打印任何类的信息<br>在程序运行时按下Ctrl+Break之后就会显示出类信息<br>测试参数：-XX:+PrintClassHistogram<br>我这里一致测试不出来，可能是参数错了，贴个视频的截图吧：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="2-堆的分配参数"><a href="#2-堆的分配参数" class="headerlink" title="2.堆的分配参数"></a>2.堆的分配参数</h2><p><strong>1)最大堆，最小堆：</strong></p>
+<ol>
+<li>测试代码：<pre><code>public class TestHeapArgs {
+    public static void main(String[] args) {
+        System.out.println(&quot;Xmx= &quot;+Runtime.getRuntime().maxMemory()/1024/1024+&quot;M&quot;);//最大可以使用空间
+        System.out.println(&quot;free mem= &quot;+Runtime.getRuntime().freeMemory()/1024/1024+&quot;M&quot;);//可用的memory
+        System.out.println(&quot;total mem= &quot;+Runtime.getRuntime().totalMemory()/1024/1024+&quot;M&quot;);//总memory，分配的内存
+    }
+}
+</code></pre></li>
+<li>指定最大堆和最小堆：<code>-Xmx -Xms</code><br>最小堆就是打开虚拟机就分配的最小堆大小。<br>测试参数：-Xmx20m -Xms5m<br>测试结果：<pre><code>Xmx= 18M    //最大可用内存
+free mem= 4M    //可用内存
+total mem= 5M    //总内存，目前只分配了最小的
+</code></pre></li>
+<li>在上面代码的最前面添加代码，分配1M空间：<pre><code>byte[] b=new byte[1*1024*1024];
+</code></pre>测试结果：<pre><code>Xmx= 18M
+free mem= 3M
+total mem= 5M
+</code></pre>可用内存变为了3M</li>
+<li>将分配内存增大：<pre><code>byte[] b=new byte[5*1024*1024];
+</code></pre>测试结果：<pre><code>Xmx= 18M
+free mem= 5M
+total mem= 10M    //又分配了5M的内存
+</code></pre>在前面代码(分配5M的前面加上GC)<pre><code>System.gc();
+</code></pre>会发现空闲空间变大了一点。</li>
+<li>堆分配的一些思考：<br><code>-Xmx -Xms</code>应该如何设置<br>如何将JRE瘦身，只保留自己用到的类</li>
+</ol>
+<p><strong>2)</strong></p>
+<hr>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月07日 22:42</p>
+        <p>最后更新： 2018年05月08日 23:19</p>
         <p>原始链接： <a class="post-url" href="/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/" title="JVM学习笔记（二）：常用参数配置及类加载器">https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -267,6 +381,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-跟踪参数"><span class="post-toc-text">1.跟踪参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-堆的分配参数"><span class="post-toc-text">2.堆的分配参数</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
