@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记（十）：SQL分区及一些常用的使用技巧 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+<meta name="keywords" content="MySQL,正则表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-05.jpg">
+<meta property="og:updated_time" content="2018-05-08T11:47:56.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（十）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL学习笔记（十）：SQL分区及一些常用的使用技巧
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-08
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li><p>参考资料：<br>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>传智播客的视频学完了</p>
+</li>
+<li><p>简单目录：</p>
+<ul>
+<li>SQL分区</li>
+<li>SQL分区类型</li>
+<li>SQL分区管理</li>
+<li>正则表达式的使用</li>
+<li>其他一些函数的使用技巧</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-SQL分区概述及优点"><a href="#1-SQL分区概述及优点" class="headerlink" title="1.SQL分区概述及优点"></a>1.SQL分区概述及优点</h2><p><strong>1)简介与优点：</strong></p>
+<ol>
+<li>分区：<br>指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。<br>就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可能由数个物理分区对象组成。</li>
+<li>每个分区对象都是一个独立的对象，可以作为表的一部分进行处理，分区对应用来说完全透明，不影响应用的业务逻辑。</li>
+<li>SQL分区的主要优点包括以下四个方面：<ul>
+<li>和单个磁盘或者文件系统分区相比，可以存储更多的数据。</li>
+<li>优化查询：<ul>
+<li>where子句只要扫描一个或者几个分区就可以。</li>
+<li>SUM(),CONUNT()等函数查询时可以在每个分区处理再汇总。</li>
+</ul>
+</li>
+<li>对于已经过期或者不需要保存的数据可以通过删除分区进行快速删除。</li>
+<li>跨多个磁盘来分散数据查询可以获得更大的查询吞吐量。</li>
+</ul>
+</li>
+<li>分区与分表分库不是一个概念。</li>
+<li>就现在而言，“业内进行一些技术交流的时候也更多的是自己分库分表，而不是使用分区表。”<br>所以分区表仅仅学习。</li>
+</ol>
+<p><strong>2)分区概述：</strong></p>
+<ol>
+<li>分区有利于管理非常大的表。引入了分区键。</li>
+<li>分区键用于根据某个规则，让数据根据规则分布在不同的分区中。<br>(区间值(或者范围值)、特定值列表或者HASH函数值执行时间的聚集)</li>
+<li>查看当前的MySQL是否支持分区：5.6之前<pre><code>SHOW VARIABLES LIKE &apos;%partition%&apos;;
+</code></pre>或者使用：<pre><code>SHOW VARIABLES LIKE &apos;have%&apos;;
+</code></pre>查看是否有<code>have_partitioning</code>，我的Mysql8.0不支持分区功能：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-01.jpg" alt=""></li>
+<li>使用<code>SHOW PLUGINS</code>命令可以查看是否安装了分区插件。（Mysql5.6之后）<br>如果有partition插件则支持分区。<br>或者使用代码：<pre><code>SELECT
+    PLUGIN_NAME as Name,
+    PLUGIN_VERSION as Version,
+    PLUGIN_STATUS as Status
+FROM
+INFORMATION_SCHEMA.PLUGINS
+WHERE
+PLUGIN_TYPE=&apos;STORAGE ENGINE&apos;;
+</code></pre>在Mysql5.7下查看，发现支持分区：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-02.jpg" alt=""></li>
+<li>因为一般不会使用分区表，所以只是简单学习一下吧。</li>
+</ol>
+<p><strong>3)创建一个分区表及注意事项：</strong></p>
+<ol>
+<li>创建一个拥有4个分区的表：<pre><code>-- 创建表并分为4个区
+CREATE TABLE m_part(part_id INT,name VARCHAR(20))
+ENGINE=INNODB
+PARTITION BY HASH(part_id)
+PARTITIONS 4;
+</code></pre>使用的是HASH分区，依据的字段是part_id。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-03.jpg" alt=""><br>如果没有包括一个PARTITIONS子句，那么分区的数量将默认为1。<br>如果是集群则和集群的节点数相同。</li>
+<li>要使用HASH分区来分割一个表，要在CREATE TABLE 语句上添加一个“PARTITION BY HASH (expr)”子句，其中“expr”是一个返回一个整数的表达式。它可以仅仅是字段类型为MySQL整型的一列的名字。</li>
+<li>Mysql分区适用于一个表的所有数据和索引，不能只对表数据分区而不对索引分区，反过来也一样。</li>
+<li>同一个表的不同分区的存储引擎要相同。</li>
+</ol>
+<hr>
+<h2 id="2-分区的类型"><a href="#2-分区的类型" class="headerlink" title="2.分区的类型"></a>2.分区的类型</h2><p>简单目录：</p>
+<ul>
+<li>分区类型简介<ul>
+<li>四种基本分区类型</li>
+<li>注意事项</li>
+</ul>
+</li>
+<li>分区类型测试：<ul>
+<li>RANGE分区</li>
+<li>List分区</li>
+<li>Columns分区</li>
+<li>Hash分区</li>
+<li>线性Hash分区</li>
+<li>Key分区</li>
+</ul>
+</li>
+</ul>
+<p><strong>1)分区类型</strong></p>
+<ul>
+<li>RANGE分区：<br>  基于属于一个给定连续区间的列值，把多行分配给分区。</li>
+<li>LIST分区：<br>  类似于按RANGE分区，区别在于LIST分区是基于列值匹配一个离散值集合中的某个值来进行选择。</li>
+<li>HASH分区：<br>  基于<strong>用户定义的表达式的返回值</strong>来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算。这个函数可以包含MySQL中有效的、产生非负整数值的任何表达式。<br>  （PARTITION BY HASH(能产生整数的表达式)）</li>
+<li>KEY分区：<br>  类似于按HASH分区，区别在于KEY分区只支持计算一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。<br><br></li>
+</ul>
+<ol>
+<li>分区键类型：<br>HASH分区键必须是INT类型或者能通过表达式产生int类型。<br>RANGE与LIST分区在5.5版本以上支持非整数类型分区键。</li>
+<li>关于主键，唯一键：<br>无论那种分区类型，要么分区表上没有主键或者唯一键，否则分区表的主键/唯一键都必须包含分区键。<br>（不能使用主键/唯一键之外的其他字段分区）</li>
+<li>关于分区名：<br>遵循Mysql命名规范，不区分大小写（无论那种操作系统）<br>表或者数据库命名的大小写敏感由操作系统决定（Windows不区分，Unix/Linux区分大小写）</li>
+</ol>
+<p><strong>2)Range分区：</strong></p>
+<ol>
+<li>简单创建Range分区语句：<pre><code>CREATE TABLE employees (
+    id INT NOT NULL,
+    name VARCHAR(30),
+    age INT NOT NULL
+)
+partition BY RANGE (age) (
+    partition p0 VALUES LESS THAN (20),
+    partition p1 VALUES LESS THAN (30),
+    partition p2 VALUES LESS THAN (40),
+    partition p3 VALUES LESS THAN (50)
+);
+</code></pre>这样就根据年龄将该表分为了四个区。</li>
+<li>Range分区语法：<br>利用取值范围将数据分成分区，区间要求连续，使用<code>partition p(n) VALUES LESS THAN (m)</code>进行分区定义。<br>设定分区的最大值。</li>
+<li>注意超出范围的错误：<br>如有一个年龄为55岁的员工，则插入数据时会报错。超出了分区范围。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-04.jpg" alt=""><br>添加分区：(也可以修改原有分区而不添加)<pre><code>ALTER TABLE employees ADD PARTITION (PARTITION P4 VALUES LESS THAN MAXVALUE);
+</code></pre>再次添加：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-05.jpg" alt=""></li>
+<li>Mysql5.1只支持整数列分区，而Mysql5.5之后支持非整数列分区。<br>可以使用日期或者字符串作为分区键进行分区。</li>
+<li>RANGE分区功能适用情况：<ul>
+<li>过期数据只要使用<code>alter table tb drop partition pn</code>来删除某一过期分区的数据就可以了。</li>
+<li>经常运行包含分区键的查询，MySQL可以很快确定哪个或那几个分区需要扫描。</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)List分区：</strong></p>
+<ol>
+<li>简单创建测试：<pre><code>CREATE TABLE employees2(
+    id INT NOT NULL,
+    name VARCHAR(30),
+    sex INT NOT NULL
+)
+partition BY LIST(sex) (
+    partition p0 VALUES IN (1,2),
+    partition p1 VALUES IN (3,4)
+);
+</code></pre></li>
+<li>List分区有很多和Range分区相似的地方，注意分区使用的是一个枚举的列表，而不是一个连续的区域。<br><code>partition p0 VALUES IN (列表),</code></li>
+<li>Mysql5.5之后支持非整数分区，非整数的字段不需要额外的处理。</li>
+</ol>
+<p><strong>4)Columns分区：</strong></p>
+<ol>
+<li>Mysql5.5引入的分区类型，为了解决5.5版本之前RANGE和LIST只支持整数分区。<br>可以细分为两类：<ul>
+<li>RANGE Columns分区</li>
+<li>LIST Columns分区</li>
+</ul>
+</li>
+<li>这两个分区都支持以下几种数据类型：<ul>
+<li>所有的整数类型。（小数类型不支持）</li>
+<li>日期时间类型：date和datetime</li>
+<li>字符串类型：char,varchar,binary和varbinary</li>
+</ul>
+</li>
+<li>Columns分区还支持多列分区：<br>RANGE COLUMNS：<pre><code>CREATE TABLE m_num(
+    a INT,
+    b INT
+)
+PARTITION BY RANGE COLUMNS(a,b)(
+    PARTITION p0 VALUES LESS THAN (0,10),
+    PARTITION p1 VALUES LESS THAN (10,20),
+    PARTITION p2 VALUES LESS THAN (10,MAXVALUE),
+    PARTITION p3 VALUES LESS THAN (MAXVALUE,MAXVALUE)
+);
+</code></pre>先根据A列排，再根据B列排。<br>LIST Columns也支持多列：<pre><code>CREATE TABLE m_num(
+    a INT,
+    b INT
+)
+PARTITION BY LIST COLUMNS(a,b)(
+    PARTITION p0 VALUES IN ((0,10),(1,2)),
+    PARTITION p1 VALUES IN ((10,20),(20,30),(30,40))
+);
+</code></pre></li>
+</ol>
+<p><strong>5)HASH分区：</strong></p>
+<ol>
+<li>分为两种：<ul>
+<li>常规HASH分区：取模运算。HASH</li>
+<li>线性HASH分区：使用的是一个线性的2的幂运算法则。Linear HASH。</li>
+</ul>
+</li>
+<li>常规hash分区：<pre><code>CREATE TABLE m_num(
+    a INT,
+    b VARCHAR(10)
+)
+PARTITION BY HASH(a)
+PARTITIONS 4;
+</code></pre></li>
+<li>线性hash分区：<pre><code>CREATE TABLE m_num(
+    a INT,
+    b VARCHAR(10)
+)
+PARTITION BY LINEAR HASH(a)
+PARTITIONS 4;
+</code></pre></li>
+<li>常规哈希分区与线性hash分区的优点：<ul>
+<li>常规hash分区：数据平均分布，但是分区管理（增加或删除改动分区）时需要移动非常多的数据。</li>
+<li>线性hash分区：分区维护时可以更加迅速的处理，但是分布不均匀。</li>
+</ul>
+</li>
+<li>当分区个数为2^n时，两种hash分区的结果相同。</li>
+<li>HASH分区能够有效的分散热点。</li>
+</ol>
+<p><strong>6)KEY分区：</strong></p>
+<ol>
+<li>非常类似于HASH分区，区别如下：<ul>
+<li>HASH分区允许使用自定义的表达式，而KEY分区只能使用Mysql提供的HASH函数。</li>
+<li>HASH分区只支持整数分区，而KEY分区支持除了TEXT,BLOB外的任何数据类型。</li>
+</ul>
+</li>
+<li>同样，也分为两种：(和hash的一样)<ul>
+<li>常规key分区：KEY</li>
+<li>线性key分区：LINEAR KEY</li>
+</ul>
+</li>
+<li>常规KEY分区：<pre><code>CREATE TABLE m_num(
+    a INT NOT NULL,
+    b VARCHAR(10)
+)
+PARTITION BY key(a)
+PARTITIONS 4;
+</code></pre>如果使用<code>PARTITION BY key()</code>则会优先使用主键作为分区键，如果没有主键则会选择非空唯一键作为分区键，也没有非空唯一键则报错。</li>
+<li>线性KEY分区：<pre><code>CREATE TABLE m_num(
+    a INT NOT NULL,
+    b VARCHAR(10)
+)
+PARTITION BY LINEAR KEY(a)
+PARTITIONS 4;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="3-分区管理"><a href="#3-分区管理" class="headerlink" title="3.分区管理"></a>3.分区管理</h2><p><strong>1)子分区及分区NULL值处理</strong></p>
+<ol>
+<li>子分区又称作复合分区，指在每个分区表中对每个分区再次进行分割。<br>Mysql支持外层分割可以是RANGE或者LIST,子分割可以是HASH或者KEY。</li>
+<li>子分区例子：<pre><code>CREATE TABLE m_num(
+    a INT NOT NULL,
+    b VARCHAR(10)
+)
+PARTITION BY RANGE(a)
+SUBPARTITION BY HASH(a)
+SUBPARTITION 2
+(
+    partition p0 VALUES LESS THAN (20),
+    partition p1 VALUES LESS THAN (30),
+    partition p2 VALUES LESS THAN (MAXVALUE),
+);
+</code></pre>m_num先进行RANGE分区再进行HASH分区，一共分为了3*2=6个分区。<br>使用<code>SUBPARTITION BY HASH/KEY()</code>可以对子分区进行分配。</li>
+<li>关于NULL值：<br>MYSQL允许分区键为NULL，不同的分区方式有不同的处理：<ul>
+<li>Range:作为最小值处理</li>
+<li>LIST则会报错</li>
+<li>HASH和KEY当做0处理</li>
+</ul>
+</li>
+<li>最好使用非空或者默认值来绕过NULL值，以免产生不必要的错误。</li>
+</ol>
+<p><strong>2)RANGE&amp;LIST分区管理</strong></p>
+<ol>
+<li>添加，删除，重新定义分区的处理上，RANGE分区和LIST分区非常相似。</li>
+<li>删除分区：<pre><code>ALTER TABLE table_name DROP PARTITION part_name;
+</code></pre></li>
+<li>增加分区：<pre><code>ALTER TABLE table_name ADD PARTITION
+</code></pre>RANGE分区：(注意n一定要比当前最大值大)<pre><code>ALTER TABLE table_name ADD PARTITION(PARTITION pn VALUES LESS THAN (n));
+</code></pre>LIST分区：(值a,b,c不能在现有分区值中存在)<pre><code>ALTER TABLE table_name ADD PARTITION(PARTITION pn VALUES IN (a,b,c));
+</code></pre></li>
+<li>拆分分区：<br>RANGE分区：(将pn拆分为了三个分区)<pre><code>ALTER TABLE table_name REORGANIZE PARTITION pn INTO(
+    PARTITION pn VALUES LESS THAN(n1),
+    PARTITION pn+1 VALUES LESS THAN(n2),
+    PARTITION pn+2 VALUES LESS THAN(n3)
+);
+</code></pre>LIST分区：<pre><code>ALTER TABLE table_name REORGANIZE PARTITION pn INTO(
+    PARTITION pn VALUES IN (a,b,c),
+    PARTITION pn+1 VALUES IN (d,e,f),
+    PARTITION pn+2 VALUES IN (g)
+);
+</code></pre></li>
+<li>合并分区：<br>RANGE分区：<pre><code>ALTER TABLE table_name REORGANIZE PARTITION p1，p2,p3 INTO(
+    PARTITION pn VALUES LESS THAN(n),
+);
+</code></pre>LIST分区：<pre><code>ALTER TABLE table_name REORGANIZE PARTITION p1，p2,p3 INTO(
+    PARTITION pn VALUES IN (a,b,c,d,e,f,g)
+);
+</code></pre></li>
+<li>重新定义分区（拆分，合并分区）的注意事项：（RANGE分区和LIST分区相同）<ul>
+<li>只能重新定义相邻的分区，重新定义后的区间需要和原来相同</li>
+<li>不能使用重新定义分区改变分区类型，如RANGES变为HASH</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)HASH&amp;KEY分区管理</strong><br>和RANGE与LIST不同，HASH和KEY的分区只有删除和新建两种操作，而且操作方式也和RANGE与LIST不同。</p>
+<ol>
+<li>删除分区的操作：不是真正意义上的删除，而是合并<pre><code>ALTER TABLE table_name COALESCE PARTITION num;
+</code></pre>num是删除到多少个分区，如果大于当前分区数则会报错。<br>该命令不能用于新增分区。</li>
+<li>增加分区数：不是真正意义的增加，只是拆分<pre><code>ALTER TABLE table_name ADD PARTITION n;
+</code></pre>增加n个分区，而不是增加到n个分区。</li>
+</ol>
+<hr>
+<h2 id="4-分区表的局限与限制"><a href="#4-分区表的局限与限制" class="headerlink" title="4.分区表的局限与限制"></a>4.分区表的局限与限制</h2><ol>
+<li>禁止构建：<br>分区表达式不支持以下几种构建：<br>存储过程，存储函数，UDFS或者插件<br>声明变量或者用户变量<br>可以参考分区不支持的SQL函数</li>
+<li>算术和逻辑运算符<br>分区表达式支持+,-,*算术运算，但是不支持DIV和/运算（还存在，可以查看Bug #30188, Bug #33182）。但是，结果必须是整形或者NULL（线性分区键除外，想了解更多信息，可以查看分区类型）。<br>分区表达式不支持位运算：|，&amp;，^，&lt;&lt;，&gt;&gt;，~ .</li>
+<li>HANDLER语句<br>在MySQL 5.7.1之前的分区表不支持HANDLER语句，以后的版本取消了这一限制</li>
+<li>服务器SQL模式<br>如果要用用户自定义分区的表的话，需要注意的是，在创建分区表时的SQL模式是不保留的。可能会导致严重的错误。<br>一旦SQL模式在创建分区表后改变，可能导致这些表的行为发生重大变化，很容易导致数据丢失或者损坏。<br>强烈建议创建分区表后千万不要修改服务器的SQL模式。</li>
+<li>更加详细的关于分区表的限制参考博客：<br><a href="http://www.jb51.net/article/108165.htm" target="_blank" rel="noopener">MySQL分区表的局限和限制详解</a></li>
+</ol>
+<hr>
+<h2 id="5-正则表达式的使用"><a href="#5-正则表达式的使用" class="headerlink" title="5.正则表达式的使用"></a>5.正则表达式的使用</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月08日 19:47</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/08/MySQL数据库学习笔记（十）/" title="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/&title=《MySQL学习笔记（十）：SQL分区及一些常用的使用技巧》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/&title=《MySQL学习笔记（十）：SQL分区及一些常用的使用技巧》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（十）：SQL分区及一些常用的使用技巧》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+    <a href="/tags/正则表达式/" class="color1">正则表达式</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL分区概述及优点"><span class="post-toc-text">1.SQL分区概述及优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-分区的类型"><span class="post-toc-text">2.分区的类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-分区管理"><span class="post-toc-text">3.分区管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-分区表的局限与限制"><span class="post-toc-text">4.分区表的局限与限制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-正则表达式的使用"><span class="post-toc-text">5.正则表达式的使用</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">JVM学习笔记（二）：常用参数配置及类加载器</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -47,7 +47,9 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-29-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-30.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-31.jpg">
-<meta property="og:updated_time" content="2018-05-03T07:26:15.056Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-33.jpg">
+<meta property="og:updated_time" content="2018-05-08T04:57:34.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务">
 <meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL中的安全问题简介 SQL Mode及相关问题简介 简单使用LOCK 事务的复习及补充 分布式事务 Linux下安装MySQL     1.SQL中的安全问题SQL语句操作不当会给系统造成很大的安全隐患，最重要的就是SQL注入。 1)SQL注入简介：  SQL：结构化查询语言，">
@@ -468,10 +470,45 @@ export PATH
 </code></pre>将这个123456改为自己的密码就行了。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-31.jpg" alt=""><br>大功告成，可以开始正常使用了。</li>
 </ol>
 <hr>
+<h2 id="9-配置远程连接客户端"><a href="#9-配置远程连接客户端" class="headerlink" title="9.配置远程连接客户端"></a>9.配置远程连接客户端</h2><ol>
+<li>通过如下命令查看端口号：<pre><code>show global variables like &apos;port&apos;；
+</code></pre>如果直接连接该端口，则会失败，需要额外的配置。</li>
+<li>默认安装的Mysql数据库是没有对外开放的，所以需要额外的配置。</li>
+</ol>
+<p><strong>1)配置Mysql对外开放：</strong></p>
+<ol>
+<li>切换到mysql数据库：<pre><code>use mysql;
+</code></pre></li>
+<li>赋予权限：<pre><code>update user set host=&apos;%&apos; where user=&apos;root&apos; limit 1;
+</code></pre>可以使用：<pre><code>select host from user where user=&apos;root&apos;;
+</code></pre>来验证是否更新成功。</li>
+<li>刷新权限：<pre><code>flush privileges;
+</code></pre></li>
+<li>检查3306端口是否开放：(无查询结果则未开防)<pre><code>netstat -nupl|grep 3306
+</code></pre>或者使用：<pre><code>firewall-cmd --query-port=3306/tcp
+</code></pre></li>
+<li>开发3306端口：<pre><code>firewall-cmd --add-port=3306/tcp
+</code></pre></li>
+</ol>
+<p><strong>2)连接时出现问题：</strong></p>
+<ol>
+<li>问题：<pre><code>Client does not support authentication protocol requested by server; consider upgrading MySQL client
+</code></pre></li>
+<li>原因：<br>Mysql8.0.11使用了新的密码验证机制，而很多客户端还来不及更新，所以导致出错。</li>
+<li>解决方法：<pre><code>-- 切换数据库
+USE mysql;
+-- 更新密码
+ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;123456&apos;;
+-- 刷新权限
+FLUSH PRIVILEGES;
+</code></pre>root是用户名，localhost是ip地址127.0.0.1都是特指本机，mysql_native_password是旧的密码验证机制，123456是密码，最后别忘了分号；<br>如果更新失败可能是前面更新了ip,使用这个：<code>&#39;root&#39;@&#39;%&#39;</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-32.jpg" alt=""></li>
+<li>连接成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-33.jpg" alt=""></li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月03日 15:26</p>
+        <p>最后更新： 2018年05月08日 12:57</p>
         <p>原始链接： <a class="post-url" href="/2018/05/01/MySQL数据库学习笔记（九）/" title="MySQL学习笔记（九）：SQL安全，SQLMode，表锁简介及分布式事务">https://zjxkenshine.github.io/2018/05/01/MySQL数据库学习笔记（九）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -589,7 +626,7 @@ export PATH
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL中的安全问题"><span class="post-toc-text">1.SQL中的安全问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-应对SQL注入的措施"><span class="post-toc-text">2.应对SQL注入的措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL-Mode简介"><span class="post-toc-text">3.SQL Mode简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SQL-Mode功能与迁移时的使用"><span class="post-toc-text">4.SQL Mode功能与迁移时的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-表锁的简单使用"><span class="post-toc-text">5.表锁的简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-事务控制-复习与补充"><span class="post-toc-text">6.事务控制(复习与补充)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-分布式事务"><span class="post-toc-text">7.分布式事务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-centos7上安装Mysql8-0-11-初学版"><span class="post-toc-text">8.centos7上安装Mysql8.0.11(初学版)</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL中的安全问题"><span class="post-toc-text">1.SQL中的安全问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-应对SQL注入的措施"><span class="post-toc-text">2.应对SQL注入的措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-SQL-Mode简介"><span class="post-toc-text">3.SQL Mode简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-SQL-Mode功能与迁移时的使用"><span class="post-toc-text">4.SQL Mode功能与迁移时的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-表锁的简单使用"><span class="post-toc-text">5.表锁的简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-事务控制-复习与补充"><span class="post-toc-text">6.事务控制(复习与补充)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-分布式事务"><span class="post-toc-text">7.分布式事务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-centos7上安装Mysql8-0-11-初学版"><span class="post-toc-text">8.centos7上安装Mysql8.0.11(初学版)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-配置远程连接客户端"><span class="post-toc-text">9.配置远程连接客户端</span></a></li></ol>
         </nav>
     </aside>
     
@@ -677,7 +714,7 @@ export PATH
             <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -710,7 +747,7 @@ export PATH
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.25px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
