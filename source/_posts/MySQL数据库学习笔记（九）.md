@@ -415,3 +415,45 @@ XA的性能很低。一个数据库的事务和多个数据库间的XA事务性�
 大功告成，可以开始正常使用了。
 
 ---
+## 9.配置远程连接客户端
+1. 通过如下命令查看端口号：
+		show global variables like 'port'；
+如果直接连接该端口，则会失败，需要额外的配置。
+2. 默认安装的Mysql数据库是没有对外开放的，所以需要额外的配置。
+
+**1)配置Mysql对外开放：**
+1. 切换到mysql数据库：
+		use mysql;
+2. 赋予权限：
+		update user set host='%' where user='root' limit 1;
+可以使用：
+		select host from user where user='root';
+来验证是否更新成功。
+3. 刷新权限：
+		flush privileges;
+4. 检查3306端口是否开放：(无查询结果则未开防)
+		netstat -nupl|grep 3306
+或者使用：
+		firewall-cmd --query-port=3306/tcp
+5. 开发3306端口：
+		firewall-cmd --add-port=3306/tcp
+
+**2)连接时出现问题：**
+1. 问题：
+		Client does not support authentication protocol requested by server; consider upgrading MySQL client
+2. 原因：
+Mysql8.0.11使用了新的密码验证机制，而很多客户端还来不及更新，所以导致出错。
+3. 解决方法：
+		-- 切换数据库
+		USE mysql;
+		-- 更新密码
+		ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+		-- 刷新权限
+		FLUSH PRIVILEGES;
+root是用户名，localhost是ip地址127.0.0.1都是特指本机，mysql_native_password是旧的密码验证机制，123456是密码，最后别忘了分号；
+如果更新失败可能是前面更新了ip,使用这个：`'root'@'%'`
+![](http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-32.jpg)
+4. 连接成功：
+![](http://p5ki4lhmo.bkt.clouddn.com/00055mysql%E5%AD%A6%E4%B9%A09-33.jpg)
+
+---
