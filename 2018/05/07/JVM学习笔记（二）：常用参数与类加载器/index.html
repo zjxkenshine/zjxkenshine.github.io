@@ -3,28 +3,39 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JVM学习笔记（二）：常用参数配置及类加载器 | 程序人生</title>
+  <title>JVM学习笔记（二）：常用参数配置及分配策略 | 程序人生</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
-<meta name="keywords" content="Java,JVM">
+  <meta name="description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(主要学习)可以先学习GC再回来理解 JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 永久区分配参数(JDK1.8之后取消了永久代) 栈的分配参数 内存分配及回收策略     1.跟踪参数1)测试">
+<meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM学习笔记（二）：常用参数配置及类加载器">
+<meta property="og:title" content="JVM学习笔记（二）：常用参数配置及分配策略">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
+<meta property="og:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(主要学习)可以先学习GC再回来理解 JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 永久区分配参数(JDK1.8之后取消了永久代) 栈的分配参数 内存分配及回收策略     1.跟踪参数1)测试">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-01-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-03.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-05.jpg">
-<meta property="og:updated_time" content="2018-05-09T07:58:41.414Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-16.jpg">
+<meta property="og:updated_time" content="2018-05-09T10:44:45.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM学习笔记（二）：常用参数配置及类加载器">
-<meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(目前学习) JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的使用：项目目录如下：创建项目之后会针对测试类进行配置。Eclipse下R">
+<meta name="twitter:title" content="JVM学习笔记（二）：常用参数配置及分配策略">
+<meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(主要学习)可以先学习GC再回来理解 JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 永久区分配参数(JDK1.8之后取消了永久代) 栈的分配参数 内存分配及回收策略     1.跟踪参数1)测试">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-01-1.jpg">
   
   
@@ -123,7 +134,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      JVM学习笔记（二）：常用参数配置及类加载器
+      JVM学习笔记（二）：常用参数配置及分配策略
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -154,11 +165,13 @@
             
             <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
 <li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
-<li>参考资料<br>参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》<br>参考视频《深入理解JVM》(主要学习)<br>可以先学习GC再回来理解</li>
 <li>JVM常用配置参数<ul>
 <li>跟踪参数(Trace)</li>
 <li>堆的分配参数</li>
+<li>永久区分配参数(JDK1.8之后取消了永久代)</li>
 <li>栈的分配参数</li>
+<li>内存分配及回收策略</li>
 </ul>
 </li>
 </ol>
@@ -178,7 +191,7 @@
 }
 </code></pre></li>
 </ol>
-<p><strong>2)对GC的跟踪：</strong><br>-verbose:gc：打开gc日志</p>
+<h3 id="对GC的跟踪"><a href="#对GC的跟踪" class="headerlink" title="对GC的跟踪"></a>对GC的跟踪</h3><p>-verbose:gc：打开gc日志</p>
 <ol>
 <li>打印简要GC信息：<code>-XX:+PrintGC</code><br>测试参数：-verbose:gc -XX:+PrintGC<br>测试结果：<pre><code>[GC (Allocation Failure)  45568K-&gt;704K(173056K), 0.0026189 secs]
 [GC (Allocation Failure)  46272K-&gt;686K(173056K), 0.0021835 secs]
@@ -202,6 +215,7 @@ finish
 //老年代的总信息
  ParOldGen       total 120320K, used 8K [0x0000000711200000, 0x0000000718780000, 0x0000000785b80000)
   object space 120320K, 0% used [0x0000000711200000,0x0000000711202000,0x0000000718780000)
+//元空间(jdk1.8版本用来替代永久代)
  Metaspace       used 2665K, capacity 4486K, committed 4864K, reserved 1056768K
   class space    used 288K, capacity 386K, committed 512K, reserved 1048576K
 </code></pre>可能还会有永久代，共享区间等信息。<br>最后的那串数字：<pre><code>[0x0000000785b80000,0x000000078980ae70,0x000000078b480000)
@@ -215,8 +229,7 @@ finish
 <li>重定向GC日志：<code>-Xloggc:位置</code><br>以文件多的格式，可以帮助开发人员分析问题</li>
 <li>每次GC前后都输出堆信息(那一大段)：<code>-XX:+PrintHeapAtGC</code><br>测试参数：-verbose:gc -XX:PrintHeapAtGC<br>每次GC前后都输出信息，而不是到最后再输出：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-03.jpg" alt=""></li>
 </ol>
-<p><strong>3)对类的监控：</strong></p>
-<ol>
+<h3 id="对类的监控参数"><a href="#对类的监控参数" class="headerlink" title="对类的监控参数"></a>对类的监控参数</h3><ol>
 <li>创建类TraceClassArgs:<pre><code>public class TraceClassArgs {
     public static void main(String[] args) {
         Math.abs(-123);
@@ -231,8 +244,7 @@ finish
 <li><code>-XX:+PrintClassHistogram</code>打印类的信息(表)<br>开始不会打印任何类的信息<br>在程序运行时按下Ctrl+Break之后就会显示出类信息<br>测试参数：-XX:+PrintClassHistogram<br>我这里一致测试不出来，可能是参数错了，贴个视频的截图吧：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></li>
 </ol>
 <hr>
-<h2 id="2-堆的分配参数"><a href="#2-堆的分配参数" class="headerlink" title="2.堆的分配参数"></a>2.堆的分配参数</h2><p><strong>1)最大堆，最小堆：</strong></p>
-<ol>
+<h2 id="2-堆的分配参数"><a href="#2-堆的分配参数" class="headerlink" title="2.堆的分配参数"></a>2.堆的分配参数</h2><h3 id="最大堆与最小堆"><a href="#最大堆与最小堆" class="headerlink" title="最大堆与最小堆"></a>最大堆与最小堆</h3><ol>
 <li>测试代码：<pre><code>public class TestHeapArgs {
     public static void main(String[] args) {
         System.out.println(&quot;Xmx= &quot;+Runtime.getRuntime().maxMemory()/1024/1024+&quot;M&quot;);//最大可以使用空间
@@ -258,13 +270,92 @@ total mem= 10M    //又分配了5M的内存
 </code></pre>会发现空闲空间变大了一点。</li>
 <li>堆分配的一些思考：<br><code>-Xmx -Xms</code>应该如何设置<br>如何将JRE瘦身，只保留自己用到的类</li>
 </ol>
-<p><strong>2)</strong></p>
+<h3 id="新生代相关的配置参数"><a href="#新生代相关的配置参数" class="headerlink" title="新生代相关的配置参数"></a>新生代相关的配置参数</h3><p><strong>1)参数简介：</strong></p>
+<ol>
+<li><code>-Xmn</code>：设置新生代大小</li>
+<li><code>-XX:NewRatio</code>：<ul>
+<li>新生代(eden+2*s)和老年代(不包含永久区)的比值</li>
+<li>例：4，表示新生代：老年代=1：4，即年轻代占堆的1/5</li>
+</ul>
+</li>
+<li><code>-XX:SurvivorRatio</code>：<ul>
+<li>设置两个存活区和eden的比值(两个存活区总大小+eden=新生代大小)</li>
+<li>例：8，表示一个Survivor:eden=1:8,所以一个存存活区占新生代大小的1/(8+1+1)=1/10.</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)-Xmn参数测试：</strong></p>
+<ol>
+<li>测试一：<br>测试代码：<pre><code>public class HeapTest01 {
+    public static void main(String[] args) {
+        byte[] b =null;
+        for (int i = 0; i &lt; 10; i++) {
+            b=new byte[1*1024*1024];    //分配10M空间
+        }
+    }
+}
+</code></pre>测试参数：(新生代大小设置为1m)<pre><code>-Xmx20m -Xms20m -Xmn1m -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-06.jpg" alt=""><br>此时因为新生代非常小，所有的数据都在老年代分配。(老年代使用率54%)</li>
+<li>测试二：<br>测试代码同上。<br>测试参数：(新生代大小设置为15m)<pre><code>-Xmx20m -Xms20m -Xmn15m -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-07.jpg" alt=""><br>所有的数据都在新生代分配（老年代使用率0%,没有触发GC）</li>
+<li>测试三：<br>测试代码不变<br>测试参数：(新生代大小设置为7m)<pre><code>-Xmx20m -Xms20m -Xmn7m -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-08.jpg" alt=""><br>触发了一次新生代GC,回收时发现存活区(幸存代)太小，无法进行回收，需要老年代的保护。</li>
+</ol>
+<p><strong>3)其他两个参数测试：</strong></p>
+<ol>
+<li>测试四：<br>测试代码同上面的不变<br>测试参数：(幸存代设置为1/4)<pre><code>-Xmx20m -Xms20m -Xmn7m -XX:SurvivorRatio=2 -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-09.jpg" alt=""><br>触发了三次新生代的GC,幸存代够用，所以未使用老年代的对象空间。(老年代对象的120k的使用是系统级别的对象空间)</li>
+<li>测试五：<br>测试代码不变。<br>测试参数：(新生代：老年代=1:1)<pre><code>-Xmx20m -Xms20m -XX:NewRatio=1 -XX:SurvivorRatio=2 -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-10.jpg" alt=""><br>所有的GC都在新生代，对象没有使用老年代空间<br>但是幸存代的使用率只有63%,会浪费空间。</li>
+<li>测试六：<br>测试代码不变。<br>测试参数：(调整幸存代大小)<pre><code>-Xmx20m -Xms20m -XX:NewRatio=1 -XX:SurvivorRatio=3 -XX:+PrintGCDetails
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-11.jpg" alt=""><br>GC次数从两次减少为一次，且幸存区使用率高，未占用老年代空间。</li>
+</ol>
+<h3 id="OOM时堆的常用参数"><a href="#OOM时堆的常用参数" class="headerlink" title="OOM时堆的常用参数"></a>OOM时堆的常用参数</h3><p><strong>1)导出OOM到文件：</strong></p>
+<ol>
+<li>OOM时导出堆到文件：<code>-XX:+HeapDumpOutOfMemoryError</code></li>
+<li>导出OOM的路径：<code>-XX:+HeapDumpPath</code><br><code>-XX:+HeapDumpPath=d:/a.dump</code></li>
+<li>也可以重现异常，但是导出堆文件更加好。<br>示例例参数：<pre><code>-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOutOfMemoryError -XX:+HeapDumpPath=d:/dump
+</code></pre>dump出来的文件大小一般和最大堆的大小是保持一致的。</li>
+<li>视频中的例子：<br>代码及运行结果：(参数就是上面的那个)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-12.jpg" alt=""><br>dump文件中的内容：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-13.jpg" alt=""></li>
+</ol>
+<p><strong>2)一个OOM时很有用的参数：</strong></p>
+<ol>
+<li><code>-XX:OnOutOfMemoryError</code></li>
+<li>可以在OOM时执行一个脚本<br> 如：-XX:OnOutOfMemoryError=D:/tools/jdk7/printstack.bat %p<br> %p代表当前java程序的pid<br> printstack.bat 会将信息导出到一个txt文件(D:/a.txt)<br> 程序OOM时，在D:/a.txt中会生成线程的dump</li>
+<li>脚本可以任意指定，所以还可以用来发送警告，发送邮件甚至是重启程序。</li>
+</ol>
+<hr>
+<h2 id="3-堆分配参数的总结"><a href="#3-堆分配参数的总结" class="headerlink" title="3.堆分配参数的总结"></a>3.堆分配参数的总结</h2><ul>
+<li>根据实际情况调整新生代和幸存代的大小</li>
+<li>官方推荐新生代占堆的3/8,幸存区占新生代的1/10</li>
+<li>在OOM时记得DUMP出堆，确保可以排查现场问题</li>
+</ul>
+<hr>
+<h2 id="4-永久区分配参数"><a href="#4-永久区分配参数" class="headerlink" title="4.永久区分配参数"></a>4.永久区分配参数</h2><ol>
+<li>设置永久区的初始空间大小：<code>+XX:PermSize</code><br>设置永久区的最大空间大小：<code>+XX:MaxPermSize</code><br>类似于最大堆与最小堆的关系。<br>表示一个系统中最多可以容纳多少个类型。</li>
+<li>使用CGlib等动态代理时会产生大量的类，这些类可能撑爆永久区产生OOM。<br>视频中的测试代码：参数默认<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-14.jpg" alt=""><br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-15.jpg" alt=""></li>
+<li>上述例子中，堆空间没有使用完，永久区溢出也一样会报OOM。</li>
+</ol>
+<hr>
+<h2 id="5-栈大小分配"><a href="#5-栈大小分配" class="headerlink" title="5.栈大小分配"></a>5.栈大小分配</h2><ol>
+<li><code>-Xss</code>:<ul>
+<li>通常只有几百kb</li>
+<li>决定了函数调用的深度</li>
+<li>每个线程都有独立的栈空间</li>
+<li>局部变量(表)，参数分配在栈上</li>
+</ul>
+</li>
+<li>很少会把栈的大小调到很大的程度。</li>
+<li>如果想在系统中多跑一些线程，那么可以将栈空间减小，<br>但是栈空间又决定了函数调用的深度</li>
+<li>视频中的测试：一个递归(导致栈溢出)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-16.jpg" alt=""><br>调用深度从701次变为了1817次。</li>
+<li>能增加调用深度的另一个方法就是减少参数(局部变量)。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月09日 15:58</p>
-        <p>原始链接： <a class="post-url" href="/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/" title="JVM学习笔记（二）：常用参数配置及类加载器">https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/</a></p>
+        <p>最后更新： 2018年05月09日 18:44</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/" title="JVM学习笔记（二）：常用参数配置及分配策略">https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -321,7 +412,7 @@ total mem= 10M    //又分配了5M的内存
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&title=《JVM学习笔记（二）：常用参数配置及类加载器》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&title=《JVM学习笔记（二）：常用参数配置及分配策略》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -331,7 +422,7 @@ total mem= 10M    //又分配了5M的内存
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&title=《JVM学习笔记（二）：常用参数配置及类加载器》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&title=《JVM学习笔记（二）：常用参数配置及分配策略》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -341,7 +432,7 @@ total mem= 10M    //又分配了5M的内存
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（二）：常用参数配置及类加载器》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（二）：常用参数配置及分配策略》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -368,8 +459,6 @@ total mem= 10M    //又分配了5M的内存
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/Java/" class="color5">Java</a>
-      
     <a href="/tags/JVM/" class="color4">JVM</a>
       
   </li>
@@ -383,7 +472,7 @@ total mem= 10M    //又分配了5M的内存
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-跟踪参数"><span class="post-toc-text">1.跟踪参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-堆的分配参数"><span class="post-toc-text">2.堆的分配参数</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-跟踪参数"><span class="post-toc-text">1.跟踪参数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对GC的跟踪"><span class="post-toc-text">对GC的跟踪</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对类的监控参数"><span class="post-toc-text">对类的监控参数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-堆的分配参数"><span class="post-toc-text">2.堆的分配参数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最大堆与最小堆"><span class="post-toc-text">最大堆与最小堆</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新生代相关的配置参数"><span class="post-toc-text">新生代相关的配置参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#OOM时堆的常用参数"><span class="post-toc-text">OOM时堆的常用参数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-堆分配参数的总结"><span class="post-toc-text">3.堆分配参数的总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-永久区分配参数"><span class="post-toc-text">4.永久区分配参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-栈大小分配"><span class="post-toc-text">5.栈大小分配</span></a></li></ol>
         </nav>
     </aside>
     
@@ -471,7 +560,7 @@ total mem= 10M    //又分配了5M的内存
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.67px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -504,7 +593,7 @@ total mem= 10M    //又分配了5M的内存
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.67px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
