@@ -8,23 +8,30 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 一些函数，子句的使用技巧 如何做统计 大小写及索引使用时的问题     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只">
 <meta name="keywords" content="MySQL,正则表达式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 一些函数，子句的使用技巧 如何做统计 大小写及索引使用时的问题     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-03.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-05.jpg">
-<meta property="og:updated_time" content="2018-05-08T11:47:56.319Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-12.jpg">
+<meta property="og:updated_time" content="2018-05-09T06:55:03.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">
-<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 其他一些函数的使用技巧     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只有一个表或者一个索引，但是实际上这个表可">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《深入浅出MySQL数据库开发、优化与管理维护》传智播客的视频学完了  简单目录：  SQL分区 SQL分区类型 SQL分区管理 正则表达式的使用 一些函数，子句的使用技巧 如何做统计 大小写及索引使用时的问题     1.SQL分区概述及优点1)简介与优点：  分区：指根据一定的规则，数据库吧一个表分解成多个更小的、更容易管理的部分。就访问数据库而言，逻辑上而言只">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-01.jpg">
   
   
@@ -161,7 +168,9 @@
 <li>SQL分区类型</li>
 <li>SQL分区管理</li>
 <li>正则表达式的使用</li>
-<li>其他一些函数的使用技巧</li>
+<li>一些函数，子句的使用技巧</li>
+<li>如何做统计</li>
+<li>大小写及索引使用时的问题</li>
 </ul>
 </li>
 </ol>
@@ -446,11 +455,89 @@ SUBPARTITION 2
 <li>更加详细的关于分区表的限制参考博客：<br><a href="http://www.jb51.net/article/108165.htm" target="_blank" rel="noopener">MySQL分区表的局限和限制详解</a></li>
 </ol>
 <hr>
-<h2 id="5-正则表达式的使用"><a href="#5-正则表达式的使用" class="headerlink" title="5.正则表达式的使用"></a>5.正则表达式的使用</h2><hr>
+<h2 id="5-正则表达式的使用"><a href="#5-正则表达式的使用" class="headerlink" title="5.正则表达式的使用"></a>5.正则表达式的使用</h2><p><strong>1)正则表达式简介：</strong></p>
+<ol>
+<li>正则表达式：Regular Expression,通常缩写成REGEX或REGEXP<br>Mysql中可以通过REGEXP来使用正则表达式。</li>
+<li>Msql5.0版本可以使用的正则表达式规则如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-06.jpg" alt=""></li>
+<li>Linux中的正则表达式使用：<br><a href="https://zjxkenshine.github.io/2018/03/25/%E3%80%8A%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E3%80%8B%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%83%EF%BC%89/">《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script</a></li>
+</ol>
+<p><strong>2)Mysql中的使用测试：(n代表某个字符）</strong></p>
+<ol>
+<li><code>^n</code>是否以某个字符开始，<code>n$</code>是否以某个字符结束：<pre><code>SELECT &apos;abcdefg&apos; REGEXP &apos;^a&apos;;
+SELECT &apos;abcdefg&apos; REGEXP &apos;^g&apos;;
+SELECT &apos;abcdefg&apos; REGEXP &apos;g$&apos;;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-07.jpg" alt=""></li>
+<li><code>.n</code>匹配任意单个字符，包括换行符：<pre><code>SELECT &apos;abcdefg&apos; REGEXP &apos;.f&apos;;
+SELECT &apos;abcdefg&apos; REGEXP &apos;.h&apos;;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-08.jpg" alt=""></li>
+<li><code>[...]</code>匹配出一个括号内的字符则返回1，否则返回0;<br><code>[^...]</code>匹配除了括号内的所有字符，匹配的到一个则返回1，匹配不到则返回0。<pre><code>SELECT &apos;abc&apos; REGEXP &apos;[1b3]&apos;,&apos;abc&apos; REGEXP &apos;[1B3]&apos;,&apos;abc&apos; REGEXP &apos;[123]&apos;;
+SELECT &apos;abc&apos; REGEXP &apos;[^1b3]&apos;,&apos;abc&apos; REGEXP &apos;[^b]&apos;,&apos;1&apos; REGEXP &apos;[^123]&apos;;
+</code></pre>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-09.jpg" alt=""></li>
+<li>匹配qq邮箱：<pre><code>SELECT email FROM user WHERE email REGEXP &apos;@qq[.,]com$&apos;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-一些函数及子句的使用技巧"><a href="#6-一些函数及子句的使用技巧" class="headerlink" title="6.一些函数及子句的使用技巧"></a>6.一些函数及子句的使用技巧</h2><p><strong>1)Random()提取随机行：</strong></p>
+<ol>
+<li>使用方式：<pre><code>SELECT * FROM 表 Order By Random();
+</code></pre>可以得到所有数据的随机排列。</li>
+<li>在随机抽查样本时非常有效：<br>如随机抽查5条数据：<pre><code>SELECT * FROM 表 Order By Random() limit 5;
+</code></pre></li>
+</ol>
+<p><strong>2)利用Group By的With Rollup子句做统计：</strong></p>
+<ol>
+<li>创建表如下：<pre><code>CREATE TABLE m_teacher(
+    year VARCHAR(10) NOT NULL COMMENT &apos;年份&apos;,
+    school VARCHAR(10) NOT NULL COMMENT &apos;学校&apos;,
+    name VARCHAR(10) NOT NULL COMMENT &apos;教师姓名&apos;,
+    number INT NOT NULL COMMENT &apos;该年学生人数&apos;
+)charset utf8;
+</code></pre>插入数据：<pre><code>INSERT INTO    m_teacher VALUES(&apos;2016&apos;,&apos;QILU&apos;,&apos;张三&apos;,50);
+INSERT INTO    m_teacher VALUES(&apos;2017&apos;,&apos;QILU&apos;,&apos;张三&apos;,40);
+INSERT INTO    m_teacher VALUES(&apos;2018&apos;,&apos;QILU&apos;,&apos;张三&apos;,45);
+INSERT INTO    m_teacher VALUES(&apos;2015&apos;,&apos;QILU&apos;,&apos;李四&apos;,50);
+INSERT INTO    m_teacher VALUES(&apos;2016&apos;,&apos;QILU&apos;,&apos;李四&apos;,70);
+INSERT INTO    m_teacher VALUES(&apos;2017&apos;,&apos;QILU&apos;,&apos;李四&apos;,80);
+INSERT INTO    m_teacher VALUES(&apos;2018&apos;,&apos;QILU&apos;,&apos;李四&apos;,56);
+INSERT INTO    m_teacher VALUES(&apos;2016&apos;,&apos;QILU&apos;,&apos;王五&apos;,30);
+INSERT INTO    m_teacher VALUES(&apos;2017&apos;,&apos;QILU&apos;,&apos;王五&apos;,20);
+INSERT INTO    m_teacher VALUES(&apos;2018&apos;,&apos;QILU&apos;,&apos;王五&apos;,30);
+</code></pre></li>
+<li>一般的Group BY查询：<pre><code>SELECT year,school,name,sum(number) FROM m_teacher GROUP BY year,school,name;
+</code></pre>能看到的只是一般的信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-10.jpg" alt=""></li>
+<li>使用With Rollup子句做统计：<br>可以统计每一年学生数，每一年每一个学校学生数，每一年每一个学校的每一个老师所带的学生数以及所有学生总数。<pre><code>SELECT year,school,name,sum(number) FROM m_teacher GROUP BY year,school,name WITH ROLLUP;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-11.jpg" alt=""></li>
+<li>使用注意事项：<ul>
+<li>WITH ROLLUP子句和ORDER BY是互斥的，不能使用ORDER BY对进行排序。</li>
+<li>LIMIT子句用在WITH ROLLUP子句后面。 </li>
+</ul>
+</li>
+</ol>
+<p><strong>3)使用Bit Group Functions做统计：</strong></p>
+<ol>
+<li>使用GROUP BY语句和BIT_AND,BIT_OR来做统计。<br>BIT_AND,BIT_OR一般用来做数值之间的位运算。</li>
+<li>使用BIT_AND,BIT_OR的相应字段需要是二进制的表示：<br>比如一个字段的值转换为二进行，第一位表示某商品，第二位表示另一个商品。。。<br>则在就可以使用如下这种形式类统计：(交集)<pre><code>Select BIT_AND(字段名) from 表 group by 字段;
+</code></pre>也可以使用BIT_OR来得到并集：<pre><code>Select BIT_OR(字段名) from 表 group by 字段;
+</code></pre>将得到的结果转换为二进制得到信息即可。</li>
+</ol>
+<hr>
+<h2 id="7-一些需要注意的问题"><a href="#7-一些需要注意的问题" class="headerlink" title="7.一些需要注意的问题"></a>7.一些需要注意的问题</h2><p><strong>1)数据库名，表名的大小写问题：</strong></p>
+<ol>
+<li>操作系统的大小写是否敏感决定了数据库名与表名的大小写是否敏感。<br>默认情况下：<br>UNIX/Linux的大小写敏感，Windows/Mac OS大小写不敏感</li>
+<li>MySQL的大小写敏感是由一个名为<code>lower_case_table_name</code>的系统参数来控制的。<br>该参数的值及含义如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-12.jpg" alt=""><br>需要在不同的操作系统上移植Mysql数据库或表时只要修改该参数就行了。</li>
+<li>在UNIX或者Linux下将该参数该为1时，必须将原有表的大写都改为小写，使它们没有重复。</li>
+<li>在平时使用查询语句时最好区分大小写，养成这种习惯，不容易出错</li>
+</ol>
+<p><strong>2)外键使用时的问题：</strong></p>
+<ol>
+<li>MySQL中，InnoDB支持对外部关键字条件约束(外键)的检查。<br>如果使用其他存储引擎，则外键会失效。</li>
+<li>如果涉及到外键以及事务，最好使用InnoDB存储引擎。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月08日 19:47</p>
+        <p>最后更新： 2018年05月09日 14:55</p>
         <p>原始链接： <a class="post-url" href="/2018/05/08/MySQL数据库学习笔记（十）/" title="MySQL学习笔记（十）：SQL分区及一些常用的使用技巧">https://zjxkenshine.github.io/2018/05/08/MySQL数据库学习笔记（十）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -570,7 +657,7 @@ SUBPARTITION 2
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL分区概述及优点"><span class="post-toc-text">1.SQL分区概述及优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-分区的类型"><span class="post-toc-text">2.分区的类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-分区管理"><span class="post-toc-text">3.分区管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-分区表的局限与限制"><span class="post-toc-text">4.分区表的局限与限制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-正则表达式的使用"><span class="post-toc-text">5.正则表达式的使用</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-SQL分区概述及优点"><span class="post-toc-text">1.SQL分区概述及优点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-分区的类型"><span class="post-toc-text">2.分区的类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-分区管理"><span class="post-toc-text">3.分区管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-分区表的局限与限制"><span class="post-toc-text">4.分区表的局限与限制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-正则表达式的使用"><span class="post-toc-text">5.正则表达式的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-一些函数及子句的使用技巧"><span class="post-toc-text">6.一些函数及子句的使用技巧</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-一些需要注意的问题"><span class="post-toc-text">7.一些需要注意的问题</span></a></li></ol>
         </nav>
     </aside>
     
@@ -645,7 +732,7 @@ SUBPARTITION 2
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/J2EE框架/">J2EE框架</a><a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
             <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 11.43px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.57px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 15.71px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.43px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
