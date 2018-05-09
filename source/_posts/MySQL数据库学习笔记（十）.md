@@ -17,7 +17,9 @@ categories: 数据库
 	- SQL分区类型
 	- SQL分区管理
 	- 正则表达式的使用
-	- 其他一些函数的使用技巧
+	- 一些函数，子句的使用技巧
+	- 如何做统计
+	- 大小写及索引使用时的问题
 
 ---
 ## 1.SQL分区概述及优点
@@ -331,8 +333,101 @@ num是删除到多少个分区，如果大于当前分区数则会报错。
 
 ---
 ## 5.正则表达式的使用
+**1)正则表达式简介：**
+1. 正则表达式：Regular Expression,通常缩写成REGEX或REGEXP
+Mysql中可以通过REGEXP来使用正则表达式。
+2. Msql5.0版本可以使用的正则表达式规则如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-06.jpg)
+3. Linux中的正则表达式使用：
+[《鸟哥的Linux私房菜》笔记（七）：正则表达式与shell script](https://zjxkenshine.github.io/2018/03/25/%E3%80%8A%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E3%80%8B%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%83%EF%BC%89/)
 
+**2)Mysql中的使用测试：(n代表某个字符）**
+1. `^n`是否以某个字符开始，`n$`是否以某个字符结束：
+		SELECT 'abcdefg' REGEXP '^a';
+		SELECT 'abcdefg' REGEXP '^g';
+		SELECT 'abcdefg' REGEXP 'g$';
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-07.jpg)
+2. `.n`匹配任意单个字符，包括换行符：
+		SELECT 'abcdefg' REGEXP '.f';
+		SELECT 'abcdefg' REGEXP '.h';
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-08.jpg)
+3. `[...]`匹配出一个括号内的字符则返回1，否则返回0;
+`[^...]`匹配除了括号内的所有字符，匹配的到一个则返回1，匹配不到则返回0。
+		SELECT 'abc' REGEXP '[1b3]','abc' REGEXP '[1B3]','abc' REGEXP '[123]';
+		SELECT 'abc' REGEXP '[^1b3]','abc' REGEXP '[^b]','1' REGEXP '[^123]';
+测试：
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-09.jpg)
+4. 匹配qq邮箱：
+		SELECT email FROM user WHERE email REGEXP '@qq[.,]com$'
 
+---
+## 6.一些函数及子句的使用技巧
+**1)Random()提取随机行：**
+1. 使用方式：
+		SELECT * FROM 表 Order By Random();
+可以得到所有数据的随机排列。
+2. 在随机抽查样本时非常有效：
+如随机抽查5条数据：
+		SELECT * FROM 表 Order By Random() limit 5;
 
+**2)利用Group By的With Rollup子句做统计：**
+1. 创建表如下：
+		CREATE TABLE m_teacher(
+			year VARCHAR(10) NOT NULL COMMENT '年份',
+			school VARCHAR(10) NOT NULL COMMENT '学校',
+			name VARCHAR(10) NOT NULL COMMENT '教师姓名',
+			number INT NOT NULL COMMENT '该年学生人数'
+		)charset utf8;
+插入数据：
+		INSERT INTO	m_teacher VALUES('2016','QILU','张三',50);
+		INSERT INTO	m_teacher VALUES('2017','QILU','张三',40);
+		INSERT INTO	m_teacher VALUES('2018','QILU','张三',45);
+		INSERT INTO	m_teacher VALUES('2015','QILU','李四',50);
+		INSERT INTO	m_teacher VALUES('2016','QILU','李四',70);
+		INSERT INTO	m_teacher VALUES('2017','QILU','李四',80);
+		INSERT INTO	m_teacher VALUES('2018','QILU','李四',56);
+		INSERT INTO	m_teacher VALUES('2016','QILU','王五',30);
+		INSERT INTO	m_teacher VALUES('2017','QILU','王五',20);
+		INSERT INTO	m_teacher VALUES('2018','QILU','王五',30);
+2. 一般的Group BY查询：
+		SELECT year,school,name,sum(number) FROM m_teacher GROUP BY year,school,name;
+能看到的只是一般的信息：
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-10.jpg)
+3. 使用With Rollup子句做统计：
+可以统计每一年学生数，每一年每一个学校学生数，每一年每一个学校的每一个老师所带的学生数以及所有学生总数。
+		SELECT year,school,name,sum(number) FROM m_teacher GROUP BY year,school,name WITH ROLLUP;
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-11.jpg)
+4. 使用注意事项：
+	- WITH ROLLUP子句和ORDER BY是互斥的，不能使用ORDER BY对进行排序。
+	- LIMIT子句用在WITH ROLLUP子句后面。 
+
+**3)使用Bit Group Functions做统计：**
+1. 使用GROUP BY语句和BIT_AND,BIT_OR来做统计。
+BIT_AND,BIT_OR一般用来做数值之间的位运算。
+2. 使用BIT_AND,BIT_OR的相应字段需要是二进制的表示：
+比如一个字段的值转换为二进行，第一位表示某商品，第二位表示另一个商品。。。
+则在就可以使用如下这种形式类统计：(交集)
+		Select BIT_AND(字段名) from 表 group by 字段;
+也可以使用BIT_OR来得到并集：
+		Select BIT_OR(字段名) from 表 group by 字段;
+将得到的结果转换为二进制得到信息即可。
+
+---
+## 7.一些需要注意的问题
+**1)数据库名，表名的大小写问题：**
+1. 操作系统的大小写是否敏感决定了数据库名与表名的大小写是否敏感。
+默认情况下：
+UNIX/Linux的大小写敏感，Windows/Mac OS大小写不敏感
+2. MySQL的大小写敏感是由一个名为`lower_case_table_name`的系统参数来控制的。
+该参数的值及含义如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00057mysql%E5%AD%A6%E4%B9%A010-12.jpg)
+需要在不同的操作系统上移植Mysql数据库或表时只要修改该参数就行了。
+3. 在UNIX或者Linux下将该参数该为1时，必须将原有表的大写都改为小写，使它们没有重复。
+4. 在平时使用查询语句时最好区分大小写，养成这种习惯，不容易出错
+
+**2)外键使用时的问题：**
+1. MySQL中，InnoDB支持对外部关键字条件约束(外键)的检查。
+如果使用其他存储引擎，则外键会失效。
+2. 如果涉及到外键以及事务，最好使用InnoDB存储引擎。
 
 ---
