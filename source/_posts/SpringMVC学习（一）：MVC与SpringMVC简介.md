@@ -408,7 +408,7 @@ POST是方法，/example/default.jsp是URI，协议版本是HTTP 1.1。
 3. 输入后提交条转到详情：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00056SpringMVC%E5%AD%A6%E4%B9%A01-07.jpg)
 
-**3)我理解的示意图图：**
+**3)我理解的示意图：**
 ![](http://p5ki4lhmo.bkt.clouddn.com/00056SpringMVC%E5%AD%A6%E4%B9%A01-08.jpg)
 
 ---

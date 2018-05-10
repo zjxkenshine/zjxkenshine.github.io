@@ -1,9 +1,7 @@
 ---
-title: JVM学习笔记（二）：常用参数配置及类加载器
-date: 2018-5-7 22:37:00   
-tags: 
-- JVM
-- Java
+title: JVM学习笔记（二）：常用参数配置及分配策略
+date: 2018-5-7 22:37:00
+tags: JVM
 categories: Java基础
 
 ---
@@ -12,11 +10,14 @@ categories: Java基础
 感觉很深奥，就先从视频看起，以后再看书补充啦
 2. 参考资料
 参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》
-参考视频《深入理解JVM》(目前学习)
+参考视频《深入理解JVM》(主要学习)
+可以先学习GC再回来理解
 3. JVM常用配置参数
 	- 跟踪参数(Trace)
 	- 堆的分配参数
+	- 永久区分配参数(JDK1.8之后取消了永久代)
 	- 栈的分配参数
+	- 内存分配及回收策略
 
 ---
 ## 1.跟踪参数
@@ -39,7 +40,7 @@ Eclipse下RUN-->RUN configuration/DEBUG configuration
 			}
 		}
 
-**2)对GC的跟踪：**
+### 对GC的跟踪
 -verbose:gc：打开gc日志
 1. 打印简要GC信息：`-XX:+PrintGC`
 测试参数：-verbose:gc -XX:+PrintGC
@@ -73,6 +74,7 @@ PSYoungGen：代表时新生代代的GC
 		//老年代的总信息
 		 ParOldGen       total 120320K, used 8K [0x0000000711200000, 0x0000000718780000, 0x0000000785b80000)
 		  object space 120320K, 0% used [0x0000000711200000,0x0000000711202000,0x0000000718780000)
+		//元空间(jdk1.8版本用来替代永久代)
 		 Metaspace       used 2665K, capacity 4486K, committed 4864K, reserved 1056768K
 		  class space    used 288K, capacity 386K, committed 512K, reserved 1048576K
 可能还会有永久代，共享区间等信息。
@@ -94,7 +96,7 @@ PSYoungGen：代表时新生代代的GC
 每次GC前后都输出信息，而不是到最后再输出：
 ![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-03.jpg)
 
-**3)对类的监控：**
+### 对类的监控参数
 1. 创建类TraceClassArgs:
 		public class TraceClassArgs {
 			public static void main(String[] args) {
@@ -118,7 +120,7 @@ PSYoungGen：代表时新生代代的GC
 
 ---
 ## 2.堆的分配参数
-**1)最大堆，最小堆：**
+### 最大堆与最小堆
 1. 测试代码：
 		public class TestHeapArgs {
 			public static void main(String[] args) {
@@ -154,6 +156,127 @@ PSYoungGen：代表时新生代代的GC
 `-Xmx -Xms`应该如何设置
 如何将JRE瘦身，只保留自己用到的类
 
-**2)**
+### 新生代相关的配置参数
+**1)参数简介：**
+1. `-Xmn`：设置新生代大小
+2. `-XX:NewRatio`：
+	- 新生代(eden+2*s)和老年代(不包含永久区)的比值
+	- 例：4，表示新生代：老年代=1：4，即年轻代占堆的1/5
+3. `-XX:SurvivorRatio`：
+	- 设置两个存活区和eden的比值(两个存活区总大小+eden=新生代大小)
+	- 例：8，表示一个Survivor:eden=1:8,所以一个存存活区占新生代大小的1/(8+1+1)=1/10.
+
+**2)-Xmn参数测试：**
+1. 测试一：
+测试代码：
+		public class HeapTest01 {
+			public static void main(String[] args) {
+				byte[] b =null;
+				for (int i = 0; i < 10; i++) {
+					b=new byte[1*1024*1024];	//分配10M空间
+				}
+			}
+		}
+测试参数：(新生代大小设置为1m)
+		-Xmx20m -Xms20m -Xmn1m -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-06.jpg)
+此时因为新生代非常小，所有的数据都在老年代分配。(老年代使用率54%)
+2. 测试二：
+测试代码同上。
+测试参数：(新生代大小设置为15m)
+		-Xmx20m -Xms20m -Xmn15m -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-07.jpg)
+所有的数据都在新生代分配（老年代使用率0%,没有触发GC）
+3. 测试三：
+测试代码不变
+测试参数：(新生代大小设置为7m)
+		-Xmx20m -Xms20m -Xmn7m -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-08.jpg)
+触发了一次新生代GC,回收时发现存活区(幸存代)太小，无法进行回收，需要老年代的保护。
+
+**3)其他两个参数测试：**
+1. 测试四：
+测试代码同上面的不变
+测试参数：(幸存代设置为1/4)
+		-Xmx20m -Xms20m -Xmn7m -XX:SurvivorRatio=2 -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-09.jpg)
+触发了三次新生代的GC,幸存代够用，所以未使用老年代的对象空间。(老年代对象的120k的使用是系统级别的对象空间)
+2. 测试五：
+测试代码不变。
+测试参数：(新生代：老年代=1:1)
+		-Xmx20m -Xms20m -XX:NewRatio=1 -XX:SurvivorRatio=2 -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-10.jpg)
+所有的GC都在新生代，对象没有使用老年代空间
+但是幸存代的使用率只有63%,会浪费空间。
+3. 测试六：
+测试代码不变。
+测试参数：(调整幸存代大小)
+		-Xmx20m -Xms20m -XX:NewRatio=1 -XX:SurvivorRatio=3 -XX:+PrintGCDetails
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-11.jpg)
+GC次数从两次减少为一次，且幸存区使用率高，未占用老年代空间。
+
+### OOM时堆的常用参数
+**1)导出OOM到文件：**
+1. OOM时导出堆到文件：`-XX:+HeapDumpOutOfMemoryError`
+2. 导出OOM的路径：`-XX:+HeapDumpPath`
+`-XX:+HeapDumpPath=d:/a.dump`
+3. 也可以重现异常，但是导出堆文件更加好。
+示例例参数：
+		-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOutOfMemoryError -XX:+HeapDumpPath=d:/dump
+dump出来的文件大小一般和最大堆的大小是保持一致的。
+4. 视频中的例子：
+代码及运行结果：(参数就是上面的那个)
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-12.jpg)
+dump文件中的内容：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-13.jpg)
+
+**2)一个OOM时很有用的参数：**
+1. `-XX:OnOutOfMemoryError`
+2. 可以在OOM时执行一个脚本
+	如：-XX:OnOutOfMemoryError=D:/tools/jdk7/printstack.bat %p
+	%p代表当前java程序的pid
+	printstack.bat 会将信息导出到一个txt文件(D:/a.txt)
+	程序OOM时，在D:/a.txt中会生成线程的dump
+3. 脚本可以任意指定，所以还可以用来发送警告，发送邮件甚至是重启程序。
+
+---
+## 3.堆分配参数的总结
+- 根据实际情况调整新生代和幸存代的大小
+- 官方推荐新生代占堆的3/8,幸存区占新生代的1/10
+- 在OOM时记得DUMP出堆，确保可以排查现场问题
+
+---
+## 4.永久区分配参数
+1. 设置永久区的初始空间大小：`+XX:PermSize`
+设置永久区的最大空间大小：`+XX:MaxPermSize`
+类似于最大堆与最小堆的关系。
+表示一个系统中最多可以容纳多少个类型。
+2. 使用CGlib等动态代理时会产生大量的类，这些类可能撑爆永久区产生OOM。
+视频中的测试代码：参数默认
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-14.jpg)
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-15.jpg)
+3. 上述例子中，堆空间没有使用完，永久区溢出也一样会报OOM。
+
+---
+## 5.栈大小分配
+1. `-Xss`:
+	- 通常只有几百kb
+	- 决定了函数调用的深度
+	- 每个线程都有独立的栈空间
+	- 局部变量(表)，参数分配在栈上
+2. 很少会把栈的大小调到很大的程度。
+3. 如果想在系统中多跑一些线程，那么可以将栈空间减小，
+但是栈空间又决定了函数调用的深度
+4. 视频中的测试：一个递归(导致栈溢出)
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-16.jpg)
+调用深度从701次变为了1817次。
+5. 能增加调用深度的另一个方法就是减少参数(局部变量)。
 
 ---

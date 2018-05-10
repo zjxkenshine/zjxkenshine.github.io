@@ -1,9 +1,7 @@
 ---
 title: JVM学习笔记（一）：JVM简介及JVM运行机制
 date: 2018-4-28 22:56:08  
-tags: 
-- JVM
-- Java
+tags: JVM
 categories: Java基础
 
 ---
