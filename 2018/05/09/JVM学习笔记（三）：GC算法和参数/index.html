@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World     1.GC">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World     1.GC">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-08.jpg">
+<meta property="og:updated_time" content="2018-05-11T14:50:47.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
+<meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World     1.GC">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JVM学习笔记（三）：GC算法和参数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java基础/">Java基础</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>第三章：垃圾收集器与内存分配策略<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>简单目录：<ul>
+<li>GC简介</li>
+<li>GC算法<ul>
+<li>引用计数法</li>
+<li>标记清除算法</li>
+<li>标记压缩算法(标记整理)</li>
+<li>复制算法(新生代整合)</li>
+<li>分代思想</li>
+</ul>
+</li>
+<li>可触及性(可达性)</li>
+<li>Stop-The-World</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-GC的概念"><a href="#1-GC的概念" class="headerlink" title="1.GC的概念"></a>1.GC的概念</h2><ol>
+<li>GC:Garbage Collection，垃圾收集<br>C语言是程序员自己申请和释放(管理)空间，Java中则是虚拟机来实现<br>(垃圾是指程序运行过程中产生的一些无用的对象，这些对象仍然占据了一定的内存空间，无用的对象需要及时回收以确保程序有足够的空间)</li>
+<li>Java中，GC的对象是堆空间和永久区(受GC管理)。<br>JVM中有单独一个线程根据特定的算法来监控，扫描，释放无用的对象。<br>最主要的目的是为了防止程序员的操作而导致的内存泄露。</li>
+<li>GC的思想最早出现在1960年时的List语言。</li>
+<li>GC如何去管理内存空间–<strong>GC算法</strong></li>
+</ol>
+<hr>
+<h2 id="2-引用计数法"><a href="#2-引用计数法" class="headerlink" title="2.引用计数法"></a>2.引用计数法</h2><p><strong>1)引用计数法简介：</strong></p>
+<ol>
+<li>老牌的垃圾回收算法：<br>给对象添加一个计数器，非0可用，0不可用。(差不多就是这种原理)</li>
+<li>通过引用计算来进行垃圾回收。<br>实现简单，判定效率也高，大部分情况下是一种不错的算法。<br>(不过在JVM中不常用)</li>
+<li>在以下技术中都有应用案例：<ul>
+<li>微软的COM</li>
+<li>ActionScript3的FlashPlayer</li>
+<li>Python</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)引用计数法的执行过程：</strong></p>
+<ol>
+<li>对于一个对象A，只要有任何一个对象去引用了A，则A的引用计数器就会加1，引用失效时A的引用数器就会减1，只要一个对象的程序计数器为0则该对象就不可用了(死了)。</li>
+<li>引用计数法的简单回收过程：(虚线代表引用失效)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg" alt=""></li>
+</ol>
+<p><strong>3)引用计数法的问题：</strong></p>
+<ol>
+<li>引用计数法的问题：<ul>
+<li>引用和区引用都伴随着加减，影响性能</li>
+<li>很难处理循环引用</li>
+</ul>
+</li>
+<li>循环引用的简单示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-02.jpg" alt=""></li>
+<li>使用引用计数法处理循环引用的过程：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-03.jpg" alt=""><br>三个循环引用的对象对根对象来说不可达（应该被回收），但是因为每个对象的引用计数器都是1，所以都不会被回收。</li>
+</ol>
+<hr>
+<h2 id="3-标记-清除算法与标记-压缩算法"><a href="#3-标记-清除算法与标记-压缩算法" class="headerlink" title="3.标记-清除算法与标记-压缩算法"></a>3.标记-清除算法与标记-压缩算法</h2><p><strong>1)标记清除算法：</strong></p>
+<ol>
+<li>标记清除算法是现代垃圾回收算法的思想基础。<br>分为两阶段：标记阶段和清除阶段。</li>
+<li>一种可行的实现：<ul>
+<li>标记阶段：从根节点开始标记所以从根节点开始的可达对象。未被标记的对象则视为垃圾对象。</li>
+<li>清除阶段：清除所有的未被标记的对象。</li>
+</ul>
+</li>
+<li>标记清除算法的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-04.jpg" alt=""></li>
+<li>标记-清除算法的不足之处：<ul>
+<li>效率问题：标记和清除过程的效率都不高</li>
+<li>空间问题：清除之后产生大量不连续的内存碎片</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)标记压缩算法(标记整理算法)：</strong></p>
+<ol>
+<li>标记压缩算法适用于存活对象较多的场合，如老年代。<br>是对标记清除算法的优化。</li>
+<li>简单分为三个阶段：<ul>
+<li>标记阶段：和标记清除一样，从根节点标记所有可达对象</li>
+<li>压缩阶段：将所有存活(标记)对象压缩(移动)到内存的一端</li>
+<li>清除阶段：清理边界外的所有空间(对象)</li>
+</ul>
+</li>
+<li>标记-压缩算法的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-05.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-复制算法及整合使用"><a href="#4-复制算法及整合使用" class="headerlink" title="4.复制算法及整合使用"></a>4.复制算法及整合使用</h2><p><strong>1)复制算法简介：</strong></p>
+<ol>
+<li>与标记-清除算法相比，复制算法是一个相对高效的回收算法</li>
+<li>不适用于存活对象多的场合（老年代）</li>
+<li>基本思想：<br>将原有的内存空间分为两块，每次只使用其中一块。<br>垃圾回收时将正在使用的内存块的存活对象复制到另一块未使用的内存块中。<br>清空当前正在使用的内存块中的所有对象，并交换两个内存块的角色，完成垃圾回收。</li>
+<li>复制算法的示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-06.jpg" alt=""></li>
+<li>复制算法最大的问题：浪费空间</li>
+</ol>
+<p><strong>2)复制算法整合标记清理思想：</strong></p>
+<ol>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-07.jpg" alt=""></li>
+<li>说明：<ul>
+<li>复制算法适用于年轻代(新生代)</li>
+<li>大对象直接进入老年代(老年代为年轻代做担保)</li>
+<li>多次GC未被清除的对象自动进入老年代</li>
+<li>复制其余对象到新的内存空间，清空原来的空间</li>
+</ul>
+</li>
+<li>结合<code>-XX:+PrintGCDetails</code>日志分析：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-08.jpg" alt=""><ul>
+<li>上面的三个内存块分别代表的是新生代的：eden,from,to区域</li>
+<li>新生代可用空间(第一行)=eden+复制区的其中一块内存(from/to)</li>
+<li>新生代可用空间一般比分配的空间小一些：from/to中有一块不可用<br>((28d80000-28e80000)/1024&gt;13824k)</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)分代思想：</strong></p>
+<ol>
+<li>依据对象的存活时间分代，短命对象归为新生代，长命对象归为老年代。</li>
+<li>不同的代使用不同的算法：<ul>
+<li>新生代：对象存活时间短，使用复制算法</li>
+<li>老年代：大量对象存活，适合标记-清理算法或者标记-整理算法</li>
+</ul>
+</li>
+<li>注意：<br>所有的算法都需要识别一个垃圾对象，因此需要给出一个可触及性(可达性)的定义。</li>
+</ol>
+<hr>
+<h2 id="5-可触及性（可达性）"><a href="#5-可触及性（可达性）" class="headerlink" title="5.可触及性（可达性）"></a>5.可触及性（可达性）</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月11日 22:50</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/09/JVM学习笔记（三）：GC算法和参数/" title="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/&title=《JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/&title=《JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-GC的概念"><span class="post-toc-text">1.GC的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-引用计数法"><span class="post-toc-text">2.引用计数法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-标记-清除算法与标记-压缩算法"><span class="post-toc-text">3.标记-清除算法与标记-压缩算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-复制算法及整合使用"><span class="post-toc-text">4.复制算法及整合使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-可触及性（可达性）"><span class="post-toc-text">5.可触及性（可达性）</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/09/SpringMVC学习（二）：基于注解的控制器/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">SpringMVC学习（二）：基于注解@Controller的控制器</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.33px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.67px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.33px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.67px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
