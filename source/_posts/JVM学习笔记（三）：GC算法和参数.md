@@ -6,13 +6,11 @@ categories: Java基础
 
 ---
 ## 0.学习准备
-1. 基础落下了很多了，是时候啃一波JVM了
-感觉很深奥，就先从视频看起，以后再看书补充啦
-2. 参考资料
+1. 参考资料
 参考书籍《深入理解Java虚拟机》
 第三章：垃圾收集器与内存分配策略
 参考视频《深入理解JVM》(目前学习)
-3. 简单目录：
+2. 简单目录：
 	- GC简介
 	- GC算法
 		- 引用计数法
@@ -26,6 +24,8 @@ categories: Java基础
 	- 并行收集器
 	- CMS收集器
 	- Tomcat演示
+3. 关于G1收集器的内容等过段时间看书深入再去学习。
+视频中没有讲解关于G1收集器的内容。
 
 ---
 ## 1.GC的概念
@@ -263,10 +263,84 @@ GC线程清理垃圾的时候，将所有的线程停止，保证没有新的垃
 
 ---
 ## 9.CMS收集器
+**1)CMS收集器简介：**
+1. Concurrent Mark Sweep:**并发**标记清除垃圾收集器
+以获取最短回收停顿时间为目标的收集器
+2. 使用标记-清除算法，和标记-压缩算法相比：
+并发阶段会降低吞吐量
+3. 是一个老年代收集器(新生代使用ParNew)
+4. 使用参数：`+XX:+UseConcMarkSweepGC`
+5. GC并发与并行的区别：
+	- 并行：多条垃圾收集线程并行工作，此时用户线程仍然属于等待状态
+	- 并发：垃圾收集线程和用户线程同时(时间段)执行。
 
+**2)CMS收集器的执行过程：**
+1. CMS的算法运行过程主要分为下面四个阶段：(主要是标记过程)
+	- 初始标记：(全局停顿)
+		- 标记根对象可以直接关联到的对象
+		- 速度快
+	- 并发标记：(和用户线程一起执行)
+		- 标记所有对象(是或不是垃圾)
+	- 重新标记：(全局停顿)
+		- 并发标记时用户线程运行可能产生或复活垃圾对象
+		- 所以在正式清理前需要做修正
+	- 并发清除：（和用户线程一起执行）
+		- 清除所有标记为垃圾的对象
+2. 在关键的部分还是会产生全局停顿的，只是将全局停顿的时间降到了最少。
+3. CMS执行过程示意图：
+![](http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-22.jpg)
+4. GC日志示例：
+![](http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-23.jpg)
+可以看到加黑的部分就是并发清理的过程。
+
+**3)CMS收集器的特点及一些缺陷：**
+1. 尽可能的降低全局停顿时间
+2. 会影响系统整体的吞吐量和性能
+	- 用户线程运行的过程中，分一半CPU去做GC,系统在做GC过程中的性能就会下降一半。
+	- 吞吐量也会随之下降，因为全局停顿时间减少了
+3. 清理不彻底，有内存不连续：
+	- 清理阶段仍然会有用户线程运行，会产生新的垃圾
+	- 标记-清理算法清理完之后内存区间是分散的
+4. 和应用程序并发执行，导致无法在空间快满时进行清理：
+	- `-XX:CMSInitiatingOccupancyFactory`参数设置一个阈值
+	- 并发执行导致实际GC可用内存可能小于这个阈值(其余部分被应用程序占用)
+	- 如果预留空间不够，会引起Concurrent mode failure
+	- 错误日志如下：
+	![](http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-24.jpg)
+5. 解决上述faliuer的一种可行方案：使用串行回收器做后备
+一旦CMS失败，那么就启用串行收集器。(可能会停顿较长时间)
+
+**4)CMS相关GC参数：**
+1. 为解决CMS使用的标记-清除算法所带来的内存碎片问题，JVM提供了CMS对应的GC参数来对内存空间进行整理。
+2. `-XX:+UseCMSCompactAtFullCollection`：
+	- 是否在每一次Full GC之后进行一次整理
+	- 整理的过程是独占的，会造成全局暂停
+3. `-XX:+CMSFullGCsBeforeCompaction`：
+	- 设置几次Full GC之后进行一次整理
+4. `-XX:ParallelCMSThreads`：
+	- 设定CMS的线程数量
+	- 不宜设置太大，小于可用CPU的数量
+5. 为了减轻GC压力需要注意的问题：
+	- 软件如何设计架构
+	- 代码如何编写
+	- 堆空间如何分配
 
 ---
-## 10.G1收集器
-
+## 10.GC参数整理：
+- `-XX:+UseSerialGC`：在新生代和老年代使用串行收集器
+- `-XX:SurvivorRatio`：设置eden区大小和survivor区大小的比例
+- `-XX:NewRatio`：设置新生代和老年代的比
+- `-XX:+UseParNewGC`：新生代使用ParNew（并行收集器）
+- `-XX:+UseParallelGC`：在新生代使用Parllel Scavenge并行收集器
+- `-XX:+UseParallelOldGC`：老年代使用Parallel Old并行收集器
+- `-XX:ParallelGCThreads`：设置用于垃圾回收的线程数
+- `-XX:+UseConcMarkSweepGC`：新生代使用并行收集器(ParNew),老年代使用CMS+串行(后备)收集器
+- `-XX:ParallelCMSThreads`：设置CMS的线程数量
+- `-XX:CMSInitiatingOccupancyFactory`：阈值，老年代使用多少空间时进行回收(未到达之前也会回收)
+- `-XX:+UseCMSCompactAtFullCollection`：是否在每一次Full GC(完整垃圾回收)之后进行一次内存整理
+- `-XX:CMSFullGCsBeforeCompaction`：设定多少次Full GC之后进行一次内存碎片整理
+- `-XX:+CMSClassUnloadingEnabled`：允许对类元数据进行回收
+- `-XX:CMSInitiatingPermOccupancyFactory`：永久区的占用率达到某一百分比时启动CMS回收(未到达之前也会回收)
+- `-XX:CMSInitiatingOccupancyOnly`：只有到达该阈值才会进行垃圾回收(未到达之前不回收)
 
 ---
