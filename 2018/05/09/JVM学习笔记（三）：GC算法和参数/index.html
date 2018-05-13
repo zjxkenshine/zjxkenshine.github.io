@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行">
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
 <meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-02.jpg">
@@ -37,10 +37,13 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-19.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-20.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-21.jpg">
-<meta property="og:updated_time" content="2018-05-12T14:43:11.439Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-24.jpg">
+<meta property="og:updated_time" content="2018-05-13T07:01:38.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
-<meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
   
   
@@ -169,7 +172,6 @@
       
             
             <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
-<li>基础落下了很多了，是时候啃一波JVM了<br>感觉很深奥，就先从视频看起，以后再看书补充啦</li>
 <li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>第三章：垃圾收集器与内存分配策略<br>参考视频《深入理解JVM》(目前学习)</li>
 <li>简单目录：<ul>
 <li>GC简介</li>
@@ -189,6 +191,7 @@
 <li>Tomcat演示</li>
 </ul>
 </li>
+<li>关于G1收集器的内容等过段时间看书深入再去学习。<br>视频中没有讲解关于G1收集器的内容。</li>
 </ol>
 <hr>
 <h2 id="1-GC的概念"><a href="#1-GC的概念" class="headerlink" title="1.GC的概念"></a>1.GC的概念</h2><ol>
@@ -427,12 +430,120 @@
 <li>这两个参数是矛盾的，不能同时设置(停顿时间和吞吐量)<br>这两项不能同时调优</li>
 </ol>
 <hr>
-<h2 id="9-CMS收集器"><a href="#9-CMS收集器" class="headerlink" title="9.CMS收集器"></a>9.CMS收集器</h2><hr>
-<h2 id="10-G1收集器"><a href="#10-G1收集器" class="headerlink" title="10.G1收集器"></a>10.G1收集器</h2><hr>
+<h2 id="9-CMS收集器"><a href="#9-CMS收集器" class="headerlink" title="9.CMS收集器"></a>9.CMS收集器</h2><p><strong>1)CMS收集器简介：</strong></p>
+<ol>
+<li>Concurrent Mark Sweep:<strong>并发</strong>标记清除垃圾收集器<br>以获取最短回收停顿时间为目标的收集器</li>
+<li>使用标记-清除算法，和标记-压缩算法相比：<br>并发阶段会降低吞吐量</li>
+<li>是一个老年代收集器(新生代使用ParNew)</li>
+<li>使用参数：<code>+XX:+UseConcMarkSweepGC</code></li>
+<li>GC并发与并行的区别：<ul>
+<li>并行：多条垃圾收集线程并行工作，此时用户线程仍然属于等待状态</li>
+<li>并发：垃圾收集线程和用户线程同时(时间段)执行。</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)CMS收集器的执行过程：</strong></p>
+<ol>
+<li>CMS的算法运行过程主要分为下面四个阶段：(主要是标记过程)<ul>
+<li>初始标记：(全局停顿)<ul>
+<li>标记根对象可以直接关联到的对象</li>
+<li>速度快</li>
+</ul>
+</li>
+<li>并发标记：(和用户线程一起执行)<ul>
+<li>标记所有对象(是或不是垃圾)</li>
+</ul>
+</li>
+<li>重新标记：(全局停顿)<ul>
+<li>并发标记时用户线程运行可能产生或复活垃圾对象</li>
+<li>所以在正式清理前需要做修正</li>
+</ul>
+</li>
+<li>并发清除：（和用户线程一起执行）<ul>
+<li>清除所有标记为垃圾的对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在关键的部分还是会产生全局停顿的，只是将全局停顿的时间降到了最少。</li>
+<li>CMS执行过程示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-22.jpg" alt=""></li>
+<li>GC日志示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-23.jpg" alt=""><br>可以看到加黑的部分就是并发清理的过程。</li>
+</ol>
+<p><strong>3)CMS收集器的特点及一些缺陷：</strong></p>
+<ol>
+<li>尽可能的降低全局停顿时间</li>
+<li>会影响系统整体的吞吐量和性能<ul>
+<li>用户线程运行的过程中，分一半CPU去做GC,系统在做GC过程中的性能就会下降一半。</li>
+<li>吞吐量也会随之下降，因为全局停顿时间减少了</li>
+</ul>
+</li>
+<li>清理不彻底，有内存不连续：<ul>
+<li>清理阶段仍然会有用户线程运行，会产生新的垃圾</li>
+<li>标记-清理算法清理完之后内存区间是分散的</li>
+</ul>
+</li>
+<li>和应用程序并发执行，导致无法在空间快满时进行清理：<ul>
+<li><code>-XX:CMSInitiatingOccupancyFactory</code>参数设置一个阈值</li>
+<li>并发执行导致实际GC可用内存可能小于这个阈值(其余部分被应用程序占用)</li>
+<li>如果预留空间不够，会引起Concurrent mode failure</li>
+<li>错误日志如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-24.jpg" alt=""></li>
+</ul>
+</li>
+<li>解决上述faliuer的一种可行方案：使用串行回收器做后备<br>一旦CMS失败，那么就启用串行收集器。(可能会停顿较长时间)</li>
+</ol>
+<p><strong>4)CMS相关GC参数：</strong></p>
+<ol>
+<li>为解决CMS使用的标记-清除算法所带来的内存碎片问题，JVM提供了CMS对应的GC参数来对内存空间进行整理。</li>
+<li><code>-XX:+UseCMSCompactAtFullCollection</code>：<ul>
+<li>是否在每一次Full GC之后进行一次整理</li>
+<li>整理的过程是独占的，会造成全局暂停</li>
+</ul>
+</li>
+<li><code>-XX:+CMSFullGCsBeforeCompaction</code>：<ul>
+<li>设置几次Full GC之后进行一次整理</li>
+</ul>
+</li>
+<li><code>-XX:ParallelCMSThreads</code>：<ul>
+<li>设定CMS的线程数量</li>
+<li>不宜设置太大，小于可用CPU的数量</li>
+</ul>
+</li>
+<li>为了减轻GC压力需要注意的问题：<ul>
+<li>软件如何设计架构</li>
+<li>代码如何编写</li>
+<li>堆空间如何分配</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="10-GC参数整理："><a href="#10-GC参数整理：" class="headerlink" title="10.GC参数整理："></a>10.GC参数整理：</h2><ul>
+<li><code>-XX:+UseSerialGC</code>：在新生代和老年代使用串行收集器</li>
+<li><code>-XX:SurvivorRatio</code>：设置eden区大小和survivor区大小的比例</li>
+<li><code>-XX:NewRatio</code>：设置新生代和老年代的比</li>
+<li><code>-XX:+UseParNewGC</code>：新生代使用ParNew（并行收集器）</li>
+<li><code>-XX:+UseParallelGC</code>：在新生代使用Parllel Scavenge并行收集器</li>
+<li><code>-XX:+UseParallelOldGC</code>：老年代使用Parallel Old并行收集器</li>
+<li><code>-XX:ParallelGCThreads</code>：设置用于垃圾回收的线程数</li>
+<li><code>-XX:+UseConcMarkSweepGC</code>：新生代使用并行收集器(ParNew),老年代使用CMS+串行(后备)收集器</li>
+<li><code>-XX:ParallelCMSThreads</code>：设置CMS的线程数量</li>
+<li><code>-XX:CMSInitiatingOccupancyFactory</code>：阈值，老年代使用多少空间时进行回收(未到达之前也会回收)</li>
+<li><code>-XX:+UseCMSCompactAtFullCollection</code>：是否在每一次Full GC(完整垃圾回收)之后进行一次内存整理</li>
+<li><code>-XX:CMSFullGCsBeforeCompaction</code>：设定多少次Full GC之后进行一次内存碎片整理</li>
+<li><code>-XX:+CMSClassUnloadingEnabled</code>：允许对类元数据进行回收</li>
+<li><code>-XX:CMSInitiatingPermOccupancyFactory</code>：永久区的占用率达到某一百分比时启动CMS回收(未到达之前也会回收)</li>
+<li><code>-XX:CMSInitiatingOccupancyOnly</code>：只有到达该阈值才会进行垃圾回收(未到达之前不回收)</li>
+</ul>
+<hr>
+<h2 id="11-注意"><a href="#11-注意" class="headerlink" title="11.注意"></a>11.注意</h2><ul>
+<li>系统性能根本所在是应用架构</li>
+<li>GC参数只是属于微调，对系统性能的提升不会很大</li>
+<li>GC参数设置不合理会产生大的延时，影响性能</li>
+</ul>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月12日 22:43</p>
+        <p>最后更新： 2018年05月13日 15:01</p>
         <p>原始链接： <a class="post-url" href="/2018/05/09/JVM学习笔记（三）：GC算法和参数/" title="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -550,7 +661,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-GC的概念"><span class="post-toc-text">1.GC的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-引用计数法"><span class="post-toc-text">2.引用计数法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-标记-清除算法与标记-压缩算法"><span class="post-toc-text">3.标记-清除算法与标记-压缩算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-复制算法及整合使用"><span class="post-toc-text">4.复制算法及整合使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-可触及性（可达性）"><span class="post-toc-text">5.可触及性（可达性）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Stop-The-World"><span class="post-toc-text">6.Stop-The-World</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-串型垃圾收集器-回收器"><span class="post-toc-text">7.串型垃圾收集器(回收器)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-并行垃圾收集器-回收器"><span class="post-toc-text">8.并行垃圾收集器(回收器)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-CMS收集器"><span class="post-toc-text">9.CMS收集器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-G1收集器"><span class="post-toc-text">10.G1收集器</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-GC的概念"><span class="post-toc-text">1.GC的概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-引用计数法"><span class="post-toc-text">2.引用计数法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-标记-清除算法与标记-压缩算法"><span class="post-toc-text">3.标记-清除算法与标记-压缩算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-复制算法及整合使用"><span class="post-toc-text">4.复制算法及整合使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-可触及性（可达性）"><span class="post-toc-text">5.可触及性（可达性）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Stop-The-World"><span class="post-toc-text">6.Stop-The-World</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-串型垃圾收集器-回收器"><span class="post-toc-text">7.串型垃圾收集器(回收器)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-并行垃圾收集器-回收器"><span class="post-toc-text">8.并行垃圾收集器(回收器)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-CMS收集器"><span class="post-toc-text">9.CMS收集器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-GC参数整理："><span class="post-toc-text">10.GC参数整理：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#11-注意"><span class="post-toc-text">11.注意</span></a></li></ol>
         </nav>
     </aside>
     
