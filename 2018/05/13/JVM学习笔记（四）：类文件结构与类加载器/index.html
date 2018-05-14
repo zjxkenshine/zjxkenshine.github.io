@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM学习笔记（四）：类文件结构与类加载器 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+<meta name="keywords" content="类,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记（四）：类文件结构与类加载器">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-22-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-27-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-29-1.jpg">
+<meta property="og:updated_time" content="2018-05-14T13:55:17.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM学习笔记（四）：类文件结构与类加载器">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JVM学习笔记（四）：类文件结构与类加载器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JVM学习笔记（四）：类文件结构与类加载器
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java基础/">Java基础</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>第三章：垃圾收集器与内存分配策略<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>简单目录：<ul>
+<li>语言无关性</li>
+<li>类文件的结构：(类如何组织和使用)<ul>
+<li>魔数，版本号，访问符</li>
+<li>常量池</li>
+<li>超类，接口</li>
+<li>字段，方法，属性</li>
+</ul>
+</li>
+<li>类装载验证流程</li>
+<li>什么是类装载器ClassLoader</li>
+<li>JDK中ClassLoader默认设计模式</li>
+<li>热替换</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-JVM语言无关性"><a href="#1-JVM语言无关性" class="headerlink" title="1.JVM语言无关性"></a>1.JVM语言无关性</h2><ol>
+<li>JVM运行的是Java编译而来的,但是并非只有Java的类文件能编译为.class文件。<br>很多种语言都能在JVM上运行。</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-01.jpg" alt=""></li>
+<li>Class文件是JVM的一个基石。<br>如果要对JVM做深入理解，一定要理解Class文件。</li>
+</ol>
+<hr>
+<h2 id="2-类文件结构"><a href="#2-类文件结构" class="headerlink" title="2.类文件结构"></a>2.类文件结构</h2><ol>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-02.jpg" alt=""></li>
+<li>介绍：<ul>
+<li>类型：主要包括两种数据类型<ul>
+<li>无符号数u：基本数据类型，u后面的数字代表多少位</li>
+<li>表：以”_info”结尾，由多个无符号数或者其他表作为数据项构成符合数据类型</li>
+</ul>
+</li>
+<li>名称：从上往下<ul>
+<li>magic：魔数，是否是一个Java文件</li>
+<li>minor_version：小版本</li>
+<li>major_version：大版本</li>
+<li>constant_pool_count：常量池内容个数</li>
+<li>constant_pool：常量池具体内容</li>
+<li>access flags：访问修饰符</li>
+<li>this_class：当前类</li>
+<li>super_class：超类，父类</li>
+<li>interfaces_count：接口数量</li>
+<li>interfaces：接口的信息</li>
+<li>fields_count：字段数量</li>
+<li>fields：字段信息</li>
+<li>methods_count：方法数量</li>
+<li>methods：方法信息</li>
+<li>attributes_count：属性数量</li>
+<li>attributes：属性信息</li>
+</ul>
+</li>
+<li>数量：对应的数量<ul>
+<li>constant_pool_count表示常量的个数，constant_pool是存放的是所有常量信息的表项，存放的个数为constant_pool_count - 1，constant_pool可以将理解为一个数组，其中的每一项代表一个常量。</li>
+<li>因为Java只能单继承，所以超类数量为1。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对应ClassFile的代码如下：<pre><code>ClassFile {
+    u4 magic; 
+    u2 minor_version; 
+    u2 major_version; 
+    u2 constant_pool_count; 
+    cp_info constant_pool[constant_pool_count-1];
+    u2 access_flags; 
+    u2 this_class; 
+    u2 super_class; 
+    u2 interfaces_count; 
+    u2 interfaces[interfaces_count]; 
+    u2 fields_count; 
+    field_info fields[fields_count]; 
+    u2 methods_count; 
+    method_info methods[methods_count]; 
+    u2 attributes_count; 
+    attribute_info attributes[attributes_count]; 
+}
+</code></pre></li>
+</ol>
+<h3 id="魔数，版本号，标示符，"><a href="#魔数，版本号，标示符，" class="headerlink" title="魔数，版本号，标示符，"></a>魔数，版本号，标示符，</h3><p><strong>1)魔数：</strong></p>
+<ol>
+<li>magic：<br>又叫magic number，魔数</li>
+<li>值为四字节无符号数：<br>0xCAFEBABE(“咖啡宝贝”)<br>如果不是这个值，则说明不是一个类文件。</li>
+</ol>
+<p><strong>2)版本号：</strong></p>
+<ol>
+<li>分为主版本号u2和次版本号u2(大版本号和小版本号)<br>记录的是用哪个版本的Javac编译的文件</li>
+<li>各版本编译器的版本号示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-03.jpg" alt=""></li>
+<li><code>-target</code>参数则可以使用目标版本的jdk来进行编译。</li>
+</ol>
+<p><strong>3)访问修饰符(标示符)：</strong></p>
+<ol>
+<li>通常占两个字节u2</li>
+<li>示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-12.jpg" alt=""></li>
+</ol>
+<h3 id="常量池，类，接口"><a href="#常量池，类，接口" class="headerlink" title="常量池，类，接口"></a>常量池，类，接口</h3><p><strong>1)常量池简介：</strong></p>
+<ol>
+<li><code>constant_pool_count</code>：常量池常量个数，u2<br><code>constant_pool</code>：常量池的常量信息，可以认为是一个数组，最大下标constant_pool_count-1</li>
+<li>常量池信息表cp_info的部分类型：(类型,标志与描述）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-04.jpg" alt=""><br>常量池中的每一种数据类型都有自己的数据结构。</li>
+<li>常量池中主要存放的是字面量和符号引用</li>
+</ol>
+<p><strong>2)一些重要的常量类型：</strong></p>
+<ol>
+<li>CONSTANT_Utf8：其实是一个utf8编码的String(由三部分组成)<br>—-tag 1：标志<br>—-length u2：byte数组长度<br>—-bytes[length]：byte数组<br>结构示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-05.jpg" alt=""><br><code>()I</code>：表示返回值为整型的方法<br><code>()Ljava/lang/Object</code>：表示返回值为Objecet的无参方法</li>
+<li>CONSTANT_Integer：整型的字面量<br>—-tag 3：标志<br>—-byte u4：四个字节的值<br>结构示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-06.jpg" alt=""></li>
+<li>CONSTANT_String：String类型字面值的引用<br>—-tag 8<br>—-string_index u2：指向utf8的索引(实际的值存储在utf8的字符串中)<br>结构示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-07.jpg" alt=""></li>
+<li>CONSTANT_NameAndType：名字和类型引用<br>—-tag 12<br>—-name_index u2：名字的索引，指向utf8<br>—-descripter_index u2：描述符类型索引，指向utf8<br>结构示例：默认构造函数的表示<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-08.jpg" alt=""><br><code>()V</code>：表示无参的无返回值的方法</li>
+<li>CONSTANT_Class：类或者接口的引用<br>—-tag 7<br>—-name_index u2：类或接口名，指向utf8<br>结构示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-09.jpg" alt=""></li>
+</ol>
+<p><strong>3)字段，方法，接口方法的常量表示：</strong></p>
+<ol>
+<li>组成：CONSTANT_Fieldref,CONSTANT_Methodref,CONSTANT_InterfaceMethodref<ul>
+<li>tag 9,10,11</li>
+<li>class_index u2：指向CONSTANT_class</li>
+<li>name_and_typr_index u2：指向CONSTANT_NameAndType</li>
+</ul>
+</li>
+<li>CONSTANT_Fieldref结构示例如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-10.jpg" alt=""></li>
+<li>CONSTANT_Methodref结构示例如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-11.jpg" alt=""></li>
+</ol>
+<p><strong>4)类索引，父类索引和接口索引：</strong></p>
+<ol>
+<li>this_class：u2，当前类<br>通常是一个指向常量池Class（CONSTANT_class）的索引。</li>
+<li>super_class：u2,父类，超类,只能有一个<br>也是指向CONSTANT_class的索引</li>
+<li>interfaces_count：u2,接口数量</li>
+<li>inserfaces：<ul>
+<li>interfaces_count个</li>
+<li>每个接口都会指向CONSTANT_class</li>
+</ul>
+</li>
+</ol>
+<h3 id="字段，方法"><a href="#字段，方法" class="headerlink" title="字段，方法"></a>字段，方法</h3><p><strong>1)字段Field：</strong></p>
+<ol>
+<li>field_count：字段数量</li>
+<li>fields：字段详细信息(field_info)<br>共field_count个field_info表</li>
+<li>field_info：字段中可能有的属性<ul>
+<li>access_flags u2：访问修饰符</li>
+<li>name_index u2：名字索引</li>
+<li>descriptor_index u2：描述索引</li>
+<li>attributes_count u2：属性数量</li>
+<li>attribute_info：attributes_count个attribute</li>
+</ul>
+</li>
+<li>access_flags，访问标识，和类的相似：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-13.jpg" alt=""></li>
+<li>name_index u2：常量池引用，标识字段的名字</li>
+<li>descriptor_index：<ul>
+<li>表示字段的类型</li>
+<li>使用大写字母来表示类型：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-14.jpg" alt=""></li>
+</ul>
+</li>
+</ol>
+<p><strong>2)方法Method：</strong></p>
+<ol>
+<li>method_count：方法数量</li>
+<li>methods：方法详细内容<br>method_count个method_info</li>
+<li>method_info：<ul>
+<li>access_flags u2：访问修饰符</li>
+<li>name_index u2：方法名字</li>
+<li>descriptor_index u2：方法描述</li>
+<li>attributes_count u2：属性数量</li>
+<li>attribute_info：属性详情</li>
+</ul>
+</li>
+<li>方法的access_flags访问修饰符：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-15.jpg" alt=""></li>
+<li>name_index u2：方法名字索引(常量池utf8)<br>descriptor_index u2：方法描述索引(utf8)</li>
+<li>方法描述符：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-16.jpg" alt=""><br>可以以很简短的方式描述一个字符</li>
+</ol>
+<hr>
+<h2 id="3-属性及类结构示例"><a href="#3-属性及类结构示例" class="headerlink" title="3.属性及类结构示例"></a>3.属性及类结构示例</h2><p>类文件结构中的属性内容较多，单独整理。</p>
+<p><strong>1)属性简介：</strong></p>
+<ol>
+<li>在field和method中可以有若干个attribute，类文件也有attribute,用于描述一些额外的信息。<ul>
+<li>attribute_name_index u2：名字，指向常量池utf8</li>
+<li>attribute_length u4：属性长度,个数</li>
+<li>attribute_info[attribute_length] u1：属性详细信息</li>
+</ul>
+</li>
+<li>attribute本身可以包含attribute</li>
+<li>随着JDK的发展不断有新的attribute加入</li>
+<li>常见的属性表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-17.jpg" alt=""></li>
+</ol>
+<p><strong>2)关于属性的详细介绍：</strong></p>
+<ol>
+<li>Deprecated属性，包含如下：<ul>
+<li>attribute_name_index u2：索引，指向Deprecated的utf8常量</li>
+<li>attribute_length u4：属性长度，恒为0</li>
+</ul>
+</li>
+<li>ConstantValue：常量属性<ul>
+<li>attribute_name_index u2：ConstantValue的utf8常量池索引</li>
+<li>attribute_length u4：属性长度，恒为2</li>
+<li>constantvalue_index u2：常量值，指向常量池，可以是Utf8,Float,Double,Int等</li>
+<li>简单例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-18.jpg" alt=""></li>
+</ul>
+</li>
+<li>Code：稍微复杂<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-19.jpg" alt=""><br>Code中的异常是如何处理这个异常。<br>Code属性的属性主要有两个：<ul>
+<li>LineNumberTable</li>
+<li>LinVariableTable</li>
+</ul>
+</li>
+<li>LineNumberTable：Code属性的属性<br>用来表示字节码和行数的关系<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-20.jpg" alt=""></li>
+<li>LinVariableTable：Code属性的属性<br>局部变量表<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-21.jpg" alt=""></li>
+<li>Exceptions属性：<br>表示方法抛出的异常(throws抛出，不是catch捕获)，结构如下：<ul>
+<li>attribute_name_index u2：名字索引</li>
+<li>attribute_length u4：长度</li>
+<li>number_of_exceptions u2：抛出多少个异常</li>
+<li>exception_index_table[n] u2：异常表，指向常量池Class</li>
+</ul>
+</li>
+<li>Code及Exceptions的属性结构示例：<br>代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-22-1.jpg" alt=""><br>Exceptions属性结构如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-23.jpg" alt=""><br>Code属性结构如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-24.jpg" alt=""></li>
+<li>SourceFile：描述生成Class文件的源代码文件名称<ul>
+<li>attribute_name_index u2：名字索引</li>
+<li>attribute_length u4：长度，固定为2</li>
+<li>source_file u2：指向utf8常量的索引，该文件的文件名</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)Class文件结构示例：</strong></p>
+<ol>
+<li>Class文件源码如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-25.jpg" alt=""></li>
+<li>类文件结构示意图：<br>类字节码文件的头信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-26.jpg" alt=""><br>其他相关信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-27-1.jpg" alt=""><br>关于异常的信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg" alt=""><br>关于局部变量的信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-29-1.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-Class装载验证流程"><a href="#4-Class装载验证流程" class="headerlink" title="4.Class装载验证流程"></a>4.Class装载验证流程</h2><hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月14日 21:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" title="JVM学习笔记（四）：类文件结构与类加载器">https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/&title=《JVM学习笔记（四）：类文件结构与类加载器》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/&title=《JVM学习笔记（四）：类文件结构与类加载器》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（四）：类文件结构与类加载器》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/类/" class="color2">类</a>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM语言无关性"><span class="post-toc-text">1.JVM语言无关性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-类文件结构"><span class="post-toc-text">2.类文件结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#魔数，版本号，标示符，"><span class="post-toc-text">魔数，版本号，标示符，</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常量池，类，接口"><span class="post-toc-text">常量池，类，接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字段，方法"><span class="post-toc-text">字段，方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-属性及类结构示例"><span class="post-toc-text">3.属性及类结构示例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Class装载验证流程"><span class="post-toc-text">4.Class装载验证流程</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/09/JVM学习笔记（三）：GC算法和参数/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.57px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.57px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15.71px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.57px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.57px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15.71px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

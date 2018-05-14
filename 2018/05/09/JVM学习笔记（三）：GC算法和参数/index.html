@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 参数总结   关于G1收集器的内容等过段时间看书深入再去学习。">
 <meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 参数总结   关于G1收集器的内容等过段时间看书深入再去学习。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-02.jpg">
@@ -40,10 +40,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-22.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-23.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-24.jpg">
-<meta property="og:updated_time" content="2018-05-13T07:01:38.853Z">
+<meta property="og:updated_time" content="2018-05-13T07:08:12.946Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">
-<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 Tomcat演示   关于G1收集器的内容等过段时间看书深入再">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： GC简介 GC算法 引用计数法 标记清除算法 标记压缩算法(标记整理) 复制算法(新生代整合) 分代思想   可触及性(可达性) Stop-The-World 串行收集器 并行收集器 CMS收集器 参数总结   关于G1收集器的内容等过段时间看书深入再去学习。">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00060JVM%E5%AD%A6%E4%B9%A03-01.jpg">
   
   
@@ -188,7 +188,7 @@
 <li>串行收集器</li>
 <li>并行收集器</li>
 <li>CMS收集器</li>
-<li>Tomcat演示</li>
+<li>参数总结</li>
 </ul>
 </li>
 <li>关于G1收集器的内容等过段时间看书深入再去学习。<br>视频中没有讲解关于G1收集器的内容。</li>
@@ -543,7 +543,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月13日 15:01</p>
+        <p>最后更新： 2018年05月13日 15:08</p>
         <p>原始链接： <a class="post-url" href="/2018/05/09/JVM学习笔记（三）：GC算法和参数/" title="JVM学习笔记（三）：GC算法，垃圾收集器种类及GC参数">https://zjxkenshine.github.io/2018/05/09/JVM学习笔记（三）：GC算法和参数/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -668,6 +668,16 @@
 
 <nav id="article-nav">
   
+    <a href="/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          JVM学习笔记（四）：类文件结构与类加载器
+        
+      </span>
+    </a>
+  
   
     <a href="/2018/05/09/SpringMVC学习（二）：基于注解的控制器/" id="article-nav-older" class="article-nav-link-wrap">
       <span class="article-nav-title">SpringMVC学习（二）：基于注解@Controller的控制器</span>
@@ -739,7 +749,7 @@
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.33px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.67px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.57px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.57px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15.71px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -772,7 +782,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.33px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.33px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.67px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.67px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.67px;">正则表达式</a> <a href="/tags/类/" style="font-size: 11.67px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15.71px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 18.57px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.57px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15.71px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 17.14px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
