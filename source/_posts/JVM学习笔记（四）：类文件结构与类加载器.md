@@ -22,6 +22,7 @@ categories: Java基础
 	- 类装载验证流程
 	- 什么是类装载器ClassLoader
 	- JDK中ClassLoader默认设计模式
+	- 打破常规模式
 	- 热替换
 
 ---
@@ -268,7 +269,167 @@ Code属性结构如下：
 
 ---
 ## 4.Class装载验证流程
+主要装载流程：
+- 加载
+- 链接
+	- 验证
+	- 准备
+	- 解析
+- 初始化
 
+**1)加载：**
+1. 装载类的第一个阶段
+2. 取得类的二进制流(不管以什么方式)
+3. 将内容转为方法区数据结构
+4. 在Java堆中生成对应的java.lang.Class对象
 
+**2)链接-->验证：**
+目的：保证Java流的格式是正确的
+1. 文件格式的验证：
+	- 是否以0xCAFEBABE开头
+	- 版本号是否合理
+2. 元数据检查：(语义验证)
+	- 是否有父类
+	- 是否继承了final类(不合法)
+	- 非抽象类是否实现了所有抽象方法
+3. 字节码检查：非常复杂的一个过程
+	- 运行过程中检查
+	- 栈数据类型和参数码数据参数吻合
+	- 跳转指令是否跳转到合理的位置
+4. 符号引用检查验证：
+	- 常量池中描述类是否存在
+	- 访问的方法或字段是否存在且有足够的权限
+
+**3)链接-->准备，解析：**
+1. 准备：
+分配内存，并为类设置初始值(方法区)
+2. 准备阶段示例：public static int v=1;
+	- 在准备阶段，v会被设置为0
+	- 在初始化`<clinit>`中才会被置为1
+	- 例外：static final类型则在准备阶段就会赋值成1
+	如：public static final int v=1;
+3. 解析：
+符号引用替换为直接引用
+	- 符号引用：字符串，引用对象不一定被加载
+	- 直接引用：指针或者地址偏移量，引用对象一定存在在内存
+
+**4)初始化：**
+1. 执行类构造器`<clinit>`
+	- static变量，赋值语句
+	- static{}语句，只会执行一次
+2. 子类的`<clinit>`调用前需要保证父类的`<clinit>`先执行
+3. `<clinit>`是线程安全的
+
+---
+## 5.类装载器ClassLoader简介
+**1)ClassLoader简介：**
+1. ClassLoader是一个抽象类
+2. ClassLoader实例将读入Java字节码将类加载到JVM中
+3. ClassLoader可以定制，满足不同的字节码流获取方式
+（可以从各种途径，各种方式来加载字节码）
+4. ClassLoader负责类装载过程中的加载阶段
+
+**2)ClassLoader的常用方法：**
+1. loadClass()：
+		public Class<?> loadClass(String name) throws ClassNotFoundException
+	- 载入并返回一个Class
+2. defineClass()：
+		protected final Class<?> defineClass(byte[] b,int off,int len)
+	- 定义一个类，但是不公开调用
+	- off：偏移量；len：长度
+3. findClass()：
+		protected Class<?> findClass(String name) throws ClassNotFoundException
+	- loadClass方法的回调函数
+	- 自定义ClassLoader时推荐重载该方法
+4. findLoadedClass()：
+		protected Class<?> findLoadedClass(String name)
+	- 查找已经加载的类
+	- 加载之前会先查找，查找不到则加载这个类
+
+**3)JVM中的ClassLoader：**
+1. BootStrap ClassLoader（启动ClassLoader）
+2. Extension ClassLoader（扩展ClassLoader）
+3. App ClassLoader（应用ClassLoader/系统ClassLoader）
+我们自己写的类都是加载在这里的
+4. Custom ClassLoader（自定义ClassLoader）
+5. 每个ClassLoader都有一个Parent作为父亲(除了启动ClassLoader)
+具体的关系查看后面的ClassLoader默认设计模式
+
+---
+## 6.ClassLoader的默认设计模式
+**1)各种ClassLoader协同工作：**
+1. 协同关系示意图：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-30.jpg)
+	- 自底向上检查类是否已经加载
+	- 自顶向下尝试加载类
+	- 后面的绿框是对应的ClassLoader会加载的目录(文件)
+2. loadClass的代码实现：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-31.jpg)
+	- 先尝试这个类是否已经被加载
+	- 未被加载则请求父类去加载该类
+3. 默认的模式--双亲模式
+
+**2)默认设计模式测试：**
+1. 创建两个名字相同的类，指定不同的位置：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-32.jpg)
+	- 一个放在geym.jvm.chap6.findoader包下
+	- 一个放在D:\tmp\clz\geym\jvm\chap6\findoader目录下
+2. 运行代码如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-33.jpg)
+3. 测试结果:
+	- 直接运行：
+	打印“I am in apploader”
+	- 加上参数：-Xbootclasspath/a:D:\tmp\clz
+		- 打印“I am in bootloader”
+		- 此时没有加载apploader，说明是从上往下加载的
+4. 强制在AppClassLoader中加载：使用反射
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-34.jpg)
+
+**3)默认双亲模式的问题：**
+1. 最主要的问题：
+因为是自顶向下尝试加载，那么顶层的ClassLoader无法加载底层的类。
+2. 问题简单描述：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-35.jpg)
+
+---
+## 7.解决双亲模式带来的问题
+**1)上下文加载器：**
+1. 解决方法：
+Thread.setContextClassLoader()
+	- 上下文加载器
+	- 是一个角色(并不是真正的ClassLoader)
+	- 用以解决顶层ClassLoader无法访问底层ClassLoader类的问题
+	- 基本思想：
+	在顶层ClassLoader中存入一个底层ClassLoader的实例对象
+2. javax.xml.parsers.FactoryFinder代码示例：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-36.jpg)
+展示了如何在启动Loader加载APPLoader的类
+3. 上下文ClassLoader突破了双亲模式的局限性。
+
+**2）双亲模式的破坏：**
+1. 双亲模式时默认的模式，但是并不强制这么做，可以破坏这个模式
+2. Tomcat的WebAppClassLoader就会先加载自己的类
+找不到再委托parent
+3. OSGI的ClassLoader形成网状结构，根据需要自由加载ClassLoader
+
+**3)破坏双亲模式的例子：**
+1. 先从底层ClassLoader加载：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-37.jpg)
+2. findClass的代码：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-38.jpg)
+3. 测试代码及结果如下：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-39.jpg)
+如果OrderClassLoader不重载loadClass只重载findClass,输出结果为：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-40.jpg)
+
+---
+## 8.热替换
+1. 含义：
+当一个Class被替换了以后，系统不需要重新启动替换的类应该马上生效
+2. 例子：
+一个类：
+![](http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-41.jpg)
+如果有一个循环调用该类的方法。
+则在输出内容修改之后，输出的结果也会随之改变，不需要重启。
 
 ---
