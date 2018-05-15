@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 打破常规模式 热替换     1.JVM语言无关性">
 <meta name="keywords" content="类,JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（四）：类文件结构与类加载器">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 打破常规模式 热替换     1.JVM语言无关性">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-02.jpg">
@@ -45,10 +45,22 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-27-1.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-29-1.jpg">
-<meta property="og:updated_time" content="2018-05-14T13:55:17.173Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-31.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-32.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-33.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-34.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-35.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-36.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-37.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-38.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-39.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-40.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-41.jpg">
+<meta property="og:updated_time" content="2018-05-15T07:51:13.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（四）：类文件结构与类加载器">
-<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 热替换     1.JVM语言无关性 JVM运行的">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》第三章：垃圾收集器与内存分配策略参考视频《深入理解JVM》(目前学习) 简单目录： 语言无关性 类文件的结构：(类如何组织和使用) 魔数，版本号，访问符 常量池 超类，接口 字段，方法，属性   类装载验证流程 什么是类装载器ClassLoader JDK中ClassLoader默认设计模式 打破常规模式 热替换     1.JVM语言无关性">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
@@ -190,6 +202,7 @@
 <li>类装载验证流程</li>
 <li>什么是类装载器ClassLoader</li>
 <li>JDK中ClassLoader默认设计模式</li>
+<li>打破常规模式</li>
 <li>热替换</li>
 </ul>
 </li>
@@ -399,11 +412,191 @@
 <li>类文件结构示意图：<br>类字节码文件的头信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-26.jpg" alt=""><br>其他相关信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-27-1.jpg" alt=""><br>关于异常的信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg" alt=""><br>关于局部变量的信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-29-1.jpg" alt=""></li>
 </ol>
 <hr>
-<h2 id="4-Class装载验证流程"><a href="#4-Class装载验证流程" class="headerlink" title="4.Class装载验证流程"></a>4.Class装载验证流程</h2><hr>
+<h2 id="4-Class装载验证流程"><a href="#4-Class装载验证流程" class="headerlink" title="4.Class装载验证流程"></a>4.Class装载验证流程</h2><p>主要装载流程：</p>
+<ul>
+<li>加载</li>
+<li>链接<ul>
+<li>验证</li>
+<li>准备</li>
+<li>解析</li>
+</ul>
+</li>
+<li>初始化</li>
+</ul>
+<p><strong>1)加载：</strong></p>
+<ol>
+<li>装载类的第一个阶段</li>
+<li>取得类的二进制流(不管以什么方式)</li>
+<li>将内容转为方法区数据结构</li>
+<li>在Java堆中生成对应的java.lang.Class对象</li>
+</ol>
+<p><strong>2)链接–&gt;验证：</strong><br>目的：保证Java流的格式是正确的</p>
+<ol>
+<li>文件格式的验证：<ul>
+<li>是否以0xCAFEBABE开头</li>
+<li>版本号是否合理</li>
+</ul>
+</li>
+<li>元数据检查：(语义验证)<ul>
+<li>是否有父类</li>
+<li>是否继承了final类(不合法)</li>
+<li>非抽象类是否实现了所有抽象方法</li>
+</ul>
+</li>
+<li>字节码检查：非常复杂的一个过程<ul>
+<li>运行过程中检查</li>
+<li>栈数据类型和参数码数据参数吻合</li>
+<li>跳转指令是否跳转到合理的位置</li>
+</ul>
+</li>
+<li>符号引用检查验证：<ul>
+<li>常量池中描述类是否存在</li>
+<li>访问的方法或字段是否存在且有足够的权限</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)链接–&gt;准备，解析：</strong></p>
+<ol>
+<li>准备：<br>分配内存，并为类设置初始值(方法区)</li>
+<li>准备阶段示例：public static int v=1;<ul>
+<li>在准备阶段，v会被设置为0</li>
+<li>在初始化<code>&lt;clinit&gt;</code>中才会被置为1</li>
+<li>例外：static final类型则在准备阶段就会赋值成1<br>如：public static final int v=1;</li>
+</ul>
+</li>
+<li>解析：<br>符号引用替换为直接引用<ul>
+<li>符号引用：字符串，引用对象不一定被加载</li>
+<li>直接引用：指针或者地址偏移量，引用对象一定存在在内存</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)初始化：</strong></p>
+<ol>
+<li>执行类构造器<code>&lt;clinit&gt;</code><ul>
+<li>static变量，赋值语句</li>
+<li>static{}语句，只会执行一次</li>
+</ul>
+</li>
+<li>子类的<code>&lt;clinit&gt;</code>调用前需要保证父类的<code>&lt;clinit&gt;</code>先执行</li>
+<li><code>&lt;clinit&gt;</code>是线程安全的</li>
+</ol>
+<hr>
+<h2 id="5-类装载器ClassLoader简介"><a href="#5-类装载器ClassLoader简介" class="headerlink" title="5.类装载器ClassLoader简介"></a>5.类装载器ClassLoader简介</h2><p><strong>1)ClassLoader简介：</strong></p>
+<ol>
+<li>ClassLoader是一个抽象类</li>
+<li>ClassLoader实例将读入Java字节码将类加载到JVM中</li>
+<li>ClassLoader可以定制，满足不同的字节码流获取方式<br>（可以从各种途径，各种方式来加载字节码）</li>
+<li>ClassLoader负责类装载过程中的加载阶段</li>
+</ol>
+<p><strong>2)ClassLoader的常用方法：</strong></p>
+<ol>
+<li>loadClass()：<pre><code>public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException
+</code></pre><ul>
+<li>载入并返回一个Class</li>
+</ul>
+</li>
+<li>defineClass()：<pre><code>protected final Class&lt;?&gt; defineClass(byte[] b,int off,int len)
+</code></pre><ul>
+<li>定义一个类，但是不公开调用</li>
+<li>off：偏移量；len：长度</li>
+</ul>
+</li>
+<li>findClass()：<pre><code>protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException
+</code></pre><ul>
+<li>loadClass方法的回调函数</li>
+<li>自定义ClassLoader时推荐重载该方法</li>
+</ul>
+</li>
+<li>findLoadedClass()：<pre><code>protected Class&lt;?&gt; findLoadedClass(String name)
+</code></pre><ul>
+<li>查找已经加载的类</li>
+<li>加载之前会先查找，查找不到则加载这个类</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)JVM中的ClassLoader：</strong></p>
+<ol>
+<li>BootStrap ClassLoader（启动ClassLoader）</li>
+<li>Extension ClassLoader（扩展ClassLoader）</li>
+<li>App ClassLoader（应用ClassLoader/系统ClassLoader）<br>我们自己写的类都是加载在这里的</li>
+<li>Custom ClassLoader（自定义ClassLoader）</li>
+<li>每个ClassLoader都有一个Parent作为父亲(除了启动ClassLoader)<br>具体的关系查看后面的ClassLoader默认设计模式</li>
+</ol>
+<hr>
+<h2 id="6-ClassLoader的默认设计模式"><a href="#6-ClassLoader的默认设计模式" class="headerlink" title="6.ClassLoader的默认设计模式"></a>6.ClassLoader的默认设计模式</h2><p><strong>1)各种ClassLoader协同工作：</strong></p>
+<ol>
+<li>协同关系示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-30.jpg" alt=""><ul>
+<li>自底向上检查类是否已经加载</li>
+<li>自顶向下尝试加载类</li>
+<li>后面的绿框是对应的ClassLoader会加载的目录(文件)</li>
+</ul>
+</li>
+<li>loadClass的代码实现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-31.jpg" alt=""><ul>
+<li>先尝试这个类是否已经被加载</li>
+<li>未被加载则请求父类去加载该类</li>
+</ul>
+</li>
+<li>默认的模式–双亲模式</li>
+</ol>
+<p><strong>2)默认设计模式测试：</strong></p>
+<ol>
+<li>创建两个名字相同的类，指定不同的位置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-32.jpg" alt=""><ul>
+<li>一个放在geym.jvm.chap6.findoader包下</li>
+<li>一个放在D:\tmp\clz\geym\jvm\chap6\findoader目录下</li>
+</ul>
+</li>
+<li>运行代码如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-33.jpg" alt=""></li>
+<li>测试结果:<ul>
+<li>直接运行：<br>打印“I am in apploader”</li>
+<li>加上参数：-Xbootclasspath/a:D:\tmp\clz<ul>
+<li>打印“I am in bootloader”</li>
+<li>此时没有加载apploader，说明是从上往下加载的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>强制在AppClassLoader中加载：使用反射<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-34.jpg" alt=""></li>
+</ol>
+<p><strong>3)默认双亲模式的问题：</strong></p>
+<ol>
+<li>最主要的问题：<br>因为是自顶向下尝试加载，那么顶层的ClassLoader无法加载底层的类。</li>
+<li>问题简单描述：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-35.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-解决双亲模式带来的问题"><a href="#7-解决双亲模式带来的问题" class="headerlink" title="7.解决双亲模式带来的问题"></a>7.解决双亲模式带来的问题</h2><p><strong>1)上下文加载器：</strong></p>
+<ol>
+<li>解决方法：<br>Thread.setContextClassLoader()<ul>
+<li>上下文加载器</li>
+<li>是一个角色(并不是真正的ClassLoader)</li>
+<li>用以解决顶层ClassLoader无法访问底层ClassLoader类的问题</li>
+<li>基本思想：<br>在顶层ClassLoader中存入一个底层ClassLoader的实例对象</li>
+</ul>
+</li>
+<li>javax.xml.parsers.FactoryFinder代码示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-36.jpg" alt=""><br>展示了如何在启动Loader加载APPLoader的类</li>
+<li>上下文ClassLoader突破了双亲模式的局限性。</li>
+</ol>
+<p><strong>2）双亲模式的破坏：</strong></p>
+<ol>
+<li>双亲模式时默认的模式，但是并不强制这么做，可以破坏这个模式</li>
+<li>Tomcat的WebAppClassLoader就会先加载自己的类<br>找不到再委托parent</li>
+<li>OSGI的ClassLoader形成网状结构，根据需要自由加载ClassLoader</li>
+</ol>
+<p><strong>3)破坏双亲模式的例子：</strong></p>
+<ol>
+<li>先从底层ClassLoader加载：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-37.jpg" alt=""></li>
+<li>findClass的代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-38.jpg" alt=""></li>
+<li>测试代码及结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-39.jpg" alt=""><br>如果OrderClassLoader不重载loadClass只重载findClass,输出结果为：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-40.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="8-热替换"><a href="#8-热替换" class="headerlink" title="8.热替换"></a>8.热替换</h2><ol>
+<li>含义：<br>当一个Class被替换了以后，系统不需要重新启动替换的类应该马上生效</li>
+<li>例子：<br>一个类：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-41.jpg" alt=""><br>如果有一个循环调用该类的方法。<br>则在输出内容修改之后，输出的结果也会随之改变，不需要重启。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月14日 21:55</p>
+        <p>最后更新： 2018年05月15日 15:51</p>
         <p>原始链接： <a class="post-url" href="/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" title="JVM学习笔记（四）：类文件结构与类加载器">https://zjxkenshine.github.io/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -523,7 +716,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM语言无关性"><span class="post-toc-text">1.JVM语言无关性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-类文件结构"><span class="post-toc-text">2.类文件结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#魔数，版本号，标示符，"><span class="post-toc-text">魔数，版本号，标示符，</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常量池，类，接口"><span class="post-toc-text">常量池，类，接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字段，方法"><span class="post-toc-text">字段，方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-属性及类结构示例"><span class="post-toc-text">3.属性及类结构示例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Class装载验证流程"><span class="post-toc-text">4.Class装载验证流程</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JVM语言无关性"><span class="post-toc-text">1.JVM语言无关性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-类文件结构"><span class="post-toc-text">2.类文件结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#魔数，版本号，标示符，"><span class="post-toc-text">魔数，版本号，标示符，</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常量池，类，接口"><span class="post-toc-text">常量池，类，接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字段，方法"><span class="post-toc-text">字段，方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-属性及类结构示例"><span class="post-toc-text">3.属性及类结构示例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Class装载验证流程"><span class="post-toc-text">4.Class装载验证流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-类装载器ClassLoader简介"><span class="post-toc-text">5.类装载器ClassLoader简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-ClassLoader的默认设计模式"><span class="post-toc-text">6.ClassLoader的默认设计模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-解决双亲模式带来的问题"><span class="post-toc-text">7.解决双亲模式带来的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-热替换"><span class="post-toc-text">8.热替换</span></a></li></ol>
         </nav>
     </aside>
     
