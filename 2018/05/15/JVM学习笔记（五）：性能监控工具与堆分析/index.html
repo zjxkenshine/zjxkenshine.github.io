@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM学习笔记（五）：性能监控工具与Java堆分析 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 系统性能监控 Java自带的性能监控工具 OOM的原因 MAT使用基础 使用Virtual VM分析堆 Tomcat OOM分析     1.系统监控命令(Linux系统) uptime命令：查询系统时间19:49:25(当前时间) up 9 min(系统运行时间),  4 users(连接">
+<meta name="keywords" content="Linux,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记（五）：性能监控工具与Java堆分析">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 系统性能监控 Java自带的性能监控工具 OOM的原因 MAT使用基础 使用Virtual VM分析堆 Tomcat OOM分析     1.系统监控命令(Linux系统) uptime命令：查询系统时间19:49:25(当前时间) up 9 min(系统运行时间),  4 users(连接">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-01-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-26.jpg">
+<meta property="og:updated_time" content="2018-05-16T15:09:36.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM学习笔记（五）：性能监控工具与Java堆分析">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 系统性能监控 Java自带的性能监控工具 OOM的原因 MAT使用基础 使用Virtual VM分析堆 Tomcat OOM分析     1.系统监控命令(Linux系统) uptime命令：查询系统时间19:49:25(当前时间) up 9 min(系统运行时间),  4 users(连接">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-02.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JVM学习笔记（五）：性能监控工具与堆分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JVM学习笔记（五）：性能监控工具与Java堆分析
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java基础/">Java基础</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>简单目录：<ul>
+<li>系统性能监控</li>
+<li>Java自带的性能监控工具</li>
+<li>OOM的原因</li>
+<li>MAT使用基础</li>
+<li>使用Virtual VM分析堆</li>
+<li>Tomcat OOM分析</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-系统监控命令-Linux系统"><a href="#1-系统监控命令-Linux系统" class="headerlink" title="1.系统监控命令(Linux系统)"></a>1.系统监控命令(Linux系统)</h2><ol>
+<li>uptime命令：查询系统时间<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-02.jpg" alt=""><pre><code>19:49:25(当前时间) up 9 min(系统运行时间),  4 users(连接数),  load average: 0.01, 1.00, 0.91(平均负载)
+</code></pre><ul>
+<li>连接数：<ul>
+<li>不是指有多少个用户，而是有多少个终端连接该服务</li>
+<li>一个终端算一个连接</li>
+</ul>
+</li>
+<li>平均负载：<ul>
+<li>分别是1，5，15分钟内的平均负载</li>
+<li>通过运行队列中的平均进程数表示</li>
+<li>值越大表示负载越重</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>top命令：统计cpu详细信息<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-01-1.jpg" alt=""><br>1.第一行的输出和uptime一样<br>2.后面可以看见CPU内存和交换空间的使用情况：</p>
+<pre><code>Tasks: 171 total,   2 running, 169 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  6.8 us,  9.5 sy,  0.0 ni, 78.2 id,  5.1 wa,  0.0 hi,  0.3 si,  0.0 st
+KiB Mem :  1016232 total,    70848 free,   729436 used,   215948 buff/cache
+KiB Swap:  1679356 total,  1569956 free,   109400 used.   104608 avail Mem 
+</code></pre><p>如果swap空间大量使用，说明系统的实际运行内存有所欠缺。会引起大量的I/O，印象系统性能。(类似页式存储内存和硬盘交换)<br>3.后面的则是每个进程占cpu的使用情况</p>
+<pre><code>PID(线程id)    USER(用户)    PR(调度优先级)    NI(进程优先级)    VIRT(虚拟内存)    RES(常驻内存)    SHR(共享内存)    S(进程状态)    %CPU %MEM    TIME+ COMMAND
+</code></pre><blockquote>
+<p>S：这个是进程的状态。它有以下不同的值:</p>
+<ul>
+<li>D - 不可中断的睡眠态。</li>
+<li>R – 运行态</li>
+<li>S – 睡眠态</li>
+<li>T – 被跟踪或已停止</li>
+<li>Z – 僵尸态</li>
+</ul>
+<p>%CPU：自从上一次更新时到现在任务所使用的CPU时间百分比。<br> %MEM：进程使用的可用物理内存百分比。<br> TIME+：任务启动后到现在所使用的全部CPU时间，精确到百分之一秒。<br> COMMAND：运行进程所使用的命令。进程名称（命令名/命令行）</p>
+</blockquote>
+</li>
+<li>vmstat命令：统计cpu信息<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-03.jpg" alt=""><ul>
+<li>统计系统系统cpu,内存，swap,io等情况</li>
+<li>CPU占用高，上下文切换频繁，说明系统有线程正在频繁切换</li>
+<li>详细的字段说明可以查看：<a href="http://man.linuxde.net/vmstat" target="_blank" rel="noopener">http://man.linuxde.net/vmstat</a></li>
+</ul>
+</li>
+<li>pidstat命令：细致观察进程<br>一般系统不自带，需要安装：（我的Linux已经安装了）<pre><code>sudo apt-get install sysstat(ubantu中)
+</code></pre>可以监控CPU,IO以及内存等：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-04.jpg" alt=""><br>可以使用以下参数：<pre><code>-p：指定进程pid
+-u：指定查询哪个cpu
+-t：显示线程
+-d：显示磁盘I/O的情况
+</code></pre>如果在Linux中安装了Java则可以通过-t查询哪个java线程占用CPU过高，然后对该进程做一些优化。(cpu瓶颈)<br>I/O分为磁盘I/O和网络I/O，使用-d参数可以查看那些线程占用的IO较高(IO瓶颈)。</li>
+</ol>
+<hr>
+<h2 id="2-系统监控（Windows）"><a href="#2-系统监控（Windows）" class="headerlink" title="2.系统监控（Windows）"></a>2.系统监控（Windows）</h2><p><strong>1)图形化监控工具：</strong></p>
+<ol>
+<li>任务管理器：<br>【Ctrl】+【Alt】+【Delete】<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-05.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-06.jpg" alt=""><br>右键可以设置显示哪些信息。<br>可以在任务管理器中查看cpu占用率，磁盘IO，网络IO等</li>
+<li>Perfmon：Windows自带的多功能监控工具<br>功能比任务管理器丰富(功能强大，但是使用起来不太方便)<br>具体的使用方法查看博客：<br><a href="https://blog.csdn.net/oscar999/article/details/7918385" target="_blank" rel="noopener">https://blog.csdn.net/oscar999/article/details/7918385</a><br>简单的使用：【Windows】+【R】输入perfmon点击确定即可<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-07.jpg" alt=""><br>打开之后界面如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-08.jpg" alt=""><br>运行java应用之后再该界面右键选择Java进程就可以进行相关的监控。</li>
+</ol>
+<p><strong>2)命令监控工具：</strong></p>
+<ol>
+<li>图形化工具好用，但是很难进行脚本化处理，很难做批量处理，如果需要定时定点获取cpu使用情况或者自动化测试等，那么使用命令行工具更为合适。</li>
+<li>pslist命令：<br>默认是没有这个命令的<br>微软官网下载PSTools压缩包，解压后将pslist.exe复制到C:\Windows\System32目录下，双击运行，再到cmd界面使用命令pslist查看所有进程信息。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>使用pslist进程名或pslist -dmx pid号查看具体某个进程的具体信息。</li>
+</ol>
+<hr>
+<h2 id="3-Java自带的工具"><a href="#3-Java自带的工具" class="headerlink" title="3.Java自带的工具"></a>3.Java自带的工具</h2><p>通常会使用系统监控工具初步定为是不是Java程序引起的。<br>然后再通过Java自带的工具来具体分析。<br>在安装路径的\bin目录下可以找到这些可执行文件。<br>在tools.jar中可以找到这些工具类：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-10.jpg" alt=""></p>
+<h3 id="jps-jinfo-jmap-jstack"><a href="#jps-jinfo-jmap-jstack" class="headerlink" title="jps,jinfo,jmap,jstack"></a>jps,jinfo,jmap,jstack</h3><p><strong>1.jps命令：</strong></p>
+<ol>
+<li>作用：<br>列出java进程，类似于ps命令</li>
+<li>参数：<ul>
+<li>-q：指定jps只输出进程ID。不会显示类的信息。</li>
+<li>-m：可以输出传递给Java进程(主函数)的参数。</li>
+<li>-l：可以输出主函数的完整路径。</li>
+<li>-v：可显示传递给JVM的参数。</li>
+</ul>
+</li>
+<li>使用jps命令时出现的问题：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-11.jpg" alt=""><br>使用管理员方式打开cmd就可以使用了。</li>
+<li>测试<br>测试代码：(一直使用这个)<pre><code>public class jpsTest {
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override            
+            public void run() {
+                System.out.println(Thread.currentThread() + &quot; is running&quot;);
+            }
+        }, new Date(), 6000);
+    }
+}
+</code></pre>运行代码：<pre><code>Thread[Timer-0,5,main] is running
+Thread[Timer-0,5,main] is running
+Thread[Timer-0,5,main] is running
+Thread[Timer-0,5,main] is running
+Thread[Timer-0,5,main] is running
+Thread[Timer-0,5,main] is running
+...
+</code></pre>在命令行使用jps查询：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-13.jpg" alt=""><br>-m与-v参数测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-12.jpg" alt=""></li>
+</ol>
+<p><strong>2)jinfo命令：</strong></p>
+<ol>
+<li>可以用来查看当前正在运行的Java程序的扩展参数。<br>甚至可以在运行时修改部分参数。</li>
+<li>用法：<ul>
+<li><code>jinfo -flags &lt;name&gt;</code>：打印指定JVM的参数值</li>
+<li><code>jinfo -flags [+|-]&lt;name&gt;</code>：设置指定JVM的布尔值</li>
+<li><code>jinfo -flags &lt;name&gt;=&lt;value&gt;</code>：设置指定JVM的参数值</li>
+</ul>
+</li>
+<li>使用测试：<br>测试命令：(获取该pid的JVM参数信息)<pre><code>jinfo -flags 10740 //使用jps获取的pid
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-14.jpg" alt=""></li>
+</ol>
+<p><strong>3)jmap命令：</strong></p>
+<ol>
+<li><code>jmap histo pid [&gt;文件]</code><br>生成Java程序的堆快照和对象的统计信息</li>
+<li>简单使用：<br><code>jmap -histo 8580</code><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-15.jpg" alt=""><br>后面还有非常多的信息，可以使用数据流重定向<code>&gt;</code>将信息保存在某一文件中，如：<br><code>jmap -histo 8580 &gt;c:/log.txt</code></li>
+<li>备份堆信息<br><code>jmap -dump:live,format=b,file=D:/dump.txt 8580</code></li>
+<li>其他的使用方式可以使用<code>jmap -help</code>查询。<br>命令格式：<pre><code>jmap [ option ] pid
+jmap [ option ] executable core
+jmap [ option ] [server-id@]remote-hostname-or-IP
+</code></pre>参数：<pre><code>option：选项参数，不可同时使用多个选项参数
+pid：java进程id，命令ps -ef | grep java获取
+executable：产生核心dump的java可执行文件
+core：需要打印配置信息的核心文件
+remote-hostname-or-ip：远程调试的主机名或ip
+server-id：可选的唯一id，如果相同的远程主机上运行了多台调试服务器，用此选项参数标识服务器
+</code></pre>options参数：<pre><code>heap : 显示Java堆详细信息
+histo : 显示堆中对象的统计信息
+permstat :Java堆内存的永久保存区域的类加载器的统计信息
+finalizerinfo : 显示在F-Queue队列等待Finalizer线程执行finalizer方法的对象
+dump : 生成堆转储快照
+F : 当-dump没有响应时，强制生成dump快照
+</code></pre></li>
+</ol>
+<p><strong>4)jstack：</strong></p>
+<ol>
+<li>作用：<br>打印线程的dump</li>
+<li>参数:<br>不加参数只打印基本信息。<br><code>-l</code>：打印锁信息<br><code>-m</code>：打印java和native的帧信息<br><code>-F</code>：强制备份，当jstack没有响应时使用</li>
+<li>测试：<br><code>jstack -l 8580 //pid</code><br>测试结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-16.jpg" alt=""><br>有很多信息，往下翻还可以看见一些GC线程信息：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-17.jpg" alt=""><br>其中tid是线程在java程序中的id,nid(native id)是线程在操作系统中的id。</li>
+</ol>
+<h3 id="图形化工具：JConsole，JVisualVM"><a href="#图形化工具：JConsole，JVisualVM" class="headerlink" title="图形化工具：JConsole，JVisualVM"></a>图形化工具：JConsole，JVisualVM</h3><p><strong>1)JConsole</strong></p>
+<ol>
+<li>图形化监控工具，有如下作用：<ul>
+<li>查看运行概况</li>
+<li>监控堆信息</li>
+<li>监控永久区(1.8后则是元数据空间)</li>
+<li>监控类加载情况</li>
+</ul>
+</li>
+<li>使用：<br>在命令行输入<code>jconsole</code>(无论大小写)，然后出现这样的界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-18.jpg" alt=""><br>选择想要监控的进程点击连接即可，然后可以进行监控：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-19.jpg" alt=""><br>内存监控：(监控各个区的使用情况)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-20.jpg" alt=""><br>右上角有个执行GC,点击之后可以强制执行一次GC:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-21.jpg" alt=""><br>线程监控，下方可以检测死锁：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-22.jpg" alt=""><br>其余还有很多监测功能，不再具体介绍了。</li>
+<li>其他具体的信息分析以后看书再补充。</li>
+</ol>
+<p><strong>2)JVisualVM：</strong></p>
+<ol>
+<li>JVisualVM是一个多合一的故障诊断和性能监控的可视化工具。<br>基本上JConsole能做的它也能做，还能做许多JConsole不能做的。<br>还可以做性能分析等。（all-in-one）</li>
+<li>使用：<br>在命令行使用JVisualVM就可以打开监控页面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-23.jpg" alt=""><br>在左侧选择需要监控的进程，然后连接之后就可以对该进程进行监控：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-24.jpg" alt=""><br>线程监控及死锁检查：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-25.jpg" alt=""></li>
+<li>profile功能(性能分析)<br>可以对cpu，内存进行监测(查询占用cpu较高的应用并优化)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-26.jpg" alt=""></li>
+<li>分析Dump堆的功能：<br>出现OOM时一般会将堆内存Dump出来到一个文件，JVisualVM就是一个可以打开Dump堆并分析的工具。(点击左上角装入备份文件即可)<br>具体的操作以后再补充。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月16日 23:09</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/" title="JVM学习笔记（五）：性能监控工具与Java堆分析">https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/&title=《JVM学习笔记（五）：性能监控工具与Java堆分析》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/&title=《JVM学习笔记（五）：性能监控工具与Java堆分析》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（五）：性能监控工具与Java堆分析》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/15/JVM学习笔记（五）：性能监控工具与堆分析/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-系统监控命令-Linux系统"><span class="post-toc-text">1.系统监控命令(Linux系统)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-系统监控（Windows）"><span class="post-toc-text">2.系统监控（Windows）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Java自带的工具"><span class="post-toc-text">3.Java自带的工具</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jps-jinfo-jmap-jstack"><span class="post-toc-text">jps,jinfo,jmap,jstack</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#图形化工具：JConsole，JVisualVM"><span class="post-toc-text">图形化工具：JConsole，JVisualVM</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/05/16/Java学习过程中遇到的问题和解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java学习过程中遇到的问题及解决方案
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/05/13/JVM学习笔记（四）：类文件结构与类加载器/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">JVM学习笔记（四）：类文件结构与类加载器</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 14.29px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
