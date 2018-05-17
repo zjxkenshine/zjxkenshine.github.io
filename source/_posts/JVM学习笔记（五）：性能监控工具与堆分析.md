@@ -14,10 +14,12 @@ categories: Java基础
 2. 简单目录：
 	- 系统性能监控
 	- Java自带的性能监控工具
-	- OOM的原因
+	- 内存溢出OOM的原因
 	- MAT使用基础
-	- 使用Virtual VM分析堆
-	- Tomcat OOM分析
+		- 浅堆与深堆
+		- 显示入引用与出引用
+		- 支配树
+	- 使用JVisualVM分析堆
 
 ---
 ## 1.系统监控命令(Linux系统)
@@ -166,7 +168,7 @@ I/O分为磁盘I/O和网络I/O，使用-d参数可以查看那些线程占用的
 后面还有非常多的信息，可以使用数据流重定向`>`将信息保存在某一文件中，如：
 `jmap -histo 8580 >c:/log.txt`
 3. 备份堆信息
-`jmap -dump:live,format=b,file=D:/dump.txt 8580`
+`jmap -dump:live,format=b,file=D:/dump.hprof 8580`
 4. 其他的使用方式可以使用`jmap -help`查询。
 命令格式：
 		jmap [ option ] pid
@@ -241,5 +243,243 @@ options参数：
 4. 分析Dump堆的功能：
 出现OOM时一般会将堆内存Dump出来到一个文件，JVisualVM就是一个可以打开Dump堆并分析的工具。(点击左上角装入备份文件即可)
 具体的操作以后再补充。
+
+---
+## 4.内存溢出(OOM)的原因
+**1)OOM简介：**
+1. JVM会引起OOM的内存区间：
+	- 堆
+	- 永久区
+	- 线程栈
+	- 直接内存
+2. 堆和永久区的内存溢出前面已经有过简单学习了：
+[JVM学习笔记（二）：常用参数与类加载器](https://zjxkenshine.github.io/2018/05/07/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E4%B8%8E%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/)
+
+**2)堆溢出：**
+1. 在内存溢出中最常见的一个问题：
+程序过度使用堆空间，没有及时释放一些无用的对象
+2. 测试：
+测试代码：
+		public class HeapOOMTest {
+			public static void main(String[] args) {
+				ArrayList<byte[]> list=new ArrayList<byte[]>();
+				while(true){
+					list.add(new byte[1024*1024]);
+				}
+			}
+		}
+运行结果:
+		Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+			at chap07.HeapOOMTest.main(HeapOOMTest.java:9)
+因为在List中的对象不会被认为是垃圾对象，所以一直不会释放，一直往里面添加肯定会溢出。
+3. 解决HeapOOM的方法：
+	- 增大最大堆空间
+	- 及时释放内存
+
+**3)永久区溢出：**
+1. 永久区的类过多溢出：
+如使用Cglib生成很多个代理类：
+![](http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-14.jpg)
+不过方法区和“PermGen space”又有着本质的区别。前者是 JVM 的规范，而后者则是JVM规范的一种实现，并且只有 HotSpot 才有 “PermGen space”
+2. 只有jdk7之前才有永久代的说法，java8已经取消了永久区使用元数据空间。
+永久区和元数据空间的区别可以查看博客：
+[永久代（PermGen）和元空间的区别（Metaspace）](https://blog.csdn.net/u011531613/article/details/62971713)
+3. 异常：
+		java.lang.OutOfMemoryError: PermGen space
+4. 解决方法：
+	- 增大永久区
+	- 允许回收Class文件
+
+**4）栈内存溢出：**
+1. 栈溢出指创建线程的时候要为线程分配栈空间，这个栈空间是操作系统请求的，如果栈空间给不出足够的空间就会抛出OOM。
+2. 堆空间+栈空间之和不能超出操作系统分配给JVM的总空间。
+3. 测试栈溢出：(需要使用32位虚拟机运行)
+测试代码：
+		public class TaskOOMThread implements Runnable{
+			@Override
+			public void run() {
+				try{
+					Thread.sleep(1000000);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		public class StackOOMTest {
+			public static void main(String[] args) {
+				for(int i=0;i<100000;i++){
+					new Thread(new TaskOOMThread(),"Thread"+i).start();
+					System.out.println("已创建线程"+i);
+				}
+			}
+		}
+测试参数：(如果操作系统内存较大则建议调大点)
+`-Xmx1g -Xss2m`
+正常情况下的运行结果：
+		java.lang.OutofMemoryError: unable to create new native thread
+4. 注意在单线程中使用递归无限循环时报错都是：
+		java.lang.StackOverflowError
+不会报OOM异常。
+5. 如何解决栈溢出异常：
+	- 减少堆内存
+	- 减少线程栈大小
+6. 64位JDK可能会一般不会出现栈或直接内存溢出：
+可以使用`java -d32`或者`java -d64`查看是几位的,不是该版本就会报错。
+
+**5)直接内存溢出：**
+1. 和栈溢出类似。
+2. 堆空间+栈空间+直接内存使用空间之和不能大于操作系统分配的可用空间。
+3. 测试：(需要使用32位虚拟机运行)
+测试代码：
+		public class DirectOOMTest {
+			public static void main(String[] args) {
+				int i=0;
+				while(true){
+					i++;
+					System.out.println(i);
+					ByteBuffer.allocateDirect(1024*1024);
+				//	System.gc();
+				}
+			}
+		}
+测试参数：
+		-Xmx1g -XX:+PrintGCDetails
+测试结果：
+		732  
+		733  
+		Exception in thread "main" java.lang.OutOfMemoryError  
+			at sun.misc.Unsafe.allocateMemory(Native Method)  
+			at java.nio.DirectByteBuffer.<init>(DirectByteBuffer.java:127)  
+			at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:306)  
+			at geym.zbase.ch7.oom.DirectBufferOOM.main(DirectBufferOOM.java:14)
+具体可以参照：
+<http://book.51cto.com/art/201504/472203.htm>
+4. 解决直接内存溢出：
+	- 减小堆内存
+	- 手动触发GC(上面代码的注释去掉)
+
+---
+## 5.MAT基本使用
+**1)MAT简介：**
+1. Memory Analyzer Tool（MAT）,内存分析工具
+是一款基于Eclipse的插件
+2. 下载安装：
+【Help】-->【Install New Software】,输入`http://download.eclipse.org/mat/1.6/update-site/`：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-27.jpg)
+全选之后一路点击Next进行安装,然后安装完毕后点击Finish，重启Eclipse就安装完毕了。
+3. 也可以单独下载安装MAT工具，地址为：
+<http://www.eclipse.org/mat/downloads.php>
+
+**2)使用MAT打开heap dump：**
+1. 使用方式一，jmap+MAT：
+运行代码：
+		public class jpsTest {
+			public static void main(String[] args) {
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
+					@Override            
+					public void run() {
+						System.out.println(Thread.currentThread() + " is running");
+					}
+				}, new Date(), 6000);
+			}
+		}
+使用jps查看进程：
+		C:\Windows\system32>jps
+		94468 jpsTest
+		95956 Jps
+		99268
+使用jmap备份堆信息：
+		jmap -dump:live,format=b,file=D:/Dump/jpsTest.hprof 94468
+备份结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-29.jpg)
+在Eclipse左上角选择Memory Analyze视图：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-30.jpg)
+在左上角选择File-->Open Heap Dump打开备份文件即可：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-28-1.jpg)
+2. 分析溢出的堆内存：
+测试代码：
+和上面堆内存溢出的测试代码相同。
+测试参数：
+		-XX:+HeapDumpOutOnOfMemoryError -XX:HeapDumpPath=D:/Dump
+测试结果：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-31.jpg)
+然后就可以和上面一样进行分析。
+3. 在使用MAT打开.hprof文件之后，当前目录下会出现许多文件：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-32.jpg)
+4. 最后的压缩文件，解压查看，其中的html文件保存的就是刚刚的分析结果，
+底部可以查看可能出现内存泄露的地方：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-33.jpg)
+
+**3)MAT的简单使用：**
+1. MAT的界面：(可以先查看一波后面的MAT分析相关知识)
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-34.jpg)
+从左往右分别是：
+总览，柱状图，支配树，对象查询语言（OQL）,线程对象信息，堆的信息列表，对象消耗情况列表，搜索
+2. 堆的信息列表：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-35.jpg)
+3. 对象信息列表：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-36.jpg)
+4. 在类上右键则可以查看该类对象的入引用和出引用：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-37.jpg)
+5. 在线程对象信息中可以查看到浅堆和深堆的信息：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-38.jpg)
+6. 更加精细的分析以后再去深究。
+
+---
+## 6.MAT分析相关知识
+**1)对象引用图及支配树：**
+1. 对象引用图及支配树：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-39.jpg)
+2. 支配：
+如果在对象引用图中所有的通往B的路径都经过A，则称A是B的支配者。
+3. 直接支配者：
+A是离B最近的支配者，则称A是B的直接支配者。
+将直接支配者连线则可以构成支配树。
+4. 支配者被回收，被支配的所有对象也会被回收。
+5. 支配者视图可以很简单的得知一个对象被回收会关联回收多少空间：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-40.jpg)
+
+**2)出引用和入引用：**
+1. 出引用：
+该类对象被哪些类所引用
+2. 入引用：
+该类引用了哪些类
+
+**3)浅堆和深堆：**
+1. 浅堆：
+*一个对象结构所占用的的内存大小*
+	- 关于对象的大小可以查看：<https://blog.csdn.net/zqz_zqz/article/details/70246212>
+	- 对象的大小按8字节对齐(String大小为24字节)
+	- 浅堆大小和对象的内容无关，只和对象的结构有关
+2. 深堆：
+	- 一个对象被回收后，可以释放的真实内存大小
+	- 只能通过(直接或者间接)对象访问到的所有对象的浅堆之和就是深堆(该对象支配树大小)
+	- 释放该对象可能会将该对象支配的对象的内存也一起释放
+
+**4)对象查询语言(OQL)：**
+类似于SQL，具体可以参考博客：
+<https://blog.csdn.net/Miklechun/article/details/42965139>
+
+---
+## 7.使用JVisualVM分析Dump堆
+1. 打开：
+【文件】-->【装入】选择备份文件导入即可：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-41.jpg)
+2. 打开之后的主页面是这样的：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-42.jpg)
+功能没有MAT丰富，很简洁。
+3. 可以查看类信息或者和另一个备份文件比较：
+![](http://p5ki4lhmo.bkt.clouddn.com/00062JVM%E5%AD%A6%E4%B9%A05-43.jpg)
+4. 实例数这个测试代码没有产生，也很简单
+OQL的使用可以查看前面介绍的博客
+基本也就这些使用了
+
+---
+## 8.OOM分析的目的：
+1. 找出OOM的原因
+2. 推测系统OOM时的状态
+3. 给出解决这个OOM的方法
 
 ---

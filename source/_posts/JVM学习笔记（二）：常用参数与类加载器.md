@@ -222,12 +222,12 @@ GC次数从两次减少为一次，且幸存区使用率高，未占用老年代
 
 ### OOM时堆的常用参数
 **1)导出OOM到文件：**
-1. OOM时导出堆到文件：`-XX:+HeapDumpOutOfMemoryError`
-2. 导出OOM的路径：`-XX:+HeapDumpPath`
-`-XX:+HeapDumpPath=d:/a.dump`
+1. OOM时导出堆到文件：`-XX:+HeapDumpOnOutOfMemoryError`
+2. 导出OOM的路径：`-XX:HeapDumpPath`
+`-XX:HeapDumpPath=d:/Dump`
 3. 也可以重现异常，但是导出堆文件更加好。
 示例例参数：
-		-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOutOfMemoryError -XX:+HeapDumpPath=d:/dump
+		-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/dump
 dump出来的文件大小一般和最大堆的大小是保持一致的。
 4. 视频中的例子：
 代码及运行结果：(参数就是上面的那个)
