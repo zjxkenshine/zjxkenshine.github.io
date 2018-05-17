@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-14.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-15.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-16.jpg">
-<meta property="og:updated_time" content="2018-05-11T09:18:47.955Z">
+<meta property="og:updated_time" content="2018-05-17T11:22:31.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（二）：常用参数配置及分配策略">
 <meta name="twitter:description" content="0.学习准备 基础落下了很多了，是时候啃一波JVM了感觉很深奥，就先从视频看起，以后再看书补充啦 参考资料参考书籍《深入理解Java虚拟机》，《Java虚拟机基础教程》参考视频《深入理解JVM》(主要学习)可以先学习GC再回来理解 JVM常用配置参数 跟踪参数(Trace) 堆的分配参数 永久区分配参数(JDK1.8之后取消了永久代) 栈的分配参数     1.跟踪参数1)测试准备：  跟踪参数的">
@@ -311,9 +311,9 @@ total mem= 10M    //又分配了5M的内存
 </ol>
 <h3 id="OOM时堆的常用参数"><a href="#OOM时堆的常用参数" class="headerlink" title="OOM时堆的常用参数"></a>OOM时堆的常用参数</h3><p><strong>1)导出OOM到文件：</strong></p>
 <ol>
-<li>OOM时导出堆到文件：<code>-XX:+HeapDumpOutOfMemoryError</code></li>
-<li>导出OOM的路径：<code>-XX:+HeapDumpPath</code><br><code>-XX:+HeapDumpPath=d:/a.dump</code></li>
-<li>也可以重现异常，但是导出堆文件更加好。<br>示例例参数：<pre><code>-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOutOfMemoryError -XX:+HeapDumpPath=d:/dump
+<li>OOM时导出堆到文件：<code>-XX:+HeapDumpOnOutOfMemoryError</code></li>
+<li>导出OOM的路径：<code>-XX:HeapDumpPath</code><br><code>-XX:HeapDumpPath=d:/Dump</code></li>
+<li>也可以重现异常，但是导出堆文件更加好。<br>示例例参数：<pre><code>-Xmx20m -Xms5m -XX:NewRatio=1 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/dump
 </code></pre>dump出来的文件大小一般和最大堆的大小是保持一致的。</li>
 <li>视频中的例子：<br>代码及运行结果：(参数就是上面的那个)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-12.jpg" alt=""><br>dump文件中的内容：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00058JVM%E5%AD%A6%E4%B9%A02-13.jpg" alt=""></li>
 </ol>
@@ -353,7 +353,7 @@ total mem= 10M    //又分配了5M的内存
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月11日 17:18</p>
+        <p>最后更新： 2018年05月17日 19:22</p>
         <p>原始链接： <a class="post-url" href="/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/" title="JVM学习笔记（二）：常用参数配置及分配策略">https://zjxkenshine.github.io/2018/05/07/JVM学习笔记（二）：常用参数与类加载器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
