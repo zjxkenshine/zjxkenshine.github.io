@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM学习笔记（六）：锁与字节码执行 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记（六）：锁与字节码执行">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:updated_time" content="2018-05-18T13:00:34.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM学习笔记（六）：锁与字节码执行">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JVM学习笔记（六）：锁与字节码执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JVM学习笔记（六）：锁与字节码执行
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java基础/">Java基础</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-17
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>参考资料<br>参考书籍《深入理解Java虚拟机》<br>参考视频《深入理解JVM》(目前学习)</li>
+<li>简单目录：<ul>
+<li>线程安全</li>
+<li>对象头Mark</li>
+<li>JVM层面的锁优化：<ul>
+<li>偏向锁</li>
+<li>轻量级锁</li>
+<li>自旋锁</li>
+</ul>
+</li>
+<li>Java层面的锁优化：<ul>
+<li>减少锁持有时间</li>
+<li>减小锁粒度</li>
+<li>锁分离</li>
+<li>锁粗化</li>
+<li>锁消除</li>
+<li>无锁</li>
+</ul>
+</li>
+<li>Javap</li>
+<li>简单的字节码执行过程</li>
+<li>常用的字节码</li>
+<li>使用ASM生产Java字节码</li>
+<li>JIT及相关参数</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-线程安全"><a href="#1-线程安全" class="headerlink" title="1.线程安全"></a>1.线程安全</h2><ol>
+<li>相关的详细内容和例子可以查看多线程相关的笔记：<br><a href="https://zjxkenshine.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://zjxkenshine.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a></li>
+<li>测试代码：<br>模拟一个累加的功能(如投票等)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-01.jpg" alt=""><br>测试类及输出结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-02.jpg" alt=""><br>出错原因：<br>ArraList进行扩展时另一个线程尝试进行插入，此时的ArrayList不可用，所以会抛出越界异常。</li>
+</ol>
+<hr>
+<h2 id="2-对象头Mark"><a href="#2-对象头Mark" class="headerlink" title="2.对象头Mark"></a>2.对象头Mark</h2><ol>
+<li>Mark Word,对象头的标记，32位</li>
+<li>描述对象的hash，锁信息，垃圾回收标记，年龄等<ul>
+<li>指向锁记录的指针</li>
+<li>指向monitor的指针</li>
+<li>GC标记</li>
+<li>偏向锁线程ID</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-偏向锁，轻量级锁和自旋锁"><a href="#3-偏向锁，轻量级锁和自旋锁" class="headerlink" title="3.偏向锁，轻量级锁和自旋锁"></a>3.偏向锁，轻量级锁和自旋锁</h2><p><strong>1)偏向锁：</strong></p>
+<ol>
+<li>偏向锁简介及使用场景：<ul>
+<li>只有在竞争不激烈的场合才能够使用偏向锁来提高性能</li>
+<li>在竞争激烈的场合偏向锁会增加系统负担</li>
+<li>锁会偏向当前已经占有锁的线程</li>
+<li>将对象头Mark的标记设置为偏向，并将线程ID写入对象头</li>
+<li>只要没有进程，获得偏向锁的线程在将来进入同步块时不需要同步</li>
+<li>其他线程请求相同的锁时，偏向模式结束</li>
+</ul>
+</li>
+<li>偏向锁的使用参数：<ul>
+<li><code>-XX:+UseBiasedLocking</code></li>
+<li>默认启用</li>
+</ul>
+</li>
+<li>简单例子：<br>测试代码：(Vector自带同步方法)<pre><code>public class BasedLockTest {
+    public static List&lt;Integer&gt; numberlist=new Vector&lt;Integer&gt;(); 
+    public static void main(String[] args) {
+        long begin =System.currentTimeMillis();
+        int count=0;
+        int startnum=0;
+        while(count&lt;10000000){
+            numberlist.add(startnum);
+            startnum+=2;
+            count++;
+        }
+        long end =System.currentTimeMillis();
+        System.out.println(end-begin+&quot;ms&quot;);
+    }
+}
+</code></pre>测试参数1：默认参数，使用偏向锁<br>测试结果1：<pre><code>7164ms
+</code></pre>测试参数2：使偏向锁在程序启动时就启用<pre><code>-XX:+UseBiasedLocking -XX:BiasedLockingStartupDelay=0
+</code></pre>测试结果2：<pre><code>6995ms
+</code></pre>测试参数3：关闭自旋锁<pre><code>-XX:-UseBiasedLocking
+</code></pre>测试结果3：<pre><code>7271ms
+</code></pre></li>
+<li>测试结论：<br>在这种单线程无竞争的情况下使用偏向锁能够提高系统性能。</li>
+</ol>
+<p><strong>2)轻量级锁：</strong></p>
+<ol>
+<li>BasicObjectLock：存放在线程栈中的锁对象<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-03.jpg" alt=""><br>包含了两部分：<ul>
+<li>BasicLock:存放了对象头信息</li>
+<li>指向持有了该锁对象的指针</li>
+</ul>
+</li>
+<li>普通的锁(重量级锁)处理性能不够理想，<br>轻量级锁是一种快速的锁定方法</li>
+<li>轻量级锁的加锁过程：<br>如果对象没有上锁：进行两步操作(交换)<ul>
+<li>将对象头的Mark指针保存到锁对象BasicObjectLock中</li>
+<li>将对象头设置为指向锁的指针(指向栈空间)</li>
+</ul>
+</li>
+<li>简单的代码示例如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-04.jpg" alt=""></li>
+<li>轻量级锁的使用环境：<ul>
+<li>如果轻量级锁失败，说明存在竞争，升级为重量级锁(常规锁)</li>
+<li>没有锁竞争的时候，可以减少传统锁使用OS互斥量产生的性能损耗</li>
+<li>竞争激烈的时候轻量级锁会做很多额外的操作，影响性能</li>
+</ul>
+</li>
+<li>轻量级锁是默认开启的，可以使用如下参数同时关闭轻量级锁和偏向锁：<pre><code>-XX:+UseHeavyMonitors
+</code></pre></li>
+</ol>
+<p><strong>3)自旋锁：</strong></p>
+<ol>
+<li>简介：<br>当竞争存在时，如果线程可以很快获得锁，那么可以不再OS层挂起线程，可以让线程做几个空操作(自旋)</li>
+<li>使用参数：<br>JDK1.6：<code>-XX:UseSpining</code><br>JDK1.7去掉了这一参数，改为内置实现，默认开启。</li>
+<li>注意事项：<ul>
+<li>同步块很长，自旋失败，会影响系统性能</li>
+<li>同步块很短，自旋成功，节省系统挂起切换的过程，提升系统性能</li>
+<li>只要空转指令的开销小于挂起和切换的开销自旋就是成功的<br>自旋之后还拿不到锁，还是需要挂起和切换线程，那么就是自旋失败的</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)三种锁的总结：</strong></p>
+<ol>
+<li>并不是Java语言层面的锁优化方法，是JVM层面的</li>
+<li>内置于JVM中的锁的优化方法和获取锁的步骤：<ul>
+<li>偏向锁可用会先尝试偏向锁</li>
+<li>轻量级锁可用会先尝试轻量级锁</li>
+<li>以上两种锁都失败则尝试自旋锁</li>
+<li>自旋锁失败则尝试普通锁，使用OS的互斥量在操作系统层挂起</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-Java语言层面进行锁优化"><a href="#4-Java语言层面进行锁优化" class="headerlink" title="4.Java语言层面进行锁优化"></a>4.Java语言层面进行锁优化</h2><p>简单目录：</p>
+<ul>
+<li>减少锁持有时间</li>
+<li>减小锁粒度</li>
+<li>锁分离</li>
+<li>锁粗化</li>
+<li>锁消除</li>
+<li>无锁</li>
+</ul>
+<p><strong>1)减少锁的持有时间：</strong></p>
+<ol>
+<li>没有必要做同步的代码就不要放在同步代码块或者同步方法中。</li>
+<li>优化前的代码：<pre><code>public synchronized void syncMethod(){
+    System.out.println(&quot;无关代码块1&quot;);
+    System.out.println(&quot;需要同步的代码&quot;);
+    System.out.println(&quot;无关代码块2&quot;);
+}
+</code></pre></li>
+<li>优化后的代码：<pre><code>public void syncMethod(){
+    System.out.println(&quot;无关代码块1&quot;);
+    synchronized(this){
+        System.out.println(&quot;需要同步的代码&quot;);    
+    }
+    System.out.println(&quot;无关代码块2&quot;);
+}
+</code></pre></li>
+<li>锁持有时间减少，偏向锁的成功率提高。</li>
+</ol>
+<p><strong>2)减小锁粒度：</strong></p>
+<ol>
+<li>基本思想：<br>将大对象拆成小对象，大大提升并行度，降低锁竞争<br>锁竞争降低，偏向锁和轻量级锁的成功率提高</li>
+<li>典型实现：ConcrrentHashMap（稍后再介绍）</li>
+<li>HashMap的同步实现：<ul>
+<li>Collections.synchronizedMap(Map<k,v> m)<br>获得一个同步hash表</k,v></li>
+<li>返回一个synchronizedMap对象，内部的get,put实现如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-05.jpg" alt=""></li>
+</ul>
+</li>
+<li>ConcrrentHashMap减小锁粒度的实现：<ul>
+<li>分为若干个段(Segment)：<code>Segment&lt;K,V&gt;[] segments</code></li>
+<li>Segment中维护HashEntry<k,v>（表项）</k,v></li>
+<li>put操作时：<br>先定位到相应的Segment，再锁定这个Segment，再执行put操作</li>
+<li>减小锁粒度之后，ConcrrentHashMap允许多个线程同时进入。</li>
+</ul>
+</li>
+<li>如果锁粒度太细也会引起性能的损耗</li>
+</ol>
+<p><strong>3)锁分离：读锁和写锁</strong></p>
+<ol>
+<li>广义上说也是属于减小锁粒度的一种<br>减小锁粒度：结构上对对象做分离<br>锁分离：功能上对锁做分离</li>
+<li>ReadWriteLock：读写锁<br>在读多写少的情况可以提高系统的性能。<br>读读不互斥，读写互斥，写写互斥：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-06.jpg" alt=""></li>
+<li>读写分离的思想扩散：<br>只要操作互相不影响，锁就可以分离。</li>
+<li>LinkedBlockingQueue：阻塞链表(队列)<br>结构示意图如下:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-07.jpg" alt=""><br>take操作和put操作是互不影响的，可以将这两种操作的锁分离。</li>
+</ol>
+<p><strong>4)锁粗化：</strong></p>
+<ol>
+<li>通常情况下，为了保证多线程的有效并发，会要求每个线程是有锁的时间尽可能少，即使用完公共资源之后立即释放锁。等待这个锁的其他线程就能尽早得到公共资源。</li>
+<li>但是物极必反，如果对一个锁一直进行请求，同步和释放，也会消耗系统性能，影响锁的优化。在这种场合就需要泛起到而行之。</li>
+<li>示例情况：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-08.jpg" alt=""><br>粗化后的代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-09.jpg" alt=""></li>
+<li>极端情况：循环中获取锁<pre><code>for(int i=0;i&lt;n;i++){
+    synchronized(lock){
+        //同步代码
+    }
+}
+</code></pre>一般情况下是不合道理的，粗化过后的代码：<pre><code>synchronized(lock){
+    for(int i=0;i&lt;n;i++){
+        //同步代码
+    }
+}
+</code></pre></li>
+</ol>
+<p><strong>5)锁消除：</strong></p>
+<ol>
+<li>是一种JVM层面的优化</li>
+<li>在即时编译时如果发现不可能被共享的锁对象，就消除这个对象的锁。<br>一般情况下程序员是不会给一些完全不可能同步的对象加锁的。<br>但是StringBuffer和Verctor等的类内部有锁，在使用这些类对象的时候就隐式的将锁引入到其中了。</li>
+<li>如以下代码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-10.jpg" alt=""><br>StringBuffer的append操作自带了锁，但是在这段代码中完全没有用到锁。<br>关闭和不关闭锁消除的运行结果测试：循环2000000次<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-11.jpg" alt=""></li>
+</ol>
+<p><strong>6)无锁：</strong></p>
+<ol>
+<li>无锁是最好的一种锁方式</li>
+<li>锁是一种悲观操作：预期竞争是一定存在的<br>无锁是一种乐观的操作：预期竞争是不存在的</li>
+<li>锁是在操作之前先定义好如何解决竞争。<br>无锁是在操作之后遇到同步问题再回来定义解决。</li>
+<li>无锁的一种实现：CAS<ul>
+<li>CAS(Compare And Swap)，比较交换技术</li>
+<li>非阻塞的同步</li>
+<li>CAS(V,E,N)：<ul>
+<li>V：要更新变量</li>
+<li>E：期望值</li>
+<li>N：新值</li>
+<li>如果新值满足期望(V=E)，那么久赋值给变量V，做完以后将V值返回。</li>
+</ul>
+</li>
+<li>在应用层面判断是否被多线程干扰，如果有干扰，则通知线程重试<br>不停重试直到成功，或者放弃</li>
+<li>比较交换是一个cpu指令。</li>
+</ul>
+</li>
+<li>无锁操作会使程序变复杂，但是会使性能变的更好。</li>
+<li>JUC并发包中的原子操作就是一种CAS无锁的实现：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-12.jpg" alt=""></li>
+<li>java.util.concurrent.atomic包中的都是无锁实现，性能高于一般的有锁操作。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月18日 21:00</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" title="JVM学习笔记（六）：锁与字节码执行">https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/&title=《JVM学习笔记（六）：锁与字节码执行》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/&title=《JVM学习笔记（六）：锁与字节码执行》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM学习笔记（六）：锁与字节码执行》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全"><span class="post-toc-text">1.线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象头Mark"><span class="post-toc-text">2.对象头Mark</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-偏向锁，轻量级锁和自旋锁"><span class="post-toc-text">3.偏向锁，轻量级锁和自旋锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java语言层面进行锁优化"><span class="post-toc-text">4.Java语言层面进行锁优化</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/16/Java学习过程中遇到的问题和解决方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java学习过程中遇到的问题及解决方案</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
