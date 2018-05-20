@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
-<meta name="keywords" content="JVM">
+  <meta name="description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   javap 简单的字节码执行过程 常用的字节码 使用ASM生成Java字节码 JIT即时编译和相关参数     1.线程安全 相">
+<meta name="keywords" content="JVM,并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM学习笔记（六）：锁与字节码执行">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
+<meta property="og:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   javap 简单的字节码执行过程 常用的字节码 使用ASM生成Java字节码 JIT即时编译和相关参数     1.线程安全 相">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-02.jpg">
@@ -28,10 +28,28 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-11.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-12.jpg">
-<meta property="og:updated_time" content="2018-05-18T13:00:34.462Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-29.jpg">
+<meta property="og:updated_time" content="2018-05-20T10:06:56.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM学习笔记（六）：锁与字节码执行">
-<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   Javap 简单的字节码执行过程 常用的字节码 使用ASM生产Java字节码 JIT及相关参数     1.线程安全 相关的详细">
+<meta name="twitter:description" content="0.学习准备 参考资料参考书籍《深入理解Java虚拟机》参考视频《深入理解JVM》(目前学习) 简单目录： 线程安全 对象头Mark JVM层面的锁优化： 偏向锁 轻量级锁 自旋锁   Java层面的锁优化： 减少锁持有时间 减小锁粒度 锁分离 锁粗化 锁消除 无锁   javap 简单的字节码执行过程 常用的字节码 使用ASM生成Java字节码 JIT即时编译和相关参数     1.线程安全 相">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-01.jpg">
   
   
@@ -179,11 +197,11 @@
 <li>无锁</li>
 </ul>
 </li>
-<li>Javap</li>
+<li>javap</li>
 <li>简单的字节码执行过程</li>
 <li>常用的字节码</li>
-<li>使用ASM生产Java字节码</li>
-<li>JIT及相关参数</li>
+<li>使用ASM生成Java字节码</li>
+<li>JIT即时编译和相关参数</li>
 </ul>
 </li>
 </ol>
@@ -389,10 +407,125 @@
 <li>java.util.concurrent.atomic包中的都是无锁实现，性能高于一般的有锁操作。</li>
 </ol>
 <hr>
+<h2 id="5-javap"><a href="#5-javap" class="headerlink" title="5.javap"></a>5.javap</h2><p>class文件<a href="https://baike.baidu.com/item/%E5%8F%8D%E6%B1%87%E7%BC%96/10858476?fr=aladdin" target="_blank" rel="noopener">反汇编</a>工具</p>
+<p><strong>1)javap的简单使用示例：</strong></p>
+<ol>
+<li>Calc类代码如下：<pre><code>public class Calc{
+    public int calc(){
+        int a=500;
+        int b=200;
+        int c=50;
+        return (a+b)/c;
+    }
+}
+</code></pre></li>
+<li>使用命令：<code>javap -verbose Calc</code><br>得到对应的反汇编的方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-13.jpg" alt=""></li>
+<li>汇编方法解释：<br>前面是一些堆栈参数信息。<br>第一列的数字为字节码的偏移量（行号）<br>第二列为指令，第三列为指令的参数</li>
+<li>关于指令(字节码)：<ul>
+<li>sipush：将操作数压栈(一个短整型常量)</li>
+<li>istore_n：弹出一个栈帧，放入局部变量表的第n个位置</li>
+<li>binpush：将一个单字节的常量(-128~127)推送至操作数栈顶</li>
+<li>iload_n：将局部变量表的第n个位置的数压入操作数栈</li>
+<li>iadd：相加</li>
+<li>idiv：相除</li>
+</ul>
+</li>
+<li>每一个指令都是有相对应的字节码的</li>
+</ol>
+<p><strong>2)简单的字节码执行过程：</strong></p>
+<ol>
+<li>压入操作数500：(0,3)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-14.jpg" alt=""></li>
+<li>压入操作数200：(4,7)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-15.jpg" alt=""></li>
+<li>压入单字节操作数50：(8,10)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-16.jpg" alt=""></li>
+<li>取出局部变量1，2：(11,12)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-17.jpg" alt=""></li>
+<li>相加并添加局部变量3：(13,14)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-18.jpg" alt=""></li>
+<li>相除并返回：（15，16）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-19.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-关于字节码"><a href="#6-关于字节码" class="headerlink" title="6.关于字节码"></a>6.关于字节码</h2><p><strong>1)字节码简介：</strong></p>
+<ol>
+<li>字节码在Class文件中的位置：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00061JVM%E5%AD%A6%E4%B9%A04-28.jpg" alt=""><br>该类文件中的<code>2A 1B B5 00 20 B1</code>就是字节码。</li>
+<li>字节码指令为一个byte类型的整数：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-20.jpg" alt=""><br>左边的是便于人们理解的指令名称，右边的则是在计算机当中的表示方式。</li>
+<li>关于上图<code>2A 1B B5 00 20 B1</code>字节码的理解：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-21.jpg" alt=""></li>
+</ol>
+<p><strong>2)Java中常用的字节码：</strong></p>
+<ol>
+<li>常量入栈的字节码：<br>JVM没有寄存器，所有的操作都要通过栈来完成<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-22.jpg" alt=""></li>
+<li>局部变量压栈：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-23.jpg" alt=""></li>
+<li>出栈装入局部变量：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-24.jpg" alt=""></li>
+</ol>
+<p><strong>3)通用型的栈操作指令：</strong></p>
+<ol>
+<li>通用栈操作(无类型)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-25.jpg" alt=""></li>
+<li>类型转换字节码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-26.jpg" alt=""><br>以i2l为例：<ul>
+<li>将int类型转换为long类型</li>
+<li>执行前，栈：<code>...,value</code></li>
+<li>执行后，栈：<code>...,result.word1,result.word2</code><br>(long需要两个字空间)</li>
+<li>弹出int，扩展为long，并入栈。</li>
+</ul>
+</li>
+<li>运算操作：<br>分为整数的运算和浮点型的运算<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-27.jpg" alt=""><br>最前面的ilfd代表的是数据类型。<br>都是一些基本的加减乘除的操作。</li>
+</ol>
+<p><strong>4)对象，流程控制相关的字节码：</strong></p>
+<ol>
+<li>对象操作指令：<ul>
+<li>new：新建对象</li>
+<li>getfield：得到给定实例对象的值</li>
+<li>putfield：设置给定实例对象的值</li>
+<li>getstatic：获得静态对象</li>
+<li>putstatic：设置静态对象</li>
+</ul>
+</li>
+<li>流程控制字节码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-28.jpg" alt=""><br>如ifeq byte1 byte2：<ul>
+<li>执行前，栈：…,value</li>
+<li>执行前，栈：…</li>
+<li>value出栈后如果栈顶元素为0则跳转到byte1，byte2指定的字节码处<br><code>(byte1&lt;&lt;8)|byte2</code>,byte左移8为按位或byte2</li>
+</ul>
+</li>
+<li>方法调用和返回：<ul>
+<li>invokevirtual：对普通的实例方法进调用(动态绑定，有多态)</li>
+<li>invokespecial：对子类调用父类方法等场合进行调用(静态绑定，无多态)</li>
+<li>invokestatic：对静态方法进行调用</li>
+<li>invokeinterface：调用接口方法的指令</li>
+<li>xreturn：统一返回指令(x可以为ilfda或者空)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-使用ASM生成Java字节码"><a href="#7-使用ASM生成Java字节码" class="headerlink" title="7.使用ASM生成Java字节码"></a>7.使用ASM生成Java字节码</h2><ol>
+<li>asm是java的字节码操作框架，可以动态查看类的信息，动态修改，删除，增加类的方法。<br>可以用于修改现有的类或者动态产生新的类。</li>
+<li>目前许多框架如cglib、Hibernate、Spring都直接或间接地使用ASM操作字节码<br>还有一些软件如Eclipse也使用了ASM操作字节码</li>
+<li>关于ASM的具体如何使用以后再补充，<br>可以参考博客:<br><a href="https://blog.csdn.net/saifeng/article/details/46238387" target="_blank" rel="noopener">asm字节码操作 方法的动态修改增加</a></li>
+<li>ASM可以使先类似于AOP的织入功能<ul>
+<li>在函数开始或者结束时嵌入一些字节码</li>
+<li>可用于鉴权，日志等</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>##8.JIT相关参数：<br><strong>1)JIT简介：</strong></p>
+<ol>
+<li>在Java当中，单纯的字节码执行的效率是很差的(解释执行)，所以需要对热点代码进行编译，编译成机器码再执行。在运行时编译叫做JIT(Just-In-Time)</li>
+<li>JIT的基本思路是将热点代码（执行比较频繁的代码），编译成机器码。<br>以解释为基础，对热点进行编译。</li>
+<li>编译技术大约分为两种，一种AOT，只线下（offline）就将源代码编译成目标机器码,这是普遍用在系统程序语言中；另一种是JIT，只及时的编译，但是大部分的JIT引擎，针对的是将IR（中间代码,如JavaByteCode) 在运行时, 有针对性的翻译成机器码。</li>
+<li>JIT示意图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00064JVM%E5%AD%A6%E4%B9%A06-29.jpg" alt=""><br>是否是热点由方法调用计数器和回边计数器来控制：<ul>
+<li>调用计数器：方法调用次数</li>
+<li>回边计数器：方法内循环次数</li>
+</ul>
+</li>
+</ol>
+<p><strong>2)JIT相关参数：</strong></p>
+<ol>
+<li>可以使用如下JVM参数对编译的方法进行打印：<pre><code>-XX:CompaileThreshold=1000 -XX:+PrintCompilation
+</code></pre></li>
+<li>三个参数：<br>-Xint：全部解释执行<br>-Xcomp：全部编译执行<br>-Xmixed：混合执行，默认的</li>
+<li>关于更多的编译的知识，参考《编译原理》。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月18日 21:00</p>
+        <p>最后更新： 2018年05月20日 18:06</p>
         <p>原始链接： <a class="post-url" href="/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" title="JVM学习笔记（六）：锁与字节码执行">https://zjxkenshine.github.io/2018/05/17/JVM学习笔记（六）：锁与字节码执行/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -499,6 +632,8 @@
       
     <a href="/tags/JVM/" class="color4">JVM</a>
       
+    <a href="/tags/并发/" class="color3">并发</a>
+      
   </li>
 
         </ul>
@@ -510,7 +645,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全"><span class="post-toc-text">1.线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象头Mark"><span class="post-toc-text">2.对象头Mark</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-偏向锁，轻量级锁和自旋锁"><span class="post-toc-text">3.偏向锁，轻量级锁和自旋锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java语言层面进行锁优化"><span class="post-toc-text">4.Java语言层面进行锁优化</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-线程安全"><span class="post-toc-text">1.线程安全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象头Mark"><span class="post-toc-text">2.对象头Mark</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-偏向锁，轻量级锁和自旋锁"><span class="post-toc-text">3.偏向锁，轻量级锁和自旋锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Java语言层面进行锁优化"><span class="post-toc-text">4.Java语言层面进行锁优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-javap"><span class="post-toc-text">5.javap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-关于字节码"><span class="post-toc-text">6.关于字节码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-使用ASM生成Java字节码"><span class="post-toc-text">7.使用ASM生成Java字节码</span></a></li></ol>
         </nav>
     </aside>
     
@@ -588,7 +723,7 @@
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -621,7 +756,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 11.43px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
