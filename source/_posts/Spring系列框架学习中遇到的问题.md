@@ -23,6 +23,8 @@ categories: Java框架
 		warning no match for this type name: name [Xlint:invalidAbsoluteTypeName]
 7. SpringMVC配置web.xml后启动Tomcat报错：
 		java.lang.ClassNotFoundException: org.springframework.web.servlet.DispatcherServlet
+8. 使用Spring表单标签库时出错：
+		The absolute uri: http://www.springframework.org/tags/form cannot be resolved in either web.xml or the jar files deployed with this application
 
 ---
 ## 1.问题1-5解决
@@ -158,5 +160,19 @@ proceed没有参数。(参数不匹配)
 项目右击-->properties-->Deployment Assembly-->add-->Java Build Path Entries-->导入所有依赖的Jar包，重新start tomcat即可。
 ![](http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg)
 
+**8)使用Spring表单标签库时报错：**
+1. 报错信息：
+		org.apache.jasper.JasperException: The absolute uri: http://www.springframework.org/tags/form cannot be resolved in either web.xml or the jar files deployed with this application
+			org.apache.jasper.compiler.DefaultErrorHandler.jspError(DefaultErrorHandler.java:55)
+			org.apache.jasper.compiler.ErrorDispatcher.dispatch(ErrorDispatcher.java:277)
+			org.apache.jasper.compiler.ErrorDispatcher.jspError(ErrorDispatcher.java:75)
+			......(省略n多行)
+2. 出错原因：未知
+3. 解决方法一：
+在Tomcate部署设置中将`Serve modules without publishing`选项去除。
+![](http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg)
+不过该选项可以让tomcat直接使用WebContent下的东西，最好勾选上可以方便发布。
+4. 解决方法二：详见博客
+<https://blog.csdn.net/flashdelover/article/details/59486535>
 
 ---

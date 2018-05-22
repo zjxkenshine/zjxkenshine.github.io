@@ -537,7 +537,7 @@ url-pattern设置为/说明所有的请求(包括对静态资源的请求)都将
 调用该方法时product对象将会加入到model对象中，键为newProduct，如果未指定键值(括号中的值)，则键为默认的类的对象名(product)
 
 **2)用法二：标注一个非请求的处理方法**
-1. Spring MVC在调用某一控制类请求处理方法是会先调用该控制类中带有@ModelAttribute注解修饰的方法。
+1. Spring MVC在调用某一控制类请求处理方法时会先调用该控制类中带有@ModelAttribute注解修饰的非请求的处理方法。
 2. 使用@ModelAttribute注解修饰的方法需要满足以下两点：
 	- 要么返回值不为空
 	- 要么返回值为空，手动添加值到model
