@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SpringMVC学习（三）：数据绑定与表单标签库 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 数据绑定简介与使用 Spring表单标签库 表单标签库使用实例   Spring的表单标签库使用的不是很多，所以了解一些就行。主要的前台页面还是以JSTL和EL表达式为主。   1.数据绑定的简介与使用 在">
+<meta name="keywords" content="Spring,Spring MVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC学习（三）：数据绑定与表单标签库">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 数据绑定简介与使用 Spring表单标签库 表单标签库使用实例   Spring的表单标签库使用的不是很多，所以了解一些就行。主要的前台页面还是以JSTL和EL表达式为主。   1.数据绑定的简介与使用 在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-26.jpg">
+<meta property="og:updated_time" content="2018-05-22T13:51:51.404Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC学习（三）：数据绑定与表单标签库">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 数据绑定简介与使用 Spring表单标签库 表单标签库使用实例   Spring的表单标签库使用的不是很多，所以了解一些就行。主要的前台页面还是以JSTL和EL表达式为主。   1.数据绑定的简介与使用 在">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-SpringMVC学习（三）：数据绑定与表单标签库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      SpringMVC学习（三）：数据绑定与表单标签库
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java框架/">Java框架</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习准备"><a href="#0-学习准备" class="headerlink" title="0.学习准备"></a>0.学习准备</h2><ol>
+<li>参考资料：<br>参考书籍《Spring MVC学习指南》(第二版)(基础学习)<br>《Spring实战》(第四版)(综合运用)<br>参考视频：<br>尚硅谷《Spring MVC》(补充知识)</li>
+<li>简单目录：<ul>
+<li>数据绑定简介与使用</li>
+<li>Spring表单标签库</li>
+<li>表单标签库使用实例</li>
+</ul>
+</li>
+<li>Spring的表单标签库使用的不是很多，所以了解一些就行。<br>主要的前台页面还是以JSTL和EL表达式为主。</li>
+</ol>
+<hr>
+<h2 id="1-数据绑定的简介与使用"><a href="#1-数据绑定的简介与使用" class="headerlink" title="1.数据绑定的简介与使用"></a>1.数据绑定的简介与使用</h2><ol>
+<li>在前面的例子中的控制器类方法中：<pre><code>@RequestMapping(value=&quot;/product-save&quot;)
+public String SaveProduct(ProductForm productForm,RedirectAttributes redirectAttributes){
+    logger.info(&quot;调用SaveProduct方法处理请求&quot;);
+    Product product =new Product();
+    product.setName(productForm.getName());
+    product.setDiscription(productForm.getDiscription());
+    try{
+        product.setPrice(Float.parseFloat(productForm.getPrice()));
+    }catch(Exception e){
+    }
+    long id=productService.add(product);
+    redirectAttributes.addFlashAttribute(&quot;product&quot;,product);
+    return &quot;redirect:/print_product/&quot;+id;    //重定向到下面的处理方法
+}
+</code></pre>例子中(详见上一节笔记)并没有为ProductForm对象填充任何数据，但是在后面却可以在ProductForm对象中获取到用户输入到表单中的信息。<br>SpringMVC自动将用户输入到表单中的数据同ProductForm对象绑定，这就是数据绑定。</li>
+<li>数据绑定是将用户输入绑定到领域模型的一种特性。<br>类型为String的HTTP请求参数可以用于填充<strong>各种不同类型</strong>的对象属性。</li>
+<li>上面的ProductForm是一个表单类,作用只是为了转换price的类型。<br>因为数据绑定可以绑定各种类型，所以就不需要表单类了。</li>
+<li>上述的代码可以简化如下：<pre><code>@RequestMapping(value=&quot;/product-save&quot;)
+public String SaveProduct2(Product product,RedirectAttributes redirectAttributes){
+    long id=productService.add(product);
+    redirectAttributes.addFlashAttribute(&quot;product&quot;,product);
+    return &quot;redirect:/print_product/&quot;+id;
+}
+</code></pre></li>
+<li>以上只是简单的数据绑定，更加精细的数据绑定需要用Spring表单标签库提供的属性来加以控制。</li>
+</ol>
+<hr>
+<h2 id="2-Spring表单标签库"><a href="#2-Spring表单标签库" class="headerlink" title="2.Spring表单标签库"></a>2.Spring表单标签库</h2><p><strong>表单标签库简介与使用</strong></p>
+<ol>
+<li>Spring表单标签库包含了可以用在JSP页面中渲染HTML元素的标签。<br>这些标签在提供原有的HTML标签功能的基础上，还提供了一些和数据绑定相关的属性。</li>
+<li>Spring的表单标签库和SpringMVC框架是集成在一起的，因此它们可以直接使用命令对象（command object)和其他由控制器处理的数据对象。</li>
+<li>在JSP页面中引入表单标签库：<br>在JSP页面开头处声明<pre><code>&lt;%@ taglib prefix=&quot;form&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+</code></pre>即可，然后使用<code>&lt;form:xxx&gt;</code>来使用各渲染标签。</li>
+<li>Spring表单标签库的标签：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-01.jpg" alt=""></li>
+<li>下面详细介绍这些标签的属性及使用。<br>(spring表单标签库提供的属性都是可选的)</li>
+</ol>
+<h3 id="form-input-password-hidden标签"><a href="#form-input-password-hidden标签" class="headerlink" title="form,input,password,hidden标签"></a>form,input,password,hidden标签</h3><p><strong>1)form表单标签：</strong></p>
+<ol>
+<li>表单标签用于渲染HTML表单。在其中需要使用其他表单标签。</li>
+<li>form标签有HTML表单的各项属性(action,method等)，还提供了一些额外的属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-02.jpg" alt=""></li>
+<li>最重要的是commandName标签，定义了模型(Model)属性（键）的名称。<br>其中包含了一个<code>backing object</code>，这个对象的属性将用来填充表单。<br>如果表单设置了该属性，那么在跳转到该视图(初始化该JSP)的请求方法中一定要有对应的模型属性。<br><code>Model.addAttribute(&quot;key&quot;,Object);</code></li>
+<li>下面使用代码说明：<br>BookAddForm视图中的表单标签：<pre><code>...
+&lt;form:form commandName=&quot;book&quot; action=&quot;book_save&quot; method=&quot;post&quot;&gt;
+...
+&lt;/form&gt;
+...
+</code></pre>初始化请求方法：<pre><code>@RequestMapping(value=&quot;/book_input&quot;)
+public String inputBook(Model model){
+    ...
+    Model(&quot;book&quot;,new Book());    //一定要设置，否则会因表单标签找不到backing object而报错
+    return &quot;BookAddForm&quot;;
+}
+</code></pre></li>
+<li>一般来说仍需要使用HTML表单提供的action和method属性。</li>
+<li>关于htmlEscape：<br>是否转义特殊字符，默认为true，若要设置不对特殊字符进行转义，需设置为false。</li>
+</ol>
+<p><strong>2)input标签：</strong></p>
+<ol>
+<li>input标签渲染了<code>&lt;input type=&quot;text&quot;/&gt;</code>元素。<br>除了input标签原有的属性外，还有以下扩展属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-03.jpg" alt=""></li>
+<li>其中最重要的是path属性，可以用于将这个标签绑定<code>backing object</code>的一个属性。<br>如：<pre><code>&lt;form:form commandName=&quot;book&quot; action=&quot;book_save&quot; method=&quot;post&quot;&gt;
+    &lt;form:input id=&quot;bookname&quot; path=&quot;bookname&quot; cssErrorClass=&quot;errorBox&quot;/&gt;
+&lt;/form&gt;
+</code></pre>会被渲染成：<pre><code>&lt;input type=&quot;text&quot; id=&quot;bookname&quot; name=&quot;bookname&quot;/&gt;
+</code></pre>将该标签和book的bookname属性绑定。<br>(如果该属性不存在，也不会出错，只是无法进行数据绑定)</li>
+<li>cssErrorClass属性一般情况下不起作用，只有绑定属性(bookname)的输入验证错误并且使用该表单重新显示用户输入，input标签会被渲染如下：<pre><code>&lt;input type=&quot;text&quot; id=&quot;bookname&quot; name=&quot;bookname&quot; class=&quot;errorBox&quot;/&gt;
+</code></pre></li>
+<li>可以绑定嵌套对象：<pre><code>&lt;form:input id=&quot;authorname&quot; path=&quot;author.name&quot;/&gt;
+</code></pre>(如果将author对象嵌入在book对象中)<br>该input标签将绑定到book中的author对象的name属性</li>
+</ol>
+<p><strong>3)password标签：</strong></p>
+<ol>
+<li>渲染了<code>&lt;input type=&quot;password&quot;/&gt;</code>元素。<br>和password元素相似，只不过多了一个showPassword属性。<br>除了HTML原有的属性外，提供了如下的属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-04.jpg" alt=""></li>
+<li>示例如下：<pre><code>&lt;form:password id=&quot;pwd&quot; path=&quot;password&quot; cssClass=&quot;normal&quot;/&gt;
+</code></pre>会被渲染成如下的HTML标签：<pre><code>&lt;input type=&quot;password&quot; name=&quot;password&quot; class=&quot;normal&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)hidden标签：</strong></p>
+<ol>
+<li>渲染<code>&lt;input type=&quot;hidden&quot;&gt;</code>元素。<br>因为不可见，所以没有CSS相关的属性。<br>除了原有的属性外，提供了如下两个属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-05.jpg" alt=""></li>
+<li>示例：<pre><code>&lt;form:hidden path=&quot;bookId&quot;/&gt;
+</code></pre>会被渲染成：<pre><code>&lt;input type=&quot;hidden&quot; name=&quot;bookId&quot;/&gt;
+</code></pre></li>
+</ol>
+<h3 id="textarea-checkbox-es-radiobutton-s-标签"><a href="#textarea-checkbox-es-radiobutton-s-标签" class="headerlink" title="textarea,checkbox(es),radiobutton(s)标签"></a>textarea,checkbox(es),radiobutton(s)标签</h3><p><strong>1)textarea标签：</strong></p>
+<ol>
+<li>渲染了HTML的textarea元素。<br>除了原有的属性之外，还提供了以下的属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-06.jpg" alt=""></li>
+<li>示例：<pre><code>&lt;form:textarea path=&quot;discripe&quot; tabindex=&quot;4&quot; rows=&quot;5&quot; cols=&quot;80&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)checkbox标签：</strong></p>
+<ol>
+<li>渲染一个<code>&lt;input type=&quot;checkbox&quot;/&gt;</code>元素，多选框。</li>
+<li>除了原有的属性，还有下列额外属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-07.jpg" alt=""></li>
+<li>示例：<pre><code>&lt;form:checkbox path=&quot;booktype&quot; value=&quot;type1&quot;/&gt;
+&lt;form:checkbox path=&quot;booktype&quot; value=&quot;type2&quot;/&gt;
+&lt;form:checkbox path=&quot;booktype&quot; value=&quot;type3&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)radiobutton标签：</strong></p>
+<ol>
+<li>渲染一个<code>&lt;input type=&quot;radio&quot;/&gt;</code>元素，单选框。</li>
+<li>除了原有的属性，还有下列额外属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-08.jpg" alt=""></li>
+<li>示例：<pre><code>&lt;form:radiobutton path=&quot;sex&quot; value=&quot;男&quot;/&gt;
+&lt;form:radiobutton path=&quot;sex&quot; value=&quot;女&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)checkboxes标签：</strong></p>
+<ol>
+<li>渲染多个<code>&lt;input type=&quot;checkbox&quot;/&gt;</code>标签，多选框。</li>
+<li>提供了如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-09.jpg" alt=""></li>
+<li>items属性提供了用于生成多选框的数据集合。<br>itemLabel属性定义了数据集合中的对象的某一属性，用来做字面量。<br>itemValue属性定义了数据集合中的对象的某一属性，用来做选取得到的值。</li>
+<li>示例如下：<pre><code>&lt;form:checkboxes path=&quot;typeIds&quot; items=&quot;${typelist}&quot; itemLabel=&quot;typeName&quot; itemValue=&quot;typeId&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)radiobuttons标签：</strong></p>
+<ol>
+<li>渲染了多个<code>&lt;input type=&quot;radio&quot;/&gt;</code>元素，单选框，用法和属性checkboxes标签类似。</li>
+<li>提供了下列属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-10.jpg" alt=""></li>
+<li>使用示例：<pre><code>&lt;form:radiobuttons path=&quot;sex&quot; items=&quot;${sexlist}&quot;/&gt;
+</code></pre></li>
+</ol>
+<h3 id="select-option-s-errors标签"><a href="#select-option-s-errors标签" class="headerlink" title="select,option(s),errors标签"></a>select,option(s),errors标签</h3><p><strong>1)select标签：</strong></p>
+<ol>
+<li>渲染了一个HTML的select元素。<br>被渲染的元素可以来自items属性，也可以来自option或者options标签。</li>
+<li>提供了如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-11.jpg" alt=""></li>
+<li>使用示例如下(通过items元素绑定数据)<pre><code>&lt;form:select id=&quot;type&quot; items=${typelist} itemLabel=&quot;typeName&quot; itemValue=&quot;typeId&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)option标签：</strong></p>
+<ol>
+<li>渲染了select元素中的一个HTML的option元素。</li>
+<li>只提供了一些和css相关的渲染属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-12.jpg" alt=""></li>
+<li>使用示例：(通过items和option标签绑定数据)<pre><code>&lt;form:select id=&quot;type&quot; items=${typelist} itemLabel=&quot;typeName&quot; itemValue=&quot;typeId&quot;&gt;
+    &lt;form:option value=&quot;0&quot;&gt;请选择类型&lt;/form:option&gt;
+&lt;/form:select&gt;
+</code></pre>或者也可以使用HTML的option元素：<pre><code>&lt;option value=&quot;0&quot;&gt;请选择类型&lt;option&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)options标签：</strong></p>
+<ol>
+<li>options标签生成一个HTML的option元素列表。</li>
+<li>除了HTML属性外还提供了如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-13.jpg" alt=""></li>
+<li>使用示例：(option和options绑定数据)<pre><code>&lt;form:select path=&quot;type&quot;&gt;  
+    &lt;option/&gt;请选择人员
+    &lt;form:options items=&quot;${typelist}&quot; itemLabel=&quot;typeName&quot; itemValue=&quot;typeId&quot;/&gt;  
+&lt;/form:select&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)errors标签：</strong></p>
+<ol>
+<li>渲染一个或者多个HTML的span元素，每个span元素中都包含一个字段错误。<br>可以用于显示一个特定字段的错误，或者所有字段的错误。</li>
+<li>提供了如下属性：(cssClss和cssStyle未列出)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-14.jpg" alt=""></li>
+<li>使用示例：<br>显示所有字段的错误：<pre><code>&lt;form:errors path=&quot;*&quot;/&gt;
+</code></pre>显示与某个<code>from bacjing object</code>对象的属性(author)相关的字段错误：<pre><code>&lt;form:errors path=&quot;author&quot;/&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="3-数据绑定示例"><a href="#3-数据绑定示例" class="headerlink" title="3.数据绑定示例"></a>3.数据绑定示例</h2><p>示例说明：<br>一个关于书籍管理的简单应用（不涉及数据库层）<br>有实体类Book,Book中又包含了Catgoty类对象。<br>有列出书目，添加新书以及编辑数目功能。</p>
+<h3 id="基本配置及模型类"><a href="#基本配置及模型类" class="headerlink" title="基本配置及模型类"></a>基本配置及模型类</h3><ol>
+<li>Category类：<pre><code>//书的类型
+public class Category implements Serializable{
+    private static final long serialVersionUID = 1558731101438330815L;
+    private int id;        //类型ID
+    private String name;    //类型名
+    public Category() {
+    }
+    public Category(int id,String name) {
+        this.id=id;
+        this.name=name;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return &quot;Category [id=&quot; + id + &quot;, name=&quot; + name + &quot;]&quot;;
+    }
+}
+</code></pre></li>
+<li>Book类：<pre><code>public class Book implements Serializable{
+    private static final long serialVersionUID = 8761144554202637953L;
+    private long id;
+    private String isbn; //国际标准书号
+    private String title; //书名
+    private Category category; //类型
+    private String author;    //作者
+    public Book() {
+    }
+    public Book(long id, String isbn, String title, Category category,
+            String author) {
+        super();
+        this.id = id;
+        this.isbn = isbn;
+        this.title = title;
+        this.category = category;
+        this.author = author;
+    }
+    //get,set与toString方法
+}
+</code></pre></li>
+<li><p>配置文件如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans  
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;  
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;  
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;   
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans   
+                        http://www.springframework.org/schema/beans/spring-beans.xsd  
+                        http://www.springframework.org/schema/aop    
+                        http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/context       
+                        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+    &lt;context:component-scan base-package=&quot;Controller3&quot;&gt;&lt;/context:component-scan&gt;
+    &lt;context:component-scan base-package=&quot;Service3&quot;&gt;&lt;/context:component-scan&gt;
+    &lt;mvc:annotation-driven&gt;&lt;/mvc:annotation-driven&gt;
+    &lt;mvc:resources location=&quot;/css/**&quot; mapping=&quot;/css&quot;&gt;&lt;/mvc:resources&gt;
+    &lt;mvc:resources location=&quot;/*.html&quot; mapping=&quot;/&quot;&gt;&lt;/mvc:resources&gt;
+
+     &lt;bean id=&quot;viewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+         &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp3/&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;&gt;&lt;/property&gt;
+     &lt;/bean&gt;
+ &lt;/beans&gt;
+</code></pre></li>
+<li><p>web.xml文件如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.0&quot;&gt;
+
+    &lt;!-- The front controller of this Spring Web application, responsible for handling all application requests --&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;/WEB-INF/jsp3/springmvc-servlet.xml&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+    &lt;/servlet&gt;
+
+    &lt;!-- Map all requests to the DispatcherServlet for handling --&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+
+    &lt;filter&gt;  
+         &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  
+        &lt;init-param&gt;  
+        &lt;param-name&gt;encoding&lt;/param-name&gt;
+            &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+        &lt;/init-param&gt;  
+        &lt;init-param&gt;  
+            &lt;param-name&gt;forceEncoding&lt;/param-name&gt;
+            &lt;param-value&gt;true&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/filter&gt;  
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;  
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
+    &lt;/filter-mapping&gt;
+&lt;/web-app&gt;
+</code></pre></li>
+<li>创建相应的BookController类和BookService接口，基本结构如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-15.jpg" alt=""></li>
+</ol>
+<h3 id="添加与查看书籍功能"><a href="#添加与查看书籍功能" class="headerlink" title="添加与查看书籍功能"></a>添加与查看书籍功能</h3><p><strong>1)初始化添加页面：</strong></p>
+<ol>
+<li>BookService接口中添加方法如下：<pre><code>public interface BookService {
+    List&lt;Category&gt; getAllCategories();
+    Category getCategoryById(int id);
+}
+</code></pre></li>
+<li><p>BookService的实现类BookServiceImpl代码如下：</p>
+<pre><code>@Service
+public class BookServiceImpl implements BookService{
+    private List&lt;Category&gt; categories=new ArrayList&lt;Category&gt;();
+    private List&lt;Book&gt; booklist=new ArrayList&lt;Book&gt;();
+
+    public BookServiceImpl() {
+        categories.add(new Category(1,&quot;技术&quot;));
+        categories.add(new Category(2,&quot;小说&quot;));
+        categories.add(new Category(3,&quot;旅游&quot;));
+        categories.add(new Category(4,&quot;生活&quot;));
+        categories.add(new Category(5,&quot;历史&quot;));
+    }
+
+    @Override
+    public List&lt;Category&gt; getAllCategories() {
+        return categories;
+    }
+
+    @Override
+    public Category getCategoryById(int id) {
+        for(Category category:categories){
+            if(id==category.getId()){
+                return category;
+            }
+        }
+        return null;
+    }
+}
+</code></pre></li>
+<li><p>控制器类BookController代码如下：</p>
+<pre><code>@Controller
+public class BookController {
+    @Autowired
+    BookService bookService;
+
+    private static final Log logger=LogFactory.getLog(BookController.class);
+    //初始化添加书籍视图
+    @RequestMapping(&quot;/book_input&quot;)
+    public String inputBook(Model model){
+        List&lt;Category&gt; categories=bookService.getAllCategories();
+        model.addAttribute(&quot;categories&quot;,categories);
+        model.addAttribute(&quot;book&quot;,new Book());
+        return &quot;AddBook&quot;;
+    }
+}
+</code></pre></li>
+<li>WEB-INF/jsp3/AddBook.jsp代码如下：<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@taglib prefix=&quot;form&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;添加书籍&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form:form commandName=&quot;book&quot; action=&quot;book_save&quot; method=&quot;post&quot;&gt;
+        &lt;label for=&quot;title&quot;&gt;书籍名字：&lt;/label&gt;
+        &lt;form:input path=&quot;title&quot; id=&quot;title&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;author&quot;&gt;作者：&lt;/label&gt;
+        &lt;form:input path=&quot;author&quot; id=&quot;author&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;isbn&quot;&gt;国际标准书号(ISBN):&lt;/label&gt;
+        &lt;form:input path=&quot;isbn&quot; id=&quot;isbn&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;category&quot;&gt;书籍类型：&lt;/label&gt;
+        &lt;form:select path=&quot;category.id&quot; id=&quot;category&quot; items=&quot;${categories}&quot; itemLabel=&quot;name&quot; itemValue=&quot;id&quot;/&gt;&lt;br/&gt;
+        &lt;input type=&quot;reset&quot; id=&quot;reset&quot;&gt;
+        &lt;input type=&quot;submit&quot; id=&quot;submit&quot;&gt;
+    &lt;/form:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+<li>测试，初始化成功：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-16.jpg" alt=""></li>
+<li>使用Spring表单标签库时出现了一些问题，详见Spring解决方案一问题8。</li>
+</ol>
+<p><strong>2)添加表单处理方法及列表视图：</strong></p>
+<ol>
+<li>添加BookService接口的方法：<pre><code>public interface BookService {
+    List&lt;Category&gt; getAllCategories();
+    Category getCategoryById(int id);
+    List&lt;Book&gt; getAllBooks();
+    long getNextId();
+    Book saveBook(Book book);
+}
+</code></pre></li>
+<li><p>在实现类BookServiceImpl中添加实现方法：</p>
+<pre><code>...
+@Override
+public List&lt;Book&gt; getAllBooks() {
+    return booklist;
+}
+
+@Override
+public Book saveBook(Book book) {
+    book.setId(getNextId());
+    booklist.add(book);
+    return book;
+}
+
+@Override
+synchronized public long getNextId() {
+    long id=0l;
+    for(Book book:booklist){
+        if(book.getId()&gt;id){
+            id=book.getId();
+        }
+    }
+    return id+1;
+}
+...
+</code></pre></li>
+<li>在BookController控制器类中添加一个处理添加书籍的方法：<br>添加savaBook处理方法如下：<pre><code>@RequestMapping(&quot;/book_save&quot;)
+public String saveBook(@ModelAttribute Book book){
+    logger.info(&quot;调用saveBook请求处理方法&quot;);
+    Category category=bookService.getCategoryById(book.getCategory().getId());
+    book.setCategory(category);
+    bookService.saveBook(book);
+    return &quot;redirect:/book_list&quot;;
+}
+</code></pre>添加book列表的处理方法如下：<pre><code>@RequestMapping(&quot;/book_list&quot;)
+public String bookList(Model model){
+    logger.info(&quot;调用bookList请求处理方法&quot;);
+    List&lt;Book&gt; books=bookService.getAllBooks();
+    model.addAttribute(&quot;booklist&quot;,books);
+    return &quot;BookList&quot;;
+}
+</code></pre></li>
+<li><p>需要用到JSTL，所以添加JSTL的pom.xml依赖：</p>
+<pre><code>&lt;!--old jstl--&gt;&lt;!--
+&lt;dependency&gt;
+    &lt;groupId&gt;jstl&lt;/groupId&gt;
+    &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;--&gt;
+
+&lt;!--jstl--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.taglibs&lt;/groupId&gt;
+    &lt;artifactId&gt;taglibs-standard-spec&lt;/artifactId&gt;
+    &lt;version&gt;1.2.5&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.taglibs&lt;/groupId&gt;
+    &lt;artifactId&gt;taglibs-standard-impl&lt;/artifactId&gt;
+    &lt;version&gt;1.2.5&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li>创建BookList.jsp视图：<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+ &lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;书籍列表&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table&gt;
+&lt;tr&gt;
+    &lt;th&gt;书籍名&lt;/th&gt;
+    &lt;th&gt;作者&lt;/th&gt;
+    &lt;th&gt;类型&lt;/th&gt;
+    &lt;th&gt;ISBN&lt;/th&gt;
+    &lt;th&gt;操作&lt;/th&gt;
+&lt;/tr&gt;
+&lt;c:forEach items=&quot;${booklist}&quot; var=&quot;book&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;${book.title}&lt;/td&gt;
+        &lt;td&gt;${book.author}&lt;/td&gt;
+        &lt;td&gt;${book.category.name}&lt;/td&gt;
+        &lt;td&gt;${book.isbn}&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;book_edit/${book.id}&quot;&gt;编辑&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/c:forEach&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+</code></pre></li>
+<li>测试：<br>添加页面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-17.jpg" alt=""><br>添加后跳转到书籍列表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-18.jpg" alt=""><br>控制台输出：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-19.jpg" alt=""></li>
+</ol>
+<h3 id="编辑书籍功能"><a href="#编辑书籍功能" class="headerlink" title="编辑书籍功能"></a>编辑书籍功能</h3><p><strong>1)跳转到编辑表单并显示：</strong></p>
+<ol>
+<li>添加BookService接口方法：<pre><code>Book getBookById(long id);
+</code></pre></li>
+<li>添加BookServiceImpl中的实现方法：<pre><code>@Override
+public Book getBookById(long id) {
+    for(Book book:booklist){
+        if(book.getId()==id){
+            return book;
+        }
+    }
+    return null;
+}
+</code></pre></li>
+<li>点击编辑时的请求处理方法（编辑表单的）<br>在控制器类中添加请求处理方法editBook方法：<pre><code>@RequestMapping(&quot;/book_edit/{id}&quot;)
+public String editBook(Model model,@PathVariable long id){
+    logger.info(&quot;调用editBook请求处理方法&quot;);
+    Book book=bookService.getBookById(id);
+    List&lt;Category&gt; categories=bookService.getAllCategories();
+    model.addAttribute(&quot;categories&quot;,categories);
+    model.addAttribute(&quot;book&quot;,book);
+    return &quot;EditBook&quot;;
+}
+</code></pre></li>
+<li>创建EditBook.jsp视图：<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@taglib prefix=&quot;form&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;编辑书籍&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!--注意这里的action地址需要使用绝对路径，否则会变成/book_edit/book_update,或者也可以修改@RequestMapping--&gt;
+    &lt;form:form commandName=&quot;book&quot; action=&quot;/springmvc/book_update&quot; method=&quot;post&quot;&gt;
+        &lt;form:hidden path=&quot;id&quot;/&gt;
+        &lt;label for=&quot;title&quot;&gt;书籍名字：&lt;/label&gt;
+        &lt;form:input path=&quot;title&quot; id=&quot;title&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;author&quot;&gt;作者：&lt;/label&gt;
+        &lt;form:input path=&quot;author&quot; id=&quot;author&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;isbn&quot;&gt;国际标准书号(ISBN):&lt;/label&gt;
+        &lt;form:input path=&quot;isbn&quot; id=&quot;isbn&quot;/&gt;&lt;br/&gt;
+        &lt;label for=&quot;category&quot;&gt;书籍类型：&lt;/label&gt;
+        &lt;form:select path=&quot;category.id&quot; id=&quot;category&quot; items=&quot;${categories}&quot; itemLabel=&quot;name&quot; itemValue=&quot;id&quot;/&gt;&lt;br/&gt;
+        &lt;input type=&quot;reset&quot; id=&quot;reset&quot;&gt;
+        &lt;input type=&quot;submit&quot; id=&quot;submit&quot;&gt;
+    &lt;/form:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+<li>测试：<br>添加书籍并跳转到书籍列表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-20.jpg" alt=""><br>点击编辑：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-21.jpg" alt=""><br>控制台输出：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-22.jpg" alt=""></li>
+</ol>
+<p><strong>2)更新书籍信息：</strong></p>
+<ol>
+<li>添加BookService接口方法：<pre><code>void updateBook(Book book);
+</code></pre></li>
+<li>添加BookServiceImpl类实现方法：<pre><code>@Override
+public void updateBook(Book book) {
+    int count=booklist.size();
+    for(int i=0;i&lt;count;i++){
+        Book book1=booklist.get(i);
+        if(book1.getId()==book.getId()){
+            booklist.set(i,book);
+        }
+    }
+}
+</code></pre></li>
+<li>添加控制器请求处理方法：<pre><code>//更新书籍处理方法
+@RequestMapping(&quot;/book_update&quot;)
+public String updateBook(Book book){
+    logger.info(&quot;调用saveBook请求处理方法&quot;);
+    Category category=bookService.getCategoryById(book.getCategory().getId());
+    book.setCategory(category);
+    bookService.updateBook(book);
+    return &quot;redirect:/book_list&quot;;
+}
+</code></pre></li>
+<li>测试：<br>更新前列表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-24.jpg" alt=""><br>点击编辑：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-25.jpg" alt=""><br>点击提交，更新后列表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-23.jpg" alt=""><br>控制台输出：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00065SpringMVC%E5%AD%A6%E4%B9%A03-26.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="4-测试代码总结"><a href="#4-测试代码总结" class="headerlink" title="4.测试代码总结"></a>4.测试代码总结</h2><ol>
+<li>接口BookService代码：<pre><code>public interface BookService {
+    List&lt;Category&gt; getAllCategories();
+    Category getCategoryById(int id);
+    List&lt;Book&gt; getAllBooks();
+    long getNextId();
+    Book saveBook(Book book);
+    Book getBookById(long id);
+    void updateBook(Book book);
+}
+</code></pre></li>
+<li><p>接口实现类BookServiceImpl代码：</p>
+<pre><code>@Service
+public class BookServiceImpl implements BookService{
+    private List&lt;Category&gt; categories=new ArrayList&lt;Category&gt;();
+    private List&lt;Book&gt; booklist=new ArrayList&lt;Book&gt;();
+
+    public BookServiceImpl() {
+        categories.add(new Category(1,&quot;技术&quot;));
+        categories.add(new Category(2,&quot;小说&quot;));
+        categories.add(new Category(3,&quot;旅游&quot;));
+        categories.add(new Category(4,&quot;生活&quot;));
+        categories.add(new Category(5,&quot;历史&quot;));
+    }
+
+    @Override
+    public List&lt;Category&gt; getAllCategories() {
+        return categories;
+    }
+
+    @Override
+    public Category getCategoryById(int id) {
+        for(Category category:categories){
+            if(id==category.getId()){
+                return category;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List&lt;Book&gt; getAllBooks() {
+        return booklist;
+    }
+
+    @Override
+    public Book saveBook(Book book) {
+        book.setId(getNextId());
+        booklist.add(book);
+        return book;
+    }
+
+    @Override
+    synchronized public long getNextId() {
+        long id=0l;
+        for(Book book:booklist){
+            if(book.getId()&gt;id){
+                id=book.getId();
+            }
+        }
+        return id+1;
+    }
+
+    @Override
+    public Book getBookById(long id) {
+        for(Book book:booklist){
+            if(book.getId()==id){
+                return book;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        int count=booklist.size();
+        for(int i=0;i&lt;count;i++){
+            Book book1=booklist.get(i);
+            if(book1.getId()==book.getId()){
+                booklist.set(i,book);
+            }
+        }
+    }
+}
+</code></pre></li>
+<li><p>控制器类BookController代码：</p>
+<pre><code>package Controller3;
+
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import Model.Book;
+import Model.Category;
+import Service3.BookService;
+import Service3.BookServiceImpl;
+
+@Controller
+public class BookController {
+    @Autowired
+    BookService bookService;
+
+    private static final Log logger=LogFactory.getLog(BookController.class);
+    //初始化添加书籍页面
+    @RequestMapping(&quot;/book_input&quot;)
+    public String inputBook(Model model){
+        logger.info(&quot;调用inputBook请求处理方法&quot;);
+        List&lt;Category&gt; categories=bookService.getAllCategories();
+        model.addAttribute(&quot;categories&quot;,categories);
+        model.addAttribute(&quot;book&quot;,new Book());
+        return &quot;AddBook&quot;;
+    }
+    //添加书籍处理
+    @RequestMapping(&quot;/book_save&quot;)
+    public String saveBook(@ModelAttribute Book book){
+        logger.info(&quot;调用saveBook请求处理方法&quot;);
+        Category category=bookService.getCategoryById(book.getCategory().getId());
+        book.setCategory(category);
+        bookService.saveBook(book);
+        return &quot;redirect:/book_list&quot;;
+    }
+    //书籍列表初始化处理方法
+    @RequestMapping(&quot;/book_list&quot;)
+    public String bookList(Model model){
+        logger.info(&quot;调用bookList请求处理方法&quot;);
+        List&lt;Book&gt; books=bookService.getAllBooks();
+        model.addAttribute(&quot;booklist&quot;,books);
+        return &quot;BookList&quot;;
+    }
+    //编辑表单初始化
+    @RequestMapping(&quot;/book_edit/{id}&quot;)
+    public String editBook(Model model,@PathVariable long id){
+        logger.info(&quot;调用editBook请求处理方法&quot;);
+        Book book=bookService.getBookById(id);
+        List&lt;Category&gt; categories=bookService.getAllCategories();
+        model.addAttribute(&quot;categories&quot;,categories);
+        model.addAttribute(&quot;book&quot;,book);
+        return &quot;EditBook&quot;;
+    }
+    //更新书籍处理方法
+    @RequestMapping(&quot;/book_update&quot;)
+    public String updateBook(Book book){
+        logger.info(&quot;调用saveBook请求处理方法&quot;);
+        Category category=bookService.getCategoryById(book.getCategory().getId());
+        book.setCategory(category);
+        bookService.updateBook(book);
+        return &quot;redirect:/book_list&quot;;
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月22日 21:51</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/" title="SpringMVC学习（三）：数据绑定与表单标签库">https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/&title=《SpringMVC学习（三）：数据绑定与表单标签库》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/&title=《SpringMVC学习（三）：数据绑定与表单标签库》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC学习（三）：数据绑定与表单标签库》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/20/SpringMVC学习（三）：数据绑定与表单标签库/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Spring/" class="color2">Spring</a>
+      
+    <a href="/tags/SpringMVC/" class="color1">Spring MVC</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-数据绑定的简介与使用"><span class="post-toc-text">1.数据绑定的简介与使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Spring表单标签库"><span class="post-toc-text">2.Spring表单标签库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#form-input-password-hidden标签"><span class="post-toc-text">form,input,password,hidden标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#textarea-checkbox-es-radiobutton-s-标签"><span class="post-toc-text">textarea,checkbox(es),radiobutton(s)标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-option-s-errors标签"><span class="post-toc-text">select,option(s),errors标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-数据绑定示例"><span class="post-toc-text">3.数据绑定示例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基本配置及模型类"><span class="post-toc-text">基本配置及模型类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加与查看书籍功能"><span class="post-toc-text">添加与查看书籍功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#编辑书籍功能"><span class="post-toc-text">编辑书籍功能</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-测试代码总结"><span class="post-toc-text">4.测试代码总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/17/JVM学习笔记（六）：锁与字节码执行/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">JVM学习笔记（六）：锁与字节码执行</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 12.5px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 16.25px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.75px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 16.25px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 12.5px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.75px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 16.25px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
