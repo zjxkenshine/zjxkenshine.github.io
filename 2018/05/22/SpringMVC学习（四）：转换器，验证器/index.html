@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器     1.转换器与格式化简介 Sring的数据绑定可以进行简单的数据绑定。但是">
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
 <meta name="keywords" content="Spring,Spring MVC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC学习（四）：转换器，验证器">
-<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/index.html">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器     1.转换器与格式化简介 Sring的数据绑定可以进行简单的数据绑定。但是">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-02.jpg">
@@ -22,10 +22,21 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-06.jpg">
-<meta property="og:updated_time" content="2018-05-23T14:27:30.004Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-17.jpg">
+<meta property="og:updated_time" content="2018-05-24T14:31:35.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC学习（四）：转换器，验证器">
-<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器     1.转换器与格式化简介 Sring的数据绑定可以进行简单的数据绑定。但是">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
@@ -117,7 +128,7 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-SpringMVC学习（四）：转换器，验证器与EL表达式" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-SpringMVC学习（四）：转换器，验证器" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -160,6 +171,9 @@
 <li>格式化Formatter</li>
 <li>用Registrar注册Formatter</li>
 <li>Spring内置的各种转换器</li>
+<li>验证器简介</li>
+<li>Spring验证器</li>
+<li>JSR303验证器</li>
 </ul>
 </li>
 </ol>
@@ -477,11 +491,319 @@ String print(T object,java.util.Locale locale)
 <li>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-06.jpg" alt=""></li>
 </ol>
 <hr>
+<h2 id="4-验证器Validater简介"><a href="#4-验证器Validater简介" class="headerlink" title="4.验证器Validater简介"></a>4.验证器Validater简介</h2><ol>
+<li>Converter和Formatter作用于field(字段)级别。<br>验证器则是Object级别的，决定某一个对象中的所有field是否有效以及是否遵循某些规则。</li>
+<li>程序中既有Converter/Formatter又有验证器时的调用顺序：<br><strong>在调用控制器Controller期间，如果有字符串需要转换为指定的类型则会调用相应的Formatter，格式化成功后校验器(验证器)介入判断所有field是否遵循规则。</strong></li>
+<li>例如生日字段，将String转换为Date类型后需要用校验器来判断该时间是否大于当前日期。<br>虽然可以将该判断写在转换器中，但是使用验证器更加合适。<br>验证器可以检验两个或者更多字段之间的关系或者它们本身需要满足的条件。</li>
+<li>简单的示意图如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-07.jpg" alt=""></li>
+<li>Spring自带了验证器，不过更加推荐使用JSR 303验证器。<br>(JSR 303是一种Java验证规范)</li>
+</ol>
+<hr>
+<h2 id="5-Spring验证器简单使用"><a href="#5-Spring验证器简单使用" class="headerlink" title="5.Spring验证器简单使用"></a>5.Spring验证器简单使用</h2><p><strong>1)Spring验证器的简单使用：</strong></p>
+<ol>
+<li>使用Spring验证器需要实现org.springframework.validation.Validator接口，该接口代码如下：<pre><code>public interface Validator {
+    boolean supports(Class&lt;?&gt; clazz);
+    void validate(Object target, Errors errors);
+}
+</code></pre></li>
+<li>supports表示是否可以处理指定的Class,可以处理则返回true并使用validate验证目标对象，验证错误填入Error对象。</li>
+<li>Errors是一个在org.springframework.validation包下的接口。<br>Errors对象中包含了一系列FileError和ObjectError对象，分别代表字段出错和对象出错，但是单独创建者两个对象非常麻烦，有很多构造参数：<pre><code>public FieldError(
+        String objectName, String field, Object rejectedValue, boolean bindingFailure,
+        String[] codes, Object[] arguments, String defaultMessage) {
+}
+public ObjectError(String objectName, String[] codes, Object[] arguments, String defaultMessage) {
+}
+</code></pre>所以一般使用Errors接口的reject方法(ObjectErrors)和rejectValue方法(FieldErrors)。</li>
+<li><p>reject方法和rejectValue方法声明如下：</p>
+<pre><code>void reject(String errorCode);
+void reject(String errorCode, String defaultMessage);
+void reject(String errorCode, Object[] errorArgs, String defaultMessage);
+
+void rejectValue(String field, String errorCode);
+void rejectValue(String field, String errorCode, String defaultMessage);
+void rejectValue(String field, String errorCode, Object[] errorArgs, String defaultMessage);
+</code></pre><p>通常只给reject或者rejectValue传入一个错误码(errorCode),然后会在外部定义的文件去找(详见第三点错误信息源文件)，也可以添加一个默认错误消息defaultMessage，错误消息文件中没有该错误码时使用默认消息。</p>
+</li>
+<li>使用示例：<br>在validate重写方法内使用：<pre><code>errors.reject(&quot;code&quot;);    //ObjectErrors,对象级别错误
+errors.rejectValue(&quot;price&quot;,&quot;code&quot;);    //字段，错误码，FieldError
+</code></pre></li>
+</ol>
+<p><strong>2)ValidationUtils类：</strong></p>
+<ol>
+<li>可以简化errors.rejectValue()的验证。<br>类：org.springframework.validation.ValidationUtils</li>
+<li>两个重要方法：<pre><code>ValidationUtils.rejectIfEmpty(errors, &quot;name&quot;,&quot;nameNotNull&quot;);
+</code></pre>相当于：<pre><code>if(name==null||name.isEmpty()){    //不为空
+    errors.rejectValue(&quot;name&quot;,&quot;nameNotNull&quot;);
+}
+</code></pre>方法二：<pre><code>ValidationUtils.rejectIfEmptyOrWhitespace(errors, &quot;name&quot;,&quot;nameNotNull&quot;);
+</code></pre>相当于：<pre><code>if(name==null||name.trim().isEmpty()){    //去掉空格后不为空
+    errors.rejectValue(&quot;name&quot;,&quot;nameNotNull&quot;);
+}
+</code></pre></li>
+<li>ValidationUtils类的这两个方法重构方法如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-08.jpg" alt=""></li>
+<li><p>ValidationUtils还有一个方法：</p>
+<pre><code>public static void invokeValidator(Validator validator, Object obj, Errors errors) {
+    invokeValidator(validator, obj, errors, (Object[]) null);
+}
+
+public static void invokeValidator(Validator validator, Object obj, Errors errors, Object... validationHints) {
+...
+}
+</code></pre><p>可以用来调用验证器。</p>
+</li>
+</ol>
+<p><strong>3)定义错误消息源文件：</strong></p>
+<ol>
+<li>如果要从某一属性文件获取错误消息，需要在配置文件springmvc.xml中添加messageSource bean的声明:<pre><code>...
+&lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basename&quot; value=&quot;/WEB-INF/resource/message&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>然后再对应的/WEB-INF/resource目录下创建message.properties文件<br>文件里面的内容就是：<pre><code>错误码=错误信息
+nameNotNull=name can not be null
+</code></pre>这种格式，定义前端显示的提示信息。</li>
+<li>然后再在Controller中显式调用Validator。(详见例子)</li>
+<li>注意需要设置defaultEncoding属性，否则会乱码。</li>
+</ol>
+<p><strong>4)全局验证器</strong></p>
+<ol>
+<li>一般情况下不需要显式注册Validator。<br>默认请款下的验证器只能在当前控制器中使用。</li>
+<li>如果需要实现全局校验，需要配置Springmvc.xml文件：<pre><code>...
+&lt;mvc:annotation-driven validator=&quot;userValidator&quot;/&gt;
+&lt;bean id=&quot;userValidator&quot; class=&quot;com.xxx.xxx.xxxValidator&quot;/&gt;
+...
+</code></pre></li>
+<li>Validator的使用(包括转配bean)都和一般类没啥区别。</li>
+</ol>
+<hr>
+<h2 id="6-Spring验证器测试"><a href="#6-Spring验证器测试" class="headerlink" title="6.Spring验证器测试"></a>6.Spring验证器测试</h2><p>使用上面Formatter的测试代码进行修改。</p>
+<p><strong>1)添加EmployeeValidator验证器：</strong></p>
+<ol>
+<li>验证要求，各字段不能为空，生日要小于当前时间。</li>
+<li><p>在Controller4包下创建EmployeeValidator验证器，代码如下：</p>
+<pre><code>public class EmployeeValidator implements Validator{
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+        return Employee.class.isAssignableFrom(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Employee employee=(Employee)target;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,&quot;firstName&quot;,&quot;firstName.notnull&quot;,&quot;firstname不能为空&quot;);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,&quot;lastName&quot;,&quot;lastName.notnull&quot;,&quot;lastName不能为空&quot;);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,&quot;birthDate&quot;,&quot;birthDate.notnull&quot;,&quot;生日不能为空&quot;);
+        Date birthday=employee.getBirthDate();
+        if(birthday!=null){
+            if(birthday.after(new Date())){
+                System.out.println(&quot;生日日期晚于当前日期&quot;);
+                errors.rejectValue(&quot;birthDate&quot;,&quot;birthDate.error&quot;,&quot;生日不能晚于当前时间&quot;);
+            }
+        }
+    }
+}
+</code></pre></li>
+<li>仅仅做Employee的校验，所以不用在springmvc-servlet.xml配置文件中声明该验证器的bean。</li>
+<li>在这里配置了默认消息后，可以省略配置外部消息源文件这一步。</li>
+</ol>
+<p><strong>2)配置错误消息源文件：</strong></p>
+<ol>
+<li><p>在springmvc-servlet.xml声明messageSource bean：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans ...&gt;
+    &lt;context:component-scan base-package=&quot;Controller4&quot;&gt;&lt;/context:component-scan&gt;
+    &lt;mvc:annotation-driven conversion-service=&quot;conversionService&quot;&gt;&lt;/mvc:annotation-driven&gt;
+    &lt;mvc:resources location=&quot;/css/**&quot; mapping=&quot;/css&quot;&gt;&lt;/mvc:resources&gt;
+    &lt;mvc:resources location=&quot;/*.html&quot; mapping=&quot;/&quot;&gt;&lt;/mvc:resources&gt;
+
+    &lt;bean id=&quot;conversionService&quot; class=&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;&gt;
+        &lt;property name=&quot;formatterRegistrars&quot;&gt;
+            &lt;set&gt;
+                &lt;bean class=&quot;Controller4.S2DFormatterRegister&quot; name=&quot;formatregister1&quot;&gt;
+                    &lt;constructor-arg type=&quot;java.lang.String&quot; value=&quot;yyyy-MM-dd&quot;&gt;&lt;/constructor-arg&gt;
+                &lt;/bean&gt;
+            &lt;/set&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+    &lt;!--配置错误消息源--&gt;
+    &lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+        &lt;property name=&quot;basename&quot; value=&quot;/WEB-INF/jsp4/messages.properties&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+     &lt;bean id=&quot;viewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+         &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp4/&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;&gt;&lt;/property&gt;
+     &lt;/bean&gt;
+ &lt;/beans&gt;
+</code></pre></li>
+<li>在对应的目录/WEB-INF/jsp4/下创建messages.properties,内容如下：<pre><code>firstName.notnull=firstname not null
+lastName.notnull=lastname不能为空
+birthDate.notnull=生日不能为空
+birthDate.error=生日不能晚于当前时间
+</code></pre>validator中的错误码就到这个文件中来查找。(未配置则使用默认消息提示)</li>
+</ol>
+<p><strong>3)控制器：</strong></p>
+<ol>
+<li><p>EmployeeController代码修改如下：</p>
+<pre><code>@Controller
+public class EmployeeController {
+    private static final Log logger=LogFactory.getLog(EmployeeController.class);
+    //表单初始化
+    @RequestMapping(value=&quot;employee_input&quot;)
+    public String inputEmployee(Model model){
+        logger.info(&quot;调用inputEmployee初始化方法&quot;);
+        model.addAttribute(&quot;employee&quot;,new Employee());
+        return &quot;AddEmployeeForm&quot;;
+    }
+    //表单处理
+    @RequestMapping(value=&quot;employee_save&quot;)
+    public String saveEmployee(@ModelAttribute Employee employee,BindingResult bindingResult,Model model){
+        logger.info(&quot;调用saveEmployee请求处理方法&quot;);
+
+        EmployeeValidator employeeValidator=new EmployeeValidator();    //显式调用验证器
+        employeeValidator.validate(employee, bindingResult);
+
+        if(bindingResult.hasErrors()){
+            FieldError fieldError=bindingResult.getFieldError();
+            logger.info(&quot;出错了:Code=&quot;+fieldError.getCode()+&quot;,Field=&quot;+fieldError.getField());
+            return &quot;AddEmployeeForm&quot;;
+        }
+        return &quot;AddSuccess&quot;;
+    }
+}
+</code></pre></li>
+<li>并将条件页面的errors表单修改为<pre><code>&lt;form:errors path=&quot;*&quot;/&gt;&lt;br&gt;
+</code></pre>其余代码不变。</li>
+<li>测试：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-09.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-10.jpg" alt=""></li>
+<li>如果引入外部源文件一定要在配置文件中添加：<pre><code>&lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+</code></pre>否则会乱码：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-11.jpg" alt=""></li>
+</ol>
+<p><strong>4)使用EmployeeValidator的两种方式：</strong></p>
+<ol>
+<li>方式一：推荐<br>在控制器中显式使用：<pre><code>...
+EmployeeValidator employeeValidator=new EmployeeValidator();
+employeeValidator.validate(employee, bindingResult);
+...
+</code></pre></li>
+<li>方式二：<br>在控制器中编写initBinder方法，并将验证器传到WevDataBinder，并调用其validate方法：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-12.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-JSR303验证器"><a href="#7-JSR303验证器" class="headerlink" title="7.JSR303验证器"></a>7.JSR303验证器</h2><p><strong>1)JSR303简介：</strong></p>
+<ol>
+<li>JSR 303不是一种具体的技术，而是一种验证规范文档。于2009年发布。<br>同样的还有JSR 349(2013年发布)。</li>
+<li>JSR 303是正式的Java规范，所以最好使用JSR 303而不是Spring验证器。</li>
+<li>JSR Bean Validation有两个实现：<ul>
+<li>Hibernate Validator（推荐使用）</li>
+<li>Apache Bval</li>
+</ul>
+</li>
+<li>JSR 349暂时不做讨论。</li>
+</ol>
+<p><strong>2)JSR303约束文件</strong></p>
+<ol>
+<li>下载地址：<br><a href="https://jcp.org/en/jsr/detail?id=303" target="_blank" rel="noopener">https://jcp.org/en/jsr/detail?id=303</a></li>
+<li>JSR303不需要编写验证器，但是需要根据JSR标注类型嵌入约束。<br>详见下载的文件，这里只是简单介绍。</li>
+<li>JSR303约束如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-13.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-14.jpg" alt=""></li>
+<li><p>Hibernate validator 在JSR303的基础上对校验注解进行了扩展，扩展注解如下：</p>
+<pre><code>@Email            被注释的元素必须是电子邮箱地址
+
+@Length        被注释的字符串的大小必须在指定的范围内
+
+@NotEmpty        被注释的字符串的必须非空
+
+@Range            被注释的元素必须在合适的范围内
+</code></pre></li>
+<li>关于非空：<pre><code>@NotEmpty 用在集合类上面
+@NotBlank 用在String上面
+@NotNull 用在其他类型上
+</code></pre>清测@NotNull对String无效。</li>
+</ol>
+<p><strong>3)如何设置错误消息：</strong></p>
+<ol>
+<li>和Spring验证器一样，也需要自定义外部属性文件message.properties(自己指定的)来覆盖来自JSR303的默认消息。</li>
+<li>其中错误码的格式为：<br><code>constranint.object.property</code><br>constranint：注解名称<br>object：对象<br>property：属性</li>
+<li>如使用@Past标注Product对象的addDate属性,则对应的错误码如下：<br><code>Past.product.addDate</code><br>中间的对象名取决于@Valid注解标注的哪个对象。</li>
+</ol>
+<hr>
+<h2 id="8-JSR303验证器使用测试"><a href="#8-JSR303验证器使用测试" class="headerlink" title="8.JSR303验证器使用测试"></a>8.JSR303验证器使用测试</h2><p>使用起来比spring自带的验证器简单多了。</p>
+<p><strong>1)使用流程</strong></p>
+<ol>
+<li>添加依赖如下：<pre><code>...
+&lt;dependency&gt;
+  &lt;groupId&gt;org.hibernate.validator&lt;/groupId&gt;
+  &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+  &lt;version&gt;6.0.9.Final&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;javax.validation&lt;/groupId&gt;
+  &lt;artifactId&gt;validation-api&lt;/artifactId&gt;
+  &lt;version&gt;2.0.1.Final&lt;/version&gt;
+&lt;/dependency&gt;
+...
+</code></pre></li>
+<li>使用JSR303注解标注Employee类：<pre><code>public class Employee implements Serializable{
+    private static final long serialVersionUID = 186417813894448409L;
+    private long id;
+    @NotBlank
+    private String firstName;
+    @NotBlank
+    private String lastName;
+    @NotNull
+    @Past
+    private Date birthDate;
+    private int salaryLevel;
+    //get,set方法
+}
+</code></pre></li>
+<li>修改EmployeeController代码如下：<pre><code>@Controller
+public class EmployeeController {
+    private static final Log logger=LogFactory.getLog(EmployeeController.class);
+    //表单初始化
+    @RequestMapping(value=&quot;employee_input&quot;)
+    public String inputEmployee(Model model){
+        logger.info(&quot;调用inputEmployee初始化方法&quot;);
+        model.addAttribute(&quot;employee&quot;,new Employee());
+        return &quot;AddEmployeeForm&quot;;
+    }
+    //表单处理(注意在Employee前添加了@Valid)
+    @RequestMapping(value=&quot;employee_save&quot;)
+    public String saveEmployee(@Valid @ModelAttribute Employee employee,BindingResult bindingResult,Model model){
+        logger.info(&quot;调用saveEmployee请求处理方法&quot;);
+        if(bindingResult.hasErrors()){
+            FieldError fieldError=bindingResult.getFieldError();
+            logger.info(&quot;出错了:Code=&quot;+fieldError.getCode()+&quot;,Field=&quot;+fieldError.getField());
+            return &quot;AddEmployeeForm&quot;;
+        }
+        return &quot;AddSuccess&quot;;
+    }
+}
+</code></pre></li>
+<li>注册messageSource Bean：(springmvc-servlet.xml中)<pre><code>&lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basename&quot; value=&quot;/WEB-INF/jsp4/messages&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>在/WEB-INF/jsp4/messages.properties文件中添加相关注册码：<pre><code>NotBlank.employee.firstName=jsr303:firstname不能为空
+NotBlank.employee.lastName=jsr303:lastName不能为空
+NotNull.employee.birthDate=jsr303:birthDate不能为空
+Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
+</code></pre></li>
+</ol>
+<p><strong>2)测试：</strong></p>
+<ol>
+<li>为空：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-15.jpg" alt=""></li>
+<li>格式化Formatter错误：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-16.jpg" alt=""></li>
+<li>日期超过今天：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-17.jpg" alt=""></li>
+<li>简单的JSR303的用法就是这些。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月23日 22:27</p>
-        <p>原始链接： <a class="post-url" href="/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/" title="SpringMVC学习（四）：转换器，验证器">https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/</a></p>
+        <p>最后更新： 2018年05月24日 22:31</p>
+        <p>原始链接： <a class="post-url" href="/2018/05/22/SpringMVC学习（四）：转换器，验证器/" title="SpringMVC学习（四）：转换器，验证器">https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
                 <img src="/images/logo.png" alt="周建新">
@@ -538,7 +860,7 @@ String print(T object,java.util.Locale locale)
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/&title=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/&title=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -548,22 +870,22 @@ String print(T object,java.util.Locale locale)
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/&title=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&source=程序人生" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/&title=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&source=程序人生" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/&via=https://zjxkenshine.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringMVC学习（四）：转换器，验证器》 — 程序人生&url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/&via=https://zjxkenshine.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -573,7 +895,7 @@ String print(T object,java.util.Locale locale)
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器与EL表达式/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -600,7 +922,7 @@ String print(T object,java.util.Locale locale)
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-转换器与格式化简介"><span class="post-toc-text">1.转换器与格式化简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-转换器Convert"><span class="post-toc-text">2.转换器Convert</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Convert使用示例"><span class="post-toc-text">Convert使用示例</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-格式化Formatter"><span class="post-toc-text">3.格式化Formatter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一般使用方式"><span class="post-toc-text">一般使用方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过Register注册Formatter"><span class="post-toc-text">通过Register注册Formatter</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-转换器与格式化简介"><span class="post-toc-text">1.转换器与格式化简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-转换器Convert"><span class="post-toc-text">2.转换器Convert</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Convert使用示例"><span class="post-toc-text">Convert使用示例</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-格式化Formatter"><span class="post-toc-text">3.格式化Formatter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一般使用方式"><span class="post-toc-text">一般使用方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过Register注册Formatter"><span class="post-toc-text">通过Register注册Formatter</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-验证器Validater简介"><span class="post-toc-text">4.验证器Validater简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-Spring验证器简单使用"><span class="post-toc-text">5.Spring验证器简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Spring验证器测试"><span class="post-toc-text">6.Spring验证器测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-JSR303验证器"><span class="post-toc-text">7.JSR303验证器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-JSR303验证器使用测试"><span class="post-toc-text">8.JSR303验证器使用测试</span></a></li></ol>
         </nav>
     </aside>
     
