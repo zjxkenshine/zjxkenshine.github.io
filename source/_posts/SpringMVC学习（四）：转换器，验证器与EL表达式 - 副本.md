@@ -561,122 +561,17 @@ validator中的错误码就到这个文件中来查找。(未配置则使用默�
 ![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-12.jpg)
 
 ---
-## 7.JSR303验证器
+## 7.JSR 303验证器
 **1)JSR303简介：**
 1. JSR 303不是一种具体的技术，而是一种验证规范文档。于2009年发布。
 同样的还有JSR 349(2013年发布)。
 2. JSR 303是正式的Java规范，所以最好使用JSR 303而不是Spring验证器。
-3. JSR Bean Validation有两个实现：
-	- Hibernate Validator（推荐使用）
-	- Apache Bval
-4. JSR 349暂时不做讨论。
 
-**2)JSR303约束文件**
-1. 下载地址：
-<https://jcp.org/en/jsr/detail?id=303>
-2. JSR303不需要编写验证器，但是需要根据JSR标注类型嵌入约束。
-详见下载的文件，这里只是简单介绍。
-3. JSR303约束如下：
-![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-13.jpg)
-![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-14.jpg)
-4. Hibernate validator 在JSR303的基础上对校验注解进行了扩展，扩展注解如下：
-		 @Email			被注释的元素必须是电子邮箱地址
-		
-		 @Length		被注释的字符串的大小必须在指定的范围内
-		
-		 @NotEmpty		被注释的字符串的必须非空
-		
-		 @Range			被注释的元素必须在合适的范围内
-5. 关于非空：
-		@NotEmpty 用在集合类上面
-		@NotBlank 用在String上面
-		@NotNull 用在其他类型上
-清测@NotNull对String无效。
-
-**3)如何设置错误消息：**
-1. 和Spring验证器一样，也需要自定义外部属性文件message.properties(自己指定的)来覆盖来自JSR303的默认消息。
-2. 其中错误码的格式为：
-`constranint.object.property`
-constranint：注解名称
-object：对象
-property：属性
-3. 如使用@Past标注Product对象的addDate属性,则对应的错误码如下：
-`Past.product.addDate`
-中间的对象名取决于@Valid注解标注的哪个对象。
+**2)**
 
 ---
-## 8.JSR303验证器使用测试
-使用起来比spring自带的验证器简单多了。
+## 8.JSR 303验证器使用测试
 
-**1)使用流程**
-1. 添加依赖如下：
-		...
-		<dependency>
-		  <groupId>org.hibernate.validator</groupId>
-		  <artifactId>hibernate-validator</artifactId>
-		  <version>6.0.9.Final</version>
-		</dependency>
-		<dependency>
-		  <groupId>javax.validation</groupId>
-		  <artifactId>validation-api</artifactId>
-		  <version>2.0.1.Final</version>
-		</dependency>
-		...
-2. 使用JSR303注解标注Employee类：
-		public class Employee implements Serializable{
-			private static final long serialVersionUID = 186417813894448409L;
-			private long id;
-			@NotBlank
-			private String firstName;
-			@NotBlank
-			private String lastName;
-			@NotNull
-			@Past
-			private Date birthDate;
-			private int salaryLevel;
-			//get,set方法
-		}
-3. 修改EmployeeController代码如下：
-		@Controller
-		public class EmployeeController {
-			private static final Log logger=LogFactory.getLog(EmployeeController.class);
-			//表单初始化
-			@RequestMapping(value="employee_input")
-			public String inputEmployee(Model model){
-				logger.info("调用inputEmployee初始化方法");
-				model.addAttribute("employee",new Employee());
-				return "AddEmployeeForm";
-			}
-			//表单处理(注意在Employee前添加了@Valid)
-			@RequestMapping(value="employee_save")
-			public String saveEmployee(@Valid @ModelAttribute Employee employee,BindingResult bindingResult,Model model){
-				logger.info("调用saveEmployee请求处理方法");
-				if(bindingResult.hasErrors()){
-					FieldError fieldError=bindingResult.getFieldError();
-					logger.info("出错了:Code="+fieldError.getCode()+",Field="+fieldError.getField());
-					return "AddEmployeeForm";
-				}
-				return "AddSuccess";
-			}
-		}
-4. 注册messageSource Bean：(springmvc-servlet.xml中)
-		<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-			<property name="basename" value="/WEB-INF/jsp4/messages"></property>
-			<property name="defaultEncoding" value="UTF-8"></property>
-		</bean>
-5. 在/WEB-INF/jsp4/messages.properties文件中添加相关注册码：
-		NotBlank.employee.firstName=jsr303:firstname不能为空
-		NotBlank.employee.lastName=jsr303:lastName不能为空
-		NotNull.employee.birthDate=jsr303:birthDate不能为空
-		Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
 
-**2)测试：**
-1. 为空：
-![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-15.jpg)
-2. 格式化Formatter错误：
-![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-16.jpg)
-3. 日期超过今天：
-![](http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-17.jpg)
-4. 简单的JSR303的用法就是这些。
 
 ---
