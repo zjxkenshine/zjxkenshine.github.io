@@ -8,19 +8,20 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException   1.问题1~5解决方案：1)JVM学习时使用JPS命令报错：  详细报错信息：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerExceptio">
+  <meta name="description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException 使用java命令出错：Error: Registry key &amp;apos;Software\JavaSoft\Java Runtime Environment&amp;apos;\CurrentVersion&amp;apos;">
 <meta name="keywords" content="JVM,Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java学习过程中遇到的问题及解决方案">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/16/Java学习过程中遇到的问题和解决方案/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException   1.问题1~5解决方案：1)JVM学习时使用JPS命令报错：  详细报错信息：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerExceptio">
+<meta property="og:description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException 使用java命令出错：Error: Registry key &amp;apos;Software\JavaSoft\Java Runtime Environment&amp;apos;\CurrentVersion&amp;apos;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00063Java%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
-<meta property="og:updated_time" content="2018-05-16T11:48:12.863Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00063Java%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg">
+<meta property="og:updated_time" content="2018-05-25T10:57:26.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java学习过程中遇到的问题及解决方案">
-<meta name="twitter:description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException   1.问题1~5解决方案：1)JVM学习时使用JPS命令报错：  详细报错信息：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerExceptio">
+<meta name="twitter:description" content="0. 遇到的问题 JVM学习时使用JPS命令报错：Exception in thread &amp;quot;main&amp;quot; java.lang.NullPointerException 使用java命令出错：Error: Registry key &amp;apos;Software\JavaSoft\Java Runtime Environment&amp;apos;\CurrentVersion&amp;apos;">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00063Java%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
   
   
@@ -150,6 +151,11 @@
             
             <h2 id="0-遇到的问题"><a href="#0-遇到的问题" class="headerlink" title="0. 遇到的问题"></a>0. 遇到的问题</h2><ol>
 <li>JVM学习时使用JPS命令报错：<br><code>Exception in thread &quot;main&quot; java.lang.NullPointerException</code></li>
+<li>使用java命令出错：<pre><code>Error: Registry key &apos;Software\JavaSoft\Java Runtime Environment&apos;\CurrentVersion&apos;
+has value &apos;1.8&apos;, but &apos;1.7&apos; is required.
+Error: could not find java.dll
+Error: Could not find Java SE Runtime Environment.
+</code></pre></li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决方案："><a href="#1-问题1-5解决方案：" class="headerlink" title="1.问题1~5解决方案："></a>1.问题1~5解决方案：</h2><p><strong>1)JVM学习时使用JPS命令报错：</strong></p>
@@ -163,11 +169,17 @@ iveVms(MonitoredHostProvider.java:150)
 </code></pre></li>
 <li>解决方法：<br>jp只能显示当前用户的java进程，JVM是管理员而我是使用当前用户的方式运行cmd,所以一直找不到文件，就报错了。<br>以管理员方式运行cmd就可以了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00063Java%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg" alt=""></li>
 </ol>
+<p><strong>2)使用Java命令时出错：</strong></p>
+<ol>
+<li>出错环境：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00063Java%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg" alt=""></li>
+<li>出错原因分析：<br>原来有jdk1.7,又下载了一个jdk1.8</li>
+<li>解决方法：<br>暂未解决<br>网上有说删除C：/windows/system32下的java.exe<br>但是没有用。</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月16日 19:48</p>
+        <p>最后更新： 2018年05月25日 18:57</p>
         <p>原始链接： <a class="post-url" href="/2018/05/16/Java学习过程中遇到的问题和解决方案/" title="Java学习过程中遇到的问题及解决方案">https://zjxkenshine.github.io/2018/05/16/Java学习过程中遇到的问题和解决方案/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">

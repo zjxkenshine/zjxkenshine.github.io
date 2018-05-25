@@ -22,7 +22,26 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-06.jpg">
-<meta property="og:updated_time" content="2018-05-25T09:14:03.726Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-26.jpg">
+<meta property="og:updated_time" content="2018-05-25T15:02:33.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC学习（五）：JSTL（JSP标准标签库）">
 <meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 参考网址：http://www.runoob.com/jsp/jsp-jstl.htmlhttps://blog.csdn.net/qq_25827845/article/details/53311722 简单目录：">
@@ -229,6 +248,7 @@
 </code></pre></li>
 <li>在JSP页面中根据要使用的标签库来导入相关的库。<br>如使用JSTL核心库：<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
 </code></pre></li>
+<li>后面所涉及到的body content，正文主体，其实就是jsp的内容。</li>
 </ol>
 <hr>
 <h2 id="2-JSTL标签库"><a href="#2-JSTL标签库" class="headerlink" title="2.JSTL标签库"></a>2.JSTL标签库</h2><ol>
@@ -356,13 +376,447 @@
 </ul>
 </li>
 <li>forEach标签有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-06.jpg" alt=""></li>
-<li>有两种使用方式：<br>方式一：固定次数重复body content<br><c:foreach [var="遍历名" ]=""><br>方式二：遍历集合对象</c:foreach></li>
+<li>有两种使用方式：<br>方式一：固定次数重复body content<pre><code>&lt;c:forEach var=&quot;变量名&quot; begin=&quot;开始&quot; end=&quot;结束&quot; step=&quot;步长&quot;&gt;
+    循环主体bodycontent
+&lt;/c:forEach&gt;
+</code></pre>方式二：遍历集合对象和body content(固定次数,不约束就是全部遍历)<pre><code>&lt;c:forEach items=&quot;集合对象&quot; [var=&quot;变量名&quot; begin=&quot;开始&quot; end=&quot;结束&quot; step=&quot;步长&quot;]&gt;
+    循环主体
+&lt;/c:forEach&gt;
+</code></pre></li>
+<li>方式二在SpringMVC学习笔记三中就已经使用过了：<pre><code>&lt;table&gt;
+&lt;tr&gt;
+    &lt;th&gt;书籍名&lt;/th&gt;
+    &lt;th&gt;作者&lt;/th&gt;
+    &lt;th&gt;类型&lt;/th&gt;
+    &lt;th&gt;ISBN&lt;/th&gt;
+    &lt;th&gt;操作&lt;/th&gt;
+&lt;/tr&gt;
+&lt;c:forEach items=&quot;${booklist}&quot; var=&quot;book&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;${book.title}&lt;/td&gt;
+        &lt;td&gt;${book.author}&lt;/td&gt;
+        &lt;td&gt;${book.category.name}&lt;/td&gt;
+        &lt;td&gt;${book.isbn}&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;book_edit/${book.id}&quot;&gt;编辑&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/c:forEach&gt;
+&lt;/table&gt;
+</code></pre></li>
+<li>关于var属性：<br>每次循环都会生成一个有界变量，变量中保存的就是一次循环出来的内容，由var属性定义变量名字。上面的循环变量就是book,存储的是book对象。</li>
+<li>关于varStatus属性：<br>存储这个forEach的循环信息。使用该属性定义循环信息的名称。循环信息保存在一个接口对象内，该对象有一个count属性，可以通过<code>名称.count</code>获取当前的循环次数。<br>如：<pre><code>&lt;c:forEach items=&quot;${booklist}&quot; var=&quot;book&quot; varStatus=&quot;status&quot;&gt;
+    &lt;c:out value=&quot;${status.count}&quot;/&gt;
+&lt;/c:forEach&gt;
+</code></pre></li>
+<li>可以嵌套forEach标签达到多重循环的效果。</li>
+</ol>
+<p><strong>2)forTokens标签：</strong></p>
+<ol>
+<li>用于隔开以特定分隔符隔开的字符串，相当于Java中的Split各开后再遍历。<br>使用如下：<pre><code>&lt;c:forTokens items=&quot;token字符串&quot; delims=&quot;分隔符&quot; var=&quot;变量名&quot; begin=&quot;开始&quot; end=&quot;结束&quot; step=&quot;步长&quot;&gt;
+    循环体body content
+&lt;/c:forTokens&gt;
+</code></pre></li>
+<li>属性列表如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-07.jpg" alt=""></li>
+<li>使用示例：<br>如下遍历:<pre><code>&lt;c:forTokens items=&quot;篮球,足球,排球&quot; var=&quot;ball&quot; delims=&quot;,&quot;&gt;
+    &lt;c:out value=&quot;${ball}&quot;/&gt;
+&lt;/c:forTokens&gt;
+</code></pre>输出结果是：<pre><code>篮球
+足球
+排球
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-与URL相关的行为"><a href="#6-与URL相关的行为" class="headerlink" title="6.与URL相关的行为"></a>6.与URL相关的行为</h2><p>主要介绍url标签及简单介绍redirect标签。</p>
+<p><strong>1)url标签：</strong></p>
+<ol>
+<li>url标签作用简单来说就是组合正确的URL<br>(使URL的解析是正确的)<br>url标签也是JSTL核心库中的标签。</li>
+<li>url标签执行如下操作：<ul>
+<li>如果当前上下文路径为”/“（默认上下文）,则将空字符串附加给指定路径</li>
+<li>如果当前上下文路径不为”/“,则将上下文路径附加给指定路径</li>
+</ul>
+</li>
+<li>下面以例子说明：<br>如有应用context为默认上下文，其中有图片资源image/pic.jpg，想要在img标签中调用该图片资源。<br>正确的url:<pre><code>http://host/context/image/pic.jpg
+</code></pre></li>
+<li>方式一：相对路径<pre><code>&lt;img src=&quot;image/pic.jpg&quot;&gt;
+</code></pre>此时通过不同路径访问到的img解析得到的url也不同。<br><code>http://host/context/main/main.jsp</code><br>就会错误解析为：<pre><code>http://host/context/main/image/pic.jpg
+</code></pre></li>
+<li>方式二：绝对路径<pre><code>&lt;img src=&quot;/image/pic.jpg&quot;&gt;
+</code></pre>看上去很好，但是通过默认上下文就会出错<br>如：<br><code>http://host/main/main.jsp</code><br>就会解析为：<pre><code>http://host/main/image/pic.jpg
+</code></pre></li>
+<li>方式三：使用url标签<pre><code>&lt;img src=&quot;&lt;c:url value=&quot;/image/pic.jpg&quot;/&gt;&quot;&gt;
+</code></pre>具体处理就是是默认上下文加空字符串，不是就加上下文。</li>
+<li>方式四：使用EL表达式(手动实现)<pre><code>&lt;c:set var=&quot;cp&quot; value=&quot;${pageContext.request.contextPath}&quot;&gt;
+&lt;img src=&quot;${cp=&quot;/&quot;?&quot; &quot;: cp}/image/pic.jpg&quot;/&quot;&gt;
+</code></pre></li>
+<li>只要记住在需要使用url资源的时候使用<code>&lt;c:url value=&quot;绝对路径&quot;/&gt;</code>就不太会出错。</li>
+</ol>
+<p><strong>2)redirect标签：</strong></p>
+<ol>
+<li>会发出跳转到客户端的HTTP</li>
+<li>有两个属性：<ul>
+<li>url：要跳转到的url</li>
+<li>context：跳转到外部上下文URL资源时的上下文名称</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-格式化行为-标签"><a href="#7-格式化行为-标签" class="headerlink" title="7.格式化行为(标签)"></a>7.格式化行为(标签)</h2><ol>
+<li>格式化标签就是用来对数据进行格式化的，<br>格式化标签来自国际化标签库，需要如下代码进行导入：<pre><code>&lt;%@taglib prefix=&quot;fmt&quot; uri=&quot;http://java.sun.com/jsp/jstl/fmt&quot; %&gt;
+</code></pre></li>
+<li>主要介绍如下标签：<ul>
+<li>formatNumber标签</li>
+<li>formatDate标签</li>
+<li>timeZone标签</li>
+<li>setTimeZone标签</li>
+<li>parseNumber标签</li>
+<li>parseDate标签</li>
+</ul>
+</li>
+</ol>
+<p><strong>1)formatNumber标签：</strong></p>
+<ol>
+<li>用于格式化数字。<br>该标签可以根据需要，利用它的属性来获得自己想要的格式。</li>
+<li>该标签有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-12.jpg" alt=""></li>
+<li>有关两种使用形式：<br>无body content：(格式化value属性的值)<pre><code>&lt;fmt:formatNumber value=&quot;源value&quot; 各项属性/&gt;
+</code></pre>有body content：(格式化body content的值)<pre><code>&lt;fmt:formatNumber 各项属性&gt;
+    要格式化的字符串或者数字
+&lt;/fmt:formatNumber&gt;
+</code></pre>各属性可选值：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-15.jpg" alt=""></li>
+<li>最常见的用法是将数字格式转换成货币，使用currencyCode属性来定义一个ISO4217码即可，ISO4217货币代码表如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-13.jpg" alt=""></li>
+<li>使用示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-11.jpg" alt=""></li>
+</ol>
+<p><strong>2)formatDate标签：</strong></p>
+<ol>
+<li>formatDate标签用于格式化日期。</li>
+<li>有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-10.jpg" alt=""></li>
+<li>关与timeZone属性的可能值查看timeZone标签部分。<br>并不是简单的1234。</li>
+<li>使用方式：<pre><code>&lt;fmt:formatDate value=&quot;date&quot; [各项属性]/&gt;
+</code></pre>各属性可选值：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-14.jpg" alt=""></li>
+<li>简单示例：<br>格式化变量now引用的Date类对象：<pre><code>&lt;fmt:formatDate value=&quot;${now}&quot; dateStyle=&quot;[default|short|...]&quot; /&gt;
+</code></pre>格式化时间：(Type默认值应该是Date)<pre><code>&lt;fmt:formatDate value=&quot;${now}&quot; type=&quot;time&quot; timeStyle=&quot;[default|short|...]&quot; /&gt;
+</code></pre>格式化日期和时间：<pre><code>&lt;fmt:formatDate value=&quot;${now}&quot; type=&quot;both&quot; dateStyle=&quot;[default|short|...]&quot; timeStyle=&quot;[default|short|...]&quot; /&gt;
+</code></pre>格式化带时区的时间：<pre><code>&lt;fmt:formatDate value=&quot;${now}&quot; type=&quot;time&quot; timeZone=&quot;CT&quot; /&gt;
+</code></pre>定制模式的日期和时间：<pre><code>&lt;fmt:formatDate value=&quot;${now}&quot; type=&quot;both&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)timeZone标签：</strong></p>
+<ol>
+<li>timeZone标签用于定义时区，格式化body content的值。<br>用法如下：<pre><code>&lt;fmt:timeZone value=&quot;时区值&quot; &gt;
+    body content
+&lt;/fmt:timeZone&gt;
+</code></pre></li>
+<li>关于时区值：<br>可以使用<code>GMT+-n:00</code>来表示在哪个时区（GMT:国际标准时间）<br>中国为：<code>GMT+08:00</code><br>也可以使用时区缩写(自行百度，好像没有中国的)</li>
+</ol>
+<p><strong>4)setTimeZone标签：</strong></p>
+<ol>
+<li>setTimeZone标签用于将时区保存在一个变量或者时间配置变量中。</li>
+<li>属性如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-16.jpg" alt=""></li>
+<li>用法如下：<pre><code>&lt;fmt:setTimeZone value=&quot;时区值&quot; var=&quot;varName&quot; scope=&quot;page/session/request/application&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)parseNumber标签：</strong></p>
+<ol>
+<li>parseNumber标签用于将以字符串表示的数字、货币或者百分比解析成数字。<br>和formatNumber的作用相反，但是用法相似。</li>
+<li>parseNumber有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-17.jpg" alt=""></li>
+<li>使用方法：<br>无body content:<br><code>&lt;fmt:parseNumber value=&quot;源值&quot; [各项属性配置] /&gt;</code><br>有body content:<pre><code>&lt;fmt:parseNumber [各项属性配置]&gt;
+    要被转换的数字值
+&lt;/fmt:parseNumber&gt;
+</code></pre>各属性和可选值如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-18.jpg" alt=""></li>
+</ol>
+<p><strong>6)parseDate标签：</strong></p>
+<ol>
+<li>parseDate标签用于将时间表时的格式解析为字符串日期和时间。<br>和formatDate标签相反，用法相似。</li>
+<li>有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-19.jpg" alt=""></li>
+<li>有两种使用方式：<br>无body content:<pre><code>&lt;fmt:parseDate value=&quot;源值&quot; [各项属性配置] /&gt;
+</code></pre>有body content:<pre><code>&lt;fmt:parseDate [各项属性配置]&gt;
+    要被转换的值
+&lt;/fmt:parseNumber&gt;
+</code></pre></li>
+<li>个属性可选值如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-20.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="8-SQL相关的行为-标签"><a href="#8-SQL相关的行为-标签" class="headerlink" title="8.SQL相关的行为(标签)"></a>8.SQL相关的行为(标签)</h2><p><strong>1)简介：</strong></p>
+<ol>
+<li>需要导入依赖：<br><code>&lt;%@ taglib prefix=&quot;sql&quot; uri=&quot;http://java.sun.com/jsp/jstl/sql&quot; %&gt;</code></li>
+<li>有如下标签：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-21.jpg" alt=""></li>
+<li>参考：<br><a href="http://www.runoob.com/jsp/jsp-jstl.html" target="_blank" rel="noopener">http://www.runoob.com/jsp/jsp-jstl.html</a></li>
+</ol>
+<p><strong>2)setDataSource标签：</strong></p>
+<ol>
+<li>用来配置数据源或者将数据源信息存储在某作用域的变量中，用来作为其它JSTL数据库操作的数据源。</li>
+<li>有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-22.jpg" alt=""></li>
+<li>使用方法：<pre><code>&lt;sql:setDataSource
+  var=&quot;&lt;string&gt;&quot;
+  scope=&quot;&lt;string&gt;&quot;
+  dataSource=&quot;&lt;string&gt;&quot;
+  driver=&quot;&lt;string&gt;&quot;
+  url=&quot;&lt;string&gt;&quot;
+  user=&quot;&lt;string&gt;&quot;
+  password=&quot;&lt;string&gt;&quot;/&gt;
+</code></pre></li>
+<li>简单示例：<pre><code>&lt;sql:setDataSource var=&quot;snapshot&quot; 
+    driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://localhost/TEST&quot;
+    user=&quot;user_id&quot; password=&quot;password&quot;/&gt;
+&lt;sql:query dataSource=&quot;${snapshot}&quot; sql=&quot;...&quot; var=&quot;result&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)query标签：</strong></p>
+<ol>
+<li>用于运行sql查询语句，将结果存储在有界变量中。</li>
+<li>有以下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-23.jpg" alt=""></li>
+<li>使用方式如下：<pre><code>&lt;sql:query
+  var=&quot;&lt;string&gt;&quot;
+  scope=&quot;&lt;string&gt;&quot;
+  sql=&quot;&lt;string&gt;&quot;
+  dataSource=&quot;&lt;string&gt;&quot;
+  startRow=&quot;&lt;string&gt;&quot;
+  maxRows=&quot;&lt;string&gt;&quot;/&gt;
+</code></pre></li>
+<li><p>使用示例：</p>
+<pre><code>&lt;sql:setDataSource var=&quot;snapshot&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
+    url=&quot;jdbc:mysql://localhost/TEST&quot;
+    user=&quot;root&quot;  password=&quot;pass123&quot;/&gt;
+
+&lt;sql:query dataSource=&quot;${snapshot}&quot; var=&quot;result&quot;&gt;
+SELECT * from Employees;
+&lt;/sql:query&gt;
+
+&lt;table border=&quot;1&quot; width=&quot;100%&quot;&gt;
+&lt;tr&gt;
+&lt;th&gt;Emp ID&lt;/th&gt;
+&lt;th&gt;First Name&lt;/th&gt;
+&lt;th&gt;Last Name&lt;/th&gt;
+&lt;th&gt;Age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;c:forEach var=&quot;row&quot; items=&quot;${result.rows}&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;c:out value=&quot;${row.id}&quot;/&gt;&lt;/td&gt;
+&lt;td&gt;&lt;c:out value=&quot;${row.first}&quot;/&gt;&lt;/td&gt;
+&lt;td&gt;&lt;c:out value=&quot;${row.last}&quot;/&gt;&lt;/td&gt;
+&lt;td&gt;&lt;c:out value=&quot;${row.age}&quot;/&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/c:forEach&gt;
+&lt;/table&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)update标签：</strong></p>
+<ol>
+<li>用来执行一个没有返回值的SQL语句，比如SQL INSERT，UPDATE，DELETE语句。</li>
+<li>有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-24.jpg" alt=""></li>
+<li>使用方式：<pre><code>&lt;sql:update var=&quot;&lt;string&gt;&quot; scope=&quot;&lt;string&gt;&quot; sql=&quot;&lt;string&gt;&quot; dataSource=&quot;&lt;string&gt;&quot;/&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)param标签：</strong></p>
+<ol>
+<li>与<code>&lt;sql:query&gt;</code>标签和<code>&lt;sql:update&gt;</code>标签嵌套使用，用来提供一个值占位符。如果是一个null值，则将占位符设为SQLNULL。</li>
+<li>只有一个属性value，表示需要设置的参数值。</li>
+<li>使用示例：<pre><code>&lt;sql:update dataSource=&quot;${snapshot}&quot; var=&quot;count&quot;&gt;
+  DELETE FROM Employees WHERE Id = ?
+  &lt;sql:param value=&quot;${empId}&quot; /&gt;
+&lt;/sql:update&gt;
+</code></pre></li>
+</ol>
+<p><strong>6)dateParam标签：</strong></p>
+<ol>
+<li>与<code>&lt;sql:query&gt;</code>标签和<code>&lt;sql:update&gt;</code>标签嵌套使用，用来提供日期和时间的占位符。如果是一个null值，则将占位符设为SQLNULL。</li>
+<li>有两个属性：<ul>
+<li>value：表示需要设置的日期参数（java.util.Date）</li>
+<li>type：类型，DATE（只有日期），TIME（只有时间），TIMESTAMP（日期和时间）</li>
+</ul>
+</li>
+<li>使用示例：<pre><code>&lt;sql:update dataSource=&quot;${snapshot}&quot; var=&quot;count&quot;&gt;
+   UPDATE Students SET dob = ? WHERE Id = ?
+   &lt;sql:dateParam value=&quot;&lt;%=DoB%&gt;&quot; type=&quot;DATE&quot; /&gt;
+   &lt;sql:param value=&quot;&lt;%=studentId%&gt;&quot; /&gt;
+&lt;/sql:update&gt;
+</code></pre></li>
+</ol>
+<p><strong>7)transaction标签：</strong></p>
+<ol>
+<li>用来将<code>&lt;sql:query&gt;</code>标签和<code>&lt;sql:update&gt;</code>标签封装至事务中。可以将大量的<code>&lt;sql:query&gt;</code>和<code>&lt;sql:update&gt;</code>操作装入<code>&lt;sql:transaction&gt;</code>中，使它们成为单一的事务。</li>
+<li>有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-25.jpg" alt=""></li>
+<li>使用示例：<pre><code>&lt;sql:transaction dataSource=&quot;${snapshot}&quot;&gt;
+   &lt;sql:update var=&quot;count&quot;&gt;
+      UPDATE Students SET last = &apos;Ali&apos; WHERE Id = 102
+   &lt;/sql:update&gt;
+   &lt;sql:update var=&quot;count&quot;&gt;
+      UPDATE Students SET last = &apos;Shah&apos; WHERE Id = 103
+   &lt;/sql:update&gt;
+   &lt;sql:update var=&quot;count&quot;&gt;
+     INSERT INTO Students 
+     VALUES (104,&apos;Nuha&apos;, &apos;Ali&apos;, &apos;2010/05/26&apos;);
+   &lt;/sql:update&gt;
+&lt;/sql:transaction&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="9-JSTL相关函数"><a href="#9-JSTL相关函数" class="headerlink" title="9.JSTL相关函数"></a>9.JSTL相关函数</h2><p><strong>1)函数简介：</strong></p>
+<ol>
+<li>JSTL包含一系列标准函数，大部分是通用的字符串处理函数。(类似java的String的函数)<br>引用JSTL函数库的语法如下：<pre><code>&lt;%@ taglib prefix=&quot;fn&quot; uri=&quot;http://java.sun.com/jsp/jstl/functions&quot; %&gt;
+</code></pre></li>
+<li>函数一览：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00067SpringMVC%E5%AD%A6%E4%B9%A05-26.jpg" alt=""></li>
+<li>下面对这些函数进行详细介绍</li>
+</ol>
+<h3 id="contains-indexof函数"><a href="#contains-indexof函数" class="headerlink" title="contains~indexof函数"></a>contains~indexof函数</h3><p><strong>1)contains()函数：</strong></p>
+<ol>
+<li>测试一个字符串是否包含指定的子字符串。</li>
+<li>语法：<br><code>${fn:contains(string,substring)}</code><br>string可以为静态字符串也可以为变量。<br>可以配合<code>&lt;c:if&gt;</code>标签使用：<pre><code>&lt;c:if test=&quot;${fn:contains(&lt;原始字符串&gt;, &lt;要查找的子字符串&gt;)}&quot;&gt;
+...
+&lt;/c:if&gt; 
+</code></pre></li>
+</ol>
+<p><strong>2)containsIgnoreCase()函数：</strong></p>
+<ol>
+<li>用于确定一个字符串是否包含指定的子串，忽略大小写。<br>（和contains差不多，只是忽略大小写）</li>
+<li>使用方式和contains类似：<pre><code>&lt;c:set var=&quot;theString&quot; value=&quot;I am from runoob&quot;/&gt;
+&lt;c:if test=&quot;${fn:containsIgnoreCase(theString, &apos;runoob&apos;)}&quot;&gt;
+    &lt;p&gt;找到 runoob&lt;p&gt;
+&lt;/c:if&gt;
+&lt;c:if test=&quot;${fn:containsIgnoreCase(theString, &apos;RUNOOB&apos;)}&quot;&gt;
+    &lt;p&gt;找到 RUNOOB&lt;p&gt;
+&lt;/c:if&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)endsWith()函数：</strong></p>
+<ol>
+<li>判断一个字符串是否以指定后缀结尾。</li>
+<li>使用方式：<pre><code>&lt;c:if test=&quot;${fn:endsWith(&lt;原始字符串&gt;, &lt;要查找的子字符串&gt;)}&quot;&gt;
+...
+&lt;/c:if&gt;
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;theString&quot; value=&quot;I am from runoob 123&quot;/&gt;
+&lt;c:if test=&quot;${fn:endsWith(theString, &apos;123&apos;)}&quot;&gt;
+   &lt;p&gt;字符串以 123 结尾&lt;p&gt;
+&lt;/c:if&gt;
+&lt;c:if test=&quot;${fn:endsWith(theString, &apos;unoob&apos;)}&quot;&gt;
+   &lt;p&gt;字符串以 runoob 结尾&lt;p&gt;
+&lt;/c:if&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)escapeXml()函数：</strong></p>
+<ol>
+<li>fn:escapeXml()函数忽略用于XML标记的字符。</li>
+<li>使用方式：<pre><code>${fn:escapeXml(&lt;要转义标记的文本&gt;)} 
+</code></pre></li>
+</ol>
+<p><strong>5)indexOf()函数：</strong></p>
+<ol>
+<li>fn:indexOf()函数返回一个字符串中指定子串的位置。</li>
+<li>使用方式：<pre><code>${fn:indexOf(&lt;原始字符串&gt;,&lt;子字符串&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;This is first String.&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;This &lt;abc&gt;is second String.&lt;/abc&gt;&quot;/&gt;
+&lt;p&gt;Index (1) : ${fn:indexOf(string1, &quot;first&quot;)}&lt;/p&gt;
+&lt;p&gt;Index (2) : ${fn:indexOf(string2, &quot;second&quot;)}&lt;/p&gt;
+</code></pre></li>
+</ol>
+<h3 id="join-startsWith函数"><a href="#join-startsWith函数" class="headerlink" title="join~startsWith函数"></a>join~startsWith函数</h3><p><strong>1)join()函数：</strong></p>
+<ol>
+<li>fn:join()函数将一个数组中的所有元素使用指定的分隔符来连接成一个字符串。</li>
+<li>使用方式：<pre><code>${fn:join([数组], &lt;分隔符&gt;)}
+</code></pre></li>
+<li>使用示例：(输出 www-runoob-com)<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;www runoob com&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:split(string1, &apos; &apos;)}&quot; /&gt;
+&lt;c:set var=&quot;string3&quot; value=&quot;${fn:join(string2, &apos;-&apos;)}&quot; /&gt;
+&lt;p&gt;字符串为 : ${string3}&lt;/p&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)length()函数：</strong></p>
+<ol>
+<li>fn:length()函数返回字符串长度或集合中元素的数量。</li>
+<li>使用方式：<pre><code>${fn:length(collection | string)}
+</code></pre></li>
+<li>使用示例：(结果21，22)<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;This is first String.&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;This is second String.&quot; /&gt;
+&lt;p&gt;字符串长度 (1) : ${fn:length(string1)}&lt;/p&gt;
+&lt;p&gt;字符串长度 (2) : ${fn:length(string2)}&lt;/p&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)replace()函数：</strong></p>
+<ol>
+<li>fn:replace()函数将字符串中所有指定的子串用另外的字符串替换。</li>
+<li>使用方式：<pre><code>${fn:replace(&lt;原始字符串&gt;, &lt;被替换的字符串&gt;, &lt;要替换的字符串&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;I am from google&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:replace(string1, &apos;google&apos;, &apos;runoob&apos;)}&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>4）split()函数：</strong></p>
+<ol>
+<li>fn:split()函数将一个字符串用指定的分隔符分裂为一个子串数组。</li>
+<li>使用方式：<pre><code>${fn:split(&lt;带分隔符的字符串&gt;, &lt;分隔符&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;www runoob com&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:split(string1, &apos; &apos;)}&quot; /&gt;
+&lt;c:set var=&quot;string3&quot; value=&quot;${fn:join(string2, &apos;-&apos;)}&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>5)startsWith()函数：</strong></p>
+<ol>
+<li>fn:startsWith()函数用于确定一个字符串是否以指定的前缀开始。<br>(和endsWith()函数相反)</li>
+<li>使用方式：<pre><code>&lt;c:if test=&quot;${fn:startsWith(&lt;原始字符串&gt;, &lt;搜索的前缀&gt;)}&quot;&gt;
+    ...
+&lt;/c:if&gt;
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string&quot; value=&quot;Runoob: I am from Runoob.&quot;/&gt;
+&lt;c:if test=&quot;${fn:startsWith(string, &apos;Google&apos;)}&quot;&gt; 
+    &lt;p&gt;字符串以 Google 开头&lt;/p&gt;
+&lt;/c:if&gt;
+</code></pre></li>
+</ol>
+<h3 id="substring-trim函数"><a href="#substring-trim函数" class="headerlink" title="substring~trim函数"></a>substring~trim函数</h3><p><strong>1)substring()函数：</strong></p>
+<ol>
+<li>fn:substring()函数返回字符串中指定开始和结束索引的子串。</li>
+<li>使用方式：<pre><code>${fn:substring(&lt;string&gt;, &lt;beginIndex&gt;, &lt;endIndex&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;This is first String.&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:substring(string1, 5, 15)}&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>2)substringAfter()/substringBefore()函数：</strong></p>
+<ol>
+<li>fn:substringAfter()函数返回字符串中指定子串后面的部分。<br>fn:substringBefore()函数返回一个字符串中指定子串前面的部分。</li>
+<li>使用方式：<pre><code>${fn:substringAfter(&lt;string&gt;, &lt;substring&gt;)}
+${fn:substringBefore(&lt;string&gt;, &lt;substring&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;This is first String.&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:substringAfter(string1, &apos;is&apos;)}&quot; /&gt;
+&lt;c:set var=&quot;string3&quot; value=&quot;${fn:substringBefore(string1, &apos;is&apos;)}&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>3)toLowerCase()/toUpperCase()函数：</strong></p>
+<ol>
+<li>fn:toUpperCase()函数将一个字符串中的所有字符转为大写。<br>fn:toLowerCase()函数将字符串中的所有字符转为小写。</li>
+<li>使用方式：<pre><code>${fn.toUpperCase(&lt;string&gt;)}
+${fn.toLowerCase(&lt;string&gt;)}
+</code></pre></li>
+<li>使用示例：<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;I am from runoob&quot;/&gt;
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:toUpperCase(string1)}&quot; /&gt;
+&lt;c:set var=&quot;string3&quot; value=&quot;${fn:toLowerCase(string2)}&quot; /&gt;
+</code></pre></li>
+</ol>
+<p><strong>4)trim()函数：</strong></p>
+<ol>
+<li>fn:trim()函数将字符串两端的空白符移除。</li>
+<li>使用方式：<pre><code>${fn:trim(&lt;string&gt;)}
+</code></pre></li>
+<li><p>使用示例：</p>
+<pre><code>&lt;c:set var=&quot;string1&quot; value=&quot;I am from runoob         &quot;/&gt;
+&lt;p&gt;string1 长度 : ${fn:length(string1)}&lt;/p&gt;
+
+&lt;c:set var=&quot;string2&quot; value=&quot;${fn:trim(string1)}&quot; /&gt;
+&lt;p&gt;string2 长度 : ${fn:length(string2)}&lt;/p&gt;
+&lt;p&gt;字符串为 : ${string2}&lt;/p&gt;
+</code></pre><p>测试结果：</p>
+<pre><code>string1 长度 : 25
+string2 长度 : 16
+字符串为 : I am from runoob
+</code></pre></li>
 </ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月25日 17:14</p>
+        <p>最后更新： 2018年05月25日 23:02</p>
         <p>原始链接： <a class="post-url" href="/2018/05/22/SpringMVC学习（五）：JSTL标准标签库/" title="SpringMVC学习（五）：JSTL（JSP标准标签库）">https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（五）：JSTL标准标签库/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -484,7 +938,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JSTL简介及简单使用"><span class="post-toc-text">1.JSTL简介及简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JSTL标签库"><span class="post-toc-text">2.JSTL标签库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-一般行为-标签"><span class="post-toc-text">3.一般行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-条件行为-标签"><span class="post-toc-text">4.条件行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-遍历行为-标签"><span class="post-toc-text">5.遍历行为(标签)</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JSTL简介及简单使用"><span class="post-toc-text">1.JSTL简介及简单使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-JSTL标签库"><span class="post-toc-text">2.JSTL标签库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-一般行为-标签"><span class="post-toc-text">3.一般行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-条件行为-标签"><span class="post-toc-text">4.条件行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-遍历行为-标签"><span class="post-toc-text">5.遍历行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-与URL相关的行为"><span class="post-toc-text">6.与URL相关的行为</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-格式化行为-标签"><span class="post-toc-text">7.格式化行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-SQL相关的行为-标签"><span class="post-toc-text">8.SQL相关的行为(标签)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-JSTL相关函数"><span class="post-toc-text">9.JSTL相关函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#contains-indexof函数"><span class="post-toc-text">contains~indexof函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#join-startsWith函数"><span class="post-toc-text">join~startsWith函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#substring-trim函数"><span class="post-toc-text">substring~trim函数</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
