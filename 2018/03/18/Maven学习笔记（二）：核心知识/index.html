@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Maven学习笔记（二）：Maven核心知识及在eclipese中使用 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 学习视频慕课网《项目管理利器——maven》  学习重点  如何在eclipse中安装插件 eclipse中使用maven创建项目 Maven的生命周期 pom.xml 关于依赖     1.eclipse中使用maven创建项目1)在eclipse中安装M2E插件：  首先最重要的一点，是看看你的eclipse中是否已经安装了maven插件了:打开你的Eclipse–&amp;gt;Win">
+<meta name="keywords" content="Maven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven学习笔记（二）：Maven核心知识及在eclipese中使用">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 学习视频慕课网《项目管理利器——maven》  学习重点  如何在eclipse中安装插件 eclipse中使用maven创建项目 Maven的生命周期 pom.xml 关于依赖     1.eclipse中使用maven创建项目1)在eclipse中安装M2E插件：  首先最重要的一点，是看看你的eclipse中是否已经安装了maven插件了:打开你的Eclipse–&amp;gt;Win">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-08-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-28.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-29.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-30.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-31.jpg">
+<meta property="og:updated_time" content="2018-04-15T11:53:27.520Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maven学习笔记（二）：Maven核心知识及在eclipese中使用">
+<meta name="twitter:description" content="0.学习要点 学习视频慕课网《项目管理利器——maven》  学习重点  如何在eclipse中安装插件 eclipse中使用maven创建项目 Maven的生命周期 pom.xml 关于依赖     1.eclipse中使用maven创建项目1)在eclipse中安装M2E插件：  首先最重要的一点，是看看你的eclipse中是否已经安装了maven插件了:打开你的Eclipse–&amp;gt;Win">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Maven学习笔记（二）：核心知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Maven学习笔记（二）：Maven核心知识及在eclipese中使用
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/开发工具/">开发工具</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-18
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ol>
+<li><p>学习视频<br><a href="https://www.imooc.com/learn/443" target="_blank" rel="noopener">慕课网《项目管理利器——maven》</a></p>
+</li>
+<li><p>学习重点</p>
+<ul>
+<li>如何在eclipse中安装插件</li>
+<li>eclipse中使用maven创建项目</li>
+<li>Maven的生命周期</li>
+<li>pom.xml</li>
+<li>关于依赖</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="1-eclipse中使用maven创建项目"><a href="#1-eclipse中使用maven创建项目" class="headerlink" title="1.eclipse中使用maven创建项目"></a>1.eclipse中使用maven创建项目</h2><p><strong>1)在eclipse中安装M2E插件：</strong></p>
+<ol>
+<li>首先最重要的一点，是看看你的eclipse中是否已经安装了maven插件了:<br>打开你的Eclipse–&gt;Windows–&gt;Preferences查看是否有maven插件。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-01.jpg" alt=""><br>一般来说Eclipse4.0以上的版本一般都自带了Maven插件，我的是Eclipse 4.4.3，本来是有Maven插件的，为了学习，卸载了←_←。</li>
+<li><p>安装M2E（Maven to Eclipese)插件：<br>首先给你个下载M2E的网站：<br><a href="http://www.eclipse.org/m2e/m2e-downloads.html" target="_blank" rel="noopener">http://www.eclipse.org/m2e/m2e-downloads.html</a><br>进去之后，是这个样子的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-04.jpg" alt=""><br>点击第一个或第二个，它会教你怎么用的(就是下面的)。<br>复制地址栏<code>http://download.eclipse.org/technology/m2e/milestones/1.8/</code><br>接着切回Eclipese,打开Help–&gt;Install New Software打开界面并输入该地址，选择Maven并下载：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-02.jpg" alt=""><br>注意：首先你得连网，一开始显示Pending等一会儿就好了。<br>这里下载完，会有选择项，一路next下去，finish后还会下载很多东西，等下载完成重启，再点开Preferences:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-03.jpg" alt=""><br>插件安装完毕了。</p>
+<p>eclipse是默认运行在jre之上的而maven需要jdk的支持，需要tools.jar，tools.jar默认放在jdk/lib目录中，所以修改eclipse的JRE，Windows–&gt;Prefrence–&gt;java–&gt;Installed JREs–&gt;ADD–&gt;Next–&gt;把本地JDK的目录放到JRE home中–&gt;最后勾选JDK<br>详情参考慕课网的课程。</p>
+</li>
+<li><p>配置本地Maven：<br>点击Maven–&gt;Installations–&gt;Add添加本地项目：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-05.jpg" alt=""><br>然后点击User Settings修改配置文件与仓库地址：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-06.jpg" alt=""></p>
+</li>
+</ol>
+<p><strong>2)Eclipse创建Maven项目：</strong><br>File–&gt;New–&gt;Project找到Maven Project:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-07.jpg" alt=""><br>一路next到这个：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-08-1.jpg" alt=""><br>会显示很多种模板，选择quickstart就可以了。<br>接下来配置坐标(和pom.xml差不多)：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-09.jpg" alt=""><br>点击finish就完成啦！<br>点开项目，发现目录结构和手动创建的是一样的，而且pom.xml也已经为我们自动创建好了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-10.jpg" alt=""></p>
+<p><strong>3)运行Maven项目：</strong><br>maven项目上右键–&gt;Run AS–&gt;Maven Build..进入到如下界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-11.jpg" alt=""><br>输入compile进行编译，输入test进行测试：<br>Console窗口下的显示和命令行的差不多。点击Run。<br>若失败提醒你maven-xxxx-plugins出错，去仓库删掉它再来运行。<br>打包则输入package命令，打包后刷新项目则会看到这样：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-12.jpg" alt=""><br>打包成功。</p>
+<p><strong>4)视频课程中运行错误的解决方法：</strong></p>
+<ol>
+<li>如果版本不匹配 则mvn -v查看maven的jdk版本，然后在eclipse中配置当前使用的jdk</li>
+<li>run as–&gt;Maven build…–&gt;在goals中compile（可以在此处使用其他的命令，如：package –&gt;run<br>若报-Dmaven.multiModuleProjectDirectory错误，则在选项–&gt;java–&gt;installed JRES 中设置jdk的参数，<br>添加上“-Dmaven.multiModuleProjectDirectory=$M2_HOME”</li>
+<li>具体我也没遇到，就不多写了。</li>
+</ol>
+<p><strong>5)如何卸载M2E：</strong><br>打开Eclipse–&gt;Help–&gt;Installation Details<br>在这里可以更新可以卸载。</p>
+<hr>
+<h2 id="2-Maven的生命周期与插件："><a href="#2-Maven的生命周期与插件：" class="headerlink" title="2.Maven的生命周期与插件："></a>2.Maven的生命周期与插件：</h2><p><strong>1）Maven的生命周期：</strong><br>完整的项目构建过程包括：<br>清理 编译 测试 打包 集成测试 验证 部署</p>
+<ol>
+<li>Maven抽象出了一套项目构建的生命周期，而插件是对Maven抽象的具体实现。</li>
+<li>Maven中定义了三套<strong>相互独立</strong>的生命周期:<br>&nbsp;&nbsp;&nbsp;&nbsp;clean  清理项目<br>&nbsp;&nbsp;&nbsp;&nbsp;cleandefault  构建项目<br>&nbsp;&nbsp;&nbsp;&nbsp;cleansite  生成项目站点<br>每一套生命周期中又包含一些阶段，每个生命周期中的阶段都是有顺序的，每个阶段都依赖于前一个阶段，阶段顺序执行但不会触发另外两套生命周期中的任何阶段。<br>如执行package会先执行编译与测试。</li>
+</ol>
+<p><strong>2)各个生命周期的阶段：</strong></p>
+<ol>
+<li>clean 清理项目：<ul>
+<li>pre-clean 执行清理前的项目</li>
+<li>clean 清理上一个构建的项目</li>
+<li>post-clean 执行清理后的项目</li>
+</ul>
+</li>
+<li>default 构建项目（核心生命周期）（部分常用阶段）：<ul>
+<li>compile 编译</li>
+<li>test 测试</li>
+<li>package 打包</li>
+<li>install 打包到本地仓库</li>
+</ul>
+</li>
+<li>site 根据pom生成站点：<ul>
+<li>pre-site 生成项目站点前需要完成的工作</li>
+<li>site 生成站点文档</li>
+<li>post-site 生成项目站点后要玩成的工作</li>
+<li>site-deploy 部署生成的站点到服务器上</li>
+</ul>
+</li>
+</ol>
+<p><strong>3)Maven的插件的使用：</strong></p>
+<ol>
+<li><p>单单对于Maven而言它并没有什么执行任务的功能，maven中的所有命令也是调用插件实现的，可以在maven的官网中查看插件的描述：<br><a href="http://maven.apache.org/plugins/index.html" target="_blank" rel="noopener">http://maven.apache.org/plugins/index.html</a></p>
+</li>
+<li><p>使用插件的基本步骤：<br>pom.xml中添加插件坐标–&gt;绑定某一个生命周期中的某个阶段–&gt;运行</p>
+</li>
+<li><p>pom.xml中的配置：</p>
+<pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;!--定义插件坐标--&gt;
+            &lt;groupId&gt;&lt;/groupId&gt;&lt;!--项目组 id--&gt;
+            &lt;artifactId&gt;&lt;/artifactId&gt;&lt;!--项目 id--&gt;
+            &lt;version&gt;&lt;/version&gt;&lt;!--版本号--&gt;
+            &lt;executions&gt;
+                &lt;execution&gt;
+                    &lt;!--绑定生命周期的阶段--&gt;
+                    &lt;phase&gt;&lt;/phase&gt;
+                    &lt;goals&gt;
+                        &lt;!--目标--&gt;
+                        &lt;goal&gt;&lt;/goal&gt;
+                    &lt;/goals&gt;
+                &lt;/execution&gt;
+            &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre></li>
+<li><p>如让项目在打包（package）时把源码也打包（source插件），pom.xml中这么写:</p>
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;MVNTest01&lt;/groupId&gt;
+  &lt;artifactId&gt;mvn-test&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;jar&lt;/packaging&gt;
+
+  &lt;name&gt;mvn-test&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;3.8.1&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+
+  &lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;!-- 定义插件坐标--&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.0.1&lt;/version&gt;
+            &lt;executions&gt;
+                &lt;execution&gt;
+                    &lt;!--绑定生命周期的阶段--&gt;
+                    &lt;phase&gt;package&lt;/phase&gt;
+                    &lt;goals&gt;
+                        &lt;!--目标--&gt;
+                        &lt;goal&gt;jar-no-fork&lt;/goal&gt;
+                    &lt;/goals&gt;
+                &lt;/execution&gt;
+            &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;
+</code></pre><p>其中gaols中的值可以通过点击官网插件看到，是source的不同命令：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-13.jpg" alt=""><br>然后使用package命令，发现先运行了编译和测试，然后生成了两个jar包。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-pom-xml解析"><a href="#3-pom-xml解析" class="headerlink" title="3.pom.xml解析"></a>3.pom.xml解析</h2><ol>
+<li>pom文件时Maven的核心管理文件，用于依赖管理，组织管理构建信息的管理。<br>pom中有非常多的标签，这里只讲常用的。</li>
+<li><p>常见标签</p>
+<pre><code>&lt;!--pom根元素，包含了pom的一些约束信息--&gt;
+&lt;project&gt;
+    &lt;!--固定的版本，必须元素--&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;!--坐标信息--&gt;
+    &lt;!--主项目id,项目的实际地址--&gt;
+    &lt;groupId&gt;反写的公司网址+项目名&lt;/groupId&gt;  
+    &lt;!--模块id,项目中的功能模块--&gt;
+    &lt;artifactId&gt;项目名+模块名&lt;/artifactId&gt;
+    &lt;!--项目版本号，一般由三个数字组成,第一个0表示大版本号，第二个0表示分支版本号，第三个1表示小版本号--&gt;
+    &lt;!--SNAPSHOT 快照版本
+        alpha 内部版本，内测版本
+        beta 公测版本
+        Release 稳定版
+        GA 正式发布版--&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; 
+    &lt;!--打包后的扩展名，默认是jar，还可以是war,zip,pom--&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;!--项目描述名--&gt;
+    &lt;name&gt;&lt;/name&gt;
+    &lt;!--项目地址--&gt;
+    &lt;url&gt;&lt;/url&gt;
+    &lt;!--项目描述，介绍--&gt;
+    &lt;discription&gt;&lt;/discription&gt;
+    &lt;!--开发人员列表--&gt;
+    &lt;developers&gt;&lt;/developers&gt;
+    &lt;!--许可证信息--&gt;
+    &lt;licenses&gt;&lt;/licenses&gt;
+    &lt;!--组织信息--&gt;
+    &lt;organization&gt;&lt;/organization&gt;
+
+    &lt;!--设置编码为utf-8--&gt;
+    &lt;!--定义变量，了直接在后面使用${标签名}调用--&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;!--依赖开始--&gt;
+    &lt;!--依赖列表--&gt;
+    &lt;dependencies&gt;
+        &lt;!--依赖项（多个）--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;&lt;/groupId&gt;
+            &lt;artifactId&gt;&lt;/artifactId&gt;
+            &lt;version&gt;&lt;/version&gt;
+            &lt;!--类型--&gt;
+            &lt;type&gt;&lt;/type&gt;
+            &lt;!--依赖范围,如写test则只在测试内有效--&gt;
+            &lt;scope&gt;&lt;/scope&gt;
+            &lt;!--设置依赖是否可选，默认false；false:子项目默认继承；true:子项目需要显式引用该依赖--&gt;
+            &lt;optional&gt;true/false&lt;/optional&gt;
+            &lt;!--排除依赖传递的列表--&gt;
+            &lt;exclusions&gt;
+                &lt;!--排除依赖项(多个)，如Ajar包依赖B,B依赖C，A就是传递依赖C--&gt;
+                &lt;exclusion&gt;&lt;/exlusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!--依赖管理，内部的依赖不会运行
+        定义在父模块中，子模块继承用的--&gt;
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;&lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+
+    &lt;!--build为构建的的行为提供相应的支持--&gt;
+    &lt;build&gt;
+        &lt;!--build中常用的是插件，插件列表--&gt;
+        &lt;plugins&gt;
+            &lt;!--插件，不止一个--&gt;
+            &lt;plugin&gt;
+                &lt;!--插件的坐标--&gt;
+                &lt;groupId&gt;&lt;/groupId&gt;
+                &lt;artifactId&gt;&lt;/artifactId&gt;
+                &lt;version&gt;&lt;/version&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/bulid&gt;
+
+    &lt;!--子模块中对父模块的pom的继承--&gt;
+    &lt;parent&gt;&lt;/parent&gt;
+    &lt;!--模块聚合运行，可以同时指定多个模块进行编译测试--&gt;
+    &lt;modules&gt;
+        &lt;modules&gt;&lt;/modules&gt;
+    &lt;/modules&gt;
+
+&lt;/project&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="4-依赖范围："><a href="#4-依赖范围：" class="headerlink" title="4.依赖范围："></a>4.依赖范围：</h2><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;&lt;/groupId&gt;
+    &lt;artifactId&gt;&lt;/artifactId&gt;
+    &lt;version&gt;&lt;/version&gt;
+    &lt;type&gt;&lt;/type&gt;
+    &lt;!--依赖范围,如写test则只在测试内有效--&gt;
+    &lt;scope&gt;&lt;/scope&gt;
+    ...
+&lt;/dependency&gt;
+</code></pre><p>1）<code>&lt;scope&gt;classpath&lt;/scope&gt;</code><br>开发时需要使用某一个框架（jar包），就要将该框架的jar包引入到项目的classpath中，Maven中有三种classpath：<strong>编译，测试，运行</strong>。<br><strong>2）scope的属性：</strong><br>打开官网对于scope的描述：<br><a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html" target="_blank" rel="noopener">https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html</a><br>可以看到有6种值：</p>
+<pre><code>- compile：默认级别，编译测试运行都有效
+- provided：在编译和测试时有效
+- runtime：在测试和运行时有效（如jdbc的驱动）
+- test：只在测试时有效（如junit）
+- system：编译与测试有效，但是要与本地的系统相关联，可移植性差
+- import：只使用在&lt;dependencyManagement&gt;标签中，表示从其他项目中继承过来的依赖。
+</code></pre><p>还有一些例子,自己去看吧。</p>
+<hr>
+<h2 id="5-依赖传递"><a href="#5-依赖传递" class="headerlink" title="5.依赖传递"></a>5.依赖传递</h2><p><strong>1)传递依赖：</strong><br>A依赖于B，B依赖于C，则A与C是传递依赖<br><strong>2)测试：</strong></p>
+<ol>
+<li>创建三个Maven项目<br>mvna,mvnb,mvnc:</li>
+<li>配置mvnb依赖mvnc:<pre><code>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;3.8.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+       &lt;groupId&gt;MVNC&lt;/groupId&gt;
+         &lt;artifactId&gt;mvnc&lt;/artifactId&gt;
+        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>使用mvnc右键运行中使用install将mnvc打包到本地仓库。<br>（运行install会把前面的编译测试打包都执行一遍）</li>
+<li>配置mvna依赖mnvb:<pre><code>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;3.8.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+  &lt;/dependency&gt;
+   &lt;dependency&gt;
+      &lt;groupId&gt;MVNB&lt;/groupId&gt;
+      &lt;artifactId&gt;mvnb&lt;/artifactId&gt;
+      &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>使用mvnb右键运行中使用install将mnvb打包到本地仓库。<br>最后测试mvna,测试成功:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-14.jpg" alt=""></li>
+</ol>
+<p><strong>3)排除传递依赖：</strong><br>先查看一下MVNA的依赖：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-15.jpg" alt=""><br>使用<code>&lt;exclusions&gt;&lt;exclusion&gt;&lt;/exclusion&gt;&lt;/exclusions&gt;</code>排除传递依赖，MVNA排除MVNC依赖可以这么写：</p>
+<pre><code>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;3.8.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+  &lt;/dependency&gt;
+   &lt;dependency&gt;
+       &lt;groupId&gt;MVNB&lt;/groupId&gt;
+         &lt;artifactId&gt;mvnb&lt;/artifactId&gt;
+        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+        &lt;exclusions&gt;
+            &lt;exclusion&gt;
+                &lt;groupId&gt;MVNC&lt;/groupId&gt;
+                &lt;artifactId&gt;mvnc&lt;/artifactId&gt;
+            &lt;/exclusion&gt;
+        &lt;/exclusions&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre><p>再次编译，查看结果,传递依赖已经消除了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-16.jpg" alt=""></p>
+<p><strong>4)修改默认jdk：</strong></p>
+<ol>
+<li>先修改jdk：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-17.jpg" alt=""><br>Maven默认的JDK是1.5，在这一行上右键–&gt;Properites进行修改<br>虽然不修改也没什么问题，但是不好看,而且实际使用的是1.7</li>
+<li>修改Maven默认配置：<br>打开settings.xml,找到最底下的<code>&lt;profiles&gt;&lt;/profiles&gt;</code>在里面添加如下代码即可：<pre><code>&lt;profile&gt;
+    &lt;id&gt;jdk-1.7&lt;/id&gt;
+    &lt;activation&gt;
+        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;jdk&gt;1.7&lt;/jdk&gt;
+    &lt;/activation&gt;    
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
+        &lt;maven.compiler.compilerVersion&gt;1.7&lt;/maven.compiler.compilerVersion&gt;
+    &lt;/properties&gt;
+&lt;/profile&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-依赖冲突："><a href="#6-依赖冲突：" class="headerlink" title="6.依赖冲突："></a>6.依赖冲突：</h2><p>1)依赖冲突是指A与B依赖了一个不同版本的相同构件AC,BC，若有模块D同时依赖A与B，那么使用时是哪个版本呢？<br><strong>2)两条原则：</strong></p>
+<ol>
+<li><strong>短路优先原则</strong>：<br>A&lt;–B&lt;–C&lt;–X(1jar)<br>A&lt;–D&lt;–X(2jar)<br>则会使用下一个版本X(2jar)。</li>
+<li><strong>路径相同  则依赖配置近的优先</strong>：<br>如1的情景，若A先被添加依赖，则使用AC,若B先被添加依赖，则BC先</li>
+</ol>
+<hr>
+<h2 id="7-聚合与继承"><a href="#7-聚合与继承" class="headerlink" title="7.聚合与继承"></a>7.聚合与继承</h2><p><strong>1)聚合</strong>:</p>
+<ol>
+<li>之前在Maven中若想将多个模块都install入仓库中，必须一个一个install。Maven中有一个方式可以将多个项目放到一起运行==&gt;&gt;<strong>聚合</strong>。</li>
+<li><p>新建一个mvnd项目：<br>如何一起聚合mvnabc一起编译测试打包入库呢？<br>修改mvnd的pom.xml如下：</p>
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;MVND&lt;/groupId&gt;
+  &lt;artifactId&gt;mvnd&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;pom&lt;/packaging&gt;  &lt;!--注意这里改为pom--&gt;
+
+  &lt;name&gt;mvnd&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;3.8.1&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+
+  &lt;!--使用module标签聚合--&gt;
+  &lt;modules&gt;
+      &lt;module&gt;../mvna&lt;/module&gt;
+      &lt;module&gt;../mvnb&lt;/module&gt;
+      &lt;module&gt;../mvnc&lt;/module&gt;
+  &lt;/modules&gt;
+
+&lt;/project&gt;
+</code></pre></li>
+<li>在mvnd上运行install,会发现mvnabc的jar包都添加到了仓库中。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-18.jpg" alt=""></li>
+</ol>
+<p><strong>2)继承：</strong><br>查看每个项目，发现都有Junit,那么就可以用继承来实现：<br>三个项目的pom都写了junit的依赖,可以将junit依赖写在父maven项目pom中；packaging为pom；使用dependencyManagement<br>新建一个MVNE项目，修改pom.xml如下：</p>
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;MVNE&lt;/groupId&gt;
+  &lt;artifactId&gt;mvne&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;pom&lt;/packaging&gt;  &lt;!--注意这里改为pom--&gt;
+
+  &lt;name&gt;mvnd&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;junit version&gt;3.8.1&lt;junit version&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;${junit version}&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+  &lt;/dependencyManagement&gt;
+
+&lt;/project&gt;
+</code></pre><p>且可以将main和test文件夹删除。<br>然后mvna继承mvne可以这样写(部分)：</p>
+<pre><code>&lt;parent&gt;
+  &lt;groupId&gt;MVNE&lt;/groupId&gt;
+  &lt;artifactId&gt;mvne&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+&lt;/parent&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+</code></pre><p>就不用在子类里写版本号及依赖范围了。</p>
+<hr>
+<h2 id="8-maven新建一个web项目并发布到Jetty"><a href="#8-maven新建一个web项目并发布到Jetty" class="headerlink" title="8.maven新建一个web项目并发布到Jetty"></a>8.maven新建一个web项目并发布到Jetty</h2><p><strong>1)创建web项目：</strong></p>
+<ol>
+<li>File–&gt;New –&gt;Project–&gt;Maven Project然后一路next到达这个界面：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-19.jpg" alt=""><br>选择webapp模板，然后设置组名为MVNWEB,项目名为mvnweb,finish。记得将eclipse模式切换为javaEE哦。</li>
+<li>打开之后是这样的:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-20.jpg" alt=""><br>若index.jsp出现错误，直接跳到配置部分先。</li>
+<li>发现系统没有帮我们创建main与test目录，需要我们自己添加。<br>添加<strong>resource folder</strong>，使目录变为Maven标准结构：<br>从上图可知，需要创建src/main/java/;src/test/java;src/test/resourse的source folder,注意不是package，是source folder。<br>如果无法创建source folder:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-21.jpg" alt=""><br>可以先创建个src/test/jav再重命名为java。<br>或者可以Windows–&gt;Show View–&gt;Navigator,在这个视图内就可以创建了,创建完Folder后返回工程视图Project Explore，右键–&gt;Maven–&gt;Update Project即可。</li>
+<li>检验ClassPath路径：<br>项目右键–&gt;Build Path–&gt;configure bulid path,看到如下界面的resoures,检查所有的outputFile是不是target目录:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-22.jpg" alt=""></li>
+<li>选择动态web模块：<br>右键–&gt;属性–&gt;Project Facets–&gt;勾上Dinamic web与JS(JS可以不选)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-23.jpg" alt=""><br>这时我发现我原来没报错的index.jsp页面报错了。</li>
+</ol>
+<p><strong>2)更多配置：</strong></p>
+<ol>
+<li>jsp页面报错：<br>原因是没有servlet插件，没报错可以跳过。<br>可以去到Maven的中央仓库h或阿里云镜像去查找Java Servlet API。<br><a href="http://www.mvnrepository.com/artifact/javax.servlet/javax.servlet-api" target="_blank" rel="noopener">http://www.mvnrepository.com/artifact/javax.servlet/javax.servlet-api</a>或阿里的<a href="http://maven.aliyun.com/nexus/" target="_blank" rel="noopener">http://maven.aliyun.com/nexus/</a><br>打开pom.xml，添加如下依赖：<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;4.0.0&lt;/version&gt;
+    &lt;!-- 只在编译和测试时运行 --&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>然后再右键Maven–&gt;Update Project后发现项目变成了熟悉的样子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-24.jpg" alt=""><br>有个叉叉，但是找不出哪里错了，不管了。</li>
+<li>修改部署时的默认配置:<br>项目右键–&gt;属性，找到Development Assembly，把测试用的代码全部删除:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-25.jpg" alt=""><br>这样一个web项目就创建成功了。</li>
+</ol>
+<p><strong>3)打包(war)并拷贝到jetty容器：</strong></p>
+<ol>
+<li>使用jetty作为web容器:<br><a href="http://www.mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin" target="_blank" rel="noopener">http://www.mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin</a><br>或<a href="http://maven.aliyun.com/nexus/" target="_blank" rel="noopener">http://maven.aliyun.com/nexus/</a><br>在pom.xml的builder标签中添加插件：<pre><code>&lt;plugins&gt;
+    &lt;plugin&gt;
+            &lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
+        &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;9.4.8.v20171121&lt;/version&gt;
+    &lt;/plugin&gt;
+&lt;/plugins&gt;
+</code></pre>一定要添加插件，不要添加依赖。</li>
+<li>运行jetty<br>项目右键–&gt;RUN AS–&gt;Maven Builder,输入<code>jetty:run</code>:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-26.jpg" alt=""><br>启动成功:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-27.jpg" alt=""><br>我配置的是阿里云镜像，所以一开始用官网的失败了，后来去阿里云里找就可以了。</li>
+<li>再次配置pom.xml使其在打包后运行jetty:run:<pre><code>&lt;plugins&gt;
+    &lt;plugin&gt;
+            &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;
+          &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+          &lt;version&gt;8.1.16.v20140903&lt;/version&gt;
+          &lt;executions&gt;
+              &lt;execution&gt;
+                  &lt;!-- 在打包成功后使用jetty:run来运行jetty服务 --&gt;
+                  &lt;phase&gt;package&lt;/phase&gt;
+                  &lt;goals&gt;
+                      &lt;goal&gt;run&lt;/goal&gt;
+                  &lt;/goals&gt;
+              &lt;/execution&gt;
+          &lt;/executions&gt;
+    &lt;/plugin&gt;
+&lt;/plugins&gt;
+</code></pre>然后停止这次Jetty服务，再次clean package(Maven Builder):<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-28.jpg" alt=""></li>
+<li>成功后就可以使用localhost:8080访问了<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-29.jpg" alt=""></li>
+<li>完整的pom.xml代码如下:<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;MVNWEB&lt;/groupId&gt;
+  &lt;artifactId&gt;mvnweb&lt;/artifactId&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;name&gt;mvnweb Maven Webapp&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;3.8.1&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;4.0.0&lt;/version&gt;
+    &lt;!-- 只在编译和测试时运行 --&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+  &lt;build&gt;
+    &lt;finalName&gt;mvnweb&lt;/finalName&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+                &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;
+              &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+              &lt;version&gt;8.1.16.v20140903&lt;/version&gt;
+              &lt;executions&gt;
+                  &lt;execution&gt;
+                      &lt;!-- 在打包成功后使用jetty:run来运行jetty服务 --&gt;
+                      &lt;phase&gt;package&lt;/phase&gt;
+                      &lt;goals&gt;
+                          &lt;goal&gt;run&lt;/goal&gt;
+                      &lt;/goals&gt;
+                  &lt;/execution&gt;
+              &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="9-将项目打包发布到Tomcat"><a href="#9-将项目打包发布到Tomcat" class="headerlink" title="9.将项目打包发布到Tomcat"></a>9.将项目打包发布到Tomcat</h2><ol>
+<li>进入tomcat官网然后点击Maven Plugin<br><a href="http://tomcat.apache.org/maven-plugin.html" target="_blank" rel="noopener">http://tomcat.apache.org/maven-plugin.html</a></li>
+<li>修改pom.xml如下：<pre><code>&lt;plugins&gt;
+    &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+      &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+      &lt;version&gt;2.2&lt;/version&gt;
+      &lt;executions&gt;
+          &lt;execution&gt;
+              &lt;!-- 在打包成功后使用jetty:run来运行jetty服务 --&gt;
+              &lt;phase&gt;package&lt;/phase&gt;
+              &lt;goals&gt;
+                  &lt;goal&gt;run&lt;/goal&gt;
+              &lt;/goals&gt;
+          &lt;/execution&gt;
+      &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre></li>
+<li>clean package项目:<br>启动成功:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-30.jpg" alt=""><br>在浏览器中查看（对比jetty,要加项目名）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00015Maven%E5%AD%A6%E4%B9%A02-31.jpg" alt=""></li>
+<li><p>完整的pom.xml配置（附带jetty的）：</p>
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;MVNWEB&lt;/groupId&gt;
+  &lt;artifactId&gt;mvnweb&lt;/artifactId&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;name&gt;mvnweb Maven Webapp&lt;/name&gt;
+  &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;3.8.1&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;4.0.0&lt;/version&gt;
+    &lt;!-- 只在编译和测试时运行 --&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+  &lt;build&gt;
+    &lt;finalName&gt;mvnweb&lt;/finalName&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+        &lt;!--
+                &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;
+              &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+              &lt;version&gt;8.1.16.v20140903&lt;/version&gt;  --&gt;
+
+            &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+          &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+          &lt;version&gt;2.2&lt;/version&gt;
+              &lt;executions&gt;
+                  &lt;execution&gt;
+                      &lt;!-- 在打包成功后使用jetty:run来运行jetty服务 --&gt;
+                      &lt;phase&gt;package&lt;/phase&gt;
+                      &lt;goals&gt;
+                          &lt;goal&gt;run&lt;/goal&gt;
+                      &lt;/goals&gt;
+                  &lt;/execution&gt;
+              &lt;/executions&gt;
+        &lt;/plugin&gt;
+
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+&lt;/project&gt;
+</code></pre></li>
+<li><p>现在就可以开始玩Maven啦！！！</p>
+</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月15日 19:53</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/18/Maven学习笔记（二）：核心知识/" title="Maven学习笔记（二）：Maven核心知识及在eclipese中使用">https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/&title=《Maven学习笔记（二）：Maven核心知识及在eclipese中使用》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/&title=《Maven学习笔记（二）：Maven核心知识及在eclipese中使用》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Maven学习笔记（二）：Maven核心知识及在eclipese中使用》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/18/Maven学习笔记（二）：核心知识/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Maven/" class="color1">Maven</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-eclipse中使用maven创建项目"><span class="post-toc-text">1.eclipse中使用maven创建项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Maven的生命周期与插件："><span class="post-toc-text">2.Maven的生命周期与插件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-pom-xml解析"><span class="post-toc-text">3.pom.xml解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-依赖范围："><span class="post-toc-text">4.依赖范围：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-依赖传递"><span class="post-toc-text">5.依赖传递</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-依赖冲突："><span class="post-toc-text">6.依赖冲突：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-聚合与继承"><span class="post-toc-text">7.聚合与继承</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-maven新建一个web项目并发布到Jetty"><span class="post-toc-text">8.maven新建一个web项目并发布到Jetty</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-将项目打包发布到Tomcat"><span class="post-toc-text">9.将项目打包发布到Tomcat</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/20/Maven常见问题与解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Maven常见问题与解决方案
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/17/Maven学习笔记（一）：环境搭建/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Maven学习笔记（一）：环境搭建与常用命令</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

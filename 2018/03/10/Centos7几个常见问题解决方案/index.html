@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Centos7遇到的问题和解决方案 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办? 虚拟机装的Centos7怎么联网? 连接Xshell时出现的一个错误：Connecting to 127.0.0.1:22... Connection established. To escape to local shell,">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7遇到的问题和解决方案">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办? 虚拟机装的Centos7怎么联网? 连接Xshell时出现的一个错误：Connecting to 127.0.0.1:22... Connection established. To escape to local shell,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-12.jpg">
+<meta property="og:updated_time" content="2018-04-25T08:56:18.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos7遇到的问题和解决方案">
+<meta name="twitter:description" content="0.我遇到的问题列表（关于用户/管理员的） Centos7忘记密码怎么解决? 没有dump和restore命令怎么办? vim打开了一个文件后还想打开另一个文件怎么办? 虚拟机装的Centos7怎么联网? 连接Xshell时出现的一个错误：Connecting to 127.0.0.1:22... Connection established. To escape to local shell,">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Centos7几个常见问题解决方案" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Centos7遇到的问题和解决方案
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/操作系统/">操作系统</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-我遇到的问题列表（关于用户-管理员的）"><a href="#0-我遇到的问题列表（关于用户-管理员的）" class="headerlink" title="0.我遇到的问题列表（关于用户/管理员的）"></a>0.我遇到的问题列表（关于用户/管理员的）</h2><ol>
+<li>Centos7忘记密码怎么解决?</li>
+<li>没有dump和restore命令怎么办?</li>
+<li>vim打开了一个文件后还想打开另一个文件怎么办?</li>
+<li>虚拟机装的Centos7怎么联网?</li>
+<li>连接Xshell时出现的一个错误：<pre><code>Connecting to 127.0.0.1:22...
+Connection established.
+To escape to local shell, press &apos;Ctrl+Alt+]&apos;.
+Connection closing...Socket close.
+Connection closed by foreign host.
+Disconnected from remote host(新建会话) at 22:13:58.
+</code></pre></li>
+<li>VirtualBox无法打开虚拟机并报错：<pre><code>The VM session was aborted.
+返回 代码: 
+E_FAIL (0x80004005)
+组件: 
+SessionMachine
+界面: 
+ISession {7844aa05-b02e-4cdd-a04f-ade4a762e6b7}
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="1-问题1-5解决方案"><a href="#1-问题1-5解决方案" class="headerlink" title="1.问题1~5解决方案"></a>1.问题1~5解决方案</h2><p><strong>1)Centos7忘记密码怎么解决?</strong><br>太久没使用Linux（Centos7）了，忘记root密码了怎么办？</p>
+<ol>
+<li>在开机过程中，快速按下键盘上的方向键↑和↓。目的是告知引导程序，我们需要在引导页面选择不同的操作，以便让引导程序暂停。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-01.jpg" alt=""><br>然后选择忘记密码的那个系统按下<code>e</code>键进入编辑模式。</li>
+<li>进入之后，将光标一直移动到 LANG=en_US.UTF-8 后面，空格，再追加init=/bin/sh。这里特别注意，需要写在UTF-8后，保持在同一行，并注意空格。由于屏幕太小，会自动添加\换行，这个是正常的。（移动光标时上下换段左右换段内文字）<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-02.jpg" alt=""></li>
+<li>按下CTRL+X进行引导启动，成功后进入该界面<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-03.jpg" alt=""><br>有时可能会产生这样的错误<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-04.jpg" alt=""><br>可以查看以下第2步是否写对（注意=后面有斜杠）</li>
+<li>输入以下命令：<br>挂载根目录 <pre><code>mount -o remount, rw /
+</code></pre>选择要修改密码的用户名，这里选择root用户进行修改，可以更换为你要修改的用户<pre><code>passwd root
+</code></pre>输入2次一样的新密码，注意输入密码的时候屏幕上不会有字符出现。<br>如果输入的密码太简单，会提示警告（BAD PASSWORD：The password fails the dictionary check - it is too simplistic/systematic），可以无视它，继续输入密码，不过建议还是设置比较复杂一些的密码，以保证安全性，如下图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-05.jpg" alt=""></li>
+<li>如果已经开启了SElinux，则需要输入以下命令 <pre><code>touch /.autorelabel
+</code></pre></li>
+<li>最后输入以下命令重启系统即可：<pre><code>exec /sbin/init 
+</code></pre>或<pre><code>exec /sbin/reboot
+</code></pre></li>
+<li>转自:<br><a href="http://blog.csdn.net/wcy00q/article/details/70570043" target="_blank" rel="noopener">http://blog.csdn.net/wcy00q/article/details/70570043</a></li>
+</ol>
+<p><strong>2)Centos7没有dump与restore命令怎么办?</strong><br>既然没有装了，那就是默认不推荐使用了，备份可以cp或打包压缩嘛。备份文件系统可以用xfsdump。<br>如果执意要安装可以这么做:<br>输入以下命令：</p>
+<pre><code>yum –y install dump*    //装不了就加*号，一般不加
+</code></pre><p>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-10.jpg" alt=""><br>再man dump一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00011%E9%B8%9F%E5%93%A5Linux%E5%AD%A6%E4%B9%A05-09.jpg" alt=""><br>可以用了。连restore也给你附带装好了。</p>
+<p><strong>3)vim打开了一个文件后还想打开另一个文件怎么办?</strong></p>
+<ol>
+<li>原窗口打开新文件<pre><code>:open filename
+</code></pre>但是这样打开文件无法使用<code>:n</code>、<code>:N</code>选择文件。<br>需要使用这些命令切换：<pre><code>[Ctrl]+6 ：互相切换
+:bn/N ：编辑下一个文件，最后一个文件的下一个为第一个文件
+:bp ：编辑上一个文件，第一个文件的上一个为最后一个
+</code></pre>对于用(v)split在多个窗格中打开的文件，这种方法只会在当前窗格中切换不同的文件。</li>
+<li>在多个窗口打开：<pre><code>:vs/vsp ：文件路径/文件名      在新的垂直分屏中打开文件
+:sp ：文件路径/文件名      在新的水平分屏中打开文件
+</code></pre>打开了多个窗口间切换：<pre><code>Ctrl+w+方向键——切换到前／下／上／后一个窗格
+Ctrl+w+h/j/k/l ——同上
+Ctrl+ww——依次向后切换到下一个窗格中
+</code></pre></li>
+<li>多个个文件之间复制：<ul>
+<li>在第一个文件中使用可视模式，就是VISUAL，然后选中要复制的文本，执行命令 <code>+y</code>,或者<code>*y</code>这就把内容复制到剪贴板。这里可以三个字符，而且一定要在可视化模式中，并存选中你要复制的代码以后，输入上面的命令，这时在VIM中的下面并不显示你输入的这条命令。</li>
+<li>在另一个文件中，执行命令<code>+p</code>,或者”<code>*p</code>。就能复制过来，＋指的是寄存器的意思,似乎也是操作系统的剪贴板，复制了之后，在别的地方，例如文本文件里就可以用ctrl＋v了。这里也是在可视模式下，不需要输入冒号<code>：</code>，这里输入的命令也是看不到的</li>
+</ul>
+</li>
+<li>参考博客：<br><a href="http://blog.csdn.net/orangleliu/article/details/41745975" target="_blank" rel="noopener">http://blog.csdn.net/orangleliu/article/details/41745975</a></li>
+</ol>
+<p><strong>4)VMwaver虚拟机下的Linux怎么联网?</strong></p>
+<ol>
+<li>我的电脑【右键】–&gt;【管理】–&gt;【服务】<br>开启这几项服务，尤其是DHCP和NAT这两项：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-06.jpg" alt=""></li>
+<li>打开VMwaver,点击【编辑】–&gt;【虚拟网络编辑器】<br>配置网络如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-07.jpg" alt=""></li>
+<li>打开虚拟机，登录root用户：<br>login shell（黑窗口）直接登录，non-login shell(白窗口)下<code>su - root</code>或者<code>sudo -i</code>，输入密码后登录。</li>
+<li>跳转到配置目录：<br><code># cd /etc/sysconfig/network-scripts/</code><br>使用<code># ls</code>查看列表，使用vi或者nano打开这个文件（<code>ifcfg-enoxxxx</code>）：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-08.jpg" alt=""></li>
+<li>文件打开后如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-09.jpg" alt=""><br>将ONBOOT改为yes,BOOTPROTO为dhcp</li>
+<li>输入<code># shoutdown -r</code>重启。<br>重启后右上角出现这样的画面说明已经成连接网络了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-10.jpg" alt=""></li>
+<li>打开火狐浏览器测试一下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-11.jpg" alt=""><br>注意：centos新版本（7以上）只需要这样简单配置就可以了，不用再用什么ifconfig,也不需要手动配置ip。<br><strong>这只是简单的能实现NAT联网而已，更多的模式的联网等以后熟悉了Linux再设置吧（学校里用不了桥接）</strong></li>
+</ol>
+<p><strong>5)连接Xshell出现的一个错误：</strong></p>
+<ol>
+<li>出现错误信息，并且一直重连。<pre><code>Connecting to 127.0.0.1:22...
+Connection established.
+To escape to local shell, press &apos;Ctrl+Alt+]&apos;.
+Connection closing...Socket close.
+Connection closed by foreign host.
+Disconnected from remote host(新建会话) at 22:13:58.
+</code></pre></li>
+<li>解决方法：<br>待解决，找不到方法。可能是校园网的问题。</li>
+<li>解决方案就是换了一个虚拟机。</li>
+</ol>
+<hr>
+<h2 id="2-问题6-10解决方案"><a href="#2-问题6-10解决方案" class="headerlink" title="2.问题6~10解决方案"></a>2.问题6~10解决方案</h2><p><strong>6)使用VirtualBox打开Linux报错：</strong></p>
+<ol>
+<li>报错信息：<br>The VM session was aborted.<br>返回 代码:<br>E_FAIL (0x80004005)<br>组件:<br>SessionMachine<br>界面:<br>ISession {7844aa05-b02e-4cdd-a04f-ade4a762e6b7}</li>
+<li>如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00006centos%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%981-12.jpg" alt=""></li>
+<li>网上有什么声音设备异常，什么清空磁盘，新建客户端什么的都试了，没用。<br>然后重启一下就好了(当然我以前是能正常使用的，就今天报错了)。<br>他们说可能是VBox的Bug,反正重启能解决的问题就别想那么多。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年04月25日 16:56</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/10/Centos7几个常见问题解决方案/" title="Centos7遇到的问题和解决方案">https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/&title=《Centos7遇到的问题和解决方案》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/&title=《Centos7遇到的问题和解决方案》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Centos7遇到的问题和解决方案》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/10/Centos7几个常见问题解决方案/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-我遇到的问题列表（关于用户-管理员的）"><span class="post-toc-text">0.我遇到的问题列表（关于用户/管理员的）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5解决方案"><span class="post-toc-text">1.问题1~5解决方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-问题6-10解决方案"><span class="post-toc-text">2.问题6~10解决方案</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/10/MySQL数据库学习笔记（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          MySQL学习笔记（一）:数据库基础知识介绍与基本操作
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/09/《鸟哥的Linux私房菜》笔记（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（二）初识命令行与正常关机</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

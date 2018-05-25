@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记（四）：高级数据操作 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.高级数据插入:1)主键冲突：  插入的基本语法：insert into 表名[(字段列表)] values(值列表);  若数据插入时主键对应的值已经存在，则一定会插入失败。当主键出现冲突的时（Duplicate Key）,可与选择性的处理：更新或者替换。 更新操作：Inset into 表名">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（四）：高级数据操作">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.高级数据插入:1)主键冲突：  插入的基本语法：insert into 表名[(字段列表)] values(值列表);  若数据插入时主键对应的值已经存在，则一定会插入失败。当主键出现冲突的时（Duplicate Key）,可与选择性的处理：更新或者替换。 更新操作：Inset into 表名">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-01.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-17.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-18.jpg">
+<meta property="og:updated_time" content="2018-03-19T14:18:44.770Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记（四）：高级数据操作">
+<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.高级数据插入:1)主键冲突：  插入的基本语法：insert into 表名[(字段列表)] values(值列表);  若数据插入时主键对应的值已经存在，则一定会插入失败。当主键出现冲突的时（Duplicate Key）,可与选择性的处理：更新或者替换。 更新操作：Inset into 表名">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（四）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL学习笔记（四）：高级数据操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-17
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
+<hr>
+<h2 id="1-高级数据插入"><a href="#1-高级数据插入" class="headerlink" title="1.高级数据插入:"></a>1.高级数据插入:</h2><p><strong>1)主键冲突</strong>：</p>
+<ol>
+<li>插入的基本语法：<pre><code>insert into 表名[(字段列表)] values(值列表);
+</code></pre></li>
+<li>若数据插入时主键对应的值已经存在，则一定会插入失败。<br>当主键出现冲突的时（Duplicate Key）,可与选择性的处理：更新或者替换。</li>
+<li><strong>更新操作：</strong><pre><code>Inset into 表名[(字段列表：包含主键)] values(值列表) on duplicate key update 字段 = 新值;
+</code></pre>注意update后不需要set。<br>创建一个<code>te_student</code>表：<pre><code>CREATE TABLE IF NOT EXISTS te_stu1(
+id INT auto_increment PRIMARY KEY COMMENT &apos;主键&apos;,
+code CHAR(10) NOT NULL  COMMENT &apos;学号&apos;,
+name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
+)ENGINE=INNODB DEFAULT CHARSET utf8;
+</code></pre>插入三条数据：<pre><code>INSERT INTO te_stu1 VALUES(1,&quot;1111111111&quot;,&quot;学生1&quot;);
+INSERT INTO te_stu1 VALUES(2,&quot;1111111112&quot;,&quot;学生2&quot;);
+INSERT INTO te_stu1 VALUES(3,&quot;1111111113&quot;,&quot;学生3&quot;);
+</code></pre>如若要更新第二条数据，一般情况下会失败，需要这样写：<pre><code>INSERT INTO te_stu1 VALUES(2,&quot;2222222222&quot;,&quot;学生22&quot;)
+ON DUPLICATE KEY UPDATE code=&apos;2222222222&apos;;
+</code></pre>会显示有两行受影响，插入一行，更新一行。但是只会更新一个字段。<br>但是如果有几个字段需要修改，用and连接我测试是无效的，可以使用替换，或者，还是直接更新吧。</li>
+<li><strong>替换：</strong><br>先删除后插入：<pre><code>replace into 表名[(字段列表：包含主键)] values(值列表);
+</code></pre>若主键冲突，则替换，不冲突则直接插入。<br>如执行：<pre><code>REPLACE INTO te_stu1 VALUES(2,&quot;2222222222&quot;,&quot;学生22&quot;);
+REPLACE INTO te_stu1 VALUES(4,&quot;4444444444&quot;,&quot;学生4&quot;);
+</code></pre>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-01.jpg" alt=""></li>
+</ol>
+<p><strong>2)蠕虫复制：</strong><br>从已有的数据中去获取数据，然后将数据进行新增操作，数据成倍的增加。</p>
+<ol>
+<li>表创建的高级操作：从已有的表创建新表（复制表结构）<pre><code>Create table 表名 like 数据库.表名；   -- 同一个数据库不用加数据库名
+</code></pre>如复制一个te_stu1：<pre><code>CREATE TABLE te_stu1_copy LIKE te_stu1;
+</code></pre>只会复制表结构，但是没有数据。</li>
+<li>蠕虫复制：<br>先查出数据，然后将查出的数据新增一遍：<pre><code>Insert into 表名[(字段列表)] select 字段列表[*] from 数据表名；
+</code></pre>如将te_stu1的数据搬到te_stu1_copy:<pre><code>INSERT INTO te_stu1_copy SELECT * from te_stu1;
+</code></pre>te_stu1_copy中已经有数据了：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-02.jpg" alt=""><br>如果没有复制主键的话，一直执行蠕虫复制就会是数据成倍增加(复制自身):<pre><code>INSERT INTO te_stu1_copy(code,name) SELECT code,name from te_stu1_copy;
+</code></pre></li>
+<li>蠕虫复制的意义：<ul>
+<li>从已有表中拷贝数据到新表中</li>
+<li>可以迅速的让表中的数据膨胀，膨胀到一定的数量级来测试表的压力</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-高级更新与删除数据"><a href="#2-高级更新与删除数据" class="headerlink" title="2.高级更新与删除数据"></a>2.高级更新与删除数据</h2><p><strong>1)更新数据：</strong></p>
+<ol>
+<li>基本语法：<pre><code>Update 表名 set 字段 = 值 [where 条件]；
+</code></pre></li>
+<li>高级新增（限制记录条数）<pre><code>Update 表名 set 字段 = 值 [where 条件][limit 更新数量]；
+</code></pre>使用上述蠕虫复制多复制几条记录，如要更新前5个学生的学号为0000000000:<pre><code>UPDATE te_stu1_copy SET code = &apos;0000000000&apos; LIMIT 5;
+</code></pre>结果如下:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-03.jpg" alt=""></li>
+</ol>
+<p><strong>2)删除数据：</strong><br>删除数据的限制与更新类似:（通过limit限制数据）</p>
+<ol>
+<li>语法：<pre><code>delete from 表名 [where 条件][limit 数量]
+</code></pre></li>
+<li>案例，删除te_stu1_copy的前3个学生1<pre><code>DELETE FROM te_stu1_copy WHERE name=&apos;学生1&apos; LIMIT 3;
+</code></pre>结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-04.jpg" alt=""></li>
+</ol>
+<p><strong>3)删除并还原自增长：</strong></p>
+<ol>
+<li>完全删除数据后自增长<code>auto_increment</code>表选项仍为之前的自增长，可以使用：<pre><code>ALTER TABLE 表名 auto_increment=1;
+</code></pre>来修改，但是显得太麻烦了。可以直接删除表后再创建。</li>
+<li>表重建：<pre><code>Tuncate 表名；
+</code></pre>先删除该表，再创建该表（先清空表再重置自增长）如：<pre><code>TRUNCATE te_stu1_copy;
+</code></pre>运行结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-05.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="3-数据查询（select表选项，字段别名，数据源）"><a href="#3-数据查询（select表选项，字段别名，数据源）" class="headerlink" title="3.数据查询（select表选项，字段别名，数据源）"></a>3.数据查询（select表选项，字段别名，数据源）</h2><p>简单查询：<br><code>Select 字段列表/* from 表名 [where 条件];</code><br>完整查询：</p>
+<pre><code>select[select选项] 字段列表[字段别名]/* from 数据源 [where 条件子句] [group by子句][having 子句][order by子句][limit 子句]
+</code></pre><p>只要有这些子句顺序必须得是这样。<br><strong>1)select选项：</strong></p>
+<ol>
+<li>select对查出来的结果的处理方式，有俩选项：<br>All：默认的，保留所有信息<br>Distict：去重（所有字段都相同才算重复）</li>
+<li>案例：<br>新建表te_stu2复制表te_stu1的结构但是删除主键与自增长，并使用蠕虫复制多条数据：<pre><code>CREATE TABLE te_stu2 LIKE te_stu1;
+ALTER TABLE te_stu2 DROP PRIMARY KEY;
+ALTER TABLE te_stu2 modify id INT;
+INSERT INTO te_stu2 SELECT * from te_stu1;  
+INSERT INTO te_stu2 SELECT * from te_stu2;   //使用多次
+</code></pre>查看一下共有多少条数据以及查询：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-06.jpg" alt=""><br>注意：不能针对某一字段去重。</li>
+</ol>
+<p><strong>2)字段别名：</strong></p>
+<ol>
+<li>为什么使用别名：<br>当数据进行查询操作的时候，有时候名字并不一定满足需求（多表查询时会有重名字段）:需要对字段名进行重命名：别名。</li>
+<li>重命名的方式：<pre><code>字段名 [as] 别名          -- as可以省略
+</code></pre></li>
+<li>测试：<br>先往te_stu1表中插入学生5和学生6，查询学生4并用<code>number</code>代替<code>code</code>字段：<pre><code>SELECT id,code number,name FROM te_stu1 WHERE name=&apos;学生4&apos;;
+</code></pre>结果中的code变为了number:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-07.jpg" alt=""></li>
+</ol>
+<p><strong>3)数据源：</strong></p>
+<ol>
+<li>数据的来源，关系型数据库的数据来源都是表，只要保证数据类似二维表的都可以。<br>数据源分类：单表数据源，多表数据源，查询语句</li>
+<li>单表数据源：<pre><code>select * from 表名
+</code></pre></li>
+<li>多表数据源：<pre><code>select * from 表名1，表名2，表名3...
+</code></pre>如表1有3条记录，表2有4条记录，则不加条件的<code>select * from 表名1,表名2;</code>会查询出3*4=12条数据。<br>从一张表中取出一条数据去另外一张表中匹配所有记录，而且全部保留，这种结果称为：交叉连接（笛卡尔积）。<br><strong>应该尽量少用笛卡尔积。</strong></li>
+<li>查询语句：<br>子查询：数据的来源是一条查询语句。<pre><code>select * from (select 子查询) as 表名；
+</code></pre>如查询te_stu2去重后的结果中的学生22：<pre><code>SELECT * FROM (SELECT DISTINCT * FROM te_stu2) AS s WHERE s.name=&apos;学生22&apos;;
+</code></pre>运行结果为：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-08.jpg" alt=""><br><code>as</code>同样可以给数据源提供别名。</li>
+</ol>
+<hr>
+<h2 id="4-数据查询-where-groupby子句）"><a href="#4-数据查询-where-groupby子句）" class="headerlink" title="4.数据查询(where,groupby子句）"></a>4.数据查询(where,groupby子句）</h2><p><strong>1)Where子句：</strong></p>
+<ol>
+<li>where子句:<br>用来判断数据，删选数据<br>返回结合：0或1，代表false和true</li>
+<li>where 的判断条件：<br>比较运算符：&gt;,&lt;,&gt;=,&lt;=,!=,&lt;&gt;,&lt;=&gt;,like,between and,in/not in;<br>逻辑运算符：&amp;&amp;(and),||(or),!(not)<br>详细的关于运算符的介绍可以查看<a href="https://zjxkenshine.github.io/2018/03/16/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/">笔记3</a> </li>
+<li>where原理：<br>where是唯一一个直接从磁盘获取数据的时候就开始判断的条件：<br>从磁盘取出一条数据，进行where判断，成立则保存到内存，失败则直接放弃。</li>
+<li>案例：<br>给te_stu1添加age字段与身高height字段：<pre><code>ALTER TABLE te_stu1 ADD age TINYINT UNSIGNED;
+ALTER TABLE te_stu1 ADD Height TINYINT UNSIGNED;
+</code></pre>给每个学生添加信息（随机）:<pre><code>UPDATE te_stu1 SET age=FLOOR(RAND()*10+20),height=FLOOR(RAND()*30+160);
+</code></pre>查看添加结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-09.jpg" alt=""><br>找出学生id为1，3，5的学生：<pre><code>SELECT * FROM te_stu1 WHERE id=1||id=3||id=5;  -- 逻辑运算
+SELECT * FROM te_stu1 WHERE id IN(1,3,5);  -- 落在集合
+</code></pre>查询身高在165-180之间的学生：<pre><code>SELECT * FROM te_stu1 WHERE height&gt;=165 &amp;&amp; height&lt;180;
+SELECT * FROM te_stu1 WHERE height BETWEEN 165 AND 180;
+</code></pre>注意:between本身是闭区间，且左边的值必须小于等于右边的值。<br>查询所有(有时为保证SQL语句的完整性)：<pre><code>SELECT * FROM te_stu1 WHERE 1;
+</code></pre></li>
+</ol>
+<p><strong>2)group by子句:</strong></p>
+<ol>
+<li>分组：根据某个字段进行分组，相同的放一组，不同的放一组。</li>
+<li>基本语法：<pre><code>group by 字段名
+</code></pre></li>
+<li>测试：<br>给te_tu1添加一个sex字段:<pre><code>ALTER TABLE te_stu1 ADD sex enum(&apos;男&apos;,&apos;女&apos;);
+</code></pre>给所有学生添加性别（随机）:<pre><code>UPDATE te_stu1 SET sex=FLOOR(RAND()*2+1);
+</code></pre>根据性别分组：<pre><code>SELECT * FROM te_stu1 GROUP BY sex;
+</code></pre>结果是这样的：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-10.jpg" alt=""><br>只有两条数据?没错只有两条，按分组字段是为了数据统计。统计函数如下：</li>
+<li>统计函数:<blockquote>
+<p>Count()：统计分组后的记录数<br>Max()：统计每组中的最大值<br>Min()：统计最小值<br>Avg()：统计平均值<br>Sum()：统计和</p>
+</blockquote>
+</li>
+<li>统计函数测试：<pre><code>SELECT COUNT(*),MAX(age),MIN(height),AVG(height),Sum(age),sex FROM te_stu1 GROUP BY sex;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-11.jpg" alt=""><br>一旦用到了<code>group by</code>子句最好就使用统计，否则groupby将没有意义。</li>
+<li>关于统计函数：<br>count()里面可以使用两种参数：*和字段(<strong>null不参与运算</strong>)。<br>avg()中的null字段也算入总数。</li>
+<li>分组会自动排序，且默认是升序：<pre><code>group by 字段 [asc|desc];  -- 对分组之后的结果进行排序（asc升,desc降）
+</code></pre></li>
+</ol>
+<p><strong>3)多字段分组:</strong></p>
+<ol>
+<li>多字段分组：<br>先根据一个字段进行分组，然后对分组后的结果再次按照其他字段进行分组。</li>
+<li>测试：<br>先往te_stu1下再添加四个学生，代码略。<br>再添加一个class字段:<pre><code>ALTER TABLE te_stu1 ADD class enum(&apos;班级1&apos;,&apos;班级2&apos;);
+</code></pre>添加每个人的班级(随机)：<pre><code>UPDATE te_stu1 SET class=FLOOR(RAND()*2+1);
+</code></pre>先按班级分组再按性别分组，查找每个班对应性别有多少人：<pre><code>SELECT class,sex,COUNT(*) FROM te_stu1 GROUP BY class,sex;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-12.jpg" alt=""></li>
+<li>group_concat()方法:<br>可以对分组的结果中的某个字段进行进行字符串连接（会输出该字段的连接值），用法为：<br>group_concat(字段)，如：<pre><code>SELECT class,sex,COUNT(*),group_concat(name) FROM te_stu1 GROUP BY class,sex;
+</code></pre>运行结果为:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-13.jpg" alt=""></li>
+</ol>
+<p><strong>4）回溯统计with rollup</strong></p>
+<ol>
+<li>原理:<br>任何一个分组后都会有一个小组，最后都会向上级进行汇报统计(根据当前分组的字段)<br>这就是回溯统计，回溯统计时会将分组字段置空。</li>
+<li>测试：<pre><code>SELECT class,COUNT(*) FROM te_stu1 GROUP BY class;   -- 一个字段，分为两组，共10人
+SELECT class,COUNT(*) FROM te_stu1 GROUP BY class WITH ROLLUP; -- 回溯统计，会加一个上级的总人数
+SELECT class,sex,COUNT(*),group_concat(name) FROM te_stu1 GROUP BY class,sex WITH ROLLUP;  -- 层层回溯，会加上各班级总人数（第二级）和总人数(第一级)
+</code></pre>一层分组的回溯统计：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-14.jpg" alt=""><br>两层分组的回溯统计：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-15.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="5-数据查询-having-orderby-limit子句）"><a href="#5-数据查询-having-orderby-limit子句）" class="headerlink" title="5.数据查询(having,orderby,limit子句）"></a>5.数据查询(having,orderby,limit子句）</h2><p><strong>1)Having子句:</strong></p>
+<ol>
+<li>说明：<br>与where子句，也是进行条件判断的。<br>where是针对磁盘数据进行判断，进入到内存之后，会进行分组操作，分组的操作就需要having来处理。<br>having能做where能做的几乎所有事情，但是很多having能做的事where做不了：<ul>
+<li><strong>分组统计的结果或者统计函数的值都只有having能够操作。</strong></li>
+<li>having能使用字段别名而where不行</li>
+</ul>
+</li>
+<li>基本语法：<pre><code>select ... having 条件
+</code></pre></li>
+<li>案例：<br>再次添加5个学生，并且添加班级3，并修改班级更新语句：<pre><code>UPALTER TABLE te_stu1 MODIFY class enum(&apos;班级1&apos;,&apos;班级2&apos;,&apos;班级3&apos;);
+UPDATE te_stu1 SET class=FLOOR(RAND()*3+1);
+</code></pre>求出所有班级人数大于5的班级（使用别名sum）：<pre><code>SELECT class,COUNT(*) AS sum FROM te_stu1 GROUP BY class HAVING sum &gt;5;
+</code></pre>运行结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-16.jpg" alt=""><br>这样是非法的:<pre><code>SELECT class,COUNT(*) AS sum FROM te_stu1 WHERE sum &gt;5 GROUP BY class;  -- 非法，where不能使用count(*)及别名
+</code></pre>where加载时数据还没到内存，count(*)与别名sum都还没加载。</li>
+</ol>
+<p><strong>2）order by子句：</strong></p>
+<ol>
+<li>说明：<br>排序，根据某个字段进行升序(asc)或者降序(desc)排序，依赖校对集</li>
+<li>基本用法：<pre><code>select ... Order by 字段名 [asc|desc]  -- 默认asc升序
+</code></pre></li>
+<li>与group by的区别：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-17.jpg" alt=""><br>分组是为了排序，而group by是为了统计。</li>
+<li>多字段排序：<br>排序可以进行多字段排序，先根据某一个字段排好序，然后排序好的内部再按某个数据次序进行排序。<br>如先按班级排序(升序）再按照年龄排序(降序):<pre><code>SELECT * FROM te_stu1 ORDER BY class [ASC],age DESC;
+</code></pre>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00014mysql%E5%AD%A6%E4%B9%A04-18.jpg" alt=""></li>
+</ol>
+<p><strong>3)limit子句:</strong></p>
+<ol>
+<li>说明：<br>是一种限制结果的语句：本质是限制数量。</li>
+<li>有两种使用方式：<ul>
+<li>只用来限制长度（数量）:<code>limit 数据量</code></li>
+<li>限制起始位置，限制数量：<code>limit 起始位置(offset)，长度(length)</code>(从指定的位置向后找几个数据)</li>
+</ul>
+</li>
+<li>案例测试:<br>查询学生前两个：<pre><code>SELECT * FROM te_stu1 LIMIT 2;
+SELECT * FROM te_stu1 LIMIT 0,2;  -- 编号是从0开始的
+</code></pre>从第三条开始查两条：<pre><code>SELECT * FROM te_stu1 LIMIT 2,2;
+</code></pre></li>
+<li><p>主要作用：<strong>实现数据的分页</strong><br>分页：为用户节省时间，提高服务器响应效率，减少资源浪费。</p>
+</li>
+<li><p>分页的简单理论实现</p>
+<ul>
+<li>Page model类需要的属性：<br>totalCount：总的记录数量<br>totalPage：总的记录数量<br>//前俩用于前台首末页等功能，后俩用于分页<br>PageSize：每页显示数量（最好固定）<br>NowPage:当前所在哪页</li>
+<li>Length=每页显示的数据量：基本不变<br>Offset=(页码数量-1)*每页显示数量</li>
+<li>简单的查询语句这样写：<br><code>select * from ***  limit &quot;+(page.getNowPage()-1)*page.getPageSize()+&quot;,&quot;+page.getPageSize();</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月19日 22:18</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/17/MySQL数据库学习笔记（四）/" title="MySQL学习笔记（四）：高级数据操作">https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/&title=《MySQL学习笔记（四）：高级数据操作》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/&title=《MySQL学习笔记（四）：高级数据操作》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（四）：高级数据操作》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/17/MySQL数据库学习笔记（四）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-高级数据插入"><span class="post-toc-text">1.高级数据插入:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-高级更新与删除数据"><span class="post-toc-text">2.高级更新与删除数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-数据查询（select表选项，字段别名，数据源）"><span class="post-toc-text">3.数据查询（select表选项，字段别名，数据源）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-数据查询-where-groupby子句）"><span class="post-toc-text">4.数据查询(where,groupby子句）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-数据查询-having-orderby-limit子句）"><span class="post-toc-text">5.数据查询(having,orderby,limit子句）</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/17/Maven学习笔记（一）：环境搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Maven学习笔记（一）：环境搭建与常用命令
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/16/MySQL数据库学习笔记（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

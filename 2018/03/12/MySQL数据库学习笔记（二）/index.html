@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记（二）:基本数据类型与列属性介绍 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（二）:基本数据类型与列属性介绍">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-2.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-3.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-4.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-5.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-6.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-7.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-8.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-16.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-18.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-19.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-20.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-21.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-22.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-23.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-24.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-25.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-26.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-27.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-28.jpg">
+<meta property="og:updated_time" content="2018-03-23T09:22:07.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记（二）:基本数据类型与列属性介绍">
+<meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL数据库学习笔记（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL学习笔记（二）:基本数据类型与列属性介绍
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-12
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习资料"><a href="#0-学习资料" class="headerlink" title="0.学习资料"></a>0.学习资料</h2><p>参考书籍《深入浅出MySQL数据库开发、优化与管理维护》<br>参考视频《传智播客MySQL》</p>
+<hr>
+<h2 id="1-关于数据类型（列类型）"><a href="#1-关于数据类型（列类型）" class="headerlink" title="1.关于数据类型（列类型）"></a>1.关于数据类型（列类型）</h2><ol>
+<li>为什么要分类:<br>二维表即使不存数据，定义之后也会浪费空间。</li>
+<li>数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。</li>
+<li>总共分为了三大类:数值型，日期处理类型，字符串型</li>
+</ol>
+<hr>
+<h2 id="2-数值型"><a href="#2-数值型" class="headerlink" title="2.数值型"></a>2.数值型</h2><p>存放的值为数值，系统将数值型分为了整数型和小数型。而内部又会细分。<br>数值类型简单介绍表：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-1.jpg" alt=""></p>
+<h3 id="2-1-整数型"><a href="#2-1-整数型" class="headerlink" title="2.1 整数型"></a>2.1 整数型</h3><p>存放整型数据：在SQL中因为更多要考虑如何节省磁盘空间，所以系统又将整型细分为了5类：</p>
+<ol>
+<li>整型的分类<ul>
+<li>Tinyint:迷你整型，使用1个字节存储，表示的状态最多为256（2^8）种（常用）</li>
+<li>Smallint:小整型，使用2个字节存储，表示的状态最多为65536（2^16）种</li>
+<li>Mediumint:中整型，使用3个字节存储,表示的状态最多为2^24种</li>
+<li>int:标准整型，使用4个字节存储（32位），表示的状态最多为2^32种(常用)</li>
+<li>Bigint:大整型，使用8个字节存储（64位），表示的最多的有2^64种</li>
+</ul>
+</li>
+<li>整型的测试:<br>创建整型表：<pre><code>USE test
+CREATE TABLE IF NOT EXISTS te_int(
+int_1 TINYINT,
+int_2 SMALLINT,
+int_3 MEDIUMINT,
+int_4 INT,
+int_5 BIGINT
+)CHARSET utf8;
+</code></pre>只能插入整型且只能插入范围内的数据:<pre><code>INSERT INTO te_int values(100,100,100,100,100);   -- 有效数据
+INSERT INTO te_int values(&apos;a&apos;,&apos;b&apos;,100,&apos;c&apos;,100);  -- 无效数据，类型不正确
+INSERT INTO te_int values(255,65530,10000,10000,10000);  -- 无效数据，超出范围
+</code></pre>tinyint值存255会超出范围，原因如下:<br>SQL中的数值类型,分正负，有符号的tinyint的范围是-128~127，可以设置为无符号型，范围为0-255，无符号类型使用<code>unsigned</code>属性设置:<pre><code>ALTER TABLE te_int ADD COLUMN int_6 TINYINT UNSIGNED AFTER int_5;  -- 往int_6中添加255则不报错
+</code></pre></li>
+<li>显示宽度:<br>添加无符号tinyint后，使用desc查看各个整型的类型:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-2.jpg" alt=""><br>括号后的数字代表了<strong>显示位数</strong>，如-123是4位，255是三位。<br><strong>显示宽度</strong>:没有特别含义，用户是可以控制的，这种控制不会改变数据本身的大小。<pre><code>ALTER TABLE te_int ADD int_7 int(1) AFTER int_6;
+INSERT INTO te_int(int_7) VALUES(110);  -- 但是可以插入
+</code></pre><strong>显示宽度的意义</strong>：在于当数据不够显示宽度的时候，会自动让数据变成对应的显示宽度，通常需要搭配一个前导0来增加宽度，不改变值大小（<code>zerofill</code>属性0填充）<pre><code>ALTER TABLE te_int ADD int_8 tinyint(3) zerofill;
+INSERT INTO te_int(int_8) VALUES(2);
+</code></pre>0填充会自动使tinyint变为无符号位。<br>效果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-3.jpg" alt=""><br>但是在Navicat等管理工具中看不到0。<br><strong>零填充的意义</strong>：保证数据格式（html显示）</li>
+</ol>
+<h3 id="2-2-小数型"><a href="#2-2-小数型" class="headerlink" title="2.2 小数型"></a>2.2 小数型</h3><ol>
+<li>小数型：带有小数点或者范围超出整型的数值类型。<br>在SQL中将小数型又分为浮点型和定点型：<br>浮点型：小数点浮动，精度有限，而且会丢失精度。（四舍五入）<br>定点型：小数点固定，精度固定，不会丢失精度。</li>
+<li>浮点型:<ul>
+<li>浮点型数据又称为精度型数据：超出指定范围之后，会丢失精度（自动四舍五入）。<br>浮点型又分为两种:<br>&nbsp;&nbsp;&nbsp;&nbsp;–Float:单精度，占用四4个字节(32位)存储，精度范围大概为7位左右。<br>&nbsp;&nbsp;&nbsp;&nbsp;–Double：双精度，占用8个字节存储，精度范围大概为15位左右。</li>
+<li>创建浮点型数表：<br>方式1：直接float，表示没有小数部分<br>方式2：float（M，D）:M代表总长度，D代表小数长度，整数占M-D位。<pre><code>CREATE TABLE te_float(
+fl FLOAT,       -- 整数长度超过精度也会四舍五入
+f2 FLOAT(10,6),  -- 在float精度范围7之外
+f3 FLOAT(6,2),  -- 在float精度范围7之内
+d1 DOUBLE(10,6)
+)CHARSET utf8;
+</code></pre>可以创建成功，但是给该表插入数据时:<pre><code>INSERT INTO te_float VALUES(1000.50,1000.50,1000.50,1000.50);  -- 符合条件
+INSERT INTO te_float VALUES(1234567890,1234.567890,1234.56,1234.567890)  -- 符合条件
+INSERT INTO te_float VALUES(9.999999999e10,9999.999999,9999.99,9999.99) -- 符合条件最大值
+</code></pre>数据可以使用科学计数法形式。先看一下插入规则:<br><strong>浮点数插入规则</strong>:整数部分是不能超出长度的，但是小数部分可以超出长度（四舍五入）。<br>下面是添加结果:<br>  <img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-4.jpg" alt=""><br>结论:超出精度范围的浮点数一定会进行四舍五入，浮点数如果是因为系统进位而导致整数部分长度超出指定范围，系统也是允许的。</li>
+</ul>
+</li>
+<li>定点型(DECIMAL):<ul>
+<li>绝对的保证<strong>整数部分</strong>不会被四舍五入（不会丢失精度），小数部分有很小的可能会丢失精度。以字符串的形式存储。<br>DECIMAL（M，D）：编长，大致是每9个数字采用4个字节存储，整数与小数分开计算,<br>M最大值是65，D最大值是30，默认值是（10，2）</li>
+<li>创建定点表:<pre><code>CREATE TABLE te_decimal(
+d1 DECIMAL(10,1),
+f1 FLOAT(10,1)
+)
+CHARSET utf8;
+</code></pre>插入数据:定点数的整数部分一定不能超出长度（不会进位），小数部分可以随意超出(系统自动四舍五入)：<pre><code>INSERT INTO te_decimal VALUES(12345678.90,12345678.90);
+INSERT INTO te_decimal VALUES(12.3434567890,12.3434567890);
+</code></pre>使用cmd插入时系统会报warning，可以使用<code>show warning</code>查看。<br>浮点数如果进位导致长度增加没问题，但是定点数会出现问题:<pre><code>INSERT INTO te_decimal VALUES(999999999.9,999999999.9);      -- 有效数据
+INSERT INTO te_decimal VALUES(999999999.99,999999999.99);    -- 进位
+</code></pre>定点数会报错提示<code>out of range</code>。下面是添加结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-5.jpg" alt=""></li>
+</ul>
+</li>
+<li>浮点数与定点数的选择：<br><strong>要求精度低的使用浮点数，要求精度高的使用定点数。</strong></li>
+</ol>
+<hr>
+<h2 id="3-时间日期类型"><a href="#3-时间日期类型" class="headerlink" title="3.时间日期类型"></a>3.时间日期类型</h2><p><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-6.jpg" alt=""><br>补充介绍:<br>DateTime：时间日期，格式是YYYY-mm-dd HH:MM:ss,有0值，0000-00-00 00:00:00。<br>Time：更多表示时间段，也可以表示时间，指定的某个区间之间。<br>Year：year(2),year(4),默认为4位。</p>
+<ol>
+<li>创建时间日期表:<pre><code>CREATE TABLE IF NOT EXISTS te_date(
+d1 datetime,
+d2 date,
+d3 time,
+d4 TIMESTAMP,
+d5 YEAR
+)CHARSET utf8;
+</code></pre>使用desc查看表结构，可以看到时间戳的特殊性:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-7.jpg" alt=""><br>时间戳默认不为空，默认值为当前时间，插入时不明确timestamp赋值时也会使用当前时间，但是注意，timestamp只会反映当地时区的时间。</li>
+<li><p>插入数据：<br>注意：时间time可以使用负数（很大的负数），year可以使用两位插入。</p>
+<pre><code>INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,2018);  -- 正常数据，time解析为17:25:10
+INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;-211:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,2018);  -- time存负值，这种写法直接存入
+INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;-2 11:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,2018);  -- 表示两天前，会自动转换为-59:25:10
+
+INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;11:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,69);  -- year存两位，解析为2069年
+INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;11:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,70;  -- year存两位，解析为1970年
+</code></pre><p>timestamp特性:<br>只要它所在的某条记录被更改(非timestamp字段),timestamp也会自动修改更新为当前时间。在Navicat等可视化操作修改（不用update）timestamp不会更新。<br>可以使用<code>select unix_timestamp();</code>得到系统的时间戳(整型)。<br>注意:PHP的date只要一个时间戳（整型）就可以解析，一般不使用。<br>java的Date没研究过，最好还是用time类型吧。</p>
+</li>
+</ol>
+<hr>
+<h2 id="4-字符串类型"><a href="#4-字符串类型" class="headerlink" title="4.字符串类型"></a>4.字符串类型</h2><p>在SQL中，将字符串类型分成了6类：<strong>char,varchar,text,blob,enum和set</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg" alt=""></p>
+<ol>
+<li><p>定长字符串：<strong>char</strong><br> 磁盘（二维表）在定义结构的时候，就已经确定了最终数据的存储长度。<br> Char(L)：L代表length,可以存储的长度，单位为字符，最大长度值可以为255。<br> Char(4)：在UTF8环境下，需要4*3=12个字符。<br> <br><br>变长字符串:<strong>varchar</strong><br> 在分配空间是按照最大的空间分配，但实际上用了多少是根据具体的数据来确定的。<br> Varchar(L)：L代表字符长度，理论长度是65536个字符，但是会多出1-2个字节来确定存储的实际长度（255个字以下1位，255个字以上2位）<br> Varchar(10)：若存满了10个字实际使用的字节10*3+1=31个字节。若只存储了3个字符则实际上使用了3*3+1=10个字符。</p>
+</li>
+<li><p>定长与变长的比较:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-8.jpg" alt=""><br>如何选择定长和变长字符串:<br>数据长度固定–定长：身份证，电话号码，学号等。<br>长度不固定–变长：姓名，住址等其他很多。<br>定长的磁盘空间比较浪费，但是效率高。<br>变长磁盘空间比较节省，但是效率低。</p>
+</li>
+<li><p>文本字符串:<br>如果数据量非常大就会使用文本字符串（超过255个字符）：<br>文本字符串根据存储的数据的格式进行分类：text和blog</p>
+<blockquote>Text:存放文字。<br>Blob:存放二进制数据（通常不用，通常存路径）。</blockquote>
+</li>
+<li><p>枚举字符串（ENUM）<br><strong>枚举</strong>:事先将所有可能出现的结果都设计好，实际上存储的数据必须是规定好的数据中的一个。（性别最常用）<br>使用方法：</p>
+<pre><code>CREATE TABLE te_enum(
+gender enum(&apos;男&apos;,&apos;女&apos;,&apos;保密&apos;)
+)CHARSET utf8;
+</code></pre><p>插入数据：</p>
+<pre><code>INSERT INTO te_enum VALUES(&apos;男&apos;),(&apos;女&apos;),(&apos;男&apos;),(&apos;保密&apos;);
+INSERT INTO te_enum VALUES(&apos;1&apos;);  --也可以直接插入数字
+</code></pre><p>枚举作用一：规定数据格式，数据只能是规定的数据中的其中一个。<br><strong>在mysql中，系统也是自动转换数据格式的，尤其是字符转数字。</strong><br>枚举作用二：节省存储空间（别名，单选框），枚举实际存的是数值而不是字符串本身。<br>证明存的是数值：将结果取出并+0运算，若是0则是字符串，不是就是数值。</p>
+<pre><code>select gender +0,gender from te_enum;
+</code></pre><p><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-10.jpg" alt=""><br>枚举元素的实际规律：按照实际出现的顺序从1开始编号。只用（1或2个字节存储）<br><strong>枚举原理</strong>:<br>枚举在进行数据规范的时候(定义的时候)，系统会自动建立一个数字与枚举元素的对应关系（存在日志中），然后在进行数据插入的时候，系统自动将字符串转换成对应的数字存储，然后再进行数据提取的时候，系统自动将数值转换为对应的字符串显示。</p>
+</li>
+<li><p>集合字符串<br>集合和枚举类似，实际存储的是数值而不是字符串（集合是多选，且最多只能有64个选项）<br><blockquote><br>集合使用方式：<br>定义:Set(元素列表)<br>使用:可以使用元素列表中的一个或多个元素，用’,’分隔。<br></blockquote><br>创建集合表:</p>
+<pre><code>CREATE TABLE te_set(
+hobby SET(&apos;篮球&apos;,&apos;足球&apos;,&apos;羽毛球&apos;,&apos;乒乓球&apos;,&apos;睡觉&apos;,&apos;敲代码&apos;)
+)CHARSET utf8;
+</code></pre><p>插入数据:可以使用多个元素字符串组合，也可以插入数值</p>
+<pre><code>INSERT INTO te_set VALUES(&apos;足球,睡觉,敲代码&apos;);
+INSERT INTO te_set VALUES(&apos;足球,羽毛球,足球&apos;);  -- 重复的只存一次
+INSERT INTO te_set VALUES(3);     -- 3=1+2 会存进篮球+足球，不会存3羽毛球
+</code></pre><p>使用<code>select hobby +0,hobby from te_set;</code>可以查看原因:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-11.jpg" alt=""><br>50转换为二进制位：32+16+2=00110010<br>将set集合从零开始颠倒向右对齐（8，7，<strong>6</strong>，<strong>5</strong>，4，3，2，<strong>1</strong>，0）。<br><strong>集合中每一个元素都是对应着一个二进制位</strong>。所以3=2^0+2^1。<br>集合的强大在于能够规范数据和节省空间。但是效率低。</p>
+</li>
+<li>Mysql记录的长度：<br>Mysql中规定:任何一条<strong>记录</strong>最长不能超过65535个字符（varchar永远不能达到理论值）<ul>
+<li>Varchard的实际存储长度,不同的字符集不同:<br><blockquote><br>UTF8：21844*3+2=65534   – 最多可以存储21844个字符<br>GBK：32766*2+2=65534   – 最多可存储32766字节<br></blockquote><br>还多一个字节:<br>Mysql记录中：<strong>如果有任何一个字节允许为空，那么系统会从整个记录中保留一个字节来存储NULL</strong>。</li>
+<li><strong>关于text</strong>：<br>Mysql中的text文本字符串，不占用记录长度：额外存储，但是text文本字符串也是属于记录的一部分，一定要占用记录中的部分长度：<strong>10个字节</strong>（保存数据地址和长度）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-列属性："><a href="#5-列属性：" class="headerlink" title="5.列属性："></a>5.列属性：</h2><h3 id="空属性，注释，默认值"><a href="#空属性，注释，默认值" class="headerlink" title="空属性，注释，默认值"></a>空属性，注释，默认值</h3><p>列属性：真正约束字段的是数据类型，但是数据类型的约束很单一，需要有一些额外的约束来更加保证数据的合法性。<br>列属性简介：NULL/NOT NULL,default,Primary key,unique key,auto_increment,comment</p>
+<ol>
+<li><strong>空属性</strong>：<br>两个值：NULL和NOT NULL（非空）<br>虽然数据库默认字段基本都为空，但是实际上开发时，尽可能要保证所有的数据都不为空：<strong>空数据没有意义，也不参与运算。</strong>任何数字和NULL相乘都为NULL;<br>案例:创建一个班级表（名字，教室）<pre><code>CREATE TABLE te_class(
+name VARCHAR(20) NOT NULL,
+room VARCHAR(20) NULL  -- 代表运行为空,默认也为空
+)CHARSET utf8;
+</code></pre></li>
+<li><strong>注释comment</strong>，列描述<br>列描述:<strong>comment</strong> 描述，没有实际意义，是专门来描述字段的，会根据表创建语句保存。用来给程序员（或DBA）来进行了解。<br>案例：创建教师表<pre><code>CREATE TABLE te_teacher(
+name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;,
+money VARCHAR(20) NOT NULL COMMENT &apos;工资&apos;
+)CHARSET utf8;
+</code></pre>使用<code>show creat table te_teacher即可查看</code>:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-12.jpg" alt=""><br>但是需要注意的是,使用desc te_teacher并不能显示:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-13.jpg" alt=""></li>
+<li><strong>默认值default</strong><br>默认值:某一种数据会经常性的出现某一个具体的值时，可以一开始就指定好,在需要真实数据的时候，用户可以选择性的使用默认值。关键字default。<br>案例：创建default测试表<pre><code>CREATE TABLE te_default(
+name VARCHAR(20) NOT NULL,
+age TINYINT UNSIGNED DEFAULT 0,
+gender enum(&apos;男&apos;,&apos;女&apos;,&apos;保密&apos;) DEFAULT &apos;男&apos;
+)CHARSET utf8;
+</code></pre>使用<code>desc te_default;</code>会发现已经有了默认值。<br>默认值的生效：数据进行插入时不给该字段赋值。<br>使用默认值可以不一定指定列表，故意不使用字段列表，可以使用default关键字代替：<pre><code>INSERT INTO te_default VALUES(&apos;周建新&apos;,22,DEFAULT);
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="6-主键"><a href="#6-主键" class="headerlink" title="6.主键"></a>6.主键</h2><ol>
+<li><strong>增加主键</strong>：<br>SQL操作中有多种方式可以给表增加主键，大致可以分为三种：<br>1.创建表是直接在字段后面跟primary key关键字（主键本身不允许为空）<pre><code>CREATE TABLE te_pri1(
+name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;,
+number CHAR(10) PRIMARY KEY COMMENT &apos;学号: itcast + 0000 不能重复&apos;
+)CHARSET utf8;
+</code></pre>使用desc查看表的字段信息:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-15.jpg" alt=""><br>注意：PRI不一定代表主键，但是大部分时间都是代表主键。<br>优点：非常直接；缺点：<strong>只能使用一个字段作为主键</strong>。<br>2.在创建表的时候，在所有的字段之后，使用primary key(主键字段列表)来创建之间（如果有多个字段，则作为<strong>复合主键</strong>）<pre><code>CREATE TABLE te_pri2(
+number CHAR(10) COMMENT &apos;学号：itcast + 0000&apos;,
+course CHAR(10) COMMENT &apos;课程代码：学校代码 + 0000&apos;,
+score TINYINT UNSIGNED DEFAULT 60 COMMENT &apos;成绩&apos;,
+-- 增加复合主键限制（学号与课程号对应并且唯一）
+PRIMARY KEY(number,course)
+)CHARSET utf8;
+</code></pre>使用desc发现有两个主键，一个表里不可能存在两个主键，所以是复合主键：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-16.jpg" alt=""><br>3.表创建好之后（没有主键时），额外追加主键:可以通过修改表字段属性，也可以直接追加。<br>&nbsp;&nbsp;&nbsp;&nbsp;修改属性：<pre><code>alter table 表名 modify/change ...;  -- 详情见笔记一
+</code></pre>&nbsp;&nbsp;&nbsp;&nbsp;直接追加：<pre><code>alter table 表名 add primary key(字段列表);
+</code></pre>创建表并追加主键：<pre><code>CREATE TABLE te_pri3(
+course CHAR(10) NOT NULL COMMENT &apos;课程编号：学校代码 + 0000&apos;,
+name VARCHAR(20) NOT NULL COMMENT &apos;课程名字&apos;
+)CHARSET utf8;
+-- 追加主键（方式一）
+ALTER TABLE te_pri3 modify course char(10) PRIMARY KEY COMMENT &apos;课程编号：学校代码 + 0000&apos;;
+-- 追加主键(方式二)
+ALTER TABLE te_pri3 ADD PRIMARY KEY(course);
+</code></pre><strong>追加主键的前提</strong>:<br>表中数据本身是独立的（不重复，否则无法添加主键）。</li>
+<li><strong>主键约束</strong><br>主键对应的字段中的数据不允许重复，一旦重复，则数据操作会失败（仅限增和改）。<br>如向te_pri1表中插入如下数据(主键冲突):<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-18.jpg" alt=""></li>
+<li><strong>主键删除</strong><br><strong>没有办法更新主键：主键必须先删除才能增加。</strong><br>删除主键的方法:<pre><code>alter table 表名 drop primary key;
+</code></pre>不管主键在哪，是什么主键，都删除。<br>如删除表te_pri1的主键：<pre><code>ALTER TABLE te_pri1 DROP PRIMARY KEY;
+</code></pre>显示结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-19.jpg" alt=""></li>
+<li><strong>主键分类</strong><br>在实际创建表的过程中，很少使用真实业务数据作为主键字段（业务主键，如学号，课程号），大部分时候是用逻辑性的字段（字段没有业务意义，值是什么都没有关系），将这种字段主键称为<strong>逻辑主键</strong>。<pre><code>CREATE TABLE te_pri4(
+id int PRIMARY KEY auto_increment COMMENT &apos;逻辑主键，自增长&apos;,
+Number CHAR(10) NOT NULL COMMENT &apos;学号,本来这个是主键&apos;,
+Name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
+)CHARSET utf8;
+</code></pre>添加数据（未指定id）:<pre><code>INSERT INTO te_pri4(Number,Name) VALUES(&apos;1234567890&apos;,&apos;小学生&apos;);
+</code></pre>发现id已经有值了:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-20.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="7-自增长"><a href="#7-自增长" class="headerlink" title="7.自增长"></a>7.自增长</h2><ol>
+<li><strong>自增长简介</strong><br>自增长：当对应的字段不给值，或者说是默认值或者给NULL时，会自动被系统触发，系统会从当前字段中已有的最大值再进行+1操作，得到一个新的在不同的字段。<br><strong>自增长通常是和主键搭配的。</strong></li>
+<li>自增长的特点：auto_increment<br>&nbsp;&nbsp;&nbsp;&nbsp;a.任何一个字段要做自增长必须前提是本身是一个索引。（key一栏有值）<br>&nbsp;&nbsp;&nbsp;&nbsp;b.自增长字段必须是数字。（整型）<br>&nbsp;&nbsp;&nbsp;&nbsp;c.一张表最多只能有一个自增长。</li>
+<li>创建一个自增长表:<pre><code>-- 需要满足上述上述三个条件
+CREATE TABLE te_inc1(
+id int PRIMARY KEY auto_increment COMMENT &apos;自动增长&apos;,
+name VARCHAR(10) NOT NULL COMMENT &apos;姓名&apos;
+)CHARSET utf8;
+</code></pre></li>
+<li><strong>自增长的使用</strong><pre><code>-- 触发自增长
+INSERT INTO te_inc1(name) VALUES(&apos;学生1&apos;);
+INSERT INTO te_inc1 VALUES(null,&apos;学生2&apos;);
+INSERT INTO te_inc1 VALUES(DEFAULT,&apos;学生3&apos;);
+</code></pre>添加结果为:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-21.jpg" alt=""><br>特性:<br>&nbsp;&nbsp;&nbsp;&nbsp;–第一个元素默认为1，每次自增长加1。<br>&nbsp;&nbsp;&nbsp;&nbsp;–自增长输入值后本次失效，但是下一次开始还是能自动自增长，从最大值开始+1。<br>若删除学生三后在进行添加，且测试给自增长赋值：<pre><code>DELETE FROM te_inc1 WHERE id=3;
+INSERT INTO te_inc1 VALUES(null,&apos;学生4&apos;);
+INSERT INTO te_inc1 VALUES(20,&apos;学生5&apos;);
+INSERT INTO te_inc1 VALUES(null,&apos;学生6&apos;);
+</code></pre>查看结果，发现删除后还会在原来的基础上再增加:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-22.jpg" alt=""><br>如何确定下一次是什么增长呢？可以使用<code>show create table name</code>查看：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-23.jpg" alt=""><br>所以自增长是可以修改的。</li>
+<li>自增长的修改(两种情况):<br>情况1：自增长如果涉及到字段的改变，必须先删除自增长，后增加（一张表只能有一个自增长）。–修改自增长换字段<br>情况2：修改当前自增长已经存在的值，修改只能比当前已有的自增长的最大值大，不能小。（小不报错但是也不生效）<pre><code>-- 修改的是表选项的值
+alter table 表名 auto_increment = 0;
+</code></pre>如修改表选项后再添加：<pre><code>ALTER TABLE te_inc1 auto_increment = 25;
+INSERT INTO te_inc1 VALUES(null,&apos;学生7&apos;);
+</code></pre>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-24.jpg" alt=""></li>
+<li><strong>自增长的变量修改</strong><br>思考：为什么自增长是从1开始且每次都只自增1呢?<br>所有系统的表现（如字符集，校对集等）都是由系统内部的变量进行控制的。<br>查看自增长对应的变量:<pre><code>show variables like &apos;auto_increment%&apos;;
+</code></pre><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-25.jpg" alt=""><br>可以修改变量实现不同的效果:<strong>修改是对整个数据库修改，而不是但张表。</strong>（修改会话级:当前客户端当次连接有效）且不会改变表现有的状态。<pre><code>set auto_increment_increment=2;  -- 一次自增2(自增长步长)
+set auto_increment_offset=2;  -- 修改起始值
+</code></pre>一般情况下不修改，没啥意义，且修改后第一次会有误差。</li>
+<li><strong>删除自增长</strong>:<br>自增长是字段的字段一个属性：可以通过modify来进行修改(保证没有auto_increment即可)：<pre><code>alter table 表名 modify 字段 类型
+</code></pre>错误的修改:<pre><code>ALTER TABLE te_inc1 MODIFY id INT PRIMARY KEY;  -- 主键是单独存在的，见上面的show create table te_inc1
+</code></pre>正确的修改（不要加主键名）:<pre><code>ALTER TABLE te_inc1 MODIFY id INT;
+</code></pre>结果:自增长删除了，但是发现注释也没有了，所以得注意<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-26.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="8-唯一键（unique-key）"><a href="#8-唯一键（unique-key）" class="headerlink" title="8.唯一键（unique key）"></a>8.唯一键（unique key）</h2><ol>
+<li>介绍<br>一张表往往有很多字段需要唯一性，数据不能重复，但是一张表只能有一个主键，唯一键就可以解决表中有多个字段需要唯一约束的问题。<br>唯一键的本质与主键差不多，但是：唯一键默认自动为空，而且可以多个为空。（空字段不参与唯一性比较）</li>
+<li>增加唯一键（与增加主键差不多）<br>方案1：在创建表的时候，字段后面直接跟unique/unique key。<pre><code>CREATE TABLE te_uni1(
+number CHAR(10) UNIQUE COMMENT &apos;学号，唯一，允许为空&apos;,
+name VARCHAR(20) NOT NULL
+)CHARSET utf8;
+</code></pre>方案2：复合唯一键(主键错觉)<pre><code>CREATE TABLE te_uni2(
+number CHAR(10) NOT NULL COMMENT &apos;学号，唯一，不允许为空&apos;,
+name VARCHAR(20) NOT NULL,
+unique key(number)
+)CHARSET utf8;
+</code></pre>使用desc会发现number竟然有主键的标志:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-27.jpg" alt=""><br>注意:number不是主键，而且该表没有主键，number又具有主键特性，所以number就被系统认为是主键了。使用show create table表名可以查看真实情况。<br>方案3：在创建表之后增加（追加）唯一键<pre><code>CREATE TABLE te_uni3(
+id INT PRIMARY KEY auto_increment COMMENT &apos;id&apos;,
+number CHAR(10) NOT NULL COMMENT &apos;学号&apos;,
+name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
+)CHARSET utf8;
+</code></pre>追加唯一键(和主键差不多):<pre><code>ALTER TABLE te_uni3 ADD UNIQUE KEY(number);
+</code></pre>再使用desc te_uni3查看数据：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-28.jpg" alt=""></li>
+<li>唯一键约束：<br>唯一键与主键本质相同，但唯一键默认为空，且是多个为空。<br>如有一个表唯一键为number，可以往number中存入多个null，不会出错，而且不会冲突，若唯一键也不允许为空，那么与主键的作用一致。</li>
+<li>更新唯一键与删除唯一键：<br><strong>更新唯一键</strong>需要先删除后增加，如果其他字段新增则不用删。<br>删除唯一键：<pre><code>alter table 表名 drop index 索引名字；  -- 也是删除索引的方法
+</code></pre>唯一键默认使用字段名作为索引。如删除te_uni3表number字段上的唯一键：<pre><code>ALTER TABLE te_uni3 DROP INDEX number； 
+</code></pre></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年03月23日 17:22</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/12/MySQL数据库学习笔记（二）/" title="MySQL学习笔记（二）:基本数据类型与列属性介绍">https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/&title=《MySQL学习笔记（二）:基本数据类型与列属性介绍》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/&title=《MySQL学习笔记（二）:基本数据类型与列属性介绍》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL学习笔记（二）:基本数据类型与列属性介绍》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习资料"><span class="post-toc-text">0.学习资料</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-关于数据类型（列类型）"><span class="post-toc-text">1.关于数据类型（列类型）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-数值型"><span class="post-toc-text">2.数值型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-整数型"><span class="post-toc-text">2.1 整数型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-小数型"><span class="post-toc-text">2.2 小数型</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-时间日期类型"><span class="post-toc-text">3.时间日期类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-字符串类型"><span class="post-toc-text">4.字符串类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-列属性："><span class="post-toc-text">5.列属性：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#空属性，注释，默认值"><span class="post-toc-text">空属性，注释，默认值</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-主键"><span class="post-toc-text">6.主键</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-自增长"><span class="post-toc-text">7.自增长</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-唯一键（unique-key）"><span class="post-toc-text">8.唯一键（unique key）</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/12/《鸟哥的Linux私房菜》笔记（四）/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          《鸟哥的Linux私房菜》笔记（四）:Linux磁盘与文件系统的管理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/10/《鸟哥的Linux私房菜》笔记（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《鸟哥的Linux私房菜》笔记（三）：文件权限以及目录/文件的配置、管理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

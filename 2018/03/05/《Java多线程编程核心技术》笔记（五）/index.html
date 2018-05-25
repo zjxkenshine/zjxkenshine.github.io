@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Java多线程编程核心技术》笔记（五）:定时器Timer | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.学习要点 如何实现在指定时间执行任务 如何实现按指定周期执行任务 schedule(）方法和scheduleAtFixedRate()方法   1.Timer简介定时/计划功能在移动开发用的较多，如Android。定时计划任务功能在Java中主要使用的就是Timer对象，它在内部是使用多线程方式进行处理的。Timer类的主要是负责计划任务的功能，就是在指定时间开始执行某一任务。Timer类主要">
+<meta name="keywords" content="Java,多线程,并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java多线程编程核心技术》笔记（五）:定时器Timer">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.学习要点 如何实现在指定时间执行任务 如何实现按指定周期执行任务 schedule(）方法和scheduleAtFixedRate()方法   1.Timer简介定时/计划功能在移动开发用的较多，如Android。定时计划任务功能在Java中主要使用的就是Timer对象，它在内部是使用多线程方式进行处理的。Timer类的主要是负责计划任务的功能，就是在指定时间开始执行某一任务。Timer类主要">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-18T13:18:57.403Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java多线程编程核心技术》笔记（五）:定时器Timer">
+<meta name="twitter:description" content="0.学习要点 如何实现在指定时间执行任务 如何实现按指定周期执行任务 schedule(）方法和scheduleAtFixedRate()方法   1.Timer简介定时/计划功能在移动开发用的较多，如Android。定时计划任务功能在Java中主要使用的就是Timer对象，它在内部是使用多线程方式进行处理的。Timer类的主要是负责计划任务的功能，就是在指定时间开始执行某一任务。Timer类主要">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《Java多线程编程核心技术》笔记（五）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《Java多线程编程核心技术》笔记（五）:定时器Timer
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/学习笔记/">学习笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-学习要点"><a href="#0-学习要点" class="headerlink" title="0.学习要点"></a>0.学习要点</h2><ul>
+<li>如何实现在指定时间执行任务</li>
+<li>如何实现按指定周期执行任务</li>
+<li>schedule(）方法和scheduleAtFixedRate()方法</li>
+</ul>
+<hr>
+<h2 id="1-Timer简介"><a href="#1-Timer简介" class="headerlink" title="1.Timer简介"></a>1.Timer简介</h2><p>定时/计划功能在移动开发用的较多，如Android。定时计划任务功能在Java中主要使用的就是Timer对象，它在内部是使用多线程方式进行处理的。<br><strong>Timer类</strong>的主要是负责计划任务的功能，就是<em>在指定时间开始执行某一任务。</em><br><strong>Timer类</strong>主要作用是设置计划任务，但是封装任务的类却是<strong>TimerTask类。</strong><br>执行计划任务的代码要放入TimerTask的子类中，因为<strong>TimerTask是一个抽象类</strong>。</p>
+<hr>
+<h2 id="2-schedule-TimerTask-task-Date-time"><a href="#2-schedule-TimerTask-task-Date-time" class="headerlink" title="2.schedule(TimerTask task,Date time)"></a>2.schedule(TimerTask task,Date time)</h2><ol>
+<li>方法作用:<br><em>在指定时间time执行一次某任务task。</em><br>简单使用:<pre><code>private static Timer time=new Timer();
+static public class MyTask extends TimerTask{
+    @Override
+    public void run() {
+        //任务代码
+    }
+}
+public static void main(String args[]){
+    MyTask tsk=new MyTask();
+    Date dt=...;
+    time.schedule(tsk, dt);  //执行任务
+}
+</code></pre></li>
+<li><p>执行任务时间晚于当前时间:在未来执行的效果</p>
+<pre><code>public class Test5_02_1 {
+    private static Timer time=new Timer();
+
+    static public class MyTask extends TimerTask{
+        @Override
+        public void run() {
+            System.out.println(&quot;运行了,时间为&quot;+System.currentTimeMillis());
+        }
+    }
+
+    public static void main(String[] args) {
+        try{
+            MyTask tsk=new MyTask();
+            SimpleDateFormat sdf=new SimpleDateFormat(&quot;yy-MM-dd HH:mm:ss&quot;);
+            String dateString=&quot;2018-03-05 11:57:00&quot;;
+            Date dt=sdf.parse(dateString);
+            System.out.println(&quot;字符串时间：&quot;+dt.toLocaleString()+&quot;当前时间：&quot;+new Date().toLocaleString());
+            time.schedule(tsk, dt);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>运行后程序在指定的时间运行了，但是程序并没有销毁。因为Timer创造的线程仍在运行，并未停止。将它改为守护线程即可，创建时这样写:</p>
+<pre><code>private static Timer time=new Timer(true);
+</code></pre></li>
+<li>计划时间早于当前时间：提前运行的效果。<br>将上述代码中的<code>String dateString=&quot;2018-03-05 11:57:00&quot;;</code>改为比当前时间早的时间，测试运行的到结果:<br><strong>如果执行任务时间早于当前时间，则立即执行task任务。</strong></li>
+<li><p>多个TimerTask延时测试:</p>
+<pre><code>public class Test5_04_2 {    
+    private static Timer timer=new Timer();  //不能使用守护线程
+
+    static public class Tsk1 extends TimerTask{
+        @Override
+        public void run() {
+            try {
+                System.out.println(&quot;tsk1 begin运行了,时间为&quot;+System.currentTimeMillis());
+                Thread.sleep(10000);
+                System.out.println(&quot;tsk1 end运行了,时间为&quot;+System.currentTimeMillis());
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static public class Tsk2 extends TimerTask{
+        @Override
+        public void run() {
+            System.out.println(&quot;tsk2运行了,时间为&quot;+System.currentTimeMillis());
+        }
+    }
+
+    public static void main(String[] args) {
+        try{
+            Tsk1 tsk1=new Tsk1();
+            Tsk2 tsk2=new Tsk2();
+            SimpleDateFormat sdf1=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            SimpleDateFormat sdf2=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            String day1=&quot;2017-10-10 21:56:00&quot;;
+            String day2=&quot;2017-10-10 21:56:00&quot;;
+
+            Date d1=sdf1.parse(day1);
+            Date d2=sdf2.parse(day2);
+
+            System.out.println(&quot;字符串1计划执行时间：&quot;+d1.toLocaleString()+&quot; 当前实际执行的时间：&quot;+new Date().toLocaleString());
+            System.out.println(&quot;字符串2计划执行时间：&quot;+d1.toLocaleString()+&quot; 当前实际执行的时间：&quot;+new Date().toLocaleString());
+
+            timer.schedule(tsk1, d1);
+            timer.schedule(tsk2, d2);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>字符串1计划执行时间：2017-10-10 21:56:00 当前实际执行的时间：2018-3-5 12:00:12
+字符串2计划执行时间：2017-10-10 21:56:00 当前实际执行的时间：2018-3-5 12:00:12
+tsk1 begin运行了,时间为1520222412009
+tsk1 end运行了,时间为1520222422014
+tsk2运行了,时间为1520222422014
+</code></pre><p>结论:<br>TimerTask是以队列的方式<strong>一个一个被顺序执行</strong>，所以执行的时间有可能和预计的时间不一样前面的任务耗时可能较长，则后面的任务运行的时间也会被延迟。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-schedule-TimeTask-task-Date-firstTime-long-period-方法"><a href="#3-schedule-TimeTask-task-Date-firstTime-long-period-方法" class="headerlink" title="3.schedule(TimeTask task,Date firstTime,long period)方法"></a>3.schedule(TimeTask task,Date firstTime,long period)方法</h2><ol>
+<li>作用:<br><em>在指定日期（firstTime）之后，按指定的间隔（period）周期性地无限循环执行某一任务（task）。</em><br>简单使用:<pre><code>private static Timer time=new Timer();
+static public class MyTask extends TimerTask{
+    @Override
+    public void run() {
+        //任务代码
+    }
+}
+public static void main(String args[]){
+    MyTask tsk=new MyTask();
+    Date firstTime=...;
+    time.schedule(tsk,firstTime，4000);  //执行任务，4秒一循环
+}
+</code></pre></li>
+<li>计划时间晚于当前时间:在未来执行的效果。<br>从firstTime开始，无限循环执行该任务。</li>
+<li>计划时间早于当前时间:提前运行的效果。<br><strong>程序立即执行，并以period为周期无限循环执行该任务。</strong></li>
+<li><p>任务执行时间被延时。</p>
+<pre><code>public class Test5_07 {
+    static public class MyTask extends TimerTask{
+        @Override
+        public void run() {
+            try{
+                System.out.println(&quot;A运行了，时间为&quot;+new Date());
+                Thread.sleep(5000);
+                System.out.println(&quot;A运行结束了，时间为&quot;+new Date());
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        try{
+            MyTask tsk=new MyTask();
+            SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            String dString=&quot;2018-3-5 12:45:30&quot;;
+            Timer time=new Timer();
+            Date d1=sdf.parse(dString);
+            System.out.println(&quot;执行时间&quot;+d1.toLocaleString()+&quot;现在时间&quot;+new Date().toLocaleString());
+            time.schedule(tsk, d1, 1000);              //1秒循环一次
+            //会延迟为5秒循环一次
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>原本1秒执行一次任务，因为延迟执行，变为5秒执行一次。</p>
+</li>
+</ol>
+<hr>
+<h2 id="4-TimerTask与Timer类的cancel-方法"><a href="#4-TimerTask与Timer类的cancel-方法" class="headerlink" title="4.TimerTask与Timer类的cancel()方法"></a>4.TimerTask与Timer类的cancel()方法</h2><ol>
+<li><p>TimerTask的cancel()方法：<br><em>作用是将自身从任务队列中清除。</em><br> static public class MyTsk1 extends TimerTask{</p>
+<pre><code>@Override
+public void run() {
+    System.out.println(&quot;任务1执行了，时间&quot;+new Date());
+    this.cancel();
+}
+</code></pre><p> }</p>
+<p> static public class MyTsk2 extends TimerTask{</p>
+<pre><code>@Override
+public void run() {
+    System.out.println(&quot;任务2执行了，时间&quot;+new Date());
+}
+</code></pre><p> }<br>若同时实例化两个对象并且用Timer对象的方法(schedule)去启动这两个task对象，则MyTsk1会在输出一次后停止。而MyTsk2的对象将会继续执行。</p>
+</li>
+<li><p>Timer类的cancel()方法:<br><em>将任务队列(timer)中的全部任务清空。</em></p>
+<pre><code>private static Timer timer=new Timer();
+
+static public class MyTsk1 extends TimerTask{
+    @Override
+    public void run() {
+        System.out.println(&quot;线程1运行了，时间为：&quot;+new Date());
+        timer.cancel();
+    }
+}
+
+static public class MyTsk2 extends TimerTask{
+    @Override
+    public void run() {
+        System.out.println(&quot;线程2运行了，时间为：&quot;+new Date());
+    }
+}
+</code></pre><p>若此时使用timer启动这两个task对象，则两个任务都会停止。<br>若在启动这两个对象前重新实例化Timer timer=new Timer();<br>则这两个任务都不会停止。</p>
+</li>
+<li><p>使用timer.cancel()的意外:</p>
+<pre><code>public class Test5_10 {
+    //Timer类中的cancel()方法的注意事项
+    static int i=0;
+    static public class Mtsk extends TimerTask{
+        @Override
+        public void run() {
+            System.out.println(&quot;正常执行了&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+        while(true){
+            try{
+                i++;
+                Timer timer=new Timer();
+                Mtsk tsk=new Mtsk();
+                SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+                String dString=&quot;2017-10-11 19:20:00&quot;;
+                Date d1=sdf.parse(dString);
+                timer.schedule(tsk, d1);  //有时它抢到锁
+                timer.cancel();  //有时它抢到锁
+            }catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>出现意外的原因是因为Tiemr类中的cancel()方法有时并没有争抢到queue锁，TimerTask类的任务正常执行。</p>
+</li>
+</ol>
+<hr>
+<h2 id="5-schedule-TimerTask-task-long-delay-和schedule-TimerTask-task-long-delay，long-period"><a href="#5-schedule-TimerTask-task-long-delay-和schedule-TimerTask-task-long-delay，long-period" class="headerlink" title="5.schedule(TimerTask task,long delay)和schedule(TimerTask task,long delay，long period)"></a>5.schedule(TimerTask task,long delay)和schedule(TimerTask task,long delay，long period)</h2><ol>
+<li>schedule(TimerTask task,long delay)方法：<br><em>以执行schedule(TimerTask task,long delay)方法当前为参考时间，在此基础上延迟指定毫秒数（delay）后执行一次task任务。</em><pre><code>static public class MyTask extends TimerTask{
+    @Override
+    public void run() {
+        System.out.println(&quot;运行了,时间为:&quot;+new Date());
+    }
+}
+public static void main(String[] args) {
+    MyTask tsk=new MyTask();
+    Timer time=new Timer();
+    System.out.println(&quot;当前时间：&quot;+new Date().toLocaleString());
+    time.schedule(tsk, 5000);
+}
+</code></pre></li>
+<li>schedule(TimerTask task,long delay，long period)方法:<br><em>从执行方法后的delay毫秒后开始以period毫秒为周期无限次得循环执行task任务</em><br> static public class MyTsk extends TimerTask{<pre><code>@Override
+public void run() {
+    System.out.println(&quot;运行了，时间为：&quot;+new Date());
+}
+</code></pre> }<br> public static void main(String[] args) {<pre><code>MyTsk tsk=new MyTsk();
+Timer time=new Timer();
+System.out.println(&quot;当前时间：&quot;+new Date().toLocaleString());
+time.schedule(tsk, 5000,1000);    //5秒后以一秒为周期无限循环执行
+</code></pre> }</li>
+</ol>
+<hr>
+<h2 id="6-scheduleAtFixedRate-TimerTask-task-Date-firstTime-long-period-方法"><a href="#6-scheduleAtFixedRate-TimerTask-task-Date-firstTime-long-period-方法" class="headerlink" title="6.scheduleAtFixedRate(TimerTask task,Date firstTime,long period)方法"></a>6.scheduleAtFixedRate(TimerTask task,Date firstTime,long period)方法</h2><ol>
+<li><strong>方法scheduleAtFixedRate和schedule的区别</strong>:<br>a.方法scheduleAtFixedRate和schedule都会按顺序执行，不会出现非线程安全。<br>b.方法scheduleAtFixedRate和schedule的区别只体现在不延时的情况：<br>schedule:<em>若没延时，下一个任务的执行时间参考的是<strong>上一次任务“开始”的时间</strong>来计算</em><br>scheduleAtFixedRate：<em>无延迟时scheduleAtFixedRate是以<strong>上一个任务结束时间</strong>为参考作为开始时间的（若task中含sleep则下一个开始时间就是上一个结束时间）。</em><br>c.延时的情况下没有区别：若被延时，下一个任务的执行时间都是上一次任务“结束”的时间来计算<br>d.schedule不具有任务追赶性,scheduleAtFixedRate具有任务追赶性</li>
+<li><p>schedule方法任务不延时</p>
+<pre><code>public class Test5_14 {
+    //测试schedule方法任务不延时
+    private  static Timer timer=new Timer(false);
+    private static int runCount=0;
+
+    static public class MyStack extends TimerTask{
+        @Override
+        public void run() {
+            try {
+            System.out.println(&quot;任务开始执行，时间为&quot;+new Date());
+            Thread.sleep(1000);
+            System.out.println(&quot;任务执行结束，时间为&quot;+new Date());
+            runCount++;
+            if(runCount==5){
+                timer.cancel();
+            }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void main(String[] args) {
+        try{
+        MyStack mtsk=new MyStack();
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        String start=&quot;2017-10-11 20:29:00&quot;;
+        Date day=sdf.parse(start);
+        System.out.println(&quot;起始时间为&quot;+day.toLocaleString()+&quot;当前时间&quot;+new Date().toLocaleString());
+        timer.schedule(mtsk, day, 3000);          //间隔为3秒，线程运行1秒      
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>在不延时的情况下，schedule下一次执行任务的时间是上一次任务开始的时间加上delay（period）</p>
+</li>
+<li><p>scheduleAtFixedRate(TimerTask task,Date firstTime,long period)任务不延时：</p>
+<pre><code>public class Test5_16 {
+    /**对比Test5_14
+     * 在不延时的情况下，scheduleAtFixedRate下一次执行任务的时间是上一次任务结束的时间
+     */
+    private static Timer timer=new Timer();
+    private static int runCount=0;
+
+    static public class MyStack extends TimerTask{
+        @Override
+        public void run() {
+            try {
+            System.out.println(&quot;任务开始执行，时间为&quot;+new Date());
+            Thread.sleep(1000);
+            System.out.println(&quot;任务执行结束，时间为&quot;+new Date());
+            runCount++;
+            if(runCount==5){
+                timer.cancel();
+            }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void main(String[] args) {
+        try{
+        MyStack mtsk=new MyStack();
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        String start=&quot;2017-10-11 20:29:00&quot;;
+        Date day=sdf.parse(start);
+        System.out.println(&quot;起始时间为&quot;+day.toLocaleString()+&quot;当前时间&quot;+new Date().toLocaleString());    
+        timer.scheduleAtFixedRate(mtsk,day,3000);          //scheduleAtFixedRate间隔为3秒，线程运行2秒          
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>运行结果:</p>
+<pre><code>起始时间为2017-10-11 20:29:00当前时间2018-3-5 23:00:07
+任务开始执行，时间为Mon Mar 05 23:00:07 CST 2018
+任务执行结束，时间为Mon Mar 05 23:00:08 CST 2018
+任务开始执行，时间为Mon Mar 05 23:00:08 CST 2018
+任务执行结束，时间为Mon Mar 05 23:00:09 CST 2018
+任务开始执行，时间为Mon Mar 05 23:00:09 CST 2018
+任务执行结束，时间为Mon Mar 05 23:00:10 CST 2018
+任务开始执行，时间为Mon Mar 05 23:00:10 CST 2018
+任务执行结束，时间为Mon Mar 05 23:00:11 CST 2018
+任务开始执行，时间为Mon Mar 05 23:00:11 CST 2018
+任务执行结束，时间为Mon Mar 05 23:00:12 CST 2018
+</code></pre><p>结论:无延迟时scheduleAtFixedRate是以上一个任务结束时间为参考作为开始时间的（若task中含sleep则下一个开始时间就是上一个结束时间）。</p>
+</li>
+<li>scheduleAtFixedRate与schedule延时：<br>与无延迟时scheduleAtFixedRate方法(task中含sleep)一样，是以上一个任务结束时间作为开始时间的。</li>
+<li><p>任务追赶性:<br>开始时间早于当前时间时，这中间的任务就忽略执行了，这就是schedule不具有任务追赶性，而scheduleAtFixedRate会把这段时间未执行的任务追赶回来：</p>
+<pre><code>public class Test5_19 {
+    private static Timer timer=new Timer();
+
+    static public class MyTask extends TimerTask{
+        @Override
+        public void run() {
+            System.out.println(&quot;1 begin 运行了，时间为&quot;+new Date());
+            System.out.println(&quot;1 end   运行了，时间为&quot;+new Date());
+        }
+    }
+    public static void main(String[] args) {
+        try{
+            MyTask stk=new MyTask();
+            SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            String dString =&quot;2018-03-05 23:11:00&quot;;  //早于当前时间
+            Date day=sdf.parse(dString);
+            System.out.println(&quot;开始时间&quot;+day.toLocaleString()+&quot;当前时间&quot;+new Date().toLocaleString());
+
+            timer.scheduleAtFixedRate(stk, day, 5000);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre></li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月18日 21:18</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/05/《Java多线程编程核心技术》笔记（五）/" title="《Java多线程编程核心技术》笔记（五）:定时器Timer">https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/&title=《《Java多线程编程核心技术》笔记（五）:定时器Timer》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/&title=《《Java多线程编程核心技术》笔记（五）:定时器Timer》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java多线程编程核心技术》笔记（五）:定时器Timer》 — 程序人生&url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/03/05/《Java多线程编程核心技术》笔记（五）/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+    <a href="/tags/并发/" class="color3">并发</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习要点"><span class="post-toc-text">0.学习要点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Timer简介"><span class="post-toc-text">1.Timer简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-schedule-TimerTask-task-Date-time"><span class="post-toc-text">2.schedule(TimerTask task,Date time)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-schedule-TimeTask-task-Date-firstTime-long-period-方法"><span class="post-toc-text">3.schedule(TimeTask task,Date firstTime,long period)方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-TimerTask与Timer类的cancel-方法"><span class="post-toc-text">4.TimerTask与Timer类的cancel()方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-schedule-TimerTask-task-long-delay-和schedule-TimerTask-task-long-delay，long-period"><span class="post-toc-text">5.schedule(TimerTask task,long delay)和schedule(TimerTask task,long delay，long period)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-scheduleAtFixedRate-TimerTask-task-Date-firstTime-long-period-方法"><span class="post-toc-text">6.scheduleAtFixedRate(TimerTask task,Date firstTime,long period)方法</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/05/Java学习(2)：深入了解Object类/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java学习(2)：深入了解Object类
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/03/《Java多线程编程核心技术》笔记（四）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《Java多线程编程核心技术》笔记（四）:Lock的使用</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
