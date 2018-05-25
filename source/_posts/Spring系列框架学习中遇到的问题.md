@@ -171,8 +171,10 @@ proceed没有参数。(参数不匹配)
 3. 解决方法一：
 在Tomcate部署设置中将`Serve modules without publishing`选项去除。
 ![](http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg)
-不过该选项可以让tomcat直接使用WebContent下的东西，最好勾选上可以方便发布。
+该选项可以让tomcat直接使用WebContent下的东西。
 4. 解决方法二：详见博客
 <https://blog.csdn.net/flashdelover/article/details/59486535>
+5. 解决方案三：
+在仓库中找到相关的jar包添加到/WEB-INF/lib中(最直接最简单)
 
 ---
