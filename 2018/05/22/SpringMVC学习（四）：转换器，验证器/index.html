@@ -8,13 +8,13 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简介 Sring的数据绑定可以进">
 <meta name="keywords" content="Spring,Spring MVC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC学习（四）：转换器，验证器">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简介 Sring的数据绑定可以进">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-02.jpg">
@@ -33,10 +33,10 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-15.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-16.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-17.jpg">
-<meta property="og:updated_time" content="2018-05-24T14:31:35.912Z">
+<meta property="og:updated_time" content="2018-05-26T13:33:28.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC学习（四）：转换器，验证器">
-<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter Spring内置的各种转换器 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： 转换器Converter 格式化Formatter 用Registrar注册Formatter 验证器简介 Spring验证器 JSR303验证器     1.转换器与格式化简介 Sring的数据绑定可以进">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00066SpringMVC%E5%AD%A6%E4%B9%A04-01.jpg">
   
   
@@ -170,7 +170,6 @@
 <li>转换器Converter</li>
 <li>格式化Formatter</li>
 <li>用Registrar注册Formatter</li>
-<li>Spring内置的各种转换器</li>
 <li>验证器简介</li>
 <li>Spring验证器</li>
 <li>JSR303验证器</li>
@@ -802,7 +801,7 @@ Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月24日 22:31</p>
+        <p>最后更新： 2018年05月26日 21:33</p>
         <p>原始链接： <a class="post-url" href="/2018/05/22/SpringMVC学习（四）：转换器，验证器/" title="SpringMVC学习（四）：转换器，验证器">https://zjxkenshine.github.io/2018/05/22/SpringMVC学习（四）：转换器，验证器/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -929,7 +928,7 @@ Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
 
 <nav id="article-nav">
   
-    <a href="/2018/05/22/SpringMVC学习（五）：JSTL标准标签库/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/05/24/SpringMVC学习（五）：JSTL标准标签库/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
@@ -1010,7 +1009,7 @@ Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -1043,7 +1042,7 @@ Past.employee.birthDate=jsr303:birthDate不能晚于当前时间
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 10px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 16.25px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.5px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.5px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.75px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.75px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.75px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 13.75px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 15px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 16.25px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.5px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.25px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.5px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
