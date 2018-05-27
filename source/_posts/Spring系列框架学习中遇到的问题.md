@@ -25,6 +25,8 @@ categories: Java框架
 		java.lang.ClassNotFoundException: org.springframework.web.servlet.DispatcherServlet
 8. 使用Spring表单标签库时出错：
 		The absolute uri: http://www.springframework.org/tags/form cannot be resolved in either web.xml or the jar files deployed with this application
+9. SpringMVC国际化过程中出错：
+		org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code 'message' for locale 'zh_CN'.
 
 ---
 ## 1.问题1-5解决
@@ -176,5 +178,22 @@ proceed没有参数。(参数不匹配)
 <https://blog.csdn.net/flashdelover/article/details/59486535>
 5. 解决方案三：
 在仓库中找到相关的jar包添加到/WEB-INF/lib中(最直接最简单)
+
+**9)SpringMVC国际化过程出错：**
+1. 错误信息：
+		org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code 'message' for locale 'zh_CN'.
+		org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:560)
+		...
+		javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+		org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+2. 错误原因及解决：
+网上找了很多，发现都解决不了，后来发现是springmvc-servlet.xml配置messageSource时出错。id写成了messageResource。
+正确配置：
+		<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+			<property name="basename" value="/WEB-INF/jsp5/form"></property>
+			<property name="defaultEncoding" value="UTF-8"></property>
+		</bean>
+3. 详情查看笔记：
+[SpringMVC学习（六）：EL表达式及国际化](https://zjxkenshine.github.io/2018/05/26/SpringMVC%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%8A%E5%9B%BD%E9%99%85%E5%8C%96/)
 
 ---

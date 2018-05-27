@@ -17,7 +17,6 @@ categories: Java框架
 	- 转换器Converter
 	- 格式化Formatter
 	- 用Registrar注册Formatter
-	- Spring内置的各种转换器
 	- 验证器简介
 	- Spring验证器
 	- JSR303验证器
