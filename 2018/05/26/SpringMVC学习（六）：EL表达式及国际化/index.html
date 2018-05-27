@@ -8,23 +8,34 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 语言">
+  <meta name="description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 国际">
 <meta name="keywords" content="Spring,Spring MVC,JSTL&amp;EL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC学习（六）：EL表达式及国际化">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/26/SpringMVC学习（六）：EL表达式及国际化/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 语言">
+<meta property="og:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 国际">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-03.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-05.jpg">
-<meta property="og:updated_time" content="2018-05-26T16:46:57.839Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-08.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-10.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-11.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-12.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-13.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-14.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-15.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-16.jpg">
+<meta property="og:updated_time" content="2018-05-27T17:36:15.813Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC学习（六）：EL表达式及国际化">
-<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 语言">
+<meta name="twitter:description" content="0.学习准备 参考资料：参考书籍《Spring MVC学习指南》(第二版)(基础学习)《Spring实战》(第四版)(综合运用)参考视频：尚硅谷《Spring MVC》(补充知识) 简单目录： EL表达式语言简介 EL表达式语法 EL隐式对象(内置对象) EL运算符 引用静态属性和静态方法 集合的创建与操作 EL的格式化操作 格式化集合 格式化数据 格式化时间   JSP2.0以上EL的配置 国际">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-01.jpg">
   
   
@@ -168,8 +179,8 @@
 </ul>
 </li>
 <li>JSP2.0以上EL的配置</li>
-<li>语言区域介绍</li>
-<li>简单国际化与设置偏好语言</li>
+<li>国际化及语言区域简介</li>
+<li>国际化SpringMVC</li>
 <li>message标签</li>
 <li>国际化示例</li>
 </ul>
@@ -181,6 +192,8 @@
 <li>JSP2.0最初是将EL和JSTL绑定到一起的，后来就不需要了，可以单独在JSP页面中使用EL表达式。</li>
 <li>2013年5月发布了EL3.0(JSR 349)，EL不再是JSP或其他技术的一部分，而是一个独立的规范。</li>
 <li>EL3.0增加了对lambda表达式的支持，并新增了集合操作，而且不需要Java8的支持，只需要Java7就可以了。</li>
+<li>java自带了<code>javax.el</code>包，所以不需要再导包了。</li>
+<li>目前如Tomcat 8、Jetty 9、GlasshFish 4已经支持EL 3.0。新特性包括：如字符串拼接操作符、赋值、分号操作符、对象方法调用、Lambda表达式、静态字段/方法调用、构造器调用、Java8集合操作。目前Glassfish 4/Jetty实现最好，对大多数新特性都支持、Tomcat8对如Lambda、静态字段/方法调用、构造器调用目前不支持</li>
 </ol>
 <hr>
 <h2 id="2-表达式语言的语法"><a href="#2-表达式语言的语法" class="headerlink" title="2.表达式语言的语法"></a>2.表达式语言的语法</h2><p><strong>1)语法简介：</strong></p>
@@ -267,17 +280,482 @@ ${bean名称.属性名称}
 </ol>
 <p><strong>8)XXXScope对象：</strong></p>
 <ol>
-<li>有applicationScope,sessionScope,requestScope,PageScope</li>
+<li>有applicationScope，sessionScope，requestScope，PageScope</li>
 <li>表示获取不同范围级别的变量的值。</li>
 <li>可以省略这些对象，默认获得的是最小级别的变量的值。<br>(会依次在pageContext，servletRequest，HttpServlet和ServletContext中寻找)</li>
 <li>如application,session,request和page中都有name变量，<br>使用<code>${name}</code>获得的是page级别的变量。</li>
 </ol>
 <hr>
-<h2 id="4-EL运算符"><a href="#4-EL运算符" class="headerlink" title="4.EL运算符"></a>4.EL运算符</h2><hr>
+<h2 id="4-EL运算符"><a href="#4-EL运算符" class="headerlink" title="4.EL运算符"></a>4.EL运算符</h2><p><strong>1)运算符简介：</strong></p>
+<ol>
+<li>除了<code>.</code>和<code>[]</code>运算符之外，EL还提供了算术、关系、条件、逻辑，Empty运算符，字符串连接运算符以及分号连接运算符。</li>
+<li>由于EL是为了方便JSP免脚本编程，所以除了关系条件运算符其余运算符的使用范围都很有限。</li>
+</ol>
+<p><strong>2)算术运算符：</strong></p>
+<ol>
+<li>有以下运算符：<br><code>+,-,*,/,div,%,mod</code></li>
+<li>优先级：<br>高：<code>*,/,div,%,mode</code><br>低：<code>+-</code></li>
+</ol>
+<p><strong>3)关系运算符：</strong></p>
+<ul>
+<li>等于：<code>==</code>或<code>eq</code></li>
+<li>不等于：<code>!=</code>或<code>ne</code></li>
+<li>大于：<code>&gt;</code>或<code>gt</code></li>
+<li>小于：<code>&lt;</code>或<code>lt</code></li>
+<li>大于等于：<code>&gt;=</code>或<code>ge</code></li>
+<li>小于等于：<code>&lt;=</code>或<code>le</code></li>
+</ul>
+<p><strong>4)逻辑运算符：</strong></p>
+<ul>
+<li>与：<code>&amp;&amp;</code>或<code>and</code></li>
+<li>或：<code>||</code>或<code>or</code></li>
+<li>非：<code>!</code>或<code>not</code></li>
+</ul>
+<p><strong>5)条件运算符：</strong><br>与Java中的三目运算符类似：<br><code>${条件?true:false}</code></p>
+<p><strong>6)empty运算符：</strong></p>
+<ol>
+<li>用来检查是否为null或者empty：<br><code>${empty X}</code></li>
+<li>可以检查长度为0的字符串，空Map，空数组和空集合。<br>如果是空则返回True。</li>
+</ol>
+<p><strong>7)字符串连接运算符与分隔运算符：</strong></p>
+<ol>
+<li><code>+=</code>可以用来连接字符串。</li>
+<li>分号<code>:</code>可用来分隔两个表达式。</li>
+</ol>
+<hr>
+<h2 id="5-引用静态字段和静态方法"><a href="#5-引用静态字段和静态方法" class="headerlink" title="5.引用静态字段和静态方法"></a>5.引用静态字段和静态方法</h2><ol>
+<li>可以引用Java类的静态字段及静态方法。<br>需要先使用page伪指令来导入包或者类。(<code>java.lang.*</code>包自动导入)</li>
+<li>使用page指令导包：<pre><code>&lt;%@ page import=&quot;包或类的路径&quot; %&gt;
+</code></pre></li>
+<li>使用方式：<br><code>${Math.PI}</code></li>
+<li>还有一种导包方式：(通过实现监听器导包)<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-06.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="6-创建操作集合-Map"><a href="#6-创建操作集合-Map" class="headerlink" title="6.创建操作集合,Map"></a>6.创建操作集合,Map</h2><p><strong>1)创建Set，List和Map：</strong></p>
+<ol>
+<li>创建Set：<br>语法：(花括号)<pre><code>${{Set中的元素}}
+</code></pre>示例：创建一个简单的集合<pre><code>${{1,2,3,4,5,6,7}}    
+</code></pre></li>
+<li>创建List：<br>语法：(中括号)<pre><code>${[List中的元素]}
+</code></pre>示例：<pre><code>${[1,2,3,4,5]}
+</code></pre></li>
+<li>创建Map：<br>语法：<pre><code>${{k1:v1,k2:v2...}}
+</code></pre></li>
+</ol>
+<p><strong>2)访问列表或者Map：</strong></p>
+<ol>
+<li>访问列表元素：(使用JSTL)<pre><code>&lt;c:set var=&quot;numlist&quot; value=&quot;${[1,2,3,4,5]}&quot;&gt;
+&lt;c:out&gt;${numlist[0]}&lt;/c:out&gt;
+</code></pre></li>
+<li>访问Map元素：(不使用JSTL)<pre><code>${map={&quot;k1&quot;:1,&quot;k2&quot;:2}}&quot;
+${map[&quot;k1&quot;]}
+</code></pre></li>
+</ol>
+<p><strong>3)操作集合：流简介</strong></p>
+<ol>
+<li>EL3.0的新特性之一就是操作集合，可以通过流方法将集合转换为流来使用各种流操作。</li>
+<li>stream()方法将集合转换为流：<br>如一个java.util.List类的mylist转换为流：<br><code>${mylist.stream()}</code></li>
+<li>大部分流操作会返回一个流，所以可以形成链式操作：<br><code>${mylist.stream().流操作1.流操作2.toList()}</code></li>
+<li>toList()方法可以将流转换为List类型，方便打印或者格式化结果。</li>
+<li>toArray()方法将流转换为Java数组。</li>
+</ol>
+<p><strong>4)其余流方法简介：</strong></p>
+<ul>
+<li>limit()方法：<br>限制流中元素的数量<pre><code>${[a,b,c,d,e,f,g].stream().limit(3).toList()}
+</code></pre>最后获得的List如下：<br><code>[a,b,c]</code></li>
+<li>sort()方法：<br>对元素进行排序<pre><code>${mylist.stream().sort().toList()}
+</code></pre></li>
+<li>average()方法：<br>返回流中所有元素的平均值<br>返回值是一个Optional对象，可能为null，需要调用get()获得实际值。<pre><code>${mylist.stream().average().get()}
+</code></pre></li>
+<li>sum()方法：<br>计算流中所有元素的总和<pre><code>${[1,5,7,5].stream().sum()}
+</code></pre></li>
+<li>count()方法：<br>计算流中元素的数量<pre><code>${mylist.stream().count()}
+</code></pre></li>
+<li>min()/max()方法：<br>返回流元素中的最小，最大值，返回值是一个Optinal对象，需要用get()获取<pre><code>${mylist.stream().min().get()}
+${mylist.stream().max().get()}
+</code></pre></li>
+<li>map()方法：<br>将流中的每一个元素映射到另一个流中的另一个元素，并返回新流。<br>接受一个lambda表达式做参数。<br>如<code>map(x-&gt;2*x)</code>表示将每个元素都乘2，<code>map(x-&gt;x.toUpperCase())</code>表示每个元素都转换为大写：<pre><code>${[2,3,4].stream().map(x-&gt;2*x).toList()}
+${[a,b,c].stream().map(x-&gt;x.toUpperCase()).toList()}
+</code></pre></li>
+<li>filter()方法：<br>接受lambda表达式做参数，根据表达式过滤流元素，返回过滤结果组成的流。<br>测试是否以某个字母开头：<code>filter(x-&gt;x.startsWith(&quot;s&quot;))</code><pre><code>${namelist.stream().filter(x-&gt;x.startsWith(&quot;s&quot;)).toList()}
+</code></pre></li>
+<li>forEach()方法：<br>也是以lamda表达式做参数，对流中的所有元素做操作，返回空。<br>如将某一列表的所有值打印：<pre><code>${namelist.stream().forEach(x-&gt;system.out.println(x))}
+</code></pre></li>
+</ul>
+<hr>
+<h2 id="7-EL格式化操作-集合，数字，日期"><a href="#7-EL格式化操作-集合，数字，日期" class="headerlink" title="7.EL格式化操作(集合，数字，日期)"></a>7.EL格式化操作(集合，数字，日期)</h2><p><strong>1)EL格式化简介：</strong></p>
+<ol>
+<li>EL主要定义了如何写表达式而不是函数，所以无法直接打印或者格式化集合。<br>打印和格式化主要是交给JSTL来做，但是在EL3.0中已经可以实现打印和格式化集合了。</li>
+<li>EL3.0允许我们完全抛弃JSTL,虽然一般不会那么做。</li>
+<li>如上面的forEach()方法可以用来遍历<br>但是需要对元素做一定的格式化草能进行输出</li>
+<li>有两种方式可以对集合进行格式化。</li>
+</ol>
+<p><strong>2)格式化集合：使用HTML注解</strong></p>
+<ol>
+<li>适用于Java7及以上版本。</li>
+<li>需要将列表：<br><code>[elem1,elem2,elem2..]</code><br>输出为如下格式<pre><code>&lt;ul&gt;
+    &lt;li&gt;elem1&lt;/li&gt;
+    &lt;li&gt;elem2&lt;/li&gt;
+    &lt;li&gt;elem3&lt;/li&gt;
+    ...
+&lt;ul&gt;
+</code></pre></li>
+<li>可以使用如下的方式进行：(使用HTML注释)<pre><code>...
+${cities=[北京,天津,上海,杭州]}
+&lt;ul&gt;
+&lt;!-- 
+${cities.stream().map(a-&gt;&quot;--&gt;&lt;li&gt;&quot;+=a+=&quot;&lt;/li&gt;&lt;!--&quot;).toList() }
+--&gt;
+&lt;/ul&gt;
+...
+</code></pre>解析后的代码如下：<pre><code>&lt;ul&gt;
+&lt;!--[--&gt;&lt;li&gt;北京&lt;/li&gt;&lt;!--,--&gt;
+&lt;li&gt;天津&lt;/li&gt;&lt;!--,--&gt;
+&lt;li&gt;上海&lt;/li&gt;&lt;!--,--&gt;
+&lt;li&gt;杭州&lt;/li&gt;&lt;!--]--&gt;
+&lt;/ul&gt;
+</code></pre></li>
+<li>我的Tomcat8好像不支持EL3.0的部分功能，所以就不测试了。</li>
+</ol>
+<p><strong>3)格式化集合：使用String.join()方法</strong></p>
+<ol>
+<li>格式化的第二个方法，需要引用静态字段及方法。<br>只对Java8及以上有效。</li>
+<li>Java8中String新增了静态方法join：<pre><code>public static String join(CharSequence delimiter,Iterable&lt;? extends CharSequence&gt; elements) {
+...
+}
+ public static String join(CharSequence delimiter, CharSequence... elements) {
+...
+}
+</code></pre>该方法的作用简单来说就是用指定分隔符delimiter连接循环elements中的元素，并且返回一个字符串。</li>
+<li>所以上面的处理可以写成下面的形式：<pre><code>${empty cities?&quot;&quot;:&quot;&lt;ul&gt;&lt;li&gt;&quot;+=String.join(&quot;&lt;/li&gt;&lt;li&gt;&quot;,cities)+=&quot;&lt;/li&gt;&lt;ol&gt;&quot;}
+</code></pre></li>
+</ol>
+<p><strong>4)格式化数字：</strong></p>
+<ol>
+<li>也需要使用EL3.0引用静态方法的特性。<br>String.format()方法可以用来格式化数字。</li>
+<li>format方法的源码如下：<pre><code>public static String format(String format, Object... args) {
+    return new Formatter().format(format, args).toString();
+}
+public static String format(Locale l, String format, Object... args) {
+    return new Formatter(l).format(format, args).toString();
+}
+</code></pre></li>
+<li>如：<pre><code>${String.format(&quot;%-10.2f%n&quot;,125.178)}
+</code></pre></li>
+<li>具体的格式化规则可以查看DecimalFormat的Java文档。</li>
+</ol>
+<p><strong>5)格式化时间：</strong></p>
+<ol>
+<li>也是通过String.format()方法来进行格式化。<pre><code>${d=LocalDate.now().plusDays(2);String.format(&quot;%tB %te,%tY%n&quot;,d,d,d）}
+</code></pre></li>
+<li>具体的格式化规则可以查看NumberFormat的Java文档。</li>
+</ol>
+<hr>
+<h2 id="8-在JSP2-0及更高版本配置EL"><a href="#8-在JSP2-0及更高版本配置EL" class="headerlink" title="8.在JSP2.0及更高版本配置EL"></a>8.在JSP2.0及更高版本配置EL</h2><p><strong>1)EL什么情况下需要配置：</strong></p>
+<ol>
+<li>EL提倡的是无脚本的JSP,关于JSP脚本的知识可以自行百度。<br>可以关闭脚本来强制编写无脚本JSP。</li>
+<li>当低版本的JSP部署到兼容高版本的容器中时，需要禁用EL表达式计算。<br>因为低版本的EL不是内置的，所以需要关闭。</li>
+</ol>
+<p><strong>2)配置关闭JSP脚本：</strong></p>
+<ul>
+<li>在部署描述文件web.xml中添加如下配置即可：<pre><code>&lt;jsp-config&gt;
+    &lt;jsp-property-group&gt;
+        &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;
+        &lt;scripting-invalid&gt;true&lt;/scripting-invalid&gt;
+    &lt;/jsp-property-group&gt;
+&lt;/jsp-config&gt;
+</code></pre></li>
+<li><code>url-pattern</code>定义了那些文件需要禁用脚本。</li>
+<li>一个web.xml中只能配置一项<code>&lt;jsp-config&gt;</code>，如果关闭了JSP脚本，又要禁用EL计算，就需要额外配置一个<code>&lt;jsp-property-group&gt;</code>。</li>
+</ul>
+<p><strong>3)配置禁用EL计算：</strong></p>
+<ol>
+<li>有两种方式可以禁用EL计算。<br>禁用后将不会对出现的EL结构进行解析计算。</li>
+<li>禁用方式一：<pre><code>&lt;%@ page isELIgnored=&quot;true&quot; %&gt;
+</code></pre></li>
+<li>禁用方式二：<br>在部署描述符web.xml中配置如下：<pre><code>&lt;jsp-config&gt;
+    &lt;jsp-property-group&gt;
+        &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;
+        &lt;el-ignored&gt;true&lt;/el-ignored&gt;
+    &lt;/jsp-property-group&gt;
+&lt;/jsp-config&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="9-国际化简介"><a href="#9-国际化简介" class="headerlink" title="9.国际化简介"></a>9.国际化简介</h2><p><strong>1)国际化简介：</strong></p>
+<ol>
+<li>全球化时代需要设计能部署在不同语言国家和地区的应用程序。</li>
+<li>需要了解两个术语：<ul>
+<li>国际化：简称i18n,是开发多语言和数据格式的开发技术，不用重写逻辑。</li>
+<li>本地化：简称i10n,将国际化程序改为支持特定语言区域的技术。</li>
+</ul>
+</li>
+<li>Java为字符和字符串提供了Unicode支持，所以用Java编写国际化应用时很容易的事情。国际化的方式主要取决于有多少静态数据需要用不同语言来显示。</li>
+</ol>
+<p><strong>2)国际化的两种方式：</strong></p>
+<ol>
+<li>大量数据是静态的，就需要对每一个语言区域单独创建一个版本。<br>适用于有大量HTML页面的Web应用程序。</li>
+<li>如果需要国际化的静态资源有限：<ul>
+<li>可以将文本元素(如表单信息和错误信息等)隔离为文本文件。</li>
+<li>每个文本文件都保存着一个语言区域的所有文本的译文。</li>
+<li>应用程序根据所在的语言区域自动获取每一个元素。</li>
+</ul>
+</li>
+<li>将文本元素隔离为文本文件的好处：<br>文本元素不用再编译应用程序就可以进行编辑。(不用重新部署应用程序)</li>
+</ol>
+<hr>
+<h2 id="10-语言区域"><a href="#10-语言区域" class="headerlink" title="10.语言区域"></a>10.语言区域</h2><p><strong>1)语言区域简介：</strong></p>
+<ol>
+<li>Java.util.Locale类表示一个语言区域。</li>
+<li>Locale类主要有三个原件(构造参数)：<ul>
+<li>language：语言代号</li>
+<li>country：国家代号</li>
+<li>variant：特定于供应商或者浏览器的代号(一般不设置)</li>
+</ul>
+</li>
+<li><p>构造方法如下：</p>
+<pre><code>public Locale(String language, String country, String variant) {
+    if (language== null || country == null || variant == null) {
+        throw new NullPointerException();
+    }
+    baseLocale = BaseLocale.getInstance(convertOldISOCodes(language), &quot;&quot;, country, variant);
+    localeExtensions = getCompatibilityExtensions(language, &quot;&quot;, country, variant);
+}
+
+public Locale(String language, String country) {
+    this(language, country, &quot;&quot;);
+}
+
+public Locale(String language) {
+    this(language, &quot;&quot;, &quot;&quot;);
+}
+</code></pre></li>
+</ol>
+<p><strong>2)参数及静态域介绍：</strong></p>
+<ol>
+<li>language：语言代号是一个有效的ISO码<br>ISO 639语言码规范如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-07.jpg" alt=""></li>
+<li>country：国家代号<br>ISO 3199国家码如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-08.jpg" alt=""></li>
+<li>variant：特定于供应商或者浏览器的代号<ul>
+<li>WIN代表Windows</li>
+<li>MAC表示macintosh</li>
+<li>POSIX表示POSIX</li>
+<li>等等，多个代号之间用下划线<code>_</code>分开</li>
+</ul>
+</li>
+<li>Locale类提供了静态域，可以通过静态域来创建Locale对象。<br>常见静态域：CANADA_FREANCH，CHINA，CHINESE，ENGLISH，FRANCE，FRANCH，US，UK等<br>通过静态域构造Locale对象：<pre><code>Locale locale=Locale.CHINESE;
+</code></pre></li>
+<li>可以通过计算机的默认语言区域来创建Locale对象：<pre><code>Locale locale=Locale.setDefault();
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="11-国际化SpringMVC应用程序"><a href="#11-国际化SpringMVC应用程序" class="headerlink" title="11.国际化SpringMVC应用程序"></a>11.国际化SpringMVC应用程序</h2><p>国际化SpringMVC应用程序的两个重要步骤：</p>
+<ul>
+<li>将文本组件隔离成属性文件</li>
+<li>选择和读取正确的属性文件</li>
+</ul>
+<p><strong>1)将文本组件隔离为属性文件：</strong></p>
+<ol>
+<li>国际化应用将每一个语言区域的文本元素都单独保存在一个独立的属性文件中。<br>每个文件都包含key-value对，并且每个key都唯一表示某一特定语言的区域对象。<br>key只能是字符创，value可以是其他任意类型的对象。</li>
+<li>如英语，德语和汉语的属性文件示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-09.jpg" alt=""><br>中文的是Unicode码，可以在编辑器中输入中文后转换。</li>
+<li><code>java.util.ResourceBundle</code>类简介：<br>可以用于选择和读取特定语言区域的属性文件以及查找值<br>是一个抽象类，提供了一个getBundle()方法返回子类示例。<br>具体的使用后面介绍。</li>
+<li>ResourceBundle有一个基准名称，属性文件名最好包含该基准名称。</li>
+<li>属性文件命名需要符合如下规范：<pre><code>基准名_语言码_国家码.properties
+</code></pre>命名示例：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-10.jpg" alt=""></li>
+</ol>
+<p><strong>2)选择和读取正确的属性文件：</strong></p>
+<ol>
+<li><p>ResourceBundle类的getBundle方法如下：(主要是前两个)</p>
+<pre><code>public static final ResourceBundle getBundle(String baseName){...}
+//baseName就是基准名
+public static final ResourceBundle getBundle(String baseName,Locale locale){...}
+
+public static final ResourceBundle getBundle(String baseName, Locale targetLocale,Control control) {...}
+
+public static ResourceBundle getBundle(String baseName, Locale locale,ClassLoader loader){...}
+
+public static ResourceBundle getBundle(String baseName, Locale targetLocale,ClassLoader loader, Control control){...}
+</code></pre><p>使用示例：</p>
+<pre><code>ResourceBundle rb1=ResourceBundle.getBundle(&quot;resources1&quot;,Locale.CHINESE);
+ResourceBundle rb2=ResourceBundle.getBundle(&quot;resources2&quot;);
+</code></pre></li>
+<li>ResourceBundle加载属性文件的过程：<ul>
+<li>通过getBundle的参数寻找属性文件<ul>
+<li>找到返回</li>
+<li>找不到属性文件则查看有没有默认文件：<code>baseName.properties</code><ul>
+<li>找到返回</li>
+<li>找不到报错<code>java.util.MissingResourceException</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>调用该对象事务getString方法传入一个key获取value值<ul>
+<li>若未找到key，报错<code>java.util.MissingResourceException</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>简单示例如下：<pre><code>//加载属性文件，得到的rb1就是属性文件中的键值对集合
+ResourceBundle rb1=ResourceBundle.getBundle(&quot;resources1&quot;);
+//获取某一属性的值
+String value=rb1.getString(&quot;KEY1&quot;);
+</code></pre></li>
+<li>SpringMVC中可以使用message bean来加载属性文件。</li>
+</ol>
+<p><strong>3)使用message bean：</strong></p>
+<ol>
+<li>message bean在<a href="https://zjxkenshine.github.io/2018/05/22/SpringMVC%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E8%BD%AC%E6%8D%A2%E5%99%A8%EF%BC%8C%E9%AA%8C%E8%AF%81%E5%99%A8/">SpringMVC学习笔记(四)</a>的验证器中就已经使用过。</li>
+<li>有两个类可以作为message的实现：<ul>
+<li><code>ReloadableResourceBundleMessageSource</code>，推荐使用，<br>可以在应用程序的目录下搜索属性文件，修改后会重新加载。</li>
+<li><code>ResourceBundleMessageSource</code>，只会在/WEB-INF/classes下寻找属性文件，且修改后需要重启JVM才生效。</li>
+</ul>
+</li>
+<li>使用示例：<br>加载一个属性文件：<pre><code>&lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basename&quot; value=&quot;/WEB-INF/jsp4/messages&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>加载多个属性文件：<pre><code>&lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basenames&quot;&gt;
+    &lt;list&gt;
+        &lt;value=&quot;路径1&quot;&gt;
+        &lt;value=&quot;路径2&quot;&gt;
+        ...
+    &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>注意，id一定得是messageSource，否则会报错。</li>
+<li>若配置messageSource时进行了配置了编码：<pre><code>&lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+</code></pre>则属性文件可以设置为UTF-8格式。</li>
+</ol>
+<hr>
+<h2 id="12-选择区域与message标签"><a href="#12-选择区域与message标签" class="headerlink" title="12.选择区域与message标签"></a>12.选择区域与message标签</h2><p><strong>1)选择应用程序的语言区域：</strong></p>
+<ol>
+<li>用户选择语言区域最简单的方式就是获取浏览器的accept-language标题。<br>ccept-language标题提供用户偏好那种语言的设置。</li>
+<li>在Chrome中的偏好语言可以在设置-&gt;高级-&gt;语言中设置，将偏好语言移到顶部：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-11.jpg" alt=""></li>
+<li>也可以通过某个Session属性或者Cookie属性来选择语言区域(书上未介绍)</li>
+<li>SpringMVC分别为这三种方式提供了区域解析器：<ul>
+<li>AcceptHeaderLocaleResolver（从accept-language获取，推荐）</li>
+<li>SessionLocaleResolver（从Session获取）</li>
+<li>CookieLocaleResolver（从Cookie获取）</li>
+</ul>
+</li>
+<li>使用AcceptHeaderLocaleResolver解析器，如果浏览器的<code>accept-language</code>能和应用程序支持的某个语言区域匹配，则选择该区域，否则选择默认语言区域。</li>
+<li>在配置文件中配置相关的bean就可以了：<pre><code>&lt;bean id=&quot;localeResolver&quot; 
+class=&quot;org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver&quot;&gt;
+&lt;/bean&gt;
+</code></pre>id也一定得是localeResolver，否则会报错。</li>
+</ol>
+<p><strong>2)使用message标签：</strong></p>
+<ol>
+<li>显示本地化最简单的方式就是使用<code>&lt;message&gt;</code>标签。</li>
+<li>使用该标签需要在JSP页面开头引入如下uri：<pre><code>&lt;%@taglib uri=&quot;http://www.springframework.org/tags&quot; prefix=&quot;spring&quot; %&gt;
+</code></pre></li>
+<li>该标签有如下属性：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-12.jpg" alt=""></li>
+</ol>
+<hr>
+<h2 id="13-国际化示例"><a href="#13-国际化示例" class="headerlink" title="13.国际化示例"></a>13.国际化示例</h2><p>测试在中文(简体)和英文(美国)下的显示。</p>
+<p><strong>1)控制类及配置代码如下</strong></p>
+<ol>
+<li>控制器类代码：<pre><code>@Controller
+public class i18nController {
+    @RequestMapping(&quot;i18n_form&quot;)
+    public String i18nForm(){
+        return &quot;testForm&quot;;
+    }
+}
+</code></pre></li>
+<li><p>springmvc-servlet.xml配置如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans  
+    xmlns=&quot;http://www.springframework.org/schema/beans&quot;  
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;  
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;   
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans   
+                        http://www.springframework.org/schema/beans/spring-beans.xsd  
+                        http://www.springframework.org/schema/aop    
+                        http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/context       
+                        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+    &lt;context:component-scan base-package=&quot;Controller5&quot;&gt;&lt;/context:component-scan&gt;
+    &lt;mvc:annotation-driven&gt;&lt;/mvc:annotation-driven&gt;
+    &lt;mvc:resources location=&quot;/css/**&quot; mapping=&quot;/css&quot;&gt;&lt;/mvc:resources&gt;
+    &lt;mvc:resources location=&quot;/*.html&quot; mapping=&quot;/&quot;&gt;&lt;/mvc:resources&gt;
+
+    &lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+        &lt;property name=&quot;basenames&quot;&gt;
+            &lt;list&gt;
+                &lt;value&gt;WEB-INF/jsp5/form&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+        &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=&quot;localeResolver&quot; class=&quot;org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver&quot;&gt;
+    &lt;/bean&gt;
+
+     &lt;bean id=&quot;viewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+         &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp5/&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+ &lt;/beans&gt;
+</code></pre></li>
+<li>web.xml配置如下：<pre><code>...
+&lt;servlet&gt;
+    &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;/WEB-INF/jsp5/springmvc-servlet.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+...
+</code></pre></li>
+</ol>
+<p><strong>2)JSP页面及属性文件：</strong></p>
+<ol>
+<li><p>testForm.jsp内容如下：</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@taglib uri=&quot;http://www.springframework.org/tags&quot; prefix=&quot;spring&quot; %&gt;
+&lt;%@taglib prefix=&quot;form&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+&lt;%@taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;&lt;spring:message code=&quot;testForm.title&quot;/&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;
+    locale:${pageContext.response.locale}
+&lt;/p&gt;
+&lt;spring:message code=&quot;test.message&quot;/&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+<li>属性文件form_en_US.properties如下：<pre><code>testForm.title=EglishForm
+test.message=this is EglishMessage
+</code></pre>默认属性文件和form_zh_CN.properties代码如下：(UTF8编码)<pre><code>testForm.title=中文表单
+test.message=这是中文的信息
+</code></pre></li>
+</ol>
+<p><strong>3)测试：</strong></p>
+<ol>
+<li>中文环境下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-13.jpg" alt=""><br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-14.jpg" alt=""></li>
+<li>英文环境下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-15.jpg" alt=""><br>测试结果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00068SpringMVC%E5%AD%A6%E4%B9%A06-16.jpg" alt=""></li>
+<li>未重新部署项目而能看到不同的语言显示，这就是国际化和本地化。</li>
+</ol>
+<hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月27日 00:46</p>
+        <p>最后更新： 2018年05月28日 01:36</p>
         <p>原始链接： <a class="post-url" href="/2018/05/26/SpringMVC学习（六）：EL表达式及国际化/" title="SpringMVC学习（六）：EL表达式及国际化">https://zjxkenshine.github.io/2018/05/26/SpringMVC学习（六）：EL表达式及国际化/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -399,7 +877,7 @@ ${bean名称.属性名称}
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-EL表达式简介"><span class="post-toc-text">1.EL表达式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-表达式语言的语法"><span class="post-toc-text">2.表达式语言的语法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-EL隐式对象（内置对象）"><span class="post-toc-text">3.EL隐式对象（内置对象）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-EL运算符"><span class="post-toc-text">4.EL运算符</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-学习准备"><span class="post-toc-text">0.学习准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-EL表达式简介"><span class="post-toc-text">1.EL表达式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-表达式语言的语法"><span class="post-toc-text">2.表达式语言的语法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-EL隐式对象（内置对象）"><span class="post-toc-text">3.EL隐式对象（内置对象）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-EL运算符"><span class="post-toc-text">4.EL运算符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-引用静态字段和静态方法"><span class="post-toc-text">5.引用静态字段和静态方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-创建操作集合-Map"><span class="post-toc-text">6.创建操作集合,Map</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-EL格式化操作-集合，数字，日期"><span class="post-toc-text">7.EL格式化操作(集合，数字，日期)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-在JSP2-0及更高版本配置EL"><span class="post-toc-text">8.在JSP2.0及更高版本配置EL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-国际化简介"><span class="post-toc-text">9.国际化简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-语言区域"><span class="post-toc-text">10.语言区域</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#11-国际化SpringMVC应用程序"><span class="post-toc-text">11.国际化SpringMVC应用程序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#12-选择区域与message标签"><span class="post-toc-text">12.选择区域与message标签</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#13-国际化示例"><span class="post-toc-text">13.国际化示例</span></a></li></ol>
         </nav>
     </aside>
     

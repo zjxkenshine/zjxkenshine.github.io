@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-01.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-02.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00041Spring%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881-03.jpg">
-<meta property="og:updated_time" content="2018-05-25T06:13:22.325Z">
+<meta property="og:updated_time" content="2018-05-27T17:07:04.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring系列框架学习中遇到的问题及解决方案">
 <meta name="twitter:description" content="0.问题列表 使用mock进行单元测试时报错：java.lang.UnsupportedClassVersionError: chap1/Test01 : Unsupported major.minor version 52.0  Spring+Junit4单元测试时遇到的错误：Java.lang.ExceptionInInitializerError ....  学习XML装配Bean时单元测试">
@@ -172,6 +172,8 @@
 </code></pre></li>
 <li>使用Spring表单标签库时出错：<pre><code>The absolute uri: http://www.springframework.org/tags/form cannot be resolved in either web.xml or the jar files deployed with this application
 </code></pre></li>
+<li>SpringMVC国际化过程中出错：<pre><code>org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code &apos;message&apos; for locale &apos;zh_CN&apos;.
+</code></pre></li>
 </ol>
 <hr>
 <h2 id="1-问题1-5解决"><a href="#1-问题1-5解决" class="headerlink" title="1.问题1-5解决"></a>1.问题1-5解决</h2><p><strong>1)使用mock进行单元测试时报错：</strong></p>
@@ -310,11 +312,26 @@ at java.lang.Thread.run(Unknown Source)
 <li>解决方法二：详见博客<br><a href="https://blog.csdn.net/flashdelover/article/details/59486535" target="_blank" rel="noopener">https://blog.csdn.net/flashdelover/article/details/59486535</a></li>
 <li>解决方案三：<br>在仓库中找到相关的jar包添加到/WEB-INF/lib中(最直接最简单)</li>
 </ol>
+<p><strong>9)SpringMVC国际化过程出错：</strong></p>
+<ol>
+<li>错误信息：<pre><code>org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code &apos;message&apos; for locale &apos;zh_CN&apos;.
+org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:560)
+...
+javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+</code></pre></li>
+<li>错误原因及解决：<br>网上找了很多，发现都解决不了，后来发现是springmvc-servlet.xml配置messageSource时出错。id写成了messageResource。<br>正确配置：<pre><code>&lt;bean id=&quot;messageSource&quot; class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basename&quot; value=&quot;/WEB-INF/jsp5/form&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre></li>
+<li>详情查看笔记：<br><a href="https://zjxkenshine.github.io/2018/05/26/SpringMVC%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%8A%E5%9B%BD%E9%99%85%E5%8C%96/">SpringMVC学习（六）：EL表达式及国际化</a></li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月25日 14:13</p>
+        <p>最后更新： 2018年05月28日 01:07</p>
         <p>原始链接： <a class="post-url" href="/2018/04/14/Spring系列框架学习中遇到的问题/" title="Spring系列框架学习中遇到的问题及解决方案">https://zjxkenshine.github.io/2018/04/14/Spring系列框架学习中遇到的问题/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
