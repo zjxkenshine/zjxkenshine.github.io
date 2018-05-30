@@ -16,10 +16,10 @@
 <meta property="og:site_name" content="程序人生">
 <meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;nbsp;&amp;nbsp;&amp;nbsp;a.提升查询数据的效率&amp;nbsp;&amp;nbsp;&amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-1.jpg.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-2.jpg.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-3.jpg.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-4.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-01.jpg.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-02.jpg.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-03.jpg.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-04.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-05.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-06.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-07.jpg">
@@ -30,11 +30,11 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-12.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-13.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-14.jpg">
-<meta property="og:updated_time" content="2018-04-02T07:43:46.093Z">
+<meta property="og:updated_time" content="2018-05-30T23:04:36.641Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎">
 <meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.索引简介：几乎所有的索引都是建立在字段之上的。  索引：系统根据已有的某种算法，将已有的数据（未来可能新增的数据），单独建立一个文件，该文件能够实现快速的匹配数据，并能够快速的找到对应表中的记录。 索引的意义：&amp;nbsp;&amp;nbsp;&amp;nbsp;a.提升查询数据的效率&amp;nbsp;&amp;nbsp;&amp;">
-<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-1.jpg.jpg">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-01.jpg.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -187,12 +187,12 @@
 <h2 id="3-范式（很重要）"><a href="#3-范式（很重要）" class="headerlink" title="3.范式（很重要）"></a>3.范式（很重要）</h2><ol>
 <li>范式：Normal Format，普通的格式，是一种离散数学中的知识，是为了解决数据存储与优化的问题，保证数据存储之后，<strong>凡是能通过关系寻找出来的数据坚决不重复存储</strong>，终极目标是为了减少数据冗余。<br>范式是一种分层结构的规范，分为六层：每一层都比上一层更麻烦，若要满足下一层范式必须满足上一层范式。<br>六层范式：1NF,2NF,3NF…6NF。1NF最底层，6NF最严格。<br>Mysql属于关系型数据库，有空间浪费，也是致力于节省空间，与范式解决的问题相同，设计数据库时会利用范式来指导设计。但是数据又要解决效率问题，所以一般只用前三个范式：1NF,2NF,3NF<br>范式在数据库的设计中有指导意义，但是不是强制规范的。</li>
 <li>第一范式：1NF<br>在设计表存储数据时，表中设计的字段存储的数据，在读取出来使用之前还需要额外的处理(拆分)，那么说明表的设计不满足第一范式。<br><strong>第一范式要求表的设计具有原子性（不可再分）</strong>。</li>
-<li>第二范式：2NF<br>前提：满足第一范式<br>在数据表设计的过程中如果有复合主键（多字段主键），且表中有字段不是由整个主键来确定，而是依赖主键中的部分字段的问题，成为部分依赖。<br><strong>第二范式不允许部分依赖</strong>，必须完全依赖主键。<br>例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-1.jpg.jpg" alt=""><br>解决方案1：可以将性别讲师单独成表，班级与教师单独成表。<br>解决方案2：取消复合主键，使用逻辑主键(id)。</li>
-<li>第三范式：3NF<br>前提：满足第二范式<br>第三范式：理论上将<strong>一张表中的所有字段都应该直接依赖主键</strong>（逻辑主键代表的是业务主键）。<br>如果表设计中存在一个字段，并不是直接依赖主键，而是通过某个非主键字段依赖，最终实现依赖主键，这种依赖关系是传递依赖。<br><strong>第三范式不允许出现传递依赖</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-2.jpg.jpg" alt=""><br>上述表中id是代表的业务主键是讲师+班级，所以出现传递依赖。<br>解决方案将讲师和教室分开存表,并在讲师带课表中增加讲师id与班级id：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-3.jpg.jpg" alt=""><br>因为两个表的逻辑id代表着不同的业务，所以不出现传递依赖。</li>
+<li>第二范式：2NF<br>前提：满足第一范式<br>在数据表设计的过程中如果有复合主键（多字段主键），且表中有字段不是由整个主键来确定，而是依赖主键中的部分字段的问题，成为部分依赖。<br><strong>第二范式不允许部分依赖</strong>，必须完全依赖主键。<br>例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-01.jpg.jpg" alt=""><br>解决方案1：可以将性别讲师单独成表，班级与教师单独成表。<br>解决方案2：取消复合主键，使用逻辑主键(id)。</li>
+<li>第三范式：3NF<br>前提：满足第二范式<br>第三范式：理论上将<strong>一张表中的所有字段都应该直接依赖主键</strong>（逻辑主键代表的是业务主键）。<br>如果表设计中存在一个字段，并不是直接依赖主键，而是通过某个非主键字段依赖，最终实现依赖主键，这种依赖关系是传递依赖。<br><strong>第三范式不允许出现传递依赖</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-02.jpg.jpg" alt=""><br>上述表中id是代表的业务主键是讲师+班级，所以出现传递依赖。<br>解决方案将讲师和教室分开存表,并在讲师带课表中增加讲师id与班级id：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-03.jpg.jpg" alt=""><br>因为两个表的逻辑id代表着不同的业务，所以不出现传递依赖。</li>
 <li>逆规范化（反范式）<br>有时候在设计表的时候，如果一张表中有几个字段是需要从另外的表中去获取信息，理论上讲，的确可以得到想要的数据信息，但是效率会很低，有时候我们会刻意的在这些表中不去保存另外表的主键（逻辑主键），而是直接保存想要的数据信息，这样在查询数据的时候一张表可以直接提供数据，而不需要额外的查询（多表查询，效率低），但是会导致数据冗余。<br>如：商品表设计的时候额外添加一个商家用户名的字段，不点商家详情时就不用额外查询整个商家信息。<br>逆规范化其实是效率和磁盘利用率的对抗。</li>
 </ol>
 <hr>
-<h2 id="4-算术运算符与比较运算符"><a href="#4-算术运算符与比较运算符" class="headerlink" title="4.算术运算符与比较运算符"></a>4.算术运算符与比较运算符</h2><p>1)<strong>算术运算符：</strong><br>Mysql支持的算术运算符包括+，-，*，/和模运算。+-*就是这样写。<br>除：/，DIV(A,B) &nbsp;&nbsp;– 返回商<br>模：%，MOD(A,B) &nbsp;&nbsp;– 返回余数<br>简单例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-4.jpg" alt=""><br>除运算与模运算时除数为0返回值为NULL。<br>2)<strong>比较运算符：</strong><br>常用于select查询的条件判断。</p>
+<h2 id="4-算术运算符与比较运算符"><a href="#4-算术运算符与比较运算符" class="headerlink" title="4.算术运算符与比较运算符"></a>4.算术运算符与比较运算符</h2><p>1)<strong>算术运算符：</strong><br>Mysql支持的算术运算符包括+，-，*，/和模运算。+-*就是这样写。<br>除：/，DIV(A,B) &nbsp;&nbsp;– 返回商<br>模：%，MOD(A,B) &nbsp;&nbsp;– 返回余数<br>简单例子：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00012mysql%E5%AD%A6%E4%B9%A03-04.jpg" alt=""><br>除运算与模运算时除数为0返回值为NULL。<br>2)<strong>比较运算符：</strong><br>常用于select查询的条件判断。</p>
 <p><table></table></p>
 <p><tr><th>运算符</th><th>作用</th></tr></p>
 <p><tr><td>=</td><td>  等于</td></tr></p>
@@ -308,7 +308,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月02日 15:43</p>
+        <p>最后更新： 2018年05月31日 07:04</p>
         <p>原始链接： <a class="post-url" href="/2018/03/16/MySQL数据库学习笔记（三）/" title="MySQL学习笔记（三）：索引简介，关系，范式，运算符以及存储引擎">https://zjxkenshine.github.io/2018/03/16/MySQL数据库学习笔记（三）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -514,7 +514,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -547,7 +547,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>

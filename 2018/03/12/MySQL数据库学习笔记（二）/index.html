@@ -17,14 +17,14 @@
 <meta property="og:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-1.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-2.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-3.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-4.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-5.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-6.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-7.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-8.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-02.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-03.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-04.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-05.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-06.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-07.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-09.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-08.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-10.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-11.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-12.jpg">
@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-26.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-27.jpg">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-28.jpg">
-<meta property="og:updated_time" content="2018-03-23T09:22:07.179Z">
+<meta property="og:updated_time" content="2018-05-30T23:02:40.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记（二）:基本数据类型与列属性介绍">
 <meta name="twitter:description" content="0.学习资料参考书籍《深入浅出MySQL数据库开发、优化与管理维护》参考视频《传智播客MySQL》  1.关于数据类型（列类型） 为什么要分类:二维表即使不存数据，定义之后也会浪费空间。 数据类型:对数据进行统一的分类，从系统的角度出发为了能够使用统一的方式进行管理，更好地利用有限空间。 总共分为了三大类:数值型，日期处理类型，字符串型   2.数值型存放的值为数值，系统将数值型分为了整数型和小数">
@@ -205,11 +205,11 @@ INSERT INTO te_int values(&apos;a&apos;,&apos;b&apos;,100,&apos;c&apos;,100);  -
 INSERT INTO te_int values(255,65530,10000,10000,10000);  -- 无效数据，超出范围
 </code></pre>tinyint值存255会超出范围，原因如下:<br>SQL中的数值类型,分正负，有符号的tinyint的范围是-128~127，可以设置为无符号型，范围为0-255，无符号类型使用<code>unsigned</code>属性设置:<pre><code>ALTER TABLE te_int ADD COLUMN int_6 TINYINT UNSIGNED AFTER int_5;  -- 往int_6中添加255则不报错
 </code></pre></li>
-<li>显示宽度:<br>添加无符号tinyint后，使用desc查看各个整型的类型:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-2.jpg" alt=""><br>括号后的数字代表了<strong>显示位数</strong>，如-123是4位，255是三位。<br><strong>显示宽度</strong>:没有特别含义，用户是可以控制的，这种控制不会改变数据本身的大小。<pre><code>ALTER TABLE te_int ADD int_7 int(1) AFTER int_6;
+<li>显示宽度:<br>添加无符号tinyint后，使用desc查看各个整型的类型:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-02.jpg" alt=""><br>括号后的数字代表了<strong>显示位数</strong>，如-123是4位，255是三位。<br><strong>显示宽度</strong>:没有特别含义，用户是可以控制的，这种控制不会改变数据本身的大小。<pre><code>ALTER TABLE te_int ADD int_7 int(1) AFTER int_6;
 INSERT INTO te_int(int_7) VALUES(110);  -- 但是可以插入
 </code></pre><strong>显示宽度的意义</strong>：在于当数据不够显示宽度的时候，会自动让数据变成对应的显示宽度，通常需要搭配一个前导0来增加宽度，不改变值大小（<code>zerofill</code>属性0填充）<pre><code>ALTER TABLE te_int ADD int_8 tinyint(3) zerofill;
 INSERT INTO te_int(int_8) VALUES(2);
-</code></pre>0填充会自动使tinyint变为无符号位。<br>效果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-3.jpg" alt=""><br>但是在Navicat等管理工具中看不到0。<br><strong>零填充的意义</strong>：保证数据格式（html显示）</li>
+</code></pre>0填充会自动使tinyint变为无符号位。<br>效果：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-03.jpg" alt=""><br>但是在Navicat等管理工具中看不到0。<br><strong>零填充的意义</strong>：保证数据格式（html显示）</li>
 </ol>
 <h3 id="2-2-小数型"><a href="#2-2-小数型" class="headerlink" title="2.2 小数型"></a>2.2 小数型</h3><ol>
 <li>小数型：带有小数点或者范围超出整型的数值类型。<br>在SQL中将小数型又分为浮点型和定点型：<br>浮点型：小数点浮动，精度有限，而且会丢失精度。（四舍五入）<br>定点型：小数点固定，精度固定，不会丢失精度。</li>
@@ -224,7 +224,7 @@ d1 DOUBLE(10,6)
 </code></pre>可以创建成功，但是给该表插入数据时:<pre><code>INSERT INTO te_float VALUES(1000.50,1000.50,1000.50,1000.50);  -- 符合条件
 INSERT INTO te_float VALUES(1234567890,1234.567890,1234.56,1234.567890)  -- 符合条件
 INSERT INTO te_float VALUES(9.999999999e10,9999.999999,9999.99,9999.99) -- 符合条件最大值
-</code></pre>数据可以使用科学计数法形式。先看一下插入规则:<br><strong>浮点数插入规则</strong>:整数部分是不能超出长度的，但是小数部分可以超出长度（四舍五入）。<br>下面是添加结果:<br>  <img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-4.jpg" alt=""><br>结论:超出精度范围的浮点数一定会进行四舍五入，浮点数如果是因为系统进位而导致整数部分长度超出指定范围，系统也是允许的。</li>
+</code></pre>数据可以使用科学计数法形式。先看一下插入规则:<br><strong>浮点数插入规则</strong>:整数部分是不能超出长度的，但是小数部分可以超出长度（四舍五入）。<br>下面是添加结果:<br>  <img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-04.jpg" alt=""><br>结论:超出精度范围的浮点数一定会进行四舍五入，浮点数如果是因为系统进位而导致整数部分长度超出指定范围，系统也是允许的。</li>
 </ul>
 </li>
 <li>定点型(DECIMAL):<ul>
@@ -238,13 +238,13 @@ CHARSET utf8;
 INSERT INTO te_decimal VALUES(12.3434567890,12.3434567890);
 </code></pre>使用cmd插入时系统会报warning，可以使用<code>show warning</code>查看。<br>浮点数如果进位导致长度增加没问题，但是定点数会出现问题:<pre><code>INSERT INTO te_decimal VALUES(999999999.9,999999999.9);      -- 有效数据
 INSERT INTO te_decimal VALUES(999999999.99,999999999.99);    -- 进位
-</code></pre>定点数会报错提示<code>out of range</code>。下面是添加结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-5.jpg" alt=""></li>
+</code></pre>定点数会报错提示<code>out of range</code>。下面是添加结果:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-05.jpg" alt=""></li>
 </ul>
 </li>
 <li>浮点数与定点数的选择：<br><strong>要求精度低的使用浮点数，要求精度高的使用定点数。</strong></li>
 </ol>
 <hr>
-<h2 id="3-时间日期类型"><a href="#3-时间日期类型" class="headerlink" title="3.时间日期类型"></a>3.时间日期类型</h2><p><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-6.jpg" alt=""><br>补充介绍:<br>DateTime：时间日期，格式是YYYY-mm-dd HH:MM:ss,有0值，0000-00-00 00:00:00。<br>Time：更多表示时间段，也可以表示时间，指定的某个区间之间。<br>Year：year(2),year(4),默认为4位。</p>
+<h2 id="3-时间日期类型"><a href="#3-时间日期类型" class="headerlink" title="3.时间日期类型"></a>3.时间日期类型</h2><p><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-06.jpg" alt=""><br>补充介绍:<br>DateTime：时间日期，格式是YYYY-mm-dd HH:MM:ss,有0值，0000-00-00 00:00:00。<br>Time：更多表示时间段，也可以表示时间，指定的某个区间之间。<br>Year：year(2),year(4),默认为4位。</p>
 <ol>
 <li>创建时间日期表:<pre><code>CREATE TABLE IF NOT EXISTS te_date(
 d1 datetime,
@@ -253,7 +253,7 @@ d3 time,
 d4 TIMESTAMP,
 d5 YEAR
 )CHARSET utf8;
-</code></pre>使用desc查看表结构，可以看到时间戳的特殊性:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-7.jpg" alt=""><br>时间戳默认不为空，默认值为当前时间，插入时不明确timestamp赋值时也会使用当前时间，但是注意，timestamp只会反映当地时区的时间。</li>
+</code></pre>使用desc查看表结构，可以看到时间戳的特殊性:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-07.jpg" alt=""><br>时间戳默认不为空，默认值为当前时间，插入时不明确timestamp赋值时也会使用当前时间，但是注意，timestamp只会反映当地时区的时间。</li>
 <li><p>插入数据：<br>注意：时间time可以使用负数（很大的负数），year可以使用两位插入。</p>
 <pre><code>INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,2018);  -- 正常数据，time解析为17:25:10
 INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,&apos;-211:25:10&apos;,&apos;2018-3-14 17:25:10&apos;,2018);  -- time存负值，这种写法直接存入
@@ -265,11 +265,11 @@ INSERT INTO te_date VALUES(&apos;2018-3-14 17:25:10&apos;,&apos;2018-3-14&apos;,
 </li>
 </ol>
 <hr>
-<h2 id="4-字符串类型"><a href="#4-字符串类型" class="headerlink" title="4.字符串类型"></a>4.字符串类型</h2><p>在SQL中，将字符串类型分成了6类：<strong>char,varchar,text,blob,enum和set</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-9.jpg" alt=""></p>
+<h2 id="4-字符串类型"><a href="#4-字符串类型" class="headerlink" title="4.字符串类型"></a>4.字符串类型</h2><p>在SQL中，将字符串类型分成了6类：<strong>char,varchar,text,blob,enum和set</strong>。<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-09.jpg" alt=""></p>
 <ol>
 <li><p>定长字符串：<strong>char</strong><br> 磁盘（二维表）在定义结构的时候，就已经确定了最终数据的存储长度。<br> Char(L)：L代表length,可以存储的长度，单位为字符，最大长度值可以为255。<br> Char(4)：在UTF8环境下，需要4*3=12个字符。<br> <br><br>变长字符串:<strong>varchar</strong><br> 在分配空间是按照最大的空间分配，但实际上用了多少是根据具体的数据来确定的。<br> Varchar(L)：L代表字符长度，理论长度是65536个字符，但是会多出1-2个字节来确定存储的实际长度（255个字以下1位，255个字以上2位）<br> Varchar(10)：若存满了10个字实际使用的字节10*3+1=31个字节。若只存储了3个字符则实际上使用了3*3+1=10个字符。</p>
 </li>
-<li><p>定长与变长的比较:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-8.jpg" alt=""><br>如何选择定长和变长字符串:<br>数据长度固定–定长：身份证，电话号码，学号等。<br>长度不固定–变长：姓名，住址等其他很多。<br>定长的磁盘空间比较浪费，但是效率高。<br>变长磁盘空间比较节省，但是效率低。</p>
+<li><p>定长与变长的比较:<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00010mysql%E5%AD%A6%E4%B9%A02-08.jpg" alt=""><br>如何选择定长和变长字符串:<br>数据长度固定–定长：身份证，电话号码，学号等。<br>长度不固定–变长：姓名，住址等其他很多。<br>定长的磁盘空间比较浪费，但是效率高。<br>变长磁盘空间比较节省，但是效率低。</p>
 </li>
 <li><p>文本字符串:<br>如果数据量非常大就会使用文本字符串（超过255个字符）：<br>文本字符串根据存储的数据的格式进行分类：text和blog</p>
 <blockquote>Text:存放文字。<br>Blob:存放二进制数据（通常不用，通常存路径）。</blockquote>
@@ -419,7 +419,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年03月23日 17:22</p>
+        <p>最后更新： 2018年05月31日 07:02</p>
         <p>原始链接： <a class="post-url" href="/2018/03/12/MySQL数据库学习笔记（二）/" title="MySQL学习笔记（二）:基本数据类型与列属性介绍">https://zjxkenshine.github.io/2018/03/12/MySQL数据库学习笔记（二）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -625,7 +625,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
             <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -658,7 +658,7 @@ name VARCHAR(20) NOT NULL COMMENT &apos;姓名&apos;
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-AOP/" style="font-size: 10px;">Spring AOP</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 14.29px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.43px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.71px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.86px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 17.14px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.57px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 18.57px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 20px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 14.29px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 14.29px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 15.71px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 17.14px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.43px;">正则表达式</a> <a href="/tags/类/" style="font-size: 12.86px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
         </div>
     </div>
 </div>
