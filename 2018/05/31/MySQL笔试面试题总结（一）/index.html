@@ -8,20 +8,21 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：SELECT year, MAX(     CASE month     WHEN 2 THEN         b.CODE     END ) as m1">
+  <meta name="description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：使用函数SELECT year, MAX(     CASE month     WHEN 1 THEN         b.CODE     END ) a">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL笔试面试题总结(一)">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/05/31/MySQL笔试面试题总结（一）/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：SELECT year, MAX(     CASE month     WHEN 2 THEN         b.CODE     END ) as m1">
+<meta property="og:description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：使用函数SELECT year, MAX(     CASE month     WHEN 1 THEN         b.CODE     END ) a">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-01.jpg">
-<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-02.jpg">
-<meta property="og:updated_time" content="2018-05-31T00:31:31.863Z">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-02-1.jpg">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-03.jpg">
+<meta property="og:updated_time" content="2018-05-31T01:32:36.746Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL笔试面试题总结(一)">
-<meta name="twitter:description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：SELECT year, MAX(     CASE month     WHEN 2 THEN         b.CODE     END ) as m1">
+<meta name="twitter:description" content="0.问题列表记录一些做题及面试笔试过程中碰到的MySQL的难题错题不做题，学的再多也没用  题目1~题目5： MySQL行转列 MySQL列转行     1.题目1~题目5:题目(1)  题目：写一个SQL将数据表B转换为如下格式： 答案一：使用函数SELECT year, MAX(     CASE month     WHEN 1 THEN         b.CODE     END ) a">
 <meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-01.jpg">
   
   
@@ -160,11 +161,11 @@
 <hr>
 <h2 id="1-题目1-题目5"><a href="#1-题目1-题目5" class="headerlink" title="1.题目1~题目5:"></a>1.题目1~题目5:</h2><p><strong>题目(1)</strong></p>
 <ol>
-<li>题目：<br>写一个SQL将数据表B<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-01.jpg" alt=""><br>转换为如下格式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-02.jpg" alt=""></li>
-<li>答案一：<pre><code>SELECT year,
+<li>题目：<br>写一个SQL将数据表B<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-01.jpg" alt=""><br>转换为如下格式：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-02-1.jpg" alt=""></li>
+<li>答案一：使用函数<pre><code>SELECT year,
 MAX(
     CASE month
-    WHEN 2 THEN
+    WHEN 1 THEN
         b.CODE
     END
 ) as m1,
@@ -187,14 +188,22 @@ MAX(
     END
 ) as m4
 from B GROUP BY year;
-</code></pre></li>
+</code></pre>也可以使用其他的函数如MIN,SUM等，不过网上多用MAX。</li>
+<li>答案二：使用嵌套子查询<pre><code>SELECT DISTINCT year as b_year,
+(SELECT code FROM B where `year`=b_year and `month`=&apos;1&apos;) as m1,
+(SELECT code FROM B where `year`=b_year and `month`=&apos;2&apos;) as m2,
+(SELECT code FROM B where `year`=b_year and `month`=&apos;3&apos;) as m3,
+(SELECT code FROM B where `year`=b_year and `month`=&apos;4&apos;) as m4
+from b;
+</code></pre>但是需要给year字段设置别名，否则会报错，这一点不符合。<br>结果如下：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00069MySQL%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%931-03.jpg" alt=""></li>
+<li>答案三：使用存储过程，动态行转列<br>如新增month可以不用修改SQL语句</li>
 </ol>
 <p><strong>2)题目(2)：</strong></p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年05月31日 08:31</p>
+        <p>最后更新： 2018年05月31日 09:32</p>
         <p>原始链接： <a class="post-url" href="/2018/05/31/MySQL笔试面试题总结（一）/" title="MySQL笔试面试题总结(一)">https://zjxkenshine.github.io/2018/05/31/MySQL笔试面试题总结（一）/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
