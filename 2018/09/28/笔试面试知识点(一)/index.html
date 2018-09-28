@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>笔试面试知识点(一)：Java基础 | 程序人生</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Kenshine,Kenshine's Blog" />
+  
+  <meta name="description" content="0.说明及目录1)说明：整理一些Java基础的笔试面试知识点和题目。2)问题1~10：  自定义抛出异常为什么比函数返回结果开销大 类的初始化顺序 forword请求转发和redirect重定向的区别 短路运算符和非短路运算符 访问修饰符的范围(public,private,default,protected) i++,++i,i=i++及其他i++相关陷阱 String和char[]数组参数传递">
+<meta name="keywords" content="Java,笔试&#x2F;面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔试面试知识点(一)：Java基础">
+<meta property="og:url" content="https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0.说明及目录1)说明：整理一些Java基础的笔试面试知识点和题目。2)问题1~10：  自定义抛出异常为什么比函数返回结果开销大 类的初始化顺序 forword请求转发和redirect重定向的区别 短路运算符和非短路运算符 访问修饰符的范围(public,private,default,protected) i++,++i,i=i++及其他i++相关陷阱 String和char[]数组参数传递">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00070%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B91-01.jpg">
+<meta property="og:updated_time" content="2018-09-28T14:41:46.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="笔试面试知识点(一)：Java基础">
+<meta name="twitter:description" content="0.说明及目录1)说明：整理一些Java基础的笔试面试知识点和题目。2)问题1~10：  自定义抛出异常为什么比函数返回结果开销大 类的初始化顺序 forword请求转发和redirect重定向的区别 短路运算符和非短路运算符 访问修饰符的范围(public,private,default,protected) i++,++i,i=i++及其他i++相关陷阱 String和char[]数组参数传递">
+<meta name="twitter:image" content="http://p5ki4lhmo.bkt.clouddn.com/00070%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B91-01.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Kenshine&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Kenshine&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        今天,是你余生的第一天
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/zjxkenshine">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/3807155334">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Qq" target="_blank" href="/images/qq1754294529.jpg">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="Weixin" target="_blank" href="/images/weixin-kenshine.png">
+                            <i class="fa fa-weixin fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-笔试面试知识点(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      笔试面试知识点(一)：Java基础
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/杂记/">杂记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-09-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="0-说明及目录"><a href="#0-说明及目录" class="headerlink" title="0.说明及目录"></a>0.说明及目录</h2><p><strong>1)说明：</strong><br>整理一些Java基础的笔试面试知识点和题目。<br><strong>2)问题1~10：</strong></p>
+<ol>
+<li>自定义抛出异常为什么比函数返回结果开销大</li>
+<li>类的初始化顺序</li>
+<li>forword请求转发和redirect重定向的区别</li>
+<li>短路运算符和非短路运算符</li>
+<li>访问修饰符的范围(public,private,default,protected)</li>
+<li>i++,++i,i=i++及其他i++相关陷阱</li>
+<li>String和char[]数组参数传递时的陷阱</li>
+<li>try..catch..finally的执行顺序</li>
+<li>字节流和字符流的区别</li>
+<li>上转型对象</li>
+</ol>
+<p><strong>2)问题11~20：</strong><br>-11. 面向对象的三个基本特征<br>-12. 面向对象五个基本原则<br>-13. 重写override和重载overload的区别<br>-14. 什么是面向对象</p>
+<hr>
+<h2 id="1-问题1-10"><a href="#1-问题1-10" class="headerlink" title="1.问题1~10"></a>1.问题1~10</h2><p><strong>1)自定义抛出异常为什么比函数返回结果开销大?</strong></p>
+<ol>
+<li>函数调用是出栈入栈，栈是除了寄存器速度最快的，而且占用空间很少。</li>
+<li>自定义异常时存放在堆中的，所以自定义抛出异常的开销比较大。</li>
+</ol>
+<p><strong>2)类的初始化顺序</strong></p>
+<ol>
+<li>父类中的静态成员变量和静态代码块(按顺序)</li>
+<li>子类的静态成员变量和静态代码块(按顺序)</li>
+<li>父类的普通成员变量和代码块，执行父类构造方法</li>
+<li>子类的普通成员变量和代码块，执行子类构造方法</li>
+</ol>
+<p><strong>3)请求转发和重定向的区别?</strong></p>
+<ol>
+<li>请求转发：request.getRequestDispatcher(url).forward(request,response)<br>是一种服务器行为，客户端只有一次请求，服务器端转发后会将请求对象保存，地址栏的URL不会改变，得到响应后服务器端再将响应发给客户端。<br>保存请求对象后，可以直接在客户端使用保存的request对象。</li>
+<li>请求重定向：response.sendRedirect(url)<br>是一种客户端行为，本质上讲是两次请求，前一次的请求对象不会保存。地址栏的URL会变。<br>无法在客户端直接使用request对象，需要使用?传值。</li>
+</ol>
+<p><strong>4)Java短路运算符合非短路运算符</strong></p>
+<ol>
+<li>短路运算符：<br>包括“&amp;&amp;”(逻辑与)和“||”(逻辑或)，一般称为条件操作。<br>指操作会造成短路，不执行运算符后的操作。如：false&amp;&amp;条件，true||条件。</li>
+<li>非短路运算符：<br>包括“&amp;”(与)，“|”(或)，“^”(异或)，一般称为逻辑操作。<br>非短路操作会执行运算符前后的表达式，不会造成短路。</li>
+</ol>
+<p><strong>5)访问修饰符的范围：</strong></p>
+<ol>
+<li>public：公有<br>最大公开权限，任何类都能访问，是类的一种对外接口的形式。</li>
+<li>protected：子类保护<br>只有子类和自己能访问。</li>
+<li>default或不加(默认)：默认包<br>同一个包中的类及自己可以访问。</li>
+<li>private：私有<br>只有自己能访问，一般成员变量都会设置成私有。</li>
+</ol>
+<p><strong>6)i++,++i,i=i++及其他i++相关陷阱</strong></p>
+<ol>
+<li>i++和++i的区别(简单理解)<br>i++:先用后加<br>++i:先加后用</li>
+<li>i++和++i的效率问题<br>i++：取出i，复制i，增加i，返回副本； (需新建副本)<br>++i：取出i，增加i，返回i；(返回引用)<br>所以++i比i++效率更高</li>
+<li>i=i++:<br>Java中结果=0；<br>C/C++中结果=1；</li>
+<li>一道经典题目：<pre><code>public class Mutou
+{
+    public static void main(String[] args)
+    {   
+        Mutou test = new Mutou();      
+        int i = 0;        
+        test.fermin(i);        
+        i = i++;             //注意我
+        System.out.println(i);    
+    }
+   void fermin(int i)
+   {
+        i++;
+   }
+}
+</code></pre>输出i为0。<br>fermin(i)对的参数i是原来的i的副本(i是基本数据类型，参数是按值传递的，会创建一个副本，和i有相同的值)，返回值时void，不影响原来的i。<br>如果是引用类型传入的副本是地址，会影响原变量的值。<br>i=i++值为0，所以结果是0。</li>
+</ol>
+<p><strong>7)String和char[]数组参数传递时的陷阱</strong></p>
+<ol>
+<li>笔试题代码：<pre><code>public class TestString {
+    public void change(String str, char ch[]){
+        str=&quot;test ok&quot;;
+        ch[0] = &apos;g&apos;;
+    }
+    public static void main(String[] args) {
+        String str = new String(&quot;good&quot;);
+        char[] ch = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;};
+        TestString testString = new TestString();
+        //方法处理
+        testString.change(str,ch);
+        //输出
+        System.out.println(str);
+        System.out.println(ch);
+    }
+}
+</code></pre>输出结果：<code>good gbc</code></li>
+<li>关于参数传递：<br>两个参数传递过程中，都是传递了参数指向的内容的地址，不管是基本类型还是引用类型，基本类型只是直接传递变量的值(值副本)，而引用类型由于引用的关系，只可以传递一个地址。但是他们对于保存这些信息的变量而言，都是值，传递也是这个值。<br><em>java中不存在引用传递，都是值传递。</em></li>
+<li>Srting和Char[]的区别：<br>相同点：固定长度，长度不可变。都是由final修饰的。<br>不同点：String的值是不可变的。</li>
+<li>解释：<br>String值不可变，长度不变，执行str=”test ok”时会产生一个新对象(不是指向原来的地址)，不会影响原来的String对象值。<br>char类型的内容是可变的，形参实参都是指向同一个地址，又加上它内容可修改，于是在方法内，可以修改实参的内容。</li>
+</ol>
+<p><strong>8)try..catch..finally的执行顺序</strong></p>
+<ol>
+<li>一般情况下,finally中有return语句，try中无异常时，当try执行到return时会执行finally中的代码，其中有return 就直接返回了，忽略try，catch中的return。</li>
+<li>一般情况下，finally中不含return语句，那么当执行到return时，它会被保存等待finally执行完毕后返回，这个时候无论finally内部如何改变这个值<strong>(除包装类型和静态变量、全局变量)</strong>，都不会影响返回结果！如：<pre><code>int i = 0 ;
+int test(){
+    try {
+        return i;
+    } catch (Exception e) {
+        return -1;
+    }finally{
+        i++;
+    }
+}
+//返回值: 0
+</code></pre></li>
+<li>try中有异常时，catch如果有return，则return前的语句先执行，接着finally的语句，最后是catch的return。如果finally中有return则忽略catch中的return。<br>出现异常不执行finally后面的语句。</li>
+<li>如果try，cache中有System.exit(0/1),则不执行finally，也不执行其他代码，直接退出Java程序，关闭虚拟机。</li>
+<li>简单执行顺序总结：<br>try–&gt;catch–&gt;finally–&gt;return(遇到exit则直接退出)</li>
+<li>注意事项：<ul>
+<li>finally中避免再次抛出异常，一旦finally中发生异常，代码执行将会抛出finally中的异常信息，try、catch中的异常将被忽略。</li>
+<li>在实际项目中，finally常常是用来关闭流或者数据库资源的，并不额外做其他操作。</li>
+<li>尽量不要在finally中使用return语句，否则try、catch中的异常将被忽略。</li>
+</ul>
+</li>
+</ol>
+<p><strong>9)字节流和字符流对比</strong></p>
+<ol>
+<li>输出操作时的区别，如图：<br><img src="http://p5ki4lhmo.bkt.clouddn.com/00070%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B91-01.jpg" alt=""><br>字符流在操作时使用了缓冲区，再通过缓冲区操作文件。<br>字节流和字符流的操作完成之后都不关闭输出流,需要手动关闭。</li>
+<li>主要区别：处理方式<br>字节流：<br>InputStream是所有字节输入流的祖先，而OutputStream是所有字节输出流的祖先。<br>字符流：<br>Reader是所有读取字符串输入流的祖先，而writer是所有输出字符串的祖先。<br>注意：InputStream，OutputStream,Reader,writer都是抽象类。</li>
+<li>字节流的处理：<br>字节流是最基本的，所有的InputStream和OutputStream的子类都是,主要用在处理二进制数据，它是按字节来处理的。</li>
+<li>字符流的处理：<br>字符流是按虚拟机的Encode来处理，也就是要进行字符集的转化。包括了Reader和Writer的子类。<br>字符流和字节流之间通过InputStreamReader,OutputStreamWriter来关联，实际上是通过byte[]和String来关联。<br>开发中出现的汉字问题实际上都是在字符流和字节流之间转化不统一而造成的。</li>
+</ol>
+<p><strong>10)上转型对象：</strong></p>
+<ol>
+<li>形式<br>A是B的父类，形式一：<pre><code>A a=new B();
+</code></pre>形式二：<pre><code>B b=new B();
+A a=b;
+</code></pre></li>
+<li>编译看左边，运行看右边(下转型也通用）</li>
+<li>上转型对象的特点：<ul>
+<li>不能操作子类新增的成员变量；不能使用子类新增的方法。</li>
+<li>只操作子类的重写的方法，访问子类继承或者隐藏的成员变量。</li>
+<li>上转型对象操作子类继承或重写的方法，其作用等价于子类对象去调用这些方法。</li>
+<li>如果子类重写了父类的静态方法，那么子类对象的上转型对象不能调用子类重写的静态方法，只能调用父类的静态方法。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-问题11-20"><a href="#2-问题11-20" class="headerlink" title="2.问题11~20"></a>2.问题11~20</h2><p><strong>11)面向对象的三个基本特征</strong></p>
+<ol>
+<li>封装：<br>把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。<br>一个类就是一个封装了数据以及操作这些数据的代码的逻辑实体。</li>
+<li>继承：<br>指可以让某个类型的对象获得另一个类型的对象的属性的方法。<br>它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。<br>实现继承可以通过“继承”（Inheritance）和“组合”（Composition）来实现<br>继承概念的实现方式有二类：实现继承与接口继承。实现继承是指直接使用基类的属性和方法而无需额外编码的能力；接口继承是指仅使用属性和方法的名称、但是子类必须提供实现的能力；</li>
+<li>多态：<br>一个类实例的相同方法在不同情形有不同表现形式。</li>
+</ol>
+<p><strong>12)面向对象的五大基本原则</strong></p>
+<ol>
+<li>单一职责原则：<br>是指一个类的功能要单一，不能包罗万象。</li>
+<li>开闭原则：<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。</li>
+<li>里氏代换原则：<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</li>
+<li>依赖倒转原则：<br>高层次的模块不应该依赖于低层次的模块，他们都应该依赖于抽象。<br>抽象不应该依赖于具体实现，具体实现应该依赖于抽象。</li>
+<li>接口分离原理：<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来</li>
+</ol>
+<p><strong>13)重写和重载的区别：</strong></p>
+<ol>
+<li>重写：override<ul>
+<li>存在于父类和子类之间,方法名、参数、返回值相同。</li>
+<li>子类方法不能缩小父类方法的访问权限。</li>
+<li>方法所抛出的异常必须和被重写方法的所抛出的异常一致，或者是其子类；</li>
+<li>不能为private，否则在其子类中只是新定义了一个方法，并没有对其进行覆盖。</li>
+<li>重写和多态相关</li>
+</ul>
+</li>
+<li>重载：overload<ul>
+<li>方法名相同，参数(参数类型，参数个数，参数顺序)不同</li>
+<li>不能重载只有返回值不同的方法名</li>
+<li>存在于父类和子类、同类中</li>
+</ul>
+</li>
+</ol>
+<p><strong>14)什么是面向对象?</strong></p>
+<ol>
+<li>面向对象是一种思想，是基于面向过程而言的，就是说面向对象是将功能等通过对象来实现，将功能封装进对象之中，让对象去实现具体的细节；</li>
+<li>这种思想是将数据作为第一位，而方法作为其次，这是对数据一种优化，操作起来更加的方便，简化了过程。</li>
+</ol>
+<hr>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年09月28日 22:41</p>
+        <p>原始链接： <a class="post-url" href="/2018/09/28/笔试面试知识点(一)/" title="笔试面试知识点(一)：Java基础">https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/</a></p>
+        <footer>
+            <a href="https://zjxkenshine.github.io">
+                <img src="/images/logo.png" alt="周建新">
+                周建新
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/&title=《笔试面试知识点(一)：Java基础》 — 程序人生&pic=https://zjxkenshine.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/&title=《笔试面试知识点(一)：Java基础》 — 程序人生&source=程序人生" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《笔试面试知识点(一)：Java基础》 — 程序人生&url=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/&via=https://zjxkenshine.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/笔试/面试/" class="color1">笔试/面试</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-说明及目录"><span class="post-toc-text">0.说明及目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-10"><span class="post-toc-text">1.问题1~10</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-问题11-20"><span class="post-toc-text">2.问题11~20</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/09/28/笔试面试知识点(二)/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          笔试面试知识点(二)：JVM与并发
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/09/27/面试与笔试的一些经验总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">面试与笔试的一些经验总结</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+          <div id="uyan_frame"></div>
+  <script src="http://v2.uyan.cc/code/uyan.js?uid=2158265"></script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 周建新<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://zjxkenshine.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java基础/">Java基础</a><a class="category-link" href="/categories/Java框架/">Java框架</a><a class="category-link" href="/categories/NoSQL/">NoSQL</a><a class="category-link" href="/categories/学习笔记/">学习笔记</a><a class="category-link" href="/categories/开发工具/">开发工具</a><a class="category-link" href="/categories/操作系统/">操作系统</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/杂记/">杂记</a><a class="category-link" href="/categories/版本控制工具/">版本控制工具</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.33px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.11px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.56px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.89px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15.56px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.78px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.89px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 13.33px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 14.44px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 16.67px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.11px;">正则表达式</a> <a href="/tags/笔试-面试/" style="font-size: 14.44px;">笔试/面试</a> <a href="/tags/类/" style="font-size: 12.22px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>首页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/Commons/" style="font-size: 10px;">Commons</a> <a href="/tags/Git/" style="font-size: 13.33px;">Git</a> <a href="/tags/JNDI/" style="font-size: 10px;">JNDI</a> <a href="/tags/JSTL-EL/" style="font-size: 11.11px;">JSTL&EL</a> <a href="/tags/JVM/" style="font-size: 15.56px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 18.89px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 12.22px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 15.56px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 18.89px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 17.78px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/SpEL/" style="font-size: 10px;">SpEL</a> <a href="/tags/Spring/" style="font-size: 18.89px;">Spring</a> <a href="/tags/Spring-MVC/" style="font-size: 13.33px;">Spring MVC</a> <a href="/tags/Spring核心框架/" style="font-size: 13.33px;">Spring核心框架</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/多线程/" style="font-size: 14.44px;">多线程</a> <a href="/tags/学习路线/" style="font-size: 10px;">学习路线</a> <a href="/tags/并发/" style="font-size: 16.67px;">并发</a> <a href="/tags/正则表达式/" style="font-size: 11.11px;">正则表达式</a> <a href="/tags/笔试-面试/" style="font-size: 14.44px;">笔试/面试</a> <a href="/tags/类/" style="font-size: 12.22px;">类</a> <a href="/tags/连接池/" style="font-size: 10px;">连接池</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
