@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Kenshine,Kenshine's Blog" />
   
-  <meta name="description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目 2)问题1~10：  垃圾回收的简单整理   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对象被转移到B。此为新生代最常用的算法标记清理：一块区域，标记可达对象（可达性分析），然后回收不可达对象，会出现碎片，那么">
+  <meta name="description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目，基本上摘自牛客网大佬的解答 2)问题1~10：  垃圾回收的简单整理 被打断会报错InterruptedException的方法 Java类加载过程 关于同步器   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对">
 <meta name="keywords" content="JVM,并发,笔试&#x2F;面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="笔试面试知识点(二)：JVM与并发">
 <meta property="og:url" content="https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(二)/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目 2)问题1~10：  垃圾回收的简单整理   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对象被转移到B。此为新生代最常用的算法标记清理：一块区域，标记可达对象（可达性分析），然后回收不可达对象，会出现碎片，那么">
+<meta property="og:description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目，基本上摘自牛客网大佬的解答 2)问题1~10：  垃圾回收的简单整理 被打断会报错InterruptedException的方法 Java类加载过程 关于同步器   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-28T12:29:03.297Z">
+<meta property="og:updated_time" content="2018-09-30T12:25:13.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="笔试面试知识点(二)：JVM与并发">
-<meta name="twitter:description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目 2)问题1~10：  垃圾回收的简单整理   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对象被转移到B。此为新生代最常用的算法标记清理：一块区域，标记可达对象（可达性分析），然后回收不可达对象，会出现碎片，那么">
+<meta name="twitter:description" content="0.说明与目录1)说明：整理一些关于JVM和并发相关的知识点及题目，基本上摘自牛客网大佬的解答 2)问题1~10：  垃圾回收的简单整理 被打断会报错InterruptedException的方法 Java类加载过程 关于同步器   1.问题1~101)垃圾回收机制的简单整理：  垃圾回收算法：两个最基本的java回收算法：复制算法和标记清理算法复制算法：两个区域A和B，初始对象在A，继续存活的对">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -146,10 +146,13 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="0-说明与目录"><a href="#0-说明与目录" class="headerlink" title="0.说明与目录"></a>0.说明与目录</h2><p><strong>1)说明：</strong><br>整理一些关于JVM和并发相关的知识点及题目</p>
+            <h2 id="0-说明与目录"><a href="#0-说明与目录" class="headerlink" title="0.说明与目录"></a>0.说明与目录</h2><p><strong>1)说明：</strong><br>整理一些关于JVM和并发相关的知识点及题目，基本上摘自牛客网大佬的解答</p>
 <p><strong>2)问题1~10：</strong></p>
 <ol>
 <li>垃圾回收的简单整理</li>
+<li>被打断会报错InterruptedException的方法</li>
+<li>Java类加载过程</li>
+<li>关于同步器</li>
 </ol>
 <hr>
 <h2 id="1-问题1-10"><a href="#1-问题1-10" class="headerlink" title="1.问题1~10"></a>1.问题1~10</h2><p><strong>1)垃圾回收机制的简单整理：</strong></p>
@@ -158,11 +161,76 @@
 <li>新生代和年老代<br>新生代：初始对象，生命周期短的<br>永久代：长时间存在的对象<br>整个java的垃圾回收是新生代和年老代的协作，这种叫做分代回收。</li>
 <li>常用垃圾收集器简介：<br>Serial New收集器是针对新生代的收集器，采用的是复制算法<br>Parallel New（并行）收集器，新生代采用复制算法，老年代采用标记整理<br>Parallel Scavenge（并行）收集器，针对新生代，采用复制收集算法<br>Serial Old（串行）收集器，新生代采用复制，老年代采用标记整理<br>Parallel Old（并行）收集器，针对老年代，标记整理<br>CMS收集器，基于标记清理<br>G1收集器：整体上是基于标记 整理 ，局部采用复制</li>
 </ol>
+<p><strong>2)被打断会报错InterruptedException的方法</strong></p>
+<ul>
+<li>java.lang.Object类的wait方法</li>
+<li>java.lang.Thread类的sleep方法</li>
+<li>java.lang.Thread类的join方法</li>
+<li>CyclicBarrier类的await方法<br>等待多个线程同时到达之后才能继续进行，在此之前它就是这些线程的屏障，线程不能继续进行，而对于失败的同步尝试，CyclicBarrier使用了一种要么全部要么全不的破坏模式：如果因为中断、失败或者超时等原因，导致线程过早地离开了屏障点，那么在该屏障点等待的其他所有线程也将通过 BrokenBarrierException（如果它们几乎同时被中断，则用 interruptedException）以反常的方式离开。</li>
+</ul>
+<p><strong>3)Java类加载过程</strong></p>
+<ol>
+<li>类加载过程：<ul>
+<li>类从被加载到虚拟机内存中开始，到卸载出内存为止</li>
+<li>它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载7个阶段。</li>
+<li>其中准备、验证、解析3个部分统称为连接。</li>
+</ul>
+</li>
+<li>顺序：<ul>
+<li>加载、验证、准备、初始化和卸载这5个阶段的(开始时间)顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始。</li>
+<li>而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。</li>
+</ul>
+</li>
+<li>加载阶段：<ul>
+<li>该阶段虚拟机需要完成以下3件事情：<ul>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流（并没有指明要从一个Class文件中获取，可以从其他渠道，譬如：网络、动态生成、数据库等）；</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构；</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口；</li>
+</ul>
+</li>
+<li>加载阶段和连接阶段（Linking）的部分内容（如一部分字节码文件格式验证动作）是交叉进行的，加载阶段尚未完成，连接阶段可能已经开始，但这些夹在加载阶段之中进行的动作，仍然属于连接阶段的内容，这两个阶段的开始时间仍然保持着固定的先后顺序。</li>
+</ul>
+</li>
+<li>验证阶段：<ul>
+<li>验证是连接阶段的第一步，这一阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。<ol>
+<li>文件格式验证：验证字节流是否符合Class文件格式的规范；例如：是否以魔数0xCAFEBABE开头、主次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型。</li>
+<li>元数据验证：对字节码描述的信息进行语义分析（注意：对比javac编译阶段的语义分析），以保证其描述的信息符合Java语言规范的要求；</li>
+<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</li>
+<li>符号引用验证：确保解析动作能正确执行。</li>
+</ol>
+</li>
+<li>验证阶段是非常重要的，但不是必须的，它对程序运行期没有影响，如果所引用的类经过反复验证，那么可以考虑采用<code>-Xverifynone</code>参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</li>
+</ul>
+</li>
+<li>准备阶段：<ul>
+<li>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。</li>
+<li>这时候进行内存分配的仅包括类变量（被static修饰的变量），而不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在堆中。</li>
+<li>其次，这里所说的初始值“通常情况”下是数据类型的零值，假设一个类变量的定义为：<br><code>public static int value=123;</code><br>那变量value在准备阶段过后的初始值为0而不是123.因为这时候尚未开始执行任何java方法，而把value赋值为123的putstatic指令是程序被编译后，存放于类构造方法之中，所以把value赋值为123的动作将在初始化阶段才会执行。</li>
+</ul>
+</li>
+<li>解析阶段：<ul>
+<li>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。</li>
+<li>解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</li>
+</ul>
+</li>
+<li>初始化阶段：<ul>
+<li>类初始化阶段是类加载过程的最后一步，到了初始化阶段，才真正开始执行类中定义的java程序代码。在准备阶段，变量已经付过一次系统要求的初始值，而在初始化阶段，则根据程序猿通过程序制定的主管计划去初始化类变量和其他资源，或者说：初始化阶段是执行类构造器<code>&lt;clinit&gt;()</code>方法的过程.</li>
+<li><code>&lt;clinit&gt;()</code>方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块static{}中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问。</li>
+</ul>
+</li>
+</ol>
+<p><strong>4)关于同步器</strong></p>
+<ol>
+<li>同步器是一些使线程能够等待另一个线程的对象，允许它们协调动作。最常用的同步器是CountDownLatch和Semaphore，不常用的是Barrier 和Exchanger</li>
+<li>semaphore:信号量。用于表示共享资源数量。用acquire()获取资源，用release()释放资源。</li>
+<li>CyclicBarrier 线程到达屏障后等待，当一组线程都到达屏障后才一起恢复执行</li>
+<li>CCountDownLatch 初始时给定一个值，每次调用countDown值减1，当值为0时阻塞的线程恢复执行</li>
+</ol>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年09月28日 20:29</p>
+        <p>最后更新： 2018年09月30日 20:25</p>
         <p>原始链接： <a class="post-url" href="/2018/09/28/笔试面试知识点(二)/" title="笔试面试知识点(二)：JVM与并发">https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(二)/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">

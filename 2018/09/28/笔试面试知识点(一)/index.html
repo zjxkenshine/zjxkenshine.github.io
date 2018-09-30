@@ -17,7 +17,7 @@
 <meta property="og:description" content="0.说明及目录1)说明：整理一些Java基础的笔试面试知识点和题目。2)问题1~10：  自定义抛出异常为什么比函数返回结果开销大 类的初始化顺序 forword请求转发和redirect重定向的区别 短路运算符和非短路运算符 访问修饰符的范围(public,private,default,protected) i++,++i,i=i++及其他i++相关陷阱 String和char[]数组参数传递">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://p5ki4lhmo.bkt.clouddn.com/00070%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B91-01.jpg">
-<meta property="og:updated_time" content="2018-09-28T14:41:46.064Z">
+<meta property="og:updated_time" content="2018-09-30T09:28:08.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="笔试面试知识点(一)：Java基础">
 <meta name="twitter:description" content="0.说明及目录1)说明：整理一些Java基础的笔试面试知识点和题目。2)问题1~10：  自定义抛出异常为什么比函数返回结果开销大 类的初始化顺序 forword请求转发和redirect重定向的区别 短路运算符和非短路运算符 访问修饰符的范围(public,private,default,protected) i++,++i,i=i++及其他i++相关陷阱 String和char[]数组参数传递">
@@ -161,9 +161,9 @@
 <li>字节流和字符流的区别</li>
 <li>上转型对象</li>
 </ol>
-<p><strong>2)问题11~20：</strong><br>-11. 面向对象的三个基本特征<br>-12. 面向对象五个基本原则<br>-13. 重写override和重载overload的区别<br>-14. 什么是面向对象</p>
+<p><strong>2)问题11~20：</strong><br>-11. 面向对象的三个基本特征<br>-12. 面向对象五个基本原则<br>-13. 重写override和重载overload的区别<br>-14. 什么是面向对象<br>-15. 关于Java中的关键字<br>-16. 笔试常见Java命令(非JVM)<br>-17. Java修饰符整理(访问，非访问，类，接口…)<br>-18. Java的动态绑定与静态绑定</p>
 <hr>
-<h2 id="1-问题1-10"><a href="#1-问题1-10" class="headerlink" title="1.问题1~10"></a>1.问题1~10</h2><p><strong>1)自定义抛出异常为什么比函数返回结果开销大?</strong></p>
+<h2 id="1-问题1-5"><a href="#1-问题1-5" class="headerlink" title="1.问题1~5"></a>1.问题1~5</h2><p><strong>1)自定义抛出异常为什么比函数返回结果开销大?</strong></p>
 <ol>
 <li>函数调用是出栈入栈，栈是除了寄存器速度最快的，而且占用空间很少。</li>
 <li>自定义异常时存放在堆中的，所以自定义抛出异常的开销比较大。</li>
@@ -192,7 +192,8 @@
 <li>default或不加(默认)：默认包<br>同一个包中的类及自己可以访问。</li>
 <li>private：私有<br>只有自己能访问，一般成员变量都会设置成私有。</li>
 </ol>
-<p><strong>6)i++,++i,i=i++及其他i++相关陷阱</strong></p>
+<hr>
+<h2 id="2-问题6-10"><a href="#2-问题6-10" class="headerlink" title="2.问题6~10"></a>2.问题6~10</h2><p><strong>6)i++,++i,i=i++及其他i++相关陷阱</strong></p>
 <ol>
 <li>i++和++i的区别(简单理解)<br>i++:先用后加<br>++i:先加后用</li>
 <li>i++和++i的效率问题<br>i++：取出i，复制i，增加i，返回副本； (需新建副本)<br>++i：取出i，增加i，返回i；(返回引用)<br>所以++i比i++效率更高</li>
@@ -285,7 +286,7 @@ A a=b;
 </li>
 </ol>
 <hr>
-<h2 id="2-问题11-20"><a href="#2-问题11-20" class="headerlink" title="2.问题11~20"></a>2.问题11~20</h2><p><strong>11)面向对象的三个基本特征</strong></p>
+<h2 id="3-问题11-15"><a href="#3-问题11-15" class="headerlink" title="3.问题11~15"></a>3.问题11~15</h2><p><strong>11)面向对象的三个基本特征</strong></p>
 <ol>
 <li>封装：<br>把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。<br>一个类就是一个封装了数据以及操作这些数据的代码的逻辑实体。</li>
 <li>继承：<br>指可以让某个类型的对象获得另一个类型的对象的属性的方法。<br>它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。<br>实现继承可以通过“继承”（Inheritance）和“组合”（Composition）来实现<br>继承概念的实现方式有二类：实现继承与接口继承。实现继承是指直接使用基类的属性和方法而无需额外编码的能力；接口继承是指仅使用属性和方法的名称、但是子类必须提供实现的能力；</li>
@@ -321,11 +322,121 @@ A a=b;
 <li>面向对象是一种思想，是基于面向过程而言的，就是说面向对象是将功能等通过对象来实现，将功能封装进对象之中，让对象去实现具体的细节；</li>
 <li>这种思想是将数据作为第一位，而方法作为其次，这是对数据一种优化，操作起来更加的方便，简化了过程。</li>
 </ol>
+<p><strong>15)关于Java中的关键字</strong></p>
+<ol>
+<li>48个关键字：<br>abstract、assert、boolean、break、byte、case、catch、char、class、continue、default、do、double、else、enum、extends、final、finally、float、for、if、implements、import、int、interface、instanceof、long、native、new、package、private、protected、public、return、short、static、strictfp、super、switch、synchronized、this、throw、throws、transient、try、void、volatile、while</li>
+<li>2个保留字（现在没用以后可能用到作为关键字）：<br>goto、const</li>
+<li>关于true,false和null：<br>不是Java的关键字，只是可以直接使用的量（基本单位）</li>
+</ol>
+<hr>
+<h2 id="4-问题16-20"><a href="#4-问题16-20" class="headerlink" title="4.问题16~20"></a>4.问题16~20</h2><p><strong>16)笔试常见Java命令(非JVM)</strong></p>
+<ol>
+<li>javac——编译<br>使用：javac XXX.java<br>XXX是需要编译的java路径，需要带上后缀.java，将.java文件编译成.class文件。<br>注：javac命令跟设置的path环境变量没有关系，设置path环境变量只是为了在任何提示符下都能运行javac，java等命令。</li>
+<li>java——执行class文件<br>使用：java [-classpath] class文件名(可带路径，不能带后缀)<br>关于-classpath环境变量：<br>jvm在当前路径中找不到要运行的class文件时，再去classpath指定的路径中继续寻找。</li>
+<li>jar——打包命令<br>使用：<pre><code>jar [c t x u f] [其他参数]  [-C 目录] 文件名(不带后缀)
+c:创建一个jar包
+t:显示jar中的内容列表
+x:解压jar包
+u:添加文件到jar包中
+(这四个参数必须选择一个)
+f:指定jar包的文件名(需要带.jar)
+-C 表示转到相应的目录下执行jar命令,相当于cd到那个目录，然后不带-C执行jar命令
+</code></pre></li>
+<li>javadoc——生成帮助文件<br>使用：<br><a href="https://www.cnblogs.com/fjhh/p/5370642.html" target="_blank" rel="noopener">javadoc的使用</a></li>
+<li>javah——生成头文件<br>获取Java源文件(.java)并生成C头文件(.h)，其中包含您的Java代码中所有本机方法的JNI存根，使Java和C代码可进行交互。<br>简单使用：<br>javah -jni 文件名（可带路径，不带.java后缀）</li>
+<li>javap——反编译<br>将.class文件反编译成.java源文件<br>使用：javap <options> <classes>(带.class后缀)<br>具体使用javap -help</classes></options></li>
+</ol>
+<p><strong>17)Java的修饰符(访问，非访问，类，接口…)</strong></p>
+<ol>
+<li>分类：<br>Java语言提供了很多修饰符，大概分为两类： <ul>
+<li>访问权限修饰符 </li>
+<li>非访问权限修饰符<br>具体分类：</li>
+<li>访问权限修饰符</li>
+<li>非访问权限修饰符</li>
+<li>外部类修饰符</li>
+<li>内部类修饰符</li>
+<li>方法修饰符</li>
+<li>成员变量修饰符</li>
+<li>接口修饰符</li>
+</ul>
+</li>
+<li>访问权限修饰符：<ul>
+<li>public：共有访问。对所有的类都可见。</li>
+<li>protected：保护型访问。对同一个包可见，对不同的包的子类可见。</li>
+<li>default：默认访问权限。只对同一个包可见，注意对不同的包的子类不可见。</li>
+<li>private：私有访问。只对同一个类可见，其余都不见。</li>
+</ul>
+</li>
+<li>非访问权限修饰符：<ul>
+<li>static 修饰符，用来创建类方法和类变量。</li>
+<li>final 修饰符，用来修饰类、方法和变量，final 修饰的类不能够被继承，修饰的方法不能被继承类重新定义，修饰的变量为常量，是不可修改的。</li>
+<li>abstract 修饰符，用来创建抽象类和抽象方法。</li>
+<li>synchronized 用于多线程的同步。</li>
+<li>volatile 修饰的成员变量在每次被线程访问时，都强制从共享内存中重新读取该成员变量的值。而且，当成员变量发生变化时，会强制线程将变化值回写到共享内存。这样在任何时刻，两个不同的线程总是看到某个成员变量的同一个值。</li>
+<li>transient：序列化的对象包含被 transient 修饰的实例变量时，java 虚拟机(JVM)跳过该特定的变量。</li>
+</ul>
+</li>
+<li>外部类修饰符：<ul>
+<li>public（访问控制符），将一个类声明为公共类，它可以被任何对象访问，一个程序的主类必须是公共类。</li>
+<li>default（访问控制符），类只对包内可见，包外不可见。</li>
+<li>abstract（非访问控制符），将一个类声明为抽象类，抽象类不能用来实例化对象，声明抽象类的唯一目的是为了将来对该类进行扩充，抽象类可以包含抽象方法和非抽象方法。。</li>
+<li>final（非访问控制符），将一个类生命为最终（即非继承类），表示它不能被其他类继承。 </li>
+<li><strong>注意</strong>： <ol>
+<li>protected和private不能修饰外部类，是因为外部类放在包中，只有两种可能，包可见和包不可见。 </li>
+<li>final和abstract不能同时修饰外部类，因为该类要么能被继承要么不能被继承，二者只能选其一。</li>
+<li>不能用static修饰类，因为类加载后才会加载静态成员变量。所以不能用static修饰类和接口，因为类还没加载，无法使用static关键字。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>内部类修饰符：<br>内部类与成员变量地位一致，所以可以public,protected、default和private，同时还可以用static修饰，表示嵌套内部类，不用实例化外部类，即可调用。</li>
+<li>方法修饰符：<ul>
+<li>public（公共控制符），包外包内都可以调用该方法。</li>
+<li>protected（保护访问控制符）指定该方法可以被它的类和子类进行访问。</li>
+<li>default(默认权限），指定该方法只对同包可见，对不同包（含不同包的子类）不可见。</li>
+<li>private（私有控制符）指定此方法只能有自己类等方法访问，其他的类不能访问（包括子类），非常严格的控制。</li>
+<li>final ,指定方法已完备，不能再进行继承扩充。</li>
+<li>static，指定不需要实例化就可以激活的一个方法，即在内存中只有一份，通过类名即可调用。</li>
+<li>synchronize，同步修饰符，在多个线程中，该修饰符用于在运行前，对它所属的方法加锁，以防止其他线程的访问，运行结束后解锁。</li>
+<li>native，本地修饰符。指定此方法的方法体是用其他语言在程序外部编写的。</li>
+<li>abstract ,抽象方法是一种没有任何实现的方法，该方法的的具体实现由子类提供。抽象方法不能被声明成final和static。任何继承抽象类的子类必须实现父类的所有抽象方法，除非该子类也是抽象类。如果一个类包含若干个抽象方法，那么该类必须声明为抽象类。抽象类可以不包含抽象方法。抽象方法的声明以分号结尾，例如：public abstract sample();。</li>
+</ul>
+</li>
+<li>成员变量修饰符：<ul>
+<li>public（公共访问控制符），指定该变量为公共的，它可以被任何对象的方法访问。</li>
+<li>protected（保护访问控制符）指定该变量可以别被自己的类和子类访问。在子类中可以覆盖此变量。</li>
+<li>default(默认权限），指定该变量只对同包可见，对不同包（含不同包的子类）不可见。</li>
+<li>private（私有访问控制符）指定该变量只允许自己的类的方法访问，其他任何类（包括子类）中的方法均不能访问。</li>
+<li>final，最终修饰符，指定此变量的值不能变。</li>
+<li>static（静态修饰符）指定变量被所有对象共享，即所有实例都可以使用该变量。变量属于这个类。</li>
+<li>transient（过度修饰符）指定该变量是系统保留，暂无特别作用的临时性变量。不持久化。</li>
+<li>volatile（易失修饰符）指定该变量可以同时被几个线程控制和修改，保证两个不同的线程总是看到某个成员变量的同一个值。 </li>
+<li>final 和 static 经常一起使用来创建常量</li>
+</ul>
+</li>
+<li>局部变量修饰符：<br>无，不能赋予局部变量修饰符。</li>
+<li>接口修饰符：<ul>
+<li>接口修饰符只能用public、default和abstract。 </li>
+<li>不能用final、static修饰。</li>
+<li>接口默认修饰为abstract。</li>
+</ul>
+</li>
+<li>接口中方法修饰符：<ul>
+<li>只能用public abstract修饰，当然如果你什么都不写，默认就是public abstract。 </li>
+<li>注意：在Java1.8之后，接口允许定义static静态方法了！所以也可以用static来修饰！</li>
+</ul>
+</li>
+<li>接口中的属性修饰符：<ul>
+<li>只能是[public] [static] [final]修饰的公开静态常量(默认)</li>
+</ul>
+</li>
+</ol>
+<p><strong>18)Java的动态绑定与静态绑定</strong></p>
 <hr>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年09月28日 22:41</p>
+        <p>最后更新： 2018年09月30日 17:28</p>
         <p>原始链接： <a class="post-url" href="/2018/09/28/笔试面试知识点(一)/" title="笔试面试知识点(一)：Java基础">https://zjxkenshine.github.io/2018/09/28/笔试面试知识点(一)/</a></p>
         <footer>
             <a href="https://zjxkenshine.github.io">
@@ -445,7 +556,7 @@ A a=b;
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-说明及目录"><span class="post-toc-text">0.说明及目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-10"><span class="post-toc-text">1.问题1~10</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-问题11-20"><span class="post-toc-text">2.问题11~20</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0-说明及目录"><span class="post-toc-text">0.说明及目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-问题1-5"><span class="post-toc-text">1.问题1~5</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-问题6-10"><span class="post-toc-text">2.问题6~10</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-问题11-15"><span class="post-toc-text">3.问题11~15</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-问题16-20"><span class="post-toc-text">4.问题16~20</span></a></li></ol>
         </nav>
     </aside>
     
